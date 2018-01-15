@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'op-yearMonthDuration-greater-than2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") gt xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -260,7 +260,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1000Y6M\") gt xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -275,7 +275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P2030Y12M\") gt xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -290,7 +290,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") gt xs:yearMonthDuration(\"P1000Y6M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -305,7 +305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") gt xs:yearMonthDuration(\"P2030Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -320,7 +320,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") le xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -335,7 +335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1000Y6M\") le xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -350,7 +350,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P2030Y12M\") le xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -365,7 +365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") le xs:yearMonthDuration(\"P1000Y6M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -380,7 +380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") le xs:yearMonthDuration(\"P2030Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -395,7 +395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not((xs:yearMonthDuration(\"P20Y123M\") gt xs:yearMonthDuration(\"P20Y11M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -410,7 +410,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:yearMonthDuration(\"P20Y10M\") ge xs:yearMonthDuration(\"P20Y10M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -425,7 +425,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:yearMonthDuration(\"P20Y09M\") gt xs:yearMonthDuration(\"P20Y10M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -440,7 +440,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:yearMonthDuration(\"P10Y07M\") ge xs:yearMonthDuration(\"P10Y09M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -455,7 +455,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y09M\") gt xs:yearMonthDuration(\"P09Y10M\")) and (xs:yearMonthDuration(\"P10Y01M\") gt xs:yearMonthDuration(\"P08Y06M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -470,7 +470,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y09M\") ge xs:yearMonthDuration(\"P10Y01M\")) and (xs:yearMonthDuration(\"P02Y04M\") ge xs:yearMonthDuration(\"P09Y07M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y08M\") gt xs:yearMonthDuration(\"P10Y07M\")) or (xs:yearMonthDuration(\"P10Y09M\") gt xs:yearMonthDuration(\"P10Y09M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y01M\") ge xs:yearMonthDuration(\"P09Y06M\")) or (xs:yearMonthDuration(\"P15Y01M\") ge xs:yearMonthDuration(\"P02Y04M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y02M\") gt xs:yearMonthDuration(\"P01Y10M\")) or (fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y01M\") ge xs:yearMonthDuration(\"P09Y05M\")) or (fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P30Y10M\") gt xs:yearMonthDuration(\"P01Y02M\")) or (fn:false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-yearMonthDuration-greater-than-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y05M\") ge xs:yearMonthDuration(\"P20Y10M\")) or (fn:false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +575,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1999Y10M\") gt xs:yearMonthDuration(\"P1999Y9M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1999Y10M\") gt xs:yearMonthDuration(\"P1999Y10M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1999Y10M\") gt xs:yearMonthDuration(\"P1999Y11M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -620,7 +620,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1999Y11M\") ge xs:yearMonthDuration(\"P1999Y10M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -635,7 +635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1999Y10M\") ge xs:yearMonthDuration(\"P1999Y10M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -650,7 +650,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationGT-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1999Y9M\") ge xs:yearMonthDuration(\"P1999Y10M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -665,7 +665,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
         not(local:yearMonthDuration(1, 1) gt xs:yearMonthDuration(\"P0Y\"))",
@@ -682,7 +682,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
         not(local:yearMonthDuration(1, 1) ge xs:yearMonthDuration(\"P0Y\"))",
@@ -699,7 +699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
         exists(local:yearMonthDuration(xs:yearMonthDuration(\"P0Y\"), fn:true()) gt xs:yearMonthDuration(\"P0Y\"))",
@@ -716,7 +716,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
         local:yearMonthDuration(xs:yearMonthDuration(\"P0Y\"), fn:false()) gt xs:yearMonthDuration(\"P0Y\")",
@@ -733,7 +733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
         exists(local:yearMonthDuration(xs:yearMonthDuration(\"P0Y\"), fn:true()) le xs:yearMonthDuration(\"P0Y\"))",
@@ -750,7 +750,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-yearMonthDuration-greater-than-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
         local:yearMonthDuration(xs:yearMonthDuration(\"P0Y\"), fn:false()) le xs:yearMonthDuration(\"P0Y\")",

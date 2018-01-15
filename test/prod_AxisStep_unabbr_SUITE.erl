@@ -33,7 +33,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -229,7 +229,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'unabbreviatedSyntax-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee) return $h/child::empnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[1]) return $h/child::*",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works[1]/employee[2]) return $h/child::text()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[1]) return $h/child::node()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -305,7 +305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[2]) return $h/child::node()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[1]/hours) return $h/parent::node()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -361,7 +361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee) return $h/descendant::empnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -377,7 +377,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[1]) return $h/descendant-or-self::employee",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -397,7 +397,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[1]) return $h/self::employee",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -417,7 +417,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works[1]/employee[1]) return fn:count(($h/self::employee[1000]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -433,7 +433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee/descendant::empnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -449,7 +449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::*/child::pnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -465,7 +465,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/descendant::pnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -481,7 +481,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/descendant::employee/child::pnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -497,7 +497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[fn:position() = 1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -538,7 +538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()-1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -562,7 +562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee) return $h/child::hours[fn:position() > 1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -578,7 +578,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/descendant::employee[fn:position() = 12]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -602,7 +602,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[attribute::name eq \"Jane Doe 11\"]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -638,7 +638,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[attribute::gender eq 'female'][fn:position() = 5]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -658,7 +658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[child::empnum = 'E3']",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,7 +682,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/child::employee[child::status]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -703,7 +703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[7]) return $h/child::*[self::pnum or self::empnum]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -719,7 +719,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[6]) return $h/child::*[self::empnum or self::pnum][fn:position() = fn:last()]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

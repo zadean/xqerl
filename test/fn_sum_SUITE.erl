@@ -229,7 +229,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-sumint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-2147483648\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-1873914410\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,7 +651,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"2147483647\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -666,7 +666,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -681,7 +681,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"830993497117024304\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -696,7 +696,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -711,7 +711,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -726,7 +726,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"617375191608514839\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -846,7 +846,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -861,7 +861,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-47175562203048468\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -891,7 +891,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -906,7 +906,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"44633\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -921,7 +921,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"65535\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -936,7 +936,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -951,7 +951,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-297014075999096793\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -966,7 +966,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -981,7 +981,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -996,7 +996,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"52704602390610033\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1011,7 +1011,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1026,7 +1026,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1041,7 +1041,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"130747108607674654\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1056,7 +1056,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"184467440737095516\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1071,7 +1071,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1086,7 +1086,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-475688437271870490\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1101,7 +1101,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1116,7 +1116,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1131,7 +1131,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"303884545991464527\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1146,7 +1146,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1161,7 +1161,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-32768\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1176,7 +1176,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-5324\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1191,7 +1191,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"32767\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1206,7 +1206,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-1873914410\"),xs:int(\"-273569238\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1221,7 +1221,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"2147483647\"),xs:int(\"-2147483648\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1236,7 +1236,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-273569238\"),xs:int(\"-1873914410\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1251,7 +1251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-2147483648\"),xs:int(\"2147483647\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1266,7 +1266,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"830993497117024304\"),xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1281,7 +1281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"999999999999999999\"),xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1296,7 +1296,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"-999999999999999999\"),xs:integer(\"830993497117024304\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1311,7 +1311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"-999999999999999999\"),xs:integer(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1326,7 +1326,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"617375191608514839\"),xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1341,7 +1341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"999999999999999999\"),xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1356,7 +1356,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"-999999999999999999\"),xs:decimal(\"617375191608514839\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1371,7 +1371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"-999999999999999999\"),xs:decimal(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1386,7 +1386,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"0\"),xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1401,7 +1401,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1416,7 +1416,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\"),xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1431,7 +1431,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\"),xs:double(\"1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1446,7 +1446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"0\"),xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1461,7 +1461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"3.4028235E38\"),xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1476,7 +1476,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\"),xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1491,7 +1491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\"),xs:float(\"3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1506,7 +1506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-47175562203048468\"),xs:long(\"-45058158165499290\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1521,7 +1521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"92233720368547758\"),xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1536,7 +1536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-45058158165499290\"),xs:long(\"-47175562203048468\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1551,7 +1551,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-92233720368547758\"),xs:long(\"92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1566,7 +1566,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1581,7 +1581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"44633\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1596,7 +1596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"65535\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1611,7 +1611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"44633\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1626,7 +1626,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"65535\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1641,7 +1641,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-297014075999096793\"),xs:negativeInteger(\"-702985924000903206\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1656,7 +1656,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-1\"),xs:negativeInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1671,7 +1671,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-702985924000903206\"),xs:negativeInteger(\"-297014075999096793\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1686,7 +1686,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-999999999999999999\"),xs:negativeInteger(\"-1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1701,7 +1701,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1716,7 +1716,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"52704602390610033\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1731,7 +1731,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"999999999999999998\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1746,7 +1746,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"52704602390610033\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1761,7 +1761,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"999999999999999998\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1776,7 +1776,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1791,7 +1791,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"130747108607674654\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1806,7 +1806,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"184467440737095516\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1821,7 +1821,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"130747108607674654\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1836,7 +1836,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"184467440737095516\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1851,7 +1851,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-475688437271870490\"),xs:nonPositiveInteger(\"-524311562728129509\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1866,7 +1866,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1881,7 +1881,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-524311562728129509\"),xs:nonPositiveInteger(\"-475688437271870490\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1896,7 +1896,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1911,7 +1911,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1926,7 +1926,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"303884545991464527\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1941,7 +1941,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"999999999999999999\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1956,7 +1956,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"303884545991464527\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1971,7 +1971,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1986,7 +1986,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-5324\"),xs:short(\"-27444\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2001,7 +2001,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"32767\"),xs:short(\"-32768\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2016,7 +2016,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-27444\"),xs:short(\"-5324\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2031,7 +2031,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-32768\"),xs:short(\"32767\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2046,7 +2046,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-1873914410\"),xs:int(\"-273569238\"),xs:int(\"-273569238\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2061,7 +2061,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"-273569238\"),xs:int(\"-1873914410\"),xs:int(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2076,7 +2076,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"0\"),xs:int(\"0\"),xs:int(\"-1873914410\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2091,7 +2091,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumint3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:int(\"0\"),xs:int(\"0\"),xs:int(\"2147483647\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2106,7 +2106,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"999999999999999999\"),xs:integer(\"-999999999999999999\"),xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2121,7 +2121,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"-999999999999999999\"),xs:integer(\"999999999999999999\"),xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2136,7 +2136,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"0\"),xs:integer(\"0\"),xs:integer(\"830993497117024304\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2151,7 +2151,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumintg3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:integer(\"-999999999999999999\"),xs:integer(\"-999999999999999999\"),xs:integer(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2166,7 +2166,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"999999999999999999\"),xs:decimal(\"-999999999999999999\"),xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2181,7 +2181,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"-999999999999999999\"),xs:decimal(\"999999999999999999\"),xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2196,7 +2196,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"0\"),xs:decimal(\"0\"),xs:decimal(\"617375191608514839\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2211,7 +2211,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdec3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:decimal(\"-999999999999999999\"),xs:decimal(\"-999999999999999999\"),xs:decimal(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2226,7 +2226,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"0\"),xs:double(\"-1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2249,7 +2249,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2264,7 +2264,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\"),xs:double(\"0\"),xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2279,7 +2279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\"),xs:double(\"1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2294,7 +2294,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"0\"),xs:double(\"0\"),xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2309,7 +2309,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumdbl3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:double(\"-1.7976931348623157E308\"),xs:double(\"-1.7976931348623157E308\"),xs:double(\"1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2336,7 +2336,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"0\"),xs:float(\"-3.4028235E38\"),xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2359,7 +2359,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"3.4028235E38\"),xs:float(\"-3.4028235E38\"),xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2374,7 +2374,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\"),xs:float(\"0\"),xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2389,7 +2389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\"),xs:float(\"3.4028235E38\"),xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2404,7 +2404,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"0\"),xs:float(\"0\"),xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2419,7 +2419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumflt3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:float(\"-3.4028235E38\"),xs:float(\"-3.4028235E38\"),xs:float(\"3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2446,7 +2446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-47175562203048468\"),xs:long(\"-45058158165499290\"),xs:long(\"-45058158165499290\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2461,7 +2461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"92233720368547758\"),xs:long(\"-92233720368547758\"),xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2476,7 +2476,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-45058158165499290\"),xs:long(\"-47175562203048468\"),xs:long(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2491,7 +2491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-92233720368547758\"),xs:long(\"92233720368547758\"),xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2506,7 +2506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"0\"),xs:long(\"0\"),xs:long(\"-47175562203048468\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2521,7 +2521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumlng3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:long(\"-92233720368547758\"),xs:long(\"-92233720368547758\"),xs:long(\"92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2536,7 +2536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2551,7 +2551,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"44633\"),xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2566,7 +2566,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"65535\"),xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2581,7 +2581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"44633\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2596,7 +2596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"65535\"),xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2611,7 +2611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\"),xs:unsignedShort(\"44633\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2626,7 +2626,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumusht3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedShort(\"0\"),xs:unsignedShort(\"0\"),xs:unsignedShort(\"65535\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2641,7 +2641,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-297014075999096793\"),xs:negativeInteger(\"-702985924000903206\"),xs:negativeInteger(\"-702985924000903206\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2656,7 +2656,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnint3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:negativeInteger(\"-1\"),xs:negativeInteger(\"-999999999999999999\"),xs:negativeInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2671,7 +2671,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2686,7 +2686,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"52704602390610033\"),xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2701,7 +2701,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"999999999999999998\"),xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2716,7 +2716,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"52704602390610033\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2731,7 +2731,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"999999999999999998\"),xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2746,7 +2746,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\"),xs:positiveInteger(\"52704602390610033\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2761,7 +2761,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumpint3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:positiveInteger(\"1\"),xs:positiveInteger(\"1\"),xs:positiveInteger(\"999999999999999998\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2776,7 +2776,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2791,7 +2791,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"130747108607674654\"),xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2806,7 +2806,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"184467440737095516\"),xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2821,7 +2821,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"130747108607674654\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2836,7 +2836,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"184467440737095516\"),xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2851,7 +2851,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\"),xs:unsignedLong(\"130747108607674654\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2866,7 +2866,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumulng3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:unsignedLong(\"0\"),xs:unsignedLong(\"0\"),xs:unsignedLong(\"184467440737095516\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2881,7 +2881,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-475688437271870490\"),xs:nonPositiveInteger(\"-524311562728129509\"),xs:nonPositiveInteger(\"-524311562728129509\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2896,7 +2896,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2911,7 +2911,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-524311562728129509\"),xs:nonPositiveInteger(\"-475688437271870490\"),xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2926,7 +2926,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"-999999999999999999\"),xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2941,7 +2941,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"-475688437271870490\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2956,7 +2956,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnpi3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"0\"),xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2971,7 +2971,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2986,7 +2986,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"303884545991464527\"),xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3001,7 +3001,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"999999999999999999\"),xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3016,7 +3016,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"303884545991464527\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3031,7 +3031,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"999999999999999999\"),xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3046,7 +3046,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"303884545991464527\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3061,7 +3061,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumnni3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"0\"),xs:nonNegativeInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3076,7 +3076,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-5324\"),xs:short(\"-27444\"),xs:short(\"-27444\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3091,7 +3091,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"-27444\"),xs:short(\"-5324\"),xs:short(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3106,7 +3106,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"0\"),xs:short(\"0\"),xs:short(\"-5324\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3121,7 +3121,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sumsht3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum((xs:short(\"0\"),xs:short(\"0\"),xs:short(\"32767\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3136,7 +3136,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3151,7 +3151,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(1, 1, \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3166,7 +3166,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), 3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3181,7 +3181,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), 3) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3196,7 +3196,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(sum((), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3211,7 +3211,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), 0.0) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3226,7 +3226,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), 0.0) eq 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3241,7 +3241,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(()) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3256,7 +3256,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(()) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3271,7 +3271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((-5, -0, -3, -6)) eq -14",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3286,7 +3286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((1, 2, 3, xs:float(\"NaN\")))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3301,7 +3301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((1, 2, 3, xs:double(\"NaN\")))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3316,7 +3316,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((xs:double(\"NaN\"), 1, 2, 3))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3331,7 +3331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((xs:float(\"NaN\"), 1, 2, 3))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3346,7 +3346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((1, 2, xs:double(\"NaN\"), 1, 2, 3))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3361,7 +3361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(sum((1, 2, xs:float(\"NaN\"), 1, 2, 3))) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3376,7 +3376,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(xs:untypedAtomic(\"3\")) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3391,7 +3391,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1, 2, xs:untypedAtomic(\"3\"))) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3406,7 +3406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1, 2, xs:untypedAtomic(\"3\"))) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3421,7 +3421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:float(1), 2, xs:untypedAtomic(\"3\"))) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3436,7 +3436,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:float(1), 2, xs:untypedAtomic(\"3\"))) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3451,7 +3451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(remove((1.0, xs:float(1), 2, xs:untypedAtomic(\"3\")), 1)) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3466,7 +3466,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(\"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3481,7 +3481,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(xs:anyURI(\"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3496,7 +3496,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1, 2, 3, xs:anyURI(\"a string\"), xs:double(\"NaN\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3511,7 +3511,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1, 2, 3, xs:anyURI(\"a string\"), xs:double(\"NaN\")), 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3526,7 +3526,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(((),())) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3541,7 +3541,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(()) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3556,7 +3556,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((3, 4, 5)) eq 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3571,7 +3571,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:yearMonthDuration(\"P20Y\"), xs:yearMonthDuration(\"P10M\"))) eq xs:yearMonthDuration(\"P250M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3586,7 +3586,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:yearMonthDuration(\"P20Y\"), xs:yearMonthDuration(\"P10M\")) [. < xs:yearMonthDuration(\"P3M\")], xs:yearMonthDuration(\"P0M\")) eq xs:yearMonthDuration(\"P0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3601,7 +3601,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1 to 100)[. < 0], 0) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3616,7 +3616,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqSUMFunc-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:yearMonthDuration(\"P20Y\"), (3, 4, 5)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3631,7 +3631,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqSUMFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3646,7 +3646,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqSUMFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:float('NaN'), 2, 3, 4, xs:double('NaN'))) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3661,7 +3661,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqSUMFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:float('NaN'), 2, 3.3, 4, xs:double('NaN'))) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3676,7 +3676,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqSUMFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(xs:unsignedShort(\"1\")) instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3691,7 +3691,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:dayTimeDuration(\"P1D\"), xs:dayTimeDuration(\"PT1H\"))) instance of xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3706,7 +3706,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), xs:dayTimeDuration(\"PT0S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3721,7 +3721,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(for $x in 1 to 10 return xs:dayTimeDuration(concat(\"PT\",$x,\"H\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3736,7 +3736,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:yearMonthDuration(\"P1Y\"), xs:yearMonthDuration(\"P1M\"))) instance of xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3751,7 +3751,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), xs:yearMonthDuration(\"P0M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3766,7 +3766,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(for $x in 1 to 10 return xs:yearMonthDuration(concat(\"P\",$x,\"M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3781,7 +3781,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((xs:yearMonthDuration(\"P1Y\"), xs:dayTimeDuration(\"P1D\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3804,7 +3804,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((), xs:duration(\"P0M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3819,7 +3819,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(xs:duration(\"P1Y1M1D\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3842,7 +3842,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(xs:duration(\"P1Y1M1D\"), xs:duration(\"PT0S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3865,7 +3865,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum([1,2,3,4,5])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3880,7 +3880,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1 to 5)[. lt year-from-date(current-date())], 17)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3895,7 +3895,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1 to 5)[. lt year-from-date(current-date())], \"bonkers\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3910,7 +3910,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-sum-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1 to 5)[. gt year-from-date(current-date())], \"No data\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3933,7 +3933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(1 to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3948,7 +3948,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(for $x in 1 to 10 return 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3963,7 +3963,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $x in 1 to 10, $y in 1 to 10 return concat('sum(',$x,' to ',$y,') = ',sum($x to $y))
       ",
@@ -3980,7 +3980,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(sum((1 to 10)[. mod 2 = 0]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3995,7 +3995,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum(sum((1 to 10)[. mod 2 = 0],()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4010,7 +4010,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-sum-func-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sum((1,exactly-one((1 to 10)[. div 2 = 2])))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

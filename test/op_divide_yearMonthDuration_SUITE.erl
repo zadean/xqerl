@@ -38,7 +38,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -239,7 +239,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'op-divide-yearMonthDuration2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") div xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -254,7 +254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1000Y6M\") div xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -269,7 +269,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P2030Y12M\") div xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -284,7 +284,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") div xs:double(\"0.1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -299,7 +299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P0Y0M\") div xs:double(\"1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -314,7 +314,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P2Y11M\") div 1.5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -329,7 +329,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:yearMonthDuration(\"P10Y11M\") div 2.0)) and fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -344,7 +344,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:yearMonthDuration(\"P20Y10M\") div 2.0)) or fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -359,7 +359,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:string(xs:yearMonthDuration(\"P11Y04M\") div 2.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -374,7 +374,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:string(xs:yearMonthDuration(\"P05Y08M\") div 2.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:number(xs:yearMonthDuration(\"P02Y09M\") div 2.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -404,7 +404,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(xs:yearMonthDuration(\"P03Y08M\") div 2.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -419,7 +419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y01M\") div -2.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -434,7 +434,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:yearMonthDuration(\"P01Y01M\") div 2.0)) and fn:string((xs:yearMonthDuration(\"P02Y03M\") div 2.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -449,7 +449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:yearMonthDuration(\"P05Y02M\") div 2.0)) or fn:string((xs:yearMonthDuration(\"P05Y03M\") div 2.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P20Y11M\") div 2.0) div (xs:yearMonthDuration(\"P20Y11M\") div 2.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -479,7 +479,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:yearMonthDuration(\"P10Y11M\") div 2.0)) and (fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -494,7 +494,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P23Y11M\") div 2.0) eq xs:yearMonthDuration(\"P23Y11M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -509,7 +509,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P21Y12M\") div 2.0) ne xs:yearMonthDuration(\"P08Y05M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P10Y01M\") div 2.0) le xs:yearMonthDuration(\"P17Y02M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:yearMonthDuration(\"P13Y09M\") div 2.0) ge xs:yearMonthDuration(\"P18Y02M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -554,7 +554,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-divide-yearMonthDuration-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (-2, -4, -10, -50, +50, +10, +4, +2) return (xs:yearMonthDuration(\"P5M\") div $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +569,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div 3 eq xs:yearMonthDuration(\"P2Y\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div xs:double(\"-INF\") eq xs:yearMonthDuration(\"P0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div xs:double(\"INF\") eq xs:yearMonthDuration(\"P0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -614,7 +614,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div xs:double(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-YearMonthDurationDivide-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P3Y36M\") div xs:double(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-divide-yearMonthDuration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat(\"P\", $years, \"Y\")) };
         local:yearMonthDuration(2) div 0",
@@ -676,7 +676,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-divide-yearMonthDuration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat(\"P\", $years, \"Y\")) };
         local:yearMonthDuration(2) div 1",
@@ -693,7 +693,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-divide-yearMonthDuration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat(\"P\", $years, \"Y\")) };
         local:yearMonthDuration(768614336404564650) div 0.5",

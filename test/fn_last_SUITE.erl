@@ -73,7 +73,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -309,7 +309,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'last-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h//employee[last()]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "last()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return $h/overtime[last() = 1]/*/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -357,7 +357,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = last()]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -373,7 +373,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[last() = position()]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[last()] << $h/employee[last()]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[last()] is $h/employee[last()]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return $h/overtime[last() = last()]/*/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h//employee[@name=\"Jane Doe 13\"][last() = 1]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h//employee[last() = 13][@name = \"Jane Doe 13\"]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]/overtime) return $h/day[not(position() = 1)]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]/overtime) return $h/*[position() = position()]/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = (2 + 2)]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = (5 - 2)]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = (3 * 2)]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = (6 div 2)]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = (6 idiv 2)]/string(@name)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return ($h/overtime[position() and fn:true()]/*/string())",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -597,7 +597,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return $h/overtime[position() and fn:false()]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return $h/overtime[position() or fn:true()]/*/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -637,7 +637,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works/employee[12]) return $h/overtime[position() or fn:false()]/*/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -653,7 +653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = 12]/overtime/*/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -669,7 +669,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in (/works) return $h/employee[position() = 5 to last()]/@name/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -686,7 +686,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "last()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -702,7 +702,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'last-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/works/employee/*/last()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -726,7 +726,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "last(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[if(1) then 1 else last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3)[count((last(), last())) eq 2], (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3)[last() eq last()], (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3, current-time())[last() - 1] treat as xs:integer eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time())[last() + 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() = 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 = last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -862,7 +862,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() eq 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -885,7 +885,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [0 eq last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -908,7 +908,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() != 0], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -923,7 +923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() ne 0], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -938,7 +938,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 != last()], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -953,7 +953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [0 ne last()], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -968,7 +968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() lt 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -991,7 +991,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() < 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1014,7 +1014,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() le 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1037,7 +1037,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time(), current-date(), 6, 7, 8) [last() <= 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1060,7 +1060,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() > 0], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1075,7 +1075,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() > 0], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1090,7 +1090,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() gt 0], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1105,7 +1105,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() >= 1], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1120,7 +1120,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal( (1, 2, 3, remove((current-time(), 4), 1)) [last() ge 1], (1, 2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1135,7 +1135,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3, 4, current-time(), 4, 5, 6)[last() - 2] treat as xs:integer eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1150,7 +1150,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3, 4, current-time(), 4, 5, 6)[last() - 1] treat as xs:integer eq 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1165,7 +1165,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3, 4, current-time(), 4, 5, 6)[last()] treat as xs:integer eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1180,7 +1180,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3, 4, current-time(), 4, 5, 6)[last() - 0] treat as xs:integer eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1195,7 +1195,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 6)[last()] eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1210,7 +1210,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextLastFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(-20 to -5)[last() - 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1225,7 +1225,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else () }; 
       	( local:generate(0), 1, local:generate(0) )[last()]
@@ -1243,7 +1243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then (1, 2, 3) else $arg }; 
       	( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]
@@ -1261,7 +1261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 0 else () }; 
       	( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]
@@ -1279,7 +1279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then ( 1, 2, 3 ) else ( $arg ) }; 
       	( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]
@@ -1297,7 +1297,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 1 else $arg }; 
       	( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]
@@ -1315,7 +1315,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else ('d' ) }; 
       	( if (local:generate(1) = 'd') then () else 1, for $x in local:generate(0) return fn:lower-case($x))[last()]
@@ -1333,7 +1333,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:integer? { $arg }; 
       	( if (local:generate(0) = 0) then () else 1, for $x in local:generate(0) return -$x)[last()]
@@ -1351,7 +1351,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( (<a><b>cheese</b></a>)/b )[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1366,7 +1366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; 
       	( local:generate(()), for $x in local:generate(0) return 3)[last()]
@@ -1384,7 +1384,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; 
       	boolean(local:generate(0)[last()])
@@ -1402,7 +1402,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; boolean(local:generate(1)[last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1417,7 +1417,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-last-in-sequence-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:boolean) as xs:string+ { if ($arg) then ('a', 'b', 'c') else ('A', 'B', 'C') }; ( for $x in local:generate(true()) return 3)[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

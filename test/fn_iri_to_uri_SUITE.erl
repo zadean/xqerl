@@ -54,7 +54,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -271,7 +271,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-iri-to-uri1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"http://www.example.com/00/Weather/CA/Los%20Angeles#ocean\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -286,7 +286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"http://www.example.com/~bébé\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -301,7 +301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri('')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +316,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri1args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri1args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri1args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri('',())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -361,7 +361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -376,7 +376,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example0123456789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -391,7 +391,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example#example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -406,7 +406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example-example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example_example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -436,7 +436,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example.example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -451,7 +451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example!example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -466,7 +466,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example~example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -481,7 +481,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example*example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -496,7 +496,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example'example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -511,7 +511,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example(example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -526,7 +526,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example)example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -541,7 +541,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example;example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -556,7 +556,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example/example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -571,7 +571,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example?example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -586,7 +586,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example:example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -601,7 +601,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example@example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -616,7 +616,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example&amp;amp;example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -631,10 +631,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-18A'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'fn-iri-to-uri-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example=example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example+example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,7 +664,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example$example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -679,7 +679,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example,example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example[example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example]example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example%example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-iri-to-uri-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:iri-to-uri(\"example example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-IRIToURIfunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-IRIToURIfunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"http://example.com/\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-IRIToURIfunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-IRIToURIfunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(iri-to-uri((\"somestring\", current-time())[1])) eq \"somestring\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -837,7 +837,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"a string\", \"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri((\"a string\", \"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(xs:anyURI(\"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(xs:untypedAtomic(\"a string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -912,7 +912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"<> \"\"{}|\\^`\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -927,7 +927,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(\"
 \")",
    Qry1 = Qry,
@@ -943,7 +943,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(codepoints-to-string(32 to 294))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -958,7 +958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-IRIToURIfunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "iri-to-uri(codepoints-to-string(15000 to 16000))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

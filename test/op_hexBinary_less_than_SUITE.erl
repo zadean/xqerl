@@ -39,7 +39,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -241,7 +241,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'hexBinary-lt-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") lt xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -256,7 +256,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"6e7875626264756366\") lt xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -271,7 +271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"786174616d61616772\") lt xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -286,7 +286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") < xs:hexBinary(\"6e7875626264756366\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -301,7 +301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") < xs:hexBinary(\"786174616d61616772\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +316,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") < xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"6e7875626264756366\") < xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"786174616d61616772\") le xs:hexBinary(\"767479716c6a647663\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -361,7 +361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") le xs:hexBinary(\"6e7875626264756366\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -376,7 +376,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"767479716c6a647663\") le xs:hexBinary(\"786174616d61616772\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -391,7 +391,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:hexBinary(\"786174616d61616772\") <= xs:hexBinary(\"767479716c6a647663\")) and (xs:hexBinary(\"786174616d61616772\") lt xs:hexBinary(\"767479716c6a647663\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -406,7 +406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:hexBinary(\"786174616d61616772\") <= xs:hexBinary(\"767479716c6a647663\")) or (xs:hexBinary(\"786174616d61616772\") lt xs:hexBinary(\"767479716c6a647663\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"786174616d61616772\") <= xs:hexBinary(\"786174616d61616772\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -436,7 +436,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "min((xs:hexBinary('aa'), xs:hexBinary('bb'), xs:hexBinary('88')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -451,7 +451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $i in (xs:hexBinary('aa'), xs:hexBinary('bb'), xs:hexBinary(''), xs:hexBinary('88'), xs:hexBinary('bbbb'))
          order by $i
@@ -470,7 +470,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"FF\") lt xs:hexBinary(\"ff\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"FF\") le xs:hexBinary(\"aa\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"FF\") lt xs:hexBinary(\"aa\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(xs:base64Binary(xs:hexBinary(\"03\"))) lt xs:hexBinary(\"03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(xs:base64Binary(xs:hexBinary(\"03\"))) le xs:hexBinary(\"13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"\") lt xs:hexBinary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"\") lt xs:hexBinary(\"01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +575,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"00\") lt xs:hexBinary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0001\") < xs:hexBinary(\"0002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") lt xs:hexBinary(\"0002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -620,7 +620,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"\" lt xs:hexBinary(\"0002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -635,7 +635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-le-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"\") le xs:hexBinary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -650,7 +650,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-le-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"\") le xs:hexBinary(\"01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -665,7 +665,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-le-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"00\") lt xs:hexBinary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -680,7 +680,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
             if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 
@@ -699,7 +699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
             if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hexBinary-lt-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
             if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 

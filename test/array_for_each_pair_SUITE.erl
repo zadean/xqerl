@@ -16,7 +16,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "array")
 
@@ -195,7 +195,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'array-for-each-pair-301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([\"A\", \"B\", \"C\"], [1, 2, 3], function($x, $y) {[$x, $y]})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -223,7 +223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $A := [\"A\", \"B\", \"C\", \"D\"] return array:for-each-pair($A, array:tail($A), concat#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -251,7 +251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([1,2,3,4,5], [2,4,6,8,10,12,14], function($a,$b){$a + $b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -279,7 +279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([function($x){$x+2},function($x){$x*2},function($x){$x*$x}], [3,4,5], function($a,$b){$a($b)})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -307,7 +307,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([[\"a\",\"b\",\"c\"],[\"d\",\"e\",\"f\"],[\"g\",\"h\",\"i\"]], [1,2,3], array:remove#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -335,7 +335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([], [], contains#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -363,7 +363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair([], [1, 2], contains#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -391,7 +391,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair(['a', 'b'], [1, 2], true#0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -407,7 +407,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-for-each-pair-309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:for-each-pair(['a', 'b'], [1, 2], contains#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

@@ -35,7 +35,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -245,7 +245,7 @@ environment('partlist',BaseDir) ->
 {modules, []}
 ].
 'Orderexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {//part[@partid < 2]}",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -261,7 +261,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {//part[@partid < 2]}",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -285,7 +285,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {//part[@partid < 2][2]}",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -301,7 +301,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {//part[@partid < 2][2]}",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {//part[@partof = 1] union //part[@partid = 1] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {//part[@partof = 1] union //part[@partid = 1] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -365,7 +365,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {//part[@partof < 2] intersect //part[@partid = 1 or @partid > 2] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -381,7 +381,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {//part[@partof < 2] intersect //part[@partid = 1 or @partid > 2] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {//part[@partof < 2] except //part[@partid = 2] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {//part[@partof < 2] except //part[@partid = 2] }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -445,7 +445,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {fn:subsequence((1,2,3,4),2,2)}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +460,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {fn:subsequence((1,2,3,4),2,2)}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -483,7 +483,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {fn:reverse((3,2))}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -498,7 +498,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered {fn:reverse((2,3))}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered { for $i in (//part[@partid = 1], //part[@partid = 2]), $j in (//part[@partof = $i/@partid]) where ($i/@partid + $j/@partid) < 7 return $i/@partid + $j/@partid }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -537,7 +537,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Orderexpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered { for $i in (//part[@partid = 1], //part[@partid = 2]), $j in (//part[@partof = $i/@partid]) where ($i/@partid + $j/@partid) < 7 return $i/@partid + $j/@partid }",
    {Env,Opts} = xqerl_test:handle_environment(environment('partlist',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -561,7 +561,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {if (fn:true()) then (0,1,2,3,4) else (\"A\",\"B\",\"C\")}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {if (1 eq 1 and 2 eq 2) then (0,1,2,3,4) else (\"a\",\"b\")}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {if (1 eq 1 or 2 eq 3) then (0,1,2,3,4) else (\"a\",\"b\")}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {if (some $x in (1, 2, 3), $y in (2, 3, 4) satisfies $x + $y = 4) then (0,1,2,3,4) else (\"a\",\"b\")}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {if (every $x in (1, 2, 3) satisfies $x < 4) then (0,1,2,3,4) else (\"a\",\"b\")}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderedunorderedexpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered {typeswitch(123) case $i as xs:string return (\"a\",\"b\",\"c\") case $i as xs:double return (\"a\",\"b\",\"c\") case $i as xs:integer return (1,2,3,4) default return (\"a\",\"b\",\"c\") }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,10 +651,10 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-OrderExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'K-OrderExpr-1a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered{}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -669,10 +669,10 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-OrderExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'K-OrderExpr-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered{}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-OrderExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ordered{true()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -702,7 +702,7 @@ environment('partlist',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-OrderExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unordered{true()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

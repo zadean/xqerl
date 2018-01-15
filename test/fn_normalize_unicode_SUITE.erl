@@ -55,7 +55,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -273,7 +273,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-normalize-unicode1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -288,7 +288,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -303,7 +303,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('Ǻ', normalize-unicode('Ǻ'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -318,7 +318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('Å', normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -333,7 +333,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('Å', normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -348,7 +348,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-unicode('Å') eq normalize-unicode('Å'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -363,7 +363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -378,7 +378,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode1args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('','','')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -393,7 +393,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.', 'NFC')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -408,7 +408,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('Nothing to normalize.', 'nFc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -423,7 +423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode((), 'NFC')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -438,7 +438,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-unicode('Å', '') eq normalize-unicode('Å', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -453,7 +453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('',())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -468,7 +468,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode('',12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -483,7 +483,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:normalize-unicode(\"Å\",\" NFC \"),fn:normalize-unicode(\"Å\",\"NFC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -498,7 +498,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-unicode(\"è\",\"chancesareyoudonotsupportthis123ifyoudowaoo\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -513,7 +513,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(fn:normalize-unicode(\"normalizedstring\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -528,7 +528,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lower-case(fn:normalize-unicode(\"NORMALIZEDSTRING\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -543,7 +543,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:normalize-unicode(\"NORMALIZEDSTRING\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -558,7 +558,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:normalize-unicode(\"NORMALIZEDSTRING\"),\"another string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -573,7 +573,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(fn:normalize-unicode(\"NORMALIZEDSTRING\"),5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(normalize-unicode('﷐'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -603,7 +603,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(fn:normalize-unicode('ê﷐ê﷐ê'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(fn:normalize-unicode('e﷐̂'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -633,7 +633,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -1154,7 +1154,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-11-6-0'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -1706,7 +1706,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'fn-normalize-unicode-11-6-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: fn-normalize-unicode-11 :)
 (: Description: Bug 7935: normalize-unicode() applied to unassigned codepoints :)
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
@@ -2331,7 +2331,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2346,7 +2346,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"a string\", \"NFC\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2361,7 +2361,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"a string\", \"example.com/notSupported/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2376,7 +2376,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2391,7 +2391,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFC\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2406,7 +2406,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFD\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2421,7 +2421,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFKD\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2436,7 +2436,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"NFKC\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2451,7 +2451,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\", \"\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2466,7 +2466,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"foo\", \"\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2481,7 +2481,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2496,7 +2496,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\", \"NFC\") eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2511,7 +2511,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'K-NormalizeUnicodeFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode((\"a string\", error()), \"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2534,10 +2534,10 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"unicode-normalization-form FULLY-NORMALIZED"}.
 'cbcl-fn-normalize-unicode-001a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"blah\",\"FULLY-NORMALIZED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2552,7 +2552,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(normalize-unicode(\"blah\",\"NFC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2567,7 +2567,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(normalize-unicode(\"blah\",\"ZZZ\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2582,7 +2582,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode((),\"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2597,7 +2597,7 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"\",\"NFC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2612,10 +2612,10 @@ declare variable $Cn :=
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-normalize-unicode-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"unicode-normalization-form FULLY-NORMALIZED"}.
 'cbcl-fn-normalize-unicode-006a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(codepoints-to-string(2494),\"FULLY-NORMALIZED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

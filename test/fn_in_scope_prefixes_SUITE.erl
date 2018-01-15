@@ -69,7 +69,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -337,7 +337,7 @@ environment('namespaces11',BaseDir) ->
 {modules, []}
 ].
 'fn-in-scope-prefixes-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:in-scope-prefixes(<a1 xmlns:p1=\"http://www.exampole.com\"></a1>,\"Second Argument\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -352,7 +352,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:in-scope-prefixes(200)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -367,7 +367,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:in-scope-prefixes(<anElement>some content</anElement>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -382,7 +382,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:in-scope-prefixes(<anElement xmlns:p1 = \"http://www.example.com\">some content</anElement>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -405,7 +405,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:in-scope-prefixes(element anElement {\"Some content\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -420,7 +420,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com\"; let $seq := fn:in-scope-prefixes(element anElement {\"Some content\"}) return (count($seq),$seq=(\"xml\",\"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -435,7 +435,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com\"; let $seq := fn:in-scope-prefixes(<anElement>Some content</anElement>) return (count($seq),$seq=(\"xml\",\"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -450,7 +450,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p1 = \"http://www.example.com\"; fn:in-scope-prefixes(<anElement xmlns:p1=\"http://www.somenamespace.com\">Some content</anElement>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -473,7 +473,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p1 = \"http://www.example.com\"; fn:in-scope-prefixes(<anElement>Some content</anElement>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -488,7 +488,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -503,7 +503,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -518,7 +518,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lower-case(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -533,7 +533,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-to-codepoints(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -548,7 +548,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -563,7 +563,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],\"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -578,7 +578,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],\"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -593,7 +593,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:in-scope-prefixes(<anElement>Some content</anElement>),\"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -608,7 +608,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-join((fn:in-scope-prefixes(<anElement>Some content</anElement>),\"xml\"),\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -623,7 +623,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -638,7 +638,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],\"l\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -653,7 +653,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -669,7 +669,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes((//*)[19])",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -685,7 +685,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(/)",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -701,10 +701,10 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-in-scope-prefixes-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('NamespaceSuppliedInternally',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -720,7 +720,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(/*/p)",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -736,19 +736,19 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-in-scope-prefixes-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'fn-in-scope-prefixes-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'fn-in-scope-prefixes-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'fn-in-scope-prefixes-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'K-InScopePrefixesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -763,7 +763,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InScopePrefixesFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(\"string\", \"nodetest\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -778,7 +778,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<e/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -793,7 +793,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element name {7}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -808,7 +808,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(text {\"some text\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -823,7 +823,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(comment {\"content\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -838,7 +838,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "in-scope-prefixes(<?target data?>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -853,7 +853,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<a xmlns=\"http://www.example.com\" xmlns:p=\"http://ns.example.com/asd\" xmlns:b=\"http://ns.example.com/asd\"/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -868,7 +868,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<a xmlns=\"\"/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -883,7 +883,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/A\"; count(in-scope-prefixes(<anElement xmlns=\"http://www.example.com/B\"/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -898,7 +898,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in fn:in-scope-prefixes(<e xmlns:p=\"http://example.com\" xmlns:a=\"http://example.com\"> <b/> </e>/b) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com\"; count(fn:in-scope-prefixes(<e/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -928,7 +928,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default element namespace \"http://www.example.com/\"; 
          let $i := <e> <a xmlns=\"\"/> <b xmlns=\"http://www.example.com/\"/> <c xmlns=\"http://www.example.com/Second\"/> </e> 
@@ -950,7 +950,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default element namespace \"http://www.example.com/\"; 
          let $i := element e { element {QName(\"\", \"a\")} {}, element {QName(\"http://www.example.com/\", \"b\")} {}, element {QName(\"http://www.example.com/Second\", \"c\")} {} } 
@@ -972,7 +972,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/\"; let $i := element e { element b {()} } return (count(in-scope-prefixes($i/b)), count(in-scope-prefixes($i)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -987,7 +987,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element e{()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := element e { element b {()} } return (count(in-scope-prefixes($i/b)), count(in-scope-prefixes($i)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $i := <e xmlns=\"http://example.com/\"> 
                     {element a {()}} 
@@ -1036,7 +1036,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://example.com/\"; count(in-scope-prefixes(<p:e/>)), count(in-scope-prefixes(element p:e {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1051,7 +1051,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com/\"; <e xmlns:p=\"http://example.com/\"> { count(in-scope-prefixes(<e/>)), count(in-scope-prefixes(element e {()})) } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1066,7 +1066,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element xml:space {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1081,7 +1081,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element fn:space {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1096,7 +1096,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element xs:space {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1111,7 +1111,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<fn:space/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1126,7 +1126,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<xs:space/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1141,7 +1141,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://example.com/\"; count(in-scope-prefixes(<element/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1156,7 +1156,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace a = \"http://example.com/1\"; 
         declare namespace b = \"http://example.com/2\"; 
@@ -1181,7 +1181,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $i := <e> { attribute {QName(\"http://example.com/\", \"prefix:attributeName\")} {()} } </e> 
          return document {$i, for $ps in in-scope-prefixes($i) order by $ps return $ps}",
@@ -1198,7 +1198,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace a = \"http://example.com/1\"; declare namespace b = \"http://example.com/2\"; <e a:n1=\"content\" b:n1=\"content\"/>/(for $i in in-scope-prefixes(.) order by $i return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1213,7 +1213,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default element namespace \"http://www.example.com/\"; 
          let $i := <e> <a xmlns=\"\"/> <b xmlns=\"http://www.example.com/\"/> <c xmlns=\"http://www.example.com/Second\"/> </e> 
@@ -1236,7 +1236,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/\"; <a2/>/element e { element {QName(\"\", \"a\")} {} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1251,7 +1251,7 @@ environment('namespaces11',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InScopePrefixesFunc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/\"; <a2 xmlns:p=\"http://ns.example.com/foo\"/>/element e { element {QName(\"http://example.com/2\", \"p:a\")} {} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

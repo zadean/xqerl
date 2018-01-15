@@ -43,7 +43,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -249,7 +249,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'nodeexpression17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() << ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() << <a>50000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -295,7 +295,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() << /works[1]/employee[1]/empnum[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -319,7 +319,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() << /staff[1]/employee[1]/empnum[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -343,7 +343,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a>50000</a> << ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -366,7 +366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>50000</a> << <a>50000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>50000</a> << /works[1]/employee[1]/empnum[1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -413,7 +413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>50000</a> << (/staff[1]/employee[1]/empnum[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(/works[1]/employee[1]/empnum[1] << ())",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -461,7 +461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/works[1]/employee[1]/empnum[1] << <a>50000</a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/works[1]/employee[1]/empnum[1] << /works[1]/employee[1]/empnum[1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[1]/empnum[1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -525,7 +525,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((/staff[1]/employee[1]/empnum[1]) << ())",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/staff[1]/employee[1]/empnum[1]) << <a>50000</a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -573,7 +573,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[1]/empnum[1]) 
          and ($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[2]/empnum[1]) 
          and ($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[3]/empnum[1])) 
@@ -594,7 +594,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpression32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -610,7 +610,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpressionhc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -626,7 +626,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpressionhc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
          lt 
          ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))",
@@ -644,7 +644,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpressionhc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
          ge
          ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))",
@@ -662,7 +662,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpressionhc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
          gt ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
@@ -679,7 +679,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodeexpressionhc10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
          le ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
@@ -696,7 +696,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nodecomparisonerr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(() << 100)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -723,7 +723,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(1 << ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -750,7 +750,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() << 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 << 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() << ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -815,7 +815,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <<< ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -830,7 +830,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <<",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -845,7 +845,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<< ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -860,7 +860,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<<",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -875,7 +875,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 <<",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -890,7 +890,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<< 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -905,7 +905,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<<<",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -920,7 +920,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeBefore-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
    let $doc := 
    <catalog>
@@ -961,7 +961,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-node-before-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(exactly-one($node/b[1]) << exactly-one($node/c[1]))
@@ -979,7 +979,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-node-before-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(not(exactly-one($node/b[1]) << exactly-one($node/c[1])))

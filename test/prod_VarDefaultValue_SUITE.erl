@@ -44,7 +44,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -263,7 +263,7 @@ environment('hats',BaseDir) ->
 {modules, []}
 ].
 'extvardef-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext external := 0; <a>{$ext}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -278,7 +278,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-001a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext external := 0; $ext",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -305,7 +305,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -320,7 +320,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -347,7 +347,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-002b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer external := 0; <a>{$ext}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -374,7 +374,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -389,7 +389,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-003a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -416,7 +416,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-003b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -443,7 +443,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := 0,1,2; <a>{sum($ext)}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -458,7 +458,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ext as xs:integer* external := ; <a></a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -473,7 +473,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $var as xs:integer := 17; 
          declare variable $ext as element(a) external := <a>{$var}</a>; 
@@ -491,7 +491,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-006a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var as xs:integer := 17; 
         declare variable $ext as xs:integer external := $var; 
@@ -522,7 +522,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-006b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var as xs:integer := 17; 
         declare variable $ext as xs:integer external := <a>{$var}</a>; 
@@ -561,7 +561,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $ext as xs:date external := current-date() + xs:dayTimeDuration('P30D'); 
         $ext gt xs:date('2008-12-30')
@@ -579,7 +579,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -594,7 +594,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; \"result\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -617,7 +617,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $a := 1;
         declare variable $x external := $a + $b;
@@ -637,7 +637,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-010a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $a external := 6 + local:foo();
         declare variable $b external := 12;
@@ -657,7 +657,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $a := $x;
         declare variable $x external := $a + 2;
@@ -676,7 +676,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-011a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x external := 3 + local:foo();
         declare variable $b external := 2 + local:foo();
@@ -701,7 +701,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:aaa() { 1 };
         declare variable $x external := local:bbb() + local:aaa();
@@ -721,7 +721,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $y external;
         declare variable $z external := 10;
@@ -755,7 +755,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x external := /works/employee[@name eq \"Jane Doe 1\"];
         fn:count($x)
@@ -774,7 +774,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $y := /works/employee;
         declare context item := $y[9];
@@ -802,7 +802,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-016a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
         declare context item := $y[3];
@@ -822,7 +822,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-016b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;
         declare context item := $y;
@@ -842,7 +842,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x as xs:decimal external := xs:integer(10);
         $x
@@ -860,7 +860,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x external := $a + 10;
         $x
@@ -878,7 +878,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x external := 10;
         declare variable $y external := 18 + $x;
@@ -897,7 +897,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x external := 5;
         declare variable $a := $x + 2;
@@ -918,7 +918,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x as xs:integer external := xs:int(5);
         declare variable $y as xs:decimal external := $x;
@@ -937,7 +937,7 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo() {
           $x
@@ -958,17 +958,17 @@ environment('hats',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardef-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'extvardef-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'extvardef-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'extvardef-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'extvardef-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

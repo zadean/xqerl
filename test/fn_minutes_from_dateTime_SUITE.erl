@@ -34,7 +34,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -231,7 +231,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-minutes-from-dateTime1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -246,7 +246,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1996-04-07T01:40:52Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"2030-12-31T23:59:59Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -276,7 +276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T13:30:00+05:30\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -306,7 +306,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-12-31T21:20:00-05:00\")) lt fn:minutes-from-dateTime(xs:dateTime(\"1999-12-31T21:20:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -321,7 +321,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-12-31T21:20:00-05:00\")) le fn:minutes-from-dateTime(xs:dateTime(\"1999-12-31T21:20:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -336,7 +336,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:minutes-from-dateTime(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -351,7 +351,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T20:00:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -366,7 +366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T23:59:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,7 +381,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\")) + fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -396,7 +396,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T00:00:00Z\")) - fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -411,7 +411,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T02:02:00Z\")) * fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:03:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -426,7 +426,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T02:10:00Z\")) div fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:05:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -441,7 +441,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) idiv fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T02:05:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -456,7 +456,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) mod fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T03:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -471,7 +471,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -486,7 +486,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) eq fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -516,7 +516,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) ne fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -531,7 +531,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) le fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -546,7 +546,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-minutes-from-dateTime-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\")) ge fn:minutes-from-dateTime(xs:dateTime(\"1970-01-01T10:10:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -561,7 +561,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-MinutesFromDateTimeFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "minutes-from-dateTime()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-MinutesFromDateTimeFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "minutes-from-dateTime((), \"Wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-MinutesFromDateTimeFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(minutes-from-dateTime(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-MinutesFromDateTimeFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "minutes-from-dateTime(()) instance of xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-MinutesFromDateTimeFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "minutes-from-dateTime(xs:dateTime(\"2001-02-03T08:23:12.43\")) eq 23",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

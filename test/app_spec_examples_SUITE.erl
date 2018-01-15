@@ -648,7 +648,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -1475,7 +1475,7 @@ environment('global',BaseDir) ->
 {modules, []}
 ].
 'fo-test-fn-string-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string(23)
       ",
@@ -1493,7 +1493,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string(false())
       ",
@@ -1511,7 +1511,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string(\"Paris\")
       ",
@@ -1529,7 +1529,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string((1, 2, 3))
       ",
@@ -1547,7 +1547,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string([[1, 2], [3, 4]])
       ",
@@ -1565,7 +1565,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         string(abs#1)
       ",
@@ -1583,7 +1583,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $para := 
           
@@ -1608,7 +1608,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         data(123)
       ",
@@ -1626,7 +1626,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         data((123, 456))
       ",
@@ -1644,7 +1644,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         data([[1,2],[3,4]])
       ",
@@ -1662,7 +1662,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $para := 
           
@@ -1687,7 +1687,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $para := 
           
@@ -1712,7 +1712,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-data-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         data(abs#1)
       ",
@@ -1730,7 +1730,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-error-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:error()
       ",
@@ -1748,7 +1748,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-error-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:error(fn:QName('http://www.example.com/HR', 'myerr:toohighsal'),
                   'Does not apply because salary is too high')
@@ -1767,7 +1767,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-abs-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:abs(10.5)
       ",
@@ -1785,7 +1785,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-abs-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:abs(-10.5)
       ",
@@ -1803,7 +1803,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ceiling-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ceiling(10.5)
       ",
@@ -1821,7 +1821,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ceiling-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ceiling(-10.5)
       ",
@@ -1839,7 +1839,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-floor-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:floor(10.5)
       ",
@@ -1857,7 +1857,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-floor-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:floor(-10.5)
       ",
@@ -1875,7 +1875,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(2.5)
       ",
@@ -1893,7 +1893,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(2.4999)
       ",
@@ -1911,7 +1911,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(-2.5)
       ",
@@ -1929,7 +1929,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(1.125, 2)
       ",
@@ -1947,7 +1947,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(8452, -2)
       ",
@@ -1965,7 +1965,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round(3.1415e0, 2)
       ",
@@ -1983,7 +1983,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(0.5)
       ",
@@ -2001,7 +2001,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(1.5)
       ",
@@ -2019,7 +2019,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(2.5)
       ",
@@ -2037,7 +2037,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(3.567812e+3, 2)
       ",
@@ -2055,7 +2055,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(4.7564e-3, 2)
       ",
@@ -2073,7 +2073,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-round-half-to-even-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:round-half-to-even(35612.25, -2)
       ",
@@ -2091,7 +2091,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-integer-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-integer(123, '0000')
       ",
@@ -2109,7 +2109,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-integer-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-integer(21, '1;o', 'en')
       ",
@@ -2127,7 +2127,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-integer-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-integer(7, 'a')
       ",
@@ -2145,7 +2145,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-integer-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-integer(57, 'I')
       ",
@@ -2163,7 +2163,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-integer-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-integer(1234, '#;##0;')
       ",
@@ -2181,7 +2181,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(12345.6, '#,###.00')
       ",
@@ -2199,7 +2199,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(12345678.9, '9,999.99')
       ",
@@ -2217,7 +2217,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(123.9, '9999')
       ",
@@ -2235,7 +2235,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(0.14, '01%')
       ",
@@ -2253,7 +2253,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(-6, '000')
       ",
@@ -2271,7 +2271,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(1234.5678, '#ʹ##0·00',
                   'ch')
@@ -2290,7 +2290,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(1234.5678, '00.000E0', 'fortran')
       ",
@@ -2308,7 +2308,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(0.234, '0.0E0', 'fortran')
       ",
@@ -2326,7 +2326,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(0.234, '#.00E0', 'fortran')
       ",
@@ -2344,7 +2344,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-format-number-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         format-number(0.234, '.00E0', 'fortran')
       ",
@@ -2362,7 +2362,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pi-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         2*math:pi()
       ",
@@ -2380,7 +2380,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(())
       ",
@@ -2398,7 +2398,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(0)
       ",
@@ -2416,7 +2416,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(1)
       ",
@@ -2434,7 +2434,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(2)
       ",
@@ -2452,7 +2452,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(-1)
       ",
@@ -2470,7 +2470,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(math:pi())
       ",
@@ -2488,7 +2488,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(xs:double('NaN'))
       ",
@@ -2506,7 +2506,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(xs:double('INF'))
       ",
@@ -2524,7 +2524,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp(xs:double('-INF'))
       ",
@@ -2542,7 +2542,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(())
       ",
@@ -2560,7 +2560,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(0)
       ",
@@ -2578,7 +2578,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(1)
       ",
@@ -2596,7 +2596,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(0.5)
       ",
@@ -2614,7 +2614,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(-1)
       ",
@@ -2632,7 +2632,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(xs:double('NaN'))
       ",
@@ -2650,7 +2650,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(xs:double('INF'))
       ",
@@ -2668,7 +2668,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-exp10-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:exp10(xs:double('-INF'))
       ",
@@ -2686,7 +2686,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(())
       ",
@@ -2704,7 +2704,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(0)
       ",
@@ -2722,7 +2722,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(math:exp(1))
       ",
@@ -2740,7 +2740,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(1.0e-3)
       ",
@@ -2758,7 +2758,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(2)
       ",
@@ -2776,7 +2776,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(-1)
       ",
@@ -2794,7 +2794,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(xs:double('NaN'))
       ",
@@ -2812,7 +2812,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(xs:double('INF'))
       ",
@@ -2830,7 +2830,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log(xs:double('-INF'))
       ",
@@ -2848,7 +2848,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(())
       ",
@@ -2866,7 +2866,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(0)
       ",
@@ -2884,7 +2884,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(1.0e3)
       ",
@@ -2902,7 +2902,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(1.0e-3)
       ",
@@ -2920,7 +2920,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(2)
       ",
@@ -2938,7 +2938,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(-1)
       ",
@@ -2956,7 +2956,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(xs:double('NaN'))
       ",
@@ -2974,7 +2974,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(xs:double('INF'))
       ",
@@ -2992,7 +2992,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-log10-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:log10(xs:double('-INF'))
       ",
@@ -3010,7 +3010,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(())
       ",
@@ -3028,7 +3028,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(0.0e0)
       ",
@@ -3046,7 +3046,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(-0.0e0)
       ",
@@ -3064,7 +3064,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(1.0e6)
       ",
@@ -3082,7 +3082,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(2.0e0)
       ",
@@ -3100,7 +3100,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(-2.0e0)
       ",
@@ -3118,7 +3118,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(xs:double('NaN'))
       ",
@@ -3136,7 +3136,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(xs:double('INF'))
       ",
@@ -3154,7 +3154,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sqrt-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sqrt(xs:double('-INF'))
       ",
@@ -3172,7 +3172,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow((), 93.7)
       ",
@@ -3190,7 +3190,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(2, 3)
       ",
@@ -3208,7 +3208,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-2, 3)
       ",
@@ -3226,7 +3226,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(2, -3)
       ",
@@ -3244,7 +3244,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-2, -3)
       ",
@@ -3262,7 +3262,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(2, 0)
       ",
@@ -3280,7 +3280,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0, 0)
       ",
@@ -3298,7 +3298,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(xs:double('INF'), 0)
       ",
@@ -3316,7 +3316,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(xs:double('NaN'), 0)
       ",
@@ -3334,7 +3334,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-math:pi(), 0)
       ",
@@ -3352,7 +3352,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, 3)
       ",
@@ -3370,7 +3370,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, 4)
       ",
@@ -3388,7 +3388,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, 3)
       ",
@@ -3406,7 +3406,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0, 4)
       ",
@@ -3424,7 +3424,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, -3)
       ",
@@ -3442,7 +3442,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, -4)
       ",
@@ -3460,7 +3460,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, -3)
       ",
@@ -3478,7 +3478,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0, -4)
       ",
@@ -3496,7 +3496,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(16, 0.5e0)
       ",
@@ -3514,7 +3514,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(16, 0.25e0)
       ",
@@ -3532,7 +3532,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, -3.0e0)
       ",
@@ -3550,7 +3550,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, -3.0e0)
       ",
@@ -3568,7 +3568,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, -3.1e0)
       ",
@@ -3586,7 +3586,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, -3.1e0)
       ",
@@ -3604,7 +3604,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, 3.0e0)
       ",
@@ -3622,7 +3622,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, 3.0e0)
       ",
@@ -3640,7 +3640,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(0e0, 3.1e0)
       ",
@@ -3658,7 +3658,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-0e0, 3.1e0)
       ",
@@ -3676,7 +3676,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-1, xs:double('INF'))
       ",
@@ -3694,7 +3694,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-1, xs:double('-INF'))
       ",
@@ -3712,7 +3712,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(1, xs:double('INF'))
       ",
@@ -3730,7 +3730,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(1, xs:double('-INF'))
       ",
@@ -3748,7 +3748,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(1, xs:double('NaN'))
       ",
@@ -3766,7 +3766,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-2.5e0, 2.0e0)
       ",
@@ -3784,7 +3784,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-pow-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:pow(-2.5e0, 2.00000001e0)
       ",
@@ -3802,7 +3802,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(())
       ",
@@ -3820,7 +3820,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(0)
       ",
@@ -3838,7 +3838,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(-0.0e0)
       ",
@@ -3856,7 +3856,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(math:pi() div 2)
       ",
@@ -3874,7 +3874,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(-math:pi() div 2)
       ",
@@ -3892,7 +3892,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(math:pi())
       ",
@@ -3910,7 +3910,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(xs:double('NaN'))
       ",
@@ -3928,7 +3928,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(xs:double('INF'))
       ",
@@ -3946,7 +3946,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-sin-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:sin(xs:double('-INF'))
       ",
@@ -3964,7 +3964,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(())
       ",
@@ -3982,7 +3982,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(0)
       ",
@@ -4000,7 +4000,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(-0.0e0)
       ",
@@ -4018,7 +4018,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(math:pi() div 2)
       ",
@@ -4036,7 +4036,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(-math:pi() div 2)
       ",
@@ -4054,7 +4054,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(math:pi())
       ",
@@ -4072,7 +4072,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(xs:double('NaN'))
       ",
@@ -4090,7 +4090,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(xs:double('INF'))
       ",
@@ -4108,7 +4108,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-cos-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:cos(xs:double('-INF'))
       ",
@@ -4126,7 +4126,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(())
       ",
@@ -4144,7 +4144,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(0)
       ",
@@ -4162,7 +4162,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(-0.0e0)
       ",
@@ -4180,7 +4180,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(math:pi() div 4)
       ",
@@ -4198,7 +4198,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(-math:pi() div 4)
       ",
@@ -4216,7 +4216,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         1 div math:tan(math:pi() div 2)
       ",
@@ -4234,7 +4234,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         1 div math:tan(-math:pi() div 2)
       ",
@@ -4252,7 +4252,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(math:pi())
       ",
@@ -4270,7 +4270,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(xs:double('NaN'))
       ",
@@ -4288,7 +4288,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(xs:double('INF'))
       ",
@@ -4306,7 +4306,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-tan-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:tan(xs:double('-INF'))
       ",
@@ -4324,7 +4324,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(())
       ",
@@ -4342,7 +4342,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(0)
       ",
@@ -4360,7 +4360,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(-0.0e0)
       ",
@@ -4378,7 +4378,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(1.0e0)
       ",
@@ -4396,7 +4396,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(-1.0e0)
       ",
@@ -4414,7 +4414,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(2.0e0)
       ",
@@ -4432,7 +4432,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(xs:double('NaN'))
       ",
@@ -4450,7 +4450,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(xs:double('INF'))
       ",
@@ -4468,7 +4468,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-asin-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:asin(xs:double('-INF'))
       ",
@@ -4486,7 +4486,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(())
       ",
@@ -4504,7 +4504,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(0)
       ",
@@ -4522,7 +4522,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(-0.0e0)
       ",
@@ -4540,7 +4540,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(1.0e0)
       ",
@@ -4558,7 +4558,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(-1.0e0)
       ",
@@ -4576,7 +4576,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(2.0e0)
       ",
@@ -4594,7 +4594,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(xs:double('NaN'))
       ",
@@ -4612,7 +4612,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(xs:double('INF'))
       ",
@@ -4630,7 +4630,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-acos-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:acos(xs:double('-INF'))
       ",
@@ -4648,7 +4648,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(())
       ",
@@ -4666,7 +4666,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(0)
       ",
@@ -4684,7 +4684,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(-0.0e0)
       ",
@@ -4702,7 +4702,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(1.0e0)
       ",
@@ -4720,7 +4720,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(-1.0e0)
       ",
@@ -4738,7 +4738,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(xs:double('NaN'))
       ",
@@ -4756,7 +4756,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(xs:double('INF'))
       ",
@@ -4774,7 +4774,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan(xs:double('-INF'))
       ",
@@ -4792,7 +4792,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(+0.0e0, 0.0e0)
       ",
@@ -4810,7 +4810,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(-0.0e0, 0.0e0)
       ",
@@ -4828,7 +4828,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(+0.0e0, -0.0e0)
       ",
@@ -4846,7 +4846,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(-0.0e0, -0.0e0)
       ",
@@ -4864,7 +4864,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(-1, 0.0e0)
       ",
@@ -4882,7 +4882,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(+1, 0.0e0)
       ",
@@ -4900,7 +4900,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(-0.0e0, -1)
       ",
@@ -4918,7 +4918,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(+0.0e0, -1)
       ",
@@ -4936,7 +4936,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(-0.0e0, +1)
       ",
@@ -4954,7 +4954,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-math-atan2-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         math:atan2(+0.0e0, +1)
       ",
@@ -4972,7 +4972,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoints-to-string-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoints-to-string((66, 65, 67, 72))
       ",
@@ -4990,7 +4990,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoints-to-string-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoints-to-string((2309, 2358, 2378, 2325))
       ",
@@ -5008,7 +5008,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoints-to-string-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoints-to-string(())
       ",
@@ -5026,7 +5026,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoints-to-string-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoints-to-string(0)
       ",
@@ -5044,7 +5044,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-to-codepoints-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-to-codepoints(\"Thérèse\")
       ",
@@ -5062,7 +5062,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:compare('abc', 'abc')
       ",
@@ -5080,7 +5080,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:compare('Strasse', 'Straße')
       ",
@@ -5112,7 +5112,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:compare('Strasse', 'Straße',
                   'http://www.w3.org/2013/collation/UCA?lang=de;strength=primary')
@@ -5131,7 +5131,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-compare-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:compare('Strassen', 'Straße')
       ",
@@ -5163,7 +5163,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoint-equal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoint-equal(\"abcd\", \"abcd\")
       ",
@@ -5181,7 +5181,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoint-equal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoint-equal(\"abcd\", \"abcd \")
       ",
@@ -5199,7 +5199,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoint-equal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoint-equal(\"\", \"\")
       ",
@@ -5217,7 +5217,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoint-equal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoint-equal(\"\", ())
       ",
@@ -5235,7 +5235,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-codepoint-equal-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:codepoint-equal((), ())
       ",
@@ -5253,7 +5253,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:concat('un', 'grateful')
       ",
@@ -5271,7 +5271,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:concat('Thy ', (), 'old ', \"groans\", \"\", ' ring',
                   ' yet', ' in', ' my', ' ancient',' ears.')
@@ -5290,7 +5290,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:concat('Ciao!',())
       ",
@@ -5308,7 +5308,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:concat('Ingratitude, ', 'thou ', 'marble-hearted', ' fiend!')
       ",
@@ -5326,7 +5326,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:concat(01, 02, 03, 04, true())
       ",
@@ -5344,7 +5344,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-concat-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         10 || '/' || 6
       ",
@@ -5362,7 +5362,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-join(1 to 9)
       ",
@@ -5380,7 +5380,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-join(('Now', 'is', 'the', 'time', '...'),
                   ' ')
@@ -5399,7 +5399,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-join(('Blow, ', 'blow, ', 'thou ', 'winter ', 'wind!'),
                   '')
@@ -5418,7 +5418,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-join((), 'separator')
       ",
@@ -5436,7 +5436,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-join(1 to 5, ', ')
       ",
@@ -5454,7 +5454,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $doc := 
           <doc>
@@ -5481,7 +5481,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-join-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $doc := 
           <doc>
@@ -5508,7 +5508,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"motor car\", 6)
       ",
@@ -5526,7 +5526,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"metadata\", 4, 3)
       ",
@@ -5544,7 +5544,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", 1.5, 2.6)
       ",
@@ -5562,7 +5562,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", 0, 3)
       ",
@@ -5580,7 +5580,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", 5, -3)
       ",
@@ -5598,7 +5598,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", -3, 5)
       ",
@@ -5616,7 +5616,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", 0 div 0E0, 3)
       ",
@@ -5634,7 +5634,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", 1, 0 div 0E0)
       ",
@@ -5652,7 +5652,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring((), 1, 3)
       ",
@@ -5670,7 +5670,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", -42, 1 div 0E0)
       ",
@@ -5688,7 +5688,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring(\"12345\", -1 div 0E0, 1 div 0E0)
       ",
@@ -5706,7 +5706,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-length-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-length(\"Harp not on that string, madam; that is past.\")
       ",
@@ -5724,7 +5724,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-string-length-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:string-length(())
       ",
@@ -5742,7 +5742,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-normalize-space-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:normalize-space(\" The    wealthy curled darlings
                                         of    our    nation. \")
@@ -5761,7 +5761,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-normalize-space-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:normalize-space(())
       ",
@@ -5779,7 +5779,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-upper-case-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:upper-case(\"abCd0\")
       ",
@@ -5797,7 +5797,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-lower-case-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:lower-case(\"ABc!D\")
       ",
@@ -5815,7 +5815,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-translate-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:translate(\"bar\",\"abc\",\"ABC\")
       ",
@@ -5833,7 +5833,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-translate-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:translate(\"--aaa--\",\"abc-\",\"ABC\")
       ",
@@ -5851,7 +5851,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-translate-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:translate(\"abcdabc\", \"abc\", \"AB\")
       ",
@@ -5869,7 +5869,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-encode-for-uri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:encode-for-uri(\"http://www.example.com/00/Weather/CA/Los%20Angeles#ocean\")
       ",
@@ -5887,7 +5887,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-encode-for-uri-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         concat(\"http://www.example.com/\",
                   encode-for-uri(\"~bébé\"))
@@ -5906,7 +5906,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-encode-for-uri-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         concat(\"http://www.example.com/\", encode-for-uri(\"100% organic\"))
       ",
@@ -5924,7 +5924,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-iri-to-uri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:iri-to-uri
                   (\"http://www.example.com/00/Weather/CA/Los%20Angeles#ocean\")
@@ -5943,7 +5943,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-iri-to-uri-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:iri-to-uri (\"http://www.example.com/~bébé\")
       ",
@@ -5961,7 +5961,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-escape-html-uri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:escape-html-uri(\"http://www.example.com/00/Weather/CA/Los Angeles#ocean\")
       ",
@@ -5979,7 +5979,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-escape-html-uri-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:escape-html-uri(\"javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~bébé');\")
       ",
@@ -5997,7 +5997,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"tattoo\", \"t\")
       ",
@@ -6015,7 +6015,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"tattoo\", \"ttt\")
       ",
@@ -6033,7 +6033,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"\", ())
       ",
@@ -6051,7 +6051,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"abcdefghi\", \"-d-e-f-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6070,7 +6070,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"a*b*c*d*e*f*g*h*i*\", \"d-ef-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6089,7 +6089,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( \"abcd***e---f*--*ghi\", \"def\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6108,7 +6108,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains ( (), \"--***-*---\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6127,7 +6127,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with(\"tattoo\", \"tat\")
       ",
@@ -6145,7 +6145,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( \"tattoo\", \"att\")
       ",
@@ -6163,7 +6163,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ((), ())
       ",
@@ -6181,7 +6181,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( \"abcdefghi\", \"-a-b-c-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6200,7 +6200,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( \"a*b*c*d*e*f*g*h*i*\", \"a-bc-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6219,7 +6219,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( \"abcd***e---f*--*ghi\", \"abcdef\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6238,7 +6238,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( (), \"--***-*---\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6257,7 +6257,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-starts-with-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:starts-with ( \"-abcdefghi\", \"-abc\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6276,7 +6276,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"tattoo\", \"tattoo\")
       ",
@@ -6294,7 +6294,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"tattoo\", \"atto\")
       ",
@@ -6312,7 +6312,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ((), ())
       ",
@@ -6330,7 +6330,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"abcdefghi\", \"-g-h-i-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6349,7 +6349,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"abcd***e---f*--*ghi\", \"defghi\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6368,7 +6368,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"abcd***e---f*--*ghi\", \"defghi\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6387,7 +6387,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( (), \"--***-*---\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6406,7 +6406,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-ends-with-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:ends-with ( \"abcdefghi\", \"ghi-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6425,7 +6425,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"tattoo\", \"attoo\")
       ",
@@ -6443,7 +6443,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"tattoo\", \"tatto\")
       ",
@@ -6461,7 +6461,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ((), ())
       ",
@@ -6479,7 +6479,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"abcdefghi\", \"--d-e-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6498,7 +6498,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"abc--d-e-fghi\", \"--d-e-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6517,7 +6517,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"a*b*c*d*e*f*g*h*i*\", \"***cde\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6536,7 +6536,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-before-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-before ( \"Eureka!\", \"--***-*---\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6555,7 +6555,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after(\"tattoo\", \"tat\")
       ",
@@ -6573,7 +6573,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after(\"tattoo\", \"tattoo\")
       ",
@@ -6591,7 +6591,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after((), ())
       ",
@@ -6609,7 +6609,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:substring-after(\"abcdefghi\", \"--d-e-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6628,7 +6628,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after(\"abc--d-e-fghi\", \"--d-e-\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6647,7 +6647,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after ( \"a*b*c*d*e*f*g*h*i*\", \"***cde***\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6666,7 +6666,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-substring-after-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:substring-after ( \"Eureka!\", \"--***-*---\",
                   \"http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=primary\")
@@ -6685,7 +6685,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:matches(\"abracadabra\", \"bra\")
       ",
@@ -6703,7 +6703,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:matches(\"abracadabra\", \"^a.*a$\")
       ",
@@ -6721,7 +6721,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:matches(\"abracadabra\", \"^bra\")
       ",
@@ -6739,7 +6739,7 @@ environment('global',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $poem := 
           
@@ -6768,7 +6768,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $poem := 
           
@@ -6797,7 +6797,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $poem := 
           
@@ -6826,7 +6826,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $poem := 
           
@@ -6855,7 +6855,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-matches-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $poem := 
           
@@ -6884,7 +6884,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"abracadabra\", \"bra\", \"*\")
       ",
@@ -6902,7 +6902,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"abracadabra\", \"a.*a\", \"*\")
       ",
@@ -6920,7 +6920,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"abracadabra\", \"a.*?a\", \"*\")
       ",
@@ -6938,7 +6938,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"abracadabra\", \"a\", \"\")
       ",
@@ -6956,7 +6956,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"abracadabra\", \"a(.)\", \"a$1$1\")
       ",
@@ -6974,7 +6974,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"AAAA\", \"A+\", \"b\")
       ",
@@ -6992,7 +6992,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"AAAA\", \"A+?\", \"b\")
       ",
@@ -7010,7 +7010,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-replace-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:replace(\"darted\", \"^(.*?)d(.*)$\", \"$1c$2\")
       ",
@@ -7028,7 +7028,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\" red green blue \")
       ",
@@ -7046,7 +7046,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\"The cat sat on the mat\", \"\\s+\")
       ",
@@ -7064,7 +7064,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\" red green blue \", \"\\s+\")
       ",
@@ -7082,7 +7082,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\"1, 15, 24, 50\", \",\\s*\")
       ",
@@ -7100,7 +7100,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\"1,15,,24,50,\", \",\")
       ",
@@ -7118,7 +7118,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tokenize-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tokenize(\"Some unparsed <br> HTML <BR> text\",
                   \"\\s*<br>\\s*\", \"i\")
@@ -7137,7 +7137,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-analyze-string-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:analyze-string(\"The cat sat on the mat.\", \"\\w+\")
       ",
@@ -7155,7 +7155,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-analyze-string-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:analyze-string(\"2008-12-03\",
                   \"^(\\d+)\\-(\\d+)\\-(\\d+)$\")
@@ -7174,7 +7174,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-analyze-string-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:analyze-string(\"A1,C15,,D24, X50,\",
                   \"([A-Z])([0-9]+)\")
@@ -7193,7 +7193,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-token-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains-token(\"red green blue \", \"red\")
       ",
@@ -7211,7 +7211,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-token-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains-token((\"red\", \"green\", \"blue\"), \" red \")
       ",
@@ -7229,7 +7229,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-token-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains-token(\"red, green, blue\", \"red\")
       ",
@@ -7247,7 +7247,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-contains-token-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:contains-token(\"red green blue\", \"RED\", \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")
       ",
@@ -7265,7 +7265,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-true-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:true()
       ",
@@ -7283,7 +7283,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-false-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:false()
       ",
@@ -7301,7 +7301,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-boolean-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"\")
           
@@ -7324,7 +7324,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-boolean-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"\")
           
@@ -7347,7 +7347,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-boolean-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"\")
           
@@ -7370,7 +7370,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-not-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:not(fn:true())
       ",
@@ -7388,7 +7388,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-not-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:not(())
       ",
@@ -7406,7 +7406,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-not-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:not(\"false\")
       ",
@@ -7424,7 +7424,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-years-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:years-from-duration(xs:yearMonthDuration(\"P20Y15M\"))
       ",
@@ -7442,7 +7442,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-years-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:years-from-duration(xs:yearMonthDuration(\"-P15M\"))
       ",
@@ -7460,7 +7460,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-years-from-duration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:years-from-duration(xs:dayTimeDuration(\"-P2DT15H\"))
       ",
@@ -7478,7 +7478,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-months-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:months-from-duration(xs:yearMonthDuration(\"P20Y15M\"))
       ",
@@ -7496,7 +7496,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-months-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:months-from-duration(xs:yearMonthDuration(\"-P20Y18M\"))
       ",
@@ -7514,7 +7514,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-months-from-duration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:months-from-duration(xs:dayTimeDuration(\"-P2DT15H0M0S\"))
       ",
@@ -7532,7 +7532,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-days-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:days-from-duration(xs:dayTimeDuration(\"P3DT10H\"))
       ",
@@ -7550,7 +7550,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-days-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:days-from-duration(xs:dayTimeDuration(\"P3DT55H\"))
       ",
@@ -7568,7 +7568,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-days-from-duration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:days-from-duration(xs:yearMonthDuration(\"P3Y5M\"))
       ",
@@ -7586,7 +7586,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-duration(xs:dayTimeDuration(\"P3DT10H\"))
       ",
@@ -7604,7 +7604,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-duration(xs:dayTimeDuration(\"P3DT12H32M12S\"))
       ",
@@ -7622,7 +7622,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-duration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-duration(xs:dayTimeDuration(\"PT123H\"))
       ",
@@ -7640,7 +7640,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-duration-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-duration(xs:dayTimeDuration(\"-P3DT10H\"))
       ",
@@ -7658,7 +7658,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-minutes-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:minutes-from-duration(xs:dayTimeDuration(\"P3DT10H\"))
       ",
@@ -7676,7 +7676,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-minutes-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:minutes-from-duration(xs:dayTimeDuration(\"-P5DT12H30M\"))
       ",
@@ -7694,7 +7694,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-seconds-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:seconds-from-duration(xs:dayTimeDuration(\"P3DT10H12.5S\"))
       ",
@@ -7712,7 +7712,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-seconds-from-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:seconds-from-duration(xs:dayTimeDuration(\"-PT256S\"))
       ",
@@ -7730,7 +7730,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:dateTime(xs:date(\"1999-12-31\"),
                   xs:time(\"12:00:00\"))
@@ -7749,7 +7749,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:dateTime(xs:date(\"1999-12-31\"),
                   xs:time(\"24:00:00\"))
@@ -7768,7 +7768,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -7786,7 +7786,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-dateTime(xs:dateTime(\"1999-05-31T21:30:00-05:00\"))
       ",
@@ -7804,7 +7804,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-dateTime(xs:dateTime(\"1999-12-31T19:20:00\"))
       ",
@@ -7822,7 +7822,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-dateTime-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-dateTime(xs:dateTime(\"1999-12-31T24:00:00\"))
       ",
@@ -7840,7 +7840,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-dateTime-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-dateTime(xs:dateTime(\"-0002-06-06T00:00:00\"))
       ",
@@ -7858,7 +7858,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-month-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:month-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -7876,7 +7876,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-month-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:month-from-dateTime(xs:dateTime(\"1999-12-31T19:20:00-05:00\"))
       ",
@@ -7894,7 +7894,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-month-from-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:month-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T19:20:00-05:00\"),
                   xs:dayTimeDuration(\"PT0S\")))
@@ -7913,7 +7913,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-day-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:day-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -7931,7 +7931,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-day-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:day-from-dateTime(xs:dateTime(\"1999-12-31T20:00:00-05:00\"))
       ",
@@ -7949,7 +7949,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-day-from-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:day-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T19:20:00-05:00\"),
                   xs:dayTimeDuration(\"PT0S\")))
@@ -7968,7 +7968,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-dateTime(xs:dateTime(\"1999-05-31T08:20:00-05:00\"))
       ",
@@ -7986,7 +7986,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-dateTime(xs:dateTime(\"1999-12-31T21:20:00-05:00\"))
       ",
@@ -8004,7 +8004,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-dateTime(fn:adjust-dateTime-to-timezone(xs:dateTime(\"1999-12-31T21:20:00-05:00\"),
                   xs:dayTimeDuration(\"PT0S\")))
@@ -8023,7 +8023,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-dateTime-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-dateTime(xs:dateTime(\"1999-12-31T12:00:00\"))
       ",
@@ -8041,7 +8041,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-dateTime-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-dateTime(xs:dateTime(\"1999-12-31T24:00:00\"))
       ",
@@ -8059,7 +8059,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-minutes-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -8077,7 +8077,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-minutes-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:minutes-from-dateTime(xs:dateTime(\"1999-05-31T13:30:00+05:30\"))
       ",
@@ -8095,7 +8095,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-seconds-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:seconds-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -8113,7 +8113,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-dateTime(xs:dateTime(\"1999-05-31T13:20:00-05:00\"))
       ",
@@ -8131,7 +8131,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-dateTime(xs:dateTime(\"2000-06-12T13:20:00Z\"))
       ",
@@ -8149,7 +8149,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-dateTime(xs:dateTime(\"2004-08-27T00:00:00\"))
       ",
@@ -8167,7 +8167,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-date(xs:date(\"1999-05-31\"))
       ",
@@ -8185,7 +8185,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-date(xs:date(\"2000-01-01+05:00\"))
       ",
@@ -8203,7 +8203,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-year-from-date-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:year-from-date(xs:date(\"-0002-06-01\"))
       ",
@@ -8221,7 +8221,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-month-from-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:month-from-date(xs:date(\"1999-05-31-05:00\"))
       ",
@@ -8239,7 +8239,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-month-from-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:month-from-date(xs:date(\"2000-01-01+05:00\"))
       ",
@@ -8257,7 +8257,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-day-from-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:day-from-date(xs:date(\"1999-05-31-05:00\"))
       ",
@@ -8275,7 +8275,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-day-from-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:day-from-date(xs:date(\"2000-01-01+05:00\"))
       ",
@@ -8293,7 +8293,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-date(xs:date(\"1999-05-31-05:00\"))
       ",
@@ -8311,7 +8311,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-date(xs:date(\"2000-06-12Z\"))
       ",
@@ -8329,7 +8329,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-time-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-time(xs:time(\"11:23:00\"))
       ",
@@ -8347,7 +8347,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-time-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-time(xs:time(\"21:23:00\"))
       ",
@@ -8365,7 +8365,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-time-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-time(xs:time(\"01:23:00+05:00\"))
       ",
@@ -8383,7 +8383,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-time-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-time(fn:adjust-time-to-timezone(xs:time(\"01:23:00+05:00\"),
                   xs:dayTimeDuration(\"PT0S\")))
@@ -8402,7 +8402,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-hours-from-time-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:hours-from-time(xs:time(\"24:00:00\"))
       ",
@@ -8420,7 +8420,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-minutes-from-time-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:minutes-from-time(xs:time(\"13:00:00Z\"))
       ",
@@ -8438,7 +8438,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-seconds-from-time-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:seconds-from-time(xs:time(\"13:20:10.5\"))
       ",
@@ -8456,7 +8456,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-time-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-time(xs:time(\"13:20:00-05:00\"))
       ",
@@ -8474,7 +8474,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-timezone-from-time-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:timezone-from-time(xs:time(\"13:20:00\"))
       ",
@@ -8492,7 +8492,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8515,7 +8515,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8539,7 +8539,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8563,7 +8563,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-dateTime-to-timezone(xs:dateTime('2002-03-07T10:00:00-07:00'),
                   xs:dayTimeDuration(\"PT10H\"))
@@ -8582,7 +8582,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-dateTime-to-timezone(xs:dateTime('2002-03-07T00:00:00+01:00'),
                   xs:dayTimeDuration(\"-PT8H\"))
@@ -8601,7 +8601,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-dateTime-to-timezone(xs:dateTime('2002-03-07T10:00:00'),
                   ())
@@ -8620,7 +8620,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-dateTime-to-timezone-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-dateTime-to-timezone(xs:dateTime('2002-03-07T10:00:00-07:00'),
                   ())
@@ -8639,7 +8639,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-date-to-timezone-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8663,7 +8663,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-date-to-timezone-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8687,7 +8687,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-date-to-timezone-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-date-to-timezone(xs:date(\"2002-03-07\"),
                   ())
@@ -8706,7 +8706,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-date-to-timezone-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-date-to-timezone(xs:date(\"2002-03-07-07:00\"),
                   ())
@@ -8725,7 +8725,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-time-to-timezone(xs:time(\"10:00:00-07:00\"))
       ",
@@ -8743,7 +8743,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8767,7 +8767,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $tz-10 := xs:dayTimeDuration(\"-PT10H\")
           
@@ -8791,7 +8791,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-time-to-timezone(xs:time(\"10:00:00\"), ())
       ",
@@ -8809,7 +8809,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-time-to-timezone(xs:time(\"10:00:00-07:00\"),
                   ())
@@ -8828,7 +8828,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-adjust-time-to-timezone-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:adjust-time-to-timezone(xs:time(\"10:00:00-07:00\"),
                   xs:dayTimeDuration(\"PT10H\"))
@@ -8847,7 +8847,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-ietf-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:parse-ietf-date(\"Wed, 06 Jun 1994 07:29:35 GMT\")
       ",
@@ -8865,7 +8865,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-ietf-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:parse-ietf-date(\"Wed, 6 Jun 94 07:29:35 GMT\")
       ",
@@ -8883,7 +8883,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-ietf-date-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:parse-ietf-date(\"Wed Jun 06 11:54:45 EST 2013\")
       ",
@@ -8901,7 +8901,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-ietf-date-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:parse-ietf-date(\"Sunday, 06-Nov-94 08:49:37 GMT\")
       ",
@@ -8919,7 +8919,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-ietf-date-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:parse-ietf-date(\"Wed, 6 Jun 94 07:29:35 +0500\")
       ",
@@ -8937,7 +8937,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-local-name-from-QName-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:local-name-from-QName(fn:QName(\"http://www.example.com/example\",
                   \"person\"))
@@ -8956,7 +8956,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-from-QName-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:namespace-uri-from-QName(fn:QName(\"http://www.example.com/example\",
                   \"person\"))
@@ -8975,7 +8975,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-for-prefix-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9001,7 +9001,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-for-prefix-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9027,7 +9027,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-for-prefix-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9053,7 +9053,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-for-prefix-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9079,7 +9079,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-namespace-uri-for-prefix-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9105,7 +9105,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-number-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $po := 
           <PurchaseOrder> <line-item>
@@ -9140,7 +9140,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-number-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $po := 
           <PurchaseOrder> <line-item>
@@ -9175,7 +9175,7 @@ Tak, tak, tak! - da kommen sie.
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9205,7 +9205,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9235,7 +9235,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9265,7 +9265,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9295,7 +9295,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9325,7 +9325,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $e := 
           
@@ -9356,7 +9356,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $emp := 
           
@@ -9385,7 +9385,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $emp := 
           
@@ -9414,7 +9414,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-path-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $emp := 
           
@@ -9443,7 +9443,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-index-of-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:index-of((10, 20, 30, 40), 35)
       ",
@@ -9461,7 +9461,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-index-of-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:index-of((10, 20, 30, 30, 20, 10), 20)
       ",
@@ -9479,7 +9479,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-index-of-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:index-of((\"a\", \"sport\", \"and\", \"a\", \"pastime\"),
                   \"a\")
@@ -9498,7 +9498,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-index-of-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:index-of(current-date(), 23)
       ",
@@ -9516,7 +9516,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-index-of-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:index-of([1, [5, 6], [6, 7]], 6)
       ",
@@ -9534,7 +9534,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-empty-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:empty((1,2,3)[10])
       ",
@@ -9552,7 +9552,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-empty-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:empty(fn:remove((\"hello\", \"world\"), 1))
       ",
@@ -9570,7 +9570,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-empty-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:empty([])
       ",
@@ -9588,7 +9588,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-empty-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:empty(map{})
       ",
@@ -9606,7 +9606,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-empty-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:empty(\"\")
       ",
@@ -9624,7 +9624,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-exists-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:exists(fn:remove((\"hello\"), 1))
       ",
@@ -9642,7 +9642,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-exists-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:exists(fn:remove((\"hello\", \"world\"), 1))
       ",
@@ -9660,7 +9660,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-exists-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:exists([])
       ",
@@ -9678,7 +9678,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-exists-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:exists(map{})
       ",
@@ -9696,7 +9696,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-exists-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:exists(\"\")
       ",
@@ -9714,7 +9714,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-distinct-values-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:distinct-values((1, 2.0, 3, 2))
       ",
@@ -9732,7 +9732,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-distinct-values-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:distinct-values((xs:untypedAtomic(\"cherry\"),
                   xs:untypedAtomic(\"plum\"), xs:untypedAtomic(\"plum\")))
@@ -9752,7 +9752,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-insert-before-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9775,7 +9775,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-insert-before-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9798,7 +9798,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-insert-before-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9821,7 +9821,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-insert-before-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9844,7 +9844,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-insert-before-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9867,7 +9867,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-remove-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9890,7 +9890,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-remove-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9913,7 +9913,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-remove-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9936,7 +9936,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-remove-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -9959,7 +9959,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-head-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:head(1 to 5)
       ",
@@ -9977,7 +9977,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-head-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:head((\"a\", \"b\", \"c\"))
       ",
@@ -9995,7 +9995,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-head-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:head(())
       ",
@@ -10013,7 +10013,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-head-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:head([1,2,3])
       ",
@@ -10031,7 +10031,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tail-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tail(1 to 5)
       ",
@@ -10049,7 +10049,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tail-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tail((\"a\", \"b\", \"c\"))
       ",
@@ -10067,7 +10067,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tail-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tail(\"a\")
       ",
@@ -10085,7 +10085,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tail-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tail(())
       ",
@@ -10103,7 +10103,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-tail-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:tail([1,2,3])
       ",
@@ -10121,7 +10121,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-reverse-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $abc := (\"a\", \"b\", \"c\")
           
@@ -10144,7 +10144,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-reverse-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:reverse((\"hello\"))
       ",
@@ -10162,7 +10162,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-reverse-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:reverse(())
       ",
@@ -10180,7 +10180,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-reverse-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:reverse([1,2,3])
       ",
@@ -10198,7 +10198,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-reverse-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:reverse(([1,2,3],[4,5,6]))
       ",
@@ -10216,7 +10216,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-subsequence-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq := (\"item1\", \"item2\", \"item3\", \"item4\", \"item5\")
           
@@ -10239,7 +10239,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-subsequence-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq := (\"item1\", \"item2\", \"item3\", \"item4\", \"item5\")
           
@@ -10262,7 +10262,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-unordered-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:unordered((1, 2, 3, 4, 5))
       ",
@@ -10280,7 +10280,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $at := 
           <attendees> <name last='Parker'
@@ -10305,7 +10305,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $at := 
           <attendees> <name last='Parker'
@@ -10330,7 +10330,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $at := 
           <attendees> <name last='Parker'
@@ -10355,7 +10355,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $at := 
           <attendees> <name last='Parker'
@@ -10380,7 +10380,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:deep-equal(map{1:'a', 2:'b'}, map{2:'b', 1:'a'})
       ",
@@ -10398,7 +10398,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:deep-equal([1, 2, 3], [1, 2, 3])
       ",
@@ -10416,7 +10416,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-deep-equal-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:deep-equal((1, 2, 3), [1, 2, 3])
       ",
@@ -10434,7 +10434,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $po := 
           <PurchaseOrder> <line-item>
@@ -10479,7 +10479,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq3 := ()
           
@@ -10502,7 +10502,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq2 := (98.5, 98.3, 98.9)
           
@@ -10525,7 +10525,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq2 := (98.5, 98.3, 98.9)
           
@@ -10548,7 +10548,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:count([])
       ",
@@ -10566,7 +10566,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-count-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:count([1,2,3])
       ",
@@ -10584,7 +10584,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-avg-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq3 := (3, 4, 5)
           
@@ -10607,7 +10607,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-avg-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $d1 := xs:yearMonthDuration(\"P20Y\")
           
@@ -10635,7 +10635,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-avg-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:avg(())
       ",
@@ -10653,7 +10653,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-avg-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:avg((xs:float('INF'), xs:float('-INF')))
       ",
@@ -10671,7 +10671,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-avg-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq3 := (3, 4, 5)
           
@@ -10694,7 +10694,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-max-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:max((3,4,5))
       ",
@@ -10712,7 +10712,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-max-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:max([3,4,5])
       ",
@@ -10730,7 +10730,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-max-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:max((xs:integer(5), xs:float(5.0), xs:double(0)))
       ",
@@ -10748,7 +10748,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-max-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:max((fn:current-date(), xs:date(\"2100-01-01\")))
       ",
@@ -10766,7 +10766,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-max-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:max((\"a\", \"b\", \"c\"))
       ",
@@ -10784,7 +10784,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-min-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:min((3,4,5))
       ",
@@ -10802,7 +10802,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-min-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:min([3,4,5])
       ",
@@ -10820,7 +10820,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-min-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:min((xs:integer(5), xs:float(5), xs:double(10)))
       ",
@@ -10838,7 +10838,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-min-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:min((fn:current-date(), xs:date(\"1900-01-01\")))
       ",
@@ -10856,7 +10856,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-min-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:min((\"a\", \"b\", \"c\"))
       ",
@@ -10874,7 +10874,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $d1 := xs:yearMonthDuration(\"P20Y\")
           
@@ -10902,7 +10902,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $d1 := xs:yearMonthDuration(\"P20Y\")
           
@@ -10936,7 +10936,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $seq3 := (3, 4, 5)
           
@@ -10959,7 +10959,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sum(())
       ",
@@ -10977,7 +10977,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sum((),())
       ",
@@ -10995,7 +10995,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sum((1 to 100)[. lt 0], 0) 
       ",
@@ -11013,7 +11013,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $d1 := xs:yearMonthDuration(\"P20Y\")
           
@@ -11041,7 +11041,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sum([1, 2, 3])
       ",
@@ -11059,7 +11059,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sum-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sum([[1, 2], [3, 4]])
       ",
@@ -11077,31 +11077,31 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-id-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-id-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-element-with-id-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-element-with-id-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-idref-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-idref-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaAware"}.
 'fo-test-fn-serialize-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization feature"}.
 'fo-test-fn-serialize-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization feature"}.
 'fo-test-fn-last-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         (1 to 20)[fn:last() - 1]
       ",
@@ -11119,7 +11119,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-lookup-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:function-lookup(xs:QName('fn:substring'), 2)('abcd',
                   2)
@@ -11138,7 +11138,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-name-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:function-name(fn:substring#2)
       ",
@@ -11157,7 +11157,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-name-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:function-name(function($node){count($node/*)})
       ",
@@ -11175,7 +11175,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-arity-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:function-arity(fn:substring#2)
       ",
@@ -11193,7 +11193,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-arity-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:function-arity(function($node){name($node)})
       ",
@@ -11211,7 +11211,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-function-arity-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $initial := fn:substring(?, 1, 1) return
                   fn:function-arity($initial)
@@ -11230,7 +11230,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:for-each(1 to 5, function($a) { $a * $a })
       ",
@@ -11248,7 +11248,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:for-each((\"john\", \"jane\"),
                   fn:string-to-codepoints#1)
@@ -11267,7 +11267,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:for-each((\"23\", \"29\"), xs:int#1)
       ",
@@ -11285,7 +11285,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-filter-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:filter(1 to 10, function($a) {$a mod 2 = 0})
       ",
@@ -11303,7 +11303,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-filter-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:filter((), fn:lang(\"en\", ?))
       ",
@@ -11321,7 +11321,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left(1 to 5, 0, function($a, $b) { $a + $b
                   })
@@ -11340,7 +11340,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left((2,3,5,7), 1, function($a, $b) { $a * $b
                   })
@@ -11359,7 +11359,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left((true(), false(), false()), false(), function($a, $b) {
                   $a or $b })
@@ -11378,7 +11378,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left((true(), false(), false()), false(), function($a, $b) {
                   $a and $b })
@@ -11397,7 +11397,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left(1 to 5, (), function($a, $b) {($b,
                   $a)})
@@ -11416,7 +11416,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left(1 to 5, \"\", fn:concat(?, \".\", ?))
       ",
@@ -11434,7 +11434,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left(1 to 5, \"$zero\", fn:concat(\"$f(\", ?, \", \", ?, \")\"))
       ",
@@ -11452,7 +11452,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-left-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-left(1 to 5, map{}, function($map, $n) {map:put($map, $n, $n*2)})
       ",
@@ -11470,7 +11470,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-right-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-right(1 to 5, 0, function($a, $b) { $a + $b
                   })
@@ -11489,7 +11489,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-right-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-right(1 to 5, \"\", fn:concat(?, \".\", ?))
       ",
@@ -11507,7 +11507,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-fold-right-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:fold-right(1 to 5, \"$zero\", concat(\"$f(\", ?, \", \", ?,
                   \")\"))
@@ -11526,7 +11526,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-pair-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:for-each-pair((\"a\", \"b\", \"c\"), (\"x\", \"y\", \"z\"),
                   concat#2)
@@ -11545,7 +11545,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-pair-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:for-each-pair(1 to 5, 1 to 5, function($a, $b){10*$a + $b})
       ",
@@ -11563,7 +11563,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-for-each-pair-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $s := 1 to 8 return fn:for-each-pair($s, tail($s), function($a, $b){$a*$b})
       ",
@@ -11581,7 +11581,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sort-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sort((1, 4, 6, 5, 3))
       ",
@@ -11599,7 +11599,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-sort-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:sort((1, -2, 5, 10, -10, 10, 8), (), fn:abs#1)
       ",
@@ -11617,7 +11617,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-apply-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:apply(fn:concat#3, [\"a\", \"b\", \"c\"])
       ",
@@ -11635,7 +11635,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:merge(())
       ",
@@ -11653,7 +11653,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:merge((map:entry(0, \"no\"), map:entry(1, \"yes\")))
       ",
@@ -11671,7 +11671,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11696,7 +11696,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11721,7 +11721,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11746,7 +11746,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-merge-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11771,7 +11771,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-keys-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:keys(map{1:\"yes\", 2:\"no\"})
       ",
@@ -11789,7 +11789,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-contains-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11813,7 +11813,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-contains-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11837,7 +11837,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-contains-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:contains(map{}, \"xyz\")
       ",
@@ -11855,7 +11855,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-contains-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:contains(map{\"xyz\":23}, \"xyz\")
       ",
@@ -11873,7 +11873,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-contains-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:contains(map{\"abc\":23, \"xyz\":()}, \"xyz\")
       ",
@@ -11891,7 +11891,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-get-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11915,7 +11915,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-get-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
      3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -11939,7 +11939,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-get-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:get(map:entry(7,()), 7)
       ",
@@ -11957,7 +11957,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-find-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $responses := [map{0:'no', 1:'yes'}, map{0:'non', 1:'oui'}, 
                   map{0:'nein', 1:('ja', 'doch')}]
@@ -11981,7 +11981,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-find-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $responses := [map{0:'no', 1:'yes'}, map{0:'non', 1:'oui'}, 
                   map{0:'nein', 1:('ja', 'doch')}]
@@ -12005,7 +12005,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-find-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $responses := [map{0:'no', 1:'yes'}, map{0:'non', 1:'oui'}, 
                   map{0:'nein', 1:('ja', 'doch')}]
@@ -12029,7 +12029,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-find-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $inventory := map{\"name\":\"car\", \"id\":\"QZ123\", 
       \"parts\": [map{\"name\":\"engine\", \"id\":\"YW678\", \"parts\":[]}]}
@@ -12053,7 +12053,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-put-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12078,7 +12078,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-put-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12103,7 +12103,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-entry-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:entry(\"M\", \"Monday\")
       ",
@@ -12121,7 +12121,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-remove-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12146,7 +12146,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-remove-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12171,7 +12171,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-remove-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12195,7 +12195,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-remove-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $week := map{0:\"Sonntag\", 1:\"Montag\", 2:\"Dienstag\",
        3:\"Mittwoch\", 4:\"Donnerstag\", 5:\"Freitag\", 6:\"Samstag\"}
@@ -12220,7 +12220,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-for-each-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:for-each(map{1:\"yes\", 2:\"no\"}, function($k,
                   $v){$k})
@@ -12239,7 +12239,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-for-each-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         distinct-values(map:for-each(map{1:\"yes\", 2:\"no\"}, function($k,
                   $v){$v}))
@@ -12258,7 +12258,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-for-each-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:merge(map:for-each(map{\"a\":1, \"b\":2}, function($k,
                   $v){map:entry($k, $v+1)}))
@@ -12277,7 +12277,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-size-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:size(map{})
       ",
@@ -12295,7 +12295,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-map-size-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         map:size(map{\"true\":1, \"false\":0})
       ",
@@ -12313,7 +12313,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-collation-key-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $C := 'http://www.w3.org/2013/collation/UCA?strength=primary'
           
@@ -12337,7 +12337,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-collation-key-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $C := 'http://www.w3.org/2013/collation/UCA?strength=primary'
           
@@ -12361,7 +12361,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-json-to-xml-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         json-to-xml('{\"x\": 1, \"y\": [3,4,5]}')
       ",
@@ -12379,7 +12379,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-json-to-xml-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         json-to-xml('\"abcd\"', map{'liberal': false()})
       ",
@@ -12397,7 +12397,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-json-to-xml-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         json-to-xml('{\"x\": \"\\\\\", \"y\": \"\\u0025\"}')
       ",
@@ -12415,7 +12415,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-json-to-xml-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         json-to-xml('{\"x\": \"\\\\\", \"y\": \"\\u0025\"}', map{'escape':
                   true()})
@@ -12434,7 +12434,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":1, \"y\":[3,4,5]}')
       ",
@@ -12452,7 +12452,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('\"abcd\"')
       ",
@@ -12470,7 +12470,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0025\"}')
       ",
@@ -12488,7 +12488,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0025\"}', map{'escape':true()})
       ",
@@ -12506,7 +12506,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0000\"}')
       ",
@@ -12524,7 +12524,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0000\"}', map{'escape':true()})
       ",
@@ -12542,7 +12542,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-fn-parse-json-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0000\"}', map{'fallback':function($s){'['||$s||']'}})
       ",
@@ -12560,7 +12560,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-size-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:size([\"a\", \"b\", \"c\"])
       ",
@@ -12578,7 +12578,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-size-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:size([\"a\", [\"b\", \"c\"]])
       ",
@@ -12596,7 +12596,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-size-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:size([ ])
       ",
@@ -12614,7 +12614,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-size-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:size([[ ]])
       ",
@@ -12632,7 +12632,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-get-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         [\"a\", \"b\", \"c\"] => array:get(2)
       ",
@@ -12650,7 +12650,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-get-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         [\"a\", [\"b\", \"c\"]] => array:get(2)
       ",
@@ -12668,7 +12668,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-put-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:put([\"a\", \"b\", \"c\"], 2, \"d\")
       ",
@@ -12686,7 +12686,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-put-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:put([\"a\", \"b\", \"c\"], 2, (\"d\", \"e\"))
       ",
@@ -12704,7 +12704,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-put-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:put([\"a\"], 1, [\"d\", \"e\"])
       ",
@@ -12722,7 +12722,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-append-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:append([\"a\", \"b\", \"c\"], \"d\")
       ",
@@ -12740,7 +12740,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-append-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:append([\"a\", \"b\", \"c\"], (\"d\", \"e\"))
       ",
@@ -12758,7 +12758,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-append-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:append([\"a\", \"b\", \"c\"], [\"d\", \"e\"])
       ",
@@ -12776,7 +12776,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-join-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:join(())
       ",
@@ -12794,7 +12794,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-join-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:join([1, 2, 3])
       ",
@@ -12812,7 +12812,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-join-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:join(([\"a\", \"b\"], [\"c\", \"d\"]))
       ",
@@ -12830,7 +12830,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-join-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:join(([\"a\", \"b\"], [\"c\", \"d\"], [ ]))
       ",
@@ -12848,7 +12848,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-join-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:join(([\"a\", \"b\"], [\"c\", \"d\"], [[\"e\", \"f\"]]))
       ",
@@ -12866,7 +12866,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 2)
       ",
@@ -12884,7 +12884,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 5)
       ",
@@ -12902,7 +12902,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 2, 0)
       ",
@@ -12920,7 +12920,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 2, 1)
       ",
@@ -12938,7 +12938,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 2, 2)
       ",
@@ -12956,7 +12956,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([\"a\", \"b\", \"c\", \"d\"], 5, 0)
       ",
@@ -12974,7 +12974,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-subarray-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:subarray([ ], 1, 0)
       ",
@@ -12992,7 +12992,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-remove-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:remove([\"a\", \"b\", \"c\", \"d\"], 1)
       ",
@@ -13010,7 +13010,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-remove-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:remove([\"a\", \"b\", \"c\", \"d\"], 2)
       ",
@@ -13028,7 +13028,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-remove-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:remove([\"a\"], 1)
       ",
@@ -13046,7 +13046,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-remove-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:remove([\"a\", \"b\", \"c\", \"d\"], 1 to 3)
       ",
@@ -13064,7 +13064,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-remove-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:remove([\"a\", \"b\", \"c\", \"d\"], ())
       ",
@@ -13082,7 +13082,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-insert-before-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:insert-before([\"a\", \"b\", \"c\", \"d\"], 3, (\"x\", \"y\"))
       ",
@@ -13100,7 +13100,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-insert-before-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:insert-before([\"a\", \"b\", \"c\", \"d\"], 5, (\"x\", \"y\"))
       ",
@@ -13118,7 +13118,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-insert-before-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:insert-before([\"a\", \"b\", \"c\", \"d\"], 3, [\"x\", \"y\"])
       ",
@@ -13136,7 +13136,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-head-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:head([5, 6, 7, 8])
       ",
@@ -13154,7 +13154,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-head-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:head([[\"a\", \"b\"], [\"c\", \"d\"]])
       ",
@@ -13172,7 +13172,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-head-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:head([(\"a\", \"b\"), (\"c\", \"d\")])
       ",
@@ -13190,7 +13190,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-tail-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:tail([5, 6, 7, 8])
       ",
@@ -13208,7 +13208,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-tail-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:tail([5])
       ",
@@ -13226,7 +13226,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-reverse-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:reverse([\"a\", \"b\", \"c\", \"d\"])
       ",
@@ -13244,7 +13244,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-reverse-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:reverse([(\"a\", \"b\"), (\"c\", \"d\")])
       ",
@@ -13262,7 +13262,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-reverse-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:reverse([(1 to 5)])
       ",
@@ -13280,7 +13280,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-reverse-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:reverse([])
       ",
@@ -13298,7 +13298,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-for-each-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:for-each([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})
       ",
@@ -13316,7 +13316,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-for-each-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:for-each([\"the cat\", \"sat\", \"on the mat\"], fn:tokenize#1)
       ",
@@ -13334,7 +13334,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-filter-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:filter([\"A\", \"B\", 1, 2], function($x) {$x instance of xs:integer})
       ",
@@ -13352,7 +13352,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-filter-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:filter([\"the cat\", \"sat\", \"on the mat\"], function($s){fn:count(fn:tokenize($s)) gt 1})
       ",
@@ -13370,7 +13370,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-filter-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:filter([\"A\", \"B\", \"\", 0, 1], boolean#1)
       ",
@@ -13388,7 +13388,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-left-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-left([true(), true(), false()], true(), function($x, $y){$x and $y})
       ",
@@ -13406,7 +13406,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-left-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-left([true(), true(), false()], false(), function($x, $y){$x or $y})
       ",
@@ -13424,7 +13424,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-left-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-left([1,2,3], [], function($x, $y){[$x, $y]})
       ",
@@ -13442,7 +13442,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-right-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-right([true(), true(), false()], true(), function($x, $y){$x and $y})
       ",
@@ -13460,7 +13460,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-right-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-right([true(), true(), false()], false(), function($x, $y){$x or $y})
       ",
@@ -13478,7 +13478,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-fold-right-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:fold-right([1,2,3], [], function($x, $y){[$x, $y]})
       ",
@@ -13496,7 +13496,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-for-each-pair-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:for-each-pair([\"A\", \"B\", \"C\"], [1, 2, 3], function($x, $y) { array {$x, $y}})
       ",
@@ -13514,7 +13514,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-for-each-pair-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $A := [\"A\", \"B\", \"C\", \"D\"] return array:for-each-pair($A, array:tail($A), concat#2)
       ",
@@ -13532,7 +13532,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-sort-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:sort([1, 4, 6, 5, 3])
       ",
@@ -13550,7 +13550,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-sort-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:sort([1, -2, 5, 10, -10, 10, 8], (), fn:abs#1)
       ",
@@ -13568,7 +13568,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-sort-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:sort([(1,0), (1,1), (0,1), (0,0)])
       ",
@@ -13586,7 +13586,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-flatten-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:flatten([1, 4, 6, 5, 3])
       ",
@@ -13604,7 +13604,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-flatten-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:flatten(([1, 2, 5], [[10, 11], 12], [], 13))
       ",
@@ -13622,7 +13622,7 @@ Himmlische, dein Heiligtum.</p>}
       Err -> ct:fail(Err)
    end.
 'fo-test-array-flatten-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array:flatten([(1,0), (1,1), (0,1), (0,0)])
       ",

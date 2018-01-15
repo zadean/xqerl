@@ -190,7 +190,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -543,7 +543,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'op-numeric-less-thanint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") lt xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -558,7 +558,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-1873914410\") lt xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -573,7 +573,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483647\") lt xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") lt xs:int(\"-1873914410\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -603,7 +603,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") lt xs:int(\"2147483647\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") ge xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -633,7 +633,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-1873914410\") ge xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -648,7 +648,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483647\") ge xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -663,7 +663,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") ge xs:int(\"-1873914410\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -678,7 +678,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanint2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") ge xs:int(\"2147483647\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -693,7 +693,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") lt xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -708,7 +708,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"830993497117024304\") lt xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -723,7 +723,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"999999999999999999\") lt xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -738,7 +738,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") lt xs:integer(\"830993497117024304\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -753,7 +753,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") lt xs:integer(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -768,7 +768,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") ge xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -783,7 +783,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"830993497117024304\") ge xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -798,7 +798,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"999999999999999999\") ge xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -813,7 +813,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") ge xs:integer(\"830993497117024304\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -828,7 +828,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanintg2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") ge xs:integer(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -843,7 +843,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") lt xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -858,7 +858,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"617375191608514839\") lt xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -873,7 +873,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"999999999999999999\") lt xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -888,7 +888,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") lt xs:decimal(\"617375191608514839\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -903,7 +903,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") lt xs:decimal(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -918,7 +918,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") ge xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -933,7 +933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"617375191608514839\") ge xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -948,7 +948,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"999999999999999999\") ge xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -963,7 +963,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") ge xs:decimal(\"617375191608514839\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -978,7 +978,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandec2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") ge xs:decimal(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -993,7 +993,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") lt xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1008,7 +1008,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"0\") lt xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1023,7 +1023,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1.7976931348623157E308\") lt xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1038,7 +1038,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") lt xs:double(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1053,7 +1053,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") lt xs:double(\"1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1068,7 +1068,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") ge xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1083,7 +1083,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"0\") ge xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1098,7 +1098,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1.7976931348623157E308\") ge xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1113,7 +1113,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") ge xs:double(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1128,7 +1128,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thandbl2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") ge xs:double(\"1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1143,7 +1143,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") lt xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1158,7 +1158,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"0\") lt xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1173,7 +1173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4028235E38\") lt xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1188,7 +1188,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") lt xs:float(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1203,7 +1203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") lt xs:float(\"3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1218,7 +1218,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") ge xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1233,7 +1233,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"0\") ge xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1248,7 +1248,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4028235E38\") ge xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1263,7 +1263,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") ge xs:float(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1278,7 +1278,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanflt2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") ge xs:float(\"3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1293,7 +1293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") lt xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1308,7 +1308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-47175562203048468\") lt xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1323,7 +1323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"92233720368547758\") lt xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1338,7 +1338,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") lt xs:long(\"-47175562203048468\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") lt xs:long(\"92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1368,7 +1368,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") ge xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1383,7 +1383,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-47175562203048468\") ge xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1398,7 +1398,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"92233720368547758\") ge xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1413,7 +1413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") ge xs:long(\"-47175562203048468\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1428,7 +1428,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanlng2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") ge xs:long(\"92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1443,7 +1443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") lt xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"44633\") lt xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1473,7 +1473,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"65535\") lt xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") lt xs:unsignedShort(\"44633\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1503,7 +1503,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") lt xs:unsignedShort(\"65535\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1518,7 +1518,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") ge xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1533,7 +1533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"44633\") ge xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1548,7 +1548,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"65535\") ge xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1563,7 +1563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") ge xs:unsignedShort(\"44633\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1578,7 +1578,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanusht2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") ge xs:unsignedShort(\"65535\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1593,7 +1593,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") lt xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1608,7 +1608,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-297014075999096793\") lt xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1623,7 +1623,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\") lt xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1638,7 +1638,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") lt xs:negativeInteger(\"-297014075999096793\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1653,7 +1653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") lt xs:negativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1668,7 +1668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") ge xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1683,7 +1683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-297014075999096793\") ge xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1698,7 +1698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\") ge xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1713,7 +1713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") ge xs:negativeInteger(\"-297014075999096793\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1728,7 +1728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannint2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") ge xs:negativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1743,7 +1743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") lt xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1758,7 +1758,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"52704602390610033\") lt xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"999999999999999999\") lt xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1788,7 +1788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") lt xs:positiveInteger(\"52704602390610033\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1803,7 +1803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") lt xs:positiveInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1818,7 +1818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") ge xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1833,7 +1833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"52704602390610033\") ge xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1848,7 +1848,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"999999999999999999\") ge xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1863,7 +1863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") ge xs:positiveInteger(\"52704602390610033\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1878,7 +1878,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanpint2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") ge xs:positiveInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1893,7 +1893,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") lt xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1908,7 +1908,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"130747108607674654\") lt xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1923,7 +1923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"184467440737095516\") lt xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1938,7 +1938,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") lt xs:unsignedLong(\"130747108607674654\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1953,7 +1953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") lt xs:unsignedLong(\"184467440737095516\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1968,7 +1968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") ge xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1983,7 +1983,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"130747108607674654\") ge xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1998,7 +1998,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"184467440737095516\") ge xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2013,7 +2013,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") ge xs:unsignedLong(\"130747108607674654\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2028,7 +2028,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thanulng2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") ge xs:unsignedLong(\"184467440737095516\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2043,7 +2043,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") lt xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2058,7 +2058,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-475688437271870490\") lt xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2073,7 +2073,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\") lt xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2088,7 +2088,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") lt xs:nonPositiveInteger(\"-475688437271870490\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2103,7 +2103,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") lt xs:nonPositiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2118,7 +2118,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") ge xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2133,7 +2133,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-475688437271870490\") ge xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2148,7 +2148,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\") ge xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2163,7 +2163,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") ge xs:nonPositiveInteger(\"-475688437271870490\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2178,7 +2178,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannpi2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") ge xs:nonPositiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2193,7 +2193,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") lt xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2208,7 +2208,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"303884545991464527\") lt xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2223,7 +2223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"999999999999999999\") lt xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2238,7 +2238,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") lt xs:nonNegativeInteger(\"303884545991464527\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2253,7 +2253,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") lt xs:nonNegativeInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2268,7 +2268,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") ge xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2283,7 +2283,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"303884545991464527\") ge xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2298,7 +2298,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"999999999999999999\") ge xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2313,7 +2313,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") ge xs:nonNegativeInteger(\"303884545991464527\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2328,7 +2328,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thannni2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") ge xs:nonNegativeInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2343,7 +2343,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") lt xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2358,7 +2358,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-5324\") lt xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2373,7 +2373,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32767\") lt xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2388,7 +2388,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") lt xs:short(\"-5324\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2403,7 +2403,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") lt xs:short(\"32767\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2418,7 +2418,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") ge xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2433,7 +2433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-5324\") ge xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2448,7 +2448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32767\") ge xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2463,7 +2463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") ge xs:short(\"-5324\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2478,7 +2478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-less-thansht2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") ge xs:short(\"32767\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2493,7 +2493,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(-1) lt xs:integer(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2508,7 +2508,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(-1) le xs:integer(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2523,7 +2523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(-1) lt xs:decimal(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2538,7 +2538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(-1) le xs:decimal(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2553,7 +2553,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 lt xs:double(\"INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2568,7 +2568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-INF\") lt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2583,7 +2583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(-1) lt xs:double(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2598,7 +2598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(-1) le xs:double(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2613,7 +2613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 lt xs:float(\"INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2628,7 +2628,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") lt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2643,7 +2643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(-1) lt xs:float(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2658,7 +2658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(-1) le xs:float(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2673,7 +2673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"NaN\") lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2688,7 +2688,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"NaN\") lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2703,7 +2703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"NaN\") le 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2718,7 +2718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"NaN\") le 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2733,7 +2733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(1 lt xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2748,7 +2748,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(1 lt xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2763,7 +2763,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(1 le xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2778,7 +2778,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(1 le xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2793,7 +2793,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 le count((1, 2, 3, timezone-from-time(current-time()), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2808,7 +2808,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericLT-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 lt count((1, 2, 3, timezone-from-time(current-time()), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2823,7 +2823,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NumericLT-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"100\") lt xs:unsignedLong(\"18446744073709551615\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2838,7 +2838,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NumericLT-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"18446744073709551615\") lt xs:unsignedLong(\"100\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2853,7 +2853,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; not( local:square(1e0) lt local:square(2e0) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2868,7 +2868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; not( local:square(xs:float(1e0)) lt local:square(xs:float(2e0)) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2883,7 +2883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; not( local:square(1.0) lt local:square(2.0) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2898,7 +2898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; not( local:square(1) lt local:square(2) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2913,7 +2913,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; not( local:square(1e0) ge local:square(2e0) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2928,7 +2928,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; not( local:square(xs:float(1e0)) ge local:square(xs:float(2e0)) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2943,7 +2943,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; not( local:square(1.0) ge local:square(2.0) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2958,7 +2958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; not( local:square(1) ge local:square(2) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2973,7 +2973,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; not(not( local:square(1e0) lt local:square(2e0) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2988,7 +2988,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; not(not( local:square(xs:float(1e0)) lt local:square(xs:float(2e0)) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3003,7 +3003,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; not(not( local:square(1e0) ge local:square(2e0) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3018,7 +3018,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; not(not( local:square(xs:float(1e0)) ge local:square(xs:float(2e0)) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3033,7 +3033,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x + 1 lt 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3048,7 +3048,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x - 1 lt 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3063,7 +3063,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 lt $x + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3078,7 +3078,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 lt 1 + $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3093,7 +3093,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x + 1 ge 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3108,7 +3108,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x - 1 ge 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3123,7 +3123,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 ge $x + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3138,7 +3138,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 ge 1 + $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3153,7 +3153,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x + 2 lt 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3168,7 +3168,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x - 2 lt 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3183,7 +3183,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 lt $x + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3198,7 +3198,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 lt 2 + $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3213,7 +3213,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x + 2 ge 121",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3228,7 +3228,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return $x - 2 ge 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3243,7 +3243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 ge $x + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3258,7 +3258,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 ge $x + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3273,7 +3273,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-numeric-less-than-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:factorial($arg as xs:integer) as xs:integer { if ($arg lt 1) then 1 else $arg * local:factorial($arg - 1) }; let $x := local:factorial(5) return 121 ge 2 + $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

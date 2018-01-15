@@ -89,7 +89,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -353,7 +353,7 @@ environment('TopMany',BaseDir) ->
 {modules, []}
 ].
 'fn-base-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; declare function eg:noContextFunction() { fn:base-uri() }; declare variable $input-context1 external; eg:noContextFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 100)[fn:base-uri()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:base-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -398,7 +398,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(<!-- A comment -->)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -413,7 +413,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(comment {\"A Comment Node \"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -428,7 +428,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(text {\"A Text Node\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -443,7 +443,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:base-uri(element anElement {\"An Element Node\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -466,7 +466,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:base-uri(<anElement>Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -489,7 +489,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://example.com/examples\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -504,7 +504,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://www.example.com\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -519,7 +519,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:base-uri(document {<aDocument>some content</aDocument>}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -542,7 +542,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
             fn:string(fn:base-uri(document {<aDocument>some content</aDocument>}))",
    Qry1 = Qry,
@@ -558,7 +558,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; fn:string(fn:base-uri(<anElement>some content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -573,7 +573,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(attribute anAttribute{\"attribute value\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(<?format role=\"output\" ?>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -603,7 +603,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare base-uri \"http://example.org\"; 
          fn:base-uri(processing-instruction {\"PItarget\"} {\"PIcontent\"})",
@@ -635,7 +635,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement>With some contexnt</anElement> 
         return fn:string(fn:base-uri($var))",
@@ -652,7 +652,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(fn:base-uri($var))",
    Qry1 = Qry,
@@ -668,7 +668,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(fn:base-uri($var))",
@@ -685,7 +685,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <!-- A Comment --> return fn:base-uri($var)",
    Qry1 = Qry,
@@ -701,7 +701,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:base-uri(.) }; 
         eg:noContextFunction()",
@@ -718,7 +718,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:base-uri(<anElement xml:base=\"http://example.com/examples\">Element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -733,7 +733,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<!-- A comment -->)/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -748,7 +748,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(comment {\"A Comment Node \"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -763,7 +763,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(text {\"A Text Node\"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -778,7 +778,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((element anElement {\"An Element Node\"})/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((<anElement>Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -824,7 +824,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://example.com/examples\">Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://www.example.com\">Element content</anElement>)/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -854,7 +854,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((document {<aDocument>some content</aDocument>})/base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -877,7 +877,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
             fn:string((document {<aDocument>some content</aDocument>})/base-uri())",
    Qry1 = Qry,
@@ -893,7 +893,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; fn:string((<anElement>some content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -908,7 +908,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(attribute anAttribute{\"attribute value\"})/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -923,7 +923,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<?format role=\"output\" ?>)/fn:base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -938,7 +938,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -953,7 +953,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare base-uri \"http://example.org\"; 
          (processing-instruction {\"PItarget\"} {\"PIcontent\"})/base-uri()",
@@ -970,7 +970,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement>With some contexnt</anElement> 
         return fn:string(($var)/base-uri())",
@@ -987,7 +987,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(($var)/base-uri())",
    Qry1 = Qry,
@@ -1003,7 +1003,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <anElement xml:base=\"http://www.examples.com\">With some content</anElement> 
         return fn:string(($var)/base-uri())",
@@ -1020,7 +1020,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; 
         let $var := <!-- A Comment --> return ($var)/base-uri()",
    Qry1 = Qry,
@@ -1036,7 +1036,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:base-uri() }; 
         eg:noContextFunction()",
@@ -1053,7 +1053,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-base-uri-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((<anElement xml:base=\"http://example.com/examples\">Element content</anElement>)/fn:base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1068,7 +1068,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BaseURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "base-uri((), \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1083,7 +1083,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BaseURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(base-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1098,7 +1098,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<!-- comment -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1113,7 +1113,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(attribute name {\"content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1128,7 +1128,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1143,7 +1143,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(processing-instruction name {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1158,7 +1158,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(text {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1173,7 +1173,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<elem/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1188,7 +1188,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<elem attr=\"f\"/>/@attr))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1203,7 +1203,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(document {1}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1218,7 +1218,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\"><?target data?></e> 
         return base-uri($i/processing-instruction()[1])",
    Qry1 = Qry,
@@ -1234,7 +1234,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\">{processing-instruction target {\"data\"}}</e> return base-uri($i/processing-instruction()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1249,7 +1249,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\"><!-- content --></e> return base-uri($i/comment()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1264,7 +1264,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:base=\"http://www.example.com/\">{comment {\"content\"}}</e> return base-uri($i/comment()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1279,7 +1279,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(comment {\"content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1294,7 +1294,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(<!-- comment -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1309,7 +1309,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1324,7 +1324,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1339,7 +1339,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; empty(base-uri(attribute name {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1354,7 +1354,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; let $i := <e attr=\"foo\"></e> return base-uri($i/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1369,7 +1369,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; let $i := <e xml:base = \"foo/../xml\" attr=\"foo\"> </e> return base-uri($i/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1384,7 +1384,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; let $i := <e xml:base = \"foo/../xml\" attr=\"foo\"> </e> return base-uri($i/@xml:base)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1399,7 +1399,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, base-uri(.), 3) return 
         typeswitch($i) 
         case xs:anyURI return \"xs:anyURI\" 
@@ -1419,7 +1419,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/baseURI\"; empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1434,7 +1434,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/baseURI\"; empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1449,7 +1449,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(base-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1464,7 +1464,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(base-uri(processing-instruction target {\"data\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1479,7 +1479,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(base-uri(attribute name {\"value\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1494,7 +1494,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/BASEURI\"; base-uri(document {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1509,7 +1509,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/\"; let $i := document {()} return (\"Base URI:\", base-uri($i), \"Document URI:\", document-uri($i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1524,7 +1524,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := fn:base-uri(<anElement xml:base=\"http:\\\\example.com\\\\examples\">Element content</anElement>) return $i eq \"http:\\\\example.com\\\\examples\" or empty($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1539,7 +1539,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(<anElement xml:base=\"http://example.com/examples\"><b xml:base=\"\"/>Element content</anElement>/b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1554,7 +1554,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(exactly-one(<anElement xml:base=\"http://example.com/examples\"><?target data?></anElement>/processing-instruction()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1569,7 +1569,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(exactly-one(<anElement xml:base=\"http://example.com/examples\"><!-- a comment --></anElement>/comment()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1584,7 +1584,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIFunc-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xml:base=\"http://example.com/ABC/\"> <a xml:base=\"../\"> <b xml:base=\"DEF/file.test\"/> </a> </e>/a/b/base-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1599,7 +1599,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-base-uri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $d := document { <root xml:base=\"http://www.w3.org/\"><implicit-base><child /></implicit-base><explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base></root> } 
       	return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> return fn:base-uri(($y/explicit-base)[1])
@@ -1617,7 +1617,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-base-uri-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/explicit-base } </copy> 
@@ -1636,7 +1636,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-base-uri-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 
@@ -1655,7 +1655,7 @@ environment('TopMany',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-base-uri-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $d := document { <root xml:base=\"http://www.w3.org/\"> <implicit-base><child /></implicit-base> <explicit-base xml:base=\"http://www.w3.org/TR/xquery\"><child /></explicit-base> </root> } 
       return let $y := <copy xml:base=\"http://www.example.org\"> { $d/root/implicit-base } </copy> 

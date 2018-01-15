@@ -25,7 +25,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -227,7 +227,7 @@ environment('users-items-bids',BaseDir) ->
 {modules, []}
 ].
 'rdb-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -252,7 +252,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -276,7 +276,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -299,7 +299,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $i in $items//item_tuple 
@@ -321,7 +321,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             unordered ( 
@@ -355,7 +355,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $item in $items//item_tuple 
@@ -381,7 +381,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $allbikes := $items//item_tuple [contains(exactly-one(description), \"Bicycle\") or contains(exactly-one(description), \"Tricycle\")] 
         let $bikebids := $bids//bid_tuple[itemno = $allbikes/itemno] 
@@ -401,7 +401,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $item := $items//item_tuple [end_date >= xs:date(\"1999-03-01\") and end_date <= xs:date(\"1999-03-31\")] 
             return <item_count> { count($item) } </item_count>
@@ -420,7 +420,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             let $end_dates := $items//item_tuple/end_date 
@@ -449,7 +449,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $highbid in $bids//bid_tuple, 
@@ -475,7 +475,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $highbid := max($bids//bid_tuple/bid) 
         return <result> { for $item in $items//item_tuple, 
@@ -500,7 +500,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:bid_summary() as element()* { 
             for $i in distinct-values($bids//itemno) 
@@ -535,7 +535,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $uid in distinct-values($bids//userid), 
@@ -559,7 +559,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $i in distinct-values($items//itemno) 
@@ -584,7 +584,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -607,7 +607,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 
@@ -632,7 +632,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <frequent_bidder> { 
             for $u in $users//user_tuple 
@@ -656,7 +656,7 @@ environment('users-items-bids',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rdb-queries-results-q18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <result> { 
             for $u in $users//user_tuple 

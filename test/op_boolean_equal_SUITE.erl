@@ -64,7 +64,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'op-boolean-equal2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -306,7 +306,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"1\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -321,7 +321,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"0\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -336,7 +336,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -351,7 +351,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -366,7 +366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"true\")) eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,7 +381,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"true\")) eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -396,7 +396,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"false\")) eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -411,7 +411,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:boolean(\"true\") and xs:boolean(\"true\")) eq (xs:boolean(\"false\") and xs:boolean(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -426,7 +426,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"true\") and xs:boolean(\"true\")) eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -441,7 +441,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"false\") and xs:boolean(\"false\")) eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -456,7 +456,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"false\")) eq fn:not(xs:boolean(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -471,7 +471,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(xs:boolean(\"false\") and xs:boolean(\"true\")) eq fn:not(xs:boolean(\"false\") and xs:boolean(\"true\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -486,7 +486,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(7 lt 7) eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(7 eq 7) eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -516,7 +516,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(7 lt 7) eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -531,7 +531,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(7 lt 7) and xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -546,7 +546,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((7 eq 7) eq xs:boolean(\"true\")) and (xs:boolean(\"false\") eq xs:boolean(\"true\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -561,7 +561,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((7 eq 7) eq xs:boolean(\"true\")) or (xs:boolean(\"false\") eq xs:boolean(\"true\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(\"Query\",\"Que\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ends-with(\"Query\",\"ry\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $e := (0,1) return $e eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq true() eq true() eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((true() eq true()) eq true()) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,7 +651,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -666,7 +666,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean('false') eq xs:boolean('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -681,7 +681,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean('false') eq xs:boolean('0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -696,7 +696,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean('0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -711,7 +711,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -726,7 +726,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"1\") eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"0\") eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -846,7 +846,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean('true') eq xs:boolean('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -861,7 +861,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean('true') eq xs:boolean('0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -891,7 +891,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -906,7 +906,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -921,7 +921,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-boolean-equal-more-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -936,7 +936,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BooleanEqual-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -951,7 +951,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BooleanEqual-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -966,7 +966,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BooleanEqual-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() ne true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -981,7 +981,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BooleanEqual-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() ne false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -996,7 +996,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BooleanEqual-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((((((((((((false() eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1011,7 +1011,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BooleanEqual-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1026,7 +1026,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BooleanEqual-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<name>true</name> eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1041,7 +1041,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BooleanEqual-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq <name>true</name>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1056,7 +1056,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       fn:false() eq local:is-even(17)",
@@ -1073,7 +1073,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       not(local:is-even(13) eq local:is-even(17))",
@@ -1090,7 +1090,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       fn:true() ne local:is-even(17)",
@@ -1107,7 +1107,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       local:is-even(17) ne fn:true()",
@@ -1124,7 +1124,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       local:is-even(17) ne fn:false()",
@@ -1141,7 +1141,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-boolean-equal-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
       not(not(local:is-even(17) eq local:is-even(16)))",

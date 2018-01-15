@@ -38,7 +38,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -239,7 +239,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'ancestorself-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(200)/ancestor-or-self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -254,7 +254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/works/employee[1]/ancestor-or-self::noSuchNode)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -270,7 +270,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) is exactly-one(/works)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -286,7 +286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) is exactly-one(/works/employee[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -302,7 +302,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) << exactly-one(/works/employee[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -318,7 +318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) << exactly-one(/works/employee[1]/ancestor-or-self::works)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -334,7 +334,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) << exactly-one(/works/employee[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -350,7 +350,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]) >> exactly-one(/works/employee[1]/ancestor-or-self::works)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -366,7 +366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) >> exactly-one(/works/employee[1]/ancestor-or-self::works)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -382,7 +382,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(/works/employee[1]/ancestor-or-self::works) >> exactly-one(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -398,7 +398,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/works/employee[12]/*/day/ancestor-or-self::overtime) | (/works/employee[12]/*/day/ancestor-or-self::overtime))/count(*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -414,7 +414,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/works/employee[12]/*/day[1]/ancestor-or-self::overtime) | (/works/employee[12]/*/day[2]/ancestor-or-self::overtime))/count(*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -430,7 +430,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((/works/employee[12]/overtime/day/ancestor-or-self::employee) intersect (/works/employee[12]/overtime/day/ancestor-or-self::employee))/@name",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -446,7 +446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((/works/employee[12]/overtime/day[ancestor-or-self::overtime]) except (/works/employee[12]/overtime/day[ancestor-or-self::overtime]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -462,7 +462,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[12]/overtime/day[ancestor-or-self::overtime]) except (/works/employee[12]/overtime/day[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -478,7 +478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[12]/overtime/day[ancestor-or-self::overtime]) and fn:true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -494,7 +494,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[12]/overtime/day[ancestor-or-self::overtime]) and fn:false()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -510,7 +510,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[12]/overtime/day[ancestor-or-self::overtime]) or fn:true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -526,7 +526,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[12]/overtime/day[ancestor-or-self::overtime]) or fn:false()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -542,7 +542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal(/works/employee[12]/overtime/ancestor-or-self::works,/works/employee[12]/overtime/ancestor-or-self::works)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -558,7 +558,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ancestorself-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement>Some Content</anElement> return $var/ancestor-or-self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -573,7 +573,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'unabbreviatedSyntax-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $h in (/works/employee[1]/hours) return $h/ancestor-or-self::employee)/@name",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -589,7 +589,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{1, <element/>/ancestor-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{1, <?target data?>/ancestor-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, (attribute name {\"content\"}/ancestor-or-self::node() instance of attribute(name)), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{1, <!-- content -->/ancestor-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, document {()}/ancestor-or-self::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -676,7 +676,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, text {\"\"}/ancestor-or-self::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -703,7 +703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a> <b c=\"\"> <c/> </b> <d/> </a>/b/c/(ancestor-or-self::*))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b c=\"\"> <c/> </b> <d/> </a>//count(ancestor-or-self::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -733,7 +733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ancestor-or-selfAxis-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> <a> <b> <c/> </b> </a> </r>/a/b/c/(ancestor-or-self::*[1], ancestor-or-self::*[2], ancestor-or-self::*[last()], ancestor-or-self::*[10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

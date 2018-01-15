@@ -38,7 +38,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -239,7 +239,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-days-from-duration1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P0DT0H0M0S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -254,7 +254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P15DT11H59M59S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -269,7 +269,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P31DT23H59M59S\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -284,7 +284,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P3DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -299,7 +299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P3DT55H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -314,7 +314,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P20DT20H\")) lt fn:days-from-duration(xs:dayTimeDuration(\"P03DT02H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -329,7 +329,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P21DT10H\")) le fn:days-from-duration(xs:dayTimeDuration(\"P22DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -344,7 +344,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:days-from-duration(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -359,7 +359,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P01DT01H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -374,7 +374,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:avg((fn:days-from-duration(xs:dayTimeDuration(\"P23DT10H\")),fn:days-from-duration(xs:dayTimeDuration(\"P21DT10H\"))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P21DT10H\")) + fn:days-from-duration(xs:dayTimeDuration(\"P22DT11H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -404,7 +404,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P30DT10H\")) - fn:days-from-duration(xs:dayTimeDuration(\"P10DT09H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -419,7 +419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P20DT09H\")) * fn:days-from-duration(xs:dayTimeDuration(\"P03DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -434,7 +434,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P20DT10H\")) div fn:days-from-duration(xs:dayTimeDuration(\"P05DT05H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -449,7 +449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P25DT10H\")) idiv fn:days-from-duration(xs:dayTimeDuration(\"P05DT02H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P10DT10H\")) mod fn:days-from-duration(xs:dayTimeDuration(\"P03DT03H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -479,7 +479,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+fn:days-from-duration(xs:dayTimeDuration(\"P21DT10H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -494,7 +494,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-fn:days-from-duration(xs:dayTimeDuration(\"P20DT03H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -509,7 +509,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P22DT10H\")) eq fn:days-from-duration(xs:dayTimeDuration(\"P22DT09H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P23DT08H\")) ne fn:days-from-duration(xs:dayTimeDuration(\"P12DT05H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P20DT03H\")) le fn:days-from-duration(xs:dayTimeDuration(\"P21DT15H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -554,7 +554,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:dayTimeDuration(\"P21DT07H\")) ge fn:days-from-duration(xs:dayTimeDuration(\"P20DT01H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +569,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-days-from-duration-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:duration(\"P1Y2M3DT10H30M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration((), \"Wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -614,7 +614,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(days-from-duration(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration(()) instance of xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration(xs:dayTimeDuration(\"P45678DT8H2M1.03S\")) eq 45678",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration(xs:dayTimeDuration(\"-P45678DT8H2M1.03S\")) eq -45678",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DaysFromDurationFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "days-from-duration(xs:duration(\"-P3Y4M8DT1H23M2.34S\")) eq -8",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-days-from-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:days-from-duration(xs:yearMonthDuration('P1Y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

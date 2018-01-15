@@ -53,7 +53,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -305,7 +305,7 @@ environment('lang',BaseDir) ->
 {modules, []}
 ].
 'fn-lang1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(xs:string(\"en\"),/root[1]/time[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -321,7 +321,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(xs:string(\"EN\"),./root[1]/time[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -337,7 +337,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(xs:string(\"eN\"),./root[1]/time[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -353,7 +353,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { fn:lang(\"en\") }; 
@@ -373,7 +373,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:lang((), ./langs[1]/para[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " for $x in /langs/para[1] return $x/fn:lang(\"en\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/div[1]/para return $x/fn:lang(\"en\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"EN\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " for $x in /langs/para[2] return $x/fn:lang(\"En\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"eN\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"en\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"EN\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"En\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"eN\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"en-us\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1[fn:lang(\"en-us\")]",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -597,7 +597,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[3] return $x/fn:lang(\"us-us\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -613,7 +613,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /langs/para[2] return $x/fn:lang(\"fr\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -629,7 +629,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -645,7 +645,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"fr\",fn:exactly-one(/langs/para[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -661,7 +661,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[3]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -677,7 +677,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"en\",fn:exactly-one(/langs/para[2]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -693,7 +693,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"en\",.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -709,7 +709,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -725,7 +725,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-DE\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -741,7 +741,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"DE-de\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -757,7 +757,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1996\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -773,7 +773,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1998\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -789,7 +789,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-D\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -805,7 +805,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-DE-\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -821,7 +821,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"de-DE-1996-x\",fn:exactly-one(/langs/para[4]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -837,7 +837,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('en')",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -853,7 +853,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-lang-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $l := /langs/para[4]!fn:lang#1 return /langs/para[1]!$l('de')",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -869,7 +869,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeLangFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "lang()",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -885,7 +885,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeLangFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(false()) then lang(\"en\", .) else true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -909,7 +909,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeLangFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(false()) then lang(\"en\") else true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -933,7 +933,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeLangFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "lang(\"en\", 2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -949,7 +949,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:lang=\"en\"> <b xml:lang=\"de\"/> </e> return (lang(\"de\", $i/b), lang(\"de\", $i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -964,7 +964,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:lang=\"en\"> <b xml:lang=\"de\"/> </e> return lang(\"de\", $i/b/@xml:lang)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -979,7 +979,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "lang(\"de\", attribute xml:lang {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -994,7 +994,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "lang(\"en\", <e xml:lang=\"ene\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1009,7 +1009,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"fr\", attribute xml:lang {\"fr\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1024,7 +1024,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeLangFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lang(\"fr\", attribute xml:lang {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1039,7 +1039,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-lang-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	if(current-date() > xs:date(\"2000-01-01\")) then lang(\"en\",<a/>) else ()
       ",

@@ -43,7 +43,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -261,7 +261,7 @@ environment('lang',BaseDir) ->
 {modules, []}
 ].
 'fn-root-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 100)[fn:root()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -292,7 +292,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:root(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -315,7 +315,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <!-- A Comment Node --> return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -330,7 +330,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<!-- A Comment Node -->)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -345,7 +345,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement>An Element Content</anElement> return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -360,7 +360,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<anElement>An Element Content</anElement>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -375,7 +375,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <?format role=\"output\" ?> return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -390,7 +390,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<?format role=\"output\" ?>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -405,7 +405,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := element anElement {attribute anAttribute {\"Attribute Value\"}} return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -420,7 +420,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(element anElement {attribute anAttribute {\"Attribute Value\"}})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -435,7 +435,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := document {<anElement><anInternalElement>element content</anInternalElement></anElement>} return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -450,7 +450,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(document {<anElement><anInternalElement>element content</anInternalElement></anElement>})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -465,7 +465,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(fn:exactly-one(/langs[1]/para[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -487,7 +487,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(/langs[1]/para[1]/@xml:lang)",
    {Env,Opts} = xqerl_test:handle_environment(environment('lang',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -509,7 +509,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(text {\"A text Node\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := text {\"a text Node\"} return fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -554,7 +554,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := element anElement {\"Element Content\"} return fn:root($var) is fn:root($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +569,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := element anElement {\"Element Content\"} return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <!-- An Element Node --> return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <?format role=\"output\" ?> return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -614,7 +614,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := text {\"A text node\"} return fn:count(fn:namespace-uri(fn:root($var)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-root-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -645,7 +645,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeRootFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "Root(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -660,7 +660,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeRootFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[root()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -675,7 +675,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeRootFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "root(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -690,7 +690,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NodeRootFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(root(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -713,7 +713,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -728,7 +728,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:root(<e/>/..))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -743,7 +743,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<!-- comment -->)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -758,7 +758,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{fn:root(attribute name {\"value\"})}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -773,7 +773,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(<?target data?>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -788,7 +788,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(text{\"text node\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -803,7 +803,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:root(text{\"text node\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -818,7 +818,7 @@ environment('lang',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeRootFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "root(document {()}) instance of document-node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -22,7 +22,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -219,7 +219,7 @@ environment('names',BaseDir) ->
 {modules, []}
 ].
 'for-each-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", \"ee\"), upper-case#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -234,7 +234,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"john\", \"jane\"), string-to-codepoints#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -249,7 +249,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"), function($x){$x[contains(., 'e')]})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -264,7 +264,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"), function($x){upper-case($x)})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -279,7 +279,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             for-each(for-each((\"john\", \"mary\", \"jane\", \"anne\", \"peter\", \"ian\"), function($n as xs:string){upper-case($n)}), function($e as xs:string) as xs:string { lower-case($e) })
         ",
@@ -297,7 +297,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             declare function local:children($n as node()) as node()* 
                 { $n/child::node() }; 
@@ -338,7 +338,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((), round#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -353,7 +353,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := function($x as xs:double*){for-each($x,round#1)} return $f((1.2345, 6.789))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((1,4,9,16,25), Q{http://www.w3.org/2005/xpath-functions/math}sqrt#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each(namespace-uri-from-QName(function-name(xs:int#1)), upper-case#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -398,7 +398,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $f := function($ff as (function(item()) as item()), $s as xs:string){$ff($ff($s))} return
           for-each((upper-case#1, lower-case#1, normalize-space#1, concat(?, '!')), $f(?, ' Say NO! '))",
@@ -415,7 +415,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for-each((<a>1</a>, <b>22</b>, <c>33</c>), 
                    function($a as xs:string) as xs:integer {string-length($a)})
@@ -433,7 +433,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", \"ee\"), starts-with#2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -448,7 +448,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", 12), upper-case#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -463,7 +463,7 @@ environment('names',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'for-each-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for-each((\"aa\", \"bb\", \"cc\", \"dd\", 12), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

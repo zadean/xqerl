@@ -16,7 +16,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "array")
 
@@ -195,7 +195,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'array-fold-right-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([1,2,3,4,5,6], 0, function($a,$z){$a + $z})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -219,7 +219,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([[2,3],[],[4,5,6,7],[6,7],[3]], 0, function($a,$z){array:size($a) + $z})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -243,7 +243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([\"the cat\", \"sat\", \"on the mat\"], \"\", function($a,$z){concat($a, \" \", $z)})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -267,7 +267,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([\"+2\", \"*3\"], \"10\", function($a,$z){concat(\"(\", $z, $a, \")\")})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([function($x){$x+2}, function($x){$x*3}], 10, function($a,$z){$a($z)})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -315,7 +315,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([\" opened the door\", \" went up stairs\"], \"Bob\", function($a,$z){concat($z, $a)})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -339,7 +339,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([true(), true(), false()], true(), function($x, $y){$x and $y})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -355,7 +355,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " array:fold-right([true(), true(), false()], false(), function($x, $y){$x or $y})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-fold-right-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:fold-right([1,2,3], [], function($x, $y){[$x, $y]})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

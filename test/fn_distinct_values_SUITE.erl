@@ -113,7 +113,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-distinct-valuesint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:int(\"-2147483648\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -404,7 +404,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:int(\"-1873914410\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -419,7 +419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:int(\"2147483647\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -434,7 +434,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:integer(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -449,7 +449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:integer(\"830993497117024304\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:integer(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -479,7 +479,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -494,7 +494,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal(\"617375191608514839\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -509,7 +509,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double(\"-1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -554,7 +554,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesdbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double(\"1.7976931348623157E308\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +569,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float(\"-3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float(\"3.4028235E38\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -614,7 +614,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valueslng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:long(\"-92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valueslng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:long(\"-47175562203048468\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valueslng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:long(\"92233720368547758\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedShort(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedShort(\"44633\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedShort(\"65535\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +704,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:negativeInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -719,7 +719,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:negativeInteger(\"-297014075999096793\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:negativeInteger(\"-1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuespint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:positiveInteger(\"1\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -764,7 +764,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuespint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:positiveInteger(\"52704602390610033\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -779,7 +779,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuespint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:positiveInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -794,7 +794,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedLong(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -809,7 +809,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedLong(\"130747108607674654\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -824,7 +824,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:unsignedLong(\"184467440737095516\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonPositiveInteger(\"-999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -854,7 +854,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonPositiveInteger(\"-475688437271870490\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -869,7 +869,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonPositiveInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -884,7 +884,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonNegativeInteger(\"0\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonNegativeInteger(\"303884545991464527\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -914,7 +914,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuesnni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:nonNegativeInteger(\"999999999999999999\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -929,7 +929,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuessht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:short(\"-32768\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -944,7 +944,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuessht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:short(\"-5324\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -959,7 +959,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-valuessht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:short(\"32767\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -974,7 +974,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((1, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -997,7 +997,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( 1, (1), ((1)) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,7 +1012,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( 1, 1.0e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1047,7 +1047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( xs:integer(1), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1062,7 +1062,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( 0e0, -0, 0, 1 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1077,7 +1077,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( \"cat\", 'CAT' ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1092,7 +1092,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( xs:string(\"hello\"), \"hello\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1107,7 +1107,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( xs:string(\"\"), \"\", ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1122,7 +1122,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((1, true(), true(), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1137,7 +1137,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal('1.2'), xs:decimal('1.2000000000000001')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1152,7 +1152,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal('1.2'), '1.2'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1167,7 +1167,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal('1.2'), xs:float('1.2')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1182,7 +1182,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:decimal('1.2'), xs:double('1.2')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1197,7 +1197,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('NaN'), 'NaN'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1212,7 +1212,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('INF'), 'INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1227,7 +1227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('-INF'), '-INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1242,7 +1242,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('INF'), xs:float('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1257,7 +1257,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('-INF'), xs:float('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1272,7 +1272,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('NaN'), xs:float('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1287,7 +1287,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('NaN'), xs:float('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1302,7 +1302,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('NaN'), xs:double('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1317,7 +1317,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('INF'), xs:double('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1332,7 +1332,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:float('-INF'), xs:double('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1347,7 +1347,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double('-INF'), xs:double('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1370,7 +1370,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double('NaN'), xs:double('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1385,7 +1385,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:double('NaN'), xs:double('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1400,7 +1400,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((\"NaN\", \"-NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((\"-INF\", \"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1446,7 +1446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:boolean('true'), true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1461,7 +1461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:boolean('true'), xs:boolean('1')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1476,7 +1476,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((xs:boolean('false'), xs:boolean('0')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1491,7 +1491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values(( true(), false(), () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1506,7 +1506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-mixed-args-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          count(distinct-values((
           xs:integer(1),
@@ -1528,7 +1528,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1543,7 +1543,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(distinct-values((1, 2, 3), \"http://www.example.com/COLLATION/NOT/SUPPORTED\"), (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1566,7 +1566,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(\"a string\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1581,7 +1581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(\"a string\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\") eq \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1596,7 +1596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(distinct-values(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1619,7 +1619,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:canon($arg) {
             for $i in 
@@ -1646,7 +1646,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values((1, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1669,7 +1669,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values((-3, -3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1692,7 +1692,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(distinct-values((1, 2.0, 3, 2))) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1707,7 +1707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(distinct-values((1, 2.0, 3, 2)), (1, 2.0, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1722,7 +1722,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exists(distinct-values((1, 2, 3, 1)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1737,7 +1737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(empty(distinct-values((1, 1))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1752,7 +1752,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(distinct-values((1, 2, 2, current-time()))) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1767,7 +1767,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(distinct-values(())) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1790,7 +1790,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqDistinctValuesFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(distinct-values(current-time())) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1805,7 +1805,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDistinctValuesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:distinct-values((\"1\", \"2\", \"3\"), \"http://www.example.com/COLLATION/NOT/SUPPORTED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1820,7 +1820,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $input := (xs:float('1.0'), xs:decimal('1.0000000000100000000001'), 
                        xs:double( '1.00000000001'), xs:float('2.0'), 
@@ -1841,7 +1841,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-distinct-values-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values((1 to 300, 100 to 400, 29, 145, 20 to 50, for $x in (30 to 40) return xs:string($x), \"foo\", \"bar\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1856,7 +1856,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(distinct-values((xs:integer(\"3\"), xs:float(\"3\"), xs:float(\"NaN\"), xs:double(\"3\"), xs:double(\"NaN\"), xs:decimal(\"3\"), xs:float(\"3\"))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1871,10 +1871,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'cbcl-distinct-values-002b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:create($arg) as xs:anyAtomicType* { 
       		( if ($arg castable as xs:untypedAtomic) then $arg cast as xs:untypedAtomic else () ), 
@@ -1950,7 +1950,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(
               (xs:dateTime(\"2008-01-01T13:00:00\"),
                adjust-dateTime-to-timezone(xs:dateTime(\"2008-01-01T13:00:00\"))))",
@@ -1967,7 +1967,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:date('2008-06-01'), xs:date('2008-06-01'), xs:date('2012-06-01'), xs:date('1918-11-11Z'), xs:date('1972-06-01Z'), xs:date('1972-06-01Z') )) order by $value return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1982,7 +1982,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:dateTime('2008-06-01T12:00:00'), xs:dateTime('2008-06-01T12:00:00'), xs:dateTime('2008-06-01T00:00:00'), xs:dateTime('2008-06-02T00:00:00'), xs:dateTime('1918-11-11T11:00:00Z'), xs:dateTime('1972-06-01T13:00:00Z'), xs:dateTime('1972-06-01T13:00:00Z') )) order by $value return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1997,7 +1997,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:time('12:00:00'), xs:time('11:00:00'), xs:time('12:00:00'))) order by $value return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2012,7 +2012,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value at $p in ( for $time in fn:distinct-values(( xs:time('12:00:00'), xs:time('12:00:00'), xs:time('20:00:00'), xs:time('01:00:00+12:00'), xs:time('02:00:00+13:00'))) order by $time return $time ) return adjust-time-to-timezone($value, (xs:dayTimeDuration(\"PT0S\")[$p]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2027,7 +2027,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:hexBinary('FFFF'), xs:hexBinary('FFFF'), xs:hexBinary('FFFE'), xs:hexBinary('FF'))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2042,7 +2042,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:base64Binary('aGVsbG8NCg=='), xs:base64Binary('aGVsbG8NCg=='), xs:base64Binary('aGFsbG8NCg=='), xs:base64Binary('aGkNCg=='))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2057,7 +2057,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:untypedAtomic('a'), xs:untypedAtomic('a'), xs:untypedAtomic('b'), xs:untypedAtomic(''))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2072,7 +2072,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:string('a'), xs:string('a'), xs:string('b'), xs:string(''))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2087,7 +2087,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:gYear('2008'), xs:gYear('2008'), xs:gYear('1972'))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:dayTimeDuration('P0D'), xs:yearMonthDuration('P0Y'), xs:duration('P0Y'), xs:duration('P0Y'), xs:yearMonthDuration('P0Y'), xs:dayTimeDuration('P0D'), xs:dayTimeDuration('P1D'), xs:yearMonthDuration('P1Y'), xs:duration('P1Y'))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2117,7 +2117,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $value in fn:distinct-values(( xs:gMonthDay('--06-16'), xs:gMonthDay('--06-16'), xs:gMonthDay('--12-15'))) order by string($value) return $value",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2132,7 +2132,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-distinct-values-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in 65 to 75 return distinct-values(1 to 10,codepoints-to-string($x to $x+10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

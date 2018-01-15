@@ -268,7 +268,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -747,7 +747,7 @@ environment('e-1',BaseDir) ->
 {modules, []}
 ].
 'fn-roundint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:int(\"-2147483648\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -770,7 +770,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:int(\"-1873914410\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -785,7 +785,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:int(\"2147483647\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -800,7 +800,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:integer(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -815,7 +815,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:integer(\"830993497117024304\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -830,7 +830,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:integer(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -845,7 +845,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -860,7 +860,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"617375191608514839\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -883,7 +883,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -898,7 +898,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -936,7 +936,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-rounddbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"1.7976931348623157E308\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -951,7 +951,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -966,7 +966,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -989,7 +989,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"3.4028235E38\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1004,7 +1004,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundlng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:long(\"-92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1019,7 +1019,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundlng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:long(\"-47175562203048468\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1034,7 +1034,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundlng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:long(\"92233720368547758\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1049,7 +1049,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1064,7 +1064,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"44633\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1079,7 +1079,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedShort(\"65535\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1094,7 +1094,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1109,7 +1109,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-297014075999096793\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1124,7 +1124,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:negativeInteger(\"-1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1139,7 +1139,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundpint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1154,7 +1154,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundpint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"52704602390610033\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1169,7 +1169,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundpint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:positiveInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1184,7 +1184,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1199,7 +1199,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"130747108607674654\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1214,7 +1214,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:unsignedLong(\"184467440737095516\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1229,7 +1229,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"-999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1244,7 +1244,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"-475688437271870490\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1259,7 +1259,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonPositiveInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1274,7 +1274,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1289,7 +1289,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"303884545991464527\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1304,7 +1304,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundnni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:nonNegativeInteger(\"999999999999999999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1319,7 +1319,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundsht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:short(\"-32768\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1334,7 +1334,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundsht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:short(\"-5324\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1349,7 +1349,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-roundsht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:short(\"32767\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1364,7 +1364,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1379,10 +1379,10 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XQ10"}.
 'K-RoundFunc-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1397,7 +1397,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(round(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1412,7 +1412,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1427,7 +1427,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(1.1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1442,7 +1442,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:double(1)) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1457,7 +1457,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:float(1)) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1472,7 +1472,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(2.4999) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1487,7 +1487,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RoundFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(-2.5) eq -2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1502,7 +1502,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:unsignedShort(.)) instance of xs:unsignedShort",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1526,7 +1526,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:unsignedLong(.)) instance of xs:unsignedLong",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1550,7 +1550,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:unsignedInt(.)) instance of xs:unsignedInt",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1574,7 +1574,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:unsignedByte(.)) instance of xs:unsignedByte",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1598,7 +1598,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:positiveInteger(.)) instance of xs:positiveInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1622,7 +1622,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:nonPositiveInteger(.)) instance of xs:nonPositiveInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1646,7 +1646,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:nonNegativeInteger(.)) instance of xs:nonNegativeInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1670,7 +1670,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:negativeInteger(.)) instance of xs:negativeInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1694,7 +1694,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:long(.)) instance of xs:long",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1718,7 +1718,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:int(.)) instance of xs:int",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1742,7 +1742,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:short(.)) instance of xs:short",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1766,7 +1766,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:byte(.)) instance of xs:byte",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1790,7 +1790,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1805,7 +1805,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1820,7 +1820,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:double(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1835,7 +1835,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:double(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1850,7 +1850,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1865,7 +1865,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1880,7 +1880,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:float(\"0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1895,7 +1895,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round(xs:float(\"-0\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1910,7 +1910,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1925,7 +1925,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1940,7 +1940,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1955,7 +1955,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1970,7 +1970,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1985,7 +1985,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2000,7 +2000,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2015,7 +2015,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2030,7 +2030,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2045,7 +2045,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.04\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2060,7 +2060,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2075,7 +2075,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2090,7 +2090,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2105,7 +2105,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.05\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2120,7 +2120,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2135,7 +2135,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2150,7 +2150,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2165,7 +2165,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.06\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2180,7 +2180,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2195,7 +2195,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2210,7 +2210,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2225,7 +2225,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.09\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2240,7 +2240,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2255,7 +2255,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2270,7 +2270,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2285,7 +2285,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2300,7 +2300,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2315,7 +2315,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2330,7 +2330,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2345,7 +2345,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2360,7 +2360,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2375,7 +2375,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2390,7 +2390,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2405,7 +2405,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.14\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2428,7 +2428,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2443,7 +2443,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2458,7 +2458,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2473,7 +2473,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2488,7 +2488,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2503,7 +2503,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2518,7 +2518,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2533,7 +2533,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.16\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2548,7 +2548,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2563,7 +2563,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2578,7 +2578,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2593,7 +2593,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.19\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2608,7 +2608,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2623,7 +2623,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2638,7 +2638,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2653,7 +2653,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2668,7 +2668,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2683,7 +2683,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2698,7 +2698,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2713,7 +2713,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.41\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2728,7 +2728,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2743,7 +2743,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2758,7 +2758,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2773,7 +2773,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.44\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2788,7 +2788,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2803,7 +2803,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2818,7 +2818,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2833,7 +2833,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.45\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2848,7 +2848,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2863,7 +2863,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2878,7 +2878,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2893,7 +2893,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.46\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2908,7 +2908,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2923,7 +2923,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2938,7 +2938,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2953,7 +2953,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.49\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2968,7 +2968,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2983,7 +2983,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2998,7 +2998,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3013,7 +3013,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.40\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3028,7 +3028,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3043,7 +3043,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3058,7 +3058,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-97'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3073,7 +3073,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-98'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.51\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3088,7 +3088,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-99'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3103,7 +3103,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3118,7 +3118,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3133,7 +3133,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.54\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3148,7 +3148,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3163,7 +3163,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3178,7 +3178,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3193,7 +3193,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.55\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3208,7 +3208,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3223,7 +3223,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3238,7 +3238,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3253,7 +3253,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.56\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3268,7 +3268,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3283,7 +3283,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3298,7 +3298,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3313,7 +3313,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.59\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3328,7 +3328,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3343,7 +3343,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3358,7 +3358,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3373,7 +3373,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.50\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3388,7 +3388,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3403,7 +3403,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3418,7 +3418,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3433,7 +3433,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.61\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3448,7 +3448,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3463,7 +3463,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3478,7 +3478,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3493,7 +3493,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.64\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3508,7 +3508,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3523,7 +3523,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3538,7 +3538,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3553,7 +3553,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.65\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3568,7 +3568,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3583,7 +3583,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3598,7 +3598,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3613,7 +3613,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.66\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3628,7 +3628,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3643,7 +3643,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3658,7 +3658,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3673,7 +3673,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.69\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3688,7 +3688,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3703,7 +3703,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3718,7 +3718,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3733,7 +3733,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.60\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3748,7 +3748,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3763,7 +3763,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3778,7 +3778,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3793,7 +3793,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.91\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3808,7 +3808,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3823,7 +3823,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3838,7 +3838,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3853,7 +3853,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.94\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3868,7 +3868,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3883,7 +3883,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3898,7 +3898,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3913,7 +3913,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.95\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3928,7 +3928,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3943,7 +3943,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3958,7 +3958,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3973,7 +3973,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.96\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3988,7 +3988,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4003,7 +4003,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4018,7 +4018,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4033,7 +4033,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.99\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4048,7 +4048,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4063,7 +4063,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4078,7 +4078,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4093,7 +4093,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.90\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4108,7 +4108,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4123,7 +4123,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4138,7 +4138,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4153,7 +4153,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.101\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4168,7 +4168,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4183,7 +4183,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4198,7 +4198,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4213,7 +4213,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.104\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4228,7 +4228,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4243,7 +4243,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4258,7 +4258,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4273,7 +4273,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.105\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4288,7 +4288,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4303,7 +4303,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4318,7 +4318,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4333,7 +4333,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.106\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4348,7 +4348,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4363,7 +4363,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4378,7 +4378,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4393,7 +4393,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.109\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4408,7 +4408,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4423,7 +4423,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4438,7 +4438,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(\"-0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4453,7 +4453,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RoundFunc-190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:double(\"-0.100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4468,7 +4468,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) 
             return if ((round($x)) instance of xs:integer) then \"integer\" 
            else if ((round($x)) instance of xs:decimal) then \"decimal\" 
@@ -4488,7 +4488,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4511,7 +4511,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.7\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4534,7 +4534,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"12.5\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4557,7 +4557,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.7\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4580,7 +4580,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4603,7 +4603,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:decimal(\"-12.5\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4626,7 +4626,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(-12.567, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4649,7 +4649,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(-12.567, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4672,7 +4672,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(-12.567, 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4695,7 +4695,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(-1234.567, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4718,7 +4718,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round-decimal-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(1.567, -3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4741,7 +4741,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(1.125, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4764,7 +4764,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(8452, -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4787,7 +4787,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(3.1415e0, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4810,7 +4810,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(35.425, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4833,7 +4833,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(-0.43e0, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4856,7 +4856,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-1f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(1.125), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4879,7 +4879,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-2f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(8452), -2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4902,7 +4902,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-3f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(3.1415e0), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4925,7 +4925,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-4f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(0.125), 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4948,7 +4948,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-round2args-5f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:round(xs:float(-0.43e0), 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

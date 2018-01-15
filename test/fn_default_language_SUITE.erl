@@ -13,7 +13,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -189,7 +189,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'default-language-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "default-language()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -204,7 +204,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'default-language-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-integer(17, \"Ww\") eq format-integer(17, \"Ww\", default-language())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -219,7 +219,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'default-language-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), \"[FNn] [D] [MNn] [Y]\") eq 
                format-date(current-date(), \"[FNn] [D] [MNn] [Y]\", default-language(), (), ())",
    Qry1 = Qry,
@@ -235,7 +235,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'default-language-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := (fn:default-language#0, fn:default-language#0) return $f[1]() eq $f[2]()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -250,7 +250,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'default-language-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := function-lookup(QName(\"http://www.w3.org/2005/xpath-functions\", \"default-language\"), 0) return $f() eq $f()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -265,5 +265,5 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'default-language-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"default-language fr-CA "}.

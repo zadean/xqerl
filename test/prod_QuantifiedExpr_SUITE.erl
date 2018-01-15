@@ -210,7 +210,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -583,7 +583,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'quantExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x + $x = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -598,7 +598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x + $x = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x - 2 = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -628,7 +628,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x - 2 = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -643,7 +643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x * 2 = 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x div 2 = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -673,7 +673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x idiv 2 = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -688,7 +688,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:avg(($x, 1)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -703,7 +703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:string($x) = \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:string-length(xs:string($x)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -733,7 +733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:count(($x)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -748,7 +748,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -763,7 +763,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -778,7 +778,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:not($x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -793,7 +793,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x = 1 or $x = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -808,7 +808,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies $x = 1 and ($x +1) = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -823,7 +823,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (\"A\",\"B\",\"C\") satisfies $x = \"A\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -838,7 +838,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies $x + $y = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -853,7 +853,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies $x - $y = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -868,7 +868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies $x * $y = 10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -883,7 +883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies $x div $y = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -898,7 +898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies $x idiv $y = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies fn:string($x) = fn:string($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -928,7 +928,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies xs:integer($x) = xs:integer($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -943,7 +943,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies xs:decimal($x) = xs:decimal($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -958,7 +958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies xs:float($x) = xs:float($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -973,7 +973,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1,2,3), $y in (4,5,6) satisfies xs:double($x) = xs:double($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -988,7 +988,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (\"true\", \"false\"), $y in (\"false\",\"true\") satisfies xs:boolean($x) = xs:boolean($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1003,7 +1003,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (\"1980-05-05T13:13:13Z\", \"1980-05-05T13:13:13Z\"), $y in (\"1980-05-05T13:13:13Z\",\"1980-05-05T13:13:13Z\") satisfies xs:dateTime($x) = xs:dateTime($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1018,7 +1018,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (\"1985-07-05Z\", \"1985-07-05Z\"), $y in (\"1985-07-05Z\",\"1985-07-05Z\") satisfies xs:date($x) = xs:date($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1033,7 +1033,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x + $x = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1048,7 +1048,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 1) satisfies $x + $x = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1063,7 +1063,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x - 2 = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1078,7 +1078,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (2, 2) satisfies $x - 2 = 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1093,7 +1093,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x * 2 = 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1108,7 +1108,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x div 2 = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1123,7 +1123,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x idiv 2 = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1138,7 +1138,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:avg(($x, 1)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1153,7 +1153,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:string($x) = \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1168,7 +1168,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:string-length(xs:string($x)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1183,7 +1183,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:count(($x)) = 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1198,7 +1198,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1213,7 +1213,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1, 2) satisfies fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1228,7 +1228,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies fn:not($x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1243,7 +1243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x = 1 or $x = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1258,7 +1258,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1, 2) satisfies $x = 1 and ($x +1) = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1273,7 +1273,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (\"A\",\"B\",\"C\") satisfies $x = \"A\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1288,7 +1288,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies $x + $y = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1303,7 +1303,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies $x - $y = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1318,7 +1318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies $x * $y = 10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1333,7 +1333,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies $x div $y = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1348,7 +1348,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies $x idiv $y = 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1363,7 +1363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies fn:string($x) = fn:string($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1378,7 +1378,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies xs:integer($x) = xs:integer($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1393,7 +1393,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies xs:decimal($x) = xs:decimal($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1408,7 +1408,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies xs:float($x) = xs:float($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1,2,3), $y in (4,5,6) satisfies xs:double($x) = xs:double($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1438,7 +1438,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (\"true\", \"false\"), $y in (\"false\",\"true\") satisfies xs:boolean($x) = xs:boolean($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1453,7 +1453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (\"1980-05-05T13:13:13Z\", \"1980-05-05T13:13:13Z\"), $y in (\"1980-05-05T13:13:13Z\",\"1980-05-05T13:13:13Z\") satisfies xs:dateTime($x) = xs:dateTime($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1468,7 +1468,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantExpr-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (\"1985-07-05Z\", \"1985-07-05Z\"), $y in (\"1985-07-05Z\",\"1985-07-05Z\") satisfies xs:date($x) = xs:date($y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1483,7 +1483,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x as xs:integer in (1, 2, 3) , $y as xs:integer in (2, 3, 4) satisfies $x + $y = 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1498,7 +1498,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x as xs:string in (\"cat\",\"dog\",\"rat\") satisfies fn:string-length($x) = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1513,7 +1513,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x as xs:string in (\"cat\",\"dog\",\"rat\") satisfies fn:string-length($x) = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1528,7 +1528,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x as xs:string in (\"cat\",\"dog\",\"rat\"), $y as xs:integer in (3, 3, 3) satisfies fn:string-length($x) = $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1543,7 +1543,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x as xs:integer in (1, 2, 3), $y as xs:float in (xs:float(2), xs:float(3)) satisfies $x + $y = 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1558,7 +1558,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x, $y) {
           let $a := $x
@@ -1580,7 +1580,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x, $y) {
             let $a := $x
@@ -1602,7 +1602,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'quantexpr-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x, $y) {
             let $a := $x
@@ -1624,7 +1624,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies QName(\"example.com/\", \"ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1639,7 +1639,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies QName(\"example.com/\", \"ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1654,7 +1654,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies $foo eq \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1669,7 +1669,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies $foo eq \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1684,7 +1684,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $i in (0, 2, 3) satisfies count($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1699,7 +1699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $i in (1, 2, 3) satisfies count($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1714,7 +1714,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $i in subsequence((0, 1, 2, current-time()), 1, 3) satisfies boolean($i treat as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1729,7 +1729,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $i in subsequence((1, 2, 3, current-time()), 1, 3) satisfies boolean($i treat as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1744,7 +1744,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $i in () satisfies $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1759,7 +1759,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(some $i in () satisfies $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1774,7 +1774,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1789,7 +1789,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1804,7 +1804,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(some $foo in 1 satisfies false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1819,7 +1819,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $foo in 1 satisfies false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1834,7 +1834,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1849,7 +1849,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1864,7 +1864,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1879,7 +1879,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1894,7 +1894,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $var in (true(), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1909,7 +1909,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (true(), false(), true()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1924,7 +1924,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (false(), true(), true()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1939,7 +1939,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (true(), true(), false()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1954,7 +1954,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1969,7 +1969,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), false(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1984,7 +1984,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (false(), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1999,7 +1999,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), true(), false()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2014,7 +2014,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(some $var in (false(), false(), false()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2029,7 +2029,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $var in (xs:hexBinary(\"FF\"), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2044,7 +2044,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $var in (true(), xs:hexBinary(\"FF\"), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2059,7 +2059,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $var in (true(), true(), xs:hexBinary(\"FF\")) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2074,7 +2074,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (xs:hexBinary(\"FF\"), false(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2089,7 +2089,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (false(), xs:hexBinary(\"FF\"), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2104,7 +2104,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), true(), xs:hexBinary(\"FF\")) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2127,7 +2127,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (false(), true(), true()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2142,7 +2142,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (true(), false(), true()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2157,7 +2157,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (true(), true(), false()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2172,7 +2172,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2187,7 +2187,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), false(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2202,7 +2202,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (false(), true(), true()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2217,7 +2217,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (true(), true(), false()) satisfies $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2232,7 +2232,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(some $var in (false(), false(), false()) satisfies $var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2247,7 +2247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         some $i in (true(), true(), true()) satisfies $i",
@@ -2264,7 +2264,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
@@ -2282,7 +2282,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
@@ -2300,7 +2300,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         every $i in (true(), true()) satisfies $i",
@@ -2317,7 +2317,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (1, 2, 3) satisfies $var eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2332,7 +2332,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (1, 2, 3) satisfies $var eq 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2347,7 +2347,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $var in (1, 2, 3) satisfies $var eq 1 or $var eq 2 or $var eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2362,7 +2362,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (1, 2, 3) satisfies $var eq 1 or $var eq 2 or $var eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2377,7 +2377,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $aaa in (1, 2, 3), $bbb in (3, 2, 1) satisfies $aaa + $bbb eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2392,7 +2392,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $aaa in (3, 3, 3), $bbb in (3, 3, 3) satisfies $aaa + $bbb eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2407,7 +2407,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(every $var in (1, 2, 3) satisfies $var eq 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2422,7 +2422,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $var in (1, 2, 3) satisfies $var eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2437,7 +2437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (some $a in 1 satisfies $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2452,7 +2452,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (every $a in 1 satisfies $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2467,7 +2467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (some $fn:name in (1, 2) satisfies $fn:name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2482,7 +2482,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (some $xs:name in (1, 2) satisfies $xs:name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2497,7 +2497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (every $fn:name in (1, 2) satisfies $fn:name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2512,7 +2512,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() eq (every $xs:name in (1, 2) satisfies $xs:name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2527,7 +2527,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2542,7 +2542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2557,7 +2557,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in (1, $foo) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2572,7 +2572,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in (1, $foo) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2587,7 +2587,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies $bar + (some $bar in 2 satisfies $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2602,7 +2602,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies $bar + (some $bar in 2 satisfies $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2617,7 +2617,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in 1 satisfies $bar + (every $bar in 2 satisfies $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2632,7 +2632,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in 1 satisfies $bar + (every $bar in 2 satisfies $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2647,7 +2647,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2662,7 +2662,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2677,7 +2677,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2692,7 +2692,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2707,7 +2707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2722,7 +2722,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2), $b in (1, 2), $c in (1, 2) satisfies 1, $c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2737,7 +2737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in (1, $2) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2752,7 +2752,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in (1, $2) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2767,7 +2767,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in (1, 2, $foo) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2782,7 +2782,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in (1, $foo, 3) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2797,7 +2797,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in ($foo, 2, 3) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2812,7 +2812,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $foo in $foo satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2827,7 +2827,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in (1, 2, $foo) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2842,7 +2842,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in (1, $foo, 3) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2857,7 +2857,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in ($foo, 2, 3) satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2872,7 +2872,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $foo in $foo satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2887,7 +2887,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in 1, $b in $b satisfies 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2902,7 +2902,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2, 3), $b in (1, 2, 3, $b) satisfies $a eq $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2917,7 +2917,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2, 3), $b in (1, 2, 3, $b) satisfies ($a eq $b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2932,7 +2932,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2), $b in (1, 2) satisfies 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2947,7 +2947,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2), $b in (1, 2) satisfies 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2962,7 +2962,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2, 3), $b in ($a, 4) satisfies $b gt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2977,7 +2977,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2, 3), $b in ($a, 4) satisfies $b gt 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2992,7 +2992,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a in (1, 2), $b in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3007,7 +3007,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a in (1, 2), $b in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3022,7 +3022,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((for $a in 1, $b in $a, $c in $a, $d in $c return ($a, $b, $c, $d)), (1, 1, 1, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3037,7 +3037,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $i in (1, 2, 3) satisfies ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3052,7 +3052,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $i in (1, 2, 3) satisfies ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3067,7 +3067,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $i in (1, 2, 3) satisfies ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3082,7 +3082,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-97'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $i in (1, 2, 3) satisfies ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3097,7 +3097,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-98'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a at $p in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3112,7 +3112,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWithout-99'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a at $p in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3127,7 +3127,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "SOME $i in (1, 2, 3) satisfies $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3142,7 +3142,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "EVERY $i in (1, 2, 3) satisfies $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3157,7 +3157,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<people id=\"\"/>/(some $id in @id satisfies true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3172,7 +3172,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $id in attribute::id satisfies $id",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3187,7 +3187,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(some $v in self::node() satisfies $v)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3202,7 +3202,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(every $v in self::node() satisfies $v)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3217,7 +3217,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(every $b in 1, $v in self::node() satisfies $v)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3232,7 +3232,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(some $b in 1, $v in self::node() satisfies $v)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3247,7 +3247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-QuantExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $firstSeq := (<a/>, <b/>, <e><c/></e>) let $secondSeq := (<a attr=\"\"/>, <b>text</b>, <e><c/></e>) return some $i in $firstSeq satisfies $secondSeq[deep-equal(.,$i)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3262,7 +3262,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item()* in (1, 2), $b as item()* in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3277,7 +3277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as item()* in (1, 2), $b as item()* in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3292,7 +3292,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item()? in (1, 2), $b as item()? in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3307,7 +3307,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as item()? in (1, 2), $b as item()? in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3322,7 +3322,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item()+ in (1, 2), $b as item()+ in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3337,7 +3337,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as item()+ in (1, 2), $b as item()+ in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3352,7 +3352,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as empty-sequence()? in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3367,7 +3367,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as empty-sequence()? in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3382,7 +3382,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as xs:anyURI in 1 satisfies count($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3397,7 +3397,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as xs:anyURI in 1 satisfies count($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3412,7 +3412,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as empty-sequence() in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3427,7 +3427,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as empty-sequence() in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3442,7 +3442,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as xs:integer+ in (1, 2), $b as xs:string* in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3457,7 +3457,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as xs:integer+ in (1, 2), $b as xs:string* in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3472,7 +3472,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as item()* in (1, 2), $b as xs:string in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3487,7 +3487,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item()* in (1, 2), $b as xs:string in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3502,7 +3502,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as xs:integer+ in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3517,7 +3517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item()* in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3532,7 +3532,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as item() at $p in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3547,7 +3547,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as item() at $p in (1, 2) satisfies $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3562,7 +3562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as empty-sequence() in (), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3585,7 +3585,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(some $a as empty-sequence() in (), $b as xs:integer in $a satisfies $b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3608,7 +3608,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $a as xs:integer in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3623,7 +3623,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-QuantExprWith-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $a as xs:integer in (1, 2), $b as xs:integer in $a satisfies $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3638,7 +3638,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-every-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1 to 10)[. div 2 = 11] satisfies false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3653,7 +3653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-some-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in (1 to 10)[. div 2 = 11] satisfies true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3668,7 +3668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-every-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in (1 to 10)[. mod 2 = 0] satisfies true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

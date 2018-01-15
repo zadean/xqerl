@@ -52,7 +52,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -293,7 +293,7 @@ environment('works-and-staff-uri',BaseDir) ->
 {modules, []}
 ].
 'fn-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(\"http:\\\\invalid>URI\\someURI\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +316,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(\"argument1\",\"argument2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(\"thisfileshouldnotexists.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -361,7 +361,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri) is fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -377,7 +377,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($works) is fn:doc($staff)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -393,7 +393,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)//day/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -409,7 +409,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:nilled(fn:doc($uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -425,7 +425,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:node-name(fn:doc($uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -441,7 +441,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(\"%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:doc($uri) is fn:doc($uri))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -480,7 +480,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -496,7 +496,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) and fn:false()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -512,7 +512,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:true()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -528,7 +528,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:doc($uri) is fn:doc($uri)) or fn:false()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -544,7 +544,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/SpaceBracket.xml"),"",filename:join(BaseDir, "id/SpaceBracket.xml")}]},
@@ -571,7 +571,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/HighUnicode.xml"),"",filename:join(BaseDir, "id/HighUnicode.xml")}]},
@@ -598,7 +598,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/HighUnicode2.xml"),"",filename:join(BaseDir, "id/HighUnicode2.xml")}]},
@@ -625,7 +625,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/BCisInvalid.xml"),"",filename:join(BaseDir, "id/BCisInvalid.xml")}]},
@@ -652,7 +652,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/InvalidUmlaut.xml"),"",filename:join(BaseDir, "id/InvalidUmlaut.xml")}]},
@@ -679,7 +679,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml"),"",filename:join(BaseDir, "id/NamespaceSuppliedInternally.xml")}]},
@@ -706,7 +706,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/XMLIdDuplicated.xml"),"",filename:join(BaseDir, "id/XMLIdDuplicated.xml")}]},
@@ -741,7 +741,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name(fn:doc($uri)/*)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/InvalidXMLId.xml"),"",filename:join(BaseDir, "id/InvalidXMLId.xml")}]},
@@ -776,7 +776,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(':/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -791,7 +791,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/Books2.xml"),"",filename:join(BaseDir, "id/Books2.xml")}]},
@@ -818,7 +818,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace s = \"http://www.w3.org/2000/svg\"; 
         declare variable $uri external; 
@@ -865,7 +865,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/0x010D.xml"),"",filename:join(BaseDir, "id/0x010D.xml")}]},
@@ -892,7 +892,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc('id/badxml.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -907,7 +907,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(doc($uri)//text())",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/builtinEntities.xml"),"",filename:join(BaseDir, "id/builtinEntities.xml")}]},
@@ -934,7 +934,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $result := id(\"idABC\", doc($uri)) return $result",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/XMLIdWhitespace.xml"),"",filename:join(BaseDir, "id/XMLIdWhitespace.xml")}]},
@@ -969,7 +969,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <a/>/self::b[doc('%GG')]
       ",
@@ -998,7 +998,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $n in (text { 'x' }, comment { 'y' })/self::a
         return doc('i-do-not.exist')
@@ -1028,7 +1028,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:doc(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1043,7 +1043,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{fn:doc(())}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1058,7 +1058,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc(xs:untypedAtomic(\"file:///example.com/does/not/exist/xqts-testing.xml\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1073,7 +1073,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1100,7 +1100,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1127,7 +1127,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1154,7 +1154,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1177,7 +1177,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"\\example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1200,7 +1200,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"C:\\example.com\\example.org\\does\\not\\exist\\doesNotExist\\works-mod.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1223,7 +1223,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1250,7 +1250,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc(\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1277,7 +1277,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $fileToOpen := <Variable id=\"_7\" name=\"constComplex2\" type=\"_11c\" context=\"_1\" location=\"f0:17\" file=\"f0\" line=\"17\">%GG</Variable>;
         empty($fileToOpen//*[let $i := @type return doc($fileToOpen)//*[$i]])
@@ -1307,7 +1307,7 @@ environment('works-and-staff-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $doc1 := doc(\"http://fybnqmf.com/fybnqmf\"); 
         let $doc2 := doc(\"ftp://fybnqmf.com/fybnqmf\") 

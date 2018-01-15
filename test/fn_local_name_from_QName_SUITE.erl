@@ -35,7 +35,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -245,22 +245,22 @@ environment('fsx',BaseDir) ->
 {modules, []}
 ].
 'LocalNameFromQNameFunc001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -275,7 +275,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(((),()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -290,7 +290,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -305,10 +305,10 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -323,19 +323,19 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XP20"}.
 'LocalNameFromQNameFunc015a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName((//Folder)[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -351,7 +351,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -366,7 +366,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(xs:time(\"12:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,25 +381,25 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LocalNameFromQNameFunc018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'LocalNameFromQNameFunc021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-local-name-from-qname-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-local-name-from-qname-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-local-name-from-qname-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:local-name-from-QName(node-name(/*))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -415,7 +415,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LocalNameFromQNameFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -430,7 +430,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LocalNameFromQNameFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -445,7 +445,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LocalNameFromQNameFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(local-name-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +460,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LocalNameFromQNameFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName( QName(\"example.com/\", \"pre:lname\")) eq \"lname\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -16,7 +16,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "array")
 
@@ -195,7 +195,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'array-head-601'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([5,6,7,8])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -219,7 +219,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-602'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([[\"a\", \"b\"], [\"c\", \"d\"]])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -243,7 +243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-603'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([(\"a\", \"b\"), (\"c\", \"d\")])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -267,7 +267,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-604'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -283,7 +283,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-605'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([(), 1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -299,7 +299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-606'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head([[1,[2],3], [4,5,6]])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-607'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
            array:head([(1, [<e><f>g</f></e>, \"b\"], 2)])
         ",
@@ -353,7 +353,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-608'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head(array { (), (27, 17, 0) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -369,7 +369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-head-609'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:head(array { (1 to 100) [. eq year-from-date(current-date())] })",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

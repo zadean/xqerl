@@ -27,7 +27,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -241,7 +241,7 @@ environment('DupNode',BaseDir) ->
 {modules, []}
 ].
 'Parenexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 + 2) * 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -256,7 +256,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + (2 * 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -271,7 +271,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-(2 + 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -286,7 +286,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(-2) + 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -301,7 +301,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 + (4 idiv 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +316,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(2 + 4) idiv 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 * (5 mod 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(2 * 5) mod 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -361,7 +361,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:true() or fn:true()) and fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -376,7 +376,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() or (fn:true() and fn:false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -391,7 +391,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $x in (1) where (fn:true()) order by ($x) return ($x))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -406,7 +406,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1,2) return (if (($x eq 1)) then ($x) else ($x + 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -421,7 +421,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -436,7 +436,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, (2, (3, 4)), (5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -451,7 +451,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{//node() | (//node() except //comment())}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -467,7 +467,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{(//node() | //node()) except //comment()}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -483,7 +483,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -498,7 +498,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem attr=\"{(1)}\">{(<child/>),(<child/>)}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -513,7 +513,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -529,7 +529,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Parenexpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{(//(north)/(/)//(@mark)[(1)]/(.)/(..))}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

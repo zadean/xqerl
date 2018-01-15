@@ -43,7 +43,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -261,7 +261,7 @@ environment('DupNode',BaseDir) ->
 {modules, []}
 ].
 'Constr-text-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -276,7 +276,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -291,7 +291,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {1,'',2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -306,7 +306,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {1,<a/>,2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -321,7 +321,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-enclexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {/root}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -337,7 +337,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {., .}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -353,7 +353,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((text {'text'})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(text {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(text {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -398,7 +398,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(text {''})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -413,7 +413,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(text {()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -428,7 +428,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(element elem {text {''}}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -443,7 +443,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document {text {''}}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -466,7 +466,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a>{text {''}}<b/>{text {''}}<b/>{text {''}}</a>/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -481,7 +481,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-count-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document {text {''},<b/>,text {''},<b/>,text {''}}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -504,7 +504,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-adjtext-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<elem>{text {'te'}, text {'xt'}}</elem>/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -519,7 +519,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-adjtext-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document {text {'te'}, text {'xt'}}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -534,7 +534,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-nested-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {text {'one', text {'two'}}, 'three', text {'four'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -549,7 +549,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-nested-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{text {'one'}}<a>{text {'two'}}</a>{text {'three'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -564,7 +564,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-text-nested-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {text {'one'}, <a/>, text {'two'}, <b/>, text {'three'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -579,7 +579,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text {\"name\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -594,7 +594,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text name {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -609,7 +609,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(text {\"\"}) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -624,7 +624,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{text{()}}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -639,10 +639,10 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'K2-ConText-5a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text{}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,7 +657,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(text {\"content\"}) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -672,7 +672,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA[content]]]></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA[content]]]]]]></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -702,7 +702,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA[]]]></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -717,7 +717,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA[]]]]]]></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -732,7 +732,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA]]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -747,7 +747,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -762,7 +762,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><![CDATA]]>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1}{text{\"\"}}{2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConText-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem>{1}{text{\"\"}}{2}</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

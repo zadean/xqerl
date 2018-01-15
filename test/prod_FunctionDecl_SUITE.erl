@@ -180,7 +180,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -559,7 +559,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'function-declaration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace foo = \"http://www..oracle.com/xquery/test\";
         declare function foo:price ($b as element()) as element()* { $b/price };
@@ -578,7 +578,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "        
         declare function local:foo($n as xs:integer) { <tr> {$n} </tr> };
         local:foo(4)
@@ -596,7 +596,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:price ($i as element()) as element()? { $i/price };
         for $j in /bib/book return local:price($j)",
@@ -614,7 +614,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:summary($emps as element(employee)*) as element(dept)* { 
             for $d in distinct-values($emps/deptno) 
@@ -641,7 +641,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
         declare function local:invoke_mysum() { let $s := 1 for $d in (1,2,3,4,5) let $s := local:mysum($s, $d) return $s };
@@ -659,7 +659,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
         declare function local:invoke_mysum($st as xs:integer) { for $d in (1,2,3,4,5) let $st := local:mysum($d, $st) return $st };
@@ -677,7 +677,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $a := 1;
         declare function local:foo($a as xs:integer) { 
@@ -696,7 +696,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace my = \"urn:foo\";
         declare function my:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * my:fact($n - 1) };
@@ -715,7 +715,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       
         declare function local:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * local:fact(($n)-1) };
         <table> { for $i in 1 to 10 return <tr> <td>{$i}! = {local:fact($i)}</td> </tr> } </table>",
@@ -732,7 +732,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       
         declare function local:prnt($n as xs:integer,$n2 as xs:string, $n3 as xs:date, $n4 as xs:long, $n5 as xs:string, $n6 as xs:decimal) { if ($n < 2) then 1 else concat($n, \" \",$n2,\" \",$n3,\" \",$n4,\" \",$n5,\" \",$n6) };
         <table> { <td>Value is = {local:prnt(4,xs:string(\"hello\"),xs:date(\"2005-02-22\"), xs:long(5),xs:string(\"well\"),xs:decimal(1.2))}</td> } </table>",
@@ -749,7 +749,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       
         declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
         declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
@@ -767,7 +767,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       
         declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
         declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
@@ -785,7 +785,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       
         declare function local:foo2($i as xs:string) as xs:string {local:foo($i)};
         declare function local:foo($i as xs:string) as xs:string {$i};
@@ -803,7 +803,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
         declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
@@ -821,7 +821,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
         declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
@@ -839,7 +839,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:title($a_book as element()) { for $i in $a_book return $i/title };
         /bib/book/(local:title(.))",
@@ -857,7 +857,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/filesystem\";
         declare variable $v as xs:integer := 100;
@@ -877,7 +877,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/filesystem\";
         declare function local:udf1 () { <empty> {10*10} </empty> };
@@ -896,7 +896,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://www.example.com/def\";
         declare namespace test=\"http://www.example.com/test\";
@@ -917,7 +917,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www..oracle.com/xquery/test\";
         declare function foo:price () as xs:integer+ { 100 };
         declare function foo:price ($z as xs:integer) as xs:integer+ { $z };
@@ -937,7 +937,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo ($n as xs:integer) as xs:string { $n };
         local:foo(4)",
@@ -954,7 +954,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo ($m as xs:integer) { $m };
         declare function local:foo ($n as xs:integer) { $n };
@@ -972,7 +972,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function foo ($n as xs:integer) { $n };
         foo(4)",
@@ -997,7 +997,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo ($n as xs:integer, $n as xs:integer) { $n };
         local:foo(4, 1)",
@@ -1014,7 +1014,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"\";
         declare function foo ($n as xs:integer, $m as xs:integer) { $n };
         foo(4, 1)",
@@ -1031,7 +1031,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $global := node();
         declare function local:function() { exists($global) };
@@ -1050,10 +1050,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'function-declaration-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:function() { };
          local:function()",
@@ -1070,7 +1070,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:function($x) { (:there is nothing here:) };
          local:function(3)",
@@ -1087,7 +1087,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-declaration-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:function($x as xs:integer) as xs:integer { (:there is nothing here:) };
          local:function(3)",
@@ -1104,7 +1104,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/2005/xpath-datatypes\";
         declare function test:myFunction() { 1};
         1 eq 1",
@@ -1121,7 +1121,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function wrongNS() { 1 };
         1",
@@ -1138,7 +1138,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function xml:wrongNS() { 1 };
         1",
@@ -1155,7 +1155,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://www.w3.org/2001/XMLSchema-instance\";
         declare function my:wrongNS() { 1 };
         1",
@@ -1172,7 +1172,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://www.w3.org/2001/XMLSchema\";
         declare function my:wrongNS() { 1 };
         1",
@@ -1189,7 +1189,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg = 1) {1};
         true()",
@@ -1206,7 +1206,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg = 1 as xs:integer) {1};
         true()",
@@ -1223,7 +1223,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg := 1) {1};
         true()",
@@ -1240,7 +1240,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg := 1 as xs:integer) {1};
         true()",
@@ -1257,7 +1257,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:double { \"This is not a double, it's an xs:string.\" };
         local:myFunction()",
@@ -1274,7 +1274,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as item() { () };
         local:myFunction()",
@@ -1291,10 +1291,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-12a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-FunctionProlog-12b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:computeSum() { $myVariable };
         declare variable $myVariable := 1;
@@ -1312,7 +1312,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:computeSum() { $prefix:myVariable };
         declare namespaces prefix = \"example.com/Anamespace\";
@@ -1338,7 +1338,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:integer { subsequence((1, 2, \"a string\"), 3 ,1) };
         fn:boolean(local:myFunction())",
@@ -1355,7 +1355,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:anyURI { 1 };
         true()",
@@ -1380,7 +1380,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction as xs:integer { 1 };
         true()",
@@ -1397,7 +1397,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction { 1 };
         true()",
@@ -1414,7 +1414,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := 1;
         declare function local:func1() as xs:integer { $var1 };
         declare variable $var2 := 2;
@@ -1433,7 +1433,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func1($a1, $a2, $a3) { 1 };
         local:func1(1, 2, 3)",
@@ -1450,7 +1450,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func($choose, $whenTrue, $whenFalse) { if($choose) then $whenTrue else $whenFalse };
         local:func(true(), current-time(), current-date()) instance of xs:time and local:func(false(), current-time(), current-date()) instance of xs:date",
@@ -1467,7 +1467,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func($a as xs:integer, $unused, $c as xs:integer) { $a + $c };
         local:func(1, 2, 3)",
@@ -1484,7 +1484,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func($unused, $b as xs:integer, $c as xs:integer) { $b + $c };
         local:func(1, 2, 3)",
@@ -1501,7 +1501,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func($a as xs:integer, $b as xs:integer, $unused) { $a + $b };
         local:func(1, 2, 3)",
@@ -1518,7 +1518,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function wrongNS() { 1 };
         1",
@@ -1535,7 +1535,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myName := 1;
         declare function local:myName() as xs:integer { 1 };
         $local:myName eq local:myName()",
@@ -1552,7 +1552,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myName() { 1 };
         declare function local:myName() { 1 };
@@ -1570,7 +1570,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myName() as xs:integer { 1 };
         declare function local:myName() as xs:nonPositiveInteger { 1 };
@@ -1588,7 +1588,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myName($myvar as xs:integer) { 1 };
         declare function local:myName($myvar as xs:nonPositiveInteger) { 1 };
@@ -1606,7 +1606,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myName($myvar) { 1 };
         declare function local:myName($myvar2) { 1 };
@@ -1624,7 +1624,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myName($var as xs:integer) as xs:integer { $var };
         declare function local:myName() as xs:integer { 1 };
@@ -1642,7 +1642,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function fn:count($var) { fn:count($var) };
         1",
@@ -1659,7 +1659,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function xs:gYear($arg as xs:anyAtomicType?) as xs:gYear? { xs:gYear($arg) };
         1",
@@ -1676,7 +1676,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() { \"a string\" + 1 };
         true()",
@@ -1701,7 +1701,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:MyFunction() { 1 };
         local:myFunction()",
@@ -1718,7 +1718,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:MyFunction() { 1 };
         local:myFunctionn()",
@@ -1735,7 +1735,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { 0 };
         $myArg",
@@ -1752,7 +1752,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { 0 };
         declare function local:MyFunction2($myArg2) { $myArg };
@@ -1770,7 +1770,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:MyFunction($myArg) { $myArg2 };
         declare function local:MyFunction2($myArg2) { 0 };
@@ -1788,7 +1788,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := 1;
         declare function local:myFunction($local:myVar) { $local:myVar };
         $local:myVar, local:myFunction(2)",
@@ -1805,7 +1805,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:myVar as xs:integer) { for $local:myVar in ($local:myVar, 3) return $local:myVar };
         deep-equal(local:myFunction(1), (1, 3))",
@@ -1822,7 +1822,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:myVar) { $local:myVar + 1 };
         local:myFunction(1), local:myFunction(\"this will fail\")",
@@ -1839,7 +1839,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($local:arg) as item() { 1, $local:arg };
         local:myFunction(()), local:myFunction(1)",
@@ -1856,7 +1856,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction(\"3\", \"3\")",
@@ -1873,7 +1873,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction(\"3\", ())",
@@ -1890,7 +1890,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as item()?, $arg2 as xs:integer) { $arg, $arg2 };
         local:myFunction((), 4.1)",
@@ -1907,7 +1907,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()) { $arg };
         local:myFunction(1)",
@@ -1932,7 +1932,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()+) { $arg };
         local:myFunction(())",
@@ -1949,7 +1949,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()?) { $arg };
         local:myFunction(())",
@@ -1966,7 +1966,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as empty-sequence()) { $arg };
         empty(local:myFunction(()))",
@@ -1991,7 +1991,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) as empty-sequence() { $arg };
         local:myFunction(1)",
@@ -2008,7 +2008,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) { $arg };
         local:myFunction()",
@@ -2025,7 +2025,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as empty-sequence() { fn:error() };
         local:myFunction()",
@@ -2042,7 +2042,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http:example.org/\", \"prefix:ncname\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
@@ -2068,7 +2068,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($msg as xs:string) as empty-sequence() { error($my:error-qname, concat('No luck: ', $msg)) };
@@ -2086,7 +2086,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
@@ -2104,7 +2104,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/MyNamespace/\";
         declare variable $my:error-qname := QName(\"http://example.com/MyErrorNS\", \"my:qName\");
         declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
@@ -2130,7 +2130,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:error() as none { 1 };
         local:error()",
@@ -2147,7 +2147,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:error() as none() { 1 };
         local:error()",
@@ -2172,7 +2172,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($unusedArg) { true() };
         local:myFunction(1 + \"a string\")",
@@ -2197,7 +2197,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg) { 1 };
         $arg",
@@ -2214,7 +2214,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg, $arg2, $arg3) { 1 };
         $arg3",
@@ -2231,7 +2231,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $my := 3;
         declare function local:myFunction($my, $arg2, $arg4) { 1 };
         $my eq 3",
@@ -2248,7 +2248,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local:myFunction(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2263,7 +2263,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace my = \"http://example.com/ANamespace\";
         my:function(1)",
    Qry1 = Qry,
@@ -2279,7 +2279,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as empty-sequence() { fn:error() };
         QName(\"http://example.com/ANamespace\", local:myFunction())",
@@ -2304,7 +2304,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() { fn:error() };
         QName(\"http://example.com/ANamespace\", local:myFunction())",
@@ -2329,7 +2329,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
         declare function local:is() as xs:integer { 1 };
         is() eq 1",
@@ -2346,7 +2346,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FunctionProlog-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($usedArg) { $usedArg };
         local:myFunction(1 + \"a string\")",
@@ -2363,7 +2363,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         local:myFunction(1) eq local:myFunction(2)",
@@ -2380,7 +2380,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         not(local:myFunction(1) ne local:myFunction(2))",
@@ -2397,7 +2397,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         local:myFunction(1) = local:myFunction(2)",
@@ -2414,7 +2414,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
         not(local:myFunction(1) != local:myFunction(2))",
@@ -2431,7 +2431,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) { $arg };
         local:myFunction(1.0)",
@@ -2448,7 +2448,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:integer { 1.0 };
         local:myFunction()",
@@ -2465,7 +2465,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as xs:float { 4.0 };
         (current-time(), 1, 2, \"a string\", local:myFunction(), 4.0, xs:double(\"NaN\"), current-date())[5] instance of xs:float
@@ -2483,7 +2483,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction($arg as xs:integer) as xs:integer { if($arg eq 1) then $arg else local:myFunction3($arg - 1) };
         declare function local:myFunction2($arg as xs:integer) as xs:integer { local:myFunction($arg) };
@@ -2502,7 +2502,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:multiplySequence($input as xs:integer*) as xs:integer { if (empty($input)) then 1 else $input[1] * local:multiplySequence($input[position() != 1]) };
         local:multiplySequence((1, 2, 3, 4, 5))",
@@ -2519,7 +2519,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\";
         declare function _() { 1 };
         _()",
@@ -2536,7 +2536,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:_() { 1 };
         local:_()",
@@ -2553,7 +2553,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:_($arg as node()) { $arg };
         local:_(1)",
@@ -2570,7 +2570,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:_($arg as attribute()?) { 1 };
         local:_(1)",
@@ -2595,7 +2595,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:myFunc() { e };
         <e/>/local:myFunc()/1",
    Qry1 = Qry,
@@ -2619,7 +2619,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := let $var1 := 1 return 1;
         $var1 eq 1",
    Qry1 = Qry,
@@ -2635,7 +2635,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunction() as item()* {***};
         1",
@@ -2660,7 +2660,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <e>1</e> };
         local:func()",
    Qry1 = Qry,
@@ -2676,7 +2676,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer { attribute name {\"1\"} };
         local:func()",
@@ -2693,7 +2693,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer { document {\"1\"} };
         local:func()",
@@ -2710,7 +2710,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <!--1--> };
         local:func()",
    Qry1 = Qry,
@@ -2726,7 +2726,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:func() as xs:integer { <?target 1?> };
         local:func()",
    Qry1 = Qry,
@@ -2742,7 +2742,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:func() as xs:integer? { text {\"1\"} };
         local:func()",
@@ -2759,7 +2759,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:recursiveFunction($i as xs:integer) as xs:integer { if($i eq 5) then $i else local:recursiveFunction($i + 1) };
         declare function local:proxy() as xs:integer { local:recursiveFunction(0) + 3 };
@@ -2777,7 +2777,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:distinct-nodes-stable ($arg as node()*) as xs:boolean* { for $a in $arg return $a };
         local:distinct-nodes-stable((<element1/>,<element2/>))",
    Qry1 = Qry,
@@ -2793,7 +2793,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:myFunc($recurse as xs:integer) { attribute {concat(\"name\", $recurse)} {()} , if ($recurse = 0) then () else local:myFunc($recurse - 1) };
         <e> { local:myFunc((2, current-time())[1] treat as xs:integer) } </e>",
    Qry1 = Qry,
@@ -2809,7 +2809,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:myFunc() as element(foo) { <bar/> };
         local:myFunc()",
    Qry1 = Qry,
@@ -2825,7 +2825,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:myFunc() as attribute(foo) { <foo/> };
         local:myFunc()",
    Qry1 = Qry,
@@ -2841,7 +2841,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:levenshtein($arg1 as xs:string, $arg2 as xs:string) as xs:decimal { if(string-length($arg1) = 0) then string-length($arg2) else if(string-length($arg2) = 0) then string-length($arg1) else min((local:levenshtein(substring($arg1, 2), $arg2) + 1, local:levenshtein($arg1, substring($arg2, 2)) + 1, local:levenshtein(substring($arg1, 2), substring($arg2, 2)) + (if(substring($arg1, 1, 1) = substring($arg2, 1, 1)) then 0 else 1))) };
         local:levenshtein(\"a\", \"a\"), local:levenshtein(\"aa\", \"aa\"), local:levenshtein(\"aaa\", \"aaa\"), local:levenshtein(\"aa a\", \"aa a\"), local:levenshtein(\"a a a\", \"aaa\"), local:levenshtein(\"aaa\", \"a a a\"), local:levenshtein(\"aaa\", \"aaab\"), local:levenshtein(\"978\", \"abc\")",
@@ -2858,7 +2858,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function gt function",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2873,7 +2873,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:foo($arg) as xs:boolean { $arg };
         local:foo(<e/>)",
    Qry1 = Qry,
@@ -2897,7 +2897,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
@@ -2913,7 +2913,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo(current-date())",
@@ -2930,7 +2930,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
@@ -2946,7 +2946,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo((true(), xs:untypedAtomic(\"false\"))), local:foo((false(), xs:untypedAtomic(\"false\")))",
@@ -2963,7 +2963,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean* { $arg };
         local:foo(xs:untypedAtomic(\"false\"))",
@@ -2980,7 +2980,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo($arg) as xs:boolean { $arg };
         local:foo(xs:untypedAtomic(\"false\"))",
@@ -2997,7 +2997,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "       declare function local:foo($arg ) as xs:boolean* { $arg };
         local:foo((<e>true</e>, true(), xs:untypedAtomic(\"false\"), false(), <e> true </e>))",
    Qry1 = Qry,
@@ -3013,7 +3013,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:foo() as xs:boolean { text {local:doesNotExist()} };
         1",
@@ -3030,7 +3030,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $A:=(<A>{local:functionA()}</A>);
         declare function local:functionA() as element() { <input>testing ...</input> };
@@ -3049,7 +3049,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FunctionProlog-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $A:=(<A>{local:functionA()}</A>);
         declare function local:functionA() as element() { <input>testing ...</input> };
@@ -3068,7 +3068,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-function-decl-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:nothing() as empty-sequence() { () }; empty(local:nothing())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3083,7 +3083,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-function-declaration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:count($x) { count($x) }; local:count((1 to 100000, 1 to 100000))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3098,10 +3098,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function attribute() { fn:true() };
@@ -3120,10 +3120,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function comment() { fn:true() };
@@ -3142,10 +3142,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function document-node() { fn:true() };
@@ -3164,10 +3164,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function element() { fn:true() };
@@ -3186,10 +3186,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function empty-sequence() { fn:true() };
@@ -3208,10 +3208,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function function() { fn:true() };
@@ -3230,10 +3230,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function if() { fn:true() };
@@ -3252,10 +3252,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function item() { fn:true() };
@@ -3274,10 +3274,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function namespace-node() { fn:true() };
@@ -3296,10 +3296,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function node() { fn:true() };
@@ -3318,10 +3318,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function processing-instruction() { fn:true() };
@@ -3340,10 +3340,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function schema-attribute() { fn:true() };
@@ -3362,10 +3362,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function schema-element() { fn:true() };
@@ -3384,10 +3384,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function switch() { fn:true() };
@@ -3406,10 +3406,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function text() { fn:true() };
@@ -3428,10 +3428,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-decl-reserved-function-names-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'function-decl-reserved-function-names-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
 	declare function typeswitch() { fn:true() };

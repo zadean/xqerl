@@ -65,7 +65,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'K2-Steps-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { e[1] }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -308,7 +308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { e[928] }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { e[true()] }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -354,7 +354,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { e[last()] }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<a/>/a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -384,7 +384,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -399,7 +399,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<a/>, <!--comment-->)/3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +414,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/)/(//)/foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "child::local:b(:ada",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -452,7 +452,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e>text</e>; $myVar/text()/(<e/>, (), 1, <e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -467,7 +467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "///",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +482,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := ()/.; declare variable $b := <b/>/.; $e, <b/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -505,7 +505,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(for $i in e return $i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -520,7 +520,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return ()/$b } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -543,7 +543,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return <e/>/$b } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -558,7 +558,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return <e/>/./$b } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -573,7 +573,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return $b/. } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <a/> </e>/*/(., .)/.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -603,7 +603,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <a/> </e>/(., .)/.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <a/> <b/> </e>/((b, a)/., (.), (*, *))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -633,7 +633,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <a> <b e=\"B\"/> <c e=\"B\"/> </a>; declare function local:function($arg) { $root[\"B\" eq $arg/@e] }; $root/local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -648,7 +648,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <a> <b e=\"B\"/> <c e=\"B\"/> </a>; declare function local:function($arg) { $root[exactly-one($arg/@e)] }; $root/local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -663,7 +663,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <a><c e=\"\"/></a>; declare function local:function($arg) { $root[$arg/@e] }; $root/local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -678,7 +678,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <b d=\"\"/> <c> <c d=\"\"/> <c/> </c> </root>; declare function local:function($object) { $root/b[@d = $object/@d] }; $root/c/c/local:function(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -693,7 +693,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $root := <root> <b d=\"\"/> <c> <c d=\"\"/> <c/> </c> </root>; 
         declare function local:function($object) { $root/b[@d = $object/@d] }; 
@@ -711,7 +711,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <b d=\"\"/> <c> <c d=\"\"/> <c/> </c> </root>; declare function local:function($object) { $root/b[$object/@d] }; $root//local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -726,7 +726,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <b d=\"\"/> <c> <c d=\"\"/> <c/> </c> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <b d=\"\"/> <c d=\"\"/> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <c d=\"\"/> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root> <c d=\"\"/> </root>; declare function local:function($object) { $root[$object] }; $root//local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root><c/></root>; declare function local:function($arg) { $root[$arg] }; $root//local:function(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := <root/>; declare function local:function($arg, $count as xs:integer) { $arg, $root, if($count eq 2) then $root else local:function($arg, $count + 1) }; $root/local:function(., 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $root := ( <b d=\"\"/>, <c> <c d=\"\"/> </c> ); declare function local:function($object) { $root[@d eq $object/@d] }; $root/local:function(c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $root := ( <b d=\"\"/>, <c d=\"\"> <c d=\"\"/> </c> ); 
         declare function local:function($object) { $root[@d eq $object/@d] }; 
@@ -850,7 +850,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Steps-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>[1]/text{string-join(., \" \")}, 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -877,7 +877,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/*5]
         ",
@@ -894,7 +894,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-1a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[(/)*5]
         ",
@@ -911,7 +911,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/<a]
         ",
@@ -928,7 +928,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[(/)<a]
         ",
@@ -945,7 +945,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/<5]
         ",
@@ -962,7 +962,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-3a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[(/)<5]
         ",
@@ -979,7 +979,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/</b]
         ",
@@ -996,7 +996,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/<a div 3]
         ",
@@ -1013,7 +1013,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-5a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[(/)<a div 3]
         ",
@@ -1030,7 +1030,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; $var[/if ($doclevel) then / else /*]
         ",
@@ -1047,7 +1047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         declare variable $a := document {<a>123</a>}; $var[/ is $a]
@@ -1065,7 +1065,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-7a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         declare variable $a := document {<a>123</a>}; $var[(/) is $a]
@@ -1083,7 +1083,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/ instance of document-node(element(x))]
@@ -1101,7 +1101,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-8a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[(/) instance of document-node(element(x))]
@@ -1119,7 +1119,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         let $doc := / return $doc/*
@@ -1137,7 +1137,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/*]
@@ -1155,7 +1155,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/<a/>]
@@ -1173,7 +1173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/<a div=\"3\"/>]
@@ -1191,7 +1191,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/unordered{a}]
@@ -1209,7 +1209,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/max(a)]
@@ -1227,7 +1227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         $var[/-5]
@@ -1245,7 +1245,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         declare variable $a := document {<a>123</a>}; 
@@ -1264,7 +1264,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Steps-leading-lone-slash-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $var := document {<a>123</a>}; 
         declare variable $a := document {<a>123</a>}; 

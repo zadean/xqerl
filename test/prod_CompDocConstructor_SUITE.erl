@@ -65,7 +65,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -317,7 +317,7 @@ environment('TreeEmpty',BaseDir) ->
 {modules, []}
 ].
 'Constr-docnode-adjtext-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((document {1, 'string', 1,2e3})/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -332,7 +332,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-adjtext-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((document {1, //text(), 'string'})/text())",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -348,7 +348,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-adjtext-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((document {1, 2, <a/>, 3, 4, <b/>, 5, 6})/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -363,7 +363,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nested-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {1, document {2, document {document {()}, document {3}}, 4}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -378,7 +378,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nested-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {/root}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -394,7 +394,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nested-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document {1, document{2}, document { document {()}, document {3}}, 4}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -409,7 +409,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nested-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document {\"\", document{\"\"}, document { document {()}, document {\"\"}}, \"\"}/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -424,7 +424,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -439,7 +439,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {1,'a',3.5,4e2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -454,7 +454,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -470,7 +470,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {1, '', 2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nodeid-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a/>, $y in document {$x} return exactly-one($y/a) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nodeid-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <!--comment-->, $y in document {$x} return exactly-one($y/comment()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nodeid-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <?pi content?>, $y in document {$x} return exactly-one($y/processing-instruction()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-nodeid-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a>text</a>, $y in document {$x/text()} return exactly-one($y/text()) is exactly-one($x/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,19 +545,19 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-constrmod-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-docnode-constrmod-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-docnode-constrmod-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-docnode-constrmod-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-docnode-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {., .}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((document {()})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(document {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(document {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-attr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {//@mark}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -650,7 +650,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-attr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {<a/>, //@mark}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -666,7 +666,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-docnode-attr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {<a/>, //@mark, <b/>}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,7 +682,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node{\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -697,7 +697,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{\"content\"};",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -712,7 +712,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{\"some text\", <e/>, attribute name {\"content\"}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -727,7 +727,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{<e/>, attribute name {\"content\"}, \"some text\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -742,7 +742,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{attribute name {\"content\"}, <e/>, \"some text\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -757,7 +757,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{\"some text\", <e/>, attribute name {\"content\"}})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -772,7 +772,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{<e/>, attribute name {\"content\"}, \"some text\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -787,7 +787,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{attribute name {\"content\"}, <e/>, \"some text\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -802,7 +802,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{<a/>, <b/>, <c/>}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -817,7 +817,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{<a/>, <b/>, <c/>}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -832,7 +832,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{data(document{<a/>, <b/>, <c/>})}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -847,7 +847,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{string(document{<a/>, <b/>, <c/>})}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -862,7 +862,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{string(document{<a/>, <b/>, <c/>})}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -877,7 +877,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{\"abc\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -892,7 +892,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(document {\"content\"}) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -907,7 +907,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {\"content\"} is document{\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -922,7 +922,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{\"string\", <e>more<a>even more</a><b attr=\"thisIsIgnored\"/><![CDATA[ButNotThis]]><?target butThisIs?> content</e>})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -937,7 +937,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{ text {\"data\"}, processing-instruction name {\"data\"}, processing-instruction name {\"data\"}, text {\"data\"}, processing-instruction name {\"data\"}, processing-instruction name1 {\"data\"}, comment {\"content\"}, comment {\"content\"}, text {\"data\"}, processing-instruction name2 {\"data\"}, comment {\"content\"}, text {\"data\"} })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -952,7 +952,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document{document{document{document{()}}}}/child::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -967,7 +967,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, document{document{document{document{()}}}}/child::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -982,7 +982,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{document{document{document{<e/>}}}}/child::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -997,7 +997,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{document{document{document{<e/>, document{()}, <e>{document{()}}</e>}}}}//child::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,7 +1012,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document{ text {\"data\"}, text {\"data\"}, text {\"data\"}, text {\"data\"} })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1027,7 +1027,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document{ text {\"data\"}, text {\"data\"}, <e/>, text {\"data\"}, text {\"data\"} }/child::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1042,7 +1042,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(document{ text {\"data\"}, text {\"data\"}, text {\"data\"}, text {\"data\"} }/child::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1057,7 +1057,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<doo> { document { attribute name {\"content\"} } } </doo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1072,7 +1072,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<doo> { document { <e/>, attribute name {\"content\"} } } </doo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1087,7 +1087,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<doo> { document { <e> <b/> <b/> <b/> <c> <d/> </c> </e>, attribute name {\"content\"} } } </doo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1102,7 +1102,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<doo> { document { <e> { <?target data?>, attribute name {\"content\"} } </e> } } </doo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1117,7 +1117,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a>{document {text{'a'}}}b</a>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1132,7 +1132,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1147,7 +1147,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConDocNode-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

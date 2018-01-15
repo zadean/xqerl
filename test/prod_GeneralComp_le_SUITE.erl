@@ -115,7 +115,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -393,7 +393,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'generalexpression298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -408,7 +408,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -423,7 +423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -438,7 +438,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -453,7 +453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -468,7 +468,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -483,7 +483,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -498,7 +498,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -514,7 +514,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -530,7 +530,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -546,7 +546,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -561,7 +561,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -652,7 +652,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -668,7 +668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10000 <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -684,7 +684,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -699,7 +699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -714,7 +714,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -729,7 +729,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -744,7 +744,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -759,7 +759,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -789,7 +789,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -805,7 +805,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -821,7 +821,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(50000) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -837,7 +837,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -912,7 +912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -927,7 +927,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -942,7 +942,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -958,7 +958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -974,7 +974,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10000,50000) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -990,7 +990,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1005,7 +1005,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1020,7 +1020,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1035,7 +1035,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1050,7 +1050,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1065,7 +1065,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1080,7 +1080,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1095,7 +1095,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1111,7 +1111,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1127,7 +1127,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>10000</a> <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1143,7 +1143,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1158,7 +1158,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1173,7 +1173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1188,7 +1188,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1203,7 +1203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1218,7 +1218,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1233,7 +1233,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1248,7 +1248,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1264,7 +1264,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1280,7 +1280,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1296,7 +1296,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1311,7 +1311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1326,7 +1326,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1341,7 +1341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (10000,50000)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1356,7 +1356,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= <a>10000</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1371,7 +1371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (<a>10000</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1386,7 +1386,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (<a>10000</a>,<b>50000</b>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1401,7 +1401,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1417,7 +1417,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1433,7 +1433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>10000</a>,<b>50000</b>) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1449,7 +1449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1465,7 +1465,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= 10000",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1481,7 +1481,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1497,7 +1497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (10000,50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1513,7 +1513,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= <a>10000</a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1529,7 +1529,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (<a>10000</a>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1545,7 +1545,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (<a>10000</a>,<b>50000</b>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1561,7 +1561,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1577,7 +1577,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1]) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1593,7 +1593,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1]) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1609,7 +1609,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1625,7 +1625,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= 10000",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1641,7 +1641,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1657,7 +1657,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (10000,50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1673,7 +1673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= <a>10000</a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1689,7 +1689,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (<a>10000</a>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1705,7 +1705,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (<a>10000</a>,<b>50000</b>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1721,7 +1721,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1737,7 +1737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) <= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1753,7 +1753,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1]) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1769,7 +1769,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1785,7 +1785,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= 10000",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1801,7 +1801,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= (50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1817,7 +1817,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= (10000,50000)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1833,7 +1833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= <a>10000</a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1849,7 +1849,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= (<a>10000</a>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1865,7 +1865,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= (<a>10000</a>,<b>50000</b>)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1881,7 +1881,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= ($works/works/employee[1]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1897,7 +1897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1913,7 +1913,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generalexpression396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) <= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1929,7 +1929,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'lessthaneqonanyuri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:anyURI(\"http://www.example/com\")) <= (xs:anyURI(\"http://www.example/com\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1944,7 +1944,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(() <= () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1959,7 +1959,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(1 <= () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1974,7 +1974,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(() <= 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1989,7 +1989,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 <= 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2004,7 +2004,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"false\") <= false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2019,7 +2019,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() <= xs:untypedAtomic(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2034,7 +2034,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"false\") <= false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2049,7 +2049,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-GenCompLTEQ-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() <= xs:untypedAtomic(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

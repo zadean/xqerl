@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'K-ForExprPositionalVar-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at $p in (1, 2) return 1, $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -260,7 +260,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -275,7 +275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -290,7 +290,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at $p1 in (1, 2), $b at $p2 in (1, 2), $c at $p3 in (1, 2) return 1, $p3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -305,7 +305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at p1 in 1 return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -320,7 +320,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in (1, 2, 3) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -335,7 +335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((true(), true()), for $i at $p in (1, 2) return boolean($p))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -350,7 +350,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i at $p in (1, 2, 3) return $p + \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -365,7 +365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in string-to-codepoints(\"abc\") return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -380,7 +380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in distinct-values((1, 2, 3, 1, 2)) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -395,7 +395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i at $p in () return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -418,7 +418,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 13, (current-date(), 3)) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -433,7 +433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 1, (current-date(), 3)) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -448,7 +448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4), for $i at $p in insert-before((1, current-time()), 2, (current-date(), 3)) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -463,7 +463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4), for $i at $p in 1 to 4 return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -478,7 +478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4), for $i at $p in -10 to -7 return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -493,7 +493,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 2) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -508,7 +508,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 4) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -523,7 +523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, current-time()), 10) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,7 +538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, current-time()), 0) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 1) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -568,7 +568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), for $i at $p in remove((1, 2, 3, current-time()), 3) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -583,7 +583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $i at $p in subsequence((1, 2, 3, current-time()), 1, 1) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -598,7 +598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i at $p in subsequence((1, 2, 3, current-time()), 5) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i at $p in subsequence((1, 2, 3, current-time()), 5, 8) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 3, 2) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 1, 2) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2), for $i at $p in subsequence((1, 2, 3, current-time()), 2, 2) return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $i at $p in 0 return $p)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +704,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprPositionalVar-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(for $i at $p in (1, 2, 3, 4) return ($i, $p), (1, 1, 2, 2, 3, 3, 4, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -719,7 +719,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprPositionalVar-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i at $p in remove((1, 2, 3), 10) return $p",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprPositionalVar-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $tree := <e> <a id=\"1\"/> <a id=\"2\"/> <a id=\"3\"/> </e> for $i at $pos in (\"a\", \"b\", \"c\") return ($tree/@id eq $pos, $pos)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -757,7 +757,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprPositionalVar-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $tree := <e> <a id=\"1\"/> <a id=\"2\"/> <a id=\"3\"/> </e> for $i at $pos in (\"a\", \"b\", \"c\") return ($tree/a/@id = $pos, $pos)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -772,7 +772,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprPositionalVar-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i at $pos in (3 to 6) let $let := $pos + 1 return ($let, $let - 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

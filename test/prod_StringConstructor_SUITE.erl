@@ -51,7 +51,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -265,7 +265,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'string-constructor-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]``
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were 10 green bottles]``
@@ -317,7 +317,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         declare variable $thing as xs:string external := ``[wall]``;
@@ -344,7 +344,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were &lt; `{$n}` green bottles]``
@@ -370,7 +370,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[\"{}\"'[`]'\\\\<> `{$n}`]``
@@ -396,7 +396,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[`{$n}``{$n+1}``{$n+2}`]``
@@ -422,7 +422,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[ `{$n}` `{$n+1}` `{$n+2}` ]``
@@ -448,7 +448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         ``[There were `{$n}` green bottles]``
@@ -474,7 +474,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         ``[There were `{``[at least `{$n}`]``}` green bottles]``
@@ -500,7 +500,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         <a>{``[There were `{$n}` green bottles]``}</a>
@@ -518,7 +518,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := <e>10</e>; 
         <a text=\"{``[There were `{$n}` green bottles]``}\"/>
@@ -536,7 +536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         if ($n lt 20) then ``[There were `{$n}` green bottles]`` else ``[There were many green bottles]``
@@ -562,7 +562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]``[$n lt 20]
@@ -588,7 +588,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-constructor-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There
@@ -618,7 +618,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         [``[There were `{$n}` green bottles]``]?1
@@ -644,7 +644,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{[$n]}` green bottles]``
@@ -670,7 +670,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{array{$n}}` green bottles]``
@@ -696,7 +696,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n, ()}` green bottles]``
@@ -722,7 +722,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were ``{$n}`` green bottles]``
@@ -748,7 +748,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[``[There were `{\"`{\"}``{$n}`}` green bottles`{\"]``\"}`]``
@@ -774,7 +774,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         matches(\"\"\"\", ``[[\"']]``)
       ",
@@ -791,7 +791,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "``[]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -806,7 +806,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "``[` {$n}`]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -821,7 +821,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "``[` *`{}`* `]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -836,7 +836,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "``[` *`{(:Nothing here:)}`* `]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -851,7 +851,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "``[ *`{xs:date('2012-05-05')}`* ]``",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -866,7 +866,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]`",
@@ -883,7 +883,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles]",
@@ -900,7 +900,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n}` green bottles",
@@ -917,7 +917,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n} green ",
@@ -934,7 +934,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{$n",
@@ -951,7 +951,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-906'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         `[There were `{$n}` green bottles]``
@@ -969,7 +969,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-907'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``{There were `{$n}` green bottles}``
@@ -987,7 +987,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-908'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         unordered{$n}`
@@ -1005,7 +1005,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-909'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         }`nasty!]``
@@ -1023,7 +1023,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-910'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := map{'a':10}; 
         ``[There were `{$n}` green bottles]``
@@ -1041,7 +1041,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-911'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n external := map{'a':10}; 
         ``[There were `{map{'a':10}}` green bottles]``
@@ -1059,7 +1059,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-912'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $n as xs:integer external := 10; 
         ``[There were `{1 to $n}` green bottles]``
@@ -1077,7 +1077,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-913'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <a b=``[c]``/>
       ",
@@ -1094,7 +1094,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-914'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xsl=``[http://www.w3.org/1999/XSL/Transform]``;
         <xsl:output/>
@@ -1112,7 +1112,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-915'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace zzz=\"http://example.com/options\";
         declare option zzz:synonymous = ``[http://www.w3.org/1999/XSL/Transform]``;
@@ -1131,7 +1131,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-916'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction(``[pi-action]``)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1146,7 +1146,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-917'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default decimal-format NaN = ``[not-a-number]``; 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1161,7 +1161,7 @@ bottles\"") of
       Err -> ct:fail(Err)
    end.
 'string-constructor-918'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1 to 10)/string() order by $x collation ``[http://www.w3.org/2005/xpath-functions/collation/codepoint]`` return xs:integer($x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

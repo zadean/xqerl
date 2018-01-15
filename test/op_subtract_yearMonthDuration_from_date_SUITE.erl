@@ -32,7 +32,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -227,7 +227,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'op-subtract-yearMonthDuration-from-date2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") - xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -242,7 +242,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1983-11-17Z\") - xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -257,7 +257,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2030-12-31Z\") - xs:yearMonthDuration(\"P0Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") - xs:yearMonthDuration(\"P1000Y6M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +287,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") - xs:yearMonthDuration(\"P2030Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -310,7 +310,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2000-10-30\") - xs:yearMonthDuration(\"P1Y2M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2000-02-29Z\") - xs:yearMonthDuration(\"P1Y\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -340,7 +340,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2000-10-31-05:00\") - xs:yearMonthDuration(\"P1Y1M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -355,7 +355,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:string(xs:date(\"1998-09-12Z\") - xs:yearMonthDuration(\"P20Y03M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -370,7 +370,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:string(xs:date(\"1962-03-12Z\") - xs:yearMonthDuration(\"P10Y01M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -385,7 +385,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:number(xs:date(\"1988-01-28Z\") - xs:yearMonthDuration(\"P09Y02M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -400,7 +400,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(xs:date(\"1989-07-05Z\") - xs:yearMonthDuration(\"P08Y04M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -415,7 +415,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"0001-01-01Z\") - xs:yearMonthDuration(\"-P20Y07M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -430,7 +430,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1993-12-09Z\") - xs:yearMonthDuration(\"P03Y03M\"))) and fn:string((xs:date(\"1993-12-09Z\") - xs:yearMonthDuration(\"P03Y03M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -445,7 +445,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1985-07-05Z\") - xs:yearMonthDuration(\"P02Y02M\"))) or fn:string((xs:date(\"1985-07-05Z\") - xs:yearMonthDuration(\"P02Y02M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +460,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1980-03-02Z\") - xs:yearMonthDuration(\"P05Y05M\"))) and (fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -475,7 +475,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1980-05-05Z\") - xs:yearMonthDuration(\"P23Y11M\")) eq xs:date(\"1980-05-05Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -490,7 +490,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1979-12-12Z\") - xs:yearMonthDuration(\"P08Y08M\")) ne xs:date(\"1979-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -505,7 +505,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1978-12-12Z\") - xs:yearMonthDuration(\"P17Y12M\")) le xs:date(\"1978-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -520,7 +520,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1977-12-12Z\") - xs:yearMonthDuration(\"P18Y02M\")) ge xs:date(\"1977-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -535,7 +535,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(xs:date(\"2000-12-12Z\") - xs:yearMonthDuration(\"P18Y11M\")) and fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -550,7 +550,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-subtract-yearMonthDuration-from-date-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1999-10-23Z\") - xs:yearMonthDuration(\"P19Y12M\"))) or fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -565,7 +565,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateSubtractYMD-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-08-12\") - xs:yearMonthDuration(\"P3Y7M\") eq xs:date(\"1996-01-12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -580,7 +580,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-subtract-yearMonthDuration-from-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
@@ -602,7 +602,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-subtract-yearMonthDuration-from-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 

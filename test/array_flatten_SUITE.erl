@@ -17,7 +17,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "array")
 
@@ -197,7 +197,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'array-flatten-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten([1, 4, 6, 5, 3])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -225,7 +225,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten([])",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -241,7 +241,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -257,7 +257,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten((1, 4, 6, 9))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -273,7 +273,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten(([1, [4, [6, 9]]]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -289,7 +289,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten((map{}, map{1:2}, map{1:2, 2:3}))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -305,7 +305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:flatten((map{}, map{1:[2,3]}, map{1:[2], 2:[3]}))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -321,7 +321,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{array:flatten((<a/>, <b/>, <c/>))}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -337,7 +337,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{array:flatten([<a/>, [<b/>, <c/>]])}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -353,7 +353,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-flatten-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{[<a/>, [<b/>, <c/>]]}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

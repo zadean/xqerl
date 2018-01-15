@@ -28,7 +28,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -231,7 +231,7 @@ environment('fsx',BaseDir) ->
 {modules, []}
 ].
 'ReturnExpr001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in /MyComputer/Drive2//Folder return <newFolder>{ $folder/FolderName/text() }</newFolder>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -247,7 +247,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in /MyComputer/Drive2//Folder return <newFolder>{ $folder/@name, $folder/FolderName/text() }</newFolder>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -263,7 +263,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $folder in /MyComputer/Drive1/Folder[1] 
         return <folder1> {$folder/FolderName} <files> { 
@@ -285,7 +285,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $f in /MyComputer//File where $f/@creation_date=\"08/06/00\" return $f/SecurityObject/Denies/Deny[security/right]/user/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -301,7 +301,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -317,7 +317,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return data( $file/FileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -333,7 +333,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return $file/parent::Folder/FolderName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -349,7 +349,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -365,7 +365,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return (//FileName)[1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -381,7 +381,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<empty> { for $file in (//Folder)[1]/File return () } </empty>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder, $file in $folder/File return ( $folder/FolderName, $file/FileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return $file return $file",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return $undefined",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in for $folder in (//Folder)[1] return $folder/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $offset in (//Folder)[1]/File return <File>{ $file/@name }{ attribute offset{ $offset }}</File>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return ($file/Stream/StreamSize)[1] + 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return ($file/Stream/StreamSize)[1] > 1004",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ReturnExpr020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return xs:string( data( $file/FileName[1] ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ReturnExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

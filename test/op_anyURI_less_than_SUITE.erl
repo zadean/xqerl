@@ -15,7 +15,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -193,7 +193,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'K2-AnyURILtGt-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/A\") lt xs:anyURI(\"http://example.com/B\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -208,7 +208,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/B\") lt xs:anyURI(\"http://example.com/A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -223,7 +223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://example.com/A\") lt xs:anyURI(\"http://example.com/B\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -238,7 +238,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/B\") lt xs:string(\"http://example.com/A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -253,7 +253,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/A\") gt xs:anyURI(\"http://example.com/B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -268,7 +268,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(\"http://example.com/A\") gt xs:anyURI(\"http://example.com/B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -283,7 +283,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/B\") gt xs:anyURI(\"http://example.com/A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -298,7 +298,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURILtGt-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/B\") gt xs:string(\"http://example.com/A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

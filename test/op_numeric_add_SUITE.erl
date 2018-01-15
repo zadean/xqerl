@@ -162,7 +162,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -499,7 +499,7 @@ environment('user-defined-types',BaseDir) ->
 {modules, []}
 ].
 'op-numeric-addint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-1873914410\") + xs:int(\"-273569238\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -514,7 +514,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483647\") + xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -529,7 +529,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-273569238\") + xs:int(\"-1873914410\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -544,7 +544,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\") + xs:int(\"2147483647\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -559,7 +559,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addintg2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"830993497117024304\") + xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -574,7 +574,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addintg2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"999999999999999999\") + xs:integer(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -589,7 +589,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addintg2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"830993497117024304\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addintg2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddec2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"617375191608514839\") + xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddec2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"999999999999999999\") + xs:decimal(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddec2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"617375191608514839\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,7 +664,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddec2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -679,7 +679,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddbl2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"0\") + xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddbl2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1.7976931348623157E308\") + xs:double(\"-1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddbl2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-adddbl2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"1.7976931348623157E308\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addflt2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"0\") + xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addflt2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4028235E38\") + xs:float(\"-3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addflt2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addflt2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"3.4028235E38\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addlng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-47175562203048468\") + xs:long(\"-45058158165499290\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -814,7 +814,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addlng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"92233720368547758\") + xs:long(\"-92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -829,7 +829,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addlng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-45058158165499290\") + xs:long(\"-47175562203048468\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addlng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-92233720368547758\") + xs:long(\"92233720368547758\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,7 +859,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addusht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -874,7 +874,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addusht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"44633\") + xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -889,7 +889,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addusht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"65535\") + xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -904,7 +904,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addusht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"44633\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -919,7 +919,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addusht2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"65535\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -934,7 +934,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-297014075999096793\") + xs:negativeInteger(\"-702985924000903206\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -949,7 +949,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\") + xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -964,7 +964,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-702985924000903206\") + xs:negativeInteger(\"-297014075999096793\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -979,7 +979,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\") + xs:negativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -994,7 +994,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addpint2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1009,7 +1009,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addpint2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"52704602390610033\") + xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1024,7 +1024,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addpint2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"999999999999999998\") + xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1039,7 +1039,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addpint2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"52704602390610033\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1054,7 +1054,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addpint2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"999999999999999998\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1069,7 +1069,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addulng2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1084,7 +1084,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addulng2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"130747108607674654\") + xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1099,7 +1099,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addulng2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"184467440737095516\") + xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1114,7 +1114,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addulng2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"130747108607674654\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1129,7 +1129,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addulng2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"184467440737095516\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1144,7 +1144,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnpi2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-475688437271870490\") + xs:nonPositiveInteger(\"-524311562728129509\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1159,7 +1159,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnpi2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\") + xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1174,7 +1174,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnpi2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-524311562728129509\") + xs:nonPositiveInteger(\"-475688437271870490\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1189,7 +1189,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnpi2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\") + xs:nonPositiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1204,7 +1204,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnni2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1219,7 +1219,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnni2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"303884545991464527\") + xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1234,7 +1234,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnni2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"999999999999999999\") + xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1249,7 +1249,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnni2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"303884545991464527\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1264,7 +1264,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addnni2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1279,7 +1279,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addsht2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-5324\") + xs:short(\"-27444\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1294,7 +1294,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addsht2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32767\") + xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1309,7 +1309,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addsht2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-27444\") + xs:short(\"-5324\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1324,7 +1324,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addsht2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\") + xs:short(\"32767\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1339,7 +1339,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1362,7 +1362,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + '1'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1377,7 +1377,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + xs:integer('1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1392,7 +1392,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + <a> 2 </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1407,7 +1407,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1+<a> <b> 2 </b> </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1422,7 +1422,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + <a> <b> 2</b> <c> 2</c> </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1437,7 +1437,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> 1 </a> + <b> 2 </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1452,7 +1452,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + <a> x </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1467,7 +1467,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-addmix2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + <a/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1482,7 +1482,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-derived-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(10) + xs:unsignedLong(35)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1497,7 +1497,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-derived-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(10) + xs:nonPositiveInteger(-15)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1512,7 +1512,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-derived-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(10) + xs:short(15)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1527,7 +1527,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-derived-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(10) + xs:long(145)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1542,7 +1542,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-derived-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(10) + xs:negativeInteger(-5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1557,7 +1557,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(6) + xs:double(2) eq 8",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1572,7 +1572,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(6) + xs:decimal(2) eq 8",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1587,7 +1587,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(6.1) + xs:decimal(2.1) eq 8.2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1602,7 +1602,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.1 + 2.2 eq 3.3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1617,7 +1617,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(1.1) + xs:double(2.2) ne 3.3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1632,7 +1632,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1.1) + xs:float(2.2) ne 3.3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1647,7 +1647,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(6) + xs:integer(2) eq 8",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1662,7 +1662,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(6) + xs:float(2) eq 8",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1677,7 +1677,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:float(\"NaN\") + 3) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1692,7 +1692,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:double(\"NaN\") + 3) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1707,7 +1707,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(3 + xs:float(\"NaN\")) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1722,7 +1722,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(3 + xs:double(\"NaN\")) eq \"NaN\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1737,7 +1737,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:decimal(6) + xs:integer(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1752,7 +1752,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(6) + xs:decimal(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1767,7 +1767,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(6) + xs:integer(2)) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1782,7 +1782,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:decimal(6) + xs:decimal(2)) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1797,7 +1797,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:decimal(6) + xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1812,7 +1812,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:float(6) + xs:decimal(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1827,7 +1827,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:float(6) + xs:integer(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1842,7 +1842,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(6) + xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1857,7 +1857,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:float(6) + xs:float(2)) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1872,7 +1872,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:decimal(6) + xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1887,7 +1887,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(6) + xs:decimal(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1902,7 +1902,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(6) + xs:float(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1917,7 +1917,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:float(6) + xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1932,7 +1932,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(6) + xs:integer(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1947,7 +1947,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(6) + xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1962,7 +1962,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(6) + xs:double(2)) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1977,7 +1977,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1+1 eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1992,7 +1992,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq 1+1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2007,7 +2007,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 + error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2022,7 +2022,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error() + 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2037,7 +2037,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 + (error(), 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2052,7 +2052,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(4, error()) + 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2075,7 +2075,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 + (4, error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2098,7 +2098,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(error(), 4) + 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2113,7 +2113,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2128,7 +2128,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2) + ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2151,7 +2151,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + (1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2174,7 +2174,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() + (1, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2201,7 +2201,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error() + 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2224,7 +2224,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 + error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2239,7 +2239,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"3\" + \"3\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2254,7 +2254,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"3\" + xs:untypedAtomic(\"3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2269,7 +2269,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(3 + xs:untypedAtomic(\"3\")) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2284,7 +2284,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:untypedAtomic(\"3\") + 3.0) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2299,7 +2299,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(2 + 4) * 5 eq 30",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2314,7 +2314,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 + 4 * 5 eq 22",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2329,7 +2329,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + 2 * 4 + (1 + 2 + 3 * 4) eq 24",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2344,7 +2344,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() + ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2367,7 +2367,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((1, \"two\"), 2) + 1) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2390,7 +2390,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (1 + remove((1, \"two\"), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2413,7 +2413,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2436,7 +2436,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2459,7 +2459,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((xs:untypedAtomic(\"1\"), \"two\"), 2) + 1) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2482,7 +2482,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (1 + remove((xs:untypedAtomic(\"1\"), \"two\"), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2505,7 +2505,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2528,7 +2528,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2551,7 +2551,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"3\") + 3 eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2566,7 +2566,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:untypedAtomic(\"3\") + 3) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2581,7 +2581,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((5, 1e0), 2) + 1) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2604,7 +2604,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 + remove((5, 1e0), 2)) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2627,7 +2627,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + subsequence(\"a string\", 1, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2642,7 +2642,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(\"a string\", 1, 1) + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2657,7 +2657,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"foo\" + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2672,7 +2672,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NumericAdd-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2687,7 +2687,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NumericAdd-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) + (1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2702,7 +2702,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NumericAdd-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>1</a> + <b>2</b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2717,7 +2717,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NumericAdd-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a foo=\"1\"/>/@foo + <b foo=\"2\"/>/@foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2732,7 +2732,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) 
          for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5))
@@ -2851,47 +2851,47 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-numeric-add-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'op-numeric-add-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'op-numeric-add-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'op-numeric-add-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'op-numeric-add-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

@@ -61,7 +61,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -285,7 +285,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-substring-before-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"\",\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -308,7 +308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"\",\"A Character String\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"A Character String\",\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -354,7 +354,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before((),\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -377,7 +377,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"\",())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -400,7 +400,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"A Character String\",())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -423,7 +423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before((),\"A Character String\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -446,7 +446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"AAAAABBBBBCCCCC\",\"BBBBB\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -461,7 +461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"AAAAABBBBB\",\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -484,7 +484,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\" \",\"AAAAABBBBB\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +507,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:substring-before(\"A\",\"A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -522,7 +522,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:substring-before(\"A\",\"B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -537,7 +537,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(xs:string(\"A\"),\"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"A\",xs:string(\"A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -583,7 +583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"A\",\"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"a\",\"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"substring-before\",\"substring-before\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -652,7 +652,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"substring-beforesubstring-before\",\"substring-before\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -675,7 +675,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"****\",\"***\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -698,7 +698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"12345\",\"2345\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -721,7 +721,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"substring-before\",\"erofeb-gnirtsbus\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -744,7 +744,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"banana\", \"a\",
          \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
@@ -760,7 +760,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"banana\", \"a\", \"collation/codepoint\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -787,7 +787,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"banana\", \"A\",
          \"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -815,7 +815,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"𐀁𐀂𐀃\", \"𐀂\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -830,7 +830,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"banana\", \"A\",
          \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -858,7 +858,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"banana\", \"ana\", \"http://www.w3.org/2013/collation/UCA?lang=en\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -873,7 +873,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"banana\", \"ananas\", \"http://www.w3.org/2013/collation/UCA?lang=en\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -888,7 +888,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"BASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -903,7 +903,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"tabaS\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -918,7 +918,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"âta\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -933,7 +933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"dâtabase\", \"âtabase\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -948,7 +948,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"dâtÅbase\", \"âtabÃse\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -963,7 +963,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"BASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -978,7 +978,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"tabaS\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -993,7 +993,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"bâs\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1008,7 +1008,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"dâtabase\", \"Base\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1023,7 +1023,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"BASE\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1038,7 +1038,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"dataBase\", \"taBas\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1053,7 +1053,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"bâse\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1068,7 +1068,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"database\", \"Base\", \"http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1083,10 +1083,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-before-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
 'fn-substring-before-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(\"Chapter-100\", \"Chapter-10\", \"http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1109,7 +1109,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1124,7 +1124,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1139,7 +1139,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before((), (), \"http://www.w3.org/2005/xpath-functions/collation/codepoint\",
          \"wrong param\")",
    Qry1 = Qry,
@@ -1155,7 +1155,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"a string\", \"a string\",
          \"http://www.example.com/COLLATION/NOT/SUPPORTED\")",
    Qry1 = Qry,
@@ -1171,7 +1171,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"foo\", \"oo\",
          \"http://www.w3.org/2005/xpath-functions/collation/codepoint\") eq \"f\"",
    Qry1 = Qry,
@@ -1187,7 +1187,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"tattoo\", \"attoo\") eq \"t\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1202,7 +1202,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"tattoo\", \"tatto\") eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1217,7 +1217,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before((), ()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1232,7 +1232,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"a string\", \"\") eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1247,7 +1247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringBeforeFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before(\"a string\", \"not in other\") eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1262,7 +1262,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-substring-before-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         fn:boolean(fn:substring-before('input', '', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))
       ",

@@ -190,7 +190,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -579,7 +579,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-absint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"-2147483648\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -603,7 +603,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"-1873914410\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -627,7 +627,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"2147483647\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -651,7 +651,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -675,7 +675,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"830993497117024304\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -699,7 +699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -723,7 +723,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -747,7 +747,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"617375191608514839\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -771,7 +771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -795,7 +795,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"-1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -819,7 +819,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -843,7 +843,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absdbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -867,7 +867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"-3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -891,7 +891,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -915,7 +915,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -939,7 +939,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abslng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"-92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -963,7 +963,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abslng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"-47175562203048468\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -987,7 +987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abslng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1011,7 +1011,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1035,7 +1035,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"44633\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1059,7 +1059,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"65535\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1083,7 +1083,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1107,7 +1107,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-297014075999096793\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1131,7 +1131,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1155,7 +1155,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abspint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1179,7 +1179,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abspint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"52704602390610033\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1203,7 +1203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abspint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1227,7 +1227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1251,7 +1251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"130747108607674654\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1275,7 +1275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"184467440737095516\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1299,7 +1299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1323,7 +1323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"-475688437271870490\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1347,7 +1347,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1371,7 +1371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1395,7 +1395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"303884545991464527\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1419,7 +1419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-absnni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1443,7 +1443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abssht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"-32768\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1467,7 +1467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abssht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"-5324\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1491,7 +1491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abssht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"32767\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1515,7 +1515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1539,7 +1539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1563,7 +1563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1587,7 +1587,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1611,7 +1611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1635,7 +1635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1659,7 +1659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1683,7 +1683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1707,7 +1707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1731,7 +1731,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1755,7 +1755,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1779,7 +1779,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1803,7 +1803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1827,7 +1827,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1851,7 +1851,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1875,7 +1875,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1899,7 +1899,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1923,7 +1923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1947,7 +1947,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1971,7 +1971,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1995,7 +1995,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2019,7 +2019,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2043,7 +2043,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2067,7 +2067,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2091,7 +2091,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2107,7 +2107,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2123,7 +2123,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2139,7 +2139,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:decimal(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2155,7 +2155,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2171,7 +2171,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2187,7 +2187,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2203,7 +2203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2219,7 +2219,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2235,7 +2235,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2251,7 +2251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2267,7 +2267,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2283,7 +2283,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2299,7 +2299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2315,7 +2315,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2331,7 +2331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2347,7 +2347,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2363,7 +2363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2379,7 +2379,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"2\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2395,7 +2395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2411,7 +2411,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2427,7 +2427,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2443,7 +2443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2459,7 +2459,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"-2\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2475,7 +2475,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2491,7 +2491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2507,7 +2507,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2523,7 +2523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2539,7 +2539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"2\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2555,7 +2555,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2571,7 +2571,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2587,7 +2587,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2603,7 +2603,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2619,7 +2619,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2635,7 +2635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"-0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2651,7 +2651,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"-2\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2667,7 +2667,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2683,7 +2683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2699,7 +2699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2715,7 +2715,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2731,7 +2731,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2747,7 +2747,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2763,7 +2763,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2779,7 +2779,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2795,7 +2795,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2811,7 +2811,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2827,7 +2827,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-071'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2843,7 +2843,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2859,7 +2859,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-073'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2875,7 +2875,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-074'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2891,7 +2891,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-075'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"-NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2907,7 +2907,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-076'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(\"NaN\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2923,7 +2923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-077'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:string(\"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2939,7 +2939,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-078'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:string(\"hello\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2955,7 +2955,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-079'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:boolean(\"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2971,7 +2971,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-080'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:boolean(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2987,7 +2987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:boolean(fn:true()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3003,7 +3003,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-082'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:boolean(fn:false()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3019,7 +3019,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-083'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:date(\"2002-10-09\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3035,7 +3035,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-084'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:time(\"13:20:00-05:00\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3051,7 +3051,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:dateTime(\"2002-10-10T12:00:00-05:00\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3067,7 +3067,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-more-args-086'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:anyURI(\"www.examples.org\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3083,7 +3083,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3099,7 +3099,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(1, 2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3115,7 +3115,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(abs(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3131,7 +3131,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(10.5) eq 10.5",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3147,7 +3147,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(-10.5) eq 10.5",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3163,7 +3163,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ABSFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(\"a string\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3179,7 +3179,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3195,7 +3195,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3211,7 +3211,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3227,7 +3227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3243,7 +3243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3259,7 +3259,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3275,7 +3275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:byte(-4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3291,7 +3291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3307,7 +3307,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3323,7 +3323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedInt(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3339,7 +3339,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3355,7 +3355,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedByte(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3371,7 +3371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3387,7 +3387,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3403,7 +3403,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonPositiveInteger(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3419,7 +3419,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:negativeInteger(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3435,7 +3435,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:long(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3451,7 +3451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:int(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3467,7 +3467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:short(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3483,7 +3483,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:byte(-4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3499,7 +3499,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:nonNegativeInteger(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3515,7 +3515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedLong(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3531,7 +3531,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedInt(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3547,7 +3547,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedShort(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3563,7 +3563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:unsignedByte(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3579,7 +3579,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:positiveInteger(4)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3595,7 +3595,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(1.1) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3611,7 +3611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(1e1) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3627,7 +3627,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(1)) instance of xs:double",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3643,7 +3643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(1)) instance of xs:double",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3659,7 +3659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(1.1) instance of xs:decimal",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3675,7 +3675,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(1e1) instance of xs:double",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3691,7 +3691,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(1)) instance of xs:float",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3707,7 +3707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:integer(1)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3723,7 +3723,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:unsignedShort(.)) instance of xs:unsignedShort",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3747,7 +3747,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:unsignedLong(.)) instance of xs:unsignedLong",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3771,7 +3771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:unsignedInt(.)) instance of xs:unsignedInt",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3795,7 +3795,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:unsignedByte(.)) instance of xs:unsignedByte",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3819,7 +3819,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:positiveInteger(.)) instance of xs:positiveInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3843,7 +3843,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:nonPositiveInteger(.)) instance of
          xs:nonPositiveInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
@@ -3868,7 +3868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:nonNegativeInteger(.)) instance of
          xs:nonNegativeInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
@@ -3893,7 +3893,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:negativeInteger(.)) instance of xs:negativeInteger",
    {Env,Opts} = xqerl_test:handle_environment(environment('e-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3917,7 +3917,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:long(.)) instance of xs:long",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3941,7 +3941,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:int(.)) instance of xs:int",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3965,7 +3965,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:short(.)) instance of xs:short",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3989,7 +3989,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "abs(xs:byte(.)) instance of xs:byte",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4013,7 +4013,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4029,7 +4029,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"-INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4045,7 +4045,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:float(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4061,7 +4061,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ABSFunc-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs(xs:double(\"INF\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4077,7 +4077,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-abs-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) return 
            if ((abs($x)) instance of xs:integer) then \"integer\" 
            else if ((abs($x)) instance of xs:decimal) then \"decimal\" 
@@ -4097,7 +4097,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-abs-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:abs( fn:reverse( (1, xs:decimal(2.2), xs:float(3.3), xs:double(4.4)) )[2] )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -138,7 +138,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -463,7 +463,7 @@ environment('xml-to-json-D',BaseDir) ->
 {modules, []}
 ].
 'xml-to-json-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -478,7 +478,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -493,7 +493,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('null',map{'liberal':true()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -508,7 +508,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('true'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -523,7 +523,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('false'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,7 +538,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('93.7'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
            declare variable $in := '\"London\"';
           xml-to-json(json-to-xml($in))",
@@ -570,7 +570,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
            declare variable $in := '\"\"';
           xml-to-json(json-to-xml($in))",
@@ -587,7 +587,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('[]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -602,7 +602,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('[34]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -617,7 +617,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('[true, false]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -632,7 +632,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('[\"A\", \"B\", \"C\", \"D\", \"E\"]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -647,7 +647,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('{}'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -662,7 +662,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('{\"A\":true}'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -677,7 +677,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('{\"A\":1, \"B\":2, \"C\":3, \"D\":4, \"E\":5}'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -692,7 +692,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('{\"A\":[1,2], \"B\":[true,false], \"C\":[\"Paris\",\"London\",\"Berlin\"], \"D\":[1, true, \"on\"], \"E\":[null, null]}'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -707,7 +707,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(json-to-xml('\"\\\\\\/\\\"\\r\\t\\n\\u0020\"'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -722,7 +722,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<null xmlns=\"http://www.w3.org/2005/xpath-functions\"/>)
        ",
@@ -739,7 +739,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<boolean xmlns=\"http://www.w3.org/2005/xpath-functions\">true</boolean>)
        ",
@@ -756,7 +756,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<number xmlns=\"http://www.w3.org/2005/xpath-functions\">23</number>)
        ",
@@ -773,7 +773,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<string xmlns=\"http://www.w3.org/2005/xpath-functions\">banana</string>)
        ",
@@ -790,7 +790,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<boolean xmlns=\"http://www.w3.org/2005/xpath-functions\"> false </boolean>)
        ",
@@ -807,7 +807,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<number xmlns=\"http://www.w3.org/2005/xpath-functions\"> +005 </number>)
        ",
@@ -824,7 +824,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<string xmlns=\"http://www.w3.org/2005/xpath-functions\">   </string>)
@@ -842,7 +842,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<array xmlns=\"http://www.w3.org/2005/xpath-functions\"> <null/> <!--comma--> <null/>   </array>)
@@ -860,7 +860,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"> <null key=\"a\"/> <!--comma--> <null key=\"b\"/>   </map>)
@@ -878,7 +878,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(document{<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><null/><null/></array>})
@@ -896,7 +896,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(document{<jj:array xmlns:jj=\"http://www.w3.org/2005/xpath-functions\"><jj:null/><jj:null/></jj:array>})
@@ -914,7 +914,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(document{<jj:array xmlns:jj=\"http://www.w3.org/2005/xpath-functions/not-json\"><jj:null/><jj:null/></jj:array>})
@@ -932,7 +932,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"> <null key=\"a\" yek=\"z\"/> <null key=\"b\"/>   </map>)
@@ -950,7 +950,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"> <null key=\"a\"/> <null key=\"b\"/> <yek key=\"c\"/>  </map>)
@@ -968,7 +968,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><null/><null/></map>)
        ",
@@ -985,7 +985,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><null key=\"a\"/><null key=\"a\"/></map>)
        ",
@@ -1002,7 +1002,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<string xmlns=\"http://www.w3.org/2005/xpath-functions\">ban<!--c-->ana</string>)
        ",
@@ -1019,7 +1019,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<number xmlns=\"http://www.w3.org/2005/xpath-functions\">2<!--c-->7</number>)
        ",
@@ -1036,7 +1036,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<boolean xmlns=\"http://www.w3.org/2005/xpath-functions\">tr<!--c-->ue</boolean>)
@@ -1054,7 +1054,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<string xmlns=\"http://www.w3.org/2005/xpath-functions\">ok<null/></string>)
@@ -1072,7 +1072,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<number xmlns=\"http://www.w3.org/2005/xpath-functions\">17<string>qq</string></number>)
@@ -1090,7 +1090,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare boundary-space preserve;
         xml-to-json(<boolean xmlns=\"http://www.w3.org/2005/xpath-functions\">true<string>qq</string></boolean>)
@@ -1108,7 +1108,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<null xmlns=\"http://www.w3.org/2005/xpath-functions\"><null/></null>)
        ",
@@ -1125,7 +1125,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<null xmlns=\"http://www.w3.org/2005/xpath-functions\"><null/></null>)
        ",
@@ -1142,7 +1142,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<number xsi:type=\"xs:short\" xmlns=\"http://www.w3.org/2005/xpath-functions\" 
             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" 
@@ -1161,16 +1161,16 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'xml-to-json-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'xml-to-json-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'xml-to-json-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<string xmlns=\"http://www.w3.org/2005/xpath-functions\">abc&#xa;def</string>)
        ",
@@ -1187,10 +1187,10 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'xml-to-json-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><string key=\"&#x9;\">tab</string></map>)
        ",
@@ -1207,7 +1207,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><string escaped-key=\"true\" key=\"\\t\">tab</string></map>)
@@ -1225,7 +1225,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><string escaped-key=\"0\" key=\"\\t\">tab</string></map>)
@@ -1243,7 +1243,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\">
             <string escaped=\"1\" key=\"t1\">\\t</string>
@@ -1265,7 +1265,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><string escaped=\"false\" key=\"tab\">\\t</string></map>)
@@ -1283,7 +1283,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $result := xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><number key=\"a\">1</number><number key=\"b\">2</number></map>, map{'indent':true()})
@@ -1302,7 +1302,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $result := xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><number key=\"a\">1</number><number key=\"b\">2</number></map>, map{'indent':true()})
@@ -1321,7 +1321,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $result := xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><number key=\"a\">1</number><number key=\"b\">2</number></map>, map{'indent':false()})
@@ -1340,7 +1340,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $result := xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><number key=\"a\">1</number><number key=\"b\">2</number></map>, map{'indent':()})
@@ -1359,7 +1359,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $result := xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><number key=\"a\">1</number><number key=\"b\">2</number></map>, map{'indent':false(), 'outdent':true()})
@@ -1378,10 +1378,10 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'xml-to-json-062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><string escaped-key=\"bonkers\" key=\"\\t\">tab</string></map>)
@@ -1399,7 +1399,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         ><string escaped=\"potty\" key=\"\\t\">tab</string></map>)
@@ -1417,7 +1417,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
         escaped-key=\"0\"><string key=\"\\t\">tab</string></map>)
@@ -1435,7 +1435,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
          escaped=\"0\"><string key=\"\\t\">tab</string></map>)
@@ -1453,7 +1453,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1468,7 +1468,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json((), map{})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1483,7 +1483,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\"
          xml:base=\"http://www.w3.org\"><string key=\"t\">tab</string></map>)
@@ -1501,7 +1501,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xml-to-json(<j:map xmlns:j=\"http://www.w3.org/2005/xpath-functions\"
          j:base=\"http://www.w3.org\"><j:string key=\"t\">tab</j:string></j:map>)
@@ -1519,7 +1519,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $x := json-to-xml('[{ \"givenNames\": [\"Michael\", \"Howard\"], \"surname\": \"Kay\"}]')
          return xml-to-json($x//*[@key='givenNames'])
@@ -1537,7 +1537,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t001\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1553,7 +1553,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t002\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1569,7 +1569,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t003\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1585,7 +1585,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t004\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1601,7 +1601,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t005\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1617,7 +1617,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t006\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1633,7 +1633,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t007\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1649,7 +1649,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t008\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1665,7 +1665,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t009\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1681,7 +1681,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t010\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1697,7 +1697,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t011\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1713,7 +1713,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t012\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1729,7 +1729,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t013\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1745,7 +1745,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1761,7 +1761,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t015\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1777,7 +1777,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t016\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1793,7 +1793,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t017\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1809,7 +1809,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-C-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t018\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-C',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1825,7 +1825,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t001\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1841,7 +1841,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t002\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1857,7 +1857,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t003\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1873,7 +1873,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t004\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1889,7 +1889,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t005\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1905,7 +1905,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t006\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1921,7 +1921,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t007\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1937,7 +1937,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t008\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1953,7 +1953,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t009\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1969,7 +1969,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t010\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1985,7 +1985,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t011\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2001,7 +2001,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t012\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2017,7 +2017,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t013\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2033,7 +2033,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2049,7 +2049,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t014\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2065,7 +2065,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t101\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2081,7 +2081,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t102\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2097,7 +2097,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t103\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2113,7 +2113,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t104\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2129,7 +2129,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t201\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2145,7 +2145,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t202\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2161,7 +2161,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t203\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2177,7 +2177,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t204\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2193,7 +2193,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t205\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2209,7 +2209,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t206\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2225,7 +2225,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t301\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2241,7 +2241,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t302\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2257,7 +2257,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t303\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2273,7 +2273,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t401\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2289,7 +2289,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t402\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2305,7 +2305,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t403\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2321,7 +2321,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t404\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2337,7 +2337,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t405\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2353,7 +2353,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t406\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2369,7 +2369,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t407\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2385,7 +2385,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t501\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2401,7 +2401,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t502\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2417,7 +2417,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t503\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2433,7 +2433,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t504\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2449,7 +2449,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t505\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2465,7 +2465,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t506\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2481,7 +2481,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t507\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2497,7 +2497,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t508\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2513,7 +2513,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t509\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2529,7 +2529,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t510\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2545,7 +2545,7 @@ environment('xml-to-json-D',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xml-to-json-D-511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xml-to-json(//*:template[@name=\"t511\"]/*:variable/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('xml-to-json-D',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

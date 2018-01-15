@@ -61,7 +61,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -309,7 +309,7 @@ environment('works-mod-uri',BaseDir) ->
 {modules, []}
 ].
 'fn-document-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:document-uri(<element1>contenty</element1>,\"Argument 2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -324,7 +324,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -339,7 +339,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(element anElement {\"some content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -354,7 +354,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(comment {\"a comment node\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(text {\"a text node\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -384,7 +384,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(attribute anAttribute {\"an attribute node\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -399,7 +399,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(processing-instruction {\"PITarget\"} {\"PIContent\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +414,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(<?audio-output beep?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,7 +429,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(<!-- A comment node -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -444,7 +444,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(<anElement>element content</anElement>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -459,7 +459,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(document {<anElement>element content</anElement>}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -474,7 +474,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(fn:document-uri(fn:doc($uri)),$uri) or (fn:document-uri(fn:doc($uri)) = \"\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -498,7 +498,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(/works[1]/employee[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -514,7 +514,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:document-uri(/works[1]/employee[1]/@name))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -530,7 +530,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -554,7 +554,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -578,7 +578,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lower-case(fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -602,7 +602,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri)),\" A String\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -626,7 +626,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-join((fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri)),\" A String\"),\"\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -650,7 +650,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(fn:string(fn:contains(fn:document-uri(/),\"works-mod\")),\"e\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -666,7 +666,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(fn:string(fn:contains(fn:document-uri(/),\"works-mod\")),\"t\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,7 +682,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(attribute anAttribute {\"an attribute node\"})/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -697,7 +697,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(processing-instruction {\"PITarget\"} {\"PIContent\"})/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -712,7 +712,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<?audio-output beep?>)/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -727,7 +727,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<!-- A comment node -->)/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -742,7 +742,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<anElement>element content</anElement>)/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -757,7 +757,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(document {<anElement>element content</anElement>})/document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -772,7 +772,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains((fn:doc($uri))/document-uri(),$uri) or ((fn:doc($uri))/document-uri() = \"\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -796,7 +796,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((/works[1]/employee[1])/document-uri())",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -812,7 +812,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((/works[1]/employee[1]/@name)/document-uri())",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -828,7 +828,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -852,7 +852,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -876,7 +876,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lower-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -900,7 +900,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)),\" A String\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -924,7 +924,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-join((fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)),\" A String\"),\"\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -948,7 +948,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(fn:string(fn:contains((/)/document-uri(),\"works-mod\")),\"e\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -964,7 +964,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(fn:string(fn:contains((/)/document-uri(),\"works-mod\")),\"t\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -980,7 +980,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DocumentURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-uri((), \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -995,10 +995,10 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DocumentURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XQ10"}.
 'K-DocumentURIFunc-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ends-with(document-uri(),\"works-mod.xml\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1014,7 +1014,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DocumentURIFunc-2b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1029,7 +1029,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DocumentURIFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1044,7 +1044,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<!-- comment -->))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1059,7 +1059,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(attribute name {\"content\"}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1074,7 +1074,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<?target data?>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1089,7 +1089,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(processing-instruction name {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1104,7 +1104,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(text {123}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1119,7 +1119,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<elem/>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1134,7 +1134,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(<elem attr=\"f\"/>/@attr))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1149,7 +1149,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(document-uri(document {1}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1164,7 +1164,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := document { <e> <a/> <a/> <a/> <b/> <b/> <a/> <a/> </e> } return empty(document-uri($i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1179,7 +1179,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := document { <e> <a/> <a/> <a/> <b/> <b/> <a/> <a/> </e> } return empty(document-uri(root(($i/a/b)[1])))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1202,7 +1202,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DocumentURIFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, document-uri(.), 3) return typeswitch($i) case xs:anyURI return \"xs:anyURI\" case xs:integer return \"int\" default return \"FAILURE\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1218,7 +1218,7 @@ environment('works-mod-uri',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-document-uri-0-ok'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(//works[fn:document-uri()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

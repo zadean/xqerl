@@ -66,7 +66,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 , try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
@@ -355,7 +355,7 @@ environment('auction-xq',BaseDir) ->
 {modules, []}
 ].
 'fn-id-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"argument 1\", / ,\"Argument 3\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 5)[fn:id(\"argument1\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -386,7 +386,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"argument1\", \"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -401,7 +401,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
@@ -420,61 +420,61 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-id-dtd-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1\", /IDS[1])/string(@anId)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -490,7 +490,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:id(\"nomatchingid\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -506,7 +506,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id2 id2\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -522,7 +522,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1 id2\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -538,7 +538,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1 nomatching\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -554,7 +554,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:id(\"nomatching1 nomatching2\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -570,7 +570,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"\", /IDS[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -586,7 +586,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(fn:substring(\"1id3\",2), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -602,7 +602,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id4\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -618,7 +618,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"p1:id5\", /IDS[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -634,7 +634,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1 id1\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -650,7 +650,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(\"id1 ID1\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -666,7 +666,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(fn:lower-case(\"ID1\"), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,7 +682,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(fn:upper-case(\"id5\"), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -698,7 +698,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(fn:concat(\"i\",\"d1\"), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -714,7 +714,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(xs:string(\"id1\"), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -730,7 +730,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(fn:string-join((\"id\",\"1\"),\"\"), /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -746,7 +746,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 5)[ fn:id(\"argument1\",.)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -761,7 +761,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-id-dtd-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare ordering ordered; fn:id(\"id1 id2\", /IDS[1])/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -777,7 +777,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "id((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[id(\"ncname\", .)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +807,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[id(\"ncname\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//comment())[1]))
@@ -841,7 +841,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//processing-instruction())[1]))
@@ -860,7 +860,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy(/*))
@@ -879,7 +879,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
@@ -898,7 +898,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e><e/><e/><e/><e/><e/><e/><e/><b xml:id=\"foo\"/><e/></e>return id(\"foo\", $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := document {<e> <e/> <e/> <e/> <e/> <e/> <e/> <e/> <b xml:id=\"foo\"/> <e/> </e>} return id(\"foo\", $i)/name()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -928,7 +928,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in id((\"short\", \"positiveInteger\")) return $i/@name/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -944,7 +944,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "id((\"short\"), //xs:element/@name[. = \"positiveInteger\"])/@name",
    {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -960,7 +960,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "id((\".\", \"short\", \"123\"), //xs:element/@name[. = \"positiveInteger\"])/@name",
    {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -976,7 +976,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(//b/@ref)/data(exactly-one(@*))",
    {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -992,7 +992,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in id((\"short positiveInteger\")) return $i/@name/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('UsingXMLId',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1008,7 +1008,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id(string-join(reverse(//b/@ref), '	'))/data(exactly-one(@*))",
    {Env,Opts} = xqerl_test:handle_environment(environment('XMLIdMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1024,7 +1024,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-id-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( fn:id( local:generate(0), $doc) )
@@ -1042,7 +1042,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-id-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $doc := document { <root /> } return fn:empty( fn:id( (), $doc) )
       ",
@@ -1067,7 +1067,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-id-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( $doc/fn:id( local:generate(0)) )

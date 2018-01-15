@@ -61,7 +61,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -297,7 +297,7 @@ environment('bib',BaseDir) ->
 {modules, []}
 ].
 'sequenceexpressionhc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1,2,3,4,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -312,7 +312,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1,(2,3),4,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -327,7 +327,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, (), 3, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -342,7 +342,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2 to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -357,7 +357,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -372,7 +372,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((15 to 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -387,7 +387,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:reverse(10 to 15)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -402,7 +402,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//empnum",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -418,7 +418,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sequenceexpressionhc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " ($works//empnum,$staff//empname)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -434,7 +434,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 1 + 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -449,7 +449,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 3 - 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (1, 2 * 1, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -479,7 +479,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (1, 4 div 2, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -494,7 +494,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (1, 4 idiv 2, 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -509,7 +509,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (1, fn:count((1, 2)), 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (1, fn:string-length(\"AB\"), 3, 4, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (fn:true(),fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -554,7 +554,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (fn:false(),fn:false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +569,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (fn:not(\"true\"),fn:not(\"false\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -584,7 +584,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (fn:true() and fn:true(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (fn:true() or fn:true(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -614,7 +614,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:string(\"ABC\"), \"D\", \"E\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:integer(1), 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:decimal(1), 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:anyURI(\"http://www.example.com\"),xs:anyURI(\"http://www.example1.com\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:float(1.1), 2.2, 3.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:double(1.2E2), 2.2E2, 3.3E2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +704,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:boolean(fn:true()), fn:false(), fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -719,7 +719,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:date(\"2004-12-25Z\"),xs:date(\"2004-12-26Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:dateTime(\"1999-11-28T09:00:00Z\"),xs:dateTime(\"1998-11-28T09:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constSeq-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (xs:time(\"08:00:00+09:00\"),xs:time(\"08:00:00+10:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -764,7 +764,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1) , (2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -779,7 +779,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"a\") , xs:string(\"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -794,7 +794,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"a\") , (), \"xyz\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -809,7 +809,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"xyz\" , xs:string(\" \"), \"b\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -824,7 +824,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"a\") , xs:anyURI(\"www.example.com\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"hello\") , xs:integer(\"100\"), xs:anyURI(\"www.example.com\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -854,7 +854,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"www.example.com\") , xs:decimal(\"1.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -869,7 +869,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1.01\"), xs:float(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -884,7 +884,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"INF\") , xs:double(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\"), xs:double(\"-INF\"), xs:float(\"-INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -914,7 +914,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") , xs:boolean(\"0\"), xs:integer(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -929,7 +929,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\"), xs:boolean(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -944,7 +944,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1993-03-31\") , xs:boolean(\"true\"), xs:string(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -959,7 +959,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-31T00:00:00Z\") , (())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -974,7 +974,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"12:30:00Z\") , xs:string(\" \") , xs:decimal(\"2.000000000000002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -989,7 +989,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() , xs:string(\" \") , xs:decimal(\"2.000000000000002\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1004,7 +1004,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1+1), (2-2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1019,7 +1019,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1,2,2),(1,2,3),(123,\"\"),(),(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1034,7 +1034,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//book/price, (), (1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1074,7 +1074,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-concatenate-mix-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//book/price, //book/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1090,7 +1090,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-commaOp-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(((1, (2, (3, 4, (5, 6)), 7), 8, (9, 10), 11)), (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1105,7 +1105,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-commaOp-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(((), (), ((), (), ((), (), (())), ()), (), (())))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1120,7 +1120,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-commaOp-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((), (), ((), (), ((), (), (\"str\")), ()), (), (())) eq \"str\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

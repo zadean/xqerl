@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-escape-html-uri1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(\"http://www.example.com/00/Weather/CA/Los Angeles#ocean\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -260,7 +260,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(\"javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~bébé');\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -275,7 +275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri('')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -290,7 +290,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri1args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -305,7 +305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri1args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -320,7 +320,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri1args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri('',())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -335,7 +335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"abcdedfghijklmnopqrstuvwxyz\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -350,7 +350,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -365,7 +365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"a0123456789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -380,7 +380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -395,7 +395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example!example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -410,7 +410,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example#example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -425,7 +425,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example$example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -440,7 +440,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example'example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -455,7 +455,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example(example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -470,7 +470,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example)example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example*example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example+example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example,example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example-example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example.example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example/example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +575,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example;example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example:example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example@example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -620,7 +620,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"exampleé€example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -635,7 +635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-escape-html-uri-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(\"example€example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -650,7 +650,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -665,7 +665,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(\"http://example.com/\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -680,7 +680,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -695,7 +695,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(\"http://www.example.com/00/Weather/CA/Los Angeles#ocean\") eq \"http://www.example.com/00/Weather/CA/Los Angeles#ocean\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -710,7 +710,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "escape-html-uri(\"javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~bébé');\") eq \"javascript:if (navigator.browserLanguage == 'fr') window.open('http://www.example.com/~b%C3%A9b%C3%A9');\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -725,7 +725,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-EscapeHTMLURIFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(iri-to-uri((\"example.com\", current-time())[1] treat as xs:string))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -740,7 +740,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-escape-html-uri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:escape-html-uri(codepoints-to-string((9, 65, 128)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

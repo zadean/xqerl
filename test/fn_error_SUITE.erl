@@ -105,7 +105,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -373,7 +373,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-error-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -388,7 +388,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.example.com/HR', 'myerr:toohighsal'), 'Does not apply because salary is too high')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -403,7 +403,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error('Wrong Argument Type')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -418,7 +418,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOCH0004'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -433,7 +433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error((), 'err:FOER0000')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -448,7 +448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error((), 'err:FOER0000','error raised by this test by setting first argument to empty sequence')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -463,7 +463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FODT0001'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -478,7 +478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FORG0009'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -493,7 +493,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOTY0012'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -508,7 +508,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SENR0001'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -523,7 +523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0004'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,7 +538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0009'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0010'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -568,7 +568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SEPM0016'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -583,7 +583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0003'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -598,7 +598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0005'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0006'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -628,7 +628,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0008'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -643,7 +643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0012'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SERE0014'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -673,7 +673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SESU0007'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -688,7 +688,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:SESU0011'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -703,7 +703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPDY0002'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPST0010'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -733,7 +733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPST0080'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -748,7 +748,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XPTY0018'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -763,7 +763,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0027'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -778,7 +778,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0061'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -793,7 +793,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQDY0084'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -808,7 +808,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0009'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -823,7 +823,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0012'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -838,7 +838,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0013'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -853,7 +853,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0016'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -868,7 +868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0035'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -883,7 +883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0036'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -898,7 +898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0046'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0047'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -928,7 +928,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0048'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -943,7 +943,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0054'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -958,7 +958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0055'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -973,7 +973,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0057'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -988,7 +988,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0058'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1003,7 +1003,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0060'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1018,7 +1018,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0073'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1033,7 +1033,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0075'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1048,7 +1048,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0076'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1063,7 +1063,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0079'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1078,7 +1078,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQST0087'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1093,7 +1093,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-error-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:XQTY0030'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1108,7 +1108,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(true()) then true() else error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1123,7 +1123,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(true()) then true() else error(QName(\"\", \"local\"), \"description\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1138,7 +1138,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error(QName(\"\", \"local\"), \"description\", \"object\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1153,10 +1153,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XP20 XQ30 XP30"}.
 'K-ErrorFunc-4a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1171,7 +1171,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error(QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1186,7 +1186,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error((), \"description\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1201,7 +1201,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(false()) then error((), \"description\") else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1216,7 +1216,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1231,7 +1231,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error(QName(\"\", \"XPDY6666\"), \"description\", \"error object\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1246,7 +1246,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ErrorFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one((true(), error()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1261,7 +1261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ErrorFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, error())[2]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1284,7 +1284,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ErrorFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"\"; fn:error(xs:QName(\"onlyAnNCName\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1299,7 +1299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ErrorFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error(QName(\"\", \"FOO\"), \"DESCRIPTION\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1314,7 +1314,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:ignore($arg) { true() }; local:ignore( fn:error() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1337,7 +1337,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() + fn:error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1360,7 +1360,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error() + ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1383,7 +1383,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() eq fn:error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1406,7 +1406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error() eq ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1429,7 +1429,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error() = ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1452,7 +1452,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() = fn:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1475,7 +1475,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error() is ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1498,7 +1498,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() is fn:error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1521,7 +1521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error() and false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1544,7 +1544,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() and fn:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1567,7 +1567,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error() or true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1590,7 +1590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() or fn:error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1613,7 +1613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in fn:error() return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1636,7 +1636,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x at $p in fn:error() return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1659,7 +1659,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := fn:error() return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1682,7 +1682,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (fn:error()) then true() else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1705,7 +1705,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in fn:error() satisfies false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1728,7 +1728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "every $x in fn:error() satisfies true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1751,7 +1751,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error() instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1774,7 +1774,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch ( fn:error() ) case xs:integer return true() default return false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1797,7 +1797,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch ( fn:error() ) case xs:integer return true() default return false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1820,7 +1820,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error()[2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1843,7 +1843,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error()[false()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1866,7 +1866,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1 div 0)[false()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1889,7 +1889,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty( if (current-date() lt xs:date('2009-01-01')) then fn:error() else ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1912,7 +1912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty( if (current-date() lt xs:date('2009-01-01')) then () else fn:error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1935,7 +1935,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:item() { if (current-date() lt xs:date('2012-10-10')) then 1 else \"one\" }; empty( typeswitch ( local:item() ) case xs:integer return fn:error() default return ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1958,7 +1958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:item() { if (current-date() gt xs:date('1900-01-01')) then 1 else \"one\" }; empty( typeswitch ( local:item() ) case xs:integer return () default return fn:error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1973,7 +1973,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:remove( fn:error(), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1996,7 +1996,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:subsequence( fn:error(), 2, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2019,7 +2019,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error() except fn:error() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2042,7 +2042,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:error() intersect fn:error() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2065,7 +2065,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty( fn:zero-or-one(fn:error()) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2088,7 +2088,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-error-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty( fn:error() treat as empty-sequence() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -39,7 +39,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -241,7 +241,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'base64Binary-lt-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") lt xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -256,7 +256,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"bnh1YmJkdWNm\") lt xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -271,7 +271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"eGF0YW1hYWdy\") lt xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -286,7 +286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") < xs:base64Binary(\"bnh1YmJkdWNm\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -301,7 +301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") < xs:base64Binary(\"eGF0YW1hYWdy\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -316,7 +316,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") < xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -331,7 +331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"bnh1YmJkdWNm\") < xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"eGF0YW1hYWdy\") le xs:base64Binary(\"dnR5cWxqZHZj\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -361,7 +361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") le xs:base64Binary(\"bnh1YmJkdWNm\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -376,7 +376,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"dnR5cWxqZHZj\") le xs:base64Binary(\"eGF0YW1hYWdy\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -391,7 +391,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:base64Binary(\"eGF0YW1hYWdy\") <= xs:base64Binary(\"dnR5cWxqZHZj\")) and (xs:base64Binary(\"eGF0YW1hYWdy\") lt xs:base64Binary(\"dnR5cWxqZHZj\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -406,7 +406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:base64Binary(\"eGF0YW1hYWdy\") <= xs:base64Binary(\"dnR5cWxqZHZj\")) or (xs:base64Binary(\"eGF0YW1hYWdy\") lt xs:base64Binary(\"dnR5cWxqZHZj\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"eGF0YW1hYWdy\") <= xs:base64Binary(\"eGF0YW1hYWdy\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -436,7 +436,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "min((xs:base64Binary('qg=='), xs:base64Binary('uw=='), xs:base64Binary('iA==')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -451,7 +451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $i in (xs:base64Binary('qg=='), xs:base64Binary('uw=='), xs:base64Binary(''), xs:base64Binary('iA=='), xs:base64Binary('u7s='))
          order by $i
@@ -470,7 +470,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"/w==\") lt xs:base64Binary(\"/w==\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"/w==\") le xs:base64Binary(\"qg==\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"/w==\") lt xs:base64Binary(\"qg==\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(xs:base64Binary(xs:base64Binary(\"Aw==\"))) lt xs:base64Binary(\"Aw==\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(xs:base64Binary(xs:base64Binary(\"AAE=\"))) le xs:base64Binary(\"AAI=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") lt xs:base64Binary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") lt xs:base64Binary(\"AAI=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +575,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"AA==\") lt xs:base64Binary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"AAE=\") < xs:base64Binary(\"AAI=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"00\") lt xs:base64Binary(\"AAI=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -620,7 +620,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"\" lt xs:base64Binary(\"AAI=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -635,7 +635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-le-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") le xs:base64Binary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -650,7 +650,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-le-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") le xs:base64Binary(\"AAE=\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -665,7 +665,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-le-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"AA==\") lt xs:base64Binary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -680,7 +680,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
             if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 
@@ -699,7 +699,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
             if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base64Binary-lt-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
             if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 

@@ -35,7 +35,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -233,7 +233,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'boundary-space-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <a> {\"abc\"} </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -248,7 +248,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <a> {\"abc\"} </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -263,7 +263,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <a> z {\"abc\"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -278,7 +278,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <a> z {\"abc\"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <a>&#x20;{\"abc\"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -308,7 +308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <a>&#x20;{\"abc\"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -323,7 +323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <a>&#x20;{\"abc\"}{' '}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -338,7 +338,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <a>&#x20;{\"abc\"}{' '}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -353,7 +353,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <a>&#x20;{\"abc\"}{\" \"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <a>&#x20;{\"abc\"}{\" \"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'boundary-space-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space strip;
 <res>
@@ -409,7 +409,7 @@ c
       Err -> ct:fail(Err)
    end.
 'boundary-space-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space preserve;
 <res>
@@ -434,7 +434,7 @@ c
       Err -> ct:fail(Err)
    end.
 'boundary-space-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space strip;
 <res>
@@ -459,7 +459,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'boundary-space-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space preserve;
 <res>
@@ -484,7 +484,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundary-space-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space strip;
 <A>  A   {\"B\"}   C   {\"D\"}  </A>",
@@ -501,7 +501,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'boundary-space-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space preserve;
 <A>  A   {\"B\"}   C   {\"D\"}  </A>",
@@ -518,7 +518,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundary-space-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space strip;
 <A>  A   {\"B\"}   C   {\"D  \"}</A>",
@@ -535,7 +535,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'boundary-space-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space preserve;
 <A>  A   {\"B\"}   C   {\"D  \"}</A>",
@@ -552,7 +552,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundary-space-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space strip;
 <A> (a), (b), (c) </A>",
@@ -569,7 +569,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'boundary-space-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare boundary-space preserve;
 <A> (a), (b), (c) </A>",
@@ -586,7 +586,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundary-space-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; (\" \",10, 20, 30, 40,\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -601,7 +601,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundary-space-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; (\" \",10, 20, 30, 40,\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -616,7 +616,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'boundaryspacedeclerr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; declare boundary-space strip; \"abc\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -631,7 +631,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'K-BoundarySpaceProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)boundary-space(::)strip(::); 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -646,7 +646,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'K-BoundarySpaceProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)boundary-space(::)strip(::); 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -661,7 +661,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'K-BoundarySpaceProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)boundary-space(::)strip(::); (::)declare(::)boundary-space(::)preserve(::); 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -676,7 +676,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'K-BoundarySpaceProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)boundary space(::)strip(::); 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -691,7 +691,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'K2-BoundarySpaceProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boundary-space ne boundary-space",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

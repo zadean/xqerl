@@ -95,7 +95,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -353,7 +353,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'format-time-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H01]:[m01]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -380,7 +380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -407,7 +407,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H01]:[m01]:[s01]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -434,7 +434,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -461,7 +461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s1]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -488,7 +488,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s01]:[f001]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s].[f,1-1]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -542,7 +542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002h'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s].[f1,1-1]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -569,7 +569,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002i'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s].[f01]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -596,7 +596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-002j'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t,\"[H]:[m]:[s].[f001]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -623,7 +623,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 24 return
         format-time($t + xs:dayTimeDuration('PT1H')*$i, '[h].[m]')",
@@ -652,7 +652,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013n'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[m,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -679,7 +679,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,4-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -706,7 +706,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013q'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -733,7 +733,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013r'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-5]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -760,7 +760,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013s'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -787,7 +787,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013t'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-*]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -814,7 +814,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013u'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,*-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -841,7 +841,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-013v'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -868,7 +868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(
                for $z in -28 to +28
                return format-time(adjust-time-to-timezone(
@@ -898,7 +898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(
                for $z in -28 to +28
                return format-time(adjust-time-to-timezone(
@@ -928,7 +928,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(
                for $z in -28 to +28
                return format-time(adjust-time-to-timezone(
@@ -958,7 +958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(
                for $z in -28 to +28
                return format-time(adjust-time-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,5-6]'), '; ')",
@@ -987,7 +987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(
                for $z in -28 to +28
                return format-time(adjust-time-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,2-6]'), '; ')",
@@ -1016,7 +1016,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('09:15:06.456'),\"[f๐๐๐]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1031,7 +1031,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('09:15:06.456'),\"[H٠]:[m٠]:[s٠٠]:[f٠٠٠]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1046,7 +1046,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('09:15:06.456'),\"[Pn]/[PNn]/[PN]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1069,7 +1069,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('15:15:06.456'),\"[Pn]/[PNn]/[PN]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1092,7 +1092,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,4-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1119,7 +1119,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023q'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1146,7 +1146,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023r'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-5]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1173,7 +1173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023s'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1200,7 +1200,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023t'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-*]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1227,7 +1227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023u'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,*-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1254,7 +1254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-023v'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1281,7 +1281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,4-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1308,7 +1308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024q'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1335,7 +1335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024r'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-5]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1362,7 +1362,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024s'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,2-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1389,7 +1389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024t'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,1-*]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1416,7 +1416,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024u'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,*-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1443,7 +1443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-024v'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time($t, '[f,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1470,7 +1470,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-809err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[Y]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1493,7 +1493,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-810err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[M]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1516,7 +1516,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-811err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[d]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1539,7 +1539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-812err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[d]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1562,7 +1562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-813err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[F]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1585,7 +1585,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-814err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[W]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1608,7 +1608,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-815err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[w]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1631,7 +1631,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-816err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[E]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1654,7 +1654,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-817err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[bla]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1677,7 +1677,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-818err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[H9#]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1692,7 +1692,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-inpt-er1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time('abc', '[bla]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1707,7 +1707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-inpt-er2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[bla]', 'en', (), (), 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1722,7 +1722,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-inpt-er3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[bla]', 'en', (), (), 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1737,7 +1737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-inpt-er4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), \"[H01]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1752,7 +1752,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-time-1340err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(current-time(), '[y]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1775,7 +1775,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), '[f]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1790,7 +1790,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), '[f1]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1805,7 +1805,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), '[f99]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1820,7 +1820,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), '[f001]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1835,7 +1835,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), '[f99#]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1850,7 +1850,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.12'), '[f99#]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1865,7 +1865,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.12'), '[f777]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1880,7 +1880,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.127'), '[f01]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1895,7 +1895,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.125'), '[f01]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1910,7 +1910,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.135'), '[f01]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1925,7 +1925,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.135'), \"[f0'0'0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1940,7 +1940,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.135'), \"[f00'0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1955,7 +1955,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.135'), \"[f,6-*]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1970,7 +1970,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.133'), \"[f,*-2]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1985,7 +1985,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.133'), \"[f,2-4]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2000,7 +2000,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01'), \"[f,2-4]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2015,7 +2015,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01'), \"[f]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2030,7 +2030,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f111,2-2]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2045,7 +2045,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[fi]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2060,7 +2060,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f٠٠٠]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2075,7 +2075,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f٠~٠~٠]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2090,7 +2090,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.999'), \"[f99]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2105,7 +2105,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[ f 0 0 0 ]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2120,7 +2120,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.189'), \"[f٠#,3-3]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2135,7 +2135,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.1'), \"[f1###,3-3]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2150,7 +2150,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.5'), \"[f1###,2-3]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2165,7 +2165,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f#99]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2180,7 +2180,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f1,0-3]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2195,7 +2195,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f1,*-0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2210,7 +2210,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f1,3-2]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2225,7 +2225,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'millisecs-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-time(xs:time('12:01:01.123'), \"[f#9٠]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

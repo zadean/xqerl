@@ -17,7 +17,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -197,7 +197,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'K-StringLT-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'a' lt 'abc'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -212,7 +212,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StringLT-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not('abc' lt 'a')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -227,7 +227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StringLT-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'a' le 'abc'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -242,7 +242,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StringLT-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not('abc' le 'a')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -257,7 +257,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StringLT-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'abc' le 'abc'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-StringLT-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"\" lt \"𑅰\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +287,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-string-less-than-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(string(current-time()) lt \"now\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -302,7 +302,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-string-less-than-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(string(current-time()) ge \"now\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -317,7 +317,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-string-less-than-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         not(xs:untypedAtomic(current-time()) lt xs:untypedAtomic(\"now\"))
       ",
@@ -334,7 +334,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-string-less-than-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         not(xs:untypedAtomic(current-time()) ge xs:untypedAtomic(\"now\"))
       ",

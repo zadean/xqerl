@@ -34,7 +34,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -231,7 +231,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-prefix-from-qname-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(\"arg1\",\"arg2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -246,7 +246,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(xs:integer(1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:prefix-from-QName(xs:QName(\"name\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -276,7 +276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(xs:string(fn:prefix-from-QName(xs:QName(\"name\"))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(fn:prefix-from-QName(xs:QName(\"foo:name\")))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -318,7 +318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:prefix-from-QName(xs:QName(\"foo:name\")))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -345,7 +345,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:prefix-from-QName(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -360,7 +360,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(xs:QName(\"foo:bar\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -375,7 +375,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(fn:prefix-from-QName(xs:QName(\"foo:bar\")))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -402,7 +402,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:lower-case(fn:prefix-from-QName(xs:QName(\"FOO:bar\")))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -429,7 +429,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\":bar\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -456,7 +456,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-before(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"oo\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -483,7 +483,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring-after(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -510,7 +510,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:prefix-from-QName(xs:QName(\"foo:bar\")))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -537,7 +537,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(fn:prefix-from-QName(xs:QName(\"foo:bar\")),2)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -564,7 +564,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-join((fn:prefix-from-QName(xs:QName(\"foo:bar\")),\":bar\"),\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -591,7 +591,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:starts-with(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ends-with(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -645,7 +645,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(fn:prefix-from-QName(xs:QName(\"foo:bar\")),\"f\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -672,7 +672,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(xs:QName(\"foo:bar\"))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -700,13 +700,13 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-prefix-from-qname-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-prefix-from-qname-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-prefix-from-qname-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:prefix-from-QName(node-name(/*))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -722,7 +722,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-PrefixFromQName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -737,7 +737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-PrefixFromQName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix-from-QName(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -752,7 +752,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-PrefixFromQName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(prefix-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -767,7 +767,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-PrefixFromQName-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix-from-QName( QName(\"example.com/\", \"pre:lname\")) eq \"pre\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -22,7 +22,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -207,7 +207,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'parse-xml-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -223,7 +223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"),'###/atomic.xml')",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -239,7 +239,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(unparsed-text(\"../docs/atomic.xml\"),'file:/test/fots/../docs/atomic.xml')",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -255,7 +255,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<a>Test123\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -271,7 +271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -287,7 +287,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><!DOCTYPE a [<!ELEMENT a (#PCDATA)>]><a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -303,7 +303,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "base-uri(parse-xml(\"<a>foo</a>\")) eq static-base-uri()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -319,7 +319,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<!DOCTYPE a SYSTEM 'parse-xml/a.dtd'><a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -335,7 +335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<?xml version='1.0' encoding='iso-8859-1'?><!DOCTYPE a SYSTEM 'parse-xml/a.dtd'><a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -351,7 +351,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<!DOCTYPE a [<!ELEMENT a (#PCDATA)><!ENTITY foo SYSTEM 'parse-xml/foo.entity'>]><a>\" ||
             codepoints-to-string(38) || \"foo;</a>\")
         ",
@@ -369,7 +369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-uri(parse-xml(\"<a>foo</a>\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -385,7 +385,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<a>foo</a>\") is parse-xml(\"<a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -409,7 +409,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<!DOCTYPE a [<!ELEMENT a (#PCDATA)>]><a><b/></a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -433,7 +433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<a>foo</a>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -449,7 +449,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'parse-xml-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-xml(\"<p:a/>\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

@@ -79,7 +79,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -369,7 +369,7 @@ environment('acme_corp',BaseDir) ->
 {modules, []}
 ].
 'Constr-compelem-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -384,7 +384,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.example.com/foo\"; element foo:elem {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -399,7 +399,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element foo:elem {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +414,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {()} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,7 +429,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {'one', 'two'} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -444,7 +444,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -459,7 +459,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {//a} {'text'}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -475,7 +475,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {1,2} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -490,7 +490,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {123} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -505,7 +505,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:dateTime(\"1999-05-31T13:20:00\")} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -520,10 +520,10 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-compelem-compname-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:QName('aQname')} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,7 +538,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {'elem'} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {'elem', ()} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -568,7 +568,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {(), 'elem'} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -583,7 +583,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{element {'foo:elem'} {'text'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -598,7 +598,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {'foo:elem'} {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -613,7 +613,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:untypedAtomic('elem')} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -628,7 +628,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{element {xs:untypedAtomic('foo:elem')} {'text'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -643,7 +643,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:untypedAtomic('foo:elem')} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {'el em'} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -673,7 +673,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-compname-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:untypedAtomic('el em')} {'text'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -688,7 +688,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-adjtext-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((element elem {1, 'string', 1,2e3})/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -703,7 +703,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-adjtext-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((element elem {1, //text(), 'string'})/text())",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -719,7 +719,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-adjtext-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((element elem {1, 2, <a/>, 3, 4, <b/>, 5, 6})/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nested-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {1, element a {2, element b {element c {}, element d {3}}, 4}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nested-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -765,7 +765,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -780,7 +780,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {1,'a',3.5,4e2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -795,7 +795,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -811,7 +811,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {1, '', 2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -826,7 +826,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nodeid-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a/>, $y in element elem {$x} return exactly-one($y/a) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -841,7 +841,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nodeid-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a b=\"b\"/>, $y in element elem {$x/@b} return $y/@b is $x/@b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -856,7 +856,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nodeid-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <!--comment-->, $y in element elem {$x} return exactly-one($y/comment()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -871,7 +871,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nodeid-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <?pi content?>, $y in element elem {$x} return exactly-one($y/processing-instruction()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -886,7 +886,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-nodeid-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a>text</a>, $y in element elem {$x/text()} return exactly-one($y/text()) is exactly-one($x/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -901,7 +901,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-constrmod-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; (element elem {xs:decimal((//decimal[1]))}) cast as xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -917,7 +917,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-constrmod-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction preserve; (element elem {xs:decimal((//decimal[1]))}) cast as xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -941,7 +941,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-constrmod-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; (element elem {//*:decimal/@*:attr})/@*:attr cast as xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -957,7 +957,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-constrmod-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction preserve; (element elem {xs:decimal(//*:decimal[1]/@*:attr)}) cast as xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -985,7 +985,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-baseuri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(element elem {attribute xml:base {\"http://www.example.com\"}})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1000,7 +1000,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-baseuri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(exactly-one((<elem xml:base=\"http://www.example.com\">{element a {}}</elem>)/a))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1015,7 +1015,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-baseuri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:base-uri(element elem {})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1030,7 +1030,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {., .}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1046,7 +1046,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((element elem {})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1061,7 +1061,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(element elem {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1076,7 +1076,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(element elem {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1091,7 +1091,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-attr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {1, //west/@mark}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1107,7 +1107,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-attr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {element a {}, //west/@mark}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1123,7 +1123,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-attr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {//west/@mark, //west/@west-attr-1}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1139,7 +1139,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compelem-attr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {//west/@mark, //center/@mark}",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1155,7 +1155,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element \"name\" {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1170,7 +1170,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{\"\", \"\", <e/>, <b></b>}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1185,7 +1185,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{<e/>, <b></b>, \"\", \"\"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1200,7 +1200,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {\"aPrefix:localName\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1215,7 +1215,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {xs:untypedAtomic(\"aPrefix::localName\")} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1230,7 +1230,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(element foo {\"dsa\"}) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1245,7 +1245,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(element foo {\"dsa\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1260,7 +1260,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element e {\"content\"} instance of element(*, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1275,7 +1275,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element e {\"content\"} instance of element(*, xs:untyped)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1298,7 +1298,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; element e {\"content\"} instance of element(*, xs:untyped)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1313,7 +1313,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element e {\"content\"} instance of element(a, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1328,7 +1328,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; element e {\"content\"} instance of element(b, xs:untyped)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1343,7 +1343,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element e {element b{()}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1358,7 +1358,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:addNamespace($argElement as element(), $argPrefix as xs:string, $namespaceURI as xs:string) as element() { 
             element { QName($namespaceURI, concat($argPrefix, \":x\")) }{$argElement}/* 
@@ -1378,7 +1378,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConElem-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://example.com/NS\"; 
         element {exactly-one((//*)[3])} {}",
@@ -1396,7 +1396,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {\"xmlns:error\"} {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1419,7 +1419,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) element { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"error\")} {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1434,7 +1434,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) element { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"foo:error\")} {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1449,7 +1449,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is 'xml' and namespace URI is not 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) element { fn:QName(\"http://example.com/not-XML-uri\",\"xml:error\") } {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1464,7 +1464,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is not 'xml' and its namespace URI is 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) element { fn:QName(\"http://www.w3.org/XML/1998/namespace\",\"foo:error\") } {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1479,7 +1479,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-elem-bad-name-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.1 Computed Element Constructor per XQ.E19 XQDY0096 if namespace prefix is 'xmlns' Mary Holstege :) element { fn:QName(\"http://example.com/some-uri\",\"xmlns:error\") } {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

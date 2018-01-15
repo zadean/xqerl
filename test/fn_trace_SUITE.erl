@@ -37,7 +37,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -237,7 +237,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-trace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -252,7 +252,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $var := xs:integer(\"123\") 
          return fn:trace($var,\"The Value of $var is: \")",
@@ -269,7 +269,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (1,2,3,4,5) return fn:trace($var + 1,\"The Value of $var + 1 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -284,7 +284,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (2,3,4,5) return fn:trace($var - 1,\"The Value of $var - 1 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -299,7 +299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (2,3,4,5) return fn:trace($var * 2 ,\"The Value of $var * 2 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -314,7 +314,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (2,4,6,8) return fn:trace($var div 2 ,\"The Value of $var div 2 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -329,7 +329,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (2,4,6,8) return fn:trace($var idiv 2 ,\"The Value of $var idiv 2 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -344,7 +344,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (2,4,6,8) return fn:trace($var mod 2 ,\"The Value of $var mod 2 is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -359,7 +359,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var1 in (2,4,6,8), $var2 in (3 + $var1) - (4 * $var1) 
         return fn:trace($var1 + $var2 ,\"The Value of $var 1 + $var2 is: \")",
    Qry1 = Qry,
@@ -375,7 +375,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (\"aa\",\"bb\",\"cc\",\"dd\",\"ee\") return fn:trace(fn:concat($var,$var) ,\"The Value of concat($var,$var) is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -390,7 +390,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (/works//hours) return fn:trace(($var div 2) ,\"The Value of hours div/2 is: \")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -406,7 +406,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((for $var in (/works//hours) return $var + $var) ,\"The Value of the given expression is: \")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -422,7 +422,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((fn:avg((1,3,3,4,5)) * 2) ,\"The Value of 'fn:avg((1,3,3,4,5)) * 2' is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((for $var in (1.1,2.2,3.3,4.4,5.5) return xs:integer($var)) ,\"The Value of 'for $var in (1.1,2.2,3.3,4.4,5.5) return xs:float($var)' is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -452,7 +452,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((fn:trace((2+2),\"The value of '2 + 2' is:\" )) ,\"The Value of 'fn:trace(2+2)' is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -467,7 +467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((fn:count((1,2,-3,-4,5)) * 2) ,\"The Value of 'fn:count(1,2,-3,-4,5)) * 2' is: \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +482,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((for $var in (fn:true(),fn:false(),fn:true()) return $var and fn:true()) ,\"The value of 'for $var in (fn:true(),fn:false(),fn:true() return $var and fn:true()' is:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -497,7 +497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((for $var in (fn:true(),fn:false(),fn:true()) return $var or fn:true()) ,\"The value of 'for $var in (fn:true(),fn:false(),fn:true() return $var or fn:true()' is:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -512,7 +512,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:trace(() ,\"The value of the empty sequence is:\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -535,7 +535,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:trace(\"\" ,\"The value of the zero length string is:\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -550,7 +550,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((for $var in (fn:upper-case(\"a\"),fn:lower-case(\"B\")) return (fn:lower-case($var),fn:upper-case($var))) ,\"The value of the complex expression on the other argument is:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -565,7 +565,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace(1 to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -580,7 +580,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace([1 to 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -595,7 +595,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-trace-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:trace((map{'x':1,'y':2}, map{}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -610,7 +610,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "trace()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -625,10 +625,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XP30 XQ10 XQ30"}.
 'K-TraceFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "trace(., \"message\", \"wrong parameter\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -643,7 +643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "trace(\"a string\", \"trace message\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(trace((), \"trace message\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -681,7 +681,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-TraceFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(trace(error(), \"trace message\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

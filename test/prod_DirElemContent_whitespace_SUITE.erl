@@ -90,7 +90,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -343,7 +343,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'Constr-ws-tag-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -358,7 +358,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -373,7 +373,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -388,7 +388,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -403,7 +403,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; fn:count((<elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>)//text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -418,7 +418,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -433,7 +433,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>
 
 
@@ -454,7 +454,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>			</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   	
       	    <a>          	         
 		
@@ -508,7 +508,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-tag-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; fn:count((<elem> <a> </a> <a> </a> <a> <b> </b> </a> </elem>)//text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -523,7 +523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,7 +538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -568,7 +568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -583,7 +583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -598,7 +598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} {2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -628,7 +628,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -643,7 +643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{1} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -658,7 +658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -673,7 +673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -688,7 +688,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> <a/> <b/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -703,7 +703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>   {1}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem>
 
 
@@ -739,7 +739,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-15 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between open tag and enclosed expression :)
@@ -759,7 +759,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-16 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between enclosed expressions :)
@@ -779,7 +779,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-17 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between enclosed expressions :)
@@ -802,7 +802,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-18 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between enclosed expressions :)
@@ -822,7 +822,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-19 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between enclosed expression and close tag :)
@@ -842,7 +842,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-20 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between enclosed expression and close tag :)
@@ -865,7 +865,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-21 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between enclosed expression and close tag :)
@@ -885,7 +885,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-22 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace space between child elements :)
@@ -905,7 +905,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-23 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace line feed between child elements :)
@@ -934,7 +934,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-enclexpr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-enclexpr-24 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve whitespace tab between child elements :)
@@ -954,7 +954,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> x</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -969,7 +969,7 @@ declare boundary-space preserve;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve leading line feed :)
@@ -990,7 +990,7 @@ x</elem>",
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve leading tab :)
@@ -1010,7 +1010,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>x </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1025,7 +1025,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-5 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve trailing line feed :)
@@ -1046,7 +1046,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-nobound-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-nobound-6 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve trailing tab :)
@@ -1066,7 +1066,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genchref-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#x20;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1081,7 +1081,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genchref-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#xA;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1096,7 +1096,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genchref-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#xD;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1111,7 +1111,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genchref-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>&#x9;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1126,7 +1126,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-gencdata-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem><![CDATA[ ]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1141,7 +1141,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-gencdata-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-gencdata-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve cdata tab :)
@@ -1161,7 +1161,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjchref-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem> &#x30; </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1176,7 +1176,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjchref-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjchref-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve line feed adjacent to character reference :)
@@ -1198,7 +1198,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjchref-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjchref-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve tab adjacent to character reference :)
@@ -1218,7 +1218,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjcdata-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-1 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve space adjacent to cdata section :)
@@ -1238,7 +1238,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjcdata-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve line feed adjacent to cdata section :)
@@ -1260,7 +1260,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-adjcdata-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-adjcdata-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve tab adjacent to cdata section :)
@@ -1280,7 +1280,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genenclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem>{\" \"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1295,7 +1295,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genenclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-genenclexpr-2 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve enclosed exp line feed :)
@@ -1316,7 +1316,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-genenclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Constr-ws-genenclexpr-3 :)
 (: Written by: Andreas Behm :)
 (: Description: preserve enclosed exp tab :)
@@ -1336,7 +1336,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-xmlspace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <elem xml:space=\"preserve\"> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1351,7 +1351,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'Constr-ws-xmlspace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <elem xml:space=\"strip\"> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1374,7 +1374,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; string(<e> <b/> </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1389,7 +1389,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{\"\"}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1404,7 +1404,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<a>aaaa<b/>aaaa</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1419,7 +1419,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <e> <b/>  </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1434,7 +1434,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; string(<e xml:space=\"preserve\"> </e>) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1449,7 +1449,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; <e xml:space=\"preserve\"> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1464,7 +1464,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; string(<e xml:space=\"default\"> </e>) eq \" \"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1479,7 +1479,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; <e xml:space=\"preserve\"> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1494,7 +1494,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>'a''a'''a\"a\"\"a\"\"\"a\"</e>) eq \"'a''a'''a\"\"a\"\"\"\"a\"\"\"\"\"\"a\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1509,7 +1509,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e> &#32; </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1524,7 +1524,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e> <![CDATA[ ]]> </e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1539,7 +1539,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>123<b>XX</b>abc</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1554,7 +1554,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>123<!-- a comment -->ab<!-- another comment -->c</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1569,7 +1569,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>123<?target content ?>ab<?target2 content?>c</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1584,7 +1584,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<elem>str{\"\"}asdas{\"asd\", \"asd\", \"''\", \"\"}{''}asd{''}{''}</elem>/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1599,7 +1599,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a></a>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1614,7 +1614,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a/>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1629,7 +1629,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem> <![CDATA[]]> </elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1644,7 +1644,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>e<b>ddd</b></e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1659,7 +1659,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{1}{1}{1}<e/></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1674,7 +1674,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><e/>{1}{1}{1}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1689,7 +1689,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>]]></e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1704,7 +1704,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem><![CDATA[cdat]]><!-- a comment --><?target content?></elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1719,7 +1719,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem> content <![CDATA[ content ]]> content </elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1734,7 +1734,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem><![CDATA[cdata&<>'\"< ]]>asda <?target content?>asdad</elem>) eq \"cdata&amp;<>'\"\"&lt;&#x20;asda asdad\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1749,7 +1749,7 @@ declare boundary-space strip;
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemWhitespace-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<a> {1} <b> {1} </b> </a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -17,7 +17,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "array")
 
@@ -197,7 +197,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'array-filter-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([\"A\", \"B\", 1, 2], function($z) {$z instance of xs:integer})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -225,7 +225,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([\"the cat\", \"sat\", \"on the mat\"], function($s){count(tokenize($s, \" \")) gt 1})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -253,7 +253,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([\"A\", \"B\", \"\", 0, 1], boolean#1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -281,7 +281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([[2,3],[],[4,5,6,7],[6,7],[3]], function($a){array:size($a) gt 1})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -309,7 +309,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([], contains(?, \"\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -337,7 +337,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter(['apple', 'banana', 'cherry'], contains(?, \"e\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -365,7 +365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter(['apple', 'banana', 'cherry'], substring-after(?, \"e\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -381,7 +381,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter(['apple', 'banana', 'cherry'], substring-after#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -397,7 +397,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter(['apple', 'banana', 'cherry', 17], substring-after(?, \"e\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -413,7 +413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'array-filter-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array:filter([10, 20, 30, 0], function($x){ 20 idiv $x eq 5})",
    {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

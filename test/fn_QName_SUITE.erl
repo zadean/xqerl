@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -257,7 +257,7 @@ environment('fsx',BaseDir) ->
 {modules, []}
 ].
 'ExpandedQNameConstructFunc001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName(\"http://www.example.com/example\", \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName(\"http://www.example.com/example\", \"ht:person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +287,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName(\"\", \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -302,7 +302,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName((), \"person\")}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -317,7 +317,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"\", \"ht:person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -332,7 +332,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName((), \"ht:person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -347,7 +347,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"1person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -362,7 +362,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"@person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -377,7 +377,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"-person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -392,7 +392,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"<person>\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -407,7 +407,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \":person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -422,7 +422,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", \"person:\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -437,7 +437,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"person\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -452,7 +452,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -467,7 +467,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName(\"http://www.example.com/example\", xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +482,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName( xs:integer(\"100\"), \"person\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -497,7 +497,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName( \"http://www.example.com/example\", string((//FolderName)[2]) )}{ \"test\" }",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -513,7 +513,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName( concat('http://www.example.com/', string((//FolderName)[2])), \"people\" )}{ \"test\" }",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -529,7 +529,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element {fn:QName( \"http://www.example.com/example\", \"\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -544,7 +544,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ht=\"http://www.example.com/example\"; element {fn:QName( \"http://www.example.com/another-example\", \"ht:person\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -559,7 +559,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ExpandedQNameConstructFunc021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ht=\"http://www.example.com/example\"; element {fn:QName( \"http://www.example.com/example\", \"ht2:person\" )}{ \"test\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -574,7 +574,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'qName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(20)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -589,7 +589,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\", \"ncname\", \"error\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/2005/xpath-functions\", \"prefix:local\") eq xs:QName(\"fn:local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.example.com/\", \"1asd:error\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,7 +664,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"error:ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -679,7 +679,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName((), \"error:ncname\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"my:qName\", \"http://example.com/MyErrorNS\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"local\") eq xs:QName(\"local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ExpandedQNameConstructFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName((), \"local\") eq xs:QName(\"local\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExpandedQNameConstructFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-qname-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:QName('', ' ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

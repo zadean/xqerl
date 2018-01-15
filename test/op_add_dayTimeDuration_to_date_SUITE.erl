@@ -34,7 +34,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -243,7 +243,7 @@ environment('union-List-defined-Types',BaseDir) ->
 {modules, []}
 ].
 'op-add-dayTimeDuration-to-date2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") + xs:dayTimeDuration(\"P0DT0H0M0S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -258,7 +258,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1983-11-17Z\") + xs:dayTimeDuration(\"P0DT0H0M0S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -273,7 +273,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2030-12-31Z\") + xs:dayTimeDuration(\"P0DT0H0M0S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -288,7 +288,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") + xs:dayTimeDuration(\"P15DT11H59M59S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -303,7 +303,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1970-01-01Z\") + xs:dayTimeDuration(\"P31DT23H59M59S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -318,7 +318,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-30Z\") + xs:dayTimeDuration(\"P2DT2H30M0S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -333,7 +333,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-datealt-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"2000-12-12Z\") + xs:dayTimeDuration(\"P19DT13H10M\"))) and fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -348,7 +348,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1999-10-23Z\") + xs:dayTimeDuration(\"P19DT13H10M\"))) or fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -363,7 +363,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:string(xs:date(\"1998-09-12Z\") + xs:dayTimeDuration(\"P02DT07H01M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -378,7 +378,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:string(xs:date(\"1962-03-12Z\") + xs:dayTimeDuration(\"P03DT08H06M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -393,7 +393,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:number(xs:date(\"1988-01-28Z\") + xs:dayTimeDuration(\"P10DT08H01M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -408,7 +408,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(xs:date(\"1989-07-05Z\") + xs:dayTimeDuration(\"P01DT09H02M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -423,7 +423,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"0001-01-01Z\") + xs:dayTimeDuration(\"-P11DT02H02M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -446,7 +446,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1993-12-09Z\") + xs:dayTimeDuration(\"P03DT01H04M\"))) and fn:string((xs:date(\"1993-12-09Z\") + xs:dayTimeDuration(\"P01DT01H03M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -461,7 +461,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1985-07-05Z\") + xs:dayTimeDuration(\"P03DT01H04M\"))) or fn:string((xs:date(\"1985-07-05Z\") + xs:dayTimeDuration(\"P01DT01H03M\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -476,7 +476,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string((xs:date(\"1980-03-02Z\") + xs:dayTimeDuration(\"P05DT08H11M\"))) and (fn:true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -491,7 +491,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1980-05-05Z\") + xs:dayTimeDuration(\"P23DT11H11M\")) eq xs:date(\"1980-05-05Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,7 +506,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1979-12-12Z\") + xs:dayTimeDuration(\"P08DT08H05M\")) ne xs:date(\"1979-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1978-12-12Z\") + xs:dayTimeDuration(\"P17DT10H02M\")) le xs:date(\"1978-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-add-dayTimeDuration-to-date-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:date(\"1977-12-12Z\") + xs:dayTimeDuration(\"P18DT02H02M\")) ge xs:date(\"1977-12-12Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -551,7 +551,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateAddDTD-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-08-12\") + xs:dayTimeDuration(\"P23DT09H32M59S\") eq xs:date(\"1999-09-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -566,7 +566,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateAddDTD-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P23DT09H32M59S\") + xs:date(\"1999-08-12\") eq xs:date(\"1999-09-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -581,7 +581,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-add-dayTimeDuration-to-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -605,7 +605,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-add-dayTimeDuration-to-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -629,7 +629,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-add-dayTimeDuration-to-date-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:two-digit($number as xs:integer) { 
       	let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
@@ -651,8 +651,8 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Add-UnionType-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Add-UnionType-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

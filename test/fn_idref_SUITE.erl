@@ -61,7 +61,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 , try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
@@ -333,7 +333,7 @@ environment('functx_book',BaseDir) ->
 {modules, []}
 ].
 'fn-idref-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"argument 1\", / ,\"Argument 3\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -349,7 +349,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 10)[fn:idref(\"argument1\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -364,7 +364,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"argument1\", \"A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -379,7 +379,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:idref(\"argument1\", $var)
@@ -398,76 +398,76 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-idref-dtd-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"id1\",/IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -483,7 +483,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"nomatchingid\", /IDS[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -499,7 +499,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"id4\", /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -515,7 +515,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results>{fn:idref((\"id1\", \"id2\"), /IDS[1])}</results>",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -531,7 +531,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref((\"id1\", \"nomatching\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -547,7 +547,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:idref(\"nomatching1 nomatching2\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -563,7 +563,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:idref(\"\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -579,7 +579,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:node-name(fn:idref(\"id2\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -595,7 +595,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:idref(\"id1\", /IDS[1])) is (fn:idref(\"id1\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -611,7 +611,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:idref(\"id1\", /IDS[1])) is (fn:idref(\"id2\", /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -627,7 +627,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:idref((\"id1\",\"id1\"), /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -643,7 +643,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:idref((\"id1\",\"ID1\"), /IDS[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -659,7 +659,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(fn:lower-case(\"ID1\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -675,7 +675,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(fn:upper-case(\"id5\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -691,7 +691,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(fn:concat(\"i\",\"d1\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -707,7 +707,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(xs:string(\"id1\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -723,7 +723,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(fn:string-join((\"id\",\"1\"),\"\"), /IDS[1])/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -739,7 +739,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"argument1\",.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -755,7 +755,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare ordering ordered;  
         <results>{fn:idref(\"id4\", /IDS[1])}</results>",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
@@ -772,7 +772,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results>{fn:idref(\"language\", /)}</results>",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_book',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -788,7 +788,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-idref-dtd-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:idref(\"id1\")/name(..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('id-idref-dtd',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -804,7 +804,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDREFFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "idref((), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -819,7 +819,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDREFFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[idref(\"ncname\", .)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -834,7 +834,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIDREFFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[idref(\"ncname\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -849,7 +849,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-idref-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( fn:idref( local:generate(0), $doc) )
@@ -867,7 +867,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-idref-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $doc := document { <root /> } return fn:empty( fn:idref( (), $doc) )
       ",
@@ -892,7 +892,7 @@ environment('functx_book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-idref-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
       	let $doc := document { <root /> } return fn:empty( $doc/fn:idref( local:generate(0)) )

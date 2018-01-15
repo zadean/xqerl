@@ -52,7 +52,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -291,7 +291,7 @@ environment('TreeEmpty',BaseDir) ->
 {modules, []}
 ].
 'XQueryComment001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment001 :)
 (: Description: Simple use case for XQuery comments :)
 
@@ -313,7 +313,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment002 :)
 (: Description: Simple use case for XQuery comments :)
 
@@ -337,7 +337,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment003 :)
 (: Description: Simple use case for XQuery comment containing '-' :)
 
@@ -358,7 +358,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment004 :)
 (: Description: Empty comment :)
 
@@ -379,7 +379,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment004 :)
 (: Description: Comment containing only '-' :)
 
@@ -400,7 +400,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment006 :)
 (: Description: Comment containing ':' :)
 
@@ -421,7 +421,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment007 :)
 (: Description: Comment containing ')' :)
 
@@ -442,7 +442,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment008 :)
 (: Description: Simple example of embedded comments :)
 
@@ -463,7 +463,7 @@ environment('TreeEmpty',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQueryComment009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment009 :)
 (: Description: Comments inside a conditional expression :)
 
@@ -487,7 +487,7 @@ if (:test (: yada (: neato :) :) :) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 (: Name: XQueryComment010 :)
 (: Description: Comments inside a conditional expression :)
@@ -511,7 +511,7 @@ else (: this is the else case :) ( false() )
       Err -> ct:fail(Err)
    end.
 'XQueryComment011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment011 :)
 (: Description: Comments inside a conditional expression :)
 
@@ -536,7 +536,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment012 :)
 (: Description: Comments that looks like a function call :)
 
@@ -558,7 +558,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment013 :)
 (: Description: Comments inside a sequence expression :)
 
@@ -579,7 +579,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment014 :)
 (: Description: Comments inside a cast expression :)
 
@@ -600,7 +600,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment015 :)
 (: Description: Incorrect comment syntax :)
 
@@ -620,7 +620,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment016 :)
 (: Description: Invalid comment :)
 
@@ -640,7 +640,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment017 :)
 (: Description: Invalid comment :)
 
@@ -660,7 +660,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment018 :)
 (: Description: Invalid comment :)
 
@@ -680,7 +680,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment019 :)
 (: Description: Old style comment syntax :)
 
@@ -700,7 +700,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'XQueryComment020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: XQueryComment020 :)
 (: Description: Comment containing an enclosed expression :)
 
@@ -720,7 +720,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-1                               :)
 (: Written by: Frans Englich                             :)
@@ -741,7 +741,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-2                               :)
 (: Written by: Frans Englich                             :)
@@ -762,7 +762,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-3                               :)
 (: Written by: Frans Englich                             :)
@@ -783,7 +783,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-4                               :)
 (: Written by: Frans Englich                             :)
@@ -805,7 +805,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-5                               :)
 (: Written by: Frans Englich                             :)
@@ -826,7 +826,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-6                               :)
 (: Written by: Frans Englich                             :)
@@ -847,7 +847,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-7                               :)
 (: Written by: Frans Englich                             :)
@@ -869,7 +869,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-8                               :)
 (: Written by: Frans Englich                             :)
@@ -891,7 +891,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-9                               :)
 (: Written by: Frans Englich                             :)
@@ -912,7 +912,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-10                              :)
 (: Written by: Frans Englich                             :)
@@ -933,7 +933,7 @@ if (:test:)(:t2:)(:t3:) (/fs:MyComputer)
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-11                              :)
 (: Written by: Frans Englich                             :)
@@ -954,7 +954,7 @@ true()(::)",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-12                              :)
 (: Written by: Frans Englich                             :)
@@ -975,7 +975,7 @@ for (: set up loop :) $i in 3 return $i eq 3",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-13                              :)
 (: Written by: Frans Englich                             :)
@@ -996,7 +996,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-14                              :)
 (: Written by: Frans Englich                             :)
@@ -1017,7 +1017,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-15                              :)
 (: Written by: Frans Englich                             :)
@@ -1038,7 +1038,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-16                              :)
 (: Written by: Frans Englich                             :)
@@ -1059,7 +1059,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-17                              :)
 (: Written by: Frans Englich                             :)
@@ -1080,7 +1080,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-18                              :)
 (: Written by: Frans Englich                             :)
@@ -1102,7 +1102,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-19                              :)
 (: Written by: Frans Englich                             :)
@@ -1123,7 +1123,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K-XQueryComment-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K-XQueryComment-20                              :)
 (: Written by: Frans Englich                             :)
@@ -1144,7 +1144,7 @@ if((: comment inbetween :)) then 1 else 1",
       Err -> ct:fail(Err)
    end.
 'K2-XQueryComment-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-1                              :)
 (: Written by: Frans Englich                             :)
@@ -1170,7 +1170,7 @@ let $i := <e>
       Err -> ct:fail(Err)
    end.
 'K2-XQueryComment-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-2                              :)
 (: Written by: Frans Englich                             :)
@@ -1196,7 +1196,7 @@ let $i := <e>
       Err -> ct:fail(Err)
    end.
 'K2-XQueryComment-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-3                              :)
 (: Written by: Frans Englich                             :)
@@ -1222,7 +1222,7 @@ let $i := <e>
       Err -> ct:fail(Err)
    end.
 'K2-XQueryComment-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-4                              :)
 (: Written by: Frans Englich                             :)
@@ -1248,7 +1248,7 @@ let $i := <e>
       Err -> ct:fail(Err)
    end.
 'K2-XQueryComment-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-XQueryComment-5                              :)
 (: Written by: Frans Englich                             :)

@@ -28,7 +28,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -231,7 +231,7 @@ environment('XMarkAuction',BaseDir) ->
 {modules, []}
 ].
 'XMark-Q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <XMark-result-Q1> { 
             let $auction := (/)
@@ -251,7 +251,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <XMark-result-Q2> { 
             let $auction := (/) 
@@ -271,7 +271,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: Return the IDs of all open auctions whose current increase is at least twice as high as the initial increase. :) 
         <XMark-result-Q3> { 
             let $auction := (/) 
@@ -293,7 +293,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: List the reserves of those open auctions where a certain person issued a bid before another person. :) 
         <XMark-result-Q4> { 
             let $auction := (/) return 
@@ -315,7 +315,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <XMark-result-Q5> { 
           let $auction := (/) return count(
@@ -336,7 +336,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <XMark-result-Q6> { 
             let $auction := (/) return for $b in $auction//site/regions return count($b//item) } 
@@ -355,7 +355,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<XMark-result-Q7> { let $auction := (/) return for $p in $auction/site return count($p//description) + count($p//annotation) + count($p//emailaddress) } </XMark-result-Q7>",
    {Env,Opts} = xqerl_test:handle_environment(environment('XMarkAuction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: List the names of persons and the number of items they bought. (joins person, closed\\_auction). :) 
          <XMark-result-Q8> { let $auction := (/) return 
          for $p in $auction/site/people/person 
@@ -392,7 +392,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: List the names of persons and the names of the items 
          they bought in Europe(joins person, closed auction, item). :) 
          <XMark-result-Q9> { 
@@ -418,7 +418,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: List all persons according to their interest; use French markup in the result. :) 
          <XMark-result-Q10> { let $auction := (/) 
             return for $i in distinct-values($auction/site/people/person/profile/interest/@category) 
@@ -457,7 +457,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpoose: For each person, list the number of items currently on sale 
          whose price does not exceed 0.02% of the person's income. :) 
          <XMark-result-Q11> { 
@@ -480,7 +480,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: For each richer-than-average person, list the 
          number of items currently on sale whose price does not exceed 0.02% of the person's income. :) 
          <XMark-result-Q12> { 
@@ -504,7 +504,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: List the names of items registered in Australia along with their descriptions. :) 
          <XMark-result-Q13> { 
             let $auction := (/) return 
@@ -524,7 +524,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: Return the names of all items whose description contains the word `gold'. :) 
          <XMark-result-Q14> { 
             let $auction := (/) return 
@@ -545,7 +545,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<XMark-result-Q15> { 
             let $auction := (/) return 
             for $a in $auction/site/closed_auctions/closed_auction/annotation/description/parlist/ 
@@ -565,7 +565,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: Return the IDs of those auctions that have one or more keywords in emphasis. (cf. Q15) :) 
          <XMark-result-Q16> { 
             let $auction := (/) return 
@@ -586,7 +586,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<XMark-result-Q17> { 
             let $auction := (/) 
             return for $p in $auction/site/people/person 
@@ -606,7 +606,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: Convert the currency of the reserve of all open auctions to another currency. :) 
          declare namespace local = \"http://www.example.com/\"; 
          declare function local:convert($v as xs:decimal?) as xs:decimal? { 2.20371 * $v }; 
@@ -628,7 +628,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Purpose: Give an alphabetically ordered list of all items along with their location. :) 
          <XMark-result-Q19> { 
             let $auction := (/) return 
@@ -649,7 +649,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-Q20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<XMark-result-Q20> { 
             let $auction := (/) return 
                <result> 
@@ -672,7 +672,7 @@ environment('XMarkAuction',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XMark-All'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Written By: Frans Englich(maintainer, not original author) :)
 (: Purpose: Return the name of the person with ID `person0'. :)
 (: Date: 2007-03-09 :)

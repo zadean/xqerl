@@ -78,7 +78,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -319,7 +319,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'Constr-elem-empty-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -334,7 +334,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-empty-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -349,7 +349,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-empty-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((<elem/>)/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -364,7 +364,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-empty-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((<elem></elem>)/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -387,7 +387,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-empty-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -402,7 +402,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-matchtag-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem></elemother>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -417,10 +417,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-matchtag-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'Constr-elem-matchtag-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo:elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\"></bar:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -435,7 +435,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{{</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -450,7 +450,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -465,7 +465,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&#x7b;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -480,7 +480,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&#x7d;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -495,7 +495,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -510,7 +510,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-elem-curlybr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -525,7 +525,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<pi>{<?pi x?>}</pi>) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -540,7 +540,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<a attr=\"content\"><!-- NOTINC -->1<b>2<c><!-- NOTINC -->34</c><!-- NOTINC --><d/>56</b>7</a>) eq \"1234567\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -555,7 +555,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -570,7 +570,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "< foo/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -585,7 +585,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo/ >",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -600,7 +600,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "< foo></foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -615,7 +615,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo>< /foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -630,7 +630,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo /",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -645,7 +645,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -660,7 +660,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<prefix:foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -683,7 +683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<prefix: foo/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -698,7 +698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo attr=\"{'a string'}><<<\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -713,7 +713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "</>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -728,7 +728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> content}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -743,7 +743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<f><c></f></c>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -758,7 +758,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a><b><c/><d/><a/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -773,7 +773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a><b><c/><b/><d/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -788,7 +788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -803,7 +803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -818,7 +818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -833,7 +833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><[",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -848,7 +848,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -863,7 +863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><!-",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -878,7 +878,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -893,7 +893,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem {\"attribute-name\"} = \"attribute value\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -908,7 +908,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem attributename = {\"attribute value\"} />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -923,7 +923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem attributename = {\"attribute value\"}></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -938,7 +938,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a></a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -953,7 +953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>a</e>, <e>b</e>, <e>c</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -968,7 +968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>some text<node/>some text</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -983,7 +983,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo > <doo/> </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -998,7 +998,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo><doo/></foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1013,7 +1013,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo><doo/> </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1028,7 +1028,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo > {attribute name {\"content\"}} <doo/> </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1043,7 +1043,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:aPrefixOtherThanXml=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1058,7 +1058,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1073,7 +1073,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:XML=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1088,7 +1088,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1103,7 +1103,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:xmlns=\"http://www.w3.org/XML/1998/namespace\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1118,7 +1118,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:xmlns=\"http://www.w3.org/2000/xmlns/\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1133,7 +1133,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:xmlns=\"http://www.example.com/\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1148,7 +1148,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { document{()}/(/) } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1163,7 +1163,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { document{()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1178,7 +1178,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>text</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1193,7 +1193,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<e>text</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1208,7 +1208,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://www.example.com/\"; <p:e/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1223,7 +1223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := <r> <e xmlns=\"http://example.com/&lt;&gt;&quot;&apos;\"\"\"/> <e xmlns='http://example.com/&lt;&gt;&quot;&apos;'''/> <p:e xmlns:p=\"http://example.com/&lt;&gt;&quot;&apos;\"\"\"/> <p:e xmlns:p='http://example.com/&lt;&gt;&quot;&apos;'''/> </r> return <r>{for $n in $in/*/namespace-uri(.) return <e ns=\"{$n}\"/>}</r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1246,7 +1246,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>]]></e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1261,7 +1261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e attr=\"]]>\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1276,7 +1276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e attr=\"<\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1291,7 +1291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xml:id=\" fo\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1306,7 +1306,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>&#223;</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1321,10 +1321,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-DirectConElem-53a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace {\"p\"} {\"abc\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1347,7 +1347,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElem-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-node {\"p\"} {\"abc\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1362,7 +1362,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-directconelem-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
 declare default element namespace \"http://example.com/0\"; 
@@ -1403,7 +1403,7 @@ declare function local:in-scope-namespace-bindings($arg)
       Err -> ct:fail(Err)
    end.
 'cbcl-directconelem-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
 declare default element namespace \"http://example.com/0\"; 

@@ -96,7 +96,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -367,7 +367,7 @@ environment('acme_corp',BaseDir) ->
 {modules, []}
 ].
 'letexprwith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $salary as xs:decimal := \"cat\" return $salary * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -382,7 +382,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:decimal := 100 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -397,7 +397,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:integer := 100 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -412,7 +412,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:double := 100E1 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -427,7 +427,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := \"A String\" return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -442,7 +442,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -457,7 +457,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:false() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -472,7 +472,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:date := xs:date(\"1999-05-31Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -487,7 +487,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:time := xs:time(\"21:23:00Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -502,7 +502,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:dateTime := xs:dateTime(\"1999-05-31T13:20:00Z\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -517,7 +517,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:float := xs:float(100) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -532,7 +532,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:integer := 100+200 return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -547,7 +547,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:integer := fn:count((100,200)) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -562,7 +562,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:not(fn:true()) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -577,7 +577,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -592,7 +592,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -607,7 +607,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:integer := fn:string-length(\"A String\") return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -622,7 +622,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:integer(100))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -637,7 +637,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:decimal(100))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -652,7 +652,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := xs:string((xs:double(100E2))) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -667,7 +667,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := xs:string(fn:true()) return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -682,7 +682,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:integer := 100 return $var + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -697,7 +697,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:boolean := if (fn:true()) then fn:true() else fn:false() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -712,7 +712,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'letexprwith-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var as xs:string := typeswitch(fn:true()) case $i as xs:boolean return \"Test Passed\" default return \"Test failed\" return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -727,7 +727,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := \"92233720368547758\" return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -742,7 +742,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := 92233720368547758 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -757,7 +757,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := 92233720368547758+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -772,7 +772,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := xs:long(\"92233720368547758\") return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -787,7 +787,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := xs:long(\"-92233720368547758\")+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -802,7 +802,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := xs:double(\"1.7976931348623157E308\") return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -817,7 +817,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x:=<a>{1+1}</a> return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -832,7 +832,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x:=1, $y:=$x+1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -847,7 +847,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x:=1, $y:=<a>{$x+1}</a> return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -862,7 +862,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x:=(1,2,3), $y:=$x+1 return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -877,7 +877,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x :=(1 to 100)[. mod 5 eq 0] return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -892,7 +892,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x :=(1 to 100)[. mod 5 eq 0], $y := $x[. mod 10 eq 0] return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -907,7 +907,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x:=\"hello\", $y:=concat($x,\" there\") return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -922,7 +922,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := \"1\", $y := $x+1 return $y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -937,7 +937,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true()) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -952,7 +952,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := (<elem1/>, <elem2/>, <elem3 att=\"test\"/>) return <root>{$a}</root>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -967,7 +967,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := (<a> <b> <c> 123 </c> </b> </a>) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -982,7 +982,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true(), ('<a> <b> <c> 123 </c> </b> </a>')/a/b) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -997,7 +997,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := <elem/> let $b := <elem2/> return ($a,$b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,7 +1012,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := 1 let $b := $a let $c := $a+$b return ($c)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1027,10 +1027,10 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'LetExpr020a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'LetExpr021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := $b return ($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1045,7 +1045,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LetExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := 5, $j := 20 * $i return $i, $j",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1060,7 +1060,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LetExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i = 5 return 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1075,7 +1075,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LetExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i in 5 return 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1090,7 +1090,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-LetExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
@@ -1108,7 +1108,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2))/.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1123,7 +1123,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1138,7 +1138,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { let $v := . return $v }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1153,7 +1153,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := . return $arg/$v }; local:myFunc(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1168,7 +1168,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; local:myFunc(<e/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1183,7 +1183,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1206,7 +1206,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:integer := xs:untypedAtomic(\"1\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1221,7 +1221,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1236,7 +1236,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:float := 1.1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1251,7 +1251,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:double := 1.1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1266,7 +1266,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:float := 1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1281,7 +1281,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:double := 1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1296,7 +1296,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:double := xs:float(3) return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1311,7 +1311,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:string := xs:untypedAtomic(\"a string\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1326,7 +1326,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i as xs:string := xs:anyURI(\"http://www.example.com/\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1341,7 +1341,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <e/>; for $i in (<a/>, $e, <c/>) return $i is $e",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1356,7 +1356,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:function() { let $b := (i/a) return () }; empty(local:function())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1383,7 +1383,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:foo($a as xs:integer) { if($a = 3) then $a else let $a := $a return local:foo($a + 1) }; local:foo(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1398,7 +1398,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $v := . return 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1422,7 +1422,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $emps := //employee[location = \"Denver\"] 
         for $d in distinct-values($emps/deptno) 
@@ -1443,7 +1443,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(for $b in 1, $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(for $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1473,7 +1473,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(let $i := . return (string($i), data($i))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:function() { let $b := (i/a) return 1 }; local:function()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1511,7 +1511,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := 1 return 
                 for $b in 1 return 
                     if ($b) then 1 
@@ -1553,7 +1553,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-LetExprWithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $e := <element/>, $outer as element() := $e/element() return $outer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1568,7 +1568,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery10keywords'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ancestor-or-self := 1 
       let $ancestor := 1 
       let $and := 1 
@@ -1627,7 +1627,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery10keywords2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := (/) 
       return $x /ancestor-or-self /ancestor /and /as /ascending /at /attribute 
@@ -1664,7 +1664,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery10keywords3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       <keywords> <ancestor-or-self/> <ancestor/> <and/> <as/> <ascending/> <at/> <attribute/> 
       <base-uri/> <boundary-space/> <by/> 
@@ -1699,7 +1699,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery30keywords'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $NaN := 1
         let $allowing := 1
@@ -1841,7 +1841,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery30keywords2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x
@@ -1985,7 +1985,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery30keywords3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <keywords>
            <NaN/>
@@ -2128,7 +2128,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery30keywords4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:NaN () {1};
          declare function local:allowing () {2};
@@ -2396,7 +2396,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery30keywords5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          
@@ -2634,7 +2634,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery31keywords1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $exponent-separator := 1
         return 2
@@ -2653,7 +2653,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery31keywords2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x/exponent-separator
@@ -2672,7 +2672,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery31keywords3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <keywords>
            <exponent-separator/>
@@ -2691,7 +2691,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery31keywords4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:exponent-separator () {126};
          local:exponent-separator()
@@ -2710,7 +2710,7 @@ environment('acme_corp',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xquery31keywords5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          declare function exponent-separator () {110};

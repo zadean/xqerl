@@ -29,7 +29,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -221,7 +221,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'K-AnyURIEqual-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") eq xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -236,7 +236,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") ne xs:anyURI(\"example.com/No\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -251,7 +251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") eq xs:string(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -266,7 +266,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"example.com/\") eq xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -281,7 +281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") ne xs:string(\"example.com/No\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -296,7 +296,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"example.com/\") ne xs:anyURI(\"example.com/No\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -311,7 +311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") eq xs:untypedAtomic(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -326,7 +326,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"example.com/\") eq xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") ne xs:untypedAtomic(\"example.com/No\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -356,7 +356,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-AnyURIEqual-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"example.com/\") ne xs:anyURI(\"example.com/No\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -371,7 +371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://example.com/A\") eq xs:anyURI(\"http://example.com/A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -386,7 +386,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/A\") eq xs:string(\"http://example.com/A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -401,7 +401,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/A\") eq xs:anyURI(\"http://example.com/A\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -416,7 +416,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(\"http://example.com/A\") eq xs:anyURI(\"http://example.com/B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -431,7 +431,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/A\") eq xs:string(\"http://example.com/B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -446,7 +446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/A\") eq xs:anyURI(\"http://example.com/B\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -461,7 +461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/A\") ne xs:string(\"http://example.com/A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -476,7 +476,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(\"http://example.com/A\") ne xs:anyURI(\"http://example.com/A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -491,7 +491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://example.com/A\") ne xs:anyURI(\"http://example.com/A\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,7 +506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/A\") ne xs:string(\"http://example.com/B\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://example.com/A\") ne xs:anyURI(\"http://example.com/B\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-AnyURIEqual-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://example.com/A\") ne xs:anyURI(\"http://example.com/B\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

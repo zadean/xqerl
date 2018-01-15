@@ -46,7 +46,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -255,7 +255,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-normalize-space1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a charac\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -270,7 +270,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a ch\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -285,7 +285,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This is a charac\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -300,7 +300,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space1args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space0args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//doc/normalize-space(zero-or-one(a[normalize-space() = 'Hello, How are you?']))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "normalize-space/textWithSpaces.xml"),".",[]}]},
@@ -354,7 +354,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\" The wealthy curled darlings of our nation. \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -385,7 +385,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This	text should contains no tabs\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -400,7 +400,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This text should contains
 no newline characters.\")",
    Qry1 = Qry,
@@ -416,7 +416,7 @@ no newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This	text	should	contains	no	tab	characters.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -431,7 +431,7 @@ no newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This
 text
 should
@@ -452,7 +452,7 @@ characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This text	should contains no tabs or
 newline characters.\")",
    Qry1 = Qry,
@@ -468,7 +468,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"This	 text	 should	 contains
  no tabs or newline characters.\")",
    Qry1 = Qry,
@@ -484,7 +484,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"    \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +507,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -553,7 +553,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"	\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"		\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -599,7 +599,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"
 \")",
    Qry1 = Qry,
@@ -623,7 +623,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"
 
 \")",
@@ -648,7 +648,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\" 	  	 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -671,7 +671,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"   
  \")",
    Qry1 = Qry,
@@ -695,7 +695,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"	
 \")",
    Qry1 = Qry,
@@ -719,7 +719,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(\"	12345\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(fn:string(\" ABC \"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:normalize-space(fn:normalize-space(\" ABC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -764,19 +764,19 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'fn-normalize-space-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-normalize-space-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-normalize-space-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-normalize-space-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'K-NormalizeSpaceFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\"a string\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -791,7 +791,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(false()) then normalize-space() else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -814,7 +814,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\"foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -829,7 +829,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\" foo\") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\"foo \") eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,7 +859,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(()) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -874,7 +874,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\"f o o \") eq \"f o o\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -889,7 +889,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(\" 143 1239 fhjkls \") eq \"143 1239 fhjkls\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -904,7 +904,7 @@ newline characters.\")",
       Err -> ct:fail(Err)
    end.
 'K-NormalizeSpaceFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-space(normalize-space((\"foo\", current-time())[1])) eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

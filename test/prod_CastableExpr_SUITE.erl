@@ -960,7 +960,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -2119,7 +2119,7 @@ environment('derived',BaseDir) ->
 {modules, []}
 ].
 'CastableAs001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2134,7 +2134,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2149,7 +2149,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2164,7 +2164,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2179,7 +2179,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2194,7 +2194,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2209,7 +2209,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2224,7 +2224,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2239,7 +2239,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2254,7 +2254,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2269,7 +2269,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2284,7 +2284,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2299,7 +2299,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2314,7 +2314,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2329,7 +2329,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2344,7 +2344,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2359,7 +2359,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2374,7 +2374,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2389,7 +2389,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2404,7 +2404,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"5.5432\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2419,7 +2419,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2434,7 +2434,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2449,7 +2449,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2464,7 +2464,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2479,7 +2479,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2494,7 +2494,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2509,7 +2509,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2524,7 +2524,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2539,7 +2539,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2554,7 +2554,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2569,7 +2569,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2584,7 +2584,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2599,7 +2599,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2614,7 +2614,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2629,7 +2629,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2644,7 +2644,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2659,7 +2659,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2674,7 +2674,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2689,7 +2689,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1999-05-31T13:20:00+14:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2704,7 +2704,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"2000-01-16T00:00:00Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2719,7 +2719,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2734,7 +2734,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2749,7 +2749,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2764,7 +2764,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2779,7 +2779,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2794,7 +2794,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2809,7 +2809,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2824,7 +2824,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2839,7 +2839,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2854,7 +2854,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2869,7 +2869,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2884,7 +2884,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2899,7 +2899,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2914,7 +2914,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2929,7 +2929,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2944,7 +2944,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2959,7 +2959,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2974,7 +2974,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2989,7 +2989,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3004,7 +3004,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3019,7 +3019,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3034,7 +3034,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3049,7 +3049,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3064,7 +3064,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3079,7 +3079,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3094,7 +3094,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3109,7 +3109,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3124,7 +3124,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3139,7 +3139,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3154,7 +3154,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3169,7 +3169,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs071'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3184,7 +3184,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3199,7 +3199,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs073'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3214,7 +3214,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs074'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"00000000\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3229,7 +3229,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs075'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3244,7 +3244,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs076'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3259,7 +3259,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs077'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"010010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3274,7 +3274,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs078'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0fb7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3289,7 +3289,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs079'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3304,7 +3304,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs080'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.example.com/~b%C3%A9b%C3%A9\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3319,7 +3319,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3334,7 +3334,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs082'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3349,7 +3349,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs083'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3364,7 +3364,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs084'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3379,7 +3379,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3394,7 +3394,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs086'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3409,7 +3409,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs087'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3424,7 +3424,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs088'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3439,7 +3439,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs089'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3454,7 +3454,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3469,7 +3469,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3484,7 +3484,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-10000000\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3499,7 +3499,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs093'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3514,7 +3514,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs094'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3529,7 +3529,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs095'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3544,7 +3544,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs096'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3559,7 +3559,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs097'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-10000000\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3574,7 +3574,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs098'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3589,7 +3589,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs099'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3604,7 +3604,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3619,7 +3619,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3634,7 +3634,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"5.5432\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3649,7 +3649,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3664,7 +3664,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3679,7 +3679,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3694,7 +3694,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3709,7 +3709,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3724,7 +3724,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3739,7 +3739,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3754,7 +3754,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3769,7 +3769,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3784,7 +3784,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3799,7 +3799,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3814,7 +3814,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3829,7 +3829,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3844,7 +3844,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3859,7 +3859,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3874,7 +3874,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3889,7 +3889,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3904,7 +3904,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3919,7 +3919,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-1999-05-31T13:20:00+14:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3934,7 +3934,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"2000-01-16T00:00:00Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3949,7 +3949,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3964,7 +3964,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3979,7 +3979,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3994,7 +3994,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4009,7 +4009,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4024,7 +4024,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4039,7 +4039,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4054,7 +4054,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4069,7 +4069,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4084,7 +4084,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4099,7 +4099,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4114,7 +4114,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4129,7 +4129,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4144,7 +4144,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4159,7 +4159,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4174,7 +4174,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4189,7 +4189,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4204,7 +4204,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4219,7 +4219,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4234,7 +4234,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4249,7 +4249,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4264,7 +4264,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4279,7 +4279,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4294,7 +4294,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4309,7 +4309,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4324,7 +4324,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4339,7 +4339,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4354,7 +4354,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4369,7 +4369,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4384,7 +4384,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4399,7 +4399,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4414,7 +4414,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4429,7 +4429,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4444,7 +4444,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"00000000\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4459,7 +4459,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4474,7 +4474,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4489,7 +4489,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"010010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4504,7 +4504,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0fb7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4519,7 +4519,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4534,7 +4534,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://www.example.com/~b%C3%A9b%C3%A9\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4549,7 +4549,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4564,7 +4564,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4579,7 +4579,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4594,7 +4594,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4609,7 +4609,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4624,7 +4624,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"NaN\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4639,7 +4639,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4654,7 +4654,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4669,7 +4669,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"INF\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4684,7 +4684,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4699,7 +4699,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4714,7 +4714,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4729,7 +4729,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4744,7 +4744,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4759,7 +4759,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4774,7 +4774,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4789,7 +4789,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4804,7 +4804,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"INF\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4819,7 +4819,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4834,7 +4834,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4849,7 +4849,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4864,7 +4864,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4879,7 +4879,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4894,7 +4894,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4909,7 +4909,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4924,7 +4924,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4939,7 +4939,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4954,7 +4954,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4969,7 +4969,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs191'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4984,7 +4984,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4999,7 +4999,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs193'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5014,7 +5014,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5029,7 +5029,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs195'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"NaN\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5044,7 +5044,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs196'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5059,7 +5059,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs197'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5074,7 +5074,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs198'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5089,7 +5089,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs199'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5104,7 +5104,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs200'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5119,7 +5119,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e8\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5134,7 +5134,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5149,7 +5149,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5164,7 +5164,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5179,7 +5179,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5194,7 +5194,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5209,7 +5209,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"NaN\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5224,7 +5224,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5239,7 +5239,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5254,7 +5254,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5269,7 +5269,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5284,7 +5284,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5299,7 +5299,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5314,7 +5314,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5329,7 +5329,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5344,7 +5344,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5359,7 +5359,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5374,7 +5374,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"NaN\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5389,7 +5389,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5404,7 +5404,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5419,7 +5419,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5434,7 +5434,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5449,7 +5449,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5464,7 +5464,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5479,7 +5479,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5494,7 +5494,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5509,7 +5509,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5524,7 +5524,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5539,7 +5539,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5554,7 +5554,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5569,7 +5569,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5584,7 +5584,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5599,7 +5599,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5614,7 +5614,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5629,7 +5629,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5644,7 +5644,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5659,7 +5659,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5674,7 +5674,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5689,7 +5689,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5704,7 +5704,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"5.5432\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5719,7 +5719,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5734,7 +5734,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5749,7 +5749,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5764,7 +5764,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5779,7 +5779,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5794,7 +5794,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5809,7 +5809,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5824,7 +5824,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5839,7 +5839,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5854,7 +5854,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5869,7 +5869,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5884,7 +5884,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5899,7 +5899,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5914,7 +5914,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5929,7 +5929,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5944,7 +5944,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs256'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"1\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5959,7 +5959,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs257'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5974,7 +5974,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs258'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5989,7 +5989,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs259'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6004,7 +6004,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs260'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6019,7 +6019,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6034,7 +6034,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6049,7 +6049,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6064,7 +6064,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs264'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6079,7 +6079,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs265'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6094,7 +6094,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs266'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6109,7 +6109,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs267'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6124,7 +6124,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs268'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6139,7 +6139,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs269'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6154,7 +6154,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6169,7 +6169,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6184,7 +6184,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs272'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6199,7 +6199,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6214,7 +6214,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs274'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6229,7 +6229,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs275'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6244,7 +6244,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs276'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6259,7 +6259,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs277'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6274,7 +6274,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs278'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6289,7 +6289,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs279'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6304,7 +6304,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6319,7 +6319,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs281'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6334,7 +6334,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs282'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6349,7 +6349,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6364,7 +6364,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs284'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6379,7 +6379,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs285'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6394,7 +6394,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs286'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6409,7 +6409,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs287'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P24M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6424,7 +6424,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6439,7 +6439,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs289'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6454,7 +6454,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs290'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P24M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6469,7 +6469,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs291'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6484,7 +6484,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs292'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6499,7 +6499,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs293'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6514,7 +6514,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6529,7 +6529,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs295'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6544,7 +6544,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs296'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6559,7 +6559,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs297'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6574,7 +6574,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6589,7 +6589,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6604,7 +6604,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6619,7 +6619,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6634,7 +6634,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6649,7 +6649,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6664,7 +6664,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6679,7 +6679,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6694,7 +6694,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6709,7 +6709,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6724,7 +6724,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6739,7 +6739,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6754,7 +6754,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6769,7 +6769,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"-P21M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6784,7 +6784,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6799,7 +6799,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6814,7 +6814,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6829,7 +6829,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6844,7 +6844,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6859,7 +6859,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6874,7 +6874,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6889,7 +6889,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6904,7 +6904,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6919,7 +6919,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6934,7 +6934,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6949,7 +6949,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6964,7 +6964,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6979,7 +6979,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6994,7 +6994,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7009,7 +7009,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7024,7 +7024,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7039,7 +7039,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7054,7 +7054,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7069,7 +7069,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7084,7 +7084,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7099,7 +7099,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7114,7 +7114,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"PT24H\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7129,7 +7129,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7144,7 +7144,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7159,7 +7159,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7174,7 +7174,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P14D\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7189,7 +7189,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7204,7 +7204,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7219,7 +7219,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7234,7 +7234,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7249,7 +7249,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7264,7 +7264,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7279,7 +7279,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7294,7 +7294,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7309,7 +7309,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7324,7 +7324,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7339,7 +7339,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7354,7 +7354,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7369,7 +7369,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7384,7 +7384,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7399,7 +7399,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7414,7 +7414,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7429,7 +7429,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7444,7 +7444,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7459,7 +7459,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2000-01-16T00:00:00Z\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7474,7 +7474,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7489,7 +7489,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7504,7 +7504,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7519,7 +7519,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7534,7 +7534,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7549,7 +7549,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7564,7 +7564,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7579,7 +7579,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7594,7 +7594,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7609,7 +7609,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7624,7 +7624,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7639,7 +7639,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7654,7 +7654,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7669,7 +7669,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7684,7 +7684,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7699,7 +7699,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7714,7 +7714,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7729,7 +7729,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7744,7 +7744,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7759,7 +7759,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7774,7 +7774,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7789,7 +7789,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7804,7 +7804,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7819,7 +7819,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7834,7 +7834,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7849,7 +7849,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7864,7 +7864,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7879,7 +7879,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7894,7 +7894,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7909,7 +7909,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7924,7 +7924,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7939,7 +7939,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7954,7 +7954,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7969,7 +7969,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7984,7 +7984,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7999,7 +7999,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:02.123\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8014,7 +8014,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8029,7 +8029,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8044,7 +8044,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8059,7 +8059,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8074,7 +8074,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8089,7 +8089,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8104,7 +8104,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs400'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8119,7 +8119,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8134,7 +8134,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8149,7 +8149,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8164,7 +8164,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8179,7 +8179,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8194,7 +8194,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8217,7 +8217,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8232,7 +8232,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8255,7 +8255,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8270,7 +8270,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs410'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8285,7 +8285,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8300,7 +8300,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs412'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8315,7 +8315,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs413'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8330,7 +8330,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs414'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8345,7 +8345,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs415'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8360,7 +8360,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs416'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8375,7 +8375,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs417'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8390,7 +8390,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs418'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8405,7 +8405,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8428,7 +8428,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8443,7 +8443,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs421'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8458,7 +8458,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs422'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8473,7 +8473,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs423'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8496,7 +8496,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs424'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8511,7 +8511,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs425'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8526,7 +8526,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs426'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8549,7 +8549,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs427'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8564,7 +8564,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs428'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8579,7 +8579,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs429'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8602,7 +8602,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs430'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8617,7 +8617,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs431'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8632,7 +8632,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs432'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8647,7 +8647,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs433'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8662,7 +8662,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs434'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8677,7 +8677,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs435'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8692,7 +8692,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs436'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8707,7 +8707,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs437'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8722,7 +8722,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs438'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8737,7 +8737,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs439'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8752,7 +8752,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs440'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8767,7 +8767,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs441'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8782,7 +8782,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs442'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8797,7 +8797,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs443'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8812,7 +8812,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs444'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8827,7 +8827,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs445'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8842,7 +8842,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs446'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8857,7 +8857,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs447'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8872,7 +8872,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs448'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8887,7 +8887,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs449'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"-0012-12-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8902,7 +8902,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs450'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8917,7 +8917,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs451'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8932,7 +8932,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs452'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8947,7 +8947,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs453'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8962,7 +8962,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs454'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8977,7 +8977,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs455'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8992,7 +8992,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs456'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9007,7 +9007,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs457'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9022,7 +9022,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs458'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9037,7 +9037,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs459'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9052,7 +9052,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs460'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9067,7 +9067,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs461'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9082,7 +9082,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs462'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9097,7 +9097,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs463'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9112,7 +9112,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs464'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9127,7 +9127,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs465'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9142,7 +9142,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs466'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9157,7 +9157,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs467'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9172,7 +9172,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs468'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9187,7 +9187,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs469'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9202,7 +9202,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs470'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9217,7 +9217,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs471'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9232,7 +9232,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"-0012-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9247,7 +9247,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs473'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999Z\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9262,7 +9262,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs474'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9277,7 +9277,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs475'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9292,7 +9292,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs476'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9307,7 +9307,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs477'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9322,7 +9322,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs478'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9337,7 +9337,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs479'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9352,7 +9352,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs480'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9367,7 +9367,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs481'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9382,7 +9382,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9397,7 +9397,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs483'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9412,7 +9412,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs484'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9427,7 +9427,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs485'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9442,7 +9442,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs486'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9457,7 +9457,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs487'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9472,7 +9472,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9487,7 +9487,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs489'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9502,7 +9502,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs490'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9517,7 +9517,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs491'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9532,7 +9532,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs492'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9547,7 +9547,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs493'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9562,7 +9562,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs494'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9577,7 +9577,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs495'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9592,7 +9592,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs496'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--12-03-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9607,7 +9607,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs497'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31Z\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9622,7 +9622,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs498'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9637,7 +9637,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs499'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9652,7 +9652,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs500'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9667,7 +9667,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9682,7 +9682,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9697,7 +9697,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9712,7 +9712,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9727,7 +9727,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9742,7 +9742,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9757,7 +9757,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9772,7 +9772,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9787,7 +9787,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9802,7 +9802,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9817,7 +9817,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9832,7 +9832,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9847,7 +9847,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9862,7 +9862,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9877,7 +9877,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9892,7 +9892,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs516'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9907,7 +9907,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9922,7 +9922,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9937,7 +9937,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9952,7 +9952,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs520'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9967,7 +9967,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31Z\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9982,7 +9982,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs522'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9997,7 +9997,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10012,7 +10012,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10027,7 +10027,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs525'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10042,7 +10042,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs526'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10057,7 +10057,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs527'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10072,7 +10072,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs528'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10087,7 +10087,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs529'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10102,7 +10102,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs530'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10117,7 +10117,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs531'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10132,7 +10132,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs532'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10147,7 +10147,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs533'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10162,7 +10162,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10177,7 +10177,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs535'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10192,7 +10192,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs536'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10207,7 +10207,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs537'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10222,7 +10222,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs538'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10237,7 +10237,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs539'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10252,7 +10252,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs540'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10267,7 +10267,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs541'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10282,7 +10282,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs542'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10297,7 +10297,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs543'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10312,7 +10312,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--12-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10327,7 +10327,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs545'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05Z\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10342,7 +10342,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs546'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10357,7 +10357,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs547'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10372,7 +10372,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs548'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10387,7 +10387,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs549'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10402,7 +10402,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs550'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10417,7 +10417,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs551'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10432,7 +10432,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs552'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10447,7 +10447,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs553'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10462,7 +10462,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs554'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10477,7 +10477,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs555'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10492,7 +10492,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs556'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10507,7 +10507,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs557'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10522,7 +10522,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs558'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10537,7 +10537,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs559'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10552,7 +10552,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs560'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10567,7 +10567,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs561'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10582,7 +10582,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs562'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10597,7 +10597,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs563'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10612,7 +10612,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs564'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10627,7 +10627,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs565'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10642,7 +10642,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs566'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10657,7 +10657,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs567'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10672,7 +10672,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs568'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10687,7 +10687,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs569'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10702,7 +10702,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs570'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10717,7 +10717,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs571'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10732,7 +10732,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs572'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10747,7 +10747,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs573'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10762,7 +10762,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs574'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10777,7 +10777,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs575'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10792,7 +10792,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs576'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10807,7 +10807,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs577'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10822,7 +10822,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs578'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10837,7 +10837,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs579'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10852,7 +10852,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs580'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10867,7 +10867,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs581'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10882,7 +10882,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs582'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10897,7 +10897,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs583'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10912,7 +10912,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs584'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10927,7 +10927,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs585'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10942,7 +10942,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs586'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10957,7 +10957,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs587'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10972,7 +10972,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs588'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10987,7 +10987,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs589'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11002,7 +11002,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs590'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11017,7 +11017,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs591'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11032,7 +11032,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs592'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11047,7 +11047,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs593'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11062,7 +11062,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs594'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11077,7 +11077,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs595'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11092,7 +11092,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs596'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11107,7 +11107,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs597'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11122,7 +11122,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs598'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"00000000\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11137,7 +11137,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs599'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11152,7 +11152,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs600'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aA+zZ/09\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11167,7 +11167,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs601'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11182,7 +11182,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs602'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11197,7 +11197,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs603'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11212,7 +11212,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs604'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11227,7 +11227,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs605'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11242,7 +11242,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs606'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11257,7 +11257,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs607'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11272,7 +11272,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs608'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11287,7 +11287,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs609'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11302,7 +11302,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs610'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11317,7 +11317,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs611'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11332,7 +11332,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs612'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11347,7 +11347,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs613'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11362,7 +11362,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs614'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11377,7 +11377,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs615'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11392,7 +11392,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs616'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11407,7 +11407,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs617'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11422,7 +11422,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs618'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11437,7 +11437,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs619'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11452,7 +11452,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs620'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11467,7 +11467,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs621'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11482,7 +11482,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs622'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0fb7\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11497,7 +11497,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs623'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11512,7 +11512,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs624'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"d74d35d35d35\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11527,7 +11527,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs625'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11542,7 +11542,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs626'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11557,7 +11557,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs627'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11572,7 +11572,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs628'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11587,7 +11587,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs629'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11602,7 +11602,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs630'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11617,7 +11617,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs631'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11632,7 +11632,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs632'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11647,7 +11647,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs633'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11662,7 +11662,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs634'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11677,7 +11677,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs635'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11692,7 +11692,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs636'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11707,7 +11707,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs637'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11722,7 +11722,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs638'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11737,7 +11737,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs639'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11752,7 +11752,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs640'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11767,7 +11767,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs641'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11782,7 +11782,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs642'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11797,7 +11797,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs643'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11812,7 +11812,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs644'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11827,7 +11827,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs645'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11842,7 +11842,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs646'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11857,7 +11857,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs647'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"ABC\" castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11872,10 +11872,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs648'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XQ10"}.
 'CastableAs648a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"ABC\" return $var castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11890,7 +11890,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs649'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(//employee[salary castable as xs:integer][xs:integer(salary) gt 65000])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -11906,7 +11906,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs650'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(//employee[if (salary castable as xs:integer) then xs:integer(salary) gt 65000 else false()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -11922,43 +11922,43 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastableAs651'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs652'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs653'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs654'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs655'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs656'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs657'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs658'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs659'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs660'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs661'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastableAs662'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'K-SeqExprCastable-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:string*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11973,7 +11973,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11988,7 +11988,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(\"one\", \"two\") castable as xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12003,10 +12003,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCastable-4a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:anyType*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12029,10 +12029,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCastable-5a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:anySimpleType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12047,10 +12047,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCastable-6a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:untyped",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12065,7 +12065,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as xs:anyAtomicType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12080,7 +12080,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"notation is abstract\" castable as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12095,7 +12095,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() castable as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12110,7 +12110,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"notation is abstract\" castable as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12125,7 +12125,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() castable as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12140,10 +12140,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCastable-12a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(1), xs:double(2), xs:double(3)) castable as xs:double*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12166,10 +12166,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCastable-13a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12192,7 +12192,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12215,7 +12215,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12238,7 +12238,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' castable as empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12261,7 +12261,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(QName(\"\", \"lname\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12276,7 +12276,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"lname\") castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12291,7 +12291,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"ncname\" castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12306,7 +12306,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(() castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12321,7 +12321,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() castable as xs:QName?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12336,7 +12336,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"ncname\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12359,7 +12359,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not((\"one\", \"two\") castable as xs:string?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12374,7 +12374,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not('string' castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12389,7 +12389,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'true' castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12404,7 +12404,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1) castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12419,7 +12419,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1) castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12434,7 +12434,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1) castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12449,7 +12449,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"example.com/\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12464,7 +12464,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"three\" castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12479,7 +12479,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"three\" castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12494,7 +12494,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"three\" castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12509,7 +12509,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"three\" castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12524,7 +12524,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not((1, 2, 3) castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12539,7 +12539,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(() castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12554,7 +12554,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() castable as xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12569,7 +12569,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1) castable as xs:integer?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12584,7 +12584,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCastable-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not((\"one\", \"two\") castable as xs:string?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12599,7 +12599,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName(\"http://example.com/ANamespace\", \"ncname\"), QName(\"http://example.com/ANamespace\", \"ncname2\"), QName(\"http://example.com/ANamespace\", \"ncname3\")) castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12614,7 +12614,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName(\"http://example.com/ANamespace\", \"ncname\"), QName(\"http://example.com/ANamespace\", \"ncname2\"), QName(\"http://example.com/ANamespace\", \"ncname3\")) castable as xs:QName?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12629,7 +12629,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 div 0) castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12652,7 +12652,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat(\"2007-01-3\", 1 div 0) castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12667,7 +12667,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"52\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12682,7 +12682,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"%\" castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12697,7 +12697,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"%\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12712,7 +12712,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCastable-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(\"http:\\\\invalid>URI\\someURI\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12735,148 +12735,148 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Castable-UnionType-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-UnionType-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'Castable-ListType-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-byte-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "128 castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12891,7 +12891,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-byte-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-129 castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12906,7 +12906,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-byte-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"128\" castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12921,7 +12921,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-byte-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-129\" castable as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12936,7 +12936,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-25252734927766555-06-06\" castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12951,7 +12951,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"25252734927766555-07-29\" castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12966,7 +12966,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-25252734927766555-06-06T00:00:00Z\" castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12981,7 +12981,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"25252734927766555-07-29T00:00:00Z\" castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12996,7 +12996,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-dayTimeDuration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P11768614336404564651D\" castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13011,7 +13011,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-dayTimeDuration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P11768614336404564651D\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13026,7 +13026,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('NaN') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13041,7 +13041,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('-INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13056,7 +13056,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13071,7 +13071,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double('NaN') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13086,7 +13086,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double('-INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13101,7 +13101,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double('INF') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13116,7 +13116,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.7976931348623157E+308 castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13139,7 +13139,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1.7976931348623157E+308 castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13162,7 +13162,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('3.402823e38') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13185,7 +13185,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-decimal-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('-3.402823e38') castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13208,7 +13208,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13223,7 +13223,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P768614336404564651Y\" castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13238,7 +13238,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-int-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2147483648 castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13253,7 +13253,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-int-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-2147483649 castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13268,7 +13268,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-int-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"2147483648\" castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13283,7 +13283,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-int-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-2147483649\" castable as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13298,7 +13298,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-integer-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.7976931348623157E+308 castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13321,7 +13321,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-integer-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1.7976931348623157E+308 castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13344,7 +13344,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-integer-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('3.402823e38') castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13367,7 +13367,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-integer-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('-3.402823e38') castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13390,7 +13390,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-language-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language('en-gb') castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13405,7 +13405,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-language-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.0 castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13420,7 +13420,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-language-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'en-gb' castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13435,7 +13435,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-language-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"gobbledygook\" castable as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13450,7 +13450,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-long-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "9223372036854775808 castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13473,7 +13473,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-long-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-9223372036854775809 castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13496,7 +13496,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-long-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"9223372036854775808\" castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13511,7 +13511,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-long-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-9223372036854775809\" castable as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13526,7 +13526,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-name-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName('NCName') castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13541,7 +13541,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-name-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13556,7 +13556,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-name-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'NCName' castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13571,7 +13571,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-name-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'N A M E' castable as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13586,7 +13586,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-ncname-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:ID('id') castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13601,7 +13601,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-ncname-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13616,7 +13616,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-ncname-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'NCName' castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13631,7 +13631,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-ncname-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'NC:Name' castable as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13646,7 +13646,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-negativeInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 castable as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13661,7 +13661,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-negativeInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"0\" castable as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13676,7 +13676,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nmtoken-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN('NMTOKEN') castable as xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13691,7 +13691,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nmtoken-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         \"&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;\" castable as xs:NMTOKEN",
    Qry1 = Qry,
@@ -13707,10 +13707,10 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nmtoken-002b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-castable-nonNegativeInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1 castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13725,7 +13725,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nonNegativeInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-1\" castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13740,7 +13740,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nonPositiveInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13755,7 +13755,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nonPositiveInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"1\" castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13770,7 +13770,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-positiveInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 castable as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13785,7 +13785,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-positiveInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"0\" castable as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13800,7 +13800,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-short-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "32768 castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13815,7 +13815,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-short-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-32769 castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13830,7 +13830,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-short-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"32769\" castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13845,7 +13845,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-short-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-32769\" castable as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13860,7 +13860,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedByte-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "256 castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13875,7 +13875,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedByte-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1 castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13890,7 +13890,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedByte-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"256\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13905,7 +13905,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedByte-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13920,7 +13920,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedInt-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "4294967296 castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13935,7 +13935,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedInt-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1 castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13950,7 +13950,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedInt-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"4294967296\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13965,7 +13965,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedInt-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13980,7 +13980,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedLong-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "18446744073709551616 castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14003,7 +14003,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedLong-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1 castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14018,7 +14018,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedLong-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"18446744073709551616\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14033,7 +14033,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedLong-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14048,7 +14048,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedShort-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65536 castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14063,7 +14063,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedShort-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1 castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14078,7 +14078,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedShort-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"65536\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14093,7 +14093,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedShort-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-1\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14108,7 +14108,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-yearMonthDuration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14123,7 +14123,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-yearMonthDuration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P768614336404564651Y\" castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14138,7 +14138,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nonNegativeInteger-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-00\" castable as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14153,7 +14153,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-nonPositiveInteger-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"+00\" castable as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14168,7 +14168,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedByte-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14183,7 +14183,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedInt-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14198,7 +14198,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedLong-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14213,7 +14213,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-unsignedShort-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-00\" castable as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14228,7 +14228,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-gYear-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999\" castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14243,7 +14243,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-gYearMonth-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999-01\" castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14258,7 +14258,7 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-gYearMonth-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999-XX\" castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14273,314 +14273,314 @@ environment('derived',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-castable-gYear-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-castable-gYear-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-castable-gYearMonth-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-castable-gYearMonth-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-castable-ENTITIES-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-ENTITIES-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-NMTOKENS-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-IDREFS-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-impure-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-castable-restricted-union-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

@@ -14,7 +14,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -203,7 +203,7 @@ environment('speech-representation.json',BaseDir) ->
 {modules, []}
 ].
 'UseCaseNLP-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           <s>
@@ -228,7 +228,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           declare variable $index := map { \"pos\" : 2, \"lemma\" : 1 };
@@ -254,7 +254,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           array {
@@ -312,7 +312,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           for $word in json-doc('speech-representation.json')?*
@@ -344,7 +344,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           declare function local:words-only($s)
@@ -404,7 +404,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-006a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)
@@ -440,7 +440,7 @@ environment('speech-representation.json',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseNLP-006b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
           declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)

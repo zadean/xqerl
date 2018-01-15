@@ -17,7 +17,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "math")
 
@@ -197,7 +197,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'math-atan2-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(+0.0e0, 0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -213,7 +213,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(-0.0e0, 0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -229,7 +229,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(+0.0e0, -0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(-0.0e0, -0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(-1, -0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(+1, 0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(-0.0e0, -1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -309,7 +309,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(+0.0e0, -1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(-0.0e0, +1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-atan2-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:atan2(+0.0e0, +1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

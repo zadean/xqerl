@@ -65,7 +65,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -307,7 +307,7 @@ environment('innermost',BaseDir) ->
 {modules, []}
 ].
 'fn-innermost-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -322,7 +322,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost#0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -337,7 +337,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( (), 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -352,7 +352,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost#2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -367,7 +367,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists( fn:innermost#1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -382,7 +382,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( 1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -397,7 +397,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( fn:dateTime#2 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -412,10 +412,10 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-innermost-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else 1 ),
@@ -436,10 +436,10 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-innermost-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( fn:innermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else fn:dateTime#2 ),
@@ -460,7 +460,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( / )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -476,7 +476,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal(fn:innermost( / ), / )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -492,7 +492,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //*/@* )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -508,7 +508,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //*/@* ) ! string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -524,7 +524,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(fn:innermost( //*/@* ), //*/@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -540,25 +540,25 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-innermost-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //processing-instruction() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -574,7 +574,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //processing-instruction() ) ! local-name() ",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -590,7 +590,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //processing-instruction() ), 
                           //processing-instruction() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
@@ -607,7 +607,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //comment() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -623,7 +623,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //comment() ) ! string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -639,7 +639,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //comment() ),
                            //comment() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
@@ -656,7 +656,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //text() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -672,7 +672,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //text() ) ! string() ",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -691,7 +691,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //text() ),
                            //text() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
@@ -708,7 +708,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //* )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -724,7 +724,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //* ) ! local-name(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -746,7 +746,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //* ), 
                            let $nodes := //*
                            return $nodes except $nodes/ancestor::node() )",
@@ -764,7 +764,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( //node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -780,7 +780,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( //node() ), 
                            let $nodes := //node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -798,7 +798,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -814,7 +814,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/node() ), 
                            let $nodes := /root/node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -832,7 +832,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/descendant::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -848,7 +848,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/descendant::node() ), 
                            let $nodes := /root/descendant::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -866,7 +866,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[1]/ancestor::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -882,7 +882,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/ancestor::node() ), 
                            let $nodes := /root/level[1]/level[1]/ancestor::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -900,7 +900,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -916,7 +916,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -934,7 +934,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[last()]/preceding::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -950,7 +950,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[last()]/preceding::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -968,7 +968,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/following-sibling::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -984,7 +984,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/following-sibling::node() ), 
                            let $nodes := /root/level[1]/following-sibling::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -1002,7 +1002,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/level[1]/level[1]/following::node() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1018,7 +1018,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/level[1]/level[1]/following::node() ), 
                            let $nodes := /root/level[1]/level[1]/following::node()
                            return $nodes except $nodes/ancestor::node() )",
@@ -1036,7 +1036,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( /root/node()/.. )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1052,7 +1052,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( /root/node()/.. ), 
                            let $nodes := /root/node()/..
                            return $nodes except $nodes/ancestor::node() )",
@@ -1070,7 +1070,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:innermost( ($doc1//node(), $doc2//node()) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1086,7 +1086,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:innermost( ($doc1//node(), $doc2//node()) ),
                            let $nodes := ($doc1//node(), $doc2//node())
                            return $nodes except $nodes/ancestor::node() )",
@@ -1104,7 +1104,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost($in)/local-name(), fn:innermost(//*)/local-name())",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
@@ -1121,7 +1121,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:innermost(($in, $in))/local-name(), fn:innermost(//*)/local-name())",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
@@ -1138,7 +1138,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "innermost(//rubbish)",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1154,7 +1154,7 @@ environment('innermost',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-innermost-058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "innermost(//*) except //*",
    {Env,Opts} = xqerl_test:handle_environment(environment('innermost',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

@@ -134,7 +134,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -443,7 +443,7 @@ environment('nw_Customers',BaseDir) ->
 {modules, []}
 ].
 'NodeTest003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/*[1]/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -459,7 +459,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/.",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -483,7 +483,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/.",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -507,7 +507,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/child::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -522,7 +522,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/child::b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -537,7 +537,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/child::pr:b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -552,7 +552,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/child::pr:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -567,7 +567,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/child::*:b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -582,7 +582,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ns1 = \"http://example.org\"; let $var := <a attr1 = \"abc1\"><ns1:b attr2 = \"abc2\">context2</ns1:b></a> return $var/child::ns1:b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -597,7 +597,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return $var/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -612,7 +612,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return fn:node-name(exactly-one($var/b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -627,7 +627,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return fn:count(($var/empty-node-list)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.org/examples\"; let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return fn:namespace-uri(exactly-one($var/child::b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,7 +657,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <a attr1 = \"abc1\"><b attr2 = \"abc2\">context2</b></a> return fn:count(fn:namespace-uri(exactly-one($var/child::b)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -672,7 +672,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works/employee[12]/overtime return $var/child::*:day[1] | $var/child::*:day[2]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -688,7 +688,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works[1]/child::employee[12]/overtime return $var/child::* intersect $var/child::day",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -704,7 +704,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works[1]/child::employee[12]/overtime return fn:count($var/child::* except $var/child::day)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -720,7 +720,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works return fn:count($var/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -736,7 +736,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works return fn:count($var/child::employee)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -752,7 +752,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := /works return fn:count($var/child::*:employee)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -768,7 +768,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ns1 = \"http://example.org\"; let $var := <a attr1 = \"abc1\"><ns1:b attr2 = \"abc2\">context2</ns1:b></a> return $var/child::*:b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -783,7 +783,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $e := <a attr1 = \"abc1\" xmlns=\"http://example.org/nametest-19\"/> 
       return exists($e/self::Q{http://example.org/nametest-19}a)
@@ -801,7 +801,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $e := <a attr1 = \"abc1\"/> 
       return exists($e/self::Q{}a)
@@ -819,7 +819,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $e := <a attr1 = \"abc1\" xmlns=\"http://example.org/nametest-19\"/> 
       return exists($e/self::Q{http://example.org/nametest-19}*)
@@ -837,7 +837,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $e := <a attr1 = \"abc1\"/> 
       return exists($e/self::Q{}*)
@@ -855,7 +855,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nametest-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $e := <a attr1 = \"abc1\"/> 
       return exists($e/self::Q{}:*)
@@ -873,7 +873,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + remove((\"foo\", 2), 2)asdasdad",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -888,7 +888,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "---..---",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -903,7 +903,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "foo- foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -918,7 +918,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "nametest : nametest",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -933,7 +933,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "nametest: nametest",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -948,7 +948,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "nametest :nametest",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -963,7 +963,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "f oo\" eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -978,7 +978,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"f oo eq \"f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -993,7 +993,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"f oo\" eq f oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1008,7 +1008,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"f oo\" eq \"f oo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1023,7 +1023,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NameTest-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "normalize-unicode(\"f oo\") eq \"f oo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1038,7 +1038,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1053,7 +1053,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1068,7 +1068,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/ * 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1083,7 +1083,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "4 + / * 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1098,7 +1098,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace namespace = \"http://example.com\"; declare union <union>for gibberish { for $for in for return <for>***div div</for> }</union>, if(if) then then else else- +-++-**-* instance of element(*)* * * **---++div- div -div",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1121,7 +1121,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "::ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1136,7 +1136,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "::local:ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1151,7 +1151,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "@",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1166,7 +1166,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "@",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1181,7 +1181,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parent::",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1196,7 +1196,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "no-binding:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1211,7 +1211,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <elem xml:space=\"default\"/>; $var/@xml:space eq \"default\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1226,7 +1226,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <elem xml:space=\"preserve\"/>; string(($var/@xml:*)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1241,7 +1241,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <elem>text<a/><!-- a comment --><b/><?target data?><c/><![CDATA[more text]]></elem>; $var/child::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1256,7 +1256,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/><c b=\"content\"/></a>; $e/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1271,7 +1271,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/></a>; $e/*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1286,7 +1286,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/></a>; <a>{$e/@b}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1301,7 +1301,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/></a>; <a>{$e/@*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1316,7 +1316,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/></a>; $e/processing-instruction(b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1331,7 +1331,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <a b =\"content\"><?b asd?><b/></a>; <a>{$e/processing-instruction()}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1346,7 +1346,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(let $e := <a b =\"content\"><?b asd?><b/></a> return $e/processing-instruction(\"123ncname\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1361,7 +1361,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(let $e := <a b =\"content\"><?b asd?><b/></a> return $e/processing-instruction(\"b \"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1376,7 +1376,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(let $e := <a b =\"content\"><?b asd?><b/></a> return $e/processing-instruction(\"prefix:b\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1391,7 +1391,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/processing-instruction(1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1406,7 +1406,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/processing-instruction(prefix:ncname))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1421,7 +1421,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $name := \"ncname\" return <e/>/processing-instruction($name))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1436,7 +1436,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $name := \"ncname\" return <e/>/processing-instruction($name))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1451,7 +1451,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/element(\"any\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1466,7 +1466,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/attribute(\"any\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1481,7 +1481,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace a = \"http://example.com/1\"; 
       	declare namespace b = \"http://example.com/2\"; 
@@ -1545,7 +1545,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace a = \"http://example.com/1\"; 
       	declare namespace b = \"http://example.com/2\"; 
@@ -1585,7 +1585,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{<e foo=\"content2\" bar=\"content1\"/>/attribute(foo)}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1600,7 +1600,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-element(\"quotesAreNotAllowed\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1615,7 +1615,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-attribute(\"quotesAreNotAllowed\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1630,7 +1630,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-element(notDeclared:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1645,7 +1645,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-attribute(notDeclared:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1660,7 +1660,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-element(thisTypeDoesNotExistExample.Com)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1675,7 +1675,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-attribute(thisTypeDoesNotExistExample.Com)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1690,7 +1690,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace e = \"http://www.example.com/\"; schema-element(e:thisTypeDoesNotExistExample.Com)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1705,7 +1705,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace e = \"http://www.example.com/\"; schema-attribute(e:thisTypeDoesNotExistExample.Com)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1720,7 +1720,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "unknownprefix:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1735,7 +1735,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "@unknownprefix:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1750,7 +1750,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "@xmlns:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1765,7 +1765,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "@xmlns:ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1780,7 +1780,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xmlns:ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1795,7 +1795,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xmlns:*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1810,7 +1810,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := <e > <xmlns/> <xmlns/> <xmlns/> <xmlns/> </e>; $i/xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1825,7 +1825,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := <e xmlns=\"http://example.com/\"/>; empty($i/@xmlns)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1840,7 +1840,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://example.com/\"; <a>{<e p:a=\"1\" p:b=\"2\" p:c=\"3\"/>/attribute::*/p:*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1863,7 +1863,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://example.com/\"; <a>{document {<p:e/>}/@p:*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1886,7 +1886,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{attribute name{\"content\"}/*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1909,7 +1909,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{comment {\"content\"}/*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1932,7 +1932,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{<!-- a comment -->/*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1955,7 +1955,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{processing-instruction name {\"content\"}/*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1978,7 +1978,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{<?target data?>/*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2001,7 +2001,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a := <e><a/><b/><c/></e>; <a>{$a/*:ncname eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2024,7 +2024,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a := <e><a/><b/><c/></e>; <a>{$a/*:ncname eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2047,7 +2047,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://example.com/\"; declare variable $a := <e><a/><b/><c/></e>; <a>{$a/prefix:* eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2070,7 +2070,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://example.com/\"; declare variable $a := <e><a/><b/><c/></e>; <a>{$a/@prefix:* eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2093,7 +2093,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $input := <e/>; 
         empty(for $PI as processing-instruction() in $input//processing-instruction() return $PI)",
@@ -2118,7 +2118,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{for $PI in ()/processing-instruction() return ()}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2141,7 +2141,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{for $PI in <e/>/processing-instruction() return ()}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2164,7 +2164,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<x> <x> <y id=\"0\"/> </x> <y id=\"1\"/> </x>/descendant-or-self::x/child::y",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2179,7 +2179,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"asd\"/>/attribute(*, xs:untypedAtomic)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2194,7 +2194,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"asd\"/>/attribute(foo, xs:untypedAtomic)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2209,7 +2209,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"asd\"/>/attribute(notBound:foo, xs:untypedAtomic)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2224,7 +2224,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"asd\"/>/attribute(foo, notBound:untypedAtomic)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2239,7 +2239,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(foo, xs:integer)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2262,7 +2262,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(foo, doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2277,7 +2277,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(foo, xs:doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2292,7 +2292,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<b foo=\"1\"/>/attribute(foo, xs:anyType)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2307,7 +2307,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e><b/></e>/element(p:foo)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2322,7 +2322,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e><b/></e>/element(foo, notBound:type)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2337,7 +2337,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e><b/></e>/element(foo, xs:doesNotExist)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2352,7 +2352,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e><b/></e>/element(foo, doesNotExist)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2367,7 +2367,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><b/></e>/element(b, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2382,7 +2382,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><b/></e>/element(b, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2397,7 +2397,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2412,7 +2412,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2427,7 +2427,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "as",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2442,7 +2442,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "of",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2457,7 +2457,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "child:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2472,7 +2472,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "child::element",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2487,7 +2487,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://www.example.com/\"; declare namespace e = \"http://www.example.com/\"; declare function element() { 1 }; e:element()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2510,7 +2510,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "_",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2525,7 +2525,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "pod_pod",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2540,7 +2540,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(*, doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2555,7 +2555,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(*, xs:doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2570,7 +2570,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(*, doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2585,7 +2585,7 @@ environment('nw_Customers',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NameTest-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{<e foo=\"1\"/>/attribute(*, xs:doesNotExistExampleCom)}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

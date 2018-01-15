@@ -35,7 +35,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -257,7 +257,7 @@ environment('primary',BaseDir) ->
 {modules, []}
 ].
 'collation-key-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\") eq collation-key(\"123\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\") eq collation-key(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +287,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(collation-key(\"abc\") eq collation-key(\"ABC\")) eq (compare(\"abc\", \"ABC\", default-collation()) eq 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -302,7 +302,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(collation-key(\"abc\") lt collation-key(\"ABC\")) eq (compare(\"abc\", \"ABC\", default-collation()) lt 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -317,7 +317,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\") 
                eq collation-key(\"abc\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")
         ",
@@ -334,7 +334,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"http://www.w3.org/\") eq collation-key(xs:anyURI(\"http://www.w3.org/\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -349,7 +349,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\") 
                eq collation-key(\"abc\", default-collation())
         ",
@@ -366,7 +366,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;strength=primary\"
          return collation-key(\"abc\", $C) eq collation-key(\"ABC\", $C)
       ",
@@ -383,10 +383,10 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-009u'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"advanced-uca-fallback"}.
 'collation-key-009l'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=lower\"
          return collation-key(\"abc\", $C) lt collation-key(\"ABC\", $C) 
       ",
@@ -403,7 +403,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\"
          return collation-key(\"abc\", $C) eq collation-key(\"ABC\", $C)
       ",
@@ -420,7 +420,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -435,7 +435,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper\"
          return collation-key(\"abc\", $C)",
    Qry1 = Qry,
@@ -451,7 +451,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper\"
          return collation-key(\"abc\", $C)",
    Qry1 = Qry,
@@ -467,7 +467,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $C := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\"
          return collation-key(\"abc\", $C)",
    Qry1 = Qry,
@@ -483,7 +483,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(codepoints-to-string((37, 65500, 37))) lt collation-key(codepoints-to-string((37, 100000, 37))) ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -498,7 +498,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\" return
         collation-key(\"abc\", $c) eq collation-key(\"123\", $c)",
@@ -516,7 +516,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\" return
         collation-key(\"abc\", $c) eq collation-key(\"abc\", $c)",
@@ -534,7 +534,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\" return
         collation-key(\"abc123\", $c) eq collation-key(\"ABC123\", $c)",
@@ -552,7 +552,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\" return
         collation-key(\"abc123\", $c) eq collation-key(\"ABC 123\", $c)",
@@ -570,7 +570,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $C := \"http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive\" return
         map:merge((map{collation-key(\"A\", $C):1}, map{collation-key(\"a\", $C):2}), map{ \"duplicates\": \"use-last\"})?(collation-key(\"A\", $C))
@@ -589,7 +589,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         collation-key(\"abc\", $c) eq collation-key(\"123\", $c)",
@@ -607,7 +607,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         collation-key(\"abc\", $c) eq collation-key(\"abc\", $c)",
@@ -625,7 +625,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         collation-key(\"abc123\", $c) eq collation-key(\"ABC123\", $c)",
@@ -643,7 +643,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         collation-key(\"abc123\", $c) eq collation-key(\"ABC 123\", $c)",
@@ -661,7 +661,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $c := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         collation-key(\"abc123\", $c) eq collation-key(\"áBC123\", $c)",
@@ -679,7 +679,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $C := \"http://www.w3.org/2013/collation/UCA?strength=primary\" return
         map:merge((map{collation-key(\"A\", $C):1}, map{collation-key(\"a\", $C):2}), map{ \"duplicates\":\"use-last\"} )?(collation-key(\"A\", $C))
@@ -698,7 +698,7 @@ environment('primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collation-key-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collation-key(\"abc\") eq collation-key(123)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -24,7 +24,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "map")
 
@@ -211,7 +211,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'map-for-each-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{}, concat#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -227,7 +227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:merge(()), function($k,$v){$k||$v})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -243,7 +243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{\"a\":1}, function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -271,7 +271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:entry(\"a\", \"1\"), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -299,7 +299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:merge((map:entry(\"a\", \"1\"), map:entry(\"b\", 2))), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{\"a\":1, \"b\":2}, function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -355,7 +355,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{\"a\":1, \"a\":2}, function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:merge((map:entry(\"a\",1), map:entry(\"a\",2))), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -399,7 +399,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:remove(map{\"a\":1,\"b\":2}, \"b\"), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -427,7 +427,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:remove(map:entry(1,2),1), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -443,7 +443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:remove(map:remove(map{\"a\":1,\"b\":2},\"b\"),\"a\"), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -459,7 +459,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{number('NaN'):1,\"b\":2}, function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -475,7 +475,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map:remove(map{\"a\":1,\"b\":2}, \"c\"), function($k,$v){$k})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -503,10 +503,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip," Huge Range "}.
 'map-for-each-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{\"a\":1, \"b\":2}, function($k,$v){$k||$v})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -534,7 +534,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(map:for-each(map{\"a\":1, \"b\":2}, function($k,$v){map{$v : $k}}))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -562,7 +562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-for-each-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{map:for-each(map{\"a\":1, \"b\":2}, function($k,$v){attribute{$k}{$v}})}</e>",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

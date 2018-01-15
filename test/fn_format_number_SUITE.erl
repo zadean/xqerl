@@ -258,7 +258,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -679,7 +679,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'numberformat01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(2392.14*36.58,'000,000.000000')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12792.14*96.58,'##,###,000.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(2792.14*(-36.58),'000,000.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(2392.14*(-36.58),'000,000.000###;###,###.000###')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###‰')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(95.4857,'¤###.####')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat08'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(2.14*86.58,'PREFIX##00.000###SUFFIX')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.4857,'000.000|###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"|"},
 {'grouping-separator',"."}]}]},
@@ -827,7 +827,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(26931.4,'+!!!,!!!.!!!\\-!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
@@ -855,7 +855,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'+!!,!!!.!!!\\-!!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
@@ -883,7 +883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'!!!,!!!.!!!')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'pattern-separator',"\\"}]}]},
@@ -911,7 +911,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"off-the-scale"}]}]},
 {sources, []},
@@ -938,10 +938,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
 'numberformat16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###m')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'per-mille',"m"}]}]},
 {sources, []},
@@ -968,7 +968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'+###,###.###;-###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
@@ -995,7 +995,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
@@ -1022,7 +1022,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat(format-number(-26931.4,'###,###.###','myminus'), '/',
             format-number(-42857.1,'###,###.###'))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"myminus",[{'minus-sign',"_"}]}]},
@@ -1050,7 +1050,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1234.567,'#*###*###!###','foo:decimal1')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://foo.ns}decimal1",[{'decimal-separator',"!"},
 {'grouping-separator',"*"}]},
@@ -1080,7 +1080,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(7654321.4857,'### ### ###,#####')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',","},
 {'grouping-separator'," "}]}]},
@@ -1108,7 +1108,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((format-number(2392.14*36.58,'000,000.000000','myminus'),
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###'),
                         format-number(2392.14*36.58,'000,000.000000;###,###.000###','myminus')), ' ')
@@ -1138,7 +1138,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(2392.14*(-36.58),'000,000.000###;-###,###.000###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1165,7 +1165,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'+###,###.###;_###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
@@ -1192,7 +1192,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((
                 format-number(-26931.4,'-###,###.###'),
                 format-number(-26931.4,'zzz-###,###.###','myminus'),
@@ -1222,7 +1222,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-26931.4,'###,###.###;###,###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'minus-sign',"_"}]}]},
 {sources, []},
@@ -1249,7 +1249,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###c')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'percent',"c"}]}]},
 {sources, []},
@@ -1276,7 +1276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(4030201.0506,'#!!!,!!!,٠٠٠.٠٠٠٠٠٠0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'digit',"!"},
 {'zero-digit',"٠"}]}]},
@@ -1304,7 +1304,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(987654321,'###,##0,00.00')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1331,7 +1331,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(239236.588,'00000.00')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1358,7 +1358,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1385,10 +1385,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
 'numberformat39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1415,7 +1415,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'###############################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"huge"}]}]},
 {sources, []},
@@ -1442,13 +1442,13 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
 'numberformat42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
 'numberformat60a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E25,'#,######')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1463,7 +1463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E10,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1478,7 +1478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E11,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1493,7 +1493,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E12,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1508,7 +1508,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E13,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1523,7 +1523,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E14,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1538,7 +1538,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E15,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1553,7 +1553,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60h'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E16,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1568,7 +1568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60i'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E17,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1583,7 +1583,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60j'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E18,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1598,7 +1598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60k'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E19,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1613,7 +1613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60l'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E20,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1628,7 +1628,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60m'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E25,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1643,7 +1643,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60n'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E30,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1658,7 +1658,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60o'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E35,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1673,7 +1673,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E100,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1688,7 +1688,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat60q'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1E100 div 3,'#####################')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1703,7 +1703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number((),'###.###')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1730,7 +1730,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(000123456789012345678901234567890.123456789012345678900000,     '##0.0####################################################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1765,7 +1765,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(000123456789012345678901234567890123456789012345678900000,     '# #0.0####################################################')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
 {sources, []},
@@ -1800,7 +1800,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat(format-number(1234e0, '0000.####'), '|',
                     format-number(1234.00, '0000.####'))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'grouping-separator'," "}]}]},
@@ -1828,7 +1828,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1234567890.123456,'𚶱000𚶰000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'decimal-separator',"𚶰"},
 {'grouping-separator',"𚶱"}]}]},
@@ -1856,7 +1856,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1234567890.123456,'##########𐒠.𐒠#####')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
@@ -1883,7 +1883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1234567890.123456,'000.000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1910,7 +1910,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '##.##')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1937,7 +1937,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', ' b:test ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
@@ -1966,7 +1966,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', if (current-date() gt xs:date('1900-01-01')) then 'two' else 'one')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
@@ -1996,7 +1996,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', concat(if (current-date() lt xs:date('1900-01-01')) then ' a' else ' b', ':one '))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}one",[{'decimal-separator',"."},
 {'grouping-separator',","}]},
@@ -2027,7 +2027,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(123456789.34, '#,###.##')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2054,7 +2054,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((
                 format-number(0, '#'),
                 format-number(0.0, '#'),
@@ -2087,7 +2087,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0.4857,'###.###%', ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', 'Q{http://a.ns/}test ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
@@ -2130,7 +2130,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '0.000,00', if (current-date() lt xs:date('1900-01-01')) then () else ' Q{http://a.ns/}test')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"Q{http://a.ns/}test",[{'decimal-separator',","},
 {'grouping-separator',"."}]}]},
@@ -2158,7 +2158,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '9,999.99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2173,7 +2173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12.34, '#,##9.99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2188,7 +2188,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(42, '001')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2203,7 +2203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.')
     ",
@@ -2220,7 +2220,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.000, '99999.')
     ",
@@ -2237,7 +2237,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '.9')
     ",
@@ -2254,7 +2254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#')
     ",
@@ -2271,7 +2271,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12345.678, '9.9999e999')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2286,7 +2286,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(12345.678, '9.9999E999')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2301,7 +2301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999E999')
@@ -2320,7 +2320,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999e999')
@@ -2339,7 +2339,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"E\";
       let $x := fn:format-number(12345.678, '9.9999E999', 'exp-E')
@@ -2358,7 +2358,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-e exponent-separator=\"e\";
       let $x := fn:format-number(12345.678, '9.9999E999', 'exp-e')
@@ -2377,7 +2377,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999E999', 'BadFormat')
       return $x
@@ -2395,7 +2395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.99e99e99')
       return $x
@@ -2413,7 +2413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-bizarre exponent-separator=\"✐\";
       let $x := fn:format-number(12345.678, '9.9999✐999', 'exp-bizarre')
@@ -2432,7 +2432,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999e999%')
       return $x
@@ -2450,7 +2450,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-p exponent-separator=\"%\";
       let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
@@ -2469,7 +2469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-p percent=\"!\" exponent-separator=\"%\";
       let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
@@ -2488,7 +2488,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999eDog')
       return $x
@@ -2506,7 +2506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345.678, '9.9999e,')
       return $x
@@ -2524,7 +2524,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(12345, '9.9999e99')
       return $x
@@ -2542,7 +2542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(5, '9.9999e99')
       return $x
@@ -2560,7 +2560,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(.05, '9.9999e99')
       return $x
@@ -2578,7 +2578,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := fn:format-number(123.45E7, '9.9999e99')
       return $x
@@ -2596,7 +2596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.900001000020000345, '9.99999999999999999e99')
     ",
@@ -2613,7 +2613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(123456789012345678, '9.99999999999999999e99')
     ",
@@ -2630,7 +2630,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
         if ($exp eq 0)
@@ -2663,7 +2663,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
         if ($exp eq 0)
@@ -2696,7 +2696,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1.0,'𐒠.𐒠e𐒠')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'zero-digit',"𐒠"}]}]},
 {sources, []},
@@ -2723,7 +2723,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"x10^\";
       fn:format-number(12345.678, '9.9999x10^999', 'exp-E')
@@ -2741,7 +2741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"e\" exponent-separator=\"E\";
       fn:format-number(12345.678, '9.9999E999', 'exp-E')
@@ -2759,7 +2759,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare decimal-format exp-E exponent-separator=\"#\";
       fn:format-number(12345.678, '9.9999#999', 'exp-E')
@@ -2777,13 +2777,13 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ30"}.
 'numberformat128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ30 XP30"}.
 'numberformat129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999.99e99')
     ",
@@ -2800,7 +2800,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#99.99e99')
     ",
@@ -2817,7 +2817,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.99e99')
     ",
@@ -2834,7 +2834,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0045.234, '#.#e99')
     ",
@@ -2851,7 +2851,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#e9')
     ",
@@ -2868,7 +2868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.999e9')
     ",
@@ -2885,7 +2885,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.e9')
     ",
@@ -2902,7 +2902,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '9e9')
     ",
@@ -2919,7 +2919,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999.e99')
     ",
@@ -2936,7 +2936,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '999e9')
     ",
@@ -2953,7 +2953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '.e99')
     ",
@@ -2970,7 +2970,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(-12345.678, '999.99e99')
     ",
@@ -2987,7 +2987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.00012345678, '9.99e99')
     ",
@@ -3004,7 +3004,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(-0.00012345678, '9.99e99')
     ",
@@ -3021,7 +3021,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99end')
     ",
@@ -3038,7 +3038,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99e')
     ",
@@ -3055,7 +3055,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '9.9999e99dog')
     ",
@@ -3072,7 +3072,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, 'end9.9999e99end')
     ",
@@ -3089,7 +3089,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,.##')
     ",
@@ -3106,7 +3106,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.,##')
     ",
@@ -3123,7 +3123,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,')
     ",
@@ -3140,7 +3140,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#,,###')
     ",
@@ -3157,7 +3157,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format zero-digit = \"٠\";
       format-number(1, '٠')
@@ -3175,7 +3175,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format zero-digit = \"٠\";
       format-number(1, '٠')
@@ -3193,7 +3193,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.678, '#.#,,#')
     ",
@@ -3210,7 +3210,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.6789012345, '#.#,##,#')
     ",
@@ -3227,7 +3227,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(12345.6789012345, '#.##,##,##')
     ",
@@ -3244,7 +3244,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#')
     ",
@@ -3261,7 +3261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#')
     ",
@@ -3278,7 +3278,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0')
     ",
@@ -3295,7 +3295,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0')
     ",
@@ -3312,7 +3312,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#')
     ",
@@ -3329,7 +3329,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.#')
     ",
@@ -3346,7 +3346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.0')
     ",
@@ -3363,7 +3363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.0')
     ",
@@ -3380,7 +3380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.#')
     ",
@@ -3397,7 +3397,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.#')
     ",
@@ -3414,7 +3414,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.0')
     ",
@@ -3431,7 +3431,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.0')
     ",
@@ -3448,7 +3448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.#')
     ",
@@ -3465,7 +3465,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.#')
     ",
@@ -3482,7 +3482,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.0')
     ",
@@ -3499,7 +3499,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.0')
     ",
@@ -3516,7 +3516,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.')
     ",
@@ -3533,7 +3533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.')
     ",
@@ -3550,7 +3550,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.')
     ",
@@ -3567,7 +3567,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.')
     ",
@@ -3584,7 +3584,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.#')
     ",
@@ -3601,7 +3601,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.#')
     ",
@@ -3618,7 +3618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.0')
     ",
@@ -3635,7 +3635,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.0')
     ",
@@ -3652,7 +3652,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.suffix')
     ",
@@ -3669,7 +3669,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.suffix')
     ",
@@ -3686,7 +3686,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '000.0')
     ",
@@ -3703,7 +3703,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0, '#.#')
     ",
@@ -3720,7 +3720,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0, '.#')
     ",
@@ -3737,7 +3737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(xs:integer(0), '###.###')
     ",
@@ -3754,7 +3754,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#e0')
     ",
@@ -3771,7 +3771,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#e0')
     ",
@@ -3788,7 +3788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0e0')
     ",
@@ -3805,7 +3805,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0e0')
     ",
@@ -3822,7 +3822,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.#e0')
     ",
@@ -3839,7 +3839,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.#e0')
     ",
@@ -3856,7 +3856,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '.0e0')
     ",
@@ -3873,7 +3873,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '.0e0')
     ",
@@ -3890,7 +3890,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.#e0')
     ",
@@ -3907,7 +3907,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.#e0')
     ",
@@ -3924,7 +3924,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.0e0')
     ",
@@ -3941,7 +3941,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.0e0')
     ",
@@ -3958,7 +3958,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.#e0')
     ",
@@ -3975,7 +3975,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.#e0')
     ",
@@ -3992,7 +3992,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.0e0')
     ",
@@ -4009,7 +4009,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.0e0')
     ",
@@ -4026,7 +4026,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '#.e0')
     ",
@@ -4043,7 +4043,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '#.e0')
     ",
@@ -4060,7 +4060,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '0.e0')
     ",
@@ -4077,7 +4077,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, '0.e0')
     ",
@@ -4094,7 +4094,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.#e0')
     ",
@@ -4111,7 +4111,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.#e0')
     ",
@@ -4128,7 +4128,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, 'this.0e0')
     ",
@@ -4145,7 +4145,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(1.2, 'this.0e0')
     ",
@@ -4162,7 +4162,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.2, '000.0e0')
     ",
@@ -4179,7 +4179,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '.0e0')
     ",
@@ -4196,7 +4196,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '.000e0')
     ",
@@ -4213,7 +4213,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.002, '#.###e0')
     ",
@@ -4230,7 +4230,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '.#e0')
     ",
@@ -4247,7 +4247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '.0e0')
     ",
@@ -4264,7 +4264,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '#.#e0')
     ",
@@ -4281,7 +4281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       fn:format-number(0.99999999, '0.0e0')
     ",
@@ -4298,7 +4298,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat901err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator=\"!\" grouping-separator=\"!\";
         format-number(931.4857,'###!###!###')",
@@ -4315,7 +4315,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat902err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.4857,'000.##0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4342,7 +4342,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat905err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.4857,'fred.ginger', 'q')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"q",[{'decimal-separator',"."},
 {'grouping-separator',","}]}]},
@@ -4370,7 +4370,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat906InputErr'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number('abc','000.##0')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4397,7 +4397,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformat907InputErr'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.45, 931.45)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4424,7 +4424,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformatFODF1280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.45, '000.##0', 'foo:bar')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4451,7 +4451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'numberformatNaN'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(number(\"abc\"),'#############')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4478,7 +4478,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(number(\"abc\"),'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4505,7 +4505,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0 div xs:double(\"INF\"), '#')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4532,7 +4532,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(0 div xs:double(\"-INF\"), '#')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4559,7 +4559,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1 div 0e0,'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4586,7 +4586,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4613,7 +4613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4640,7 +4640,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4667,7 +4667,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(1e2,'#,000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4694,7 +4694,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(100,'#,000')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', [{"",[{'infinity',"INF"}]}]},
 {sources, []},
@@ -4721,7 +4721,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.9952832031249997'), '###,##0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4736,7 +4736,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4751,7 +4751,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4766,7 +4766,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4781,7 +4781,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '#,##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4796,7 +4796,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '###,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4811,7 +4811,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4826,7 +4826,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('79228162514264337593543950335'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4853,7 +4853,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '.#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4868,7 +4868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '#.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4883,7 +4883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '.0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4898,7 +4898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '0.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4913,7 +4913,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('1.10203040506070809'), 
                                      '0.00000000000000000%')",
    Qry1 = Qry,
@@ -4929,7 +4929,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4944,7 +4944,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4959,7 +4959,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4974,7 +4974,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '#,##,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4989,7 +4989,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '###,##,00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5004,7 +5004,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5019,7 +5019,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('123456789'), '####,###,##,0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5034,7 +5034,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '.#')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5049,7 +5049,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5064,7 +5064,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '.0')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5079,7 +5079,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '0.')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5094,7 +5094,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('1e308'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5109,7 +5109,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-after(
               format-number(xs:double('1.102030405060708090'),
                                     '0.00000000000000000‰'),
@@ -5128,7 +5128,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('-1e308'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5143,7 +5143,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('-79228162514264337593543950335'), '0%')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5170,7 +5170,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5185,7 +5185,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5200,7 +5200,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5215,7 +5215,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5230,7 +5230,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5245,7 +5245,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5260,7 +5260,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5275,7 +5275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5290,7 +5290,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.01'), '0.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5305,7 +5305,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5320,7 +5320,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '#.00')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5335,7 +5335,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5350,7 +5350,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5365,7 +5365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:decimal('0.1'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5380,7 +5380,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-format-number-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(xs:double('0.1'), '###,###.##')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -51,7 +51,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -265,7 +265,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-translate3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('---abcABCxyz---','-abcABCxyz','1ABCabcXYZ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -280,7 +280,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('newline
 tab	space ','
 	 ','123')",
@@ -297,7 +297,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('','-','x')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -312,7 +312,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate((),'-','x')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -327,7 +327,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(1,'-','x')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -342,7 +342,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('abc',1,'x')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -357,7 +357,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('abc','x',1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -372,7 +372,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate3args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate('abc')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -387,7 +387,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"bar\",\"abc\",\"ABC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -402,7 +402,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"--aaa--\",\"abc-\",\"ABC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -417,7 +417,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"abcdabc\", \"abc\", \"AB\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -432,7 +432,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"acdefghijklmnopqrstuvwxyz\", \"abcdefghijklmnopqrstuvwxyz\", \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -447,7 +447,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",\"abcdefghijklmnopqrstuvwxyz\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -462,7 +462,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:translate(\"\",\"\",\"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -477,7 +477,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"ABC\", \"ABC\", \"ABC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -492,7 +492,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"123\", \"123\", \"123\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +507,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"123ABC\", \"123ABC\", \"123ABC\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -522,7 +522,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(fn:string(\"ABC\"), fn:string(\"ABC\"), fn:string(\"ABC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -537,7 +537,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(fn:translate(\"ABC\", \"ABC\", \"ABC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -552,7 +552,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(fn:translate(\"ABC\",\"ABC\",\"ABC\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -567,7 +567,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(fn:translate(\"123\",\"123\",\"123\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -582,7 +582,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(fn:translate(\"123\",\"123\",\"123\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -597,7 +597,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(fn:translate(\"123\",\"123\",\"123\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -612,7 +612,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(fn:translate(\"123\",\"123\",\"123\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -627,7 +627,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"abcd\", \"𐀁a\", \"xy\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"abcd\", \"xa\", \"𐀁y\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,7 +657,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"abcd𐀄e\", \"a𐀄e\", \"XYZ\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -672,7 +672,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"abcd𐀄e\", \"a𐀄e\", \"𐀆YZ\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "current-date() => string() => substring(1, 10) => translate(\"0123456789\", \"xxxxxxxxxx\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -702,7 +702,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'fn-translate-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "current-date()[current-date() => string() => string-length()] => string() => translate(\"0123456789\", \"xxxxxxxxxx\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -717,7 +717,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -732,7 +732,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"string\", \"map string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -747,7 +747,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"arg\", \"map string\", \"transString\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -762,7 +762,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"--aaa--\",\"-\",\"\") eq \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"--aaa--\",\"bbb++\",\"\") eq \"--aaa--\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"argstr\", \"\", \"matrs\") eq \"argstr\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +807,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate((), \"map\", \"trans\") eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"abcdabc\", \"abc\", \"AB\") eq \"ABdAB\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -837,7 +837,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"bar\",\"abc\",\"ABC\") eq \"BAr\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K-TranslateFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "translate(\"--aaa--\",\"abc-\",\"ABC\") eq \"AAA\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K2-TranslateFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"arg\", (), \"transString\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'K2-TranslateFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:translate(\"arg\", \"mapString\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-translate-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       boolean(translate(string-join(for $x in 1 to 10 return \"blah\",\"-\"),exactly-one((\"--\",\"==\")[position() mod 2 = 0]),\"__\"))
       ",
@@ -914,7 +914,7 @@ tab	space ','
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-translate-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       translate(codepoints-to-string(65536 to 65537),codepoints-to-string(65536 to 65537),\"l\")
       ",

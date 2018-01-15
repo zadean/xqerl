@@ -13,7 +13,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -201,7 +201,7 @@ environment('book',BaseDir) ->
 {modules, []}
 ].
 'tree-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:toc($book-or-section as element()) as element()* { 
             for $section in $book-or-section/section 
@@ -222,7 +222,7 @@ environment('book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'tree-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<figlist> { for $f in //figure return <figure> { $f/@* } { $f/title } </figure> } </figlist>",
    {Env,Opts} = xqerl_test:handle_environment(environment('book',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -238,7 +238,7 @@ environment('book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'tree-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<section_count>{ count(//section) }</section_count>, <figure_count>{ count(//figure) }</figure_count>",
    {Env,Opts} = xqerl_test:handle_environment(environment('book',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -254,7 +254,7 @@ environment('book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'tree-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<top_section_count> { count(/book/section) } </top_section_count>",
    {Env,Opts} = xqerl_test:handle_environment(environment('book',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -270,7 +270,7 @@ environment('book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'tree-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<section_list> { for $s in //section let $f := $s/figure return <section title=\"{ $s/title/text() }\" figcount=\"{ count($f) }\"/> } </section_list>",
    {Env,Opts} = xqerl_test:handle_environment(environment('book',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -286,7 +286,7 @@ environment('book',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'tree-queries-results-q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:section-summary($book-or-section as element()*) as element()* { 
             for $section in $book-or-section 

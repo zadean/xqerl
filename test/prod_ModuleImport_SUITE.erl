@@ -129,7 +129,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 , try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1-lib.xq")) catch _:_ -> ok end
@@ -525,7 +525,7 @@ environment('user-defined-types',BaseDir) ->
 {modules, []}
 ].
 'K2-ModuleProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "module namespace example = \"http://example.com/\"; \"an expression\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -540,7 +540,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-simple'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>",
@@ -570,7 +570,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-bad-ns'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\";
         <result>{test2:ok()}</result>
@@ -601,7 +601,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"  http://www.w3.org/TestModules/test \";
         <result>{test:ok()}</result>
@@ -631,7 +631,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"&#x20;&#x9;&#xA;&#xD;http://www.w3.org/TestModules/test&#x20;&#x9;&#xA;&#xD;\";
         <result>{test:ok()}</result>
@@ -661,7 +661,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/Test&#x20;&#x20;&#x20;&#x20;Modules/test\";
         <result>{test:ok()}</result>
@@ -691,7 +691,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test/../../TestModules/./test\";
         <result>{test:ok()}</result>
@@ -721,7 +721,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules./test\";
         <result>{test:ok()}</result>
@@ -751,7 +751,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/.TestModules/test\";
         <result>{test:ok()}</result>
@@ -781,7 +781,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules../test\";
         <result>{test:ok()}</result>
@@ -811,7 +811,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/..TestModules/test\";
         <result>{test:ok()}</result>
@@ -841,7 +841,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#xd0a4;/test\";
         <result>{test:ok()}</result>
@@ -871,7 +871,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/&#x3c;&#x3d;&#x3e;&#x40;/test\";
         <result>{test:ok()}</result>
@@ -901,7 +901,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"urn:example:animal:ferret:nose\";
         <result>{test:ok()}</result>
@@ -931,7 +931,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A\";
         <result>{test:ok()}</result>
@@ -961,7 +961,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test?hello=world\";
         <result>{test:ok()}</result>
@@ -991,7 +991,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org/TestModules/test#world\";
         <result>{test:ok()}</result>
@@ -1021,7 +1021,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://www.w3.org/TestModules/test;type=A?hello=world&amp;q#world\";
         <result>{test:ok()}</result>
@@ -1051,7 +1051,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"#1\";
         <result>{test:ok()}</result>
@@ -1081,7 +1081,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http:test\";
         <result>{test:ok()}</result>
@@ -1111,7 +1111,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ftp://user@www.w3.org/TestModules/test\";
         <result>{test:ok()}</result>
@@ -1141,7 +1141,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://[2001:0db8:85a3:0000:0000:8a2e:0370:7334]/TestModules/test\";
         <result>{test:ok()}</result>
@@ -1171,7 +1171,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"http://www.w3.org:7334/TestModules/test\";
         <result>{test:ok()}</result>
@@ -1201,7 +1201,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"mailto:jane.doe@w3c.org\";
         <result>{test:ok()}</result>
@@ -1231,7 +1231,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"fax:+1-234-567-890\";
         <result>{test:ok()}</result>
@@ -1261,7 +1261,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'module-URIs-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test=\"ldap://[2001:db8::7]/c=GB?objectClass?one\";
         <result>{test:ok()}</result>
@@ -1291,7 +1291,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-two-import'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         import module namespace test2=\"http://www.w3.org/TestModules/test1\"; 
@@ -1323,7 +1323,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-two-import-ok'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
@@ -1354,7 +1354,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-collide-var-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>",
@@ -1384,7 +1384,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-collide-var-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare variable $test1:flag := 1; 
@@ -1415,7 +1415,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-collide-fn-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
@@ -1446,7 +1446,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-collide-fn-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare function test1:ok () { \"ok\" }; 
@@ -1477,7 +1477,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-emptyns'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1= \"\"; 
         <result>ok</result>
@@ -1507,7 +1507,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-circular'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         <result>{test1:ok()}</result>
@@ -1538,7 +1538,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         <foo:anElement>some Content</foo:anElement>
@@ -1570,7 +1570,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1603,7 +1603,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $test1:flag + 1 return $var
@@ -1635,7 +1635,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var1+ 1 return $var
@@ -1667,7 +1667,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/defs\"; 
         let $var := $defs:var2 + 1 return $var
@@ -1699,7 +1699,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1732,7 +1732,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
@@ -1763,7 +1763,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         declare namespace foo = \"http://example.org\"; 
@@ -1796,7 +1796,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:upper-case(test1:ok())",
@@ -1826,7 +1826,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:lower-case(test1:ok())
@@ -1857,7 +1857,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         fn:string-length(test1:ok())",
@@ -1887,7 +1887,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\";
         $test1:flag + $test1:flag
@@ -1918,7 +1918,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         $test1:flag - $test1:flag
@@ -1949,7 +1949,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test1=\"http://www.w3.org/TestModules/test1\"; 
         xs:integer($test1:flag)
@@ -1980,7 +1980,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace test2=\"http://www.w3.org/TestModules/test2\"; 
         \"aaa\"
@@ -2010,7 +2010,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace xml=\"http://www.w3.org/TestModules/test1\"; 
         xs:string($xml:flag)
@@ -2040,7 +2040,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/diffns\"; 
         \"abc\"
@@ -2070,7 +2070,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/module1\"; 
         import module namespace mod2=\"http://www.w3.org/TestModules/module2\"; 
@@ -2101,37 +2101,37 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'modules-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'modules-28a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs1 = \"http://www.w3.org/TestModules/defs1\"; 
         $defs1:var
@@ -2162,7 +2162,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace xmlns=\"http://www.w3.org/TestModules/test\"; 
         xmlns:ok ()
@@ -2192,7 +2192,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ModuleImport-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import(::)module \"\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2207,7 +2207,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ModuleImport-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import(::)module \"\" at \"http://example.com/\", \"http://example.com/2\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2222,7 +2222,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ModuleImport-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace NCName := \"http://example.com/Dummy\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2237,7 +2237,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ModuleImport-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import ne import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2252,31 +2252,31 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'errata6-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'errata6-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'errata6-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'errata6-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'errata6-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'errata6-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'errata6-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'errata8-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'errata8-001a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_1a=\"http://www.w3.org/TestModules/errata8_1a\"; 
         errata8_1a:fun()
@@ -2307,10 +2307,10 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'errata8-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'errata8-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_2a=\"http://www.w3.org/TestModules/errata8_2a\"; 
         errata8_2a:fun()",
@@ -2340,7 +2340,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'errata8-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace errata8_3a=\"http://www.w3.org/TestModules/errata8_3a\"; 
         errata8_3a:fun()
@@ -2371,7 +2371,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g(42)}</a>
@@ -2401,7 +2401,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f()
@@ -2431,7 +2431,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:one)}</a>
@@ -2461,7 +2461,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g($defs:two)}</a>
@@ -2491,7 +2491,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -2511,7 +2511,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -2531,7 +2531,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         <a>{$i+1}</a>
@@ -2549,7 +2549,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         <a>{$i+1}</a>
@@ -2567,7 +2567,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -2591,7 +2591,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -2615,7 +2615,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         
@@ -2637,7 +2637,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         
@@ -2659,7 +2659,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -2692,7 +2692,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -2725,7 +2725,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -2758,7 +2758,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         declare function local:test() {
@@ -2791,7 +2791,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public function local:inc($i as xs:integer) {
             $i + 1
@@ -2814,7 +2814,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private function local:inc($i as xs:integer) {
             $i + 1
@@ -2837,7 +2837,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public variable $i := 1;
         
@@ -2858,7 +2858,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private variable $i := 1;
         
@@ -2879,7 +2879,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -2912,7 +2912,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -2945,7 +2945,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -2978,7 +2978,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -3011,7 +3011,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -3042,7 +3042,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
 
@@ -3073,7 +3073,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv3\"; 
         <a>{defs:f(42)}</a>
@@ -3104,7 +3104,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv2\"; 
         <a>{defs:fails()}</a>
@@ -3135,7 +3135,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %public function local:foo() { () };
         local:foo()
@@ -3153,7 +3153,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
         declare %private %xq:public function local:foo() { () };
@@ -3172,7 +3172,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public %public function local:foo() { () };
         local:foo()
@@ -3190,7 +3190,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %private function local:foo() { () };
         local:foo()
@@ -3208,7 +3208,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %public variable $foo := ();
         $foo
@@ -3226,7 +3226,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xq=\"http://www.w3.org/2012/xquery\";
         declare %private %xq:public variable $foo := ();
@@ -3245,7 +3245,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %private %private variable $foo := ();
         $foo
@@ -3263,7 +3263,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare %public %public variable $foo := ();
         $foo
@@ -3281,7 +3281,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         defs:f#0()
@@ -3311,7 +3311,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'modules-pub-priv-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace defs=\"http://www.w3.org/TestModules/module-pub-priv\"; 
         <a>{defs:g#1(42)}</a>
@@ -3341,10 +3341,10 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-module-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'cbcl-module-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	import module namespace lib=\"http://www.xqsharp.com/test/baseuri-lib\"; 
       	declare base-uri \"http://www.example.org/wrong/\"; 
@@ -3375,7 +3375,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-module-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	import module namespace foo=\"http://www.xqsharp.com/test/variabledeclaration\"; 
       	import module namespace bar=\"http://www.xqsharp.com/test/variablereference\"; 
@@ -3407,5 +3407,5 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-module-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.

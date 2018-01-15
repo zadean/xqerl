@@ -164,7 +164,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -491,7 +491,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-matches2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,7 +506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -551,7 +551,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -566,7 +566,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matchesErr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"bra\", \"p\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -581,7 +581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matchesErr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc[\\1]1$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -596,7 +596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matchesErr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc\\2$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -611,7 +611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matchesErr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^((#)abc\\1)$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -626,7 +626,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matchesErr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abcdefghijklmnopq\", \"(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)((m)(n)(o)(p)(q)\\13)$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -641,7 +641,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"bra\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -656,7 +656,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"^a.*a$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -671,7 +671,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"^bra\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -686,7 +686,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:matches(\"abracadabra\", \"^bra\"),fn:matches(\"abracadabra\", \"^bra\", \"\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -701,7 +701,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:matches(\"()\", \"^bra\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -716,7 +716,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra^abracadabra\", \"\\^\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -731,7 +731,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra?abracadabra\", \"\\?\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -746,7 +746,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra*abracadabra\", \"\\*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -761,7 +761,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra+abracadabra\", \"\\+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -776,7 +776,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra{abracadabra\", \"\\{\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -791,7 +791,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra}abracadabra\", \"\\}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -806,7 +806,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra(abracadabra\", \"\\(\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -821,7 +821,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra)abracadabra\", \"\\)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -836,7 +836,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra[abracadabra\", \"\\[\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -851,7 +851,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra]abracadabra\", \"\\]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -866,7 +866,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra\", \"\\-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -881,7 +881,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra.abracadabra\", \"\\.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -896,7 +896,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra|abracadabra\", \"\\|\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -911,7 +911,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\\abracadabra\", \"\\\\\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -926,7 +926,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra	abracadabra\", \"\\t\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -941,7 +941,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-matches-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra
 abracadabra\", \"\\n\")",
    Qry1 = Qry,
@@ -957,7 +957,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabra\", \"aa{1}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -972,7 +972,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabraabracadabra\", \"aa{1,}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -987,7 +987,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabraabracadabraabracadabra\", \"aa{1,2}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"**%%\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), \"^$\", \"m\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1032,7 +1032,7 @@ abracadabra\", \"\\n\")",
       Err -> ct:fail(Err)
    end.
 'fn-matches-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"
 abcd
 defg
@@ -1050,7 +1050,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abcd
 
 defg
@@ -1068,7 +1068,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"#abc#1\", \"^(#)abc\\11$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1083,7 +1083,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"#abcdefghijklmnopq#1\", \"^(#)(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)(p)(q)\\11$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1098,7 +1098,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"(?:abra(?:cad)?)*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1113,7 +1113,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra\", \"(?:abra(?:cad)?)*\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1128,7 +1128,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"x[y-z]\", \"x[y-z]\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1143,7 +1143,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"x[Y-z]\", \"X[y-Z]\", \"qi\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1158,7 +1158,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('aA', '(a)\\99')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1173,7 +1173,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)\\10')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1188,7 +1188,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k\\11)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1203,7 +1203,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j\\10)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1218,7 +1218,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghii', '(a)(b)(c)(d)(e)(f)(g)(h)(i\\9)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1233,7 +1233,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('aa', '(a\\1)')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1248,7 +1248,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1263,7 +1263,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1278,7 +1278,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1293,7 +1293,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1308,7 +1308,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1323,7 +1323,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1338,7 +1338,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), \"g$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra.\", \"\\.\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1368,7 +1368,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"abracadabra-abracadabra-3\", \"(124|864|377|3)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1383,10 +1383,10 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.0 regex"}.
 'fn-matches-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"ab()cd()ef()gh\", \"^(ab)([()]*)(cd)([)(]*)ef\\4gh$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1401,7 +1401,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'fn-matches-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"aaababaaabaa\", \"^(a*b?a*){3,3}$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1416,7 +1416,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('abc', 'ABC', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1431,7 +1431,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('abZ', '[A-Z]*', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1446,7 +1446,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('abZ', '[a-z]*', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1461,7 +1461,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), '[A-Z]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1476,7 +1476,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), '[a-z]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1491,7 +1491,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), 'K', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1506,7 +1506,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(codepoints-to-string(8490), 'k', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1521,7 +1521,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch08'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('x', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1536,7 +1536,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('X', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1551,7 +1551,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('O', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1566,7 +1566,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('i', '[A-Z-[OI]]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1581,7 +1581,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('Q', '[^Q]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1596,7 +1596,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('q', '[^Q]', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1611,7 +1611,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('m', '\\p{Lu}', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1626,7 +1626,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'caselessmatch15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('m', '\\P{Lu}', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1641,7 +1641,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1656,7 +1656,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1671,7 +1671,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1686,7 +1686,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \"\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1701,7 +1701,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1716,7 +1716,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K-MatchesFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", \"pattern\", \"X\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1731,7 +1731,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"hello\\ sworld\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1746,7 +1746,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \" hello[ ]world\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1761,7 +1761,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"hello[ ]world \", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1776,7 +1776,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"he ll o[ ]worl d\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1791,7 +1791,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ IsBasicLatin}+\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1806,7 +1806,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ I s B a s i c L a t i n }+\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1821,7 +1821,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"hello world\", \"\\p{ IsBasicLatin}+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1836,7 +1836,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"h\", \"(.)\\3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1851,7 +1851,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"h\", \"(.)\\2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1866,7 +1866,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"input\", \"\\3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1881,7 +1881,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[\\1]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1896,7 +1896,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[asd\\1]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1911,7 +1911,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"abcd\", \"(asd)[asd\\0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1926,7 +1926,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches(\"abcd\", \"1[asd\\0]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1941,7 +1941,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"a\", \"a[^b]\"), fn:matches(\"a \", \"a[^b]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1956,7 +1956,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches(\"input\", \"[0-9-.]*/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1971,10 +1971,10 @@ defg
       Err -> ct:fail(Err)
    end.
 'K2-MatchesFunc-16a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.0 regex"}.
 'K2-MatchesFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "matches('aA', '(a)\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1989,7 +1989,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '[^]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2004,7 +2004,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '[a-\\b]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2019,7 +2019,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghijkabcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)\\1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\11')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2034,7 +2034,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('aaa', 'a{99999999999999999999999999}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2049,7 +2049,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('a', '[a--]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2064,7 +2064,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x9;', '[\\t]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2079,10 +2079,10 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-006b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-matches-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('-abba-', '[-ab]+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2097,7 +2097,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{L')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2112,7 +2112,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2127,7 +2127,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{N')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2142,7 +2142,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{P')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2157,7 +2157,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Z')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2172,7 +2172,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2187,7 +2187,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{C')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2202,7 +2202,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{L}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2217,7 +2217,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{M}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2232,7 +2232,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{N}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2247,7 +2247,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{P}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2262,7 +2262,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Z}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2277,7 +2277,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{S}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2292,7 +2292,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{C}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2307,7 +2307,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Lu}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2322,7 +2322,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Me}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2337,7 +2337,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{No}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2352,7 +2352,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Pf}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2367,7 +2367,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Zs}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2382,7 +2382,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Sk}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2397,7 +2397,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Cc}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2412,7 +2412,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{La}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2427,7 +2427,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Ma}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2442,7 +2442,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Na}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2457,7 +2457,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Pa}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2472,7 +2472,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Za}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2487,7 +2487,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Sa}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2502,7 +2502,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', '\\P{Ca}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2517,7 +2517,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('foo', 'a()b')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2532,7 +2532,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x10000;', '&#x10000;')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2547,7 +2547,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('aaa', 'a{2147483647}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2562,7 +2562,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abcdefghiabcdefghia0a1', '(a)(b)(c)(d)(e)(f)(g)(h)(i)\\1\\2\\3\\4\\5\\6\\7\\8\\9\\10\\11')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2577,7 +2577,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abc', '\\S+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2592,7 +2592,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#xD;&#x20;&#x9;', '\\S+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2607,10 +2607,10 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-041b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-matches-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('a_:', '\\i+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2625,7 +2625,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('1.0', '\\i+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2640,7 +2640,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('1.0', '\\I+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2655,7 +2655,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('a_:', '\\I+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2670,7 +2670,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abc', '\\c+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2685,7 +2685,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x20;&#x9;&#xD;', '\\c+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2700,10 +2700,10 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-047b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-matches-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x20;&#x9;&#xD;', '\\C+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2718,7 +2718,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('abc', '\\C+')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2733,7 +2733,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('Mum', '([md])[aeiou]\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2748,7 +2748,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x10000;&#x10000;', '(&#x10000;)\\1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2763,7 +2763,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('&#x10000;&#x10001;', '(&#x10000;)\\1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2778,7 +2778,7 @@ defg
       Err -> ct:fail(Err)
    end.
 'cbcl-matches-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:matches('Mud', '([md])[aeiou]\\1', 'i')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

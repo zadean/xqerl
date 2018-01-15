@@ -139,7 +139,7 @@ declare function local:print-testcase($test-case)
   let $env  := $test-case/*:environment/(@ref|@name)/string()
   return
   "'"||$name||"'(Config) ->"||'&#10;'||
-  "   BaseDir = proplists:get_value(base_dir, Config),"||'&#10;'||
+  "   BaseDir = ?config(base_dir, Config),"||'&#10;'||
   (
     (: validation environments :)
     if ($env = $inscope-schema-envs) then 
@@ -607,7 +607,7 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 (: init_per_suite(Config) :)
 ||"init_per_suite(Config) -> "
 ||'&#10;'
-||"   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),"||'&#10;'
+||"   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||'&#10;'
 ||"   TD = filename:join(DD, ""QT3-test-suite""),"||'&#10;'
 ||"   BaseDir = filename:join(TD, """||$subdir||""")"||'&#10;'
 

@@ -124,7 +124,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -579,7 +579,7 @@ environment('WindowingUseCases07S',BaseDir) ->
 {modules, []}
 ].
 'SlidingWindowExpr501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e when $e - $s eq 1
@@ -597,7 +597,7 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       only end at $e when $e - $s eq 1
@@ -615,7 +615,7 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start $s at $s previous $s when fn:true()
       only end $s at $s previous $s when $s - $s eq 1
@@ -641,7 +641,7 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start $s at $s previous $s when fn:true()
       only end $s at $s previous $s when $s - $s eq 1
@@ -659,7 +659,7 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <table>{
   for tumbling window $w in ./doc/*
@@ -687,10 +687,10 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase01S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <chapter>{
   for tumbling window $w in ./body/*
@@ -718,10 +718,10 @@ environment('WindowingUseCases07S',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase02S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <doc>{
 for tumbling window $w in ./doc/*
@@ -747,10 +747,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase03S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 let $MAX_DIFF := 2
 
@@ -776,10 +776,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase04S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 let $SMOOTH_CONST := 0.2
 
@@ -805,10 +805,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase05S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 for sliding window $w in ./stream/event
   start  $s_curr when fn:true()
@@ -832,10 +832,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase06S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./stream/event
@@ -863,10 +863,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase07S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase08'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./stream/event
@@ -894,10 +894,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase08S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./stream/event
@@ -929,10 +929,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase09S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -957,10 +957,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase10S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <results>{
   for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -988,10 +988,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase11S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
         for tumbling window $w in ./stream/event[direction eq \"in\"]
@@ -1016,10 +1016,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase12S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./stream/event
@@ -1045,10 +1045,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase13S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1074,10 +1074,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase14S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1108,10 +1108,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase15S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for tumbling window $w in ./rss/channel/item
@@ -1147,10 +1147,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase16S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
 for sliding window $w in ./sequence/*
@@ -1184,10 +1184,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase17S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./sequence/*
@@ -1214,10 +1214,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase18S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'WindowingUseCase19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 <result>{
   for sliding window $w in ./sequence/*
@@ -1256,10 +1256,10 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowingUseCase19S'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'TumblingWindowExpr504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start $s at $ps previous $pps when fn:true()
       only end $s at $ps previous $pps when $ps - $ps eq 1
@@ -1277,7 +1277,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start $s at $ps previous $pps when fn:true()
       only end $s at $ps previous $pps when $ps - $ps eq 1
@@ -1295,7 +1295,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for sliding window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e  when $s - $e eq 1
@@ -1313,7 +1313,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for tumbling window $w in (1, 2, 3, 4) 
       start at $s when fn:true()
       end at $e  when $s - $e eq 1
@@ -1331,7 +1331,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1, 2, 3, 4, 14, 13, 12, 11) 
           start $s when fn:true()
@@ -1351,7 +1351,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w as xs:integer+ in (1, 2, \"london\", 3, 4, \"paris\")
           start $start when $start instance of xs:integer
@@ -1371,7 +1371,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w as xs:integer+ in (1, 2, \"london\", 3, 4, \"paris\")
           start $start when $start instance of xs:integer
@@ -1391,7 +1391,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w as xs:integer+ in (1, 2, \"london\", 3, 4.1, \"paris\")
           start $start when $start instance of xs:integer
@@ -1411,7 +1411,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w as xs:integer+ in (1, 2, \"london\", 3, 4.1, \"paris\")
           start $start when $start instance of xs:integer
@@ -1431,7 +1431,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             avg(
               for sliding window $w in (1, 2, \"london\", 3, 4, \"paris\")
@@ -1453,7 +1453,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           avg(
               for tumbling window $w in (1, 2, \"london\", 3, 4, \"paris\")
@@ -1475,7 +1475,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1495,7 +1495,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1515,7 +1515,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1535,7 +1535,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1555,7 +1555,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x when true()
@@ -1575,7 +1575,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x when true()
@@ -1595,7 +1595,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x when true()
@@ -1615,7 +1615,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x when true()
@@ -1635,7 +1635,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1655,7 +1655,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1675,7 +1675,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1695,7 +1695,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1715,7 +1715,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr516'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1737,7 +1737,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1759,7 +1759,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace window = \"foo:bar\";
           
@@ -1781,7 +1781,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           
@@ -1807,7 +1807,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr518a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           <window>{
@@ -1834,7 +1834,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare namespace w = \"foo:bar\";
           
@@ -1860,7 +1860,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1880,7 +1880,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -1900,7 +1900,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr520'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $w when true()
@@ -1920,7 +1920,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1940,7 +1940,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr522'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $w when true()
@@ -1960,7 +1960,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -1980,7 +1980,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s previous $w when true()
@@ -2000,7 +2000,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr525'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $w when true()
@@ -2020,7 +2020,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr526'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2040,7 +2040,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr527'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2060,7 +2060,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr528'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2080,7 +2080,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr529'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x previous $sp next $sn when true()
@@ -2101,7 +2101,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr529'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s at $x previous $sp next $sn when true()
@@ -2122,7 +2122,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr530'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in ()
           start $s at $x previous $sp next $sn when true()
@@ -2142,7 +2142,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr531'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
           start $first when $first mod 3 = 0
@@ -2161,7 +2161,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr531a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <o>{
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2182,7 +2182,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr532'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $w in (1 to 2)
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2202,7 +2202,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr533'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $w at $y in (1 to 2)
           for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
@@ -2222,7 +2222,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $x1 in 11
           for $x2 in 12
@@ -2255,7 +2255,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $x1 in 11
           for $x2 in 12
@@ -2288,7 +2288,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr535a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $sn previous $pn when true()
@@ -2307,7 +2307,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr535b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           end $e next $en previous $en when true()
@@ -2326,7 +2326,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr536'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $stock :=
             <stock>
@@ -2361,7 +2361,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr537'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2382,7 +2382,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr538'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2404,7 +2404,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr538'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2426,7 +2426,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr539'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $i in 1 to 3
           count $r
@@ -2449,7 +2449,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr539'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $i in 1 to 3
           count $r
@@ -2472,7 +2472,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr540'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2493,7 +2493,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr540'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2514,7 +2514,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr541'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w1 in
             for tumbling window $w2 in (1 to 10)
@@ -2538,7 +2538,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr542'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w1 in
             for tumbling window $w2 in (1 to 10)
@@ -2562,7 +2562,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2588,7 +2588,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 10)
           start $s when true()
@@ -2614,7 +2614,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr545'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $s := <stocks>
             <closing> <symbol>ABC</symbol> <date>2008-01-01</date> <price>105</price> </closing>
@@ -2665,7 +2665,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr546'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare function local:window()
           {
@@ -2690,7 +2690,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr547'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s at $x as xs:integer when true()
@@ -2710,7 +2710,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr549'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s next $sn as xs:integer when true()
@@ -2730,7 +2730,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr550'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 3)
           start when true()
@@ -2750,7 +2750,7 @@ return
       Err -> ct:fail(Err)
    end.
 'SlidingWindowExpr550'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for sliding window $w in (1 to 3)
           start when true()
@@ -2770,7 +2770,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr551'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for tumbling window $w in (1 to 10)
           start $s when true()
@@ -2790,7 +2790,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr552'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare function local:window($seq)
           {
@@ -2822,7 +2822,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr553'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 10;
           
@@ -2856,7 +2856,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr554'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 5;
           
@@ -2889,7 +2889,7 @@ return
       Err -> ct:fail(Err)
    end.
 'TumblingWindowExpr555'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           declare variable $local:foo as xs:integer* := 1 to 10;
           
@@ -2917,7 +2917,7 @@ return
       Err -> ct:fail(Err)
    end.
 'WindowExpr500'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for window $w in (1 to 10)
           start $s when true()

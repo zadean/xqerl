@@ -106,7 +106,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -399,7 +399,7 @@ environment('CPPGlobals',BaseDir) ->
 {modules, []}
 ].
 'extvardeclwithouttype-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; fn:string($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -434,7 +434,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -469,7 +469,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; xs:integer($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -504,7 +504,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -539,7 +539,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -574,7 +574,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; xs:float($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -609,7 +609,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -644,7 +644,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x + $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -679,7 +679,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -714,7 +714,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x + $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -749,7 +749,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x * $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -784,7 +784,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x - 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -819,7 +819,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x idiv 2",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -854,7 +854,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x div 10",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -889,7 +889,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x mod 2",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -924,7 +924,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x and fn:false()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -959,7 +959,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x or fn:false()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -994,7 +994,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1029,7 +1029,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; xs:dateTime($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1056,7 +1056,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; fn:upper-case($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1091,7 +1091,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; fn:lower-case($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1126,7 +1126,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; fn:not($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1161,7 +1161,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x external; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1176,7 +1176,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithouttype-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x external; $test:x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1204,7 +1204,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context external; declare variable $input-context external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1219,7 +1219,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context external; declare variable $input-context external; $input-context",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1234,7 +1234,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"\"; 
         declare namespace prefix = \"\"; 
@@ -1252,7 +1252,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         
         declare variable $exampleComThisVarIsNotRecognized external; $exampleComThisVarIsNotRecognized",
@@ -1269,7 +1269,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace e = \"http://example.com/ANamespace\"; 
         declare variable $e:exampleComThisVarIsNotRecognized external; 
@@ -1287,7 +1287,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $exampleComThisVarIsNotRecognized external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1310,7 +1310,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1333,7 +1333,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $ name := 3; $ name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1348,7 +1348,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := current-time(); let $i := ($e, 1 to 50000, $e) return $i[1] = $i[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1363,7 +1363,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <e> <a/> </e>; declare variable $f := $e; <r> { $e is $e, $f is $e, $e, $f } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1378,7 +1378,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); declare variable $b as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); $a/(let $p := position() return . is $b[$p])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1393,7 +1393,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); <r> <e> { $a } </e> <e> { $a } </e> </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1408,7 +1408,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <e>{current-time()}</e>/(string-length(.) > 0); $e, if($e) then \"SUCCESS\" else \"FAILURE\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1423,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v ::= 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1438,7 +1438,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v : = 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1453,7 +1453,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare ne gt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1468,7 +1468,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "variable lt variable",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1483,10 +1483,10 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-ExternalVariablesWithout-18b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var external := 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1501,7 +1501,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $global := count(*); <e/>/$global",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1516,7 +1516,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $global := count(*); 
         <e/>/($global, $global)",
@@ -1533,7 +1533,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $global := count(*); $global, <wrongFocus> <e1/> <e2/> </wrongFocus>/$global, $global",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1549,7 +1549,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $global := count(*); <wrongFocus> <e1/> <e2/> </wrongFocus>/$global",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1565,7 +1565,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:string external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1592,7 +1592,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:date external; fn:string($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1619,7 +1619,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1646,7 +1646,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:double external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1673,7 +1673,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:boolean external; fn:string($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1700,7 +1700,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:float external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1735,7 +1735,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:decimal external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1762,7 +1762,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x + $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1789,7 +1789,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1816,7 +1816,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x + $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1843,7 +1843,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x * $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1870,7 +1870,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x - xs:integer(1)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1897,7 +1897,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x idiv xs:integer(2)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1924,7 +1924,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x div xs:integer(10)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1951,7 +1951,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer external; $x mod xs:integer(2)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1978,7 +1978,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:boolean external; $x and fn:false()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2005,7 +2005,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:boolean external; $x or fn:false()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2032,7 +2032,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:float external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2067,7 +2067,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:dateTime external; $x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2094,7 +2094,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:string external; fn:upper-case($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2121,7 +2121,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:string external; fn:lower-case($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2148,7 +2148,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:boolean external; fn:not($x)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -2175,7 +2175,7 @@ environment('CPPGlobals',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 
     This query opens a C++ GCC-XML output file, and outputs a report describing the use
     of globals variables.
@@ -2286,7 +2286,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'extvardeclwithtype-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
          declare variable $test:x as xs:integer external; $test:x",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2314,7 +2314,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context as item()* external; declare variable $input-context external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2329,7 +2329,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context external; declare variable $input-context as item()* external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2344,7 +2344,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2359,7 +2359,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; $input-context",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2374,7 +2374,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context as item()* external; declare variable $input-context as item()*external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2389,7 +2389,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context as xs:string* external; declare variable $input-context as item()*external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2404,7 +2404,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $exampleComThisVarIsNotRecognized as xs:string *external; $exampleComThisVarIsNotRecognized",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2419,7 +2419,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as comment() *external; $e:exampleComThisVarIsNotRecognized",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2434,7 +2434,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $exampleComThisVarIsNotRecognized as processing-instruction()? external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2457,7 +2457,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as element(*) external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2480,7 +2480,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := 1, 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2495,7 +2495,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:integer := xs:untypedAtomic(\"1\"); $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2510,7 +2510,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:float := 1.1 ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2525,7 +2525,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:double := 1.1 ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2540,7 +2540,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:float := 1 ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2555,7 +2555,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:double := 1 ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2570,7 +2570,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:double := xs:float(3) ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2585,7 +2585,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:string := xs:untypedAtomic(\"a string\") ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2600,7 +2600,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i as xs:string := xs:anyURI(\"http://www.example.com/\") ; $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2615,7 +2615,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2631,7 +2631,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2647,13 +2647,13 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'K2-ExternalVariablesWith-22a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'K2-ExternalVariablesWith-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(elementName, xs:anyType?)+ := <elementName/>; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2668,7 +2668,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(*, xs:untyped+)+ := <e/>; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2683,7 +2683,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(*, xs:untyped*)+ := <e/>; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2698,7 +2698,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(notWildcard, xs:untyped+)+ := <e/>; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2713,7 +2713,7 @@ declare function local:report() as element()+
       Err -> ct:fail(Err)
    end.
 'K2-ExternalVariablesWith-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v as element(notWildcard, xs:untyped*)+ := <e/>; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

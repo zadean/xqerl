@@ -28,7 +28,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -231,7 +231,7 @@ environment('OneTopElement',BaseDir) ->
 {modules, []}
 ].
 'PathExprErr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>1</a>,<b>2</b>)/(if(position() eq 1) then . else data(.))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -246,7 +246,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[5 * /])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -262,7 +262,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[(/) * 5])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -278,7 +278,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ * 5])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -294,7 +294,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[(/) < 5])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -310,7 +310,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ < 5])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -326,10 +326,10 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-5p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'PathExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[5</])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -345,7 +345,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ < a])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -361,10 +361,10 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-7p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'PathExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ < /b])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -380,10 +380,10 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-8p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'PathExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/<a div 3])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -399,10 +399,10 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-9p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'PathExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[if (doclevel) then / else /*])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -426,7 +426,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := . return fn:count(.[/ is $a])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -442,7 +442,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/ instance of document-node(schema-element(x))])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -458,7 +458,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[let $doc := / return $doc/*])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -474,7 +474,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/<a/>])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -490,7 +490,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(.[/-5])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -506,7 +506,7 @@ environment('OneTopElement',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'PathExpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := . return fn:count(.[/=$a])",
    {Env,Opts} = xqerl_test:handle_environment(environment('OneTopElement',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

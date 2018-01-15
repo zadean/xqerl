@@ -78,7 +78,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -343,7 +343,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'fn-intersect-node-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/bib/book[1]/title intersect /bib/book[1]/title)/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -359,7 +359,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book/title intersect /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -375,7 +375,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title intersect root(exactly-one(/bib/book[3]/title))",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -391,7 +391,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title/text() intersect /bib/book/title/text()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -407,7 +407,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/processing-instruction() intersect /processing-instruction())/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -423,7 +423,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/processing-instruction(PI1) intersect /processing-instruction())/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -439,7 +439,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((/comment() intersect /comment()), \"|\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -455,7 +455,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title/text() intersect /bib/book/title/text()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -471,7 +471,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction() intersect /bib/book[2]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -487,7 +487,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction(PI1) intersect /bib/book",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -503,7 +503,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/bib/book intersect /bib/book)/string(@year)",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -519,7 +519,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author intersect //nonexisting",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -535,7 +535,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author intersect ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -551,7 +551,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() intersect ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -574,31 +574,31 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-intersect-node-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-intersect-node-args-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $node in ((//price/text()) , (//price/text())) intersect ((//price/text()) , (//price/text())) return <a> {$node} </a>",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -614,7 +614,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) intersect (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -629,7 +629,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect text))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect document-node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +704,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect comment))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -719,7 +719,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect processing-instruction))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect document))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -764,7 +764,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect if))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -779,7 +779,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect then))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -794,7 +794,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect mod))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -809,7 +809,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect div))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -824,7 +824,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect empty-sequence))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect schema-attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -854,7 +854,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author intersect schema-element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -869,7 +869,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -884,7 +884,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect element {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -922,7 +922,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect element name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -945,7 +945,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect processing-instruction {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -960,7 +960,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect processing-instruction name {}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -975,7 +975,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect comment {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -990,7 +990,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect text {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1005,7 +1005,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect descendant))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1020,7 +1020,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1035,7 +1035,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1050,7 +1050,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect descendant-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1065,7 +1065,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect following-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1080,7 +1080,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect following))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1095,7 +1095,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect preceding-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1110,7 +1110,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect preceding))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1125,7 +1125,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect parent))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1140,7 +1140,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1155,7 +1155,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1170,7 +1170,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect ancestor-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1185,7 +1185,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a intersect declare))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1200,7 +1200,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(//employee[location = \"Denver\"] intersect //employee[last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1216,7 +1216,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//(employee[location = \"Denver\"] intersect //employee[last()])/./location",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1232,7 +1232,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i intersect ($i, $i)), (($t, $t) intersect $t)) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1247,7 +1247,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:function ($c as node()) { $c intersect $c }; 
          empty(local:function(document{()}))
@@ -1265,7 +1265,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 intersect 2 intersect 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1280,7 +1280,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqIntersect-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 except 2 except 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1295,7 +1295,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqintersecthc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<a>0</a>,<a>1</a>) intersect (<a>3</a>,<a>4</a>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1310,7 +1310,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqintersecthc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() intersect ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1333,7 +1333,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqintersecthc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (//hours) intersect (//hours[xs:integer(.) gt 12])) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1349,7 +1349,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqintersecthc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( ($works//hours) intersect ($works//hours, $staff//grade)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

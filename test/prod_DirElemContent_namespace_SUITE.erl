@@ -140,7 +140,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -467,7 +467,7 @@ environment('inscope',BaseDir) ->
 {modules, []}
 ].
 'Constr-namespace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo:elem/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +482,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -497,7 +497,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -512,7 +512,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com\" xmlns:foo=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -527,7 +527,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"http://www.example.com\" xmlns=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -542,7 +542,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:xml=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -557,7 +557,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:xmlns=\"http://www.example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -572,7 +572,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem xmlns:foo=\"http://www.example.com\"><foo:child/></elem>)/*:child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -587,7 +587,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com/parent\"><foo:child xmlns:foo=\"http://www.example.com/child\"/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -602,7 +602,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.example.com/prolog\"; <foo:elem xmlns:foo=\"http://www.example.com/element\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -617,7 +617,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem xmlns:foo=\"http://www.example.com/parent\"><foo:child xmlns:foo=\"http://www.example.com/child\"><foo:grand-child/></foo:child></elem>)//*:grand-child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -632,7 +632,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.example.com/prolog\"; (<elem xmlns:foo=\"http://www.example.com/parent\"><foo:child/></elem>)//*:child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -647,7 +647,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo:elem xmlns:foo=\"http://www.example.com/parent\"><child xmlns:foo=\"\"/></foo:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -670,7 +670,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo:elem xmlns:foo=\"http://www.example.com/parent\"><child xmlns:foo=\"\"><foo:grand-child/></child></foo:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -693,7 +693,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.example.com/prolog\"; <elem xmlns:foo=\"\"><foo:child/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -716,7 +716,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<foo:elem xmlns:foo=\"http://www.example.com/parent\"><child xmlns:foo=\"\"><grand-child/></child></foo:elem>)//grand-child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem xmlns=\"http://www.example.com\"><child/></elem>)/*:child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"http://www.example.com/parent\"><child xmlns=\"http://www.example.com/child\"/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/prolog\"; <elem xmlns=\"http://www.example.com/element\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem xmlns=\"http://www.example.com/parent\"><child xmlns=\"http://www.example.com/child\"><grand-child/></child></elem>)//*:grand-child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/prolog\"; (<elem xmlns=\"http://www.example.com/element\"><child/></elem>)/*:child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -814,7 +814,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"http://www.example.com/parent\"><child xmlns=\"\"/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -829,7 +829,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<elem xmlns=\"http://www.example.com/parent\"><child xmlns=\"\"><grand-child/></child></elem>)//*:grand-child",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"{'http://www.example.com'}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,7 +859,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns=\"http://www.example.com{'/namespace'}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -874,7 +874,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:cm=\"http://www.example.com\">{count(//cm:b)}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('MixNS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -890,7 +890,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:cm=\"http://www.example.com\" attr=\"{count(//cm:b)}\"/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('MixNS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -906,7 +906,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<parent><child xmlns:cm=\"http://www.example.com\"/><child>{count(//cm:b)}</child></parent>",
    {Env,Opts} = xqerl_test:handle_environment(environment('MixNS',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -922,7 +922,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-namespace-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{p:count(())}\" xmlns:p=\"http://www.w3.org/2005/xpath-functions\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -937,7 +937,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<name xmlns:ns=\"http://example.com/NS\"/>, ns:nametest",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -952,7 +952,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a:elem xmlns:a=\"http://example.com/NS\" xmlns:b=\"http://example.com/NS\"></b:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -967,7 +967,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a:elem xmlns:a=\"http://example.com/NS\" xmlns:b=\"http://example.com/NS\"></b:elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -982,7 +982,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://example.com/QuiteWeirdNamespace\"; empty(p:e[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1005,7 +1005,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<e/>)[. eq \"xml\"])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1020,7 +1020,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(element e{})[. eq \"xml\"])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1035,7 +1035,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e a=\"{count()}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1050,7 +1050,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e a=\"{p:count()}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1065,7 +1065,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e xmlns=\"http://www.w3.org/2001/XMLSchema\" a=\"{count()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1080,7 +1080,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e xmlns:p=\"http://www.w3.org/2001/XMLSchema\" a=\"{p:count()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1095,7 +1095,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e xmlns=\"http://www.w3.org/2001/XMLSchema\" a=\"{nametest}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1110,7 +1110,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e a=\"{nametest}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1125,7 +1125,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e xmlns:p=\"http://www.w3.org/2001/XMLSchema\" p:p=\"{p:nametest}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1140,7 +1140,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://example.com\"; <e p:p=\"{p:nametest}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1155,7 +1155,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"content{{ {'1'}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1170,7 +1170,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content{{ {'1'}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1185,7 +1185,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"content{()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1200,7 +1200,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content{()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1215,7 +1215,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 instance of integer}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1230,7 +1230,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 treat as integer}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1245,7 +1245,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 cast as string}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1260,7 +1260,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 castable as string}\" xmlns=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1275,7 +1275,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{<e><b>data</b></e>/b}\" xmlns=\"http://www.example.com/\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1290,7 +1290,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{<e b=\"data\"/>/@b}\" xmlns=\"http://www.example.com/\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1305,7 +1305,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace b = \"http://www.example.com/\"; empty(<e xmlns=\"http://www.example.com/\"><d xmlns=\"\"><b/></d></e>/b:d/b:b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1328,7 +1328,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:d=\"http://www.example.com/\"/>, d:d",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1343,7 +1343,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://www.w3.org/2001/XMLSchema\"> <b xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/> {p:integer(1)} </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1358,7 +1358,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://www.w3.org/2005/xpath-functions\"> <b xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/> {fn:count(0)} </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1373,7 +1373,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 instance of p:integer}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1388,7 +1388,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 treat as p:integer}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1403,7 +1403,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 cast as p:string}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1418,7 +1418,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e a=\"{1 castable as p:string}\" xmlns:p=\"http://www.w3.org/2001/XMLSchema\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1433,7 +1433,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a attr=\"{let $p:name := 3 return $p:name}\" xmlns:p=\"http://www.example.com/\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1448,7 +1448,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"http://{exa}mple.com/\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1463,7 +1463,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"{1}\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1478,7 +1478,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"{xs:anyURI(\"http://www.example.com/\")}\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1493,7 +1493,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"{xs:untypedAtomic(\"http://www.example.com/\")}\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1508,7 +1508,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"/www.example.com/}\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1523,7 +1523,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare namespace p = \"http://example.com/\"; 
          document{<p:e xmlns=\"\"/>, count(in-scope-prefixes(<p:e xmlns=\"\"/>))}
@@ -1541,7 +1541,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://www.example.com/A\"; <e xmlns=\"http://www.example.com/A\" xmlns:A=\"http://www.example.com/C\"> <b xmlns:B=\"http://www.example.com/C\"/> </e>/p:b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1556,7 +1556,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace p = \"http://www.example.com/A\"; \"START\", for $i in in-scope-prefixes(<e xmlns=\"http://www.example.com/A\" xmlns:A=\"http://www.example.com/C\"> <b xmlns:B=\"http://www.example.com/C\" /> </e>/p:b) order by $i return $i, \"END\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1571,7 +1571,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://www.example.com/\"> <e xmlns:p=\"http://www.example.com/\"/> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1586,7 +1586,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"http://www.example.com/\"> <e xmlns=\"http://www.example.com/\"/> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1601,7 +1601,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"/www.example.com/{\"/>/@xmlns",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1624,7 +1624,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xmlns:p=\"http://example.com\" p:anAttribute=\"attrValue\"/> return <a>{$i/@*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1639,7 +1639,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e xml:space=\"preserve\"/> return <a>{$i/@*}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1654,7 +1654,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1669,7 +1669,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://example.com\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1684,7 +1684,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/A\"; <anElement xmlns=\"http://www.example.com/B\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1699,7 +1699,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"http://www.example.com/A\" xmlns:A=\"http://www.example.com/C\"> <b xmlns:B=\"http://www.example.com/C\" xmlns=\"\"/> </e>/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1722,7 +1722,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com\"; <e xmlns=\"\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1737,7 +1737,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com/\"; <a> <e xmlns=\"\"/> </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1752,7 +1752,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(in-scope-prefixes(<a xmlns=\"http://example.com/\"> <e xmlns=\"\"/> </a>/e))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1767,7 +1767,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e xmlns=\"http://example.com/\"><a xmlns=\"\"/></e>/namespace-uri(exactly-one(*)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1782,7 +1782,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"http://example.com/\"> <b xmlns=\"\"> { attribute {QName(\"http://example.com/2\", \"p:attr\")} {()} } </b> </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1797,7 +1797,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com/\"; <r xmlns:p=\"http://example.com/\"> { <e p:att=\"\"/>/(@att, attribute::att) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1812,7 +1812,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://example.com/\"; declare namespace p = \"http://example.com/\"; <r> { <e p:att=\"\"/>/(@att) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1827,7 +1827,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> <xs:element/> <local:element/> <fn:element/> <xml:element/> </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1842,7 +1842,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<p:e xmlns:p=\"http://example.com/{{{{{{}}}}}}asd\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1865,7 +1865,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"{\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1888,7 +1888,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1903,7 +1903,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content{\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1926,7 +1926,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1941,7 +1941,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-for-prefix(\"p\", <e xmlns:p=\"http://example.com/{{}}{{{{}}}}\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1964,7 +1964,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"{content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1987,7 +1987,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"}content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2002,7 +2002,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content{content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2025,7 +2025,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"content}content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2040,7 +2040,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"{\"http://example.com/\"}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2055,7 +2055,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"{\"http://example.com/\"}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2070,7 +2070,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"{()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2085,7 +2085,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns=\"{()}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2100,7 +2100,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<e xmlns=\"http://example.com/{{1}}\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2123,7 +2123,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://example.com/{{1}}\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2146,7 +2146,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace t = \"http://example.com/2\"; <p:a xmlns:p=\"http://example.com/\"> <p:e xmlns:p=\"http://example.com/2\"/> </p:a>//t:e",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2161,7 +2161,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $e := document{(<X1:L xmlns:X1=\"http://example.com/URL1\">1</X1:L>, <X2:L xmlns:X2=\"http://example.com/URL2\">2</X2:L>)} return <outer xmlns:P=\"http://example.com/URL1\"> { let $outer as element(P:L) := $e/element(P:L) return <inner xmlns:P=\"http://example.com/URL2\"> { let $inner as element(P:L) := $e/element(P:L) return ($outer, $inner) } </inner> } </outer>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2176,7 +2176,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemNamespace-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $e := document{(<X1:L xmlns:X1=\"http://ns.example.com/URL1\">1</X1:L>, <X2:L xmlns:X2=\"http://ns.example.com/URL2\">2</X2:L>)} return <outer xmlns:P=\"http://ns.example.com/URL1\"> { let $outer as element(P:L) := $e/element(P:L) return <inner xmlns:P=\"http://ns.example.com/URL2\"> { let $inner as element(P:L) := $outer return $inner } </inner> } </outer>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2191,7 +2191,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'DirectConElemNamespace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<p:e xmlns:p=\"http://ns.example.com/ns?val=\"\"\"\"\"\"asd\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2214,7 +2214,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'DirectConElemNamespace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<p:e xmlns:p=\"http://ns.example.com/ns?val=\"\"asd\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2237,7 +2237,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'DirectConElemNamespace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<p:e xmlns:p='http://ns.example.com/ns?val=''''''asd'/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2252,7 +2252,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'DirectConElemNamespace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri(<e xmlns='http://ns.example.com/ns?val=''asd'/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2267,7 +2267,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns:foo=\"http://www.example.com\">{//@*:attr1}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2283,7 +2283,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new>{//@*:attr1, //@*:attr2}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2299,7 +2299,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <parent1 xmlns:foo=\"http://www.example.com/parent1\" foo:attr1=\"attr1\"/> return <new xmlns:foo=\"http://www.example.com\">{$x//@*:attr1}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2314,7 +2314,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <inscope> <parent1 xmlns:foo=\"http://www.example.com/parent1\" foo:attr1=\"attr1\"/> <parent2 xmlns:foo=\"http://www.example.com/parent2\" foo:attr2=\"attr2\"/></inscope> return <new>{$x//@*:attr1, $x//@*:attr2}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2329,7 +2329,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new>{//*:child3}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2345,7 +2345,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new>{//*:child4}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2361,7 +2361,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <parent3 xmlns:foo=\"http://www.example.com/parent3\"><foo:child3/></parent3> return <new>{$x//*:child3}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2376,7 +2376,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <parent4 xmlns=\"http://www.example.com/parent4\"><child4/></parent4> return <new>{$x//*:child4}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2391,7 +2391,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new>{//*:child1}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2407,7 +2407,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns=\"http://www.example.com\">{//*:child2}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2423,7 +2423,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <parent1 xmlns:foo=\"http://www.example.com/parent1\" foo:attr1=\"attr1\"><child1 attr=\"child\"/></parent1> return <new>{$x//*:child1}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2438,7 +2438,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <parent2 xmlns:foo=\"http://www.example.com/parent2\" foo:attr2=\"attr2\"><child2 attr=\"child\"/></parent2> return <new xmlns=\"http://www.example.com\">{$x//*:child2}</new>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2453,7 +2453,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://example.com\"; <new/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2468,7 +2468,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://example.com\"; <foo:new/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2483,7 +2483,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<xml:new/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2498,7 +2498,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xml:attr=\"foo\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2513,7 +2513,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns:foo=\"http://www.example.com\">{//*:child1}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2529,7 +2529,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns:foo=\"http://www.example.com/parent1\">{//*:child1}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2545,7 +2545,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns=\"http://www.example.com\">{//*:child4}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2561,7 +2561,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<new xmlns=\"http://www.example.com/parent4\">{//*:child4}</new>",
    {Env,Opts} = xqerl_test:handle_environment(environment('inscope',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2577,7 +2577,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace cat ='mycat'; 
         <a t='cat:miau'>42</a>
@@ -2595,7 +2595,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-inscope-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <a xsi:type='xs:integer'>42</a>
       ",
@@ -2612,7 +2612,7 @@ environment('inscope',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ConInScopeNamespace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := document{<e1/>, <e2/>, <e3/>, <e4/>} return (in-scope-prefixes($i/e1), in-scope-prefixes($i/e2), in-scope-prefixes($i/e3), in-scope-prefixes($i/e4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

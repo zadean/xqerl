@@ -127,7 +127,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -417,7 +417,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'format-date-001a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[Y]-[M01]-[D]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -444,7 +444,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[M]-[D]-[Y]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -471,7 +471,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[D]-[M]-[Y]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -498,7 +498,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[D1] [MI] [Y]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -525,7 +525,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[[[Y]-[M01]-[D01]]]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -552,7 +552,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[[[Y0001]-[M01]-[D01]]]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -579,7 +579,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-001g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"([Y01]-[M01]-[D01])\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -606,7 +606,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 1 to 100 return format-date($t + xs:yearMonthDuration('P1Y')*$i,
          '[YI]'), ' ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -634,7 +634,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 1 to 100 return format-date($t +
          xs:yearMonthDuration('P17Y')*$i, '[Yi,4-4]'), ' ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -662,7 +662,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-007a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[Y๐๐๐๑]-[M๐๑]-[D๑]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -689,7 +689,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-007b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[M๑]-[D๑]-[Y๐๐๐๑]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -716,7 +716,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-007c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"([Y๐๑]-[M๐๑]-[D๐๑])\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -743,7 +743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-008a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[Y𐒠𐒠𐒠𐒡]-[M𐒠𐒡]-[D𐒡]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -770,7 +770,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-008b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"[M𐒡]-[D𐒡]-[Y𐒠𐒠𐒠𐒡]\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -797,7 +797,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-008c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($d,\"([Y𐒠𐒡]-[M𐒠𐒡]-[D𐒠𐒡])\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -824,7 +824,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
         return concat(\"[\", $d, \":\", format-date($d, '[W]', (), 'ISO', ()), \"]\")
@@ -854,7 +854,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
             return concat(\"[\", $d, \":\", format-date($d, '[F01]', (), 'Q{}ISO', ()), ']')
       ",
@@ -883,7 +883,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 48, $d in $t + xs:dayTimeDuration('P3D')*$i 
         return concat(\"[\", $d, \":\", format-date($d, '[w]', (), 'ISO', ()), ']')",
@@ -912,7 +912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,4-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -939,7 +939,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,3-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -966,7 +966,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,2-5]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -993,7 +993,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,2-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1020,7 +1020,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,2-*]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1047,7 +1047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,*-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1074,7 +1074,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[Y,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1101,7 +1101,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013h'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,4-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1128,7 +1128,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013i'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,1-4]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1155,7 +1155,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013j'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,2-5]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1182,7 +1182,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013k'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,2-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1209,7 +1209,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013L'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,1-*]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1236,7 +1236,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013m'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,*-2]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1263,7 +1263,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-013n'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($t, '[M,3]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1290,7 +1290,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z]'), ' ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1318,7 +1318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z0]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1346,7 +1346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1374,7 +1374,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -12 to +12 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT1H')), '[ZZ]'), ' ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1402,7 +1402,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('1987-12-13'), '[ZZ]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1429,7 +1429,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('1987-12-13+05:30'), '[ZZ]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1444,7 +1444,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('1987-12-13+13:00'), '[ZZ]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1459,7 +1459,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[z00~00]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1487,7 +1487,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18+05:30'), '[Z٠٠:٠٠]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1514,7 +1514,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z0:01]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1542,7 +1542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z999]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1570,7 +1570,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1598,7 +1598,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
          $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -1626,7 +1626,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18+05:30'), '[Z𐒡:𐒠𐒡]')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1653,7 +1653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[ D 01 ] [M 0 1] [ Y 0 0 0 1 ]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1668,7 +1668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[Y9;999]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1683,7 +1683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[Y9,999,*]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1698,7 +1698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[Y9,99-9,*]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1713,7 +1713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date(\"1200-01-01\"),\"[Y###9]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1728,7 +1728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date(\"0900-01-01\"),\"[Y###9]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1743,7 +1743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[Y9999,25]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1758,7 +1758,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2012-05-18'), '[Y๐๐๐๑,10]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-02-01'), '[d]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1788,7 +1788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y# $ 0,3-3]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1803,7 +1803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('654321-01-01'), '[Y#0 ' || codepoints-to-string(10) || '00            0]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1818,7 +1818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('654321-01-01'), '[Y#0,2-5]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1833,7 +1833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('654321-01-01'), '[Y#!0!0,5-5]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1848,7 +1848,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1863,7 +1863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,2-4]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1878,7 +1878,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,2-*]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1893,7 +1893,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,2]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1908,7 +1908,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,1-4]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1923,7 +1923,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,3-4]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1938,7 +1938,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,3-3]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1953,7 +1953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date('2016-01-01'), '[Y#.0,4-3]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1968,7 +1968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-801err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[bla]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1991,7 +1991,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-802err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[H]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2014,7 +2014,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-803err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[h]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2037,7 +2037,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-804err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[P]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2060,7 +2060,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-805err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[m]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2083,7 +2083,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-806err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[s]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2106,7 +2106,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-807err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[f]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2129,7 +2129,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-808err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[bla]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2152,7 +2152,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-809err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date(\"2012-05-18\"),\"[Y999#]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2167,7 +2167,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-810err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(xs:date(\"2012-05-18\"),\"[Y##9#]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2182,7 +2182,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
          format-date($d2, '[MN]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2210,7 +2210,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
          format-date($d2, '[Mn]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2238,7 +2238,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 12 
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
@@ -2268,7 +2268,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 12 
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
@@ -2299,7 +2299,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 12 
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
@@ -2330,7 +2330,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $i in 1 to 12 
         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
@@ -2361,7 +2361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FN]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2389,7 +2389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[Fn]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2417,7 +2417,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FNn]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2445,7 +2445,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FN,3-3]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2473,7 +2473,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[Fn,3-3]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2501,7 +2501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[FNn,3-3]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2529,7 +2529,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	for $i in 1 to 7 
       	return let $d2 := $d + xs:dayTimeDuration('P1D')*$i 
@@ -2564,7 +2564,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return let $abb :=
          format-date($d2, '[FNn,3-5]', 'en', (), ()) return let $expected := ('Mon', 'Tues', 'Weds',
          'Thurs', 'Fri', 'Sat', 'Sun') return (substring($abb, 1, 3), starts-with($expected[$i],
@@ -2594,7 +2594,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
          format-date($d2, '[D1o]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2622,7 +2622,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
          format-date($d2, '[Y1o]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2650,7 +2650,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en122b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
          format-date($d2, '[Y0001o]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2678,7 +2678,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[DW]', 'en', (), ()), ' ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2714,7 +2714,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[Dw]', 'en', (), ()), ' ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2750,7 +2750,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return format-date($d2, '[DWw]', 'en', (), ()), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2786,7 +2786,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
          string-join( 
             for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
@@ -2825,7 +2825,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return replace(format-date($d2, '[Yw]', 'en', (), ()), ' and ', ' '), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2861,7 +2861,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return replace(format-date($d2, '[YWw]', 'en', (), ()), ' [Aa]nd ', ' '), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2897,7 +2897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[DWo]', 'en', (), ()), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2925,7 +2925,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[Dwo]', 'en', (), ()), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2953,7 +2953,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i
          return translate(format-date($d2, '[DWwo]', 'en', (), ()), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -2981,7 +2981,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[YWo]', 'en', (), ()), ' AND ', ' '), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -3009,7 +3009,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[Ywo]', 'en', (), ()), ' and ', ' '), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -3037,7 +3037,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
          return translate(replace(format-date($d2, '[YWwo]', 'en', (), ()), ' [Aa]nd ', ' '), '- ', ''), '; ') ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
@@ -3065,7 +3065,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " format-date($d1, '[Y][EN]', 'en', (), ()), format-date($d2, '[Y][EN]', 'en', (), ()) ",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -3109,10 +3109,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"language xib "}.
 'format-date-en152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date($b, '[M01]', 'en', 'CB', ())",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -3147,7 +3147,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())
       ",
@@ -3176,7 +3176,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace cal = \"http://calendar.example.com/non-existent-calendar\"; 
       	format-date(xs:date('2006-03-01'), '[M01]', 'en', 'cal:CB', ())
@@ -3194,7 +3194,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{}ZODIAC', ())
       ",
@@ -3223,7 +3223,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	format-date($b, '[M01]', 'en', 'ZODIAC', ())
       ",
@@ -3252,7 +3252,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	format-date($b, '[M01]', 'en', ':w', ())
       ",
@@ -3281,7 +3281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-en158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	format-date($b, '[M01]', 'en', 'Q{}1', ())
       ",
@@ -3310,7 +3310,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-inpt-er1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date('abc', '[bla]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3325,7 +3325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-inpt-er2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[bla]', 'en', (), (), 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3340,7 +3340,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-inpt-er3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[bla]', 'en', (), 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3355,7 +3355,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-inpt-er4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), \"[D01]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3370,7 +3370,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'format-date-1340err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-date(current-date(), '[yY]', 'en', (), ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

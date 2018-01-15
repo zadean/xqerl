@@ -14,7 +14,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -191,7 +191,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-default-collation-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:default-collation(\"An Argument\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -206,7 +206,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-default-collation-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:default-collation()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -221,7 +221,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextDefaultCollationFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "default-collation(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -236,7 +236,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextDefaultCollationFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "default-collation(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -251,7 +251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ContextDefaultCollationFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "default-collation() eq \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -266,7 +266,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-default-collation-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:default-collation())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -281,7 +281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-default-collation-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:default-collation())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

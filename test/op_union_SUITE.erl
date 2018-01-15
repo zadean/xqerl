@@ -89,7 +89,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -365,7 +365,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'fn-union-node-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title union /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -381,7 +381,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/bib/book/title | /bib/book)/local-name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -397,7 +397,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title | root(fn:exactly-one(/bib/book[3]/title))",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title/text() union /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction() union /bib/book[2]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction(PI1) union /bib/book[3]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/comment() union /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title/text() | /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction() | /bib/book[2]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction(PI1) | /bib/book[3]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/comment() | /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author union //nonexisting",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author | ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() | ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,31 +604,31 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-union-node-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-union-node-args-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(for $node in ((//price/text()) , (//price/text())) union ((//price/text()) , (//price/text())) return $node, \"|\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -644,7 +644,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> return ($i/b, $i/a, $i/b, $i/a) | () } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,7 +659,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> </e> return () | ($i/b, $i/a, $i/b, $i/a) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -674,7 +674,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union comment))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -689,7 +689,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i union ($i, $i)), (($t, $t) union $t))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -704,7 +704,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) union (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -719,7 +719,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union text))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -734,7 +734,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -764,7 +764,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -779,7 +779,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union document-node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -794,7 +794,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union comment))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -809,7 +809,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union processing-instruction))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -824,7 +824,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -839,7 +839,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union document))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -854,7 +854,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union if))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -869,7 +869,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union then))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -884,7 +884,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union mod))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union div))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -914,7 +914,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union empty-sequence))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -929,7 +929,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union schema-attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -944,7 +944,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author union schema-element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -959,7 +959,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union attribute {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -974,7 +974,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union attribute name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -989,7 +989,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union element {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,7 +1012,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union element name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1035,7 +1035,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union processing-instruction {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1050,7 +1050,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union processing-instruction name {}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1065,7 +1065,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union comment {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1080,7 +1080,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union text {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1095,7 +1095,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union descendant))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1110,7 +1110,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1125,7 +1125,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1140,7 +1140,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union descendant-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1155,7 +1155,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union following-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1170,7 +1170,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union following))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1185,7 +1185,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union preceding-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1200,7 +1200,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union preceding))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1215,7 +1215,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union parent))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1230,7 +1230,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1245,7 +1245,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1260,7 +1260,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union ancestor-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1275,7 +1275,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a union declare))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1290,7 +1290,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(//employee[location = \"Denver\"] union //employee[last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1306,7 +1306,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(//employee[location = \"Denver\"] | //employee[last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1322,7 +1322,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " <r> { //(employee[location = \"Denver\"] union //employee[last()])/./location } </r>",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1338,7 +1338,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1|2|3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqUnion-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 union 2 union 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1368,7 +1368,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (<hours>0</hours>,<hours>1</hours>) | //hours) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1384,7 +1384,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (<hours>0</hours>,<hours>1</hours>) union (//hours)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1400,7 +1400,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (<hours>0</hours>,<hours>40</hours>) | (//hours)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1416,7 +1416,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (<hours>0</hours>,<hours>40</hours>) union (//hours)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1432,7 +1432,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( () | (//hours)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1448,7 +1448,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( () union (//hours)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1464,7 +1464,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (//hours[xs:integer(.) le 20]) | (//hours[xs:integer(.) gt 20])) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1480,7 +1480,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( (//hours[xs:integer(.) le 20]) union (//hours[xs:integer(.) gt 20])) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1496,7 +1496,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( ($works//hours) | ($staff//grade[xs:integer(.) gt 12])) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1512,7 +1512,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqhc10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( ($works//hours) union ($staff//grade[xs:integer(.) gt 12])) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1528,7 +1528,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-union-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x := <b/>;
         declare variable $y := <a/>;
@@ -1554,7 +1554,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-union-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $doc := <root><test><x/><y/></test></root>;
         $doc/test[x] union $doc/test[y]",

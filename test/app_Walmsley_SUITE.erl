@@ -229,7 +229,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 , try  xqerl_module:compile(filename:join(BaseDir, "Walmsley/strings.xqm")) catch _:_ -> ok end
@@ -636,7 +636,7 @@ environment('all',BaseDir) ->
 {modules, []}
 ].
 'd1e11215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sort(doc(\"catalog.xml\")//product/number)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -656,7 +656,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e13012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  'abc'=>upper-case()",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -673,7 +673,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e13030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  'abc'=>substring(1,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -690,7 +690,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e13048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $string := 'aa bb cc' return 
  $string=>replace('a','b')=>normalize-space()=>tokenize(\"\\s\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -707,7 +707,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e20420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  xquery version \"3.1\" encoding \"UTF-8\"; \"inserted for testing prolog only examples\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -724,7 +724,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e40951'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  deep-equal(map {
   \"ACC\" : \"Accessories\",
@@ -749,7 +749,7 @@ environment('all',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'd1e40984'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 deep-equal( map {
     \"ACC\": map {
@@ -786,7 +786,7 @@ deep-equal( map {
       Err -> ct:fail(Err)
    end.
 'd1e41029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 deep-equal(map:merge(for $p in doc(\"catalog.xml\")//product
 return map:entry(string($p/number), string($p/name))),
@@ -809,7 +809,7 @@ map {\"557\":\"Fleece Pullover\",
       Err -> ct:fail(Err)
    end.
 'd1e41041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -841,7 +841,7 @@ declare variable $deptinfo := map {
       Err -> ct:fail(Err)
    end.
 'd1e41054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -863,7 +863,7 @@ declare variable $deptinfo := map {
       Err -> ct:fail(Err)
    end.
 'd1e41054b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -885,7 +885,7 @@ declare variable $deptinfo := map {
       Err -> ct:fail(Err)
    end.
 'd1e41094'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -913,7 +913,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -948,7 +948,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -970,7 +970,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -992,7 +992,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1014,7 +1014,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1036,7 +1036,7 @@ declare variable $deptnames := map {
       Err -> ct:fail(Err)
    end.
 'd1e41194b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1058,7 +1058,7 @@ declare variable $deptnames := map {
       Err -> ct:fail(Err)
    end.
 'd1e41213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $map-with-integer-keys := map{ 10:\"a\", 20:\"b\"}; $map-with-integer-keys?20",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1075,7 +1075,7 @@ declare variable $deptnames := map {
       Err -> ct:fail(Err)
    end.
 'd1e41225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1097,7 +1097,7 @@ declare variable $deptnames := map {
       Err -> ct:fail(Err)
    end.
 'd1e41255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1132,7 +1132,7 @@ return <product num=\"{$prod/number}\"
       Err -> ct:fail(Err)
    end.
 'd1e41271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1163,7 +1163,7 @@ map { \"deptname\": \"Accessories\",
       Err -> ct:fail(Err)
    end.
 'd1e41301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1191,7 +1191,7 @@ map { \"deptname\": \"Accessories\",
       Err -> ct:fail(Err)
    end.
 'd1e41301a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1213,7 +1213,7 @@ map { \"deptname\": \"Accessories\",
       Err -> ct:fail(Err)
    end.
 'd1e41301b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1235,7 +1235,7 @@ map { \"deptname\": \"Accessories\",
       Err -> ct:fail(Err)
    end.
 'd1e41301c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1257,7 +1257,7 @@ map { \"deptname\": \"Accessories\",
       Err -> ct:fail(Err)
    end.
 'd1e41301d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1286,7 +1286,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e41301e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1314,7 +1314,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e41301f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1341,7 +1341,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e41517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptnames := map {
   \"ACC\" : \"Accessories\",
@@ -1367,7 +1367,7 @@ return map:for-each($deptnames,$f)",
       Err -> ct:fail(Err)
    end.
 'd1e41255b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1395,7 +1395,7 @@ $deptinfo instance of map(xs:string,map(xs:string,xs:anyAtomicType)) ",
       Err -> ct:fail(Err)
    end.
 'd1e41255c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1423,7 +1423,7 @@ $deptinfo instance of function(*) ",
       Err -> ct:fail(Err)
    end.
 'd1e41255d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1451,7 +1451,7 @@ $deptinfo instance of function(xs:anyAtomicType) as item()* ",
       Err -> ct:fail(Err)
    end.
 'd1e41255e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $deptinfo := map {
   \"ACC\": map {
@@ -1479,7 +1479,7 @@ $deptinfo instance of item() ",
       Err -> ct:fail(Err)
    end.
 'd1e41590'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare function local:large-keys
   ($maparg as map(xs:integer,item()*))as xs:integer* {
@@ -1500,7 +1500,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
       Err -> ct:fail(Err)
    end.
 'd1e41624'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  [ \"a\", \"b\", \"c\" ]",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1517,7 +1517,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
       Err -> ct:fail(Err)
    end.
 'd1e41628'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array { \"a\", \"b\", \"c\" }",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1534,7 +1534,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
       Err -> ct:fail(Err)
    end.
 'd1e41635'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  [//product,( \"a\", \"b\", \"c\"),\"d\"]",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1551,7 +1551,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
       Err -> ct:fail(Err)
    end.
 'd1e41648'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array { //product,( \"a\", \"b\", \"c\"),\"d\"}",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1568,7 +1568,7 @@ local:large-keys(map {10:\"a\",55:\"b\",60:\"c\"})",
       Err -> ct:fail(Err)
    end.
 'd1e41655'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare variable $myitems := 3;
  [$myitems, doc(\"catalog.xml\")//product, 
@@ -1587,7 +1587,7 @@ declare variable $myitems := 3;
       Err -> ct:fail(Err)
    end.
 'd1e41659'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array {[\"a\", \"b\", \"c\"], \"d\" }",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1604,7 +1604,7 @@ declare variable $myitems := 3;
       Err -> ct:fail(Err)
    end.
 'd1e41663'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  [[\"a\", \"b\", \"c\"], \"d\" ]",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1621,7 +1621,7 @@ declare variable $myitems := 3;
       Err -> ct:fail(Err)
    end.
 'd1e41678'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  [ (\"a\", \"b\", \"c\"), \"d\" ]",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1638,7 +1638,7 @@ declare variable $myitems := 3;
       Err -> ct:fail(Err)
    end.
 'd1e41686'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  ( [\"a\", \"b\", \"c\"], \"d\" )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -1655,7 +1655,7 @@ declare variable $myitems := 3;
       Err -> ct:fail(Err)
    end.
 'd1e41709'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1674,7 +1674,7 @@ array:get($array-of-ints, 2)",
       Err -> ct:fail(Err)
    end.
 'd1e41709b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1693,7 +1693,7 @@ $array-of-ints?2",
       Err -> ct:fail(Err)
    end.
 'd1e41709c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1712,7 +1712,7 @@ let $pos := 2 return $array-of-ints?($pos)",
       Err -> ct:fail(Err)
    end.
 'd1e41709d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1731,7 +1731,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41791'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(2)",
@@ -1749,7 +1749,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41795'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(2,3)",
@@ -1767,7 +1767,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41799'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  for $i in (2,3) return $array-of-ints?($i)",
@@ -1785,7 +1785,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41803'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?(1 to 2)",
@@ -1803,7 +1803,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41803b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?2",
@@ -1821,7 +1821,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41803c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
  $array-of-ints?*",
@@ -1839,7 +1839,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41709e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1858,7 +1858,7 @@ $array-of-arrays?2?1",
       Err -> ct:fail(Err)
    end.
 'd1e41709f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1877,7 +1877,7 @@ $array-of-arrays?*",
       Err -> ct:fail(Err)
    end.
 'd1e41709g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1896,7 +1896,7 @@ $array-of-arrays?*[?2 = \"b\"]",
       Err -> ct:fail(Err)
    end.
 'd1e41709h'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1915,7 +1915,7 @@ array:size($array-of-ints)",
       Err -> ct:fail(Err)
    end.
 'd1e41709i'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1934,7 +1934,7 @@ array:head($array-of-ints)",
       Err -> ct:fail(Err)
    end.
 'd1e41709j'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1953,7 +1953,7 @@ array:tail($array-of-ints)",
       Err -> ct:fail(Err)
    end.
 'd1e41709k'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1972,7 +1972,7 @@ array:append($array-of-ints,40)",
       Err -> ct:fail(Err)
    end.
 'd1e41709l'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -1991,7 +1991,7 @@ declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] 
       Err -> ct:fail(Err)
    end.
 'd1e41709m'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2010,7 +2010,7 @@ array:remove($array-of-ints,2)",
       Err -> ct:fail(Err)
    end.
 'd1e41709n'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2029,7 +2029,7 @@ array:subarray($array-of-ints,2,2)",
       Err -> ct:fail(Err)
    end.
 'd1e41709o'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2048,7 +2048,7 @@ array:filter($array-of-ints,function($n) {$n > 15})",
       Err -> ct:fail(Err)
    end.
 'd1e41709p'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2067,7 +2067,7 @@ array:flatten($array-of-arrays)",
       Err -> ct:fail(Err)
    end.
 'd1e41709q'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2086,7 +2086,7 @@ array:join(($array-of-ints,[\"a\",\"b\",\"c\"]))",
       Err -> ct:fail(Err)
    end.
 'd1e41709r'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2105,7 +2105,7 @@ array:sort([6,2,-4],(),abs#1)",
       Err -> ct:fail(Err)
    end.
 'd1e41709s'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2124,7 +2124,7 @@ array:reverse($array-of-ints)",
       Err -> ct:fail(Err)
    end.
 'd1e41709t'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2143,7 +2143,7 @@ $array-of-ints instance of array(xs:integer)",
       Err -> ct:fail(Err)
    end.
 'd1e41709u'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2162,7 +2162,7 @@ $array-of-arrays instance of array(array(xs:string))",
       Err -> ct:fail(Err)
    end.
 'd1e41709v'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2181,7 +2181,7 @@ $array-of-arrays instance of function(*) ",
       Err -> ct:fail(Err)
    end.
 'd1e41709w'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2200,7 +2200,7 @@ $array-of-arrays instance of function(xs:integer) as item()* ",
       Err -> ct:fail(Err)
    end.
 'd1e41709x'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ [\"a\",\"b\",\"c\"], [\"d\",\"e\",\"f\"] ]; 
@@ -2219,7 +2219,7 @@ $array-of-arrays instance of item() ",
       Err -> ct:fail(Err)
    end.
 'd1e42207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare function local:larger-values
   ($arrayarg as array(xs:integer))as xs:integer* {
@@ -2240,7 +2240,7 @@ local:larger-values([10,20,30])",
       Err -> ct:fail(Err)
    end.
 'd1e42340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 deep-equal(json-doc(\"product.json\"), map {
    \"number\": xs:double(557),
@@ -2263,7 +2263,7 @@ deep-equal(json-doc(\"product.json\"), map {
       Err -> ct:fail(Err)
    end.
 'd1e42362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\"; 
 declare option output:method \"json\";
@@ -2288,7 +2288,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,\"jkl\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2305,7 +2305,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,(\"jkl\",\"mno\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2322,7 +2322,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48525'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append(array:append($array1,\"jkl\"),\"mno\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2339,7 +2339,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48536'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,[\"jkl\",\"mno\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2356,7 +2356,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48547'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
  array:append($array1,())",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2373,7 +2373,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e48617'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  let $f := upper-case#1
 return apply($f,[\"a\"])",
@@ -2391,7 +2391,7 @@ return apply($f,[\"a\"])",
       Err -> ct:fail(Err)
    end.
 'd1e48676'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  apply(substring#3,[\"sometext\",2,4])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2408,7 +2408,7 @@ return apply($f,[\"a\"])",
       Err -> ct:fail(Err)
    end.
 'd1e48687'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  apply(max#1,[(1,2,3)])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2425,7 +2425,7 @@ return apply($f,[\"a\"])",
       Err -> ct:fail(Err)
    end.
 'd1e48698'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  apply(concat#3,[\"a\",\"b\",\"c\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2442,7 +2442,7 @@ return apply($f,[\"a\"])",
       Err -> ct:fail(Err)
    end.
 'd1e48709'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  apply(upper-case#1,['a','b'])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2459,7 +2459,7 @@ return apply($f,[\"a\"])",
       Err -> ct:fail(Err)
    end.
 'd1e51544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 1)",
@@ -2477,7 +2477,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51555'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 4)",
@@ -2495,7 +2495,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51565'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, 9)",
@@ -2513,7 +2513,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51576'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map1, \"1\")",
@@ -2531,7 +2531,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51592'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\", 3:\"third\",4:()};
 declare variable $map2 := map {};
  map:contains($map2, 1)",
@@ -2549,7 +2549,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51729'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  contains-token(\"a b c\", \"c\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2566,7 +2566,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51740'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  contains-token(\"a b c\", \" c \")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2583,7 +2583,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51751'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  contains-token( (\"a b c\",\"d e f\"), \"c\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2600,7 +2600,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51762'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  contains-token( \"a, b, c\", \"b\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2617,7 +2617,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e51773'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  contains-token( \"a b c\", \"b c\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2634,7 +2634,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e55090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal( map:entry(1,\"first\"),
 map {1:\"first\"}
@@ -2653,7 +2653,7 @@ map {1:\"first\"}
       Err -> ct:fail(Err)
    end.
 'd1e55101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal(  map:merge( ($map1, map:entry(3, \"third\")) ),
   map {1:\"first\", 2:\"second\", 3:\"third\"}
@@ -2672,7 +2672,7 @@ deep-equal(  map:merge( ($map1, map:entry(3, \"third\")) ),
       Err -> ct:fail(Err)
    end.
 'd1e55112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal(
  map:merge( (map:entry(1, \"first\"), map:entry(2, \"second\")) ),
@@ -2692,7 +2692,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e55123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
          deep-equal(
  map:merge(for $p in doc(\"catalog.xml\")//product
@@ -2713,7 +2713,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:filter([\"ab\",\"aa\",\"xy\"],starts-with#2(?,\"a\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2730,7 +2730,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:filter([4,5,6],function($n) {$n > 4})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2747,7 +2747,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:filter([4,5,6],function($n) {$n > 6})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2764,7 +2764,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:flatten([\"a\", \"b\", \"c\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2781,7 +2781,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:flatten( ([\"a\", \"b\"],[\"c\", \"d\"]) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2798,7 +2798,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:flatten( ([\"a\", \"b\"],[\"c\", [\"d\"],[\"e\"]]) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2815,7 +2815,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56535'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:flatten( (\"a\", \"b\", \"c\") )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2832,7 +2832,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e56999'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([1,2,3], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2849,7 +2849,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([1,2,3,4,5,6], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2866,7 +2866,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($a,$b) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2883,7 +2883,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($b,$a) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2900,7 +2900,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([\"a\",\"b\",\"c\"], \"x\", function($a, $b) { concat($a,',',$b) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2917,7 +2917,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left( [\"a\",\"b\",\"c\"], \"\", concat(?,?) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2934,7 +2934,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-left([], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2951,7 +2951,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([1,2,3], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2968,7 +2968,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([1,2,3,4,5,6], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -2985,7 +2985,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($a,$b) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3002,7 +3002,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57493'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"\", function($a, $b) { concat($b,$a) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3019,7 +3019,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([\"a\",\"b\",\"c\"], \"x\", function($a, $b) { concat($a,',',$b) })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3036,7 +3036,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right( [\"a\",\"b\",\"c\"], \"\", concat(?,?) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3053,7 +3053,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57526'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:fold-right([], 0, function($a, $b) { $a + $b })",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3070,7 +3070,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57796'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], function($x) {concat($x,\"x\")} )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3087,7 +3087,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57807'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], function($x) {$x,\"x\"} )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3104,7 +3104,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57818'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each( [\"a\",\"b\",\"c\"], string-to-codepoints(?) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3121,7 +3121,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57961'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
  map:for-each($map1,function($k,$v) {concat($k,$v)})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3138,7 +3138,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e57972'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
          deep-equal(
  map:merge(map:for-each($map1,function($k,$v) {map:entry($k + 1, $v)})),
@@ -3158,7 +3158,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e58316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\"], [\"x\", \"y\", \"z\"], concat#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3175,7 +3175,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e58327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\"], [\"x\", \"y\", \"z\"], function($a, $b){$a, $b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3192,7 +3192,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e58338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each-pair([1,2,3,4,5], [1,2,3,4,5], function($a, $b){$a * $b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3209,7 +3209,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e58349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:for-each-pair([\"a\", \"b\", \"c\", \"d\", \"e\"], [\"x\", \"y\", \"z\"], concat#2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3226,7 +3226,7 @@ return map:entry(string($p/number), string($p/name))),
       Err -> ct:fail(Err)
    end.
 'd1e60780'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array1,2)",
@@ -3244,7 +3244,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60791'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array2,2)",
@@ -3262,7 +3262,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60802'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [\"abc\", [10,20]];
  array:get($array2,3)",
@@ -3280,7 +3280,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60955'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3297,7 +3297,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60966'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,5)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3314,7 +3314,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60976'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,6)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3331,7 +3331,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e60986'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {3:\"first\", 4:\"second\", 5:()};
  map:get($map1,\"3\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3348,7 +3348,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e61366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:head([\"abc\",\"def\",\"ghi\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3365,7 +3365,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e61377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:head([\"abc\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3382,7 +3382,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e61388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:head([])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3399,7 +3399,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e63192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,2,\"def\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3416,7 +3416,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e63203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,4,\"mno\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3433,7 +3433,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e63214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,6,\"mno\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3450,7 +3450,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e63227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"ghi\",\"jkl\"];
  array:insert-before($array1,0,\"aaa\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3467,7 +3467,7 @@ declare variable $array2 := [\"abc\", [10,20]];
       Err -> ct:fail(Err)
    end.
 'd1e63488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array1,$array2) )",
@@ -3485,7 +3485,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63499'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array2,$array1) )",
@@ -3503,7 +3503,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array2,$array1,[4,5]) )",
@@ -3521,7 +3521,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( ($array1,[]) )",
@@ -3539,7 +3539,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63532'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( () )",
@@ -3557,7 +3557,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63543'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\"];
 declare variable $array2 := [1,2,3];
  array:join( [ ] )",
@@ -3575,7 +3575,7 @@ declare variable $array2 := [1,2,3];
       Err -> ct:fail(Err)
    end.
 'd1e63783'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
@@ -3594,7 +3594,7 @@ declare variable $map3 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e63796'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
@@ -3613,7 +3613,7 @@ declare variable $map3 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e63807'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"first\"};
 declare variable $map3 := map {};
@@ -3632,7 +3632,7 @@ declare variable $map3 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e66015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3654,7 +3654,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3676,7 +3676,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3698,7 +3698,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3720,7 +3720,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3742,7 +3742,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3764,7 +3764,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3786,7 +3786,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3808,7 +3808,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e66103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {1:\"ONE\", \"abc\":\"def\"};
 declare variable $map3 := map {\"1\":\"first\", \"2\":\"second\"};
@@ -3830,7 +3830,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  parse-ietf-date(\"Wed, 05 Jul 2015 13:25:15 GMT\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3847,7 +3847,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  parse-ietf-date(\"Wed, 5 Jul 94 07:29 GMT\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3864,7 +3864,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69545'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  parse-ietf-date(\"Wed Jul 05 13:25:15 EST 2015\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3881,7 +3881,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69556'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  parse-ietf-date(\"Sunday, 05-Nov-94 08:25:15 GMT\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3898,7 +3898,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69567'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  parse-ietf-date(\"Wed, 5 Jul 2015 13:25:15 +0500\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -3915,7 +3915,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e69767'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  deep-equal (
  parse-json('{
@@ -3943,7 +3943,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e70867'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
          deep-equal(
  map:put($map1, 1, \"ONE\"),
@@ -3963,7 +3963,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e70878'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
          deep-equal(
  map:put($map1, 3, \"third\"),
@@ -3983,7 +3983,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e70889'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
          deep-equal(
  map:put($map1, \"abc\", \"def\"),
@@ -4003,7 +4003,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e71246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  random-number-generator()?number",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4028,7 +4028,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e71254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  random-number-generator()?permute(1 to 100)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4053,7 +4053,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e71262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  for $seq in 1 to 100 return random-number-generator()?number",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4082,7 +4082,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e71270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  for $seq in 1 to 100 return random-number-generator($seq)?number",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4107,7 +4107,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e71288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  declare function local:random-sequence($length as xs:integer,
                                        $rng as map(xs:string, item())) {
@@ -4142,7 +4142,7 @@ local:random-sequence(5, random-number-generator())",
       Err -> ct:fail(Err)
    end.
 'd1e71531'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove($array1,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4159,7 +4159,7 @@ local:random-sequence(5, random-number-generator())",
       Err -> ct:fail(Err)
    end.
 'd1e71542'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove([\"abc\"],1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4176,7 +4176,7 @@ local:random-sequence(5, random-number-generator())",
       Err -> ct:fail(Err)
    end.
 'd1e71553'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:remove($array1,5)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4193,7 +4193,7 @@ local:random-sequence(5, random-number-generator())",
       Err -> ct:fail(Err)
    end.
 'd1e71660'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal(
  map:remove($map1,2),
@@ -4213,7 +4213,7 @@ deep-equal(
       Err -> ct:fail(Err)
    end.
 'd1e71671'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal(
 map:remove($map1,3),
@@ -4233,7 +4233,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e71682'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 deep-equal( map:remove($map1,\"abc\"),
 map {1:\"first\", 2:\"second\"}
@@ -4252,7 +4252,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e72747'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:reverse([\"abc\",\"def\",\"ghi\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4269,7 +4269,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e72758'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:reverse([\"abc\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4286,7 +4286,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e72769'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:reverse([(\"a\",\"b\",\"c\")])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4303,7 +4303,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e72779'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:reverse([ ])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4320,7 +4320,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:size([1, 2, 3])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4337,7 +4337,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:size([\"abc\", [\"def\", \"ghi\"]])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4354,7 +4354,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:size([ ])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4371,7 +4371,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:size([[ ]])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4388,7 +4388,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  count([1, 2, 3])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4405,7 +4405,7 @@ map {1:\"first\", 2:\"second\"}
       Err -> ct:fail(Err)
    end.
 'd1e74388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {};
  map:size( $map1 )",
@@ -4423,7 +4423,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $map1 := map {1:\"first\", 2:\"second\"};
 declare variable $map2 := map {};
  map:size( $map2 )",
@@ -4441,7 +4441,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74563'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  sort((6,2,4))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4458,7 +4458,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74585'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  sort(doc(\"catalog.xml\")//product/number/number(.))",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4475,7 +4475,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74596'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  sort(doc(\"catalog.xml\")//product, (), function($prod) {$prod/number})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4507,7 +4507,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74610'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  sort(doc(\"catalog.xml\")//product, (), function($prod) {$prod/name, $prod/number})",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4540,7 +4540,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74627'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  sort((-6,-2,4),(),abs#1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4557,7 +4557,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74798'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:sort([6,2,4])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4574,7 +4574,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74809'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:sort([(\"a\",\"c\",\"b\"), (\"a\",\"b\",\"f\")])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4591,7 +4591,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e74820'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:sort([6,2,-4],(),abs#1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4608,7 +4608,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4625,7 +4625,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4642,7 +4642,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4659,7 +4659,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4676,7 +4676,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76078'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,6)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4693,7 +4693,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,6)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4710,7 +4710,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e76104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $array1 := [\"abc\",\"def\",\"ghi\",\"jkl\"];
  array:subarray($array1,2,-1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4727,7 +4727,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e77397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:tail([\"abc\",\"def\",\"ghi\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4744,7 +4744,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e77408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:tail([\"abc\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4761,7 +4761,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e77419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  array:tail([])",
    {Env,Opts} = xqerl_test:handle_environment(environment('all',BaseDir)),
@@ -4778,10 +4778,10 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e78807'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"fn-transform-XSLT"}.
 'd1e78807c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  json-to-xml('{
    \"number\": 557,
@@ -4809,7 +4809,7 @@ declare variable $map2 := map {};
       Err -> ct:fail(Err)
    end.
 'd1e78807d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  json-to-xml('{
    \"number\": 557,
@@ -4846,7 +4846,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e78807e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          deep-equal(
  parse-json(xml-to-json(<map xmlns=\"http://www.w3.org/2005/xpath-functions\">
@@ -4879,7 +4879,7 @@ map {   \"number\": 557,
       Err -> ct:fail(Err)
    end.
 'd1e78807f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  deep-equal (
  parse-json('{
@@ -4910,7 +4910,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e78807g'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  deep-equal (
  parse-json('{
@@ -4947,7 +4947,7 @@ map {
       Err -> ct:fail(Err)
    end.
 'd1e78807h'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
  deep-equal (
  parse-json(serialize(map {
@@ -4985,11 +4985,11 @@ parse-json('{
       Err -> ct:fail(Err)
    end.
 'd1e78807i'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"load-xquery-module"}.
 'd1e78807j'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"load-xquery-module"}.
 'd1e78807k'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"load-xquery-module"}.

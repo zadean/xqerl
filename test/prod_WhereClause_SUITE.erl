@@ -89,7 +89,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -353,7 +353,7 @@ environment('fsx',BaseDir) ->
 {modules, []}
 ].
 'WhereExpr001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if ( count( for $f in //* where $f/File return $f/File[1] ) = count( //File[1]) ) then <Same/> else <notSame/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -369,7 +369,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder where $folde/@name = \"ABC\" return <folder/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -385,7 +385,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $d in /MyComputer/Drive4 where $d/Folder[@id=\"128\"] return <FolderName>{$d/Folder/@name}</FolderName>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -401,7 +401,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $f in /MyComputer/Drive1/Folder[@creator=\"Mani\"]/File where $f/@creation_date=\"08/06/00\" return $f",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -450,7 +450,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<empty> { for $folder in /MyComputer/Drive2//Folder where 1 = 2 return <Folder> { $folder/FolderName/text() } </Folder> } </empty>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -474,7 +474,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in /MyComputer/Drive4//Folder return <Folder>{ $folder/@name }{ for $file in /MyComputer/Drive4//File where $file/@idref = $folder/@id return <File>{ $file/@name }</File> }</Folder>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -490,7 +490,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<fragment-result>{ for $folder in /MyComputer/Drive3/Folder ,$file in /MyComputer/Drive3/Folder/File where $folder/@id = $file/@idref return <Folder> { $folder/@name, $folder/@id } <file>{ $file/@idref, $file/FileName/text() }</file> </Folder> }</fragment-result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -506,7 +506,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<empty> { for $file in (//Folder)[1]/File where () return $file/FileName } </empty>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -530,7 +530,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where $file/SecurityObject/Denies/Deny/security/right return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -546,7 +546,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where data( $file/SecurityObject//right ) return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -562,7 +562,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where $file/SecurityObject/Denies/Deny/security/right=\"Change\" return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -578,7 +578,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where true() return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -594,7 +594,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<empty> { for $file in (//Folder)[1]/File where false() return $file/FileName } </empty>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -618,7 +618,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $offset in (//Folder)[1]/File where $offset mod 2 = 1 return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -634,7 +634,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where true(), true() return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -650,7 +650,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where $undefined return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -666,7 +666,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where_ true() return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,10 +682,10 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'WhereExpr020a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File where true() where false() return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -701,10 +701,10 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'WhereExpr022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $file in //File 
          let $namelen := string-length($file/FileName)
@@ -725,7 +725,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $file in //File
          count $c
@@ -746,7 +746,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $file in //File 
          let $prefix := substring($file/FileName, 1, 4)
@@ -768,7 +768,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $file in //File 
          where current-date() gt xs:date('1900-01-01')
@@ -791,7 +791,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $doc := (/)
          return (11 to 15)!
@@ -814,7 +814,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $doc := (/)
          return (11 to 15)!
@@ -836,7 +836,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $x := 1 to 10
          where $x = 1
@@ -855,7 +855,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $x := 1 to 10
          where count($x) = 1
@@ -874,7 +874,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $n external := 10;
          for $x allowing empty in 1 to $n
@@ -894,7 +894,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $n external := 0;
          for $x allowing empty in 1 to $n
@@ -914,7 +914,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $x allowing empty in 1 to 5
          where $x lt 0
@@ -933,7 +933,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'WhereExpr033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $n external := 0;
          for $x in -2 to +2
@@ -953,7 +953,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := (fn:true()) where $var or fn:true() return $var or fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -968,7 +968,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := (fn:false()) where fn:not($var or fn:false()) return $var or fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -983,7 +983,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := (fn:true()) where $var and fn:true() return $var and fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -998,7 +998,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := (fn:false()) where fn:not($var and fn:false()) return $var and fn:false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1013,7 +1013,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := 100 where typeswitch($var) case $i as xs:string return fn:false() case $i as xs:integer return fn:true() default return fn:false() return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1028,7 +1028,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"String\" where fn:string($var) = \"String\" return $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1043,7 +1043,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"String\" where fn:string-length($var) = 6 return fn:string-length($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1058,7 +1058,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := 100 where fn:count(($var)) = 1 return fn:count(($var))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1073,7 +1073,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement>Some content</anElement> where $var is $var return $var is $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1088,7 +1088,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $var := 1 
          where some $x in (1, 2) satisfies fn:string($var) = \"1\" 
@@ -1106,7 +1106,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'whereClause-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $var := 1 
          where every $x in (1, 1) satisfies fn:string($var) = \"1\" 
@@ -1124,7 +1124,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $fo in (1, 2, 3) where $fo eq 3 return $fo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1139,7 +1139,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(exactly-one((for $fo in (1, 2, 3) where $fo eq 3 return $fo)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1154,7 +1154,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((for $fo in (1, 2, 3) where xs:time(\"08:08:23Z\") return $fo)) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1169,7 +1169,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 where count(($i, 2, timezone-from-time(current-time()))) return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1184,7 +1184,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i in 1 where false() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1199,7 +1199,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $i in 1 where true() return $i) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1214,7 +1214,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i in 1 where (1, current-time())[1] treat as xs:integer eq 0 return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1229,7 +1229,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $i in 1 where (1, current-time())[1] treat as xs:integer eq 1 return $i) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1244,7 +1244,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 2, current-time())[1] where fn:boolean($i treat as xs:integer) return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1259,7 +1259,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 2, current-time())[1] where xs:anyURI(\"example.com/\") return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1274,7 +1274,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-WhereExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $i in (1, 2, current-time())[1] where xs:anyURI(\"\") return true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1289,10 +1289,10 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-WhereExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-WhereExpr-1b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in 1 where true() where true() return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1307,7 +1307,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-WhereExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in 1 where true(), true() return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1322,7 +1322,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (xs:untypedAtomic(\"123\"), xs:untypedAtomic(\"234\")) for $y in (xs:string(\"123\"), xs:float(123), xs:double(123)) where $x = $y return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1345,7 +1345,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (xs:integer(\"123\"), xs:integer(\"234\")) for $y in (xs:integer(\"123\"), xs:integer(\"456\")) where $x = $y return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1360,7 +1360,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (xs:date(\"2010-10-10\"), xs:date(\"1997-01-01+12:00\"), xs:date(\"1997-01-02+12:00\")) for $y in (adjust-date-to-timezone(xs:date(\"2010-10-10\"), implicit-timezone()), xs:date(\"1997-01-01-12:00\")) where $x = $y return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1375,7 +1375,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (xs:untypedAtomic(\"2.0\"), xs:untypedAtomic(\"3\"), xs:double(\"3.0\")) for $y in (xs:untypedAtomic(\"2\"), xs:untypedAtomic(\"3\"), xs:double(\"3\")) where $x = $y return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1398,7 +1398,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:durationOrFloat($i as xs:integer) { (xs:float(123), xs:float(234), xs:duration(\"P1D\"))[$i] }; for $x in (xs:untypedAtomic(\"123\"), xs:untypedAtomic(\"234\")) for $y in (for $z in (1,2) return local:durationOrFloat($z)) where $x = $y return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1413,7 +1413,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-product-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:odds($arg as xs:integer*) as xs:integer* { $arg[. mod 2 eq 1] }; boolean(zero-or-one(for $x in local:odds((2,4,8)),$y in local:odds((2,4,8)) return ($x,$y)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1428,7 +1428,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-set-from-optional-item-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:odds($arg as xs:integer?) as xs:integer? { $arg[. mod 2 eq 1] }; boolean(for $x in local:odds(2) where $x < 3 return $x + 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1443,7 +1443,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else (\"a\", \"b\", \"c\") }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else (\"a\", \"b\", \"c\") }; for $x in local:sequence(2) for $y in local:sequence(2) where $x = $y return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1473,7 +1473,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9, \"cheese\") else (xs:untypedAtomic(\"1\"), xs:untypedAtomic(\"2\")) }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1,2,3,\"cheese\") for $y in (1,2,3,\"cheese\") where $x = $y return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1503,7 +1503,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1,2,3, xs:untypedAtomic(\"1\")) for $y in (1,2,3,\"cheese\") where $x = $y return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1518,7 +1518,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-group-by-key-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:get-words() { tokenize(\"she sells sea shells by the sea shore\", \"\\s+\") }; let $words := local:get-words() let $distinct-words := distinct-values($words) for $word in $distinct-words return <word word=\"{$word}\" count=\"{count($words[. = $word])}\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1533,7 +1533,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-group-by-key-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items, $item in $items where $item = $dist return $item",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1548,7 +1548,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-group-by-key-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( if ($dist = 0) then 0 else for $item in $items where $item = $dist return fn:round(1000 div $item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1563,7 +1563,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-group-by-key-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( for $item in $items where $item = $dist return if ($dist = 0) then 0 else fn:round(1000 div $item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1578,7 +1578,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-left-outer-join-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := for $y in 1 to (count($items) idiv 10) return $y mod 10 for $dist in $distinct-items return if ($dist = 0) then 0 else min( for $item in $items where $item = $dist return fn:round(1000 div $item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1593,7 +1593,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>1</d><d>2</d><d>3</d></r><r><d>2</d><d>3</d><d>4</d></r></t>/r, $y in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>2</d><d>4</d><d>6</d></r><r><d>3</d><d>2</d><d>1</d></r></t>/r where $x/d/string(.) = $y/d/string(.) return concat($x, '=', $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1608,7 +1608,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-map-concat-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:f($x) { if ($x) then true() else () }; declare function local:g($x) { if ($x) then \"true\" else \"false\" }; let $x := local:g(true()) for $y in local:f($x) return ($y, $x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1623,7 +1623,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-map-concat-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:f($x) { if ($x) then true() else () }; empty(for $x in local:f(false()), $y in 1 to 10 return ($x, $y))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1638,7 +1638,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-map-concat-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:f($x) { if ($x) then true() else () }; for $x in local:f(true()), $y in 1 to 10 return ($x, $y)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1653,7 +1653,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-left-outer-join-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { for $x in 1 to 10 return <a>{for $y in 1 to 10 where $x > 7 and $y = $x return $y}</a> } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1668,7 +1668,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-left-outer-join-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { for $x in 1 to 10 where $x > 7 return <a>{for $y in 1 to 10 where $y = $x return $y}</a> } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1683,7 +1683,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-left-outer-join-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<tbody> { let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row return for $g in distinct-values($rows/entry[2][string(.)]) order by $g return let $matches := for $row in $rows where $g = string($row/entry[2][string(.)]) return $row/entry[1] return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> } </tbody>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1698,7 +1698,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-hash-join-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $strings := ('1','2'); declare variable $untypeds := (<untyped>1</untyped>,<untyped>2</untyped>); for $string in $strings for $untyped in $untypeds where $untyped = $string return $string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

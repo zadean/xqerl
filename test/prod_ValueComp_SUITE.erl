@@ -105,7 +105,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -385,7 +385,7 @@ environment('user-defined-types',BaseDir) ->
 {modules, []}
 ].
 'K-ValCompTypeChecking-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -400,7 +400,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -415,7 +415,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) ne 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -430,7 +430,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 ne (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -445,7 +445,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) lt 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +460,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 lt (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -475,7 +475,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) le 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -490,7 +490,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 le (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -505,7 +505,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) gt 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -520,7 +520,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 gt (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -535,7 +535,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) ge 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -550,7 +550,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 ge (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -565,7 +565,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() eq 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(1 eq ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -611,7 +611,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() eq ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1\") eq xs:integer(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(1) eq xs:untypedAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,7 +664,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") ne xs:double(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -679,7 +679,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(1) ne xs:untypedAtomic(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") lt xs:float(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(0) lt xs:untypedAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") gt xs:decimal(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(0) gt xs:untypedAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"4\") eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "4 eq xs:untypedAtomic(\"4\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"3\") eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(2) lt xs:untypedAtomic(\"3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -814,7 +814,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(4) gt xs:untypedAtomic(\"3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -829,7 +829,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"3\") ne xs:decimal(3.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"a string\") eq \"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,7 +859,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string\" eq xs:untypedAtomic(\"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -874,7 +874,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((0, current-time())) ge 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -889,7 +889,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((0, current-time())) ne 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -904,7 +904,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(count((1, 2, current-time())) eq 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -919,7 +919,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error() eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -934,7 +934,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error() eq error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -949,7 +949,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -964,7 +964,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (error(), 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -979,7 +979,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (3, error())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(error(), 3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(3, error()) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1040,7 +1040,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ValCompTypeChecking-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((1, 2)) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1055,13 +1055,13 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'value-comparison-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'value-comparison-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[3] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1076,7 +1076,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[3] le [3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1091,7 +1091,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1106,7 +1106,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[3,4] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1121,7 +1121,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[] eq ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1136,7 +1136,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{} eq ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1159,7 +1159,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{1:1} eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1174,16 +1174,16 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comparison-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'value-comparison-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'value-comparison-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'value-comp-eq-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" eq concat(\"a\", \"bc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1198,7 +1198,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" eq /works/@id",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1214,7 +1214,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" eq string(/works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1230,7 +1230,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" eq xs:string(/works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1246,7 +1246,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "works/@id eq \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1262,7 +1262,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(/works/@id) eq \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1278,7 +1278,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(/works/@id) eq \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1294,7 +1294,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" eq concat(\"a\", \"bc\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1309,7 +1309,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" eq /works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1325,7 +1325,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" eq string(/works/@id))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1341,7 +1341,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" eq xs:string(/works/@id))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1357,7 +1357,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(works/@id eq \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1373,7 +1373,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(string(/works/@id) eq \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1389,7 +1389,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-string-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(/works/@id) eq \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1405,7 +1405,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" ne concat(\"a\", \"bc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1420,7 +1420,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" ne /works/@id",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1436,7 +1436,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" ne string(/works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1452,7 +1452,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"abc\" ne xs:string(/works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1468,7 +1468,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "works/@id ne \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1484,7 +1484,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(/works/@id) ne \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1500,7 +1500,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(/works/@id) ne \"abc\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1516,7 +1516,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" ne concat(\"a\", \"bc\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1531,7 +1531,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" ne /works/@id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1547,7 +1547,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" ne string(/works/@id))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1563,7 +1563,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(\"abc\" ne xs:string(/works/@id))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1579,7 +1579,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(works/@id ne \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1595,7 +1595,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(string(/works/@id) ne \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1611,7 +1611,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-ne-string-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(/works/@id) ne \"abc\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1627,7 +1627,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "13 eq 12+1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1642,7 +1642,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "13 eq /works/@id",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1658,7 +1658,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40 eq xs:integer(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1674,7 +1674,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40 eq xs:integer(/works/employee[830]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1690,7 +1690,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(/works/employee[830]/hours) eq 40",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1706,7 +1706,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40 eq number(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1722,7 +1722,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40 eq xs:double(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1738,7 +1738,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-int-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40 eq xs:double(/works/employee[830]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1754,7 +1754,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "13e0 eq 12e0+1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1769,7 +1769,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "13e0 eq /works/@id",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1785,7 +1785,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40e0 eq xs:double(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1801,7 +1801,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40e0 eq xs:integer(/works/employee[830]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1817,7 +1817,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(/works/employee[830]/hours) eq 40e0",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1833,7 +1833,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40e0 eq number(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1849,7 +1849,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40e0 eq xs:double(/works/employee[1]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1865,7 +1865,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'value-comp-eq-double-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "40e0 eq xs:double(/works/employee[830]/hours)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

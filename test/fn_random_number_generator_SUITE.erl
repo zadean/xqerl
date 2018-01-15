@@ -51,7 +51,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -265,7 +265,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-random-number-generator-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -288,7 +288,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?number",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -303,7 +303,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "random-number-generator()?number ge 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -318,7 +318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := random-number-generator()?number return ($r ge 0 and $r lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -333,7 +333,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := random-number-generator()?number return ($r lt 0 or $r ge 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -348,7 +348,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?next()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -371,7 +371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?next()?number",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -386,7 +386,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -401,7 +401,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := fn:random-number-generator()?next()?number return ($r lt 0 or $r ge 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -416,7 +416,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator(23482)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -439,7 +439,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator(0000)?number",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -454,7 +454,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "random-number-generator(3147)?number ge 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := random-number-generator(\"random\")?number return ($r ge 0 and $r lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -484,7 +484,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator(0000)?next()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +507,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?next()?number",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -522,7 +522,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -537,7 +537,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?permute(1 to 100)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -552,7 +552,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?permute((\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -567,7 +567,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(fn:random-number-generator()?permute((\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\")),2,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?permute((\"a\",\"b\",\"c\",\"d\",\"e\",\"f\",\"g\")) => subsequence(2,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             declare namespace r=\"http://example.com/random/\";
             declare %public function r:random-sequence($length as xs:integer) as xs:double* {
@@ -646,7 +646,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:random-sequence($length as xs:integer) as xs:double* {
          local:random-sequence($length, fn:random-number-generator())
@@ -680,7 +680,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $G := fn:random-number-generator(fn:current-dateTime()) return deep-equal($G?permute(1 to 100), $G?next()?permute(1 to 100))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -695,7 +695,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(fn:random-number-generator(fn:current-dateTime())?permute(1 to 100), fn:random-number-generator(fn:current-dateTime())?permute(1 to 100))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -710,7 +710,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(fn:random-number-generator()?permute(1 to 100), fn:random-number-generator()?permute(1 to 100))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -725,7 +725,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(fn:random-number-generator(0)?permute(1 to 100), fn:random-number-generator(1)?permute(1 to 100))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -740,7 +740,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator(xs:double('NaN'))?permute(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -755,7 +755,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator('a')?permute((1 to 100)[. lt 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -770,7 +770,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:keys(fn:random-number-generator('a'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -798,7 +798,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator('a')?next => fn:apply([]) => fn:apply([\"number\"])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -813,7 +813,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             declare function local:test($f as function(*)) as xs:integer {
                count($f('zzz'))
@@ -833,7 +833,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -856,7 +856,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( () )?number",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -871,7 +871,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "random-number-generator()?number eq
               random-number-generator( () )?number",
    Qry1 = Qry,
@@ -887,7 +887,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?next",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -910,7 +910,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( () )?next",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -933,7 +933,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( 0 )?next",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -956,7 +956,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( () )?next()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -979,7 +979,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?next()?number eq
               fn:random-number-generator( () )?next()?number",
    Qry1 = Qry,
@@ -995,7 +995,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator()?permute",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1018,7 +1018,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( () )?permute",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1041,7 +1041,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:random-number-generator( 0 )?permute",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1064,7 +1064,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(fn:random-number-generator()?permute(1 to 100),
                          fn:random-number-generator( () )?permute(1 to 100))",
    Qry1 = Qry,
@@ -1080,7 +1080,7 @@ r:random-sequence(200)",
       Err -> ct:fail(Err)
    end.
 'fn-random-number-generator-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fold-left(1 to 10, random-number-generator(), 
                 function($z, $i){ head($z)('next')(), tail($z), head($z)('number')}) => tail()
         ",

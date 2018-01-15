@@ -95,7 +95,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -353,7 +353,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-replace3args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -398,7 +398,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -413,7 +413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -428,7 +428,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"This is a characte\",\"This is a characte\",\"This is a characte\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -443,7 +443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace3args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(xs:string(\"This is a characte\"),xs:string(\"This is a characte\"),xs:string(\"This is a characte\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -458,7 +458,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replaceErr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"*\", \"p\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -473,7 +473,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replaceErr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"\\\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -488,7 +488,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replaceErr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"bra\", \"$y\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -503,7 +503,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"bra\", \"*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -518,7 +518,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"a.*a\", \"*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -533,7 +533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"a.*?a\", \"*\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -548,7 +548,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"a\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -563,7 +563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"a(.)\", \"a$1$1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -578,7 +578,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \".*?\", \"$1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -593,7 +593,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"AAAA\", \"A+\", \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -608,7 +608,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"AAAA\", \"A+?\", \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -623,7 +623,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"darted\", \"^(.*?)d(.*)$\", \"$1c$2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -638,7 +638,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abcd\", \"(ab)|(a)\", \"[1=$1][2=$2]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -653,7 +653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:replace((), \"bra\", \"*\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -668,7 +668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abracadabra\", \"bra\", \"*\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -683,7 +683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra?abracadabra\", \"\\?\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -698,7 +698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra*abracadabra\", \"\\*\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -713,7 +713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra+abracadabra\", \"\\+\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -728,7 +728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra{abracadabra\", \"\\{\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -743,7 +743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra}abracadabra\", \"\\}\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -758,7 +758,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra(abracadabra\", \"\\(\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -773,7 +773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra)abracadabra\", \"\\)\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -788,7 +788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra[abracadabra\", \"\\[\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -803,7 +803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra]abracadabra\", \"\\]\", \"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -818,7 +818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra-abracadabra\", \"\\-\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -833,7 +833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra.abracadabra\", \"\\.\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -848,7 +848,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra|abracadabra\", \"\\|\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -863,7 +863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\\abracadabra\", \"\\\\\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -878,7 +878,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra	abracadabra\", \"\\t\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -893,7 +893,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-replace-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra
 abracadabra\", \"\\n\",\"with\")",
    Qry1 = Qry,
@@ -909,7 +909,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabraabracadabra\", \"aa{1}\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -924,7 +924,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabraabracadabraabracadabra\", \"aa{1,}\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -939,7 +939,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabraabracadabraabracadabra\", \"aa{1,2}\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -954,7 +954,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra^abracadabra\", \"\\^\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -969,7 +969,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"^a\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -984,7 +984,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"ww\",\"with\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -999,7 +999,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"a\", \"$1\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1014,7 +1014,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a?bracadabra?\", \"a?\", \"\\$1\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1029,7 +1029,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"([aA])(?:br)([aA])\", \"$1**$2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1044,7 +1044,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"a\", \"\\$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1059,7 +1059,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"(a)\", \"\\$$1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1074,7 +1074,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"a\", \"\\\\\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1089,7 +1089,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"|$1$15|\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1104,7 +1104,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"$1520\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1119,7 +1119,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a)(b))))) ))))) )))))\", \"($14.$15.$16.$17)\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1134,7 +1134,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1149,7 +1149,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones', 's')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1164,7 +1164,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"Now, let's SEND OUT for QUICHE!!\", \"[A-Z][A-Z]+\", \"$0$0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1179,7 +1179,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"12-34\", \"^\\d+(-(\\d+))?$\", \"$2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1194,7 +1194,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace('abc', '^.+?(b+)?$', '$1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1209,7 +1209,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace('abcd', '^a(.).$|^a...$', '$1')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1224,7 +1224,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a/b/c\", \"/\", \"\\\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1239,7 +1239,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a\\b\\c\", \"\\\", \"\\\\\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1254,7 +1254,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1269,7 +1269,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$'\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1284,7 +1284,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"a/b/c\", \"/\", \"$`\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1299,7 +1299,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:replace(\"abracadabra\", \"((((( ((((( (((((a))))) ))))) )))))\", \"$1$1\", \"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1314,7 +1314,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace('abcdefghijk', '(a)|(b)|(c)|(d)|(e)|(f)|(g)|(h)|(i)|(j)', '$1')
       ",
    Qry1 = Qry,
@@ -1330,7 +1330,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'fn-replace-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace('10%', '^\\d*\\.?\\d+', '')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1345,7 +1345,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1360,7 +1360,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", (), \"replacement\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1375,7 +1375,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"pattern\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1390,7 +1390,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \"X\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1405,7 +1405,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"pattern\", \"replacement\", \"\", ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1420,7 +1420,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid\\\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1435,7 +1435,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"(input)\", \"thisIsInvalid$\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1450,7 +1450,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid\\ \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1465,7 +1465,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K-ReplaceFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"input\", \"in\", \"thisIsInvalid$ \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1480,7 +1480,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"a a a \", \"(a )\", \"replacment: \\1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1495,7 +1495,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"a a a \", \"(a )\", \"replacment: \\1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1510,7 +1510,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abcd\", \"(a)\\2(b)\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1525,7 +1525,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abcd\", \"(asd)[\\1]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1540,7 +1540,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abcd\", \"(asd)[asd\\1]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1555,7 +1555,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abcd\", \"(asd)[asd\\0]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1570,7 +1570,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"abcd\", \"1[asd\\0]\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1585,7 +1585,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'K2-ReplaceFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:doReplace($input as xs:string?, $pattern as xs:string, $replacement as xs:string) as xs:string { 
             fn:replace($input, $pattern, $replacement) 
@@ -1623,7 +1623,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-replace-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       boolean(replace(if(exists((1 to 10)[. mod 2 = 0])) then \"blah\" else (),\"a\",\"e\",\"m\"))
    ",
@@ -1640,7 +1640,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-replace-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "replace(\"a\",\"\",\"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1655,7 +1655,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-replace-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\")
       ",
@@ -1672,7 +1672,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-replace-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")
       ",
@@ -1689,7 +1689,7 @@ abracadabra\", \"\\n\",\"with\")",
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-replace-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),\",\"),\"\",\"c\",\"m\")
       ",

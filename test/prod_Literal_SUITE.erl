@@ -181,7 +181,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -525,7 +525,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'Literals001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"test\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -540,7 +540,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Literals002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'test'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -555,7 +555,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Literals003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"line1
 line2\"",
    Qry1 = Qry,
@@ -572,7 +572,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'line1
 line2'",
    Qry1 = Qry,
@@ -589,7 +589,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result>{ (\"test1\", \"test2\") }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'test\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"test'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,7 +664,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -679,7 +679,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -694,7 +694,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535032.0023",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -709,7 +709,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -724,7 +724,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -739,7 +739,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.65535032",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -754,7 +754,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -769,7 +769,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535.032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -784,7 +784,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -799,7 +799,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -814,7 +814,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.65535032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -829,7 +829,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535.032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,7 +859,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -874,7 +874,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.65535032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -889,7 +889,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-65535.032e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -904,7 +904,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-65535.032e-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -919,7 +919,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -934,7 +934,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535.032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -949,7 +949,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -964,7 +964,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -979,7 +979,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.65535032E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -994,7 +994,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535.032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1009,7 +1009,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1024,7 +1024,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1039,7 +1039,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.65535032E-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1054,7 +1054,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "65535032.001.01",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1069,7 +1069,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "..01",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1084,7 +1084,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1099,7 +1099,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-.0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1114,7 +1114,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+.0.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1129,7 +1129,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1e 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1144,7 +1144,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1159,7 +1159,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1174,7 +1174,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1189,7 +1189,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 e 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1204,7 +1204,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1219,7 +1219,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1e2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1234,7 +1234,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1E2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1249,7 +1249,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.1.1e2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1264,7 +1264,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.1.1.E2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1279,7 +1279,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1ee2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1294,7 +1294,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1EE2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1309,7 +1309,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1eE2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1324,7 +1324,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1e2e3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1339,7 +1339,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1e-2.1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1354,7 +1354,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&amp;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1369,10 +1369,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals056a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&quot;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1387,10 +1387,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals057a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&apos;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1405,10 +1405,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals058a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&lt;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,10 +1423,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals059a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&gt;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1441,10 +1441,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals060a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#8364;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1459,10 +1459,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals061a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Literals062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1477,7 +1477,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "''''",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1492,7 +1492,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"He said, \"\"I don't like it.\"\"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1507,7 +1507,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'He said, \"I don''t like it.\"'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1522,7 +1522,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<test>{ 'He said, \"I don''t like it.\"' }</test>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1537,7 +1537,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<test check='He said, \"I don''t like it.\"' />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1552,7 +1552,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text{ 'He said, \"I don''t like it.\"' }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1567,7 +1567,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'Literals069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text{ \"He said, \"\"I don't like it.\"\"\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1582,7 +1582,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'fo''o' eq 'fo''o'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1597,7 +1597,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'foo' eq \"foo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1612,7 +1612,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'f'oo'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1627,7 +1627,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"\"\"\" eq '\"'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1642,7 +1642,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'''' eq \"'\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1657,7 +1657,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"fo\"\"o\" eq concat(\"fo\", \"\"\"\", \"o\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1672,7 +1672,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"f\"oo\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1687,7 +1687,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3. eq 3.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1702,7 +1702,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".3 eq .3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1717,7 +1717,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.3e-3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1732,7 +1732,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.e+3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1747,7 +1747,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1762,7 +1762,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1231.123e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1777,7 +1777,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.E3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1792,7 +1792,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1231.123e3 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1807,7 +1807,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1822,7 +1822,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3.3 instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1837,7 +1837,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3.3e1 instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1852,7 +1852,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a xs:string\" instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1867,7 +1867,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1882,7 +1882,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1897,7 +1897,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"NaN\") instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1912,7 +1912,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 >E 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1927,7 +1927,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "33\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1942,7 +1942,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 + 3!#",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1957,7 +1957,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "432f542",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1972,7 +1972,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".54.45",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1987,7 +1987,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0.3 eq .3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2002,7 +2002,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2017,7 +2017,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "{1}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2032,7 +2032,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2047,10 +2047,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-31a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'K-Literals-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2065,7 +2065,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2080,7 +2080,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#1233a98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2095,7 +2095,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#1233.98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2110,7 +2110,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#1233 98;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2125,7 +2125,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"t\" eq \"t\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2140,7 +2140,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#x;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2155,7 +2155,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#x543.3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2170,7 +2170,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#x543g3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2185,7 +2185,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#x543 3;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2200,7 +2200,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &LT;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2215,7 +2215,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &lte;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2230,7 +2230,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2245,7 +2245,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string &#x;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2260,7 +2260,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&lt; &gt; &amp; &quot; &apos; &#x48; &#48;\" eq \"< > &amp; \"\" ' &#x48; &#48;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2275,7 +2275,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"t\" eq \"&#x74;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2290,10 +2290,10 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-47a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'K-Literals-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#X4A;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2308,7 +2308,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"I love brownies&amp;cookies.\" eq \"I love brownies&amp;cookies.\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2323,7 +2323,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K-Literals-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 &lt;= 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2338,7 +2338,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#x00;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2353,7 +2353,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2368,7 +2368,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#0000045;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2383,7 +2383,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2406,7 +2406,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2429,7 +2429,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2456,7 +2456,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2483,7 +2483,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999E100000000000000000000000000000000000000000000000000000000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2506,7 +2506,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999E100000000000000000000000000000000000000000000000000000000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2529,7 +2529,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2552,7 +2552,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2575,7 +2575,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2598,7 +2598,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2621,7 +2621,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2644,7 +2644,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2667,7 +2667,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<p>FA&#xFF000000F6;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2682,7 +2682,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<p>FA&#4294967542;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2697,7 +2697,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<p>FA&#xFFFFFFFF000000F6;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2712,7 +2712,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<p>FA&#18446744073709551862;IL</p>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2727,7 +2727,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 ; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2742,7 +2742,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0x20",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2757,7 +2757,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#x-20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2772,7 +2772,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#-20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2787,7 +2787,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#x+20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2802,7 +2802,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#+20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2817,7 +2817,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#2A0;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2832,7 +2832,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#xW20;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2847,7 +2847,7 @@ line2") of
       Err -> ct:fail(Err)
    end.
 'K2-Literals-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-Literals-28                                  :)
 (: Written by: Frans Englich                             :)
@@ -2874,7 +2874,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"&#0xA;\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2889,7 +2889,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2904,7 +2904,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ". 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2919,7 +2919,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "465.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2934,7 +2934,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2949,7 +2949,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://example.com/\";",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2964,7 +2964,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "module namespace prefix = \"http://example.com\"; declare function prefix:myFunction() { 1 };",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2987,7 +2987,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "module namespace prefix = \"http://www.example.com/\";",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3010,7 +3010,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import gt import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3025,7 +3025,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema gt schema",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3040,7 +3040,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'K2-Literals-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-Literals-39                                  :)
 (: Written by: Frans Englich                             :)
@@ -3071,7 +3071,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#x100000000x'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3086,7 +3086,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#x100000000'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3101,7 +3101,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#x;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3116,7 +3116,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#x0;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3131,7 +3131,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#100000000x'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3146,7 +3146,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#100000000'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3161,7 +3161,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3176,7 +3176,7 @@ string literal
       Err -> ct:fail(Err)
    end.
 'cbcl-literals-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'&#x0;'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

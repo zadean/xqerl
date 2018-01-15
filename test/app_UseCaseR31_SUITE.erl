@@ -32,7 +32,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -294,7 +294,7 @@ environment('sales-json',BaseDir) ->
 {modules, []}
 ].
 'UseCaseR31-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $e in /employees/employee,
     $d in $e/department
@@ -333,7 +333,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $e in /employees/employee,
     $d in $e/department
@@ -366,7 +366,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "   <out>  {
 for $employee in /employees/employee
 let $salary := $employee/salary
@@ -422,7 +422,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 
@@ -480,7 +480,7 @@ return map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
       declare variable $book:= (<book>
@@ -527,7 +527,7 @@ declare variable $author := (<author>
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:play(
   $secret-number as xs:integer,
   $guessed-number as xs:integer,
@@ -564,7 +564,7 @@ local:play(76, 86, map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -594,7 +594,7 @@ local:play(76, 86, map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -624,7 +624,7 @@ declare variable $index := map { \"pos\" : 2, \"lemma\" : 1 };
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -661,7 +661,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -720,7 +720,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -760,7 +760,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
  ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
@@ -812,7 +812,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
               declare variable $span := <root><span class=\"ocr_word\" title=\"bbox 1388 430 1461 474\">the</span>
 <span class=\"ocr_word\" title=\"bbox 1514 433 1635 476\">other</span>
@@ -843,7 +843,7 @@ declare function local:extract-text($spans)
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/mildred-json\")?phone?*[?type = 'mobile']?number",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-docs',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -859,7 +859,7 @@ declare function local:extract-text($spans)
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare namespace map = \"http://www.w3.org/2005/xpath-functions/map\";
 declare namespace array = \"http://www.w3.org/2005/xpath-functions/array\";
@@ -894,7 +894,7 @@ return
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 
 declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()*
@@ -949,7 +949,7 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       for $sarah in collection($users-collection-uri),
           $friend in collection($users-collection-uri)
@@ -971,7 +971,7 @@ local:deep-put(json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json\"),
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 Q{http://www.w3.org/2005/xpath-functions/map}merge(
   for $sales in collection($sales-collection-uri)
@@ -998,7 +998,7 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
       declare variable $storesVar := array { unparsed-text-lines(\"UseCaseR31/stores.json\") ! parse-json(.) };
@@ -1054,7 +1054,7 @@ Q{http://www.w3.org/2005/xpath-functions/map}merge(
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 let $sats := json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/satellites-json\")(\"satellites\")
 return map {
@@ -1087,7 +1087,7 @@ return map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "array {
  for $page in doc(\"UseCaseR31/Wikipedia-Origami.xml\")//page
  return map {
@@ -1126,7 +1126,7 @@ return map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
   <html><body><table>
     <tr> (: Column headings :)
@@ -1186,7 +1186,7 @@ return map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
   <table>{
   for tumbling window $w in json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/colors-json\")?colors?*
@@ -1214,7 +1214,7 @@ return map {
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
   let $dbj := json-doc(\"http://www.w3.org/qt3/app/UseCaseR31/users2-json\")[ .(\"name\") = \"Deadbeat Jim\" ]
@@ -1239,7 +1239,7 @@ return map:put($dbj, \"status\", \"credit card declined\")
       Err -> ct:fail(Err)
    end.
 'UseCaseR31-034-err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
   let $mf := function($k as node(), $v) {
                 map{$k('book') : $v}

@@ -94,7 +94,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -399,7 +399,7 @@ environment('e-1',BaseDir) ->
 {modules, []}
 ].
 'fn-ceilingint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:int(\"-2147483648\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -415,7 +415,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:int(\"-1873914410\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -431,7 +431,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:int(\"2147483647\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -447,7 +447,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:integer(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -463,7 +463,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:integer(\"830993497117024304\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -479,7 +479,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:integer(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -495,7 +495,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:decimal(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -511,7 +511,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:decimal(\"617375191608514839\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -527,7 +527,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:decimal(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -543,7 +543,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:double(\"-1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -559,7 +559,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:double(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -575,7 +575,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingdbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:double(\"1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -591,7 +591,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:float(\"-3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -607,7 +607,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:float(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -623,7 +623,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:float(\"3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -639,7 +639,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilinglng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:long(\"-92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -655,7 +655,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilinglng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:long(\"-47175562203048468\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -671,7 +671,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilinglng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:long(\"92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -687,7 +687,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedShort(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -703,7 +703,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedShort(\"44633\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -719,7 +719,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedShort(\"65535\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -735,7 +735,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:negativeInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -751,7 +751,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:negativeInteger(\"-297014075999096793\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -767,7 +767,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:negativeInteger(\"-1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -783,7 +783,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingpint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:positiveInteger(\"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -799,7 +799,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingpint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:positiveInteger(\"52704602390610033\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -815,7 +815,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingpint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:positiveInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -831,7 +831,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedLong(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -847,7 +847,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedLong(\"130747108607674654\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -863,7 +863,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:unsignedLong(\"184467440737095516\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -879,7 +879,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonPositiveInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -895,7 +895,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonPositiveInteger(\"-475688437271870490\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -911,7 +911,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonPositiveInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -927,7 +927,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonNegativeInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -943,7 +943,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonNegativeInteger(\"303884545991464527\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -959,7 +959,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingnni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:nonNegativeInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -975,7 +975,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingsht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:short(\"-32768\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -991,7 +991,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingsht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:short(\"-5324\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1007,7 +1007,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceilingsht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:ceiling(xs:short(\"32767\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1023,7 +1023,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling()",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1039,7 +1039,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(1, 2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1055,7 +1055,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(ceiling(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1071,7 +1071,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(10.5) eq 11",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1087,7 +1087,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-10.5) eq -10",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1103,7 +1103,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CeilingFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(\"a string\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1119,7 +1119,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:unsignedShort(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1135,7 +1135,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:unsignedLong(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1151,7 +1151,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:unsignedInt(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1167,7 +1167,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:unsignedByte(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1183,7 +1183,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:positiveInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1199,7 +1199,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:nonPositiveInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1215,7 +1215,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:nonNegativeInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1231,7 +1231,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:negativeInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1247,7 +1247,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:long(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1263,7 +1263,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:int(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1279,7 +1279,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:short(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1295,7 +1295,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CeilingFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:byte(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1311,7 +1311,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) return 
            if ((ceiling($x)) instance of xs:integer) then \"integer\" 
            else if ((ceiling($x)) instance of xs:decimal) then \"decimal\" 
@@ -1332,7 +1332,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(12.5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1355,7 +1355,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(12.9)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1378,7 +1378,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(0.000000001)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1401,7 +1401,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(0.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1424,7 +1424,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-0.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1447,7 +1447,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-12345678.567890)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1470,7 +1470,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-decimal-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-1234567891234567.2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1493,7 +1493,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(12.5e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1516,7 +1516,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(12.9e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1539,7 +1539,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(0.000000001e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1562,7 +1562,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(0.0e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1585,7 +1585,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-0.1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1612,7 +1612,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-12345678.567890e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1635,7 +1635,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(-1234567891234567.2e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1658,7 +1658,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:double('NaN'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1681,7 +1681,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:double('INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1704,7 +1704,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:double('-INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1727,7 +1727,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-double-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:double('-0'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1750,7 +1750,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(12.5e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1773,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(12.9e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1796,7 +1796,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(0.000000001e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1819,7 +1819,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(0.0e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1842,7 +1842,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(-0.1e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1869,7 +1869,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(-12345678.1e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1892,7 +1892,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(-1234567.2e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1915,7 +1915,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(xs:float('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1938,7 +1938,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(xs:float('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1961,7 +1961,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(xs:float('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1984,7 +1984,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-ceiling-float-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ceiling(xs:float(xs:float('-0')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

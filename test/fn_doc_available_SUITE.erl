@@ -24,7 +24,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -211,7 +211,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-doc-available-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(\"http://example.com\",\"string 2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -226,7 +226,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(xs:integer(2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -241,7 +241,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/XMLIdDuplicated.xml"),"",filename:join(BaseDir, "id/XMLIdDuplicated.xml")}]},
@@ -276,7 +276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available($uri)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "id/InvalidXMLId.xml"),"",filename:join(BaseDir, "id/InvalidXMLId.xml")}]},
@@ -311,7 +311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(document-uri(/))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(\"file:///a/b/c/wefdobqciyvdsoihnfcpinads.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -342,7 +342,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -357,7 +357,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-doc-available-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available(\"../prod/ModuleImport/module1-lib.xq\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -372,7 +372,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocAvailableFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc-available(':/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -395,7 +395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqDocAvailableFunc-1a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc-available(':/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -410,7 +410,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -425,10 +425,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XP30 XQ10 XQ30"}.
 'cbcl-doc-available-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( '%gg' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -451,7 +451,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( 'collection1' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -466,7 +466,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( 'http://www.example.org/%gg' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -489,7 +489,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( 'file:///%gg' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -512,7 +512,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-doc-available-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:doc-available( 'https://www.example.org/%gg' )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

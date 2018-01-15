@@ -166,7 +166,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -519,7 +519,7 @@ environment('durations',BaseDir) ->
 {modules, []}
 ].
 'cast-derived-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -534,7 +534,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -549,7 +549,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(-10.0) return $value cast as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -564,7 +564,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -579,7 +579,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -594,7 +594,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(-10.0) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -609,7 +609,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -624,7 +624,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -639,7 +639,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -654,7 +654,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -669,7 +669,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -684,7 +684,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -699,7 +699,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -714,7 +714,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:float(10.0) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -729,7 +729,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -744,7 +744,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -759,7 +759,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -789,7 +789,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -804,7 +804,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -819,7 +819,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-derived-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:double(10E2) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -834,7 +834,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:decimal(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -849,7 +849,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -864,7 +864,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:nonPositiveInteger(-10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -879,7 +879,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -894,7 +894,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:nonNegativeInteger(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -909,7 +909,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:negativeInteger(-10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -924,7 +924,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:int(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -939,7 +939,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:unsignedLong(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -954,7 +954,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:positiveInteger(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -969,7 +969,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:short(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -984,7 +984,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:unsignedInt(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -999,7 +999,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:unsignedShort(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1014,7 +1014,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:unsignedByte(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1029,7 +1029,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:byte(10.0) return $value cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1044,7 +1044,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:decimal(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1059,7 +1059,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1074,7 +1074,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:positiveInteger(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1089,7 +1089,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1104,7 +1104,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:int(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1119,7 +1119,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:unsignedLong(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1134,7 +1134,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-to-parent-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:short(10E2) return $value cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1149,7 +1149,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(-10.0) return $value cast as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1164,7 +1164,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1179,7 +1179,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1194,7 +1194,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(-10.0) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1209,7 +1209,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1224,7 +1224,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1239,7 +1239,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1254,7 +1254,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1269,7 +1269,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1284,7 +1284,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1299,7 +1299,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1314,7 +1314,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:integer(10.0) return $value cast as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1329,7 +1329,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1344,7 +1344,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10.0) return $value cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1359,7 +1359,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(-10) return $value cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1374,7 +1374,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1389,7 +1389,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1404,7 +1404,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1419,7 +1419,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1434,7 +1434,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1449,7 +1449,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cast-within-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $value := xs:long(10) return $value cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1464,10 +1464,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-derived-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'cbcl-cast-byte-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(128)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1482,7 +1482,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-byte-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(-129)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1497,7 +1497,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-byte-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"128\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1512,7 +1512,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-byte-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"-129\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1527,7 +1527,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-date-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-25252734927766555-06-06\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1542,7 +1542,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-date-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"25252734927766555-07-29\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1557,7 +1557,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dateTime-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-25252734927766555-06-06T00:00:00Z\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1572,7 +1572,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dateTime-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"25252734927766555-07-29T00:00:00Z\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1587,7 +1587,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dayTimeDuration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P11768614336404564651D\" cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1602,7 +1602,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dayTimeDuration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P11768614336404564651D\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1617,7 +1617,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-decimal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.7976931348623157E+308 cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1640,7 +1640,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-decimal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1.7976931348623157E+308 cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1663,7 +1663,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-decimal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('3.402823e38') cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1686,7 +1686,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-decimal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('-3.402823e38') cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1709,7 +1709,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-duration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1724,7 +1724,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-duration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P768614336404564651Y\" cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1739,7 +1739,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-entity-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName('entity') cast as xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1754,7 +1754,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-entity-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() cast as xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1769,7 +1769,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-id-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName('id') cast as xs:ID",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1784,7 +1784,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-id-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() cast as xs:ID",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1799,7 +1799,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-idref-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName('idref') cast as xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1814,7 +1814,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-idref-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() cast as xs:IDREF",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1829,7 +1829,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-int-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(2147483648)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1844,7 +1844,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-int-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(-2147483649)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1859,7 +1859,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-int-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1874,7 +1874,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-int-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483649\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1889,7 +1889,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-integer-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.7976931348623157E+308 cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1912,7 +1912,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-integer-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-1.7976931348623157E+308 cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1935,7 +1935,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-integer-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('3.402823e38') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1958,7 +1958,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-integer-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('-3.402823e38') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1981,7 +1981,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-language-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language('en-gb') cast as xs:language",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1996,7 +1996,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-long-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(9223372036854775808)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2019,7 +2019,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-long-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(-9223372036854775809)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2042,7 +2042,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-long-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"9223372036854775808\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2057,7 +2057,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-long-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-9223372036854775809\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2072,7 +2072,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-name-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName('NCName') cast as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2087,7 +2087,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-name-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() cast as xs:Name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-ncname-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:ID('id') cast as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2117,7 +2117,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-ncname-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:current-time() cast as xs:NCName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2132,7 +2132,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-negativeInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2147,7 +2147,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-negativeInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2162,7 +2162,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nmtoken-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $string := (\"&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;\" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)",
    Qry1 = Qry,
@@ -2178,10 +2178,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nmtoken-001b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-cast-nmtoken-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN('NMTOKEN') cast as xs:NMTOKEN",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2196,7 +2196,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonNegativeInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2211,7 +2211,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonNegativeInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2226,7 +2226,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonPositiveInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2241,7 +2241,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonPositiveInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2256,7 +2256,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-normalizedString-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $string in (\"&#xD; foo &#x9; bar &#xA;\" cast as xs:normalizedString)
         return not(contains($string, '&#x9;') or 
@@ -2276,10 +2276,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-normalizedString-001b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-cast-positiveInteger-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2294,7 +2294,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-positiveInteger-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2309,7 +2309,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-short-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(32768)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2324,7 +2324,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-short-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(-32769)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2339,7 +2339,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-short-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2354,7 +2354,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-short-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32769\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2369,7 +2369,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-token-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $string in (\"&#xD; foo &#x9; bar &#xA;\" cast as xs:token) 
         return not(contains($string, '&#x9;') or 
@@ -2389,10 +2389,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-token-001b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'cbcl-cast-unsignedByte-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(256)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2407,7 +2407,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedByte-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2422,7 +2422,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedByte-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"256\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2437,7 +2437,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedByte-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2452,7 +2452,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedInt-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(4294967296)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2467,7 +2467,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedInt-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2482,7 +2482,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedInt-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"4294967296\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2497,7 +2497,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedInt-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2512,7 +2512,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedLong-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(18446744073709551616)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2535,7 +2535,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedLong-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2550,7 +2550,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedLong-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"18446744073709551616\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2565,7 +2565,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedLong-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2580,7 +2580,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedShort-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(65536)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2595,7 +2595,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedShort-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2610,7 +2610,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedShort-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"65536\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2625,7 +2625,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedShort-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2640,7 +2640,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-yearMonthDuration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-P768614336404564651Y\" cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2655,7 +2655,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-yearMonthDuration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"P768614336404564651Y\" cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2670,7 +2670,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-date-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"18446744073709551616-05-15\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2685,7 +2685,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-date-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"18446744073709551616-QQ-15\" cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2708,7 +2708,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dateTime-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"18446744073709551616-05-15T16:15:00\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2723,7 +2723,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-dateTime-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"18446744073709551616-QQ-15T16:15:00\" cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2746,7 +2746,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonNegativeInteger-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2761,7 +2761,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-nonPositiveInteger-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"+00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2776,7 +2776,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedByte-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2791,7 +2791,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedInt-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2806,7 +2806,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedLong-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2821,7 +2821,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-unsignedShort-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2836,7 +2836,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2851,7 +2851,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYearMonth-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999-01\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2866,7 +2866,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYearMonth-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"99999999999999999999999999999-XX\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2881,7 +2881,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2896,7 +2896,7 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-0000\" cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2911,10 +2911,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYear-003a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-cast-gYearMonth-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"0000-05\" cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2929,10 +2929,10 @@ environment('durations',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-cast-gYearMonth-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'cbcl-case-anyUri-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"http://example.com?query=\" cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

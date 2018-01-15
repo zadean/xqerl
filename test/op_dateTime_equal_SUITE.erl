@@ -80,7 +80,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -335,7 +335,7 @@ environment('union-List-defined-Types',BaseDir) ->
 {modules, []}
 ].
 'op-dateTime-equal2args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -350,7 +350,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -365,7 +365,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") eq xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -380,7 +380,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -395,7 +395,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") eq xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -410,7 +410,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -425,7 +425,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -440,7 +440,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") ne xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -455,7 +455,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -470,7 +470,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ne xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -485,7 +485,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -500,7 +500,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -515,7 +515,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") le xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -530,7 +530,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") le xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,7 +575,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1996-04-07T01:40:52Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -590,7 +590,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2030-12-31T23:59:59Z\") ge xs:dateTime(\"1970-01-01T00:00:00Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"1996-04-07T01:40:52Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -620,7 +620,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'op-dateTime-equal2args-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1970-01-01T00:00:00Z\") ge xs:dateTime(\"2030-12-31T23:59:59Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -635,7 +635,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2004-08-12T23:01:04.12\") eq xs:dateTime(\"2004-08-12T23:01:04.12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -650,7 +650,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2004-08-12T23:01:04.12\") eq xs:dateTime(\"2004-08-12T23:01:04.13\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -665,7 +665,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2004-08-12T23:01:05.12\") ne xs:dateTime(\"2004-08-12T23:01:04.12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -680,7 +680,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2004-07-12T23:01:04.12\") ne xs:dateTime(\"2004-07-12T23:01:04.12\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -695,7 +695,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345-00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -710,7 +710,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345+00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -725,7 +725,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345Z\") eq xs:dateTime(\"1999-12-04T16:00:12.345Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -740,7 +740,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T16:00:12.345-00:00\") eq xs:dateTime(\"1999-12-04T16:00:12.345+00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -755,7 +755,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") eq xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -770,7 +770,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ne xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -785,7 +785,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") le xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -800,7 +800,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") lt xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -815,7 +815,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ge xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -830,7 +830,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") gt xs:date(\"1999-12-04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -845,7 +845,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") eq xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -860,7 +860,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") ne xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -875,7 +875,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") le xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -890,7 +890,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") lt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -905,7 +905,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") ge xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -920,7 +920,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-04\") gt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -935,7 +935,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") eq xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -950,7 +950,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ne xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -965,7 +965,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") le xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -980,7 +980,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") lt xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -995,7 +995,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") ge xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1010,7 +1010,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-04T12:12:23\") gt xs:time(\"22:12:04\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1025,7 +1025,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") eq xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1040,7 +1040,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") ne xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1055,7 +1055,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") le xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1070,7 +1070,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") lt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1085,7 +1085,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") ge xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1100,7 +1100,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-DateTimeEQ-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"22:12:04\") gt xs:dateTime(\"1999-12-04T12:12:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1115,7 +1115,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DateTimeEQ-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-03-06T00:00:00Z\") ne xs:dateTime(\"2002-03-05T00:00:00+03:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1130,7 +1130,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -1154,7 +1154,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	xs:dateTime(\"2008-01-30T00:01:00\") eq xs:dateTime(\"2008-01-31T01:00:00+09:00\")
       ",
@@ -1171,7 +1171,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") eq xs:dateTime(\"2008-01-30T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1186,7 +1186,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00\") eq xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1201,7 +1201,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") eq xs:dateTime(\"2008-01-31T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1216,7 +1216,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:two-digit($number as xs:integer) { 
       		let $string := string($number) 
@@ -1240,7 +1240,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-30T00:01:00\") ne xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1255,7 +1255,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") ne xs:dateTime(\"2008-01-30T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1270,7 +1270,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00\") ne xs:dateTime(\"2008-01-31T00:01:00+09:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1285,7 +1285,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2008-01-31T00:01:00+09:00\") ne xs:dateTime(\"2008-01-31T00:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1300,7 +1300,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:true()) eq xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1315,7 +1315,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:false()) eq xs:dateTime(\"1972-12-15T12:00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1330,7 +1330,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:true()) ne xs:dateTime(\"1972-12-15T12:00:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1345,7 +1345,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime(\"1972-12-15T12:00:00\"), fn:false()) ne xs:dateTime(\"1972-12-15T12:00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1360,7 +1360,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { 
       		xs:dateTime( concat($dateTime, $timezone) ) 
@@ -1381,7 +1381,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { 
       		xs:dateTime( concat($dateTime, $timezone) ) 
@@ -1402,7 +1402,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-15T00:00:00+12:00\") eq xs:dateTime(\"1972-12-15T00:00:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1417,7 +1417,7 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-dateTime-equal-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1972-12-15T00:00:00+12:00\") ne xs:dateTime(\"1972-12-15T00:00:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1432,8 +1432,8 @@ environment('union-List-defined-Types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UnionType-equal-01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'UnionType-equal-02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

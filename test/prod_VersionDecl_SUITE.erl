@@ -57,7 +57,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -289,7 +289,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'version_declaration-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space preserve; xquery version \"1.0\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -304,7 +304,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -319,10 +319,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-VersionProlog-3-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" default; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -337,10 +337,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-022-v1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'version_declaration-022-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery encoding \"utf-8\" version \"3.0\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -355,10 +355,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-023-v1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-VersionProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:encoding \"UTF-8XX\":)xquery version \"1.0\" encoding \"UTF-8\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,7 +381,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(:encoding \"utf-8xx\":)xquery version \"1.0\"; <bib/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -404,7 +404,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"1.0\" (:encoding \"utf-8xx\":); 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -427,7 +427,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '-1.0'; 2 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -442,7 +442,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"abc\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -457,7 +457,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"2.0\"; 1.2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -480,10 +480,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VersionDecl-v1-processor-and-v3-query'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'VersionDecl-v3-processor-and-v1-query'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"1.0\"; <bib/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,10 +506,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'version_declaration-010-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"999-UTF-8-*\"; \"ABC\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,10 +524,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-VersionProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-VersionProlog-3-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"UTF-8 \"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -542,10 +542,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-VersionProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-VersionProlog-4-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"ISO-8859-1|\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,10 +560,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-VersionProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-VersionProlog-2-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" ; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -578,7 +578,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-VersionProlog-2-v31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.1\" ; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -593,10 +593,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-4-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -611,7 +611,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-4-v31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.1\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -626,10 +626,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-5-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\"; <bib/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -644,7 +644,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-5-v31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.1\"; <bib/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -659,10 +659,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-6-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xquery version '3.0'; 
         declare boundary-space preserve; 
@@ -684,7 +684,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-6-v31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          xquery version '3.1'; 
          declare boundary-space preserve; 
@@ -706,10 +706,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-7-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xquery version \"3.0\"; 
         declare boundary-space preserve; 
@@ -731,7 +731,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-7-v31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          xquery version \"3.1\"; 
          declare boundary-space preserve; 
@@ -753,13 +753,13 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'prolog-version-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-1-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"utf-8\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,10 +774,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'prolog-version-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'prolog-version-3-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"3.0\" encoding \"US-ASCII\"; 1,2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,10 +792,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-VersionProlog-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-VersionProlog-5-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         xquery version \"3.0\" encoding \"ISO-8859-1\"; 
         declare boundary-space preserve; 
@@ -823,7 +823,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'version_declaration-023-v3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery encoding \"utf-8\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -838,7 +838,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'xquery version \"1.0\" encoding \"UTF-8|#%\";' eq 'xquery version \"1.0\" encoding \"UTF-8|#%\";'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -853,7 +853,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"xquery version '1.0' encoding 'UTF-8|#%';\" eq \"xquery version '1.0' encoding 'UTF-8|#%';\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -868,7 +868,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-3-v4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '1&#x2e;0' encoding 'UTF-8'; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -883,7 +883,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "encoding :localName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -898,7 +898,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery gt xquery",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -913,7 +913,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-VersionProlog-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '1.0' encoding 'UTF&#x2d;8'; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

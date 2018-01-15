@@ -95,7 +95,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -401,7 +401,7 @@ environment('e-1',BaseDir) ->
 {modules, []}
 ].
 'fn-floorint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:int(\"-2147483648\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -417,7 +417,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:int(\"-1873914410\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -433,7 +433,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:int(\"2147483647\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -449,7 +449,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorintg1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:integer(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -465,7 +465,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorintg1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:integer(\"830993497117024304\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -481,7 +481,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorintg1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:integer(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -497,7 +497,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordec1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:decimal(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -513,7 +513,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordec1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:decimal(\"617375191608514839\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -529,7 +529,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordec1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:decimal(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -545,7 +545,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordbl1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:double(\"-1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -561,7 +561,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordbl1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:double(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -577,7 +577,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floordbl1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:double(\"1.7976931348623157E308\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -593,7 +593,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorflt1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:float(\"-3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -609,7 +609,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorflt1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:float(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -625,7 +625,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorflt1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:float(\"3.4028235E38\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -641,7 +641,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorlng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:long(\"-92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -657,7 +657,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorlng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:long(\"-47175562203048468\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -673,7 +673,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorlng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:long(\"92233720368547758\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -689,7 +689,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorusht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedShort(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -705,7 +705,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorusht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedShort(\"44633\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -721,7 +721,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorusht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedShort(\"65535\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -737,7 +737,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:negativeInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -753,7 +753,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:negativeInteger(\"-297014075999096793\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -769,7 +769,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:negativeInteger(\"-1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -785,7 +785,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorpint1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:positiveInteger(\"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -801,7 +801,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorpint1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:positiveInteger(\"52704602390610033\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -817,7 +817,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorpint1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:positiveInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -833,7 +833,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorulng1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedLong(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -849,7 +849,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorulng1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedLong(\"130747108607674654\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -865,7 +865,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorulng1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:unsignedLong(\"184467440737095516\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -881,7 +881,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornpi1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonPositiveInteger(\"-999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -897,7 +897,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornpi1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonPositiveInteger(\"-475688437271870490\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -913,7 +913,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornpi1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonPositiveInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -929,7 +929,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornni1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonNegativeInteger(\"0\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -945,7 +945,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornni1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonNegativeInteger(\"303884545991464527\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -961,7 +961,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floornni1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:nonNegativeInteger(\"999999999999999999\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -977,7 +977,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorsht1args-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:short(\"-32768\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -993,7 +993,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorsht1args-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:short(\"-5324\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1009,7 +1009,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floorsht1args-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:floor(xs:short(\"32767\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1025,7 +1025,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor()",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1041,7 +1041,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(1, 2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1057,7 +1057,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(floor(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1073,7 +1073,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(10.5) eq 10",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1089,7 +1089,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-10.5) eq -11",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1105,7 +1105,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FloorFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(\"a string\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('emptydoc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1121,7 +1121,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:unsignedShort(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1137,7 +1137,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:unsignedShort(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1153,7 +1153,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:unsignedLong(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1169,7 +1169,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:unsignedInt(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1185,7 +1185,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:unsignedByte(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1201,7 +1201,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:positiveInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1217,7 +1217,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:nonPositiveInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1233,7 +1233,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:nonNegativeInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1249,7 +1249,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:negativeInteger(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1265,7 +1265,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:long(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1281,7 +1281,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:int(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1297,7 +1297,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:short(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1313,7 +1313,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FloorFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:byte(.)) instance of xs:integer",
    {Env,Opts} = xqerl_test:handle_environment(environment('e0',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1329,7 +1329,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1, xs:decimal(2), xs:float(3), xs:double(4)) return 
            if ((floor($x)) instance of xs:integer) then \"integer\" 
            else if ((floor($x)) instance of xs:decimal) then \"decimal\" 
@@ -1350,7 +1350,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(12.5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1373,7 +1373,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(12.9)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1396,7 +1396,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(0.000000001)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1419,7 +1419,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(0.0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1442,7 +1442,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-0.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1465,7 +1465,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-12345678.567890)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-decimal-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-1234567891234567.2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1511,7 +1511,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(12.5e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1534,7 +1534,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(12.9e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1557,7 +1557,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(0.000000001e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1580,7 +1580,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(0.0e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1603,7 +1603,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-0.1e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1626,7 +1626,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-12345678.567890e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1649,7 +1649,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(-1234567891234567.2e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1672,7 +1672,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:double('NaN'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1695,7 +1695,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:double('INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1718,7 +1718,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:double('-INF'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1741,7 +1741,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-double-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:double('-0'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1764,7 +1764,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(12.5e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1787,7 +1787,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(12.9e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1810,7 +1810,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(0.000000001e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1833,7 +1833,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(0.0e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1856,7 +1856,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(-0.1e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1879,7 +1879,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(-12345678.567890e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1902,7 +1902,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(-1234567.2e0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1925,7 +1925,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(xs:float('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1948,7 +1948,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(xs:float('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1971,7 +1971,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(xs:float('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1994,7 +1994,7 @@ environment('e-1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-floor-float-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "floor(xs:float(xs:float('-0')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -38,7 +38,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -254,7 +254,7 @@ environment('GroupByUseCases',BaseDir) ->
 {modules, []}
 ].
 'group-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in 1 to 100 
             let $key := $x mod 10 
@@ -277,7 +277,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-001a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in 1 to 100 
             group by $key := $x mod 10 
@@ -299,7 +299,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/@gender 
@@ -324,7 +324,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             group by $key := $x/@gender 
@@ -348,7 +348,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := ($x/@gender = 'male') 
@@ -373,7 +373,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-003a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             group by $key := ($x/@gender = 'male') 
@@ -397,7 +397,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/@gender 
@@ -418,7 +418,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
             for $x in //employee 
             let $key := $x/hours 
@@ -439,7 +439,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -469,7 +469,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
             for $x in //employee 
             let $key := $x/hours[1] 
@@ -491,7 +491,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -515,7 +515,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -539,7 +539,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-009a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -562,7 +562,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee 
@@ -593,7 +593,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $a at $p in 1 to 10
         let $g := $p mod 2
@@ -613,7 +613,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <out>{ 
             for $x in //employee[age > 300] 
@@ -638,7 +638,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
        for $x in 1 to 10, $y in 1 to 4
        let $org_y := $y
@@ -666,7 +666,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $x := 1
          return
@@ -688,7 +688,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           for $x in (true(), \"true\", xs:QName(\"true\"))
           group by $x
@@ -707,7 +707,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
        count(
          for $y in 1 to 10
@@ -728,7 +728,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       count(
          for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
@@ -761,7 +761,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       count(
          for $y in (\"ax\", \"bx\", \"cx\", \"Ay\", \"By\", \"Cy\")
@@ -794,7 +794,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'group-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
            let $without_tz := xs:dateTime('2015-04-08T01:30:00') 
            let $with_tz := adjust-dateTime-to-timezone($without_tz, implicit-timezone())
@@ -814,7 +814,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <sales-qty-by-product>{
                  for $sales in $sales-records-doc/*/record
@@ -841,7 +841,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -871,7 +871,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -903,7 +903,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $store in $stores-doc/*/store
@@ -943,7 +943,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -973,7 +973,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $sales in $sales-records-doc/*/record
@@ -1003,7 +1003,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $book in $books-doc/*/book
@@ -1033,7 +1033,7 @@ environment('GroupByUseCases',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'use-case-groupby-Q8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
                <result>{
                  for $book in $books-doc/*/book

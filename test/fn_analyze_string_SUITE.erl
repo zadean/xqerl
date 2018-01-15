@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -257,7 +257,7 @@ environment('analyze-string-schema',BaseDir) ->
 {modules, []}
 ].
 'analyzeString-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"\", \"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -272,7 +272,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string((), \"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -287,7 +287,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-002a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(analyze-string((), \"abc\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -302,7 +302,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -317,7 +317,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"custard\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -332,7 +332,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \".+\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -347,7 +347,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"an\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -366,7 +366,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"a(n)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -381,7 +381,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(a(n?))\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -396,7 +396,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(how)|(now)|(brown)|(cow)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -411,7 +411,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(HOW)|(NOW)|(BROWN)|(COW)\", \"i\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -426,7 +426,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \" (HOW) | (NOW) 
 | (BROWN) | (COW) \", \"ix\")",
    Qry1 = Qry,
@@ -442,7 +442,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"how now brown cow\", \"(.*?ow\\s+)+\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -457,7 +457,7 @@ environment('analyze-string-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'analyzeString-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -480,7 +480,7 @@ it put its sooty foot</fn:match><fn:non-match>.</fn:non-match></fn:analyze-strin
       Err -> ct:fail(Err)
    end.
 'analyzeString-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -507,7 +507,7 @@ it put its sooty foot.\"
       Err -> ct:fail(Err)
    end.
 'analyzeString-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -534,7 +534,7 @@ it put its sooty foot.\"
       Err -> ct:fail(Err)
    end.
 'analyzeString-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in := 
 \"Mary had a little lamb,
 it's fleece was black as soot,
@@ -561,7 +561,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(b)(x?)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-017a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(b(x?))\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"banana\", \"(?:b(an)*a)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"((banana))\", \"(banana)\", \"q\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,13 +621,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'analyzeString-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'analyzeString-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $result := analyze-string(\"banana\", \"(b)(anana)\") return string($result)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $result := analyze-string(\"banana\", \"(b)(anana)\") return string($result/fn:match[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,13 +657,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'analyzeString-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'analyzeString-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(fn:analyze-string(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')/fn:non-match)/string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -678,7 +678,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one(fn:analyze-string(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')/fn:match)/string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -693,7 +693,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:namespaces($e as element(*)) as map(xs:string, xs:anyURI) {
            map:merge(in-scope-prefixes($e) ! map{. : namespace-uri-for-prefix(., $e)})
@@ -715,7 +715,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $data :=
            <Root>
@@ -787,7 +787,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"abc\", \")-(\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -802,7 +802,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"abc\", \"abc\", \"w\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -817,7 +817,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>") of
       Err -> ct:fail(Err)
    end.
 'analyzeString-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "analyze-string(\"abc\", \"a|b|c?\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

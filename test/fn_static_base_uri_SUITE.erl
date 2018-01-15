@@ -25,7 +25,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -213,7 +213,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-static-base-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:static-base-uri(\"A argument\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -228,7 +228,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"ftp://ftp.is.co.za/rfc/somefile.txt\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -243,7 +243,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"mailto:John.Doe@example.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -258,7 +258,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"news:comp.infosystems.www.servers.unix\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -273,7 +273,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"telnet://192.0.2.16:80/\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -288,7 +288,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"tel:+1-816-555-1212\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -303,7 +303,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"urn:oasis:names:specification:docbook:dtd:xml:4.1.2\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -318,7 +318,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:upper-case(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -333,7 +333,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:lower-case(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -348,7 +348,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:concat(fn:string(fn:static-base-uri()),\"another string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -363,7 +363,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:string-join((fn:string(fn:static-base-uri()),\"another string\"),\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -378,7 +378,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:string-length(fn:string(fn:static-base-uri()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -393,7 +393,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:substring-before(fn:string(fn:static-base-uri()),\":\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -408,7 +408,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:substring-after(fn:string(fn:static-base-uri()),\":\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -423,7 +423,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-static-base-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "static-base-uri()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -450,7 +450,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StaticBaseURIFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "static-base-uri(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -465,7 +465,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StaticBaseURIFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "static-base-uri(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -480,7 +480,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-StaticBaseURIFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(static-base-uri()) then true() else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

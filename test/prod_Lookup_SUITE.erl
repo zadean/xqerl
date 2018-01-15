@@ -108,7 +108,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -379,7 +379,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'Lookup-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])[.?1 eq 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -394,7 +394,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := 1 return (['a', 'b'], ['c', 'd'])[.?($i) eq 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -409,7 +409,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])[ .? 001 eq 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -424,7 +424,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])[ .? -1 eq 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -439,7 +439,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])[ .?0 eq 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -454,7 +454,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'], ['e'])[ .?2 eq 'b']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?(1 to 2) = 'b']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -484,7 +484,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?($i) = 'b']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -499,7 +499,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?first = 'b']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -514,7 +514,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?($d) = 'b']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -529,7 +529,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d := function($x) {$x + .?2} return $d(12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -544,7 +544,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 10)[.?1 = 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -559,7 +559,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor#1, ceiling#1, round#1, abs#1)[.?1 = 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -574,7 +574,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?* = 'c']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -589,7 +589,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "([1, [2], [3]], [[2], 2, [4]])[ .?1 = .?2 ]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -604,7 +604,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, ?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -619,7 +619,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, ?)('a')]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -634,7 +634,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?1.0 = 'a']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,7 +649,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?(1.0) = 'a']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -664,10 +664,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'Lookup-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (<x>1</x>, <y>2</y>) return
         (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?($x) = 'b']
@@ -685,7 +685,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*[.?1 = 'a']",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -700,7 +700,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]!.?*!.?1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -715,7 +715,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (<x>1</x>, <y>2</y>) return $x / .?1
       ",
@@ -732,7 +732,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[exists(.?())]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -747,7 +747,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})[.?b eq 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -762,7 +762,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?2 eq 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?(1 to 2) = 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[.?b-1 eq 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +807,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[.? (:confusing.?:) b-1 eq 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?* = 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -837,7 +837,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[exists(.?())]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])?1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := 1 return (['a', 'b'], ['c', 'd'])?($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])? 001",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])? -1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -912,7 +912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'])?0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -927,7 +927,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b'], ['c', 'd'], ['e'])?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -942,7 +942,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?(1 to 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -957,7 +957,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -972,7 +972,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']) ?first",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -987,7 +987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($d)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d := function($x) {$x?2} return $d([12, 13])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 10)?1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1032,7 +1032,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor#1, ceiling#1, round#1, abs#1)?1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1047,7 +1047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1062,7 +1062,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "([1, [2], [3]], [[2], 2, [4]])?3 = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1077,7 +1077,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "['a', 'b', 'c'] treat as array(*)??1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1092,7 +1092,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "['a', 'b', 'c'] treat as array(*) ? 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1107,7 +1107,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?1.0 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1122,7 +1122,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?(1.0) ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1137,10 +1137,10 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'Lookup-121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (<x>1</x>, <y>2</y>) return
         (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($x)
@@ -1158,7 +1158,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1173,7 +1173,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1188,7 +1188,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})?b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1203,7 +1203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1218,7 +1218,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{2:3, 3:4, 4:5})?(1 to 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1233,7 +1233,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})?c-1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1248,7 +1248,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})? (:confusing.?:) b-1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1263,7 +1263,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1278,7 +1278,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1293,7 +1293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "()?banana",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1308,7 +1308,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "()?12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1323,7 +1323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(())?(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1338,7 +1338,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[floor#1, ceiling#1, round#1, abs#1]?2(1.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?c(1.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1368,7 +1368,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?(\"c\")(1.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1383,7 +1383,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}[1]?(\"c\")(1.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1398,7 +1398,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?*!.(1.3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1413,7 +1413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'or':true(), 'and':true(), 'but':false()} ? or or 2 = 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1428,7 +1428,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'xs:decimal':true(), 'xs:integer':true(), 'xs:polygon':false()} ? xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1443,7 +1443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'decimal':true(), 'integer':true(), 'polygon':false()} ? Q{}integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[map{'decimal':true(), 'integer':true(), 'polygon':false()}, map{}] ?1?decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1473,7 +1473,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{'decimal':true(), 'integer':true(), 'polygon':[11,22,33]}?polygon?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "some $x in map{'decimal':true(), 'integer':true(), 'polygon':false()}?* satisfies $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1503,7 +1503,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(map{'decimal':true(), 'integer':true(), 'polygon':false()}?*[.])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1518,7 +1518,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "max(map{'decimal':12, 'integer':18, 'polygon':-4}?*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1533,7 +1533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})?2.2 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1548,7 +1548,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})?(2.2) ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1563,7 +1563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := map{\"div\":18} return $x?div",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1578,7 +1578,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := map{\"else\":18} return exists($x[?else = 18])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1593,7 +1593,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := map{\"div\":81, \"div-2\":18} return $x?div-2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1608,7 +1608,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := map{\"else\":81, \"else-2\":18} return exists($x[?else-2 = 18])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1623,7 +1623,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[1, 2, 3](1.1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1638,7 +1638,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[1, 2, 3]?0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1653,7 +1653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[1, 2, 3]?4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1668,7 +1668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[1, 2, 3](-1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1683,7 +1683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $k := 2 to 3 return ['A', 'B', 'C']?($k)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1698,7 +1698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "['A', 'B', 'C']?(2 to 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1713,7 +1713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "['A', 'B', 'C']?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1728,7 +1728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data([['A', 'B', 'C'], ['D', 'E'], []]?2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1743,7 +1743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data([['A', 'B', 'C'], ['D', 'E'], []]?3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1758,7 +1758,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[['A', 'B', 'C'], ['D', 'E'], []]?1?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data([['A', 'B', 'C'], ['D', 'E'], []]?*?*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1788,7 +1788,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[]?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1803,7 +1803,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[]?*?*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1818,7 +1818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[]?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1833,7 +1833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['A', 'B', 'C'], ['D', 'E'])?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1848,7 +1848,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(['A', 'B', 'C'], ['D', 'E'], [])?2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1863,7 +1863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Lookup-227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "[[1, 2, 3], map:entry(3, 5)]?*?3",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

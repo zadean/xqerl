@@ -37,7 +37,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -249,22 +249,22 @@ environment('fsx',BaseDir) ->
 {modules, []}
 ].
 'NamespaceURIFromQNameFunc001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -279,7 +279,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(((),()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -294,7 +294,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -309,10 +309,10 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -327,19 +327,19 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XP20"}.
 'NamespaceURIFromQNameFunc015a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName((//Folder)[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -355,7 +355,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(xs:integer(\"100\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -370,7 +370,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:namespace-uri-from-QName(xs:time(\"12:00:00Z\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -385,19 +385,19 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NamespaceURIFromQNameFunc018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'NamespaceURIFromQNameFunc021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'K-NamespaceURIFromQNameFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-from-QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -412,7 +412,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NamespaceURIFromQNameFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-from-QName(1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -427,7 +427,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NamespaceURIFromQNameFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(namespace-uri-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -442,7 +442,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NamespaceURIFromQNameFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-from-QName( QName(\"example.com/\", \"pre:lname\")) eq xs:anyURI(\"example.com/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -457,7 +457,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-NamespaceURIFromQNameFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-from-QName( QName(\"example.com/\", \"pre:lname\")) instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -472,7 +472,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NamespaceURIFromQNameFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns = \"http://example.com/ANamespace\"; 
         string(<name xmlns:ns=\"http://example.com/BNamespace\">{namespace-uri-from-QName(\"ns:foo\" cast as xs:QName)}</name>)
@@ -490,7 +490,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NamespaceURIFromQNameFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e xmlns=\"http://example.com/\"> {namespace-uri-from-QName(node-name(element anElement{\"text\"}))} </e>/string()
       ",
@@ -507,7 +507,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NamespaceURIFromQNameFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://example.com/\"; 
         <e xmlns=\"\">{namespace-uri-from-QName(xs:QName(\"l\"))}</e>/string()
@@ -525,7 +525,7 @@ environment('fsx',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NamespaceURIFromQNameFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"http://example.com/\"; 
         declare namespace p = \"http://example.com/2\"; 

@@ -88,7 +88,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -339,7 +339,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'rangeExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10, 1 to 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -354,7 +354,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "10 to 10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(15 to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -384,7 +384,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:reverse(10 to 15)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -399,7 +399,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((1, 2 to ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -422,7 +422,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1+2) to (2+2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(-4,-3 to 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -452,7 +452,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(-4, -3 to -1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -467,7 +467,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(1) to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +482,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to xs:integer(5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -497,7 +497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(1) to xs:integer(5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -512,7 +512,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:min((1,2)) to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -527,7 +527,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:max((1,2)) to 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -542,7 +542,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:min((1,2)) to fn:max((6,7)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -557,7 +557,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:min((1 to 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -572,7 +572,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:max((1 to 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -587,7 +587,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:avg((1 to 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -602,7 +602,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((1 to 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -617,7 +617,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((3*2) to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -632,7 +632,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to (3*2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -647,7 +647,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1*2) to (3*2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -662,7 +662,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((3 - 2) to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -677,7 +677,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to (3 - 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -692,7 +692,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((2 - 1) to (7 - 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -707,7 +707,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((6 idiv 2) to 10)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -722,7 +722,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to (10 idiv 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -737,7 +737,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((5 idiv 5) to (8 idiv 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -752,7 +752,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "18446744073709551616 to 18446744073709551620",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -775,7 +775,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(18446744073709551616 to 18446744073709551620)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -798,7 +798,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(28446744073709551616 to 28446744073709551620)!position()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -821,7 +821,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((28446744073709551616 to 28446744073709551620)!last())[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -844,7 +844,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "reverse(28446744073709551616 to 28446744073709551620)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "11 to 11 to 12",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"it is \" || 10 to 1 || \"already\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3+1 to 4+1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -912,7 +912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "year-from-date(current-date()) = 1 to 5000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -927,7 +927,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "year-from-date(current-date()) = 5000 to 10000",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -942,7 +942,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "year-from-date(current-date()) to 4000 = 1500 to 2500",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -957,7 +957,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1000 = 1 to year-from-date(current-date())[. gt 3000]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -972,7 +972,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 to 5000 = year-from-date(current-date())[. gt 3000]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -987,7 +987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'rangeExpr-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1 to 5000)[position() = 2001 to 2020]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 to 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1025,7 +1025,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(30 to 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1040,7 +1040,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(0 to -3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1055,7 +1055,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(1 to ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1078,7 +1078,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() to 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1101,7 +1101,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(-1 to -3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1116,7 +1116,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(1 to 4) eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1131,7 +1131,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(0 to 4) eq 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1146,7 +1146,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(-5 to -0) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1161,7 +1161,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((10, 1 to 4)) eq 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1176,7 +1176,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(-3 to -1, 1, 1) eq -3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1191,7 +1191,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(-3 to -1, 3, 1) eq -1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1206,7 +1206,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(reverse(4 to 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1221,7 +1221,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(reverse(1 to 3), 1, 1) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1236,7 +1236,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(reverse(1 to 3), 3, 1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1251,7 +1251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(reverse(1 to 4), 2, 1) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1266,7 +1266,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(reverse(1 to 4), 3, 1) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1281,7 +1281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(reverse(-4 to -1), 2, 1) eq -2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1296,7 +1296,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((-1, -2, -3, -4), reverse(-4 to -1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1311,7 +1311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((), reverse(0 to -5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1326,7 +1326,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, -1, -2, -3, -4, -5), reverse(-5 to 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1341,7 +1341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(reverse(-5 to -2)) eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1356,7 +1356,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(reverse(-5 to -0)) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1371,7 +1371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(reverse(1 to 4)) eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1386,7 +1386,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(1 to 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1401,7 +1401,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(0 to -5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1416,7 +1416,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(-4 to -5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1431,7 +1431,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(reverse(1 to 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1446,7 +1446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(reverse(0 to -5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1461,7 +1461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(reverse(-4 to -5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1476,7 +1476,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove((2.e0, 4), 1) treat as xs:integer to 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1491,7 +1491,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(4 to remove((2e0, 4), 1) treat as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1506,7 +1506,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.1 to 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1521,7 +1521,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 to 1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1536,7 +1536,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.1 to 3.3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1551,7 +1551,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-RangeExpr-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + 1.1 to 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1566,7 +1566,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RangeExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1e3 to 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1581,7 +1581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RangeExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 to 1e3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1596,7 +1596,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RangeExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 3 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1611,7 +1611,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-RangeExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 to <value>5</value>, 5 to <value>5</value>, <value>1</value> to 5, <value>1</value> to <value>5</value>, let $i := <e>5</e> return $i to $i, count(5 to 10), count(1000 to 2000), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(4294967295 to 4294967298)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

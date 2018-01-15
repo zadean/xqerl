@@ -46,7 +46,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 , try  xqerl_module:compile(filename:join(BaseDir, "Serialization/serialization1-lib.xq")) catch _:_ -> ok end
@@ -267,7 +267,7 @@ environment('user-defined-types',BaseDir) ->
 {modules, []}
 ].
 'Serialization-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:cdata-section-elements \"\";
          declare option output:doctype-public \"none\";
@@ -291,7 +291,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"yes\";
          <result>ok</result>
@@ -309,7 +309,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          import module namespace test=\"http://www.w3.org/TestModules/test\";
          <result>{test:ok()}</result>
@@ -339,13 +339,13 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
          <result>ok</result>
@@ -371,7 +371,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-parameters.xml\";
          declare option output:indent \"yes\";
@@ -390,7 +390,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:byte-order-mark \"INVALID_VALUE\";
          <result>ok</result>
@@ -416,7 +416,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:doctype-public \"&#xc381;\";
          <result>ok</result>
@@ -442,7 +442,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:cdata-section-elements \"::INVALID_VALUE\";
          <result>ok</result>
@@ -468,7 +468,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:doctype-system \"mustnotincludebothanapostrophe&#x27;andquotationmark&#x22;\";
          <result>ok</result>
@@ -494,7 +494,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:encoding \"onlyasciiallowedlessthan&#x7f;\";
          <result>ok</result>
@@ -524,7 +524,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:escape-uri-attributes \"INVALID_VALUE\";
          <result>ok</result>
@@ -550,7 +550,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:include-content-type \"INVALID_VALUE\";
          <result>ok</result>
@@ -576,7 +576,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"INVALID_VALUE\";
          <result>ok</result>
@@ -602,7 +602,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: the charset parameter of the media type MUST NOT be specified explicitly in the value of the media-type parameter. :)
          declare option output:media-type \"text/html; charset=ISO-8859-4\";
@@ -629,7 +629,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: An expanded QName with a null namespace URI, and the local part of the name equal to one of xml, xhtml, html or text, or having a non-null namespace URI :)
          declare option output:method \"INVALID_VALUE\";
@@ -656,7 +656,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:normalization-form \"__NOT_SUPPORTED__\";
          <result>ok</result>
@@ -682,7 +682,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:omit-xml-declaration \"INVALID_VALUE\";
          <result>ok</result>
@@ -708,7 +708,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:standalone \"INVALID_VALUE\";
          <result>ok</result>
@@ -734,7 +734,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:suppress-indentation \"::INVALID_VALUE\";
          <result>ok</result>
@@ -760,7 +760,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:undeclare-prefixes \"INVALID_VALUE\";
          <result>ok</result>
@@ -786,7 +786,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:use-character-maps \"...\";
          <result>ok</result>
@@ -804,7 +804,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          (: An unsupported xml version which matches the VersionNum of XML Recommendation XML10 :)
          declare option output:version \"1.14159265\";
@@ -831,7 +831,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:method \"html\";
          (: control characters not allowed in html :)
@@ -858,34 +858,34 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-026a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-027a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"serialization"}.
 'Serialization-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"&#x6e;&#x6f;\";
          <result>ok</result>
@@ -903,7 +903,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \" no \";
          <result>ok</result>
@@ -921,7 +921,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:parameter-document \"Serialization/serialization-eqnames.xml\";
@@ -957,7 +957,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \" 0 \";
          <result>ok</result>
@@ -975,7 +975,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Serialization-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace output = \"http://www.w3.org/2010/xslt-xquery-serialization\";
          declare option output:indent \"1\";
          <result>ok</result>

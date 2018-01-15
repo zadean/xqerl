@@ -136,7 +136,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "misc")
 , try  xqerl_module:compile(filename:join(BaseDir, "HigherOrderFunctions/module-hof-003.xq")) catch _:_ -> ok end
@@ -449,7 +449,7 @@ environment('user-defined-types',BaseDir) ->
 {modules, []}
 ].
 'hof-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
         let $f := local:f#1 return $f(2)",
@@ -466,7 +466,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f() as xs:integer { 42 }; 
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -485,7 +485,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace m=\"http://example.com/hof-003\"; 
         let $f := m:f#1 return $f(17)",
@@ -514,7 +514,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := fn:round#1 return $f(1.2345)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -529,7 +529,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := concat#8 return $f('a','b','c','d','e','f','g','h')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -544,7 +544,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default function namespace \"http://example.com/hof-006\"; 
       declare function g($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -563,7 +563,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default function namespace \"http://www.w3.org/2001/XMLSchema\"; 
       let $f := date#1 return $f('2008-01-31')
@@ -581,7 +581,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := xs:date#1 return $f('2008-01-31')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -596,10 +596,10 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'hof-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       let $f as function(*) := local:f#1 return $f(2)
@@ -617,7 +617,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
       let $f as function(xs:integer) as xs:integer := local:f#1 
@@ -636,7 +636,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer, $y as xs:long) as xs:integer { $x + $y }; 
       let $f as function(xs:integer, xs:long) as xs:integer := local:f#2 
@@ -655,7 +655,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; 
       declare function local:g($x as xs:integer) as xs:integer { $x + 4 }; 
@@ -675,7 +675,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:case($x as xs:boolean) as function(*) 
       	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
@@ -694,7 +694,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string 
       	{ if ($x) then fn:upper-case#1 else fn:lower-case#1 }; 
@@ -712,7 +712,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
@@ -730,7 +730,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       local:case(upper-case#1, \"Mike\"), local:case(lower-case#1, \"Mike\")
@@ -748,7 +748,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string 
       	{ $x($y) }; 
@@ -769,7 +769,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       declare function local:rot13($x as xs:string) as xs:string { translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\") }; 
@@ -788,7 +788,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; 
       local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
@@ -806,7 +806,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       local:scramble(function($x){translate($x, \"abcdefghijklmnopqrstuvwxyz\", \"nopqrstuvwxyzabcdefghijklm\")}, \"john\")
@@ -824,7 +824,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; 
       let $n := function-name(local:scramble#2) 
@@ -843,7 +843,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := fn:function-name#1, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
@@ -860,7 +860,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := xs:dateTime#1, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
@@ -877,7 +877,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := concat#123456, $n := function-name($f) 
         return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))",
    Qry1 = Qry,
@@ -893,7 +893,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := function($x as xs:string) as xs:string { upper-case($x) } 
         let $n := function-name($f) 
@@ -913,7 +913,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := fn:contains(?, \"e\") 
         return for $s in (\"Mike\", \"John\", \"Dave\", \"Mary\", \"Jane\") return $f($s)",
@@ -930,7 +930,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\\s') } }; 
       string-join(local:splitter()(\"A nice cup of tea\"), '|')
@@ -948,7 +948,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:splitter() as (function(xs:string) as xs:string+)? 
       { function($x as xs:string) { for $i in tokenize($x, '\\s') return upper-case($i)} }; 
@@ -967,7 +967,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare variable $sep as xs:string := \"\\s\"; 
       declare function local:splitter() as (function(xs:string) as xs:string*)? 
@@ -987,7 +987,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) 
       	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; 
@@ -1006,7 +1006,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(if (current-date() gt xs:date('2000-12-31')) then upper-case#1 else lower-case#1)(\"Mike\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1021,7 +1021,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[.(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1036,7 +1036,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1051,7 +1051,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}(\"Mike\") = \"MIKE\"]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1066,7 +1066,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a b=\"3\"/>/(string(@b), upper-case#1, 17))[. instance of xs:anyAtomicType]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1081,7 +1081,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { 
             <e x=\"{$x}\" y=\"{$y}\"/> 
@@ -1104,7 +1104,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { 
             <e x=\"{$x}\" y=\"{$y}\"/> 
@@ -1128,10 +1128,10 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'hof-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; 
       let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) 
@@ -1150,7 +1150,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:ops() as (function(xs:string) as xs:string)*
       	{ (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; 
@@ -1169,7 +1169,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:lower-case($x as xs:string) as xs:string { concat(\"'\", fn:lower-case($x), \"'\") }; 
         declare function local:ops() as (function(xs:string) as xs:string)* 
@@ -1189,7 +1189,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double 
       	{ fn:floor($x) }; 
@@ -1210,7 +1210,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
       declare function local:ops() as (function(xs:double) as xs:double)* 
@@ -1230,7 +1230,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; 
       declare variable $roundToCeiling := local:round(?, ceiling#1); $roundToCeiling(12.4)",
@@ -1247,7 +1247,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
             for $sep in ('\\s', ',', '!') 
@@ -1273,7 +1273,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
             for $sep in ('\\s', ',', '!') return function() { 
@@ -1300,7 +1300,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:do() as xs:integer { (local:f#1)(5) }; 
         declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
@@ -1318,7 +1318,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:tf($i as xs:integer) as function () as xs:boolean { 
             if ($i) then true#0 else false#0 
@@ -1338,7 +1338,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := fn:substring-before#2(?, '-') return <out>{$f('the-end-of-the-world')}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := function($a as xs:string, $b as xs:string) { 
             starts-with($a, $b) and ends-with($a, $b)}(?, 'a') 
@@ -1371,7 +1371,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := fn:concat#3(?, '*', ?) let $g := $f('[', ?) return <out>{$g(']')}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1386,10 +1386,10 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'hof-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := local:g#1 return $f(2)",
@@ -1406,7 +1406,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := local:f#3 return $f(2)
@@ -1424,7 +1424,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := xs:date#2 return $f('2008-03-01')
@@ -1442,7 +1442,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	let $f := concat#1 return $f('2008-03-01')
@@ -1460,7 +1460,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	string(local:f#1)
@@ -1478,7 +1478,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-906'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	exists(data(local:f#1))
@@ -1496,7 +1496,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-907'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))
@@ -1514,7 +1514,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-908'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	local:f#1 eq 3
@@ -1532,7 +1532,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-909'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
       	number(local:f#1)
@@ -1550,7 +1550,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-910'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x as xs:integer) as xs:integer {
             $x + 1
@@ -1571,7 +1571,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-911'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a b=\"3\"/>/(@b, upper-case#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1586,7 +1586,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-912'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) };
@@ -1606,7 +1606,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-913'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) }; 
@@ -1626,7 +1626,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-914'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
         { for $f in $fns return $f($s) }; 
@@ -1645,7 +1645,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-915'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ops := substring-before('abc', ' ', (), ?) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1660,7 +1660,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-916'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ops := substring-before(?, ?) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1675,7 +1675,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-917'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ops := substring-before(?, 2) return $ops('Michael Kay')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1690,7 +1690,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-918'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double 
         { $algorithm($x) }; 
@@ -1710,7 +1710,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'hof-919'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
       declare function local:ops() as (function(xs:double) as xs:double)* 
@@ -1730,7 +1730,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat#64 instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1745,7 +1745,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join#1((\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1760,7 +1760,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join#1 is string-join#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1775,7 +1775,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join#1 eq string-join#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1790,7 +1790,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element a { avg#1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1805,7 +1805,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute a { avg#1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1820,7 +1820,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c })(\"lala\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1835,7 +1835,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function-name(function-name#1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1850,7 +1850,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function-name(let $a := 92, $b := true() return function($c) { $a, $b, $c })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1865,7 +1865,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c }) instance of function(item()*) as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1880,7 +1880,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(let $a := 92, $b := true() return function($c) { $a, $b, $c })((xs:QName(\"foo\"), 5.0e3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1895,7 +1895,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1910,7 +1910,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as item()) as xs:integer { $a } instance of function(item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1925,7 +1925,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function(xs:string) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1940,7 +1940,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as item()) as item() { $a } instance of function() as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1955,7 +1955,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as item()) as xs:integer { $a } instance of function(item(), item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1970,7 +1970,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'function-item-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as xs:string) as item() { $a } instance of function(item()) as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1985,7 +1985,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function() { 5 } instance of function(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2000,7 +2000,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function-name(function() { 5 })",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2015,7 +2015,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function() as xs:integer { 5 }()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2030,7 +2030,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as xs:integer) as xs:integer { $a + 5 }(3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2045,7 +2045,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as xs:integer, $b as xs:double) as xs:double { $a * $b + 5 }(3, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2060,7 +2060,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a, $b as xs:double) as xs:double { $a * $b + 5 } instance of function(item()*, xs:double) as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2075,7 +2075,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as node()+, $b) as xs:double { $a * $b + 5 } instance of function(node(), item()*) as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2090,7 +2090,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a as node()+) { $a + 5 } instance of function(node()) as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2105,7 +2105,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function() { true() } instance of function() as item()*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2120,7 +2120,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a) { \"lala\", $a }, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2135,7 +2135,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $a := \"monkey\" return function($a) { \"lala\", $a }(\"gibbon\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2150,7 +2150,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$a, function($a) { \"lala\", $a }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2165,7 +2165,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-11a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a) { let $a := \"monkey\" return (\"lala\", $a) }(\"gibbon\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2180,7 +2180,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-12a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($a, $a) { \"lala\", $a }(\"gibbon\", \"monkey\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2195,7 +2195,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($local:foo, $local:bar, $local:foo) { \"lala\", $local:foo, $local:bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2210,7 +2210,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($local:foo, $local:bar, $fn:foo) { \"lala\", $local:foo, $local:bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2225,7 +2225,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $Q{http://local/}foo) { 
               \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
@@ -2241,7 +2241,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'inline-function-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function($Q{http://local/}foo, $Q{http://local/}bar, $fn:foo) { 
                \"lala\", $Q{http://local/}foo, $Q{http://local/}bar }(\"gibbon\", \"monkey\", \"ape\")",
    Qry1 = Qry,
@@ -2257,7 +2257,7 @@ environment('user-defined-types',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xqhof1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 declare namespace map = \"http://snelson.org.uk/functions/map\";
 
@@ -2369,7 +2369,7 @@ key: z, value: (zebra)\"") of
       Err -> ct:fail(Err)
    end.
 'xqhof2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          import module namespace func = \"http://snelson.org.uk/functions/functional\";
          
@@ -2401,7 +2401,7 @@ key: z, value: (zebra)\"") of
       Err -> ct:fail(Err)
    end.
 'xqhof3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 import module namespace func = \"http://snelson.org.uk/functions/functional\";
 
@@ -2558,7 +2558,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:hof($s, $f as function(*)) {
            $f($s[1], $s[2])
@@ -2579,7 +2579,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $a := string-join(?, \"\")
          return $a((\"foo\", \"bar\", \"baz\"))
@@ -2597,7 +2597,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*
          {
@@ -2619,7 +2619,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat#3(\"one\", \"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2634,7 +2634,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat#4(\"one\", ?, \"three\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2649,7 +2649,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat#2(\"one\", ?, \"three\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2664,7 +2664,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $f in (concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))
          return $f(\"two\")
@@ -2682,7 +2682,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "()(\"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2697,7 +2697,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat(\"one \", ?, \" three\"), substring-before(\"one two three\", ?), matches(?, \"t.*o\"), xs:NCName(?))(\"two\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2712,7 +2712,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $f := function($a) { node-name(.), $a }
          return <a/>/$f(5)
@@ -2731,7 +2731,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $f := name#0
          return <a/>/$f()
@@ -2750,7 +2750,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $f := <b/>/name#0
          return <a/>/$f()
@@ -2769,7 +2769,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare base-uri \"main\";
          import module namespace lib = \"lib\";
@@ -2815,7 +2815,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          import module namespace lib = \"lib\";
          
@@ -2848,7 +2848,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare base-uri \"main\";
          import module namespace lib = \"lib\";
@@ -2894,7 +2894,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          import module namespace lib = \"lib\";
          
@@ -2927,7 +2927,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $m := map {
                 \"Tuesday\" : true(),
@@ -2953,7 +2953,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $m := map {
                 \"Tuesday\" : true(),
@@ -2978,7 +2978,7 @@ return string($a)
       Err -> ct:fail(Err)
    end.
 'xqhof22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           let $m := array {
                 true(),

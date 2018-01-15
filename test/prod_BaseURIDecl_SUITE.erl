@@ -45,7 +45,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 , try  xqerl_module:compile(filename:join(BaseDir, "BaseURIDecl/module-001.xq")) catch _:_ -> ok end
@@ -253,7 +253,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'base-URI-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; declare base-uri \"http://example.org\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -268,7 +268,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc&lt;\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -291,7 +291,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc&gt;\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -314,7 +314,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc&amp;\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -329,7 +329,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc&quot;\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -352,7 +352,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc&apos;\"; \"aaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -367,7 +367,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; fn:string(fn:resolve-uri(\"examples\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -382,7 +382,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace eg = \"http://example.org\"; 
         declare function eg:noContextFunction() { 
@@ -410,7 +410,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.org\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -425,7 +425,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -448,7 +448,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc123\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -463,7 +463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/abc\"\"\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -486,7 +486,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri 'http://www.example.com/abc'''; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri 'http://www.example.com/abc##0;'; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -524,7 +524,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://A\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -539,7 +539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http:/www.abc&#xa;.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -562,7 +562,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://declarebase-uri.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -585,7 +585,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.base-uri.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -600,7 +600,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.BASE-URI.com\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -615,7 +615,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \" http://www.example.org/examples\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -630,7 +630,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/examples \"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -645,7 +645,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/ examples\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -668,7 +668,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-uri-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/%20%20examples\"; fn:string(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -683,7 +683,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-uri-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"abc\"; fn:ends-with(fn:string(fn:static-base-uri()),\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -698,7 +698,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-uri-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; fn:base-uri(<elem xml:base=\"fluster\"></elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -713,7 +713,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-uri-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; fn:base-uri(exactly-one((<elem xml:base=\"fluster\"><a/></elem>)/a))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -728,7 +728,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-uri-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com/\"; fn:base-uri(exactly-one((<elem xml:base=\"fluster/\"><a xml:base=\"now\"/></elem>)/a))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -743,7 +743,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BaseURIProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; 
         static-base-uri() eq 'http://example.com/declareBaseURITest'
@@ -761,7 +761,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BaseURIProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"; 
         declare(::)base-uri(::)\"http://example.com/declareBaseURITest2\"; 1 eq 1",
@@ -778,7 +778,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-BaseURIProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); 
         declare(::)base-uri(::)\"http://example.com/declareBaseURITest\"(::); 1 eq 1",
@@ -795,7 +795,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http:\\\\invalid>URI\\someURI\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -818,7 +818,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"c:\\windows\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -841,7 +841,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"c:\\windows\"; fn:doc(\"example.com.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -868,7 +868,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"abc\"; declare function local:isAbsolute($uri as xs:string?) as xs:boolean { fn:matches($uri, \"[a-zA-Z0-9\\-.]*:/\") }; local:isAbsolute(fn:static-base-uri())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -891,7 +891,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"\"; ends-with(fn:static-base-uri(), \"prod/BaseURIDecl.xml\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -914,7 +914,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://example.com/BASEURI\"; <e xml:base=\"../\"> {fn:static-base-uri()} </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -929,7 +929,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-BaseURIProlog-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "base-uri lt base-uri",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -944,7 +944,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'base-URI-modules-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/base1\";
           import module namespace m =\"http://www.w3.org/TestModules/module-001\";
           static-base-uri() eq m:static-base-uri()

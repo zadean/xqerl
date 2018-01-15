@@ -352,7 +352,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -1023,7 +1023,7 @@ environment('xq311B',BaseDir) ->
 {modules, []}
 ].
 'Axes001-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1039,7 +1039,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes001-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1055,7 +1055,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes001-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1071,7 +1071,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes002-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1087,7 +1087,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes002-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1103,7 +1103,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes002-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1119,7 +1119,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes002-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1135,7 +1135,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes003-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1151,7 +1151,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes003-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1167,7 +1167,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes003-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1183,7 +1183,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes003-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1199,7 +1199,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes004-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1215,7 +1215,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes004-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1231,7 +1231,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes004-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1247,7 +1247,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes005-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1263,7 +1263,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes005-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1279,7 +1279,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes005-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1295,7 +1295,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes005-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/south-east)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1311,7 +1311,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes006-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1327,7 +1327,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes006-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1343,7 +1343,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes006-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1359,7 +1359,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes006-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1375,7 +1375,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes007-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1391,7 +1391,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes007-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1407,7 +1407,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes007-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1423,7 +1423,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes008-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1439,7 +1439,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes008-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1455,7 +1455,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes008-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1471,7 +1471,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes009-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1487,7 +1487,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes009-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1503,7 +1503,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes009-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1519,7 +1519,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes010-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1535,7 +1535,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes010-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1551,7 +1551,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes010-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1567,7 +1567,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes011-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1583,7 +1583,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes011-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1599,7 +1599,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes011-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west/@west-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1615,7 +1615,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes012-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count( / )",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1631,7 +1631,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes013-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/parent::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1647,7 +1647,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes014-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/far-north/parent::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1663,7 +1663,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes015-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/parent::near-north)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1679,7 +1679,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes016-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/parent::nowhere)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1695,7 +1695,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes017-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/parent::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1711,7 +1711,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes018-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/far-north/parent::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1727,7 +1727,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes019-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/..)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1743,7 +1743,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes020-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1759,7 +1759,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes021-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/self::center)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1775,7 +1775,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes023-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1791,7 +1791,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes027-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/@center-attr-3/self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1807,7 +1807,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes030-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/text()/self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1823,7 +1823,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes030-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/text()/self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1839,7 +1839,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes031-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1855,7 +1855,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes031-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1871,7 +1871,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes031-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1887,7 +1887,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes031-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1903,7 +1903,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes032-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1919,7 +1919,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes032-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1935,7 +1935,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes032-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1951,7 +1951,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes032-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1967,7 +1967,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes033-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1983,7 +1983,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes033-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1999,7 +1999,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes033-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2015,7 +2015,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes033-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2031,7 +2031,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes034-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2047,7 +2047,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes034-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2063,7 +2063,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes035-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2079,7 +2079,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes035-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2095,7 +2095,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes035-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2111,7 +2111,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes035-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2127,7 +2127,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes036-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::center)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2143,7 +2143,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes036-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::center)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2159,7 +2159,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes037-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2175,7 +2175,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes037-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2191,7 +2191,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes041-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/@center-attr-3/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2207,7 +2207,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes043-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2223,7 +2223,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes043-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center/text()/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2239,7 +2239,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes044-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2255,7 +2255,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes044-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2271,7 +2271,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes045-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::far-north)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2287,7 +2287,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes045-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::far-north)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2303,7 +2303,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes046-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2319,7 +2319,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes046-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2335,7 +2335,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes047-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2351,7 +2351,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes047-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2367,7 +2367,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes048-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/far-north)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2383,7 +2383,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes048-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/far-north)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2399,7 +2399,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes049-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2415,7 +2415,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes049-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2431,7 +2431,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes055-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2447,7 +2447,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes056-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2463,7 +2463,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes056-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2479,7 +2479,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes056-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2495,7 +2495,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes057-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2511,7 +2511,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes057-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2527,7 +2527,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes057-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2543,7 +2543,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes057-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2559,7 +2559,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes058-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2575,7 +2575,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes058-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2591,7 +2591,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes058-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2607,7 +2607,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes059-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2623,7 +2623,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes059-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2639,7 +2639,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes060-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2655,7 +2655,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes060-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2671,7 +2671,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes060-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2687,7 +2687,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes060-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2703,7 +2703,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes061-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2719,7 +2719,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes061-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(/descendant-or-self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2735,7 +2735,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes062-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2751,7 +2751,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes062-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2767,7 +2767,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes063-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2783,7 +2783,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes063-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2799,7 +2799,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes063-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2815,7 +2815,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes063-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2831,7 +2831,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes064-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2847,7 +2847,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes064-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2863,7 +2863,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes064-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2879,7 +2879,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes065-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2895,7 +2895,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes065-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2911,7 +2911,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes066-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2927,7 +2927,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes066-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2943,7 +2943,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes066-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2959,7 +2959,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes066-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2975,7 +2975,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes067-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2991,7 +2991,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes067-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3007,7 +3007,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes067-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3023,7 +3023,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes068-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3039,7 +3039,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes068-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3055,7 +3055,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes068-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3071,7 +3071,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes069-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3087,7 +3087,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes069-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3103,7 +3103,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes069-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//attribute::mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3119,7 +3119,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes070-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3135,7 +3135,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes070-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3151,7 +3151,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes070-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3167,7 +3167,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes071-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3183,7 +3183,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes071-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3199,7 +3199,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes071-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//@mark)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3215,7 +3215,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes072-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3231,7 +3231,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes072-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//self::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3247,7 +3247,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes073-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3263,7 +3263,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes073-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//self::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3279,7 +3279,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes074-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3295,7 +3295,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes074-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3311,7 +3311,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes074-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3327,7 +3327,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes074-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3343,7 +3343,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes075-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3359,7 +3359,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes075-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3375,7 +3375,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes075-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3391,7 +3391,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes075-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3407,7 +3407,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes076-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3423,7 +3423,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes076-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3439,7 +3439,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes076-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3455,7 +3455,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes076-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//child::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3471,7 +3471,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes077-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3487,7 +3487,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes077-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3503,7 +3503,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes077-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3519,7 +3519,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes078-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3535,7 +3535,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes078-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3551,7 +3551,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes078-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3567,7 +3567,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes078-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//south)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeStack',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3583,7 +3583,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes079-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3599,7 +3599,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes079-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3615,7 +3615,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes079-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3631,7 +3631,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes079-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3647,7 +3647,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes080-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3663,7 +3663,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes080-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3679,7 +3679,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes080-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3695,7 +3695,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes081-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3711,7 +3711,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes081-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3727,7 +3727,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes081-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3743,7 +3743,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes081-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//attribute::center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3759,7 +3759,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes082-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3775,7 +3775,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes082-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3791,7 +3791,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes082-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//attribute::node())",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3807,7 +3807,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes083-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3823,7 +3823,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes083-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3839,7 +3839,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes083-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//west//@*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3855,7 +3855,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes084-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3871,7 +3871,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes084-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3887,7 +3887,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes084-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3903,7 +3903,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes084-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(//center//@center-attr-2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeRepeat',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3919,7 +3919,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<root> {//Customers} </root>",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5035,7 +5035,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes086'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<root> {//@*/..} </root>",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Text',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5051,7 +5051,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes087'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<root> {/doc/part/*/text()/..} </root>",
    {Env,Opts} = xqerl_test:handle_environment(environment('xq311B',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5067,7 +5067,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes088'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5082,7 +5082,7 @@ environment('xq311B',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Axes089'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 xquery version \"1.0\";
 declare namespace saxon=\"http://saxon.sf.net/\";
@@ -5419,7 +5419,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $element as element(foo) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5442,7 +5442,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $element as element(foo) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5465,7 +5465,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ns1 = \"http://www.example.org/ns1\"; declare namespace ns2 = \"http://www.example.org/ns2\"; let $element as element(ns1:foo) := <ns1:foo/> return count($element/self::ns2:*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5488,7 +5488,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes093'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $attribute as attribute(foo) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5511,7 +5511,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes094'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $attribute as attribute(foo) := attribute foo { } 
             return count($attribute/self::*:bar)
       ",
@@ -5536,7 +5536,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes095'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5564,7 +5564,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes096'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $element as element(*) := <foo/> return count($element/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5587,7 +5587,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes097'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $element as element(*) := <foo/> return count($element/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5610,7 +5610,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes098'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5637,7 +5637,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes099'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5660,7 +5660,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $attribute as attribute(*) := attribute foo { } return count($attribute/self::*:bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5683,7 +5683,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5710,7 +5710,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; 
@@ -5732,7 +5732,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5755,7 +5755,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5778,7 +5778,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $comment as comment() := <!--comment--> return count($comment/self::*:foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5801,7 +5801,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $comment as comment() := <!--comment--> 
@@ -5827,7 +5827,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*)",
@@ -5852,7 +5852,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::processing)",
@@ -5877,7 +5877,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
         return count($processing-instruction/self::*:processing)",
@@ -5902,7 +5902,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         let $processing-instruction as processing-instruction() := <?processing instruction?> 
@@ -5928,7 +5928,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ns1 = \"http://www.example.org/ns1\"; 
         declare namespace ns2 = \"http://www.example.org/ns2\"; declare construction strip; 
@@ -5948,7 +5948,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/namespace-node()",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5964,13 +5964,13 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'Axes114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'Axes115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/attribute::namespace-node()",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeTrunc',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5994,10 +5994,10 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'Axes117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace {\"xsl\"}{\"http://www.w3.org/1999/XSL/Transform\"} / self::namespace-node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6028,37 +6028,37 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'Axes118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'Axes127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'axis-err-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <anElement>Some content</anElement> return $var/20[child::text()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6073,7 +6073,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := document{<e><f>f's value</f></e>}; $var/(/)/(/)//f",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6088,7 +6088,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <e><f>f's value</f></e>; $var/(/)/(/)//f",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6103,7 +6103,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v := <a><b/><b/><b/></a>; deep-equal($v//45, (45, 45, 45, 45))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6118,7 +6118,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $v := <a><b/><b/><b/></a>; $v//45",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6133,7 +6133,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6148,7 +6148,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6163,7 +6163,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "* :ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6178,7 +6178,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6193,7 +6193,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ncname :*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6208,7 +6208,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "name(:hey:):*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6223,7 +6223,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "* :ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6238,7 +6238,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ncname: *",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6253,7 +6253,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*(:hey:):ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6268,7 +6268,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ncname:(:hey:)*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6283,7 +6283,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*(:hey:):(:hey:) ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6298,7 +6298,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*:(:hey:)ncname",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6313,7 +6313,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "*:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6328,7 +6328,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(text {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6343,7 +6343,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(processing-instruction theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6358,7 +6358,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(attribute theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6373,7 +6373,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(element theName {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6388,7 +6388,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(comment {\"some text\"}/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6403,7 +6403,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<elem/>/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6418,7 +6418,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>some text</e>/text()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6433,7 +6433,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><b/></e>/b/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6448,7 +6448,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e attr=\"c\"/>/@attr/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6463,7 +6463,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><?name data?></e>/processing-instruction()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6478,7 +6478,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e><!--data --></e>/comment()/..",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6493,7 +6493,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "preceding-or-ancestor::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6508,7 +6508,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(fn:root(<e/>)/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6531,7 +6531,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6554,7 +6554,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; empty(fn:root($myVar/(/)/..))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6581,7 +6581,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := document { <e/>}; empty($myVar/(/)/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6604,7 +6604,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "nametest//",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6627,7 +6627,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "nametest/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6650,7 +6650,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(/)/",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6665,7 +6665,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parent::self()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6680,7 +6680,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "123[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6695,7 +6695,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1[element()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6710,7 +6710,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, <e/>)[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6725,7 +6725,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<e/>, 1)[..]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6740,7 +6740,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>[parent::node()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6755,7 +6755,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 5 * /)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6778,7 +6778,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, /)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6801,7 +6801,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/, 1)[2]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6824,7 +6824,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6839,7 +6839,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; empty($myVar/descendant-or-self::text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6854,7 +6854,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6869,7 +6869,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e/>; $myVar/(<a/>, <b/>, <?d ?>, <!-- e-->, attribute name {}, document {()})/number()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6884,7 +6884,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6899,7 +6899,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e/>)/3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6914,7 +6914,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $myVar := <e/>; 
         empty($myVar/preceding-sibling::comment()/a/b/c/1/@*)",
@@ -6947,7 +6947,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1]/(1, 2)[last()]/\"a string\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6962,7 +6962,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6977,7 +6977,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()/@attr)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7000,7 +7000,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()/name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7023,7 +7023,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)/.",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7038,7 +7038,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7053,7 +7053,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := <root> <child/> <child/> <child> <child2> <child3> <leaf/> </child3> </child2> </child> </root>; 1, root($i)//leaf/child::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7076,7 +7076,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7099,7 +7099,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<element attr=\"foo\" attr2=\"foo\"/>/*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7122,7 +7122,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <b attr=\"fo\"/> <b/> </e>/descendant-or-self::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7137,7 +7137,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, <b attr=\"fo\"/>/child::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7152,7 +7152,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <b/> <b a=\"\"/> </e>/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7167,7 +7167,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <b a=\"\"/> <b/> </e>/b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7182,7 +7182,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <!-- comment --> <?PA ?>text<b/> <?PB ?> <b/> <?PC ?> </e>/child::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7197,7 +7197,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, <e/>/descendant::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7212,7 +7212,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{1, <e/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7227,7 +7227,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1, <e attr=\"\"/>/descendant::node(), 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7242,7 +7242,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{1, <e attr=\"\"/>/descendant-or-self::node(), 1}</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7257,7 +7257,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/descendant::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7272,7 +7272,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7287,7 +7287,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e attr=\"\"/>/descendant::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7302,7 +7302,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e attr=\"\"/>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7317,7 +7317,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]/ancestor::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7332,7 +7332,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node()[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7347,7 +7347,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "preceeding::node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7362,7 +7362,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b c=\"\"/> <d/> </a>//node()/../count(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7377,7 +7377,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a> <b c=\"\"/> <d/> </a>//node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7392,7 +7392,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a> <b c=\"\"/> <d/> </a>/descendant-or-self::node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7407,7 +7407,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[attribute::id eq \"person0\"]/c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7422,7 +7422,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <b id=\"person0\"> <c/> </b> </a>/*[@id eq \"person0\"]/c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7437,7 +7437,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/attribute::attribute())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7452,7 +7452,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/attribute::schema-attribute(foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7467,7 +7467,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/attribute::schema-attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7482,7 +7482,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $root as document-node() := . treat as document-node();
         <out>
@@ -7593,7 +7593,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { <e> <a>1</a> <b>2</b> </e>/(b, a)/. } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7608,7 +7608,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := <e> <a>1</a> <b>2</b> </e>; <result> { ($i/b, $i/a)/. } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7623,7 +7623,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://typedecl\"; <r> { <e attr=\"foo\"/>/@attr } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7638,7 +7638,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7653,7 +7653,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix:",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7668,7 +7668,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(gt gt gt))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7691,7 +7691,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "< asd />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7706,7 +7706,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7721,7 +7721,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "eclare function",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7736,7 +7736,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function name",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7751,7 +7751,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-97'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:foo() external;",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7774,7 +7774,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-98'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery, version, encoding, default, declare, function, option, collation, schema, import",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7789,7 +7789,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-99'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function foo() external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7812,7 +7812,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<a> <b/> <c/> </a>[self::b][last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7835,7 +7835,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<b/>[self::b][last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7858,7 +7858,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $a in (/) return 
         for $b in $a/child::site return 
@@ -7886,7 +7886,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:isComplexType($typeID) { string($typeID) }; 
         \"|\", //*/local:isComplexType(@type), \"|\"",
@@ -7904,7 +7904,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'K2-Axes-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/<b>{.}</b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7919,7 +7919,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/child::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7934,7 +7934,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7949,7 +7949,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/attribute::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7964,7 +7964,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/parent::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7979,7 +7979,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/descendant::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7994,7 +7994,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'statictypingaxis-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(10)/descendant-or-self::*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8009,7 +8009,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-selfAxis-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { <a b=\"blah\"/>/@*/self::attribute(b) } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8024,7 +8024,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-childAxis-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a b=\"blah\"/>/child::attribute(b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8047,7 +8047,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-followingAxis-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[1]/following-sibling::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8062,7 +8062,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-precedingAxis-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8077,7 +8077,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-precedingAxis-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[2]/preceding-sibling::b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8092,7 +8092,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-precedingAxis-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a><b/><b/></a>/b[1]/preceding-sibling::b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8107,7 +8107,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-except-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := <a><b/><c/><d/></a> return count(($x/(node() except b) | $x/(node() except b)))
    ",
@@ -8124,7 +8124,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-wild-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace foo=\"test\";
         let $x := <a><foo:b/><c/><d/></a> return count($x/foo:* | $x/foo:*)",
@@ -8141,7 +8141,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-wild-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace foo=\"http://localhost/\";
         <a><foo:b/><foo:c/></a>/foo:b/self::foo:*",
@@ -8158,7 +8158,7 @@ tour:main()
       Err -> ct:fail(Err)
    end.
 'cbcl-path-nodes-and-atomics'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f($x) { if ($x mod 2 = 1) then <a/> else \"a\" };
         let $y := for $x in (1 to 10) return <e>{$x}</e> return $y/local:f(.)/a",

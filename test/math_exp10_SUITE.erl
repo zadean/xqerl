@@ -15,7 +15,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "math")
 
@@ -193,7 +193,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'math-exp10-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -209,7 +209,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -225,7 +225,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -241,7 +241,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(0.5)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -265,7 +265,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(-1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -281,7 +281,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(xs:double('NaN'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -297,7 +297,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(xs:double('INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -313,7 +313,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-exp10-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:exp10(xs:double('-INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

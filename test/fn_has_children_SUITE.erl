@@ -44,7 +44,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -263,7 +263,7 @@ environment('has-children',BaseDir) ->
 {modules, []}
 ].
 'fn-has-children-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists( fn:has-children#0 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -278,7 +278,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists( fn:has-children#1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -293,7 +293,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( fn:contains#2, fn:contains#2 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -308,7 +308,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children#2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -323,7 +323,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -346,7 +346,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children(.)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1)[fn:has-children()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -388,7 +388,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(fn:concat#2)[fn:has-children()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -407,7 +407,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -422,7 +422,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children(fn:concat#2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -437,7 +437,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( (.,.) )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,13 +453,13 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-has-children-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-has-children-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(., 1) ! fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -475,7 +475,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(., 1) ! fn:has-children(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -491,7 +491,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -507,7 +507,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -523,7 +523,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/@attribute/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -539,7 +539,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/@attribute )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -555,13 +555,13 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-has-children-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'fn-has-children-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/comment()/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -577,7 +577,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/comment() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -593,7 +593,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/processing-instruction()/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -609,7 +609,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/processing-instruction() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -625,7 +625,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/text()/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -641,7 +641,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/text() )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -657,7 +657,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/empty/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -673,7 +673,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/empty )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -689,7 +689,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -705,7 +705,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -721,7 +721,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/non-empty/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -737,7 +737,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( /root/non-empty )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -753,7 +753,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -769,7 +769,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:has-children( / )",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -785,7 +785,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/node()/fn:has-children()",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -801,7 +801,7 @@ environment('has-children',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-has-children-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/root/node()/fn:has-children(.)",
    {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

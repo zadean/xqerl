@@ -49,7 +49,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'MapConstructor-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{     })",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -309,7 +309,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{\"a\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{ \"a\" : 2 })",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{\"a\":2,\"b\":3})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -357,7 +357,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map { \"a\" : 2 , \"b\" : 3 })",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -373,7 +373,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {\"a\":2, })",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {,\"a\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {\"a\",\"b\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {\"a\":2,3})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {<a>x</a>:2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {2:<a>x</a>})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map {2:<a>x{25}y</a>})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(<a><b>x</b></a>/map{b:2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace b = \"http://b.com\"; map:size(<a><b:b>x</b:b></a>/map{b:b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(<a><b>x</b></a>/map{self::a: b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace a = \"http://a.com\"; map:size(<a><a:b>x</a:b></a>/map{self::a:b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(<a><b>x</b></a>/map{*:b:b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(<a><b>x</b></a>/map{* :b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(<a><self>x</self></a>/map{self:2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -597,7 +597,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{2:map{3:4}})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{(1 to 5)[. gt year-from-date(current-date())]:93})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{(1 to 5)[. lt year-from-date(current-date())]:93})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -645,7 +645,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $m := map{'a':1} return map:size(map{$m?a:true()})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -661,7 +661,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace z = \"http://z.com\"; map:size(<a><z:b>x</z:b></a>/map{z:b:z:b})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -677,7 +677,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -705,7 +705,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -734,7 +734,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -762,7 +762,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -789,7 +789,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -816,7 +816,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 
         declare namespace a = \"http://example.com\";
@@ -844,7 +844,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e><f>foo</f></e> ! map{*:*}
         =>
@@ -863,7 +863,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e><f>foo</f></e> ! map{*:f:*:f}
         =>
@@ -882,7 +882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          <e><f>4</f></e>!map{*:*div*,*||*:*}
          =>
@@ -901,7 +901,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{2+2: \"a\", 5-1: \"b\"}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -917,7 +917,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:integer(2): 5, xs:float(\"2.0\"): 8}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -933,7 +933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:double(\"NaN\"): true(), xs:float(\"NaN\"): false()}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -949,7 +949,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:double(\"INF\"): true(), xs:float(\"INF\"): false()}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -965,7 +965,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:double(\"-INF\"): true(), xs:float(\"-INF\"): false()}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -981,7 +981,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:time(\"24:00:00\"): true(), xs:time(\"00:00:00\"): false()}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -997,7 +997,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'MapConstructor-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{xs:time(\"05:00:00+05:00\"): true(), xs:time(\"00:00:00Z\"): false()}",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

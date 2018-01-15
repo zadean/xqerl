@@ -266,7 +266,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "misc")
 , try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq")) catch _:_ -> ok end
@@ -783,7 +783,7 @@ environment('xqdy0084',BaseDir) ->
 {modules, []}
 ].
 'combined-errors-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \"ABC\"",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -819,13 +819,13 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combined-errors-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'combined-errors-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'combined-errors-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/works[1]/employee[2]/preceding::employee",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -853,7 +853,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -922,7 +922,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -945,7 +945,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace prefix = \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -968,7 +968,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema default element namespace \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -991,7 +991,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace NCName := \"http://example.com/Dummy\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1006,7 +1006,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1029,7 +1029,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate { () }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1052,7 +1052,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate lax { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1075,7 +1075,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate strict { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1098,7 +1098,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate lax { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1121,7 +1121,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate strict { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1144,7 +1144,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CombinedErrorCodes-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "validate { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1167,7 +1167,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.0 div 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1182,7 +1182,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1197,7 +1197,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.0e0 idiv 0.0e0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1212,7 +1212,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1.0e0) idiv xs:float(0.0e0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1227,7 +1227,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.0 idiv 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1242,7 +1242,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 div 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1257,7 +1257,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 mod 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1272,7 +1272,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1.0 mod 0.0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1287,7 +1287,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0001_9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P1Y2M') div xs:yearMonthDuration('P0Y0M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1302,7 +1302,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0002_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2e308",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1325,7 +1325,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0002_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0 div 0E0) idiv xs:integer(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1340,7 +1340,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0002_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double('INF') idiv xs:integer(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1355,7 +1355,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOAR0002-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div xs:dayTimeDuration('P0DT00H00M0.000001S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1378,7 +1378,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0001_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(1e308)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1413,7 +1413,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('INF') cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1428,7 +1428,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1443,7 +1443,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"prefix:localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1prefix:localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1473,7 +1473,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"prefix:2localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1488,7 +1488,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"2localName\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1503,7 +1503,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1518,7 +1518,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"1prefix:localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1533,7 +1533,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0002_9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1548,7 +1548,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0003_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:double(1e308))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1583,7 +1583,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0005_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1598,7 +1598,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0005_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1613,7 +1613,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0005_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1628,7 +1628,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCA0005_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1643,7 +1643,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "codepoints-to-string(0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1658,7 +1658,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1673,7 +1673,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-before('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1688,7 +1688,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1703,7 +1703,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1718,7 +1718,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "ends-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1733,7 +1733,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1748,7 +1748,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "max(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1763,7 +1763,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "min(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1778,7 +1778,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "starts-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1793,7 +1793,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOCH0002_9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring-after('a', 'b', 'http://www.cbcl.co.u,/collation')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1808,7 +1808,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0001_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:id('id', <a />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1823,7 +1823,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0001_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a />/fn:idref('id')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1838,7 +1838,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0002_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1853,7 +1853,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0002_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1868,7 +1868,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0002_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1883,7 +1883,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0002_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1898,7 +1898,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1921,7 +1921,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0005-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1944,7 +1944,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODC0005-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "doc-available('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1967,7 +1967,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "adjust-dateTime-to-timezone( xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1982,7 +1982,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1997,7 +1997,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:date(\"-25252734927766555-07-28-14:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2012,7 +2012,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dateTime(\"-25252734927766555-07-28T23:59:59-14:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2027,7 +2027,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"25252734927766555-07-28-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2042,7 +2042,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:dayTimeDuration(\"PT14H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2057,7 +2057,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:dayTimeDuration(\"PT24H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2072,7 +2072,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dayTimeDuration(\"-PT14H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2087,7 +2087,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:dayTimeDuration(\"-PT24H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2117,7 +2117,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2132,7 +2132,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0001-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2147,7 +2147,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') + xs:dayTimeDuration('P4999999999999999999DT00H00M01S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2162,7 +2162,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2177,7 +2177,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div 0.5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2192,7 +2192,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') - xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2207,7 +2207,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') + xs:yearMonthDuration('P768614336404564650Y1M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2222,7 +2222,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') * 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2237,7 +2237,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') div 0.5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2252,7 +2252,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0002-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') - xs:yearMonthDuration('-P768614336404564650Y0M')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2267,7 +2267,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0003-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"PT15H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2282,7 +2282,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FODT0003-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"-PT15H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2297,7 +2297,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOER0000'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "error()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2312,7 +2312,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FONS0004-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName('prefix:localName', <element />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2327,7 +2327,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FONS0004-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName('prefix:localName')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2342,7 +2342,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer('INF')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2357,7 +2357,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/\"; resolve-uri(\"%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2372,7 +2372,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "zero-or-one( (1, 2, 3) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2387,7 +2387,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "one-or-more( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2402,7 +2402,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2417,7 +2417,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0006_01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean( xs:date('2007-01-01') )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2440,7 +2440,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0006_02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:avg( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2455,7 +2455,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0006_03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:min( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2470,7 +2470,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0006_04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:max( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2485,7 +2485,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0006_05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum( (xs:yearMonthDuration('P1Y0M'), 1) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2500,7 +2500,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "dateTime(xs:date('2001-01-01-14:00'), xs:time('01:01:01+14:00'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2515,7 +2515,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FORG0009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "resolve-uri('../../', '../../')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2530,10 +2530,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'FOTY0012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XPDY0002_01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ".",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2548,7 +2548,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPDY0002_02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $variable external; $variable",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2563,7 +2563,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPDY0050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 treat as node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2578,7 +2578,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute { 1 } { 1 }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2593,7 +2593,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a/>, <b/>)/(if (position() mod 2 = 1) then position() else .)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2608,7 +2608,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0019_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/1/node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2623,7 +2623,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0019_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2638,7 +2638,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0019_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2653,7 +2653,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element { 1 } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2668,7 +2668,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2683,7 +2683,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2698,7 +2698,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x as node() := 1 return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2713,7 +2713,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x as node() in (1, 2, 3) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2728,7 +2728,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document { attribute {'foo'} {} }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2743,7 +2743,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_08'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2758,7 +2758,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1, 'hello', xs:date('2007-11-28')) order by $x return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2773,7 +2773,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2788,7 +2788,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:tokenize('foo', () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2803,10 +2803,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XP20 XQ30 XP30"}.
 'XPTY0004_12a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:error( () )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2821,7 +2821,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2836,7 +2836,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ne 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2851,7 +2851,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" le 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2866,7 +2866,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" gt 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2881,7 +2881,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ge 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2896,7 +2896,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ne 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2911,7 +2911,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" << 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2926,7 +2926,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" >> 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2941,7 +2941,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" is 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2956,7 +2956,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" div 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2971,7 +2971,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" idiv 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2986,7 +2986,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" * 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3001,7 +3001,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" mod 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3016,7 +3016,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" - 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3031,7 +3031,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3046,7 +3046,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3061,7 +3061,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3076,7 +3076,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3091,7 +3091,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3106,7 +3106,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3121,7 +3121,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3136,7 +3136,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3151,7 +3151,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3166,7 +3166,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "-xs:date('2007-11-29')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3181,7 +3181,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3196,7 +3196,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3211,7 +3211,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "+xs:date('2007-11-29')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3226,7 +3226,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean( (1, 2) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3249,7 +3249,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(xs:date('2007-11-29'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3264,7 +3264,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3279,7 +3279,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3294,10 +3294,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XQ10"}.
 'XPTY0004_46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3312,7 +3312,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a := <e><a/><b/><a/></e>; <a>{$a/a eq 1}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3327,7 +3327,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0004_48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3350,7 +3350,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XPTY0020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/20[text()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3365,7 +3365,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0025_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3380,7 +3380,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0025_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3395,7 +3395,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0025_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3410,7 +3410,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0025_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3425,7 +3425,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction target { '?>' }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3440,10 +3440,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQDY0041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { '1BadName' } { 'content' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3458,7 +3458,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0044_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { 'xmlns' } { 'http://www.w3.org/' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3473,10 +3473,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'XQDY0064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { 'xml' } { 'content' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3491,7 +3491,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { comment { ' -- ' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3506,7 +3506,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0074_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { element { 'prefix:localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3521,7 +3521,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0074_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { 'prefix:localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3536,7 +3536,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0074_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { element { '1localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3551,7 +3551,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0074_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { '1localName' } { } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3566,10 +3566,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0084'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQDY0091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xml:id=\" ab c d \"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3592,7 +3592,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQDY0092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a xml:space=\"space\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3615,7 +3615,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0022_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns=\"{1}\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3630,7 +3630,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0022_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns:prefix=\"{1}\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3645,7 +3645,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '2.0'; 1+2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3660,7 +3660,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/A\"; declare base-uri \"http://www.example.org/B\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3675,7 +3675,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar = 'http://www.example.org/cheddar'; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3690,7 +3690,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.example.org/\"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3705,28 +3705,28 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0036_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0036_7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0038_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3741,7 +3741,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0038_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3756,7 +3756,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; declare function prefix:foo($arg, $arg) { 1 }; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3771,7 +3771,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a attr=\"a\" attr=\"a\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3786,7 +3786,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0045-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function foo() { 1 }; foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3801,7 +3801,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0045-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function xml:foo() { 1 }; xml:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3816,7 +3816,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0045-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function xs:foo() { 1 }; xs:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3831,7 +3831,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0045-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function xsi:foo() { 1 }; xsi:foo()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3846,7 +3846,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "base-uri(<a xml:base=\"%gg\" />)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3873,7 +3873,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; true()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -3908,7 +3908,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3931,7 +3931,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3954,7 +3954,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"%gg\"; fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3977,7 +3977,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"%gg\"; fn:true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4004,7 +4004,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"%gg\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4027,7 +4027,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://www.w3.org/\" at \"%gg\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4062,7 +4062,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module \"%gg\"; true()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4097,7 +4097,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.w3.org/\" at \"%gg\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4132,7 +4132,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0046_12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (\"a\", \"a\", \"a\") order by $x collation \"%gg\" return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4159,7 +4159,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4186,7 +4186,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/foo\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4213,7 +4213,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $foo external; declare variable $foo external; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4228,10 +4228,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'XQST0055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4246,7 +4246,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace foo = \"\" at \"http://www.w3.org/\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4261,13 +4261,13 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0059_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0059_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4294,10 +4294,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0059_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0059_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4312,7 +4312,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0059_5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/\"; foo:bar()",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4339,10 +4339,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0059_6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'XQST0060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"\"; declare function foo() { 1 }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4357,7 +4357,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare ordering unordered; declare ordering ordered; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4372,7 +4372,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0066_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.w3.org/a\"; declare default element namespace \"http://www.w3.org/b\"; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4387,7 +4387,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0066_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://www.example.org/\"; declare default function namespace \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4402,7 +4402,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; declare construction preserve; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4417,7 +4417,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; declare boundary-space preserve; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4432,7 +4432,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default order empty least; declare default order empty greatest; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4447,7 +4447,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0070_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4462,7 +4462,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0070_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4477,7 +4477,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0070_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = 'http://www.example.org/'; 1 + 2",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4504,7 +4504,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0070_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace xml = \"http://www.example.org/\"; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4519,7 +4519,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0071_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns:prefix=\"http://www.w3.org/\" xmlns:prefix=\"http://www.w3.org/\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4534,7 +4534,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0071_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns=\"http://www.w3.org/\" xmlns=\"http://www.w3.org/\" />",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4549,7 +4549,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0076'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in ('a', 'b', 'c') order by $x collation 'http://www.w3.org/' return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4564,10 +4564,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0079'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'XQST0085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<element xmlns:foo=\"http://www.w3.org/\"> <element xmlns:foo=\"\" /> </element>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4582,13 +4582,13 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0085b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'XQST0085c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'XQST0087'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '1.0' encoding '_utf'; 1+2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4603,7 +4603,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0088_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace cheese = ''; 1 + 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4618,7 +4618,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0088_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; 1",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -4645,7 +4645,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0089'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x at $x in (1, 2, 3) return $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4660,7 +4660,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<bad-character-reference>&#xa999999999999999a;</bad-character-reference>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4675,10 +4675,10 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0093'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'XQST0093a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	import module namespace foo=\"http://www.example.org/foo\"; 
       	$foo:variable2
@@ -4709,7 +4709,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQTY0024_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute prefix:foo { 'bar' } } </prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4724,7 +4724,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQTY0024_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute foo { 'bar' } } </prefix:a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4739,7 +4739,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQTY0024_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <a> { <b />, attribute prefix:foo { 'bar' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4754,7 +4754,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQTY0024_4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { <b />, attribute foo { 'bar' } } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4769,19 +4769,19 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQTY0030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaValidation"}.
 'XQTY0086_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'XQTY0086_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'XQTY0086_3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'XQST0125_1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := %public function($arg as xs:integer) as xs:integer 
                           { $arg + 1 }
@@ -4800,7 +4800,7 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XQST0125_2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $f := %private function($arg as xs:integer) as xs:integer 
                            { $arg + 1 }
@@ -4819,5 +4819,5 @@ environment('xqdy0084',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-in-xpath'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.

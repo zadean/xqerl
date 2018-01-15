@@ -509,7 +509,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -1229,7 +1229,7 @@ environment('functx_prices',BaseDir) ->
 {modules, []}
 ].
 'functx-fn-abs-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(abs(3.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1244,7 +1244,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-abs-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(abs(-4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1259,7 +1259,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-abs-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(abs(xs:float('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1274,7 +1274,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-abs-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(abs(3.5), abs(-4), abs(xs:float('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1289,7 +1289,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-date-to-timezone-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-date-to-timezone( xs:date('2006-02-15'), xs:dayTimeDuration('-PT8H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1304,7 +1304,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-date-to-timezone-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-date-to-timezone( xs:date('2006-02-15-03:00'), xs:dayTimeDuration('-PT8H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1319,7 +1319,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-date-to-timezone-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-date-to-timezone( xs:date('2006-02-15'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1334,7 +1334,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-date-to-timezone-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-date-to-timezone( xs:date('2006-02-15-03:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1349,7 +1349,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-date-to-timezone-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-date-to-timezone( xs:date('2006-02-15'), xs:dayTimeDuration('-PT8H')), adjust-date-to-timezone( xs:date('2006-02-15-03:00'), xs:dayTimeDuration('-PT8H')), adjust-date-to-timezone( xs:date('2006-02-15'), ()), adjust-date-to-timezone( xs:date('2006-02-15-03:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1364,7 +1364,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1379,7 +1379,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00-03:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1394,7 +1394,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1409,7 +1409,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00-03:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1424,7 +1424,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T01:00:00-03:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1439,7 +1439,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-dateTime-to-timezone-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00'), xs:dayTimeDuration('-PT7H')), adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00-03:00'), xs:dayTimeDuration('-PT7H')), adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00'), ()), adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T17:00:00-03:00'), ()), adjust-dateTime-to-timezone( xs:dateTime('2006-02-15T01:00:00-03:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1454,7 +1454,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-time-to-timezone-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-time-to-timezone( xs:time('17:00:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1469,7 +1469,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-time-to-timezone-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-time-to-timezone( xs:time('17:00:00-03:00'), xs:dayTimeDuration('-PT7H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1484,7 +1484,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-time-to-timezone-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-time-to-timezone( xs:time('17:00:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1499,7 +1499,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-time-to-timezone-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-time-to-timezone( xs:time('17:00:00-03:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1514,7 +1514,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-adjust-time-to-timezone-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(adjust-time-to-timezone( xs:time('17:00:00'), xs:dayTimeDuration('-PT7H')), adjust-time-to-timezone( xs:time('17:00:00-03:00'), xs:dayTimeDuration('-PT7H')), adjust-time-to-timezone( xs:time('17:00:00'), ()), adjust-time-to-timezone( xs:time('17:00:00-03:00'), ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1529,7 +1529,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(avg( (1, 2, 3, 4, 5) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1544,7 +1544,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(avg( (1, 2, 3, (), 4, 5) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1559,7 +1559,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(avg( (xs:yearMonthDuration('P4M'), xs:yearMonthDuration('P6M') ) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1574,7 +1574,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (avg($ordDoc//item/@quantity))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1590,7 +1590,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (avg( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1606,7 +1606,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-avg-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (avg( (1, 2, 3, 4, 5) ), avg( (1, 2, 3, (), 4, 5) ), avg( (xs:yearMonthDuration('P4M'), xs:yearMonthDuration('P6M') ) ), avg($ordDoc//item/@quantity), avg( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1622,7 +1622,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-base-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cats := (/) return (base-uri($cats//catalog[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1638,7 +1638,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-base-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cats := (/) return (base-uri($cats//catalog[2]/product))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1654,7 +1654,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-base-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cats := (/) return (base-uri($cats//catalog[2]/product/@href))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1670,7 +1670,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-base-uri-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cats := (/) return (base-uri($cats//catalog[1]), base-uri($cats//catalog[2]/product), base-uri($cats//catalog[2]/product/@href))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_cats',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1686,7 +1686,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1702,7 +1702,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean(''))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1718,7 +1718,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean(0))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1734,7 +1734,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean('0'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1750,7 +1750,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean('false'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1766,7 +1766,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean(xs:float('NaN')))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1782,7 +1782,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean($ordDoc/order[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1798,7 +1798,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean($ordDoc/noSuchChild))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1814,7 +1814,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean(<a>false</a>))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1830,7 +1830,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-boolean-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (boolean( () ), boolean(''), boolean(0), boolean('0'), boolean('false'), boolean(xs:float('NaN')), boolean($ordDoc/order[1]), boolean($ordDoc/noSuchChild), boolean(<a>false</a>))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1846,7 +1846,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1861,7 +1861,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(5.1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1876,7 +1876,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(5.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1891,7 +1891,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(-5.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1906,7 +1906,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(-5.51))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1921,7 +1921,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1936,7 +1936,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ceiling-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ceiling(5), ceiling(5.1), ceiling(5.5), ceiling(-5.5), ceiling(-5.51), ceiling( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1951,7 +1951,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoint-equal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoint-equal('abc', 'abc'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1966,7 +1966,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoint-equal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoint-equal('abc', 'ab c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1981,7 +1981,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoint-equal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoint-equal('abc', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1996,7 +1996,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoint-equal-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoint-equal('abc', 'abc'), codepoint-equal('abc', 'ab c'), codepoint-equal('abc', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2011,7 +2011,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoints-to-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoints-to-string((97, 32, 98, 32, 99)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2026,7 +2026,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoints-to-string-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoints-to-string(97))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2041,7 +2041,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoints-to-string-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoints-to-string(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2056,7 +2056,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-codepoints-to-string-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(codepoints-to-string((97, 32, 98, 32, 99)), codepoints-to-string(97), codepoints-to-string(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2071,7 +2071,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('a', 'b'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2086,7 +2086,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('a', 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2101,7 +2101,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('b', 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2116,7 +2116,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('ab', 'abc'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2131,7 +2131,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('a', 'B'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2146,7 +2146,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare(upper-case('a'), upper-case('B')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2161,7 +2161,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('a', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2176,7 +2176,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-compare-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(compare('a', 'b'), compare('a', 'a'), compare('b', 'a'), compare('ab', 'abc'), compare('a', 'B'), compare(upper-case('a'), upper-case('B')), compare('a', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2191,7 +2191,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-concat-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat('a', 'b'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2206,7 +2206,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-concat-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat('a', 'b', 'c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2221,7 +2221,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-concat-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat('a', (), 'b', '', 'c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2236,7 +2236,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-concat-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat('a', <x>b</x>, 'c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2251,7 +2251,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-concat-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(concat('a', 'b'), concat('a', 'b', 'c'), concat('a', (), 'b', '', 'c'), concat('a', <x>b</x>, 'c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2266,7 +2266,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', 'e'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2281,7 +2281,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', 'ery'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2296,7 +2296,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', 'query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2311,7 +2311,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2326,7 +2326,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2341,7 +2341,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2356,7 +2356,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains( (), 'q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2371,7 +2371,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-contains-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(contains('query', 'e'), contains('query', 'ery'), contains('query', 'query'), contains('query', 'x'), contains('query', ''), contains('query', ()), contains( (), 'q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2386,7 +2386,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2402,7 +2402,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count($ordDoc//item))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2418,7 +2418,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count( distinct-values($ordDoc//item/@num)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2434,7 +2434,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3, () ) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2450,7 +2450,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2466,7 +2466,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-count-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (count( (1, 2, 3) ), count($ordDoc//item), count( distinct-values($ordDoc//item/@num)), count( (1, 2, 3, () ) ), count( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2482,7 +2482,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[1]/number))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2498,7 +2498,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//number))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2514,7 +2514,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[1]/@dept))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2530,7 +2530,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[1]/colorChoices))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2546,7 +2546,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2562,7 +2562,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[4]/desc))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2578,7 +2578,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-data-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $cat := (/) return (data($cat//product[1]/number), data($cat//number), data($cat//product[1]/@dept), data($cat//product[1]/colorChoices), data($cat//product[1]), data($cat//product[4]/desc))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2594,7 +2594,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(dateTime(xs:date('2006-08-15'), xs:time('12:30:45-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2609,7 +2609,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-day-from-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(day-from-date(xs:date('2006-08-15')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2624,7 +2624,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-day-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(day-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2639,7 +2639,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('P5D')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2654,7 +2654,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('-PT24H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2669,7 +2669,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('PT23H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2684,7 +2684,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('P1DT36H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2699,7 +2699,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('PT1440M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2714,7 +2714,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-days-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(days-from-duration( xs:dayTimeDuration('P5D')), days-from-duration( xs:dayTimeDuration('-PT24H')), days-from-duration( xs:dayTimeDuration('PT23H')), days-from-duration( xs:dayTimeDuration('P1DT36H')), days-from-duration( xs:dayTimeDuration('PT1440M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2729,7 +2729,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( 1, 1 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2744,7 +2744,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( (1, 1), (1, 1) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2759,7 +2759,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( (1, 2), (1.0, 2.0) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2774,7 +2774,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( (1, 2), (2, 1) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2789,7 +2789,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( $prod1, $prod2 ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2804,7 +2804,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( $prod1/number, $prod2/number ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2819,7 +2819,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-deep-equal-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $prod1 := <product dept='MEN' id='P123'> <number>784</number> </product> return let $prod2 := <product id='P123' dept='MEN'><!--comment--> <number>784</number> </product> return (deep-equal( 1, 1 ), deep-equal( (1, 1), (1, 1) ), deep-equal( (1, 2), (1.0, 2.0) ), deep-equal( (1, 2), (2, 1) ), deep-equal( $prod1, $prod2 ), deep-equal( $prod1/number, $prod2/number ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2834,7 +2834,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-default-collation-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(default-collation())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2849,7 +2849,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( ('a', 'b', 'a') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2864,7 +2864,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( (1, 2, 3) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2879,7 +2879,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( ('a', 2, 3) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2894,7 +2894,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( (xs:integer('1'), xs:decimal('1.0'), xs:float('1.0E0') ) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2909,7 +2909,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values($in-xml/*))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2924,7 +2924,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2939,7 +2939,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-distinct-values-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>3</a> <b>5</b> <b>3</b> </in-xml> return (distinct-values( ('a', 'b', 'a') ), distinct-values( (1, 2, 3) ), distinct-values( ('a', 2, 3) ), distinct-values( (xs:integer('1'), xs:decimal('1.0'), xs:float('1.0E0') ) ), distinct-values($in-xml/*), distinct-values( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2954,7 +2954,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-doc-available-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(doc-available( document-uri(/) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2970,7 +2970,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty( ('a', 'b', 'c') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2985,7 +2985,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3000,7 +3000,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3015,7 +3015,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty($in-xml/a))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3030,7 +3030,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty($in-xml/b))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3045,7 +3045,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty($in-xml/c))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3060,7 +3060,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty($in-xml/foo))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3075,7 +3075,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-empty-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a></a> <b/> <c>xyz</c> </in-xml> return (empty( ('a', 'b', 'c') ), empty( () ), empty(0), empty($in-xml/a), empty($in-xml/b), empty($in-xml/c), empty($in-xml/foo))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3090,7 +3090,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-encode-for-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(encode-for-uri( 'Sales % Numbers.pdf'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3105,7 +3105,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-encode-for-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(encode-for-uri( 'http://datypic.com/a%20URI#frag'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3120,7 +3120,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-encode-for-uri-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(encode-for-uri( 'Sales % Numbers.pdf'), encode-for-uri( 'http://datypic.com/a%20URI#frag'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3135,7 +3135,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('query', 'y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3150,7 +3150,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('query', 'query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3165,7 +3165,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3180,7 +3180,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('query ', 'y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3195,7 +3195,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('', 'y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3210,7 +3210,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-ends-with-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(ends-with('query', 'y'), ends-with('query', 'query'), ends-with('query', ''), ends-with('query ', 'y'), ends-with('', 'y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3225,7 +3225,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-escape-html-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(escape-html-uri( 'http://datypic.com/a%20URI#frag'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3240,7 +3240,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-escape-html-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(escape-html-uri('http://datypic.com'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3255,7 +3255,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-escape-html-uri-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(escape-html-uri( 'http://datypic.com/a%20URI#frag'), escape-html-uri('http://datypic.com'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3270,7 +3270,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exactly-one-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exactly-one('a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3285,7 +3285,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exists-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exists( ('a', 'b', 'c') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3300,7 +3300,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exists-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exists( '' ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3315,7 +3315,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exists-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exists( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3330,7 +3330,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exists-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exists( false() ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3345,7 +3345,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-exists-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(exists( ('a', 'b', 'c') ), exists( '' ), exists( () ), exists( false() ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3360,7 +3360,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-false-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3375,7 +3375,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3390,7 +3390,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(5.1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3405,7 +3405,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(5.7))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3420,7 +3420,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(-5.1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3435,7 +3435,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(-5.7))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3450,7 +3450,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3465,7 +3465,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-floor-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(floor(5), floor(5.1), floor(5.7), floor(-5.1), floor(-5.7), floor( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3480,7 +3480,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3495,7 +3495,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-dateTime-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-dateTime( xs:dateTime('2006-08-15T10:30:23-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3510,7 +3510,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-dateTime-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-dateTime( xs:dateTime('2006-08-15T10:30:23')), hours-from-dateTime( xs:dateTime('2006-08-15T10:30:23-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3525,7 +3525,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('P1DT5H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3540,7 +3540,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('-PT36H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3555,7 +3555,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('PT1H90M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3570,7 +3570,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('PT2H59M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3585,7 +3585,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('PT3600S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3600,7 +3600,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-duration( xs:dayTimeDuration('P1DT5H')), hours-from-duration( xs:dayTimeDuration('-PT36H')), hours-from-duration( xs:dayTimeDuration('PT1H90M')), hours-from-duration( xs:dayTimeDuration('PT2H59M')), hours-from-duration( xs:dayTimeDuration('PT3600S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3615,7 +3615,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-time-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-time( xs:time('10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3630,7 +3630,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-time-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-time( xs:time('10:30:23-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3645,7 +3645,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-hours-from-time-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(hours-from-time( xs:time('10:30:23')), hours-from-time( xs:time('10:30:23-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3660,7 +3660,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( ('a', 'b', 'c'), 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3675,7 +3675,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( ('a', 'b', 'c'), 'd'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3690,7 +3690,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( (4, 5, 6, 4), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3705,7 +3705,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( (4, 5, 6, 4), 04.0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3720,7 +3720,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( ('a', 5, 6), 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3735,7 +3735,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( (), 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3750,7 +3750,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( (<a>1</a>, <b>1</b>), <c>1</c> ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3765,7 +3765,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-index-of-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(index-of( ('a', 'b', 'c'), 'a'), index-of( ('a', 'b', 'c'), 'd'), index-of( (4, 5, 6, 4), 4), index-of( (4, 5, 6, 4), 04.0), index-of( ('a', 5, 6), 'a'), index-of( (), 'a'), index-of( (<a>1</a>, <b>1</b>), <c>1</c> ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3780,7 +3780,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 1, ('x', 'y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3795,7 +3795,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 2, ('x', 'y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3810,7 +3810,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 10, ('x', 'y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3825,7 +3825,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 0, ('x', 'y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3840,7 +3840,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 2, ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3855,7 +3855,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( (), 3, ('a', 'b', 'c') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3870,7 +3870,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-insert-before-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(insert-before( ('a', 'b', 'c'), 1, ('x', 'y')), insert-before( ('a', 'b', 'c'), 2, ('x', 'y')), insert-before( ('a', 'b', 'c'), 10, ('x', 'y')), insert-before( ('a', 'b', 'c'), 0, ('x', 'y')), insert-before( ('a', 'b', 'c'), 2, ()), insert-before( (), 3, ('a', 'b', 'c') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3885,7 +3885,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-iri-to-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(iri-to-uri( 'http://datypic.com/Sales Numbers.pdf'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3900,7 +3900,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3915,7 +3915,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en-US')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3930,7 +3930,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('fr')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3945,7 +3945,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc/line[lang('en')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3960,7 +3960,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml[lang('en-US')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3975,7 +3975,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('FR')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3990,7 +3990,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lang-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <desclist xml:lang=\"en\"> <desc xml:lang=\"en-US\"> <line>A line of text.</line> </desc> <desc xml:lang=\"fr\"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en')], $in-xml// desc[lang('en-US')], $in-xml// desc[lang('fr')], $in-xml// desc/line[lang('en')], $in-xml[lang('en-US')], $in-xml// desc[lang('FR')])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4005,7 +4005,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-last-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/ catalog/product[last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4026,7 +4026,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-from-QName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(local-name-from-QName( QName('http://datypic.com/prod', 'number')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4041,7 +4041,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-from-QName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(local-name-from-QName(QName ('', 'number')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4056,7 +4056,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-from-QName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(local-name-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4071,7 +4071,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-from-QName-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(local-name-from-QName( QName('http://datypic.com/prod', 'number')), local-name-from-QName(QName ('', 'number')), local-name-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4086,7 +4086,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml))",
@@ -4103,7 +4103,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml//pre:prefixed))",
@@ -4120,7 +4120,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml//unpre:unprefixed))",
@@ -4137,7 +4137,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml//@pre:prefAttr))",
@@ -4154,7 +4154,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml//@noNSAttr))",
@@ -4171,7 +4171,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-local-name-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (local-name($in-xml), local-name($in-xml//pre:prefixed), local-name($in-xml//unpre:unprefixed), local-name($in-xml//@pre:prefAttr), local-name($in-xml//@noNSAttr))",
@@ -4188,7 +4188,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lower-case-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(lower-case('QUERY'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4203,7 +4203,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lower-case-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(lower-case('Query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4218,7 +4218,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lower-case-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(lower-case('QUERY123'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4233,7 +4233,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-lower-case-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(lower-case('QUERY'), lower-case('Query'), lower-case('QUERY123'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4248,7 +4248,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', 'q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4263,7 +4263,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', 'ue'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4278,7 +4278,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', '^qu'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4293,7 +4293,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', 'qu$'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4308,7 +4308,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', '[ux]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4323,7 +4323,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', 'q.*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4338,7 +4338,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches('query', '[a-z]{5}'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4353,7 +4353,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches((), 'q' ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4368,7 +4368,7 @@ environment('functx_prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Street.*City'))",
    Qry1 = Qry,
@@ -4384,7 +4384,7 @@ Traverse City, MI 49684' return (matches($address, 'Street.*City'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street Traverse City, MI 49684' return (matches($address, 'Street.*City', 's'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4399,7 +4399,7 @@ Traverse City, MI 49684' return (matches($address, 'Street.*City'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Street$'))",
    Qry1 = Qry,
@@ -4415,7 +4415,7 @@ Traverse City, MI 49684' return (matches($address, 'Street$'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Street$', 'm'))",
    Qry1 = Qry,
@@ -4431,7 +4431,7 @@ Traverse City, MI 49684' return (matches($address, 'Street$', 'm'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'street'))",
    Qry1 = Qry,
@@ -4447,7 +4447,7 @@ Traverse City, MI 49684' return (matches($address, 'street'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'street', 'i'))",
    Qry1 = Qry,
@@ -4463,7 +4463,7 @@ Traverse City, MI 49684' return (matches($address, 'street', 'i'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Main Street'))",
    Qry1 = Qry,
@@ -4479,7 +4479,7 @@ Traverse City, MI 49684' return (matches($address, 'Main Street'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Main Street', 'x'))",
    Qry1 = Qry,
@@ -4495,7 +4495,7 @@ Traverse City, MI 49684' return (matches($address, 'Main Street', 'x'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'Main \\s Street', 'x'))",
    Qry1 = Qry,
@@ -4511,7 +4511,7 @@ Traverse City, MI 49684' return (matches($address, 'Main \\s Street', 'x'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $address := '123 Main Street
 Traverse City, MI 49684' return (matches($address, 'street$', 'im'))",
    Qry1 = Qry,
@@ -4527,7 +4527,7 @@ Traverse City, MI 49684' return (matches($address, 'street$', 'im'))",
       Err -> ct:fail(Err)
    end.
 'functx-fn-matches-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $address := '123 Main Street
 Traverse City, MI 49684' 
@@ -4552,7 +4552,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-max-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (max( (2, 1, 5, 4, 3) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4568,7 +4568,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-max-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (max( ('a', 'b', 'c') ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4584,7 +4584,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-max-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (max( 2 ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4600,7 +4600,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-max-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (max($ordDoc//item/string(@dept)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4616,7 +4616,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-max-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (max( (2, 1, 5, 4, 3) ), max( ('a', 'b', 'c') ), max( 2 ), max($ordDoc//item/string(@dept)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4632,7 +4632,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-min-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (min( (2.0, 1, 3.5, 4) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4648,7 +4648,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-min-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (min( ('a', 'b', 'c') ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4664,7 +4664,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-min-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (min($ordDoc//item//string(@color)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4680,7 +4680,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-min-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (min($ordDoc//item/@color/string(.)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4696,7 +4696,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-min-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (min( (2.0, 1, 3.5, 4) ), min( ('a', 'b', 'c') ), min($ordDoc//item//string(@color)), min($ordDoc//item/@color/string(.)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -4712,7 +4712,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4727,7 +4727,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('PT30M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4742,7 +4742,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('-PT90M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4757,7 +4757,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('PT1M90S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4772,7 +4772,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('PT3H')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4787,7 +4787,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('PT60M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4802,7 +4802,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-duration( xs:dayTimeDuration('PT30M')), minutes-from-duration( xs:dayTimeDuration('-PT90M')), minutes-from-duration( xs:dayTimeDuration('PT1M90S')), minutes-from-duration( xs:dayTimeDuration('PT3H')), minutes-from-duration( xs:dayTimeDuration('PT60M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4817,7 +4817,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-minutes-from-time-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(minutes-from-time(xs:time('10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4832,7 +4832,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-month-from-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(month-from-date(xs:date('2006-08-15')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4847,7 +4847,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-month-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(month-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4862,7 +4862,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-months-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(months-from-duration( xs:yearMonthDuration('P3M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4877,7 +4877,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-months-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(months-from-duration( xs:yearMonthDuration('-P18M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4892,7 +4892,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-months-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(months-from-duration( xs:yearMonthDuration('P1Y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4907,7 +4907,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-months-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(months-from-duration( xs:yearMonthDuration('P12M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4922,7 +4922,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-months-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(months-from-duration( xs:yearMonthDuration('P3M')), months-from-duration( xs:yearMonthDuration('-P18M')), months-from-duration( xs:yearMonthDuration('P1Y')), months-from-duration( xs:yearMonthDuration('P12M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -4937,7 +4937,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml))",
@@ -4954,7 +4954,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml//pre2:prefixed))",
@@ -4971,7 +4971,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml//unpre2:unprefixed))",
@@ -4988,7 +4988,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml//@pre2:prefAttr))",
@@ -5005,7 +5005,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml//@noNSAttr))",
@@ -5022,7 +5022,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-name-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (name($in-xml), name($in-xml//pre2:prefixed), name($in-xml//unpre2:unprefixed), name($in-xml//@pre2:prefAttr), name($in-xml//@noNSAttr))",
@@ -5039,7 +5039,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-for-prefix-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri-for-prefix( '', $in-xml))",
@@ -5056,7 +5056,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-for-prefix-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri-for-prefix( 'pre',$in-xml//pre:prefixed))",
@@ -5073,7 +5073,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-for-prefix-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri-for-prefix( '',$in-xml//unpre:unprefixed))",
@@ -5090,7 +5090,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-for-prefix-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri-for-prefix( 'pre',$in-xml//unpre:unprefixed))",
@@ -5107,7 +5107,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-for-prefix-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := 
@@ -5134,7 +5134,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-from-QName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(namespace-uri-from-QName( QName ('http://datypic.com/pre', 'prefixed')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5149,7 +5149,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-from-QName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(namespace-uri-from-QName( QName ('', 'unprefixed')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5164,7 +5164,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-from-QName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(namespace-uri-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5179,7 +5179,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-from-QName-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(namespace-uri-from-QName( QName ('http://datypic.com/pre', 'prefixed')), namespace-uri-from-QName( QName ('', 'unprefixed')), namespace-uri-from-QName( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5194,7 +5194,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml))",
@@ -5211,7 +5211,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml//pre:prefixed))",
@@ -5228,7 +5228,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml//unpre:unprefixed))",
@@ -5245,7 +5245,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml//@pre:prefAttr))",
@@ -5262,7 +5262,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml//@noNSAttr))",
@@ -5279,7 +5279,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-namespace-uri-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (namespace-uri($in-xml), namespace-uri($in-xml//pre:prefixed), namespace-uri($in-xml//unpre:unprefixed), namespace-uri($in-xml//@pre:prefAttr), namespace-uri($in-xml//@noNSAttr))",
@@ -5296,7 +5296,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-nilled-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"> <child>12</child> <child xsi:nil=\"true\"></child> <child></child> <child/> <child xsi:nil=\"false\"></child> </root> return (nilled($in-xml//child[1]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5311,7 +5311,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-nilled-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"> <child>12</child> <child xsi:nil=\"true\"></child> <child></child> <child/> <child xsi:nil=\"false\"></child> </root> return (nilled($in-xml//child[3]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5326,7 +5326,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-nilled-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"> <child>12</child> <child xsi:nil=\"true\"></child> <child></child> <child/> <child xsi:nil=\"false\"></child> </root> return (nilled($in-xml//child[4]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5341,7 +5341,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-nilled-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"> <child>12</child> <child xsi:nil=\"true\"></child> <child></child> <child/> <child xsi:nil=\"false\"></child> </root> return (nilled($in-xml//child[5]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5356,7 +5356,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-nilled-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <root xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"> <child>12</child> <child xsi:nil=\"true\"></child> <child></child> <child/> <child xsi:nil=\"false\"></child> </root> return (nilled($in-xml//child[1]), nilled($in-xml//child[3]), nilled($in-xml//child[4]), nilled($in-xml//child[5]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5371,7 +5371,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml))",
@@ -5388,7 +5388,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml/pre2:prefixed))",
@@ -5405,7 +5405,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml//unpre2:unprefixed))",
@@ -5422,7 +5422,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml//@pre2:prefAttr))",
@@ -5439,7 +5439,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml//@noNSAttr))",
@@ -5456,7 +5456,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-node-name-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre2 = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (node-name($in-xml), node-name($in-xml/pre2:prefixed), node-name($in-xml//unpre2:unprefixed), node-name($in-xml//@pre2:prefAttr), node-name($in-xml//@noNSAttr))",
@@ -5473,7 +5473,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space('query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5488,7 +5488,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space(' query '))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5503,7 +5503,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space('xml query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5518,7 +5518,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space('xml query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5533,7 +5533,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space('xml query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5548,7 +5548,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space(''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5563,7 +5563,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space(' '))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5578,7 +5578,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5593,7 +5593,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space( <element> query </element>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5608,7 +5608,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-space-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-space('query'), normalize-space(' query '), normalize-space('xml query'), normalize-space('xml query'), normalize-space('xml query'), normalize-space(''), normalize-space(' '), normalize-space(()), normalize-space( <element> query </element>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5623,7 +5623,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-unicode-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-unicode('query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5638,7 +5638,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-unicode-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-unicode('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5653,7 +5653,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-normalize-unicode-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(normalize-unicode('query'), normalize-unicode('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5668,7 +5668,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(32 >
          20))",
    Qry1 = Qry,
@@ -5684,7 +5684,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not((/) //product))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5700,7 +5700,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(true()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5715,7 +5715,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5730,7 +5730,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5745,7 +5745,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5760,7 +5760,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(<e>false</e>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5775,7 +5775,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-not-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(not(32 > 20), not((/) //product), not(true()), not(()), not(''), not(0), not(<e>false</e>))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_catalog',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5791,7 +5791,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return (number( $priceDoc//prod[1]/price))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5807,7 +5807,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return (number( $priceDoc//prod[1]/@currency))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5823,7 +5823,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return (number('29.99'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5839,7 +5839,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return (number('ABC'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5855,7 +5855,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return (number( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -5871,7 +5871,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $priceDoc := (/) return ($priceDoc// prod/price[number() >
          35])",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_prices',BaseDir)),
@@ -5888,7 +5888,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-number-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $priceDoc := (/) 
          return (number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), 
@@ -5936,7 +5936,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-one-or-more-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(one-or-more('a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5951,7 +5951,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-one-or-more-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(one-or-more( ('a', 'b') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5966,7 +5966,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-one-or-more-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(one-or-more('a'), one-or-more( ('a', 'b') ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5981,7 +5981,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-position-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/*[position() > 2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5996,7 +5996,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-position-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/a[position() > 2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6011,7 +6011,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-position-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/a[position() = 3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6026,7 +6026,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-position-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/*[position() > 2], $in-xml/a[position() > 2], $in-xml/a[position() = 3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6041,7 +6041,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml)))",
@@ -6058,7 +6058,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml//pre2:prefixed)))",
@@ -6075,7 +6075,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml//unpre:unprefixed)))",
@@ -6092,7 +6092,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml//@pre2:prefAttr)))",
@@ -6109,7 +6109,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml//@noNSAttr)))",
@@ -6126,7 +6126,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name(<pre2:new>xyz</pre2:new>)))",
@@ -6143,7 +6143,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-prefix-from-QName-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace pre2 = \"http://datypic.com/pre\";
          declare namespace unpre = \"http://datypic.com/unpre\";
          let $in-xml := <noNamespace> <pre:prefixed xmlns=\"http://datypic.com/unpre\" xmlns:pre=\"http://datypic.com/pre\"> <unprefixed pre:prefAttr=\"a\" noNSAttr=\"b\">123</unprefixed> </pre:prefixed> </noNamespace> return (prefix-from-QName( node-name($in-xml)), prefix-from-QName( node-name($in-xml//pre2:prefixed)), prefix-from-QName( node-name($in-xml//unpre:unprefixed)), prefix-from-QName( node-name($in-xml//@pre2:prefAttr)), prefix-from-QName( node-name($in-xml//@noNSAttr)), prefix-from-QName( node-name(<pre2:new>xyz</pre2:new>)))",
@@ -6160,7 +6160,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-QName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName('http://datypic.com/prod','product'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6175,7 +6175,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-QName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName('http://datypic.com/prod', 'pre:product'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6190,7 +6190,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-QName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName('', 'product'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6205,7 +6205,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-QName-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(QName('http://datypic.com/prod','product'), QName('http://datypic.com/prod', 'pre:product'), QName('', 'product'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6220,7 +6220,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-remove-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove( ('a', 'b', 'c'), 2) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6235,7 +6235,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-remove-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove( ('a', 'b', 'c'), 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6250,7 +6250,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-remove-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove( ('a', 'b', 'c'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6265,7 +6265,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-remove-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(remove( ('a', 'b', 'c'), 2) , remove( ('a', 'b', 'c'), 10), remove( ('a', 'b', 'c'), 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6280,7 +6280,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', 'r', 'as'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6295,7 +6295,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', 'qu', 'quack'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6310,7 +6310,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', '[ry]', 'l'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6325,7 +6325,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', '[ry]+', 'l'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6340,7 +6340,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', 'z', 'a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6355,7 +6355,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', 'query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6370,7 +6370,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace( (), 'r', 'as'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6385,7 +6385,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('Chapter', '(Chap)|(Chapter)', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6400,7 +6400,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('reluctant', 'r.*t', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6415,7 +6415,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('reluctant', 'r.*?t', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6430,7 +6430,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('aaah', 'a{2,3}', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6445,7 +6445,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('aaah', 'a{2,3}?', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6460,7 +6460,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('aaaah', 'a{2,3}', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6475,7 +6475,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('aaaah', 'a{2,3}?', 'X'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6490,7 +6490,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('Chap 2...Chap 3...Chap 4...', 'Chap (\\d)', 'Sec $1.0'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6505,7 +6505,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('abc123', '([a-z])', '$1x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6520,7 +6520,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('2315551212', '(\\d{3})(\\d{3})(\\d{4})', '($1) $2-$3'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6535,7 +6535,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('2006-10-18', '\\d{2}(\\d{2})-(\\d{2})-(\\d{2})', '$2/$3/$1'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6550,7 +6550,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('25', '(\\d+)', '\\$$1.00'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6565,7 +6565,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-replace-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(replace('query', 'r', 'as'), replace('query', 'qu', 'quack'), replace('query', '[ry]', 'l'), replace('query', '[ry]+', 'l'), replace('query', 'z', 'a'), replace('query', 'query', ''), replace( (), 'r', 'as'), replace('Chapter', '(Chap)|(Chapter)', 'x'), replace('reluctant', 'r.*t', 'X'), replace('reluctant', 'r.*?t', 'X'), replace('aaah', 'a{2,3}', 'X'), replace('aaah', 'a{2,3}?', 'X'), replace('aaaah', 'a{2,3}', 'X'), replace('aaaah', 'a{2,3}?', 'X'), replace('Chap 2...Chap 3...Chap 4...', 'Chap (\\d)', 'Sec $1.0'), replace('abc123', '([a-z])', '$1x'), replace('2315551212', '(\\d{3})(\\d{3})(\\d{4})', '($1) $2-$3'), replace('2006-10-18', '\\d{2}(\\d{2})-(\\d{2})-(\\d{2})', '$2/$3/$1'), replace('25', '(\\d+)', '\\$$1.00'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6580,7 +6580,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-QName-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ord = \"http://datypic.com/ord\";
          declare namespace dty = \"http://datypic.com\";
          declare namespace dty2 = \"http://datypic.com/ns2\";
@@ -6598,7 +6598,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-QName-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ord = \"http://datypic.com/ord\";
          declare namespace dty = \"http://datypic.com\";
          declare namespace dty2 = \"http://datypic.com/ns2\";
@@ -6616,7 +6616,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-QName-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ord = \"http://datypic.com/ord\";
          declare namespace dty = \"http://datypic.com\";
          declare namespace dty2 = \"http://datypic.com/ns2\";
@@ -6634,7 +6634,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-QName-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace ord = \"http://datypic.com/ord\";
          declare namespace dty = \"http://datypic.com\";
          declare namespace dty2 = \"http://datypic.com/ns2\";
@@ -6652,7 +6652,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri('prod', 'http://datypic.com/'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6667,7 +6667,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri('prod2', 'http://datypic.com/prod1'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6682,7 +6682,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri( 'http://example.org','http://datypic.com'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6697,7 +6697,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri( 'http://datypic.com', '../base'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6720,7 +6720,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri( '', 'http://datypic.com'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6743,7 +6743,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-resolve-uri-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(resolve-uri('prod', 'http://datypic.com/'), resolve-uri('prod2', 'http://datypic.com/prod1'), resolve-uri( 'http://example.org','http://datypic.com'), resolve-uri( 'http://datypic.com', '../base'), resolve-uri( '', 'http://datypic.com'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6778,7 +6778,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-reverse-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(reverse( (1, 2, 3, 4, 5) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6793,7 +6793,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-reverse-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(reverse( (6, 2, 4) ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6808,7 +6808,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-reverse-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(reverse( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6823,7 +6823,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-reverse-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(reverse( (1, 2, 3, 4, 5) ), reverse( (6, 2, 4) ), reverse( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6838,7 +6838,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-root-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <a><x>123</x></a> return (root( (/) //item[1]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -6861,7 +6861,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-root-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml := <a><x>123</x></a> return (root($in-xml/x))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6876,7 +6876,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-root-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $in-xml := <a><x>123</x></a> 
          return document{(root( (/) //item[1]), root($in-xml/x))}
@@ -6902,7 +6902,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(5.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6917,7 +6917,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(6.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6932,7 +6932,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(9372.253, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6947,7 +6947,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(9372.253, 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6962,7 +6962,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(9372.253, -3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6977,7 +6977,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-half-to-even-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round-half-to-even(5.5), round-half-to-even(6.5), round-half-to-even(9372.253, 2), round-half-to-even(9372.253, 0), round-half-to-even(9372.253, -3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6992,7 +6992,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7007,7 +7007,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(5.1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7022,7 +7022,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(5.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7037,7 +7037,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(-5.5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7052,7 +7052,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(-5.51))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7067,7 +7067,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-round-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(round(5), round(5.1), round(5.5), round(-5.5), round(-5.51))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7082,7 +7082,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-dateTime( xs:dateTime('2006-08-15T10:30:23.5')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7097,7 +7097,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-duration( xs:dayTimeDuration('PT30.5S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7112,7 +7112,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-duration( xs:dayTimeDuration('-PT90.5S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7127,7 +7127,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-duration( xs:dayTimeDuration('PT1M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7142,7 +7142,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-duration( xs:dayTimeDuration('PT60S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7157,7 +7157,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-duration( xs:dayTimeDuration('PT30.5S')), seconds-from-duration( xs:dayTimeDuration('-PT90.5S')), seconds-from-duration( xs:dayTimeDuration('PT1M')), seconds-from-duration( xs:dayTimeDuration('PT60S')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7172,7 +7172,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-seconds-from-time-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(seconds-from-time(xs:time('10:30:23.5')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7187,7 +7187,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', 'que'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7202,7 +7202,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', 'query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7217,7 +7217,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', 'u'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7232,7 +7232,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7247,7 +7247,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('', 'query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7262,7 +7262,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7277,7 +7277,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7292,7 +7292,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with(' query', 'q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7307,7 +7307,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-starts-with-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(starts-with('query', 'que'), starts-with('query', 'query'), starts-with('query', 'u'), starts-with('query', ''), starts-with('', 'query'), starts-with('', ''), starts-with('query', ()), starts-with(' query', 'q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7322,7 +7322,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join( ('a', 'b', 'c'), ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7337,7 +7337,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join( ('a', 'b', 'c'), '/*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7352,7 +7352,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join( ('a', '', 'c'), '/*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7367,7 +7367,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join( 'a', '/*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7382,7 +7382,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join((), '/*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7397,7 +7397,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-join-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-join( ('a', 'b', 'c'), ''), string-join( ('a', 'b', 'c'), '/*'), string-join( ('a', '', 'c'), '/*'), string-join( 'a', '/*'), string-join((), '/*'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7412,7 +7412,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length('query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7427,7 +7427,7 @@ Traverse City, MI 49684'
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length(' 
 query
  '))",
@@ -7444,7 +7444,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length(normalize-space(' query ')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7459,7 +7459,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length('xml query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7474,7 +7474,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length(''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7489,7 +7489,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length(()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7504,7 +7504,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-length-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-length('query'), string-length(' 
 query 
  '), string-length(normalize-space('  
@@ -7523,7 +7523,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-to-codepoints-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-to-codepoints('abc'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7538,7 +7538,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-to-codepoints-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-to-codepoints('a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7553,7 +7553,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-to-codepoints-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-to-codepoints(''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7568,7 +7568,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-to-codepoints-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(string-to-codepoints('abc'), string-to-codepoints('a'), string-to-codepoints(''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7583,7 +7583,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml-2 := <product dept=\"MEN\"> <number>784</number> <name language=\"en\">Cotton Dress Shirt</name> <colorChoices>white gray</colorChoices> <desc>Our <i>favorite</i> shirt!</desc> </product> return (string($in-xml-2/number))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7598,7 +7598,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml-2 := <product dept=\"MEN\"> <number>784</number> <name language=\"en\">Cotton Dress Shirt</name> <colorChoices>white gray</colorChoices> <desc>Our <i>favorite</i> shirt!</desc> </product> return (string($in-xml-2/desc))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7613,7 +7613,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml-2 := <product dept=\"MEN\"> <number>784</number> <name language=\"en\">Cotton Dress Shirt</name> <colorChoices>white gray</colorChoices> <desc>Our <i>favorite</i> shirt!</desc> </product> return (string($in-xml-2/@dept))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7628,7 +7628,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-string-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $in-xml-2 := <product dept=\"MEN\"> <number>784</number> <name language=\"en\">Cotton Dress Shirt</name> <colorChoices>white gray</colorChoices> <desc>Our <i>favorite</i> shirt!</desc> </product> return (string($in-xml-2/number), string($in-xml-2/desc), string($in-xml-2/@dept))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7643,7 +7643,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), 3) )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7658,7 +7658,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), 3, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7673,7 +7673,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), 3, 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7688,7 +7688,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), 10))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7703,7 +7703,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), -2, 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7718,7 +7718,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( (), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7733,7 +7733,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-subsequence-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(subsequence( ('a', 'b', 'c', 'd', 'e'), 3) , subsequence( ('a', 'b', 'c', 'd', 'e'), 3, 2), subsequence( ('a', 'b', 'c', 'd', 'e'), 3, 10), subsequence( ('a', 'b', 'c', 'd', 'e'), 10), subsequence( ('a', 'b', 'c', 'd', 'e'), -2, 5), subsequence( (), 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7748,7 +7748,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('query', 'u'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7763,7 +7763,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('queryquery', 'ue'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7778,7 +7778,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('query', 'y'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7793,7 +7793,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('query', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7808,7 +7808,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7823,7 +7823,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7838,7 +7838,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-after-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-after('query', 'u'), substring-after('queryquery', 'ue'), substring-after('query', 'y'), substring-after('query', 'x'), substring-after('query', ''), substring-after('', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7853,7 +7853,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', 'r'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7868,7 +7868,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', 'ery'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7883,7 +7883,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('queryquery', 'ery'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7898,7 +7898,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', 'query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7913,7 +7913,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', 'x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7928,7 +7928,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7943,7 +7943,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7958,7 +7958,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-before-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring-before('query', 'r'), substring-before('query', 'ery'), substring-before('queryquery', 'ery'), substring-before('query', 'query'), substring-before('query', 'x'), substring-before('query', ''), substring-before('query', ()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7973,7 +7973,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7988,7 +7988,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8003,7 +8003,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 1, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8018,7 +8018,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8033,7 +8033,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 2, 850))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8048,7 +8048,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 6, 2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8063,7 +8063,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', -2))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8078,7 +8078,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', -2, 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8093,7 +8093,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 1, 0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8108,7 +8108,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('', 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8123,7 +8123,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring((), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8138,7 +8138,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-substring-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(substring('query', 1), substring('query', 3), substring('query', 1, 1), substring('query', 2, 3), substring('query', 2, 850), substring('query', 6, 2), substring('query', -2), substring('query', -2, 5), substring('query', 1, 0), substring('', 1), substring((), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8153,7 +8153,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8169,7 +8169,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum($ordDoc//item/@quantity))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8185,7 +8185,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( (xs:yearMonthDuration('P1Y2M'), xs:yearMonthDuration('P2Y3M')) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8201,7 +8201,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3, () ) ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8217,7 +8217,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8233,7 +8233,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( (), () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8249,7 +8249,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-sum-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $ordDoc := (/) return (sum( (1, 2, 3) ), sum($ordDoc//item/@quantity), sum( (xs:yearMonthDuration('P1Y2M'), xs:yearMonthDuration('P2Y3M')) ), sum( (1, 2, 3, () ) ), sum( () ), sum( (), () ))",
    {Env,Opts} = xqerl_test:handle_environment(environment('functx_order',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -8265,7 +8265,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-date( xs:date('2006-08-15-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8280,7 +8280,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-date-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-date( xs:date('2006-08-15')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8295,7 +8295,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-date-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-date( xs:date('2006-08-15-05:00')), timezone-from-date( xs:date('2006-08-15')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8310,7 +8310,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-dateTime( xs:dateTime('2006-08-15T10:30:23-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8325,7 +8325,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-dateTime-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8340,7 +8340,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-dateTime-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-dateTime( xs:dateTime('2006-08-15T10:30:23-05:00')), timezone-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8355,7 +8355,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-time-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-time( xs:time('09:54:00-05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8370,7 +8370,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-time-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-time( xs:time('09:54:00+05:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8385,7 +8385,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-time-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-time( xs:time('09:54:00Z')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8400,7 +8400,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-time-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-time( xs:time('09:54:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8415,7 +8415,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-timezone-from-time-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(timezone-from-time( xs:time('09:54:00-05:00')), timezone-from-time( xs:time('09:54:00+05:00')), timezone-from-time( xs:time('09:54:00Z')), timezone-from-time( xs:time('09:54:00')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8430,7 +8430,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a b c', '\\s'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8445,7 +8445,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-1a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( ' a b c '))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8460,7 +8460,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-1b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a b c'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8475,7 +8475,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join(tokenize( 'a    b c', '\\s'), '|')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8490,7 +8490,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a b c', '\\s+'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8505,7 +8505,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( ' b c', '\\s'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8520,7 +8520,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a,b,c', ','))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8535,7 +8535,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a,b,,c', ','))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8550,7 +8550,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a, b, c', '[,\\s]+'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8565,7 +8565,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( '2006-12-25T12:15:00', '[\\-T:]'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8580,7 +8580,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'Hello, there.', '\\W+'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8595,7 +8595,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( (), '\\s+'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8610,7 +8610,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'abc', '\\s'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8625,7 +8625,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a,xb,xc', ',|,x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8640,7 +8640,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-tokenize-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(tokenize( 'a b c', '\\s'), tokenize( 'a b c', '\\s'), tokenize( 'a b c', '\\s+'), tokenize( ' b c', '\\s'), tokenize( 'a,b,c', ','), tokenize( 'a,b,,c', ','), tokenize( 'a, b, c', '[,\\s]+'), tokenize( '2006-12-25T12:15:00', '[\\-T:]'), tokenize( 'Hello, there.', '\\W+'), tokenize( (), '\\s+'), tokenize( 'abc', '\\s'), tokenize( 'a,xb,xc', ',|,x'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8655,7 +8655,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('1999/01/02', '/', '-'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8670,7 +8670,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('xml query', 'qlmx', 'QLMX'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8685,7 +8685,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('xml query', 'qlmx ', 'Q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8700,7 +8700,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('xml query', 'qlmx ', ''))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8715,7 +8715,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('xml query', 'abcd', 'ABCD'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8730,7 +8730,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('', 'qlmx ', 'Q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8745,7 +8745,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate((), 'qlmx ', 'Q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8760,7 +8760,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-translate-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(translate('1999/01/02', '/', '-'), translate('xml query', 'qlmx', 'QLMX'), translate('xml query', 'qlmx ', 'Q'), translate('xml query', 'qlmx ', ''), translate('xml query', 'abcd', 'ABCD'), translate('', 'qlmx ', 'Q'), translate((), 'qlmx ', 'Q'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8775,7 +8775,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-true-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8790,7 +8790,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-upper-case-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(upper-case('query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8805,7 +8805,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-upper-case-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(upper-case('QUERY'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8820,7 +8820,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-upper-case-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(upper-case('Query'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8835,7 +8835,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-upper-case-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(upper-case('query-123'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8850,7 +8850,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-upper-case-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(upper-case('query'), upper-case('QUERY'), upper-case('Query'), upper-case('query-123'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8865,7 +8865,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-year-from-date-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(year-from-date(xs:date('2006-08-15')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8880,7 +8880,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-year-from-dateTime-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(year-from-dateTime( xs:dateTime('2006-08-15T10:30:23')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8895,7 +8895,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('P3Y')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8910,7 +8910,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('P3Y11M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8925,7 +8925,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('-P18M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8940,7 +8940,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('P1Y18M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8955,7 +8955,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('P12M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8970,7 +8970,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-years-from-duration-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(years-from-duration( xs:yearMonthDuration('P3Y')), years-from-duration( xs:yearMonthDuration('P3Y11M')), years-from-duration( xs:yearMonthDuration('-P18M')), years-from-duration( xs:yearMonthDuration('P1Y18M')), years-from-duration( xs:yearMonthDuration('P12M')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8985,7 +8985,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-zero-or-one-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(zero-or-one( () ))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9000,7 +9000,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-zero-or-one-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(zero-or-one('a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9015,7 +9015,7 @@ query
       Err -> ct:fail(Err)
    end.
 'functx-fn-zero-or-one-all'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(zero-or-one( () ), zero-or-one('a'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

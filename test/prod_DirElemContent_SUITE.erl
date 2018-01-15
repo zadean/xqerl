@@ -140,7 +140,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -491,7 +491,7 @@ environment('namespace-sensitive',BaseDir) ->
 {modules, []}
 ].
 'Constr-cont-invalid-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,7 +506,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-invalid-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-invalid-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-invalid-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -551,7 +551,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-eol-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<codepoints>{string-to-codepoints(<elem>1
 2</elem>)}</codepoints>",
    Qry1 = Qry,
@@ -567,7 +567,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-eol-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<codepoints>{string-to-codepoints(<elem>1&#xa;2</elem>) }</codepoints>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -582,7 +582,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-eol-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<codepoints>{string-to-codepoints(<elem>&#xD;&#xA;</elem>)}</codepoints>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -597,7 +597,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-eol-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<codepoints>{string-to-codepoints(<elem>&#xD;</elem>)}</codepoints>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -612,7 +612,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-entref-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(<elem>&lt;</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -627,7 +627,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-entref-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(<elem>&gt;</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-entref-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(<elem>&amp;</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,7 +657,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-entref-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(<elem>&quot;</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -672,7 +672,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-entref-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(<elem>&apos;</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-charref-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&#x30;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -702,7 +702,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-charref-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>&#x0;</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -717,7 +717,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-cdata-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDATA[cdata&<>'\"&lt;&#x20;]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -732,7 +732,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-text-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>text</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -747,7 +747,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-text-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>text<![CDATA[cdata]]></elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -762,7 +762,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nested-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><a><b/></a><a/><c/></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nested-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><?pi?><?pi content?></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nested-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><!----><!--content--></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +807,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nested-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>A<a>B<?pi?>C<b/>D<!---->E</a>F<!--content-->G<a/>H<?pi content?>I<c/>J</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>{1,'a',3.5,4e2}</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -837,7 +837,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>{1,'a',<a/>,3.5,4e2}</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1,'a',3.5,4e2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -883,7 +883,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-enclexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1, '', 2}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -899,7 +899,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nested-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{/root}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -915,7 +915,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nodeid-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a/>, $y in <elem>{$x}</elem> return exactly-one($y/a) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -930,7 +930,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nodeid-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a b=\"b\"/>, $y in <elem>{$x/@b}</elem> return $y/@b is $x/@b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -945,7 +945,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nodeid-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <!--comment-->, $y in <elem>{$x}</elem> return exactly-one($y/comment()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -960,7 +960,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nodeid-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <?pi content?>, $y in <elem>{$x}</elem> return exactly-one($y/processing-instruction()) is $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -975,7 +975,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nodeid-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in <a>text</a>, $y in <elem>{$x/text()}</elem> return exactly-one($y/text()) is exactly-one($x/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -990,31 +990,31 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-constrmod-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-constrmod-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve, inherit; <y xmlns:inherit=\"http://www.example.com/inherit\">{(/)}</y>/x/z",
    {Env,Opts} = xqerl_test:handle_environment(environment('nsmode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1030,7 +1030,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nsmode-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, inherit; <y xmlns:inherit=\"http://www.example.com/inherit\">{(/)}</y>/x/z",
    {Env,Opts} = xqerl_test:handle_environment(environment('nsmode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1046,7 +1046,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nsmode-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve, no-inherit; <y xmlns:inherit=\"http://www.example.com/inherit\">{(/)}</y>/x/z",
    {Env,Opts} = xqerl_test:handle_environment(environment('nsmode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1062,7 +1062,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nsmode-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces no-preserve, no-inherit; <y xmlns:inherit=\"http://www.example.com/inherit\">{(/)}</y>/x/z",
    {Env,Opts} = xqerl_test:handle_environment(environment('nsmode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1078,28 +1078,28 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-nsmode-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-nsmode-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-cont-uripres-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $x in <a xml:base=\"http://www.example.com/base1\"><b/></a>, 
             $y in <a xml:base=\"http://www.example.com/base2\">{$x/b}</a> 
@@ -1118,7 +1118,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-adjtext-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>a{1,2,3}b</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1133,7 +1133,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-adjtext-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>a{1,<a/>,3}b</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1148,7 +1148,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-adjtext-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>{''}</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1163,7 +1163,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-adjtext-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem>{()}</elem>)/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1178,7 +1178,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{(/), (/)}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1194,7 +1194,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1, //west/@mark}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1210,7 +1210,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><a/>{//west/@mark}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1226,7 +1226,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{()}{//west/@mark}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1242,7 +1242,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{//west/@mark}x{//west/@west-attr-1}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1258,7 +1258,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-baseuri-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(<elem xml:base=\"http://www.example.com\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1273,7 +1273,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-baseuri-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:base-uri(exactly-one((<elem xml:base=\"http://www.example.com\"><a/></elem>)/a))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1288,7 +1288,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-baseuri-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.com\"; fn:base-uri(<elem/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1303,7 +1303,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((<elem/>)/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1318,7 +1318,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{//west/@mark, //west/@west-attr-1}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1334,7 +1334,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem mark=\"w0\">{//west/@west-attr-1, //west/@west-attr-2}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1350,7 +1350,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{//west/@mark, //center/@mark}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1366,7 +1366,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem mark=\"w0\">{//west/@west-attr-1, //west/@mark}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1382,7 +1382,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-attr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{//west/@west-attr-1}{//west/@west-attr-2}</elem>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1398,7 +1398,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(<elem>a<a/>b</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1413,7 +1413,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(<elem>a<a/>b</elem>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1428,7 +1428,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-document-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<wrapper> {'abc', document {'def', <anode/>, 'ghi'}, 'jkl'} </wrapper>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1443,7 +1443,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-document-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<wrapper> abc {document {'def', <anode/>, 'ghi'}} jkl </wrapper>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1458,7 +1458,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-document-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $codepoints as xs:integer+ := (9, 10, 13, 32 to 55295, 57344 to 65532, 65536 to 1114111 ); 
         declare variable $count as xs:integer := count($codepoints); 
@@ -1496,7 +1496,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-document-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count( document {'abc', 'def', document {'ghi', <anode/>, 'jkl'}, 'mno' } /node() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1511,7 +1511,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-cont-document-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count( document {'abc', 'def', document {'ghi', 'jkl'}, 'mno' } /node() )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1526,7 +1526,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1541,7 +1541,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"a string\" }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1556,7 +1556,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1571,7 +1571,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1586,7 +1586,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<name>some text</name>) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1601,7 +1601,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(data(<name>some text</name>) instance of xs:string)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1616,7 +1616,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<name>some, if(1) then else</name> instance of element()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1631,7 +1631,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(<name>some text</name> instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1646,7 +1646,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<!-- a comment -->) instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1661,7 +1661,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(data(<!-- a comment -->) instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1676,7 +1676,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<!-- a comment --> instance of comment()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1691,7 +1691,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(<!-- a comment --> instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1706,7 +1706,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(<!-- a comment --> instance of xs:string)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1721,7 +1721,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<?target content?>) instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1736,7 +1736,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(data(<?target content?>) instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1751,7 +1751,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<?target content?> instance of processing-instruction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1766,7 +1766,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(<?target content?> instance of xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1781,7 +1781,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<![CDATA[content]]>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1796,7 +1796,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![THISISWRONG[content]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1811,7 +1811,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDA",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1826,7 +1826,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDATA[CONTENT]]>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1841,7 +1841,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDATA[CONTENT]]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1856,7 +1856,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDATA[CONTENT]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1871,7 +1871,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![cdata[CONTENT]]></elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1886,7 +1886,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<eg> (: an (:example:) </eg>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1901,10 +1901,10 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'K2-DirectConElemContent-26a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>content{}content</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1919,7 +1919,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-26b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>content{(:comment:)}content</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1934,7 +1934,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem><![CDATA[str]]>str<![CDATA[str]]><![CDATA[str]]><![CDATA[str]]>strstr{ \"str\", \"str\", \"strstr\", \"str\"}strstr<![CDATA[str]]>s<?target str?>tr</elem>) eq \"strstrstrstrstrstrstrstr str strstr strstrstrstrstr\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1949,7 +1949,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<elem><![CDATA[con<<< ]] >\"\"'*\"*\">>tent]]&#00;&#x12;&amp;&quot;&notrecognized;&apos]]></elem>) eq \"con&lt;&lt;&lt; ]] &gt;\"\"\"\"'*\"\"*\"\"&gt;&gt;tent]]&amp;#00;&amp;#x12;&amp;amp;&amp;quot;&amp;notrecognized;&amp;apos\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1964,7 +1964,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(text{\"content\"}) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1979,7 +1979,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{1}A{1}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1994,7 +1994,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(<e>{1}A{1}</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2009,7 +2009,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<e>dsa</e>) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2024,7 +2024,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(<e>dsa</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2039,7 +2039,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/> instance of element(*, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2054,16 +2054,16 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-DirectConElemContent-35a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'K2-DirectConElemContent-35b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"typedData"}.
 'K2-DirectConElemContent-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; <e/> instance of element(*, xs:untyped)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2078,7 +2078,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/> instance of element(a, xs:anyType)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2093,7 +2093,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; <e/> instance of element(b, xs:untyped)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2108,7 +2108,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1}{2}{3}{4}{5}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2123,7 +2123,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1}{2}{3}{4}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2138,7 +2138,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1}{2}{3}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2153,7 +2153,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{1}{2}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2168,7 +2168,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <![CDATA[ ]]> {\"abc\"}</a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2183,7 +2183,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e attr='content\"/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2198,7 +2198,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e attr=\"content'/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2213,7 +2213,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{1}{text{()}}{2}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2228,7 +2228,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e>{1}{text{\"\"}}{2}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2243,7 +2243,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-DirectConElemContent-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document{
       	<e xmlns=\"http://www.example.com/\"> <a xmlns=\"\"/> </e>, 
       	<e xmlns=\"http://www.example.com/\"> <a xmlns=\"\"/> </e>/count(in-scope-prefixes(a)), 
@@ -2262,7 +2262,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-ns-fixup-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
       	let $x := <ns:foo xmlns:ns=\"http://www.w3.org/foo\" ns:attr=\"foo\" /> 
       	return let $y := <ns:foo xmlns:ns=\"http://www.w3.org/bar\" ns:attr=\"bar\" /> 
@@ -2282,7 +2282,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ElemContentArray-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
       	<e>{[1, 2, 3]}</e>
       ",
@@ -2299,7 +2299,7 @@ environment('namespace-sensitive',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ElemContentArray-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " 
       	<e>{[<f>{[1,<x/>,3]}</f>, <g>{[4, <x/>, 5]}</g>]}</e>
       ",

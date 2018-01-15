@@ -21,7 +21,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "map")
 
@@ -205,7 +205,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'map-size-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -229,7 +229,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:merge(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -253,7 +253,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{\"a\":1})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:entry(\"a\", \"1\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -301,7 +301,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:merge((map:entry(\"a\", \"1\"), map:entry(\"b\", 2))))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{\"a\":1, \"b\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -349,7 +349,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{\"a\":1, \"a\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -365,7 +365,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:merge((map:entry(\"a\",1), map:entry(\"a\",2))))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:remove(map{\"a\":1,\"b\":2}, \"b\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -413,7 +413,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:remove(map:entry(1,2),1))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:remove(map:remove(map{\"a\":1,\"b\":2},\"b\"),\"a\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -461,7 +461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map{number('NaN'):1,\"b\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:size(map:remove(map{\"a\":1,\"b\":2}, \"c\"))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -509,7 +509,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-size-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} => map:size()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

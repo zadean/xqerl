@@ -41,7 +41,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "math")
 
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'math-pow-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow((), 93.7)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -261,7 +261,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(2, 3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -277,7 +277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-2, 3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-2, -3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -309,7 +309,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(2, 0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -325,7 +325,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0, 0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(xs:double('INF'), 0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -357,7 +357,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(xs:double('NaN'), 0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -373,7 +373,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-math:pi(), 0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, 3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -405,7 +405,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, 4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, 3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0, 4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, -3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, -4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, -3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0, -4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(16, 0.5e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(16, 0.25e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, -3.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, -3.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, -3.1e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -597,7 +597,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, -3.1e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -613,7 +613,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, 3.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, 3.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -645,7 +645,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(0e0, 3.1e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -661,7 +661,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-0e0, 3.1e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -677,7 +677,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-1, xs:double('INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -693,7 +693,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-1, xs:double('-INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -709,7 +709,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(1, xs:double('INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -725,7 +725,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(1, xs:double('-INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -741,7 +741,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(1, xs:double('NaN'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -757,7 +757,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-2.5e0, 2.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -773,7 +773,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pow-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pow(-2.5e0, 2.00000001e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

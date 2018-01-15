@@ -20,7 +20,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -325,7 +325,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
 {modules, []}
 ].
 'UseCaseJSON-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "json-doc(\"mildred.json\")?phone?*[?type = 'mobile']?number",
    {Env,Opts} = xqerl_test:handle_environment(environment('mildred.json',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
@@ -381,7 +381,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 				declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()* {
@@ -409,7 +409,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $users := json-doc('users.json')?*
         for $sarah in $users, $friend in $users
@@ -430,7 +430,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
         let $products := json-doc('sales.json')?*
@@ -455,7 +455,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace map=\"http://www.w3.org/2005/xpath-functions/map\";
 				array {
@@ -499,7 +499,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $sats := json-doc(\"satellites.json\")(\"satellites\")
         return map { \"visible\" : array { map:keys($sats)[$sats(.)(\"visible\")] }, \"invisible\" : array { map:keys($sats)[not($sats(.)(\"visible\"))] } }
@@ -526,7 +526,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         array {
           for $page in doc($uri)//page
@@ -552,7 +552,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "   
         declare namespace array=\"http://www.w3.org/2005/xpath-functions/array\";
         declare variable $data := map {
@@ -578,7 +578,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <html>
 				  <body>				
@@ -619,7 +619,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <table>{
           for tumbling window $w in json-doc(\"colors.json\")?*
@@ -643,7 +643,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $users := [map { \"userid\" : \"W0342\", \"firstname\" : \"Walter\", \"lastname\" : \"Denisovich\" }, map { \"userid\" : \"M0535\", \"firstname\" : \"Mick\", \"lastname\" : \"Goulish\" }]?* 
         let $holdings := [map { \"userid\" : \"W0342\", \"ticker\" : \"DIS\", \"shares\" : 153212312 }, map { \"userid\" : \"M0535\", \"ticker\" : \"DIS\", \"shares\" : 10 }, map { \"userid\" : \"M0535\", \"ticker\" : \"AIG\", \"shares\" : 23412 }]?*   
@@ -675,7 +675,7 @@ environment('Wikipedia-Origami.xml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UseCaseJSON-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 				let $feed := json-doc(\"incoming.json\")(\"feed\")
 				  , $entry := $feed(\"entry\")

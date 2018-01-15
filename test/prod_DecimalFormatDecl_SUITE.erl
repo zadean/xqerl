@@ -48,7 +48,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 , try  xqerl_module:compile(filename:join(BaseDir, "DecimalFormatDecl/dfd-module-001.xq")) catch _:_ -> ok end
@@ -259,7 +259,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'decimal-format-01'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format zero-digit=\"0\" grouping-separator=\",\" decimal-separator=\".\";
       	format-number(2392.14*36.58,'000,000.000000')",
@@ -276,7 +276,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-02'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit=\"#\" grouping-separator=\",\" decimal-separator=\".\";
       	format-number(12792.14*96.58,'##,###,000.000###')",
@@ -293,7 +293,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-03'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format minus-sign=\"-\" grouping-separator=\",\" decimal-separator=\".\";
       	format-number(2792.14*(-36.58),'000,000.000###')",
@@ -310,7 +310,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-04'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format minus-sign=\"-\" pattern-separator=\";\" grouping-separator=\",\" decimal-separator=\".\";
       	format-number(2392.14*(-36.58),'000,000.000###;###,###.000###')",
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-05'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format local:df minus-sign=\"-\" percent=\"%\" decimal-separator=\".\";
       	format-number(0.4857,'###.###%', 'local:df')",
@@ -344,7 +344,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-06'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format local:df minus-sign=\"-\" per-mille=\"‰\" decimal-separator=\".\";
       	format-number(0.4857,'###.###‰')",
@@ -361,7 +361,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-07'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format local:df minus-sign=\"-\" currency-symbol=\"¤\" decimal-separator=\".\";
       	format-number(95.4857,'¤###.####', \"local:df\")",
@@ -378,7 +378,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-09'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default decimal-format decimal-separator=\"|\" grouping-separator=\".\"; 
          format-number(931.4857,'000.000|###')",
@@ -395,7 +395,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit=\"!\" pattern-separator=\"\\\";
         format-number(26931.4,'+!!!,!!!.!!!\\-!!,!!!.!!!')",
@@ -412,7 +412,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit=\"!\" pattern-separator=\"\\\";
         format-number(-26931.4,'+!!,!!!.!!!\\-!!!,!!!.!!!')",
@@ -429,7 +429,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit=\"!\" pattern-separator=\"\\\";
         format-number(-26931.4,'!!!,!!!.!!!')",
@@ -446,7 +446,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format local:df2 infinity=\"off-the-scale\";
         format-number(1 div 0e0,'###############################', 'local:df2')",
@@ -463,7 +463,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format local:df2 NaN=\"non-numeric\";
         format-number(number('none'), '#############', 'local:df2')",
@@ -480,7 +480,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format  per-mille=\"m\";
         format-number(0.4857,'###.###m')",
@@ -497,7 +497,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format  minus-sign=\"_\";
         format-number(-26931.4,'+###,###.###;-###,###.###')",
@@ -514,7 +514,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format minus-sign=\"_\";
         format-number(-26931.4,'###,###.###')",
@@ -531,7 +531,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format myminus minus-sign=\"_\"; 
         concat(format-number(-26931.4,'###,###.###','myminus'), '/',
@@ -549,7 +549,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace foo=\"http://foo.ns\";
         declare decimal-format foo:decimal1  decimal-separator=\"!\" grouping-separator=\"*\";
@@ -568,7 +568,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace m=\"http://www.w3.org/TestModules/dfd-module-001\";
         declare decimal-format df001 grouping-separator=\"!\";
@@ -599,7 +599,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator = \"^\";
         declare default decimal-format decimal-separator = \"^\";
@@ -618,7 +618,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format fmt1 decimal-separator = \"^\";
         declare decimal-format fmt1 decimal-separator = \"^\";
@@ -637,7 +637,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format fmt1 decimal-separator = \"^\";
         declare decimal-format fmt2 decimal-separator = \"~\";
@@ -657,7 +657,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator = \"^\" grouping-separator = \"\\\" decimal-separator = \"^\";
       	true()
@@ -675,7 +675,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format zero-digit = \"A\";
       	true()
@@ -693,7 +693,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator = \"~\" grouping-separator = \"~\";
       	true()
@@ -711,7 +711,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator = \",\";
       	true()
@@ -729,7 +729,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-sprtr = \".\";
       	true()
@@ -747,7 +747,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format minus-sign=\"-\";
         format-number(-26931.4,'###,###.###')",
@@ -764,7 +764,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format NaN = \"0\";
       format-number(xs:double('NaN'),'###,###.###')",
@@ -781,7 +781,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-901err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format decimal-separator=\"!\" grouping-separator=\"!\";
         format-number(931.4857,'###!###!###')",
@@ -798,7 +798,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-902err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit='$';
         format-number(931.4857,'000.$$0')",
@@ -815,7 +815,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-903err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit='$';
         declare default decimal-format minus-sign='_';
@@ -833,7 +833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-904err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace a=\"http://a.com/\";
         declare namespace b=\"http://a.com/\";
@@ -858,7 +858,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-905err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare decimal-format q decimal-separator=\".\" grouping-separator=\",\";
         format-number(931.4857,'fred.ginger', 'q')",
@@ -875,7 +875,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-906err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "format-number(931.45, '000.##0', 'foo:bar')",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -902,7 +902,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-907err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace a=\"http://a.com/\";
         declare namespace b=\"http://a.com/\";
@@ -921,7 +921,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-908err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format digit=\"one\";
         format-number(931.4857,'000.$$0')",
@@ -938,7 +938,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-909err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format zero-digit=\"1\";
         format-number(931.4857,'000.$$0')",
@@ -955,7 +955,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-910err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format zero-digit=\"a\";
         format-number(931.4857,'aaa.$$a')",
@@ -972,7 +972,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-911err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default decimal-format minus-sign=\"--\";
         format-number(931.4857,'000.$$0')",
@@ -989,7 +989,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'decimal-format-912err'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare default decimal-format decimal-separator = \"6\";
       true()

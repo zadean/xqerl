@@ -36,7 +36,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "map")
 
@@ -235,7 +235,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'map-merge-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -251,7 +251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -279,7 +279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-003-hof'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -311,7 +311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -339,7 +339,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 1 to 5), map:entry(\"bar\", 6 to 10)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(for $i in 1 to 20 return map:entry($i, $i*$i))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -407,7 +407,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-last\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -443,7 +443,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-first\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -479,7 +479,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006c'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"combine\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -515,7 +515,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-any\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -539,7 +539,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006e'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -563,7 +563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-006f'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"reject\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -579,7 +579,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:entry(\"foo\", 3), $bar := map:entry(\"foo\", 4), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -616,7 +616,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -653,7 +653,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[2]",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -690,7 +690,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:merge(()), $foobar := map:merge(($foo, $bar))
               return $foobar",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -727,7 +727,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(3, \"three\"), map:entry(3.0e0, \"threeD\"), map:entry(xs:float('3.0'), \"threeF\")),
             map{\"duplicates\" : \"use-last\"})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -764,7 +764,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(for $n in distinct-values(//*/node-name()) 
                       return map:entry($n, //*[node-name() eq $n]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
@@ -793,7 +793,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(for $n in 1 to 20 return map:entry($n, map{$n :string($n), $n+1:string($n+1), $n+2:string($n+2)}))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -817,7 +817,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map{}, map:merge(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -833,7 +833,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map{\"a\":1}, map:entry(\"a\", 1))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -849,7 +849,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map{\"a\":1,\"b\":2,\"c\":(3,4,5)}, map{\"c\":(3,4,5),\"a\":1,\"b\":2})",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -865,7 +865,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map{\"a\":1}, map:merge(()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -881,7 +881,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1001 return map:entry($i, $i+1)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -898,7 +898,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(((for $i in 1 to 1000 return map:entry($i, $i+1)), map:entry(400, 402)),
                          map{\"duplicates\":\"use-last\"}))",
@@ -916,7 +916,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 0 to 1000 return map:entry($i, $i+1)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -933,7 +933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -950,7 +950,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-024-hof'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -982,7 +982,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-merge-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

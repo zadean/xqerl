@@ -40,7 +40,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -333,7 +333,7 @@ environment('default-string-collection',BaseDir) ->
 {modules, []}
 ].
 'fn-collection-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"argument1\",\"argument2\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -348,7 +348,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"thisfileshouldnotexists\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -363,7 +363,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"invalidURI%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -386,7 +386,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -402,7 +402,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-4d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -418,7 +418,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -434,7 +434,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-5d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -450,7 +450,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -466,7 +466,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -490,7 +490,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -514,7 +514,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) order by count($d//title) return
          count($d//title)",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
@@ -531,7 +531,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection($collection-uri) let $c2 := fn:collection($collection-uri) for
          $c at $p in $c1 return $c is exactly-one($c2[$p])",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
@@ -548,7 +548,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-collection-10d'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection() let $c2 := fn:collection() for $c at $p in $c1 return $c is
          exactly-one($c2[$p])",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
@@ -565,7 +565,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqCollectionFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http:\\\\invalidURI\\someURI%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqCollectionFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\":/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -611,7 +611,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -643,7 +643,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -675,7 +675,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection() | collection(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -707,10 +707,10 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"collection-stability"}.
 'collection-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -742,7 +742,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"collection1\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -774,7 +774,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
          collection(\"collection1\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
@@ -807,10 +807,10 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"collection-stability"}.
 'collection-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
          | (for $doc in $c return doc(document-uri($doc)))",
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
@@ -843,10 +843,10 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"directory-as-collection-uri"}.
 'collection-900'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"nonexistent\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -861,7 +861,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"##invalid\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -899,7 +899,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'collection-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "collection(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -914,7 +914,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-collection-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('%gg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -937,7 +937,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-collection-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')",
    {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -961,7 +961,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-collection-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -985,7 +985,7 @@ environment('default-string-collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-collection-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection()",
    {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

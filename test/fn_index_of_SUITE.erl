@@ -60,7 +60,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -295,7 +295,7 @@ environment('bib',BaseDir) ->
 {modules, []}
 ].
 'fn-indexof-mix-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of ((10, 20, 30, 30, 20, 10), 20)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -310,7 +310,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of ((10, 20, 30, 40), 35)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -325,7 +325,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of ((\"a\", \"sport\", \"and\", \"a\", \"pastime\"), \"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -340,7 +340,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((\"sport\", \"\", \"and\", \"\", \"\", \"pastime\"), \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -355,7 +355,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((),\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -370,7 +370,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((\"sport\"), \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -385,7 +385,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((),fn:exactly-one(xs:untypedAtomic('')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -400,7 +400,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:float('NaN')), fn:exactly-one(xs:float('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -415,7 +415,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:double('NaN')), fn:exactly-one(xs:double('NaN')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -430,7 +430,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:double('INF')), fn:exactly-one(xs:double('INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -445,7 +445,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:double('-INF')), fn:exactly-one(xs:double('-INF')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -460,7 +460,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:decimal('9.99999999999999999999999999')), fn:exactly-one(xs:decimal('9.99999999999999999999999999')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -475,7 +475,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:decimal('9.99999999999999999999999999')), fn:exactly-one(xs:decimal('9.9999999999999999999999999')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -490,7 +490,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:positiveInteger('1'),xs:positiveInteger('2')), fn:exactly-one(xs:positiveInteger('2')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -505,7 +505,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((xs:negativeInteger('-2'), xs:negativeInteger('-1')), fn:exactly-one(xs:negativeInteger('-1')))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -520,7 +520,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((1, (1,2,3)),1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -535,7 +535,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of(((1),(1), (2,1), (0,1)),1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -550,7 +550,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((/bib/book/publisher), \"Addison-Wesley\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -566,7 +566,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((/bib/book/publisher), /bib/book[1]/publisher[1]/text() cast as xs:string)",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -582,7 +582,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((\"sport\", \"\", \"and\", \"\", \"\", \"pastime\"), \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -597,7 +597,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of( (\"\", 1, \"\"), \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -612,7 +612,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-indexof-mix-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:index-of((1,2,3,4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -627,7 +627,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -642,7 +642,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -657,7 +657,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of((1, 2, 3), 1, ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -672,7 +672,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(\"a string\", \"a string\", \"http://www.example.com/COLLATION/NOT/SUPPORTED\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(\"a string\", \"a string\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\", \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -702,7 +702,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(\"a string\", \"a string\", \"http://www.w3.org/2005/xpath-functions/collation/codepoint\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -717,7 +717,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(xs:double(\"NaN\"), xs:float(\"NaN\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -732,7 +732,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(xs:float(\"NaN\"), xs:double(\"NaN\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -747,7 +747,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(xs:float(\"NaN\"), xs:float(\"NaN\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -762,7 +762,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(xs:double(\"NaN\"), xs:double(\"NaN\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -777,7 +777,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(4, \"4\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -792,7 +792,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(4, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +807,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of((), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -822,7 +822,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(4, 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -837,7 +837,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3, 4, 5, 6), index-of((4, 4, 4, 4, 4, 4), 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,7 +852,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of(xs:anyURI(\"example.com/\"), xs:hexBinary(\"FF\")))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -867,7 +867,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(xs:untypedAtomic(\"example.com/\"), xs:anyURI(\"example.com/\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -882,7 +882,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(index-of((1, 2, \"three\", 5, 5, 6), 5), (4, 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -897,7 +897,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(index-of((10, 20, 30, 40), 35))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -912,7 +912,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(index-of((10, 20, 30, 30, 20, 10), 20), (2, 5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -927,7 +927,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(index-of((\"a\", \"sport\", \"and\", \"a\", \"pastime\"), \"a\"), (1, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -942,7 +942,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(index-of((1, 2, 3, 2, 1), 2)) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -957,7 +957,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(index-of((1, 2, 3, 2, 1), 1)) eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -972,7 +972,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(index-of((1, 2, 3, 2, 1), 3)) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -987,7 +987,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqIndexOfFunc-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(index-of((1, 2, 3, 2, 1), 4)) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1002,7 +1002,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(1 to 5,4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1017,7 +1017,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(exactly-one((1 to 10)[. div 5 = 1]),5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1032,7 +1032,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(index-of((1 to 10)[. mod 2 = 0],4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1047,7 +1047,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(index-of((1 to 10)[. mod 2 = 0],5))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1062,7 +1062,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of((1 to 10,(1 to 10)[. mod 2 = 0]),4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1077,7 +1077,7 @@ environment('bib',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-fn-indexof-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "index-of(1 to 10,(1 to 10)[. div 2 = 0][1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

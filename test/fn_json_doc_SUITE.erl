@@ -74,7 +74,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -415,7 +415,7 @@ environment('json-doc-error',BaseDir) ->
 {modules, []}
 ].
 'json-doc-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/mapEmpty-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -431,7 +431,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayEmpty-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -447,7 +447,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -463,7 +463,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayString-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -479,7 +479,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayTrue-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -495,7 +495,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayFalse-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -511,7 +511,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNull-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -527,7 +527,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data001-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -563,7 +563,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/data005-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -607,7 +607,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json')?key",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -623,7 +623,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':false()})?key",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -639,7 +639,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':true()})?key",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -655,7 +655,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json')
       ",
@@ -673,7 +673,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':true()})
       ",
@@ -691,7 +691,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':false()})
       ",
@@ -709,7 +709,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':true()})
       ",
@@ -727,7 +727,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':false()})
       ",
@@ -745,7 +745,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':false()})
       ",
@@ -763,7 +763,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':true()})
       ",
@@ -781,7 +781,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', 
          map{'escape':false(), 'fallback':function($s){'??'}})
@@ -800,7 +800,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
@@ -819,7 +819,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
          map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
@@ -838,7 +838,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc((), 
          map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
@@ -856,7 +856,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{})
       ",
@@ -874,7 +874,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number001-json')
       ",
@@ -900,7 +900,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number002-json')
       ",
@@ -926,7 +926,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number003-json')
       ",
@@ -952,7 +952,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/number004-json')
       ",
@@ -978,7 +978,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapZeroLength-json')
       ",
@@ -996,7 +996,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1011,7 +1011,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'use-first'})
       ",
@@ -1029,7 +1029,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringUnpaired-json', map{'fallback':function($s){substring($s, 3)}})
       ",
@@ -1047,7 +1047,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'escape':true(), 'duplicates':'reject'})
       ",
@@ -1065,7 +1065,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/stringHex-json')
       ",
@@ -1083,7 +1083,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'validate':true()})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1099,7 +1099,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1122,7 +1122,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorToken-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1138,7 +1138,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorExtra-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1154,7 +1154,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArray-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1170,7 +1170,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayNumber-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1186,7 +1186,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayHex-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1202,7 +1202,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayString-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1218,7 +1218,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayUnicode-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1234,7 +1234,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1250,7 +1250,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorMap-json', map{\"liberal\":false()})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1266,7 +1266,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorArrayComma-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1282,7 +1282,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'liberal':()})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1298,7 +1298,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':()})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1314,7 +1314,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':(true(),true())})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1330,7 +1330,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':'EMCA-262'})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1346,7 +1346,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':'dummy'})",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-array',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1362,7 +1362,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber01-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1378,7 +1378,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber02-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1394,7 +1394,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber03-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1410,7 +1410,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc('http://www.w3.org/qt3/json/errorNumber04-json')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-doc-error',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1426,7 +1426,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'reject'})
       ",
@@ -1444,7 +1444,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json', map{'duplicates':'retain'})
       ",
@@ -1462,7 +1462,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString01-json')
       ",
@@ -1480,7 +1480,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString02-json')
       ",
@@ -1498,7 +1498,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/errorString03-json')
       ",
@@ -1516,7 +1516,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':concat#2})
       ",
@@ -1534,7 +1534,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'duplicates':'reject'})
       ",
@@ -1552,7 +1552,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.example.org/#fragment\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1567,7 +1567,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.example.org/%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1582,7 +1582,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1597,7 +1597,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"unparsed-text/text-plain-utf-8.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -1624,7 +1624,7 @@ environment('json-doc-error',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-doc-error-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"does-not-exist.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},

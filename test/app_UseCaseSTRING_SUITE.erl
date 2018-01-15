@@ -11,7 +11,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -210,7 +210,7 @@ environment('string-and-company-data',BaseDir) ->
 {modules, []}
 ].
 'string-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//news_item/title[contains(., \"Foobar Corporation\")]",
    {Env,Opts} = xqerl_test:handle_environment(environment('string',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -226,7 +226,7 @@ environment('string-and-company-data',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $input-context1 := $string;
         declare variable $input-context2 := $company-data;
@@ -269,7 +269,7 @@ environment('string-and-company-data',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:partners($c as xs:string) as element()* { 
             let $c := $company-data//company[name = $c] 
@@ -295,7 +295,7 @@ environment('string-and-company-data',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'string-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $item in //news_item 
         where contains(string(exactly-one($item/content)), \"Gorilla Corporation\") 

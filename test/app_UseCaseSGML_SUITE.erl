@@ -18,7 +18,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -211,7 +211,7 @@ environment('sgml',BaseDir) ->
 {modules, []}
 ].
 'sgml-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { //report//para } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -270,7 +270,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { //intro/para } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -311,7 +311,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { for $c in //chapter where empty($c/intro) return $c/section/intro/para } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -332,7 +332,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { (((//chapter)[2]//section)[3]//para)[2] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -351,7 +351,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { //para[@security = \"c\"] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -369,7 +369,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { for $s in //section/@shorttitle return <stitle>{ $s }</stitle> } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -385,7 +385,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { for $i in //intro/para[1] return <first_letter>{ substring(string($i), 1, 1) }</first_letter> } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -401,7 +401,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q8a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { //section[.//title[contains(., \"is SGML\")]] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -450,7 +450,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q8b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { //section[.//title/text()[contains(., \"is SGML\")]] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -499,7 +499,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { for $id in //xref/@xrefid return //topic[@topicid = $id] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -523,7 +523,7 @@ environment('sgml',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'sgml-queries-results-q10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> { let $x := //xref[@xrefid = \"top4\"], $t := //title[. << exactly-one($x)] return $t[last()] } </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('sgml',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

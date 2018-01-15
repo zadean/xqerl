@@ -19,7 +19,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "map")
 
@@ -213,7 +213,7 @@ environment('json-files',BaseDir) ->
 {modules, []}
 ].
 'map-find-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find((), 17)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -229,7 +229,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -245,7 +245,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"}, 86)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -261,7 +261,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find((map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"},
             map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:\"Samedi\",1:\"Dimanche\"}), 1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -278,7 +278,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find([map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"},
             map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:\"Samedi\",1:\"Dimanche\"}], 1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -295,7 +295,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find([map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\"},
             map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:\"Samedi\",1:\"Dimanche\"}, 1], 1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -312,7 +312,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find(map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\", \"fr\":
             map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:\"Samedi\",1:\"Dimanche\"}}, 1)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -337,7 +337,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find([map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:\"Saturday\", \"fr\":
             [map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:\"Samedi\",1:\"Dimanche\"}, 78]}, 82], 7)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -362,7 +362,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find([map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:[\"Saturday\", \"Sat\"], \"fr\":
             [map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:[\"Samedi\", \"Sa\"],1:\"Dimanche\"}, 78]}, 82], 7)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -387,7 +387,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "map:find([map{1:\"Sunday\",2:\"Monday\",3:\"Tuesday\",4:\"Wednesday\",5:\"Thursday\",6:\"Friday\",7:(\"Saturday\", \"Sat\"), \"fr\":
             [map{2:\"Lundi\",3:\"Mardi\",4:\"Mercredi\",5:\"Jeudi\",6:\"Vendredi\",7:(\"Samedi\", \"Sa\"),1:\"Dimanche\"}, 78]}, 82], 7)",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
@@ -412,7 +412,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.w3.org/qt3/json/data004-json\") => map:find(\"servlet-name\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -428,7 +428,7 @@ environment('json-files',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'map-find-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-doc(\"http://www.w3.org/qt3/json/data004-json\") => map:find(\"init-param\") => map:find(\"mailHost\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

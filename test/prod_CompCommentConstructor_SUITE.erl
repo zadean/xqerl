@@ -36,7 +36,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -247,7 +247,7 @@ environment('DupNode',BaseDir) ->
 {modules, []}
 ].
 'Constr-compcomment-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -262,7 +262,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -277,7 +277,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {1,'',2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -292,7 +292,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {1,<a/>,2}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -307,7 +307,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-enclexpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {/root}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -323,7 +323,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {., .}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -339,7 +339,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((comment {'comment'})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -354,7 +354,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(comment {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -369,7 +369,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(comment {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -384,7 +384,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-nested-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {comment {'one', comment {'two'}}, 'three', comment {'four'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -399,7 +399,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-nested-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem>{comment {'one'}}<a>{comment {'two'}}</a>{comment {'three'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +414,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-nested-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document {comment {'one'}, <a/>, comment {'two'}, <b/>, comment {'three'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,7 +429,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-dash-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'-'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -444,7 +444,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-dash-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'comment-'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -459,7 +459,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-dash-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'comment&#x2D;'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -474,7 +474,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-dash-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {//*:test-case[@name=\"Constr-compcomment-dash-4\"]/*:description}",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "CompCommentConstructor.xml"),".",[]}]},
@@ -501,7 +501,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doubledash-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'--'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -516,7 +516,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doubledash-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'com--ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -531,7 +531,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doubledash-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'com&#x2D;&#x2D;ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -546,7 +546,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doubledash-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {//*:test-case[@name=\"Constr-compcomment-doubledash-4\"]/*:description}",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "CompCommentConstructor.xml"),".",[]}]},
@@ -573,7 +573,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compcomment-doubledash-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {'com','-','-','ment'}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -588,7 +588,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {\"name\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -603,7 +603,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment name {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment {()}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -633,10 +633,10 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XQ30"}.
 'K2-ComputeConComment-4a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment{}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -663,7 +663,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConComment-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(comment {\"content\"}) instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -678,7 +678,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compcomment-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<element> { comment { '-', '-' } } </element>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -693,7 +693,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compcomment-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:tag($arg) as element() { element { 'tag' } { $arg } }; 
       	<element> { comment { 'comment', local:tag('--') } } </element>

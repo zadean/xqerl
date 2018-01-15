@@ -15,7 +15,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -205,7 +205,7 @@ environment('auction-xq',BaseDir) ->
 {modules, []}
 ].
 'ns-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $n in distinct-values( for $i in (//* | //@*) return namespace-uri($i) ) return $n",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
@@ -229,7 +229,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace music = \"http://www.example.org/music/records\"; 
         <Q2> { //music:title } </Q2>
@@ -248,7 +248,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace dt = \"http://www.w3.org/2001/XMLSchema\"; 
         <Q3> { //*[@dt:*] } </Q3>",
@@ -266,7 +266,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace xlink = \"http://www.w3.org/1999/xlink\"; 
         <Q4 xmlns:xlink=\"http://www.w3.org/1999/xlink\"> { for $hr in //@xlink:href return <ns>{ $hr }</ns> } </Q4>
@@ -285,7 +285,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace music = \"http://www.example.org/music/records\"; 
         <Q5 xmlns:music=\"http://www.example.org/music/records\"> { //music:record[music:remark/@xml:lang = \"de\"] } </Q5>
@@ -320,7 +320,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ma = \"http://www.example.com/AuctionWatch\"; 
         declare namespace anyzone = \"http://www.example.com/auctioneers#anyzone\"; 
@@ -340,7 +340,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ma = \"http://www.example.com/AuctionWatch\"; 
         <Q7 xmlns:xlink=\"http://www.w3.org/1999/xlink\"> { 
@@ -364,7 +364,7 @@ environment('auction-xq',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ns-queries-results-q8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace ma = \"http://www.example.com/AuctionWatch\"; 
         <Q8 xmlns:ma=\"http://www.example.com/AuctionWatch\" 

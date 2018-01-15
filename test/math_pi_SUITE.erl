@@ -12,7 +12,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "math")
 
@@ -187,7 +187,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'math-pi-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2*math:pi()",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -203,7 +203,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pi-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "60 * (math:pi() div 180)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -219,7 +219,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pi-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pi()",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -235,7 +235,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pi-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:pi#0()",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -251,7 +251,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-pi-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "function-lookup(xs:QName('math:pi'), 0)()",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

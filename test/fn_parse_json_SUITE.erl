@@ -157,7 +157,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -477,7 +477,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-parse-json-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"{}\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -492,7 +492,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":12}', map{'liberal':false()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +507,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":12e0}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -522,7 +522,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":-1.2e0}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -537,7 +537,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":true}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -552,7 +552,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":false}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -567,7 +567,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":null}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -582,7 +582,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"abc\":true,\"xyz\":false}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -597,7 +597,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(' { \"abc\" : true , \"xyz\" : false } ')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -612,7 +612,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('    {   \"abc\"   :   true    ,
             \"xyz\"   :   false   
             }   ')",
@@ -629,7 +629,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -656,7 +656,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[12345]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -687,7 +687,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"abcd\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -718,7 +718,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[true]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -749,7 +749,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[false]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -780,7 +780,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[null]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -811,7 +811,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1,2,3, \"abc\", \"def\", true, false, null]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -870,7 +870,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('
         [   1,     2,  3, 
         \"abc\",  \"def\",   true, 
@@ -933,7 +933,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"[[[],[]]]\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -968,7 +968,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1, 2, [], [1], [1,2], [1,2,3]]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -999,7 +999,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[{\"x\":12,\"y\":5}, {\"x\":13,\"y\":6}]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1022,7 +1022,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"x\":[12,3], \"y\":[14,9]}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1045,7 +1045,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[0.123]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1068,7 +1068,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1091,7 +1091,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123e2]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1114,7 +1114,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123e+2]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1137,7 +1137,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123e-2]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1160,7 +1160,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\\\\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1183,7 +1183,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\\"\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1206,7 +1206,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\r\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1229,7 +1229,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\n\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1252,7 +1252,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\/\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1275,7 +1275,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"aa\\u0030aa\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1298,7 +1298,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\uD834\\udD1E\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1321,7 +1321,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\r\"]', map{'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1336,7 +1336,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\r\"]', map{'escape':false()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1351,7 +1351,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u0000\"]', map{'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1366,7 +1366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('true')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1381,7 +1381,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('false')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1396,7 +1396,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('null')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1411,7 +1411,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('93.7')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1434,7 +1434,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"abcd\\n\"', map{'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1457,7 +1457,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{'duplicates':'use-first'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1472,7 +1472,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{'duplicates':'use-last'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1487,7 +1487,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1502,7 +1502,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\uFFFF\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1517,7 +1517,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\uDEAD\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1532,7 +1532,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\b\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1547,7 +1547,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\uFFFF\":\"\"}') => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1563,7 +1563,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\uDEAD\":\"\"}') => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1579,7 +1579,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\b\":\"\"}') => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1595,7 +1595,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\uFFFF\"', map{'fallback':lower-case#1})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1610,7 +1610,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\uDEAD\"', map{'fallback':lower-case#1})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1625,7 +1625,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"\\b\"', map{'fallback':lower-case#1})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1648,7 +1648,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\uFFFF\":\"\"}', map{'fallback':lower-case#1}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1664,7 +1664,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\uDEAD\":\"\"}', map{'fallback':lower-case#1}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1680,7 +1680,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\b\":\"\"}', map{'fallback':lower-case#1}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1704,7 +1704,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2}', map{'validate':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1719,7 +1719,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         parse-json('
           {
@@ -1744,7 +1744,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(unparsed-text('parse-json/data001.json'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1759,7 +1759,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(unparsed-text('parse-json/data002.json'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1774,7 +1774,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(unparsed-text('parse-json/data003.json'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1789,7 +1789,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(unparsed-text('parse-json/data004.json'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1804,7 +1804,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(unparsed-text('parse-json/data005.json'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1819,7 +1819,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"x\":\"\\\\\", \"y\":\"\\u0025\"}', map{'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1834,7 +1834,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\\\\":\"x\", \"\\u0025\":\"y\"}', map{'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1849,7 +1849,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"%\":\"x\", \"\\u0025\":\"y\"}', map{'escape':true(), 'duplicates':'reject'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1864,7 +1864,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"/\":\"x\", \"\\/\":\"y\"}', map{'escape':true(), 'duplicates':'reject'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1879,7 +1879,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\u000a\\u0025\":\"x\", \"\\n%\":\"y\"}', map{'escape':true(), 'duplicates':'reject'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1894,7 +1894,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"%\\u0010%\":\"x\", \"%\\n%\":\"y\"}', map{'escape':true(), 'duplicates':'reject'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1909,7 +1909,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-801'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123e-2,]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1932,7 +1932,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-802'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[FALSE]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1955,7 +1955,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-804'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[(5)]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1978,7 +1978,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-806'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[{x:23}]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2001,7 +2001,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-809'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1,2,3,]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2024,7 +2024,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-810'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":=13}', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2047,7 +2047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-811'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":13,,\"b\":15}', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2070,7 +2070,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-814'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":{\"b\":12}}}', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2093,7 +2093,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-815'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2116,7 +2116,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-816'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\1\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2139,7 +2139,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-817'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u2\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2162,7 +2162,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-819'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\b\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2185,7 +2185,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-820'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\x20\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2208,7 +2208,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-821'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\s\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2231,7 +2231,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-822'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\uD834\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2254,7 +2254,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-823'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\udD1E\"]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2277,7 +2277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-824'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u0000\"]', map{'escape':false(), 'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2300,7 +2300,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-830'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[.3]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2323,7 +2323,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-831'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[01]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2346,7 +2346,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-832'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[00.00]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2369,7 +2369,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-833'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[+23]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2392,7 +2392,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-834'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1.234f0]', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2415,7 +2415,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-835'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"['wrong']\", map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2438,7 +2438,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-839'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2461,7 +2461,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-840'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"'||codepoints-to-string((10, 37))||'\":\"x\", \"yyy\":\"y\"}', map{'liberal':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2484,7 +2484,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[-0.123e-2[')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2499,7 +2499,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[false')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2514,7 +2514,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[falsehood]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2529,7 +2529,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[(5)]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2544,7 +2544,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[{5}]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2559,7 +2559,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-906'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[{x:23}]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2574,7 +2574,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-907'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('23,24')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2589,7 +2589,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-908'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"abc]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2604,7 +2604,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-909'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1,2,3,]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2619,7 +2619,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-910'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":=13}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2634,7 +2634,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-911'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":13,,\"b\":15}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2649,7 +2649,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-912'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":13')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2664,7 +2664,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-913'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":{\"b\":12}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2679,7 +2679,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-914'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":{\"b\":12}}}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2694,7 +2694,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-915'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2709,7 +2709,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-916'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\1\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2724,7 +2724,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-917'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u2\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2739,7 +2739,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-918'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u123u\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2754,7 +2754,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-919'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\b\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2777,7 +2777,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-920'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\x20\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2792,7 +2792,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-921'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\s\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2807,7 +2807,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-922'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\uD834\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2822,7 +2822,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-923'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\udD1E\"]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2837,7 +2837,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-924'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[\"\\u0000\"]', map{'escape':false()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2852,7 +2852,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-925'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('true', map{'spec':'RFC4627'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2867,7 +2867,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-926'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('false', map{'spec':'RFC4627'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2882,7 +2882,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-927'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('null', map{'spec':'RFC4627'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2897,7 +2897,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-928'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('93.7', map{'spec':'RFC4627'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2912,7 +2912,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-929'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"abcd\\n\"', map{'spec':'RFC4627','escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2927,7 +2927,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-930'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[.3]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2942,7 +2942,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-931'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[01]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2957,7 +2957,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-932'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[00.00]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2972,7 +2972,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-933'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[+23]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2987,7 +2987,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-934'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('[1.234f0]')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3002,7 +3002,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-935'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json(\"['wrong']\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3017,7 +3017,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-936'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{'duplicates':'reject'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3032,7 +3032,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-937'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{'duplicates':'do-your-own-thing'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3047,7 +3047,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-938'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"c\":3}', map{'liberal':'liberal'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3062,7 +3062,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-939'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3077,7 +3077,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-940'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2, \"a\":3}', map{'duplicates':'retain'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3092,7 +3092,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-941'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\b\":\"\"}', map{'fallback':lower-case('a')}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3108,7 +3108,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-942'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\b\":\"\"}', map{'fallback':substring#2}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3124,7 +3124,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-943'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\b\":\"\"}', map{'fallback':error(QName(\"\",\"USER9999\"), ?)}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3140,7 +3140,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-944'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\xaa\":\"\"}', map{'fallback':upper-case#1}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3156,7 +3156,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-945'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"\\uFFFF\":\"\"}', map{'fallback':abs#1}) => map:keys()",
    {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3172,7 +3172,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-946'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\":1, \"b\":2}', map{'duplicates':<a>use-first</a>})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3187,7 +3187,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-947'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\" \"b\"}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3202,7 +3202,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-948'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"a\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3217,7 +3217,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-949'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('314eg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3232,7 +3232,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-950'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('3.14eg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3247,7 +3247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-951'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('3.14Eg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3262,7 +3262,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-952'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('3.14Eg')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3277,7 +3277,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-953'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('{\"'||codepoints-to-string((10, 37))||'\":\"x\", \"yyy\":\"y\"}')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3292,7 +3292,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-954'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"aaa\\\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3307,7 +3307,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-parse-json-955'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "parse-json('\"111\\333\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

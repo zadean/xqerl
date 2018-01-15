@@ -95,7 +95,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "misc")
 
@@ -389,7 +389,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
 {modules, []}
 ].
 'UCA-collation-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -421,7 +421,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;keyword=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;strength=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -453,7 +453,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;alternate=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -469,7 +469,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;backwards=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -485,7 +485,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;normalization=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -501,7 +501,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;caseLevel=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -517,7 +517,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;caseFirst=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -533,7 +533,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'fallback=no;numeric=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -549,7 +549,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'keyword=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -565,7 +565,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'strength=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -581,7 +581,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'alternate=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -597,7 +597,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'backwards=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -613,7 +613,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'normalization=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -629,7 +629,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'caseLevel=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -645,7 +645,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'caseFirst=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -661,7 +661,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'hiraganaQuaternary=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -677,7 +677,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'numeric=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -693,7 +693,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'version=5.0'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -709,7 +709,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','def',concat($collation,'version=6.0'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -725,7 +725,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','xyz',concat($collation,'version=7.0'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -741,7 +741,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-022a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','xyz',concat($collation,'version=1.255'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -757,7 +757,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','xyz',concat($collation,'version=unknown'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -773,7 +773,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-collation-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'version=96.5;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -789,7 +789,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('.123','123',concat($collation,'fallback=no;reorder=Z,digit'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -805,7 +805,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab123','ab456',concat($collation,'reorder=Z,digit'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -821,7 +821,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab123','ab456',concat($collation,'fallback=yes;reorder=Z,digit'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -837,7 +837,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('.123','123',concat($collation,'reorder=punct,digit;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -861,7 +861,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('.123','123',concat($collation,'reorder=digit,punct;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -885,7 +885,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare(' 123','123',concat($collation,'reorder=space,digit;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -909,7 +909,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare(' 123','123',concat($collation,'reorder=digit,space;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -933,7 +933,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('£123','123',concat($collation,'reorder=currency,digit;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -957,7 +957,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('£123','123',concat($collation,'reorder=digit,currency;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -981,7 +981,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a123','123',concat($collation,'reorder=Latn,digit;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1005,7 +1005,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-reorder-codes-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a123','123',concat($collation,'reorder=digit,Latn;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en.primary',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1029,7 +1029,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=primary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1053,7 +1053,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=secondary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1077,7 +1077,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=tertiary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1101,7 +1101,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=quaternary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1125,7 +1125,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=identical;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1149,7 +1149,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=1;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1173,7 +1173,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=2;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1197,7 +1197,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=3;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1221,7 +1221,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=4;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1245,7 +1245,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('abc','aBC',concat($collation,'strength=5;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1269,7 +1269,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a-bc','abc',concat($collation,'strength=1;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1293,7 +1293,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a-bc','abc',concat($collation,'strength=2;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1317,7 +1317,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a-bc','abc',concat($collation,'strength=3;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1341,7 +1341,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a-bc','abc',concat($collation,'strength=4;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1365,7 +1365,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('a-bc','abc',concat($collation,'strength=5;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1389,7 +1389,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1413,7 +1413,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1437,7 +1437,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;backwards=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1461,7 +1461,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;backwards=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1485,7 +1485,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;normalization=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1509,7 +1509,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;normalization=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1533,7 +1533,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1557,7 +1557,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1581,7 +1581,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1605,7 +1605,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1629,7 +1629,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1653,7 +1653,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1677,7 +1677,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1701,7 +1701,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1725,7 +1725,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab','Ab',concat($collation,'caseFirst=upper;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1749,7 +1749,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab','Ab',concat($collation,'caseFirst=lower;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1773,7 +1773,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab1a','ab12a',concat($collation,'numeric=yes;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1797,7 +1797,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-params-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('ab1a','ab12a',concat($collation,'numeric=no;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1821,7 +1821,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data type',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1845,7 +1845,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data type',concat($collation,'maxVariable=space;alternate=non-ignorable;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1869,7 +1869,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data base',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1893,7 +1893,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data base',concat($collation,'maxVariable=space;alternate=shifted;strength=4;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1917,7 +1917,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data-type',concat($collation,'maxVariable=space;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1941,7 +1941,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data-type',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1965,7 +1965,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('database','data-base',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1989,7 +1989,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data base','data-base',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2013,7 +2013,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data base','data-base',concat($collation,'maxVariable=punct;alternate=shifted;strength=4;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2037,7 +2037,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data=base','database',concat($collation,'maxVariable=punct;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2061,7 +2061,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data=base','database',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2085,7 +2085,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data=base','data base',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2109,7 +2109,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data=base','data$base',concat($collation,'maxVariable=symbol;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2133,7 +2133,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('data=base','data$base',concat($collation,'maxVariable=currency;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2157,7 +2157,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('$10000','€10000',concat($collation,'maxVariable=currency;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2181,7 +2181,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-maxVariable-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('$10000','€9000',concat($collation,'maxVariable=currency;numeric=yes;alternate=shifted;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation.en',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2205,7 +2205,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-misc-lang-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;lang=fr;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2229,7 +2229,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-misc-lang-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;lang=fr;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2253,7 +2253,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-misc-lang-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=secondary;lang=fr-CA;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2277,7 +2277,7 @@ environment('UCA-collation.en.primary',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'UCA-misc-lang-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "compare('pêche','péché',concat($collation,'strength=primary;lang=en-US;fallback=no'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('UCA-collation',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

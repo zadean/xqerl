@@ -203,7 +203,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -581,7 +581,7 @@ environment('atomicns',BaseDir) ->
 {modules, []}
 ].
 'filterexpressionhc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[xs:integer(hours[1]) gt 20])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -621,7 +621,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[. mod 2 eq 0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[25])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,7 +651,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//empnum | (/))//employee[xs:integer(hours[1]) gt 20]",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -691,7 +691,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//employee[fn:last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -711,7 +711,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[. ge 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -726,7 +726,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[. lt 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[. le 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 25)[. eq 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 11)[. ne 10])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 11)[(. eq 10) and (. mod 5 eq 0)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1 to 11)[(. eq 10) or (. eq 5)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. div 2 eq 5)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. * 2 eq 10)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -846,7 +846,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. + 2 eq 10)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -861,7 +861,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. - 2 eq 6)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,4,5,6,7,8,9,10,11)[(. idiv 2 eq 3)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -891,7 +891,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[(xs:string(.) eq \"3\")])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -906,7 +906,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[. gt 1][. gt 5])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -921,7 +921,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[(. gt 1) and (. gt 2)][(. gt 5) and (. gt 6)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -936,7 +936,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((1,2,3,4,5,6,7,8,9,10,11)[fn:true()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -951,7 +951,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filterexpressionhc22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(((1,2,3,4,5,6,7,8,9,10,11)[fn:false()]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -974,7 +974,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -989,7 +989,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1004,7 +1004,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1019,13 +1019,13 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XP30 XQ10 XQ30"}.
 'K-FilterExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XP30 XQ10 XQ30"}.
 'K-FilterExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1040,7 +1040,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[4])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1055,7 +1055,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1070,7 +1070,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[4])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1085,7 +1085,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[0.1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1100,7 +1100,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[1.1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1115,7 +1115,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[1.01])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1130,7 +1130,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[4])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1145,7 +1145,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[4.1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1160,7 +1160,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[4.01])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1175,7 +1175,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(empty((1, 2, 3)[1]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1190,7 +1190,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(empty((1, 2, 3)[3]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1205,7 +1205,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1] eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1220,7 +1220,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1.0] eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1235,7 +1235,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1.0e0] eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1250,7 +1250,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[3] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1265,7 +1265,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[3.0] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1280,7 +1280,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[3.0e0] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1295,7 +1295,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1310,7 +1310,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[2] eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1325,7 +1325,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[3] eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1340,7 +1340,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0)[1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1355,7 +1355,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0[1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1370,7 +1370,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1)[1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1385,7 +1385,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[false()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1408,7 +1408,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[true()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1423,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[. instance of xs:integer])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1438,7 +1438,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((true(), true(), true()), (false(), true(), true(), false(), true(), false())[.])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1453,7 +1453,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((2, 3, 4, 5, 7, 8, 9), (0, 2, 3, 4, 5, 5, 7, 8, 10 - 1)[.])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1468,7 +1468,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1[true()] eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1483,7 +1483,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, current-time())[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1498,7 +1498,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[xs:anyURI(\"example.com/\")])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1513,7 +1513,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[(xs:anyURI(\"example.com/\"), xs:anyURI(\"example.com/\"))]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1528,7 +1528,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[xs:untypedAtomic(\"content\")])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1543,7 +1543,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[(xs:untypedAtomic(\"content\"), xs:untypedAtomic(\"content\"))]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1558,7 +1558,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[true()][1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1573,7 +1573,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[position() eq 2 or position() eq 3][2] eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1588,7 +1588,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[position() eq 2 or position() eq 3][3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1603,7 +1603,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[2 or 3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1618,7 +1618,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[3][2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1633,7 +1633,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[3][0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1648,7 +1648,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 2, 4, 5)[1][1][1][true()][1][true()][1] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1663,7 +1663,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[3e8])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1678,7 +1678,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((0, 1, 2)[false()][1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1701,7 +1701,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((\"a\", \"b\", \"c\"), (0, 1, 2, \"a\", \"b\", \"c\")[. instance of xs:string])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1716,7 +1716,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((0, 1, 2, \"a\", \"b\", \"c\")[. instance of xs:string][. treat as xs:string eq \"c\"] treat as xs:string) eq \"c\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1739,7 +1739,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((0, 1, 2, \"a\", \"b\", \"c\")[. instance of xs:integer][. treat as xs:integer eq 0] treat as xs:integer) eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1762,7 +1762,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2, \"a\", \"b\", \"c\")[. instance of xs:integer][. eq \"c\"] eq 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1777,7 +1777,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1800,7 +1800,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1823,7 +1823,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1846,7 +1846,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1869,7 +1869,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1892,7 +1892,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[count(remove((current-time(), 1), 1)) eq 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1915,7 +1915,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[position() >= 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1930,7 +1930,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[3 >= position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1945,7 +1945,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[position() ge 1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1960,7 +1960,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[3 ge position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1975,7 +1975,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, 1, 2), (0, 1, 2)[position() eq position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1990,7 +1990,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, 1, 2), (0, 1, 2)[position() = position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2005,7 +2005,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[1 eq position()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2020,7 +2020,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[3 eq position()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2035,7 +2035,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[position() eq 3]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2050,7 +2050,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2, 3), (1, 2, 3)[number(.)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2065,7 +2065,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2), (0, 1, 2)[if(. eq 1) then 2 else 3])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2080,7 +2080,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, 1, 2), (0, 1, 2)[if(. eq 8) then \"str\" else position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2095,7 +2095,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, 1, 2), (0, 1, 2)[if(. eq 8) then 0 else position()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2110,7 +2110,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2125,7 +2125,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, \"2\")[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2140,7 +2140,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (0, 1, \"2\")[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2155,7 +2155,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((())[last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2178,7 +2178,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(()[last()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2201,7 +2201,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[. eq 0]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2216,7 +2216,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[. eq 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2231,7 +2231,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[. eq 2]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2246,7 +2246,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((0, 1, 2), (0, 1, 2)[. eq 0 or . eq 1 or . eq 2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2261,7 +2261,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(0, 1, 2)[remove((1, \"a string\"), 2)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2284,7 +2284,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((1, 2), (1, 2)[remove((true(), \"a string\"), 2)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2307,7 +2307,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[remove((false(), \"a string\"), 2)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2334,7 +2334,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3)[remove((false(), \"a string\"), 2)])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2361,7 +2361,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(current-time()[2])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2376,7 +2376,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1, 2, 3, current-time())[0])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2391,7 +2391,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(remove((1, 2, 3, current-time()), 4)[false()])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2414,7 +2414,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(remove((1, 2, 3, current-time()), 4)[true()], (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2429,7 +2429,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[(last(), last())[2]]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2444,7 +2444,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[xs:hexBinary(\"FF\")]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2459,7 +2459,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1, 2]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2474,7 +2474,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[1, \"a string\"]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2489,7 +2489,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3)[\"a string\", 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2504,7 +2504,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/works/employee[@name=/works/employee[1]/@name]/@name/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2520,7 +2520,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-FilterExpr-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          document{<works>{/tail(works/employee)}</works>}/works/employee[@name=/works/employee[2]/@name]/@name/string()
          ",
@@ -2538,7 +2538,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := (for $i in 1 to 100 return <e>{$i}</e>); $var[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2553,7 +2553,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := (for $i in 1 to 100 return <e>{$i}</e>); $var[5]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2568,7 +2568,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((1,2,3,4,5)[3.4])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2583,7 +2583,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e><a/></e>//a[3.4])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2606,7 +2606,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          let $d := document {<root><child type=\"\"/></root>} 
          return document{$d//*[let $i := @type return $d//*[$i]], (1, 2, 3)[true()], (4, 5, 6)[false()]}
@@ -2632,7 +2632,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d := document { <root><child type=\"\"/></root> } return $d//*[let $i := @type return $d//*[$i]]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2647,7 +2647,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<x/>, <?y?>)[self::processing-instruction()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2662,7 +2662,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-FilterExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<?z?>, <?y?>)[self::processing-instruction(y)] treat as empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2677,7 +2677,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2693,7 +2693,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2717,7 +2717,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:not(fn:false())])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2733,7 +2733,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:true() and fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2749,7 +2749,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:true() or fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2765,7 +2765,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false() and fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2789,7 +2789,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false() or fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2813,7 +2813,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/string[xs:string(.) = \"A String Function\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2829,7 +2829,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/integer[xs:integer(.) = 12678967543233])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2845,7 +2845,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/decimal[xs:decimal(.) = 12678967.543233])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2861,7 +2861,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/float[xs:float(.) = xs:float(1267.43233E12)])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2877,7 +2877,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/double[xs:double(.) = 1267.43233E12])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2893,7 +2893,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/boolean[xs:boolean(.) = fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2909,7 +2909,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/date[xs:date(.) = xs:date(\"2000-01-01+05:00\")])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2925,7 +2925,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works/employee[@name=\"Jane Doe 11\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2945,7 +2945,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//day[xs:string(.) ne \"Monday\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2961,7 +2961,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) lt 13])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2977,7 +2977,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) le 12])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2993,7 +2993,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) gt 79])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3009,7 +3009,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) ge 80])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3025,7 +3025,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) = 12])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3041,7 +3041,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works[1]//employee[empnum != \"E1\" and empnum != \"E4\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3073,7 +3073,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) < 13])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3089,7 +3089,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) <= 12])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3105,7 +3105,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) > 79])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3121,7 +3121,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/works//hours[xs:integer(.) >= 80])",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3137,7 +3137,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := <element1><element2>some content</element2></element1> return $foo[(2 to 5)]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3152,7 +3152,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /works/employee[fn:position() lt 5][fn:position() mod 2 eq 1] return (fn:data($x/empnum), fn:data($x/pnum))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3168,7 +3168,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in /works/employee[fn:position() mod 2 eq 1][fn:position() lt 5] return (fn:data($x/empnum), fn:data($x/pnum))",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3184,7 +3184,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicates-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := (\"x\", 1);
         declare variable $j := $i[position() ne 1];
@@ -3203,7 +3203,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:true()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3219,7 +3219,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3243,7 +3243,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:not(fn:false())])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3259,7 +3259,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:true() and fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3275,7 +3275,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//integer[fn:true() or fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3291,7 +3291,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false() and fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3315,7 +3315,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count((//integer[fn:false() or fn:false()]))",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3339,7 +3339,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/string[xs:string(.) = \"A String Function\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3355,7 +3355,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/integer[xs:integer(.) = 12678967543233])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3371,7 +3371,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/decimal[(xs:decimal(.) = 12678967.543233)])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3387,7 +3387,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/float[xs:float(.) = xs:float(1267.43233E12)])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3403,7 +3403,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/double[xs:double(.) = 1267.43233E12])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3419,7 +3419,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/boolean[xs:boolean(.) = fn:true()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3435,7 +3435,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'predicatesns-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/root/date[xs:date(.) = xs:date(\"2000-01-01+05:00\")])",
    {Env,Opts} = xqerl_test:handle_environment(environment('atomicns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3451,7 +3451,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"c\"[. treat as xs:string]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3466,7 +3466,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3481,7 +3481,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[last() - 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3496,7 +3496,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3511,7 +3511,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a/>, <b/>, <c/>)[1][1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3526,7 +3526,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<b attr=\"f\"/>[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3541,7 +3541,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r>{<e xml:lang=\"ene\"/>/(ancestor-or-self::*/@xml:lang)[last()]}</r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3556,7 +3556,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:foo($arg as item()) { $arg[@arg] }; local:foo(<e arg=\"\">result</e>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3571,7 +3571,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-Predicates-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:foo($arg as item()) { string($arg/@arg) }; local:foo(<e arg=\"result\"/>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3586,7 +3586,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-filterexpr-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:nan() { xs:float(\"NaN\") }; 
       	(1 to 10)[not(position() < xs:float(\"NaN\"))]
@@ -3604,7 +3604,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else () }; ( local:generate(0), 1, local:generate(0) )[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3619,7 +3619,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then (1, 2, 3) else $arg }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3634,7 +3634,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 0 else () }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3649,7 +3649,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then ( 1, 2, 3 ) else ( $arg ) }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3664,7 +3664,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 1 else $arg }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3679,7 +3679,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else ('d' ) }; ( if (local:generate(1) = 'd') then () else 1, for $x in local:generate(0) return fn:lower-case($x))[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3694,7 +3694,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:integer? { $arg }; ( if (local:generate(0) = 0) then () else 1, for $x in local:generate(0) return -$x)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3709,7 +3709,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( (<a><b>cheese</b></a>)/b )[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3724,7 +3724,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; ( local:generate(()), for $x in local:generate(0) return 3)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3739,7 +3739,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; boolean(local:generate(0)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3754,7 +3754,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; boolean(local:generate(1)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3769,7 +3769,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-first-in-sequence-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:generate($arg as xs:boolean) as xs:string+ { if ($arg) then ('a', 'b', 'c') else ('A', 'B', 'C') }; ( for $x in local:generate(true()) return 3)[1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3784,7 +3784,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-filter-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := exists((1 to 10)[. mod 2 = 0]) return (1 to 100)[position() mod 2 = 0 and position() mod 3 = 0 and $x]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3799,7 +3799,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filter-limits-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'a'[2147483649]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3814,7 +3814,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filter-limits-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'a'[4294967296]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3829,7 +3829,7 @@ environment('atomicns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'filter-limits-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'a'[4294967297]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

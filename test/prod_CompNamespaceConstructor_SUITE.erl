@@ -51,7 +51,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 , try  xqerl_module:compile(filename:join(BaseDir, "CompNamespaceConstructor/cnc-module.xq")) catch _:_ -> ok end
@@ -277,7 +277,7 @@ environment('cnc-schema',BaseDir) ->
 {modules, []}
 ].
 'nscons-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -296,7 +296,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xsl := \"xsl\"; 
@@ -317,7 +317,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xsl := \"xsl\"; 
@@ -340,7 +340,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"saxon\"; 
         declare variable $xml := \"http://www.w3.org/XML/1998/namespace\"; 
@@ -361,7 +361,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -381,7 +381,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -402,7 +402,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -422,7 +422,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $s := \"http://saxon.sf.net/\"; 
         declare variable $xsl := \"http://www.w3.org/1999/XSL/Transform\"; 
@@ -442,7 +442,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -461,7 +461,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -481,7 +481,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -501,7 +501,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $p1 := \"http://example.com/one\"; 
         declare variable $p2 := \"http://example.com/two\"; 
@@ -546,7 +546,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := <prefix>z</prefix>,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -566,7 +566,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := \"z\",
             $uri := \"http://www.zorba-xquery.com/\"
@@ -586,7 +586,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace z=\"http://www.zorba-xquery.com/\";
         <z:e>{ namespace { <a/>/* } { \"http://www.w3.org/\" } }</z:e>
@@ -604,7 +604,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := <prefix>z:z</prefix>,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -624,7 +624,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := \"z z\",
             $uri := \"http://www.zorba-xquery.com/\"
@@ -644,7 +644,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := 1,
             $uri := \"http://www.zorba-xquery.com/\"
@@ -664,7 +664,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $uri := \"http://www.w3.org/XML/1998/namespace\"
         return
@@ -683,7 +683,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $uri := \"http://www.w3.org/2000/xmlns/\"
         return
@@ -702,7 +702,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e>{ namespace x { \"\" } }</e>
       ",
@@ -719,7 +719,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $elem := <e>{ namespace z { \"http://www.zorba-xquery.com/\" } }</e>
         return
@@ -738,7 +738,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <z:e>{ namespace z { \"http://www.zorba-xquery.com/\" } }</z:e>
       ",
@@ -755,7 +755,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e>{ namespace z { \"http://www.zorba-xquery.com/\" }, element z:e {} }</e>
       ",
@@ -772,7 +772,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         element e { attribute z:a {},  namespace z { \"http://www.zorba-xquery.com/\" } }
       ",
@@ -789,7 +789,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         <e>{ namespace z { \"http://www.zorba-xquery.com/\" }, element { xs:QName(\"z:e\") } { } }</e>
       ",
@@ -806,7 +806,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         let $elem := <e>{ mod1:one() }</e>
@@ -838,7 +838,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         let $ns := mod1:one()
@@ -869,7 +869,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         serialize( namespace z { \"http://www.zorba-xquery.com/\" } )
       ",
@@ -886,7 +886,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         serialize( element e { namespace z { \"http://www.zorba-xquery.com/\" } } )
       ",
@@ -911,7 +911,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, inherit;
         let $nested := 
@@ -938,7 +938,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, no-inherit;
         let $nested := 
@@ -963,7 +963,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare copy-namespaces no-preserve, inherit;
         let $nested := 
@@ -988,7 +988,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare copy-namespaces no-preserve, no-inherit;
         let $nested := 
@@ -1013,7 +1013,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces preserve, inherit;
@@ -1047,7 +1047,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces preserve, no-inherit;
@@ -1081,7 +1081,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces no-preserve, inherit;
@@ -1115,7 +1115,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace mod1=\"http://www.w3.org/TestModules/cnc-module\";
         declare copy-namespaces no-preserve, no-inherit;
@@ -1149,7 +1149,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare copy-namespaces preserve, inherit;
         
@@ -1178,13 +1178,13 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'nscons-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'nscons-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         element e { namespace {''} {'http://example.com/uri'} }
       ",
@@ -1201,7 +1201,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := xs:anyURI('ns'),
             $uri := \"http://www.zorba-xquery.com/\"
@@ -1221,7 +1221,7 @@ environment('cnc-schema',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'nscons-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         let $pre := xs:duration('P1D'),
             $uri := \"http://www.zorba-xquery.com/\"

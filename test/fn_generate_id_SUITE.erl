@@ -32,7 +32,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 , try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
@@ -240,7 +240,7 @@ environment('collection',BaseDir) ->
 {modules, []}
 ].
 'generate-id-000'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -264,7 +264,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -280,7 +280,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id((//@*)[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -296,7 +296,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id(/)",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -312,7 +312,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id((//comment())[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -328,7 +328,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id((//processing-instruction())[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -344,7 +344,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id((//text())[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -360,10 +360,10 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'generate-id-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id() eq generate-id(/)",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -379,7 +379,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/*/(generate-id() eq generate-id(.))",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -395,7 +395,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
@@ -412,10 +412,10 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'generate-id-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := collection()
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('collection',BaseDir)),
@@ -432,7 +432,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := collection()//*
             return count($nodes) eq count(distinct-values($nodes/generate-id()))",
    {Env,Opts} = xqerl_test:handle_environment(environment('collection',BaseDir)),
@@ -449,7 +449,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*))
@@ -468,7 +468,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy((//@*)[1]))
@@ -487,7 +487,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*)) eq generate-id(/*)
@@ -506,7 +506,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
@@ -525,10 +525,10 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"xpath-1.0-compatibility"}.
 'generate-id-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
          return every $id in $nodes/generate-id() satisfies matches($id, '^[A-Za-z][A-Za-z0-9]*$')",
    {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
@@ -545,7 +545,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := function() {generate-id()} return $f()",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -561,7 +561,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := function($x as item()) {generate-id($x)} return $f(3)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -577,7 +577,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in 1 to 20 return generate-id($i)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -593,7 +593,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $f := function($x as item()) {\"\"} return generate-id($f)",
    {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -609,7 +609,7 @@ environment('collection',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'generate-id-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "generate-id(//*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

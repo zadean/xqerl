@@ -18,7 +18,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "math")
 
@@ -199,7 +199,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'math-tan-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -215,7 +215,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -231,7 +231,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(-0.0e0)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -247,7 +247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(math:pi() div 4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -263,7 +263,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(-math:pi() div 4)",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -279,7 +279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(math:pi() div 4) - 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -295,7 +295,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(-math:pi() div 4) + 1",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -311,7 +311,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(math:pi())",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -327,7 +327,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(xs:double('NaN'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -343,7 +343,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(xs:double('INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -359,7 +359,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'math-tan-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "math:tan(xs:double('-INF'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('math',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

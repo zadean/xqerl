@@ -49,7 +49,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -309,7 +309,7 @@ environment('xq311A',BaseDir) ->
 {modules, []}
 ].
 'CondExpr002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (fn:true()) then <elem1/> else <elem2/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -324,7 +324,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (fn:false()) then <elem1/> else <elem2/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -339,7 +339,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (//CompanyName) then <elem1/> else <elem2/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -355,7 +355,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (//NodeDoesNotExist) then <elem1/> else <elem2/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -371,7 +371,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{ if (1 != 0) then if (4 != 5) then 1 else 2 else 3 }</out>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -386,7 +386,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (//MissingNode) then <elem3/> else if (/Root/Customers[@CustomerID='ALFKI']//Country = \"Germany\") then <elem1/> else <elem2/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -402,7 +402,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if ( /Root/Customers[1]/@CustomerID = 'ALFKI' and /Root/Customers[1]/FullAddress/City = 'Berlin') then \"pass\" else \"fail\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -418,7 +418,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (/Root/Customers[1]/@CustomerID = 'ALFKI' or /Root/Customers[1]/FullAddress/City = 'Non-Existent') then \"pass\" else \"fail\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('nw_Customers',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -434,7 +434,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " if (2 != 4) then 1 else 0 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -449,7 +449,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(if (2 != 3) then 'foo' else 'expanded-foo')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -464,7 +464,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (/doc/widget1/@unit-cost = /doc/widget2/@unit-cost) then /doc/widget1/@name else /doc/widget2/@name",
    {Env,Opts} = xqerl_test:handle_environment(environment('xq311A',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -480,7 +480,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " if (if (5 != 3) then fn:true() else fn:empty(/doc/widget1)) then \"search\" else \"assume\" ",
    {Env,Opts} = xqerl_test:handle_environment(environment('xq311A',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -496,7 +496,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " ( if (3 != 2) then 16 else 0 ) + ( if (8 = 7) then 4 else 1 ) ",
    {Env,Opts} = xqerl_test:handle_environment(environment('xq311A',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -512,7 +512,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = " (if (3 != 2) then 16 else 0) + (if (8 = 7) then 4 else 1) ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -527,7 +527,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//Folder)[1]/File[ if ( ./@name='File00000000000' ) then 2 else true() ]/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -543,7 +543,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return if( $file/FileName='File00000000000' ) then $file/FileName else data( $file/FileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -575,7 +575,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File return if( $file/FileName='File00000000004' ) then 1 else data( $file/FileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -591,7 +591,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if //File[1] then \"true\" else \"false\"",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -607,7 +607,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if( false() ) then /Folder[1] cast as xs:double ? else 10 cast as xs:double ?",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -623,7 +623,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if( true() ) then 10 cast as xs:double ? else /Folder[1] cast as xs:double ?",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -639,7 +639,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CondExpr022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (doc-available('nodocument.xml')) then doc('nodocument.xml') else 10 cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -654,7 +654,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(if(2) then 1 else 0) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -669,7 +669,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(()) then false() else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -684,7 +684,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(if((1, current-time())[1] treat as xs:integer) then true() else false()) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -699,7 +699,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(if(boolean((1, current-time())[1] treat as xs:integer)) then true() else false()) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -714,7 +714,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if((1, 2, 3, hours-from-time(current-time()))[1]) then true() else false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -729,7 +729,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(if(boolean((1, current-time())[1] treat as xs:integer)) then true() else false()) eq \"true\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -744,7 +744,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(if(current-time()) then 1 else 0) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -759,7 +759,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (if(xs:anyURI(\"example.com/\")) then 1 else 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "0 eq (if(xs:anyURI(\"\")) then 1 else 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -789,7 +789,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(count((1, 2, 3, current-time(), 4))) then true() else 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -804,7 +804,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(not(count(remove((1, 2, 3, current-time()), 1)))) then 3 else true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -819,7 +819,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-CondExpr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(boolean((1, 2, 3, current-time())[1] treat as xs:integer)) then true() else 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -834,7 +834,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(if(<e>{current-time()}</e>) then () else ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -857,7 +857,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(if(<e>{current-time()}</e>) then 1 else 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -872,7 +872,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://www.example.com/\"; declare function unordered() { 1 }; unordered()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -887,7 +887,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(//(employee[location = \"Denver\"]/ancestor::*)) then 1 else 3",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -903,7 +903,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(!true()) then 2 else 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -918,7 +918,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/if(true()) then 1 else 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -933,7 +933,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-CondExpr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else if (1) then 1 else ()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -948,7 +948,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-condexpr-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $x := zero-or-one((1 to 10)[. div 2 = 2]) 
       	return if(exists($x)) then xs:string($x) else ()
@@ -966,7 +966,7 @@ environment('xq311A',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-condexpr-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $x := zero-or-one((1 to 10)[. div 2 = 2]) 
       	return if(empty($x)) then () else xs:string($x)

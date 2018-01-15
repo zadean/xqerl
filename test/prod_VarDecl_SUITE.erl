@@ -152,7 +152,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -491,7 +491,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'VarDecl001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := \"\" ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -506,7 +506,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := '' ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,7 +521,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 'a string' ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := \"a string\" ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -551,7 +551,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := \"This is a string, isn't it?\" ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -566,7 +566,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 'This is a \"String\"' ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -581,7 +581,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := \"a \"\" or a ' delimits a string literal\" ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -596,7 +596,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 'a \" or a '' delimits a string literal' ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -611,7 +611,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := '&lt;bold&gt;A sample element.&lt;/bold&gt;' ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -626,7 +626,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 0 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -641,7 +641,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 1 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -656,7 +656,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -1 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -671,7 +671,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := +1 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -686,7 +686,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 1.23 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -701,7 +701,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -1.23 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -716,7 +716,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 1.2e5 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -731,7 +731,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -1.2E5 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -746,7 +746,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 0.0E0 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -761,7 +761,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 1e-5 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -776,7 +776,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 9.999999999999999; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -791,7 +791,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -10000000 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -806,7 +806,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 1 to 10 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -821,7 +821,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:double('NaN'); $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -836,7 +836,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:double('INF'); $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -851,7 +851,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:double('-INF'); $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -866,7 +866,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := fn:false() ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -881,7 +881,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := false(); $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -896,7 +896,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := fn:true() ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -911,7 +911,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := true() ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -926,7 +926,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := true(); $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -941,7 +941,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 2+2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -956,7 +956,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 2*2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -971,7 +971,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 3-2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -986,7 +986,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 3 div 2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1001,7 +1001,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 3 mod 2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1016,7 +1016,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 3 idiv 2 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1031,7 +1031,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -1.7976931348623157E308 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1046,7 +1046,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:double(\"-1.7976931348623157E308\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1061,7 +1061,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -999999999999999999 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1076,7 +1076,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:decimal(\"-999999999999999999\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1091,7 +1091,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := 999999999999999999 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1106,7 +1106,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:decimal(\"999999999999999999\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1121,7 +1121,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := -3.4028235E38 ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1136,7 +1136,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:float(\"-3.4028235E38\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1151,7 +1151,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:date(\"1970-01-01Z\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1166,7 +1166,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:date(\"1970-01-01Z\") + xs:dayTimeDuration(\"P31DT23H59M59S\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1181,7 +1181,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:time(\"08:03:35Z\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1196,7 +1196,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:time(\"08:03:35Z\") + xs:dayTimeDuration(\"P0DT0H0M0S\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1211,7 +1211,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := xs:dateTime(\"2030-12-31T23:59:59Z\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1226,7 +1226,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (1,2,3) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1241,7 +1241,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:string(\"a\") , (), \"xyz\") ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1256,7 +1256,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:string(\"a\") , xs:anyURI(\"www.example.com\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1271,7 +1271,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:float(\"INF\") , xs:double(\"NaN\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1286,7 +1286,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:boolean(\"true\") , xs:boolean(\"0\"), xs:integer(\"0\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1301,7 +1301,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:date(\"1993-03-31\") , xs:boolean(\"true\"), xs:string(\"abc\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1316,7 +1316,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (xs:time(\"12:30:00\") , xs:string(\" \") , xs:decimal(\"2.000000000000002\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1331,7 +1331,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := ((1+1), (2-2)) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1346,7 +1346,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := ((1,2,2),(1,2,3),(123,\"\"),(),(\"\")) ; $x",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1361,7 +1361,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := (//book/price, (), (1)) ; document{$x}",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1377,7 +1377,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := //Price/text() ; $x",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1393,7 +1393,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := /comment() ; $x",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1409,7 +1409,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x := /processing-instruction() ; $x",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1425,7 +1425,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $x := $y + 3;
         declare variable $y := 17;
@@ -1444,7 +1444,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'VarDecl064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:f1() {$a};
         declare function local:f2() {$a};
@@ -1464,10 +1464,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclerr'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'vardeclerr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare namespace foo = \"http://www..oracle.com/xquery/test\"; 
       declare variable $var1 as xs:integer := foo:price(xs:integer(2)); 
@@ -1486,7 +1486,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'internalvar-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)variable(::)$var(::):=(::)1(::);(::) 1(::)eq(::)1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1501,10 +1501,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-1a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $local:myVar := local:myFunction();
         declare function local:myFunction() {
@@ -1525,10 +1525,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-2a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $local:myVar := local:myFunction();
         declare function local:myFunction() { $local:myVar, 1, local:myFunction() };
@@ -1547,10 +1547,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-3a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1565,10 +1565,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-4a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1583,10 +1583,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-5a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { $local:myVar, 1, local:myFunction() }; declare function local:myFunction() { local:myFunction2() }; $local:myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1601,10 +1601,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-6a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
 
          declare function local:myFunction2() {
@@ -1627,10 +1627,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-7a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
          declare function local:myFunction2() {
          if (current-date() lt xs:date('1990-01-01')) then local:myFunction() else (), $local:myVar };
@@ -1658,10 +1658,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-8a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunction();
 
          declare function local:myFunction2() { local:myFunction4() };
@@ -1687,10 +1687,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K2-InternalVariablesWithout-9a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunc(3); declare function local:myFunc($arg) { local:myFunc($local:myVar) }; $local:myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1705,7 +1705,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:myFunc(3); declare function local:myFunc($local:myVar) { $local:myVar }; local:myFunc(6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1720,7 +1720,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:thisFunctionDoesNotExist(); 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1743,7 +1743,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := local:thisFunctionDoesNotExist(); $local:myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1758,7 +1758,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:var1 := 1; declare variable $local:var2 := 2; declare variable $local:var3 := 3; declare variable $local:var4 := 4; declare variable $local:var5 := 5; declare variable $local:var6 := 6; declare variable $local:var7 := 7; declare variable $local:var8 := 8; declare variable $local:var9 := 9; declare variable $local:var10 := 10; declare variable $local:var11 := 11; declare variable $local:var12 := 12; declare variable $local:var13 := 13; declare variable $local:var14 := 14; declare variable $local:var15 := 15; declare variable $local:var16 := 16; declare variable $local:var17 := 17; declare variable $local:var18 := 18; declare variable $local:var19 := 19; declare variable $local:var20 := 20; deep-equal((1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20), ($local:var1, $local:var2, $local:var3, $local:var4, $local:var5, $local:var6, $local:var7, $local:var8, $local:var9, $local:var10, $local:var11, $local:var12, $local:var13, $local:var14, $local:var15, $local:var16, $local:var17, $local:var18, $local:var19, $local:var20))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1773,7 +1773,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := <e>{nametest}</e>; <e/>/$myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1788,7 +1788,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := 1 := 2; 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1803,7 +1803,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:string := \"abc\"; $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1818,7 +1818,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:integer := 100; $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1833,7 +1833,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:decimal := 100; $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1848,7 +1848,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:boolean := fn:true(); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1863,7 +1863,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:boolean := fn:false(); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1878,7 +1878,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:float := xs:float(12.5E10); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1893,7 +1893,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:double := xs:double(1267.43233E12); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1908,7 +1908,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:anyURI := xs:anyURI(\"http://example.com\"); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1923,7 +1923,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:dateTime := xs:dateTime(\"1999-11-28T09:00:00Z\"); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1938,7 +1938,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:time := xs:time(\"11:12:00Z\"); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1953,7 +1953,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:date := xs:date(\"1999-11-28Z\"); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1968,7 +1968,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare variable $var as xs:date := xs:date(\"1999-11-28Z\"); 
       	declare variable $var as xs:date := xs:date(\"1999-11-28Z\"); 
@@ -1987,7 +1987,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:date := fn:true() and fn:true(); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2002,7 +2002,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $x as xs:integer := 10; declare variable $var as xs:integer := $x +1; $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2017,10 +2017,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-15a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'vardeclwithtype-15b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare variable $var as xs:integer := $e +1; 
       declare variable $e as xs:integer := 10;  
@@ -2038,7 +2038,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace p1 = \"http://www.example.com\"; 
       	declare variable $p1:var as xs:integer := 10; 
@@ -2057,7 +2057,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace p1 = \"http://www.example.com\"; 
       	declare namespace p2 = \"http://www.example.com/examples\"; 
@@ -2078,7 +2078,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare namespace p1 = \"http://www.example.com\"; 
       	declare namespace p2 = \"http://www.example.com\"; 
@@ -2099,7 +2099,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:integer := fn:count((10,2)); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2114,7 +2114,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:integer := fn:string-length(\"ABC\"); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2129,7 +2129,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:boolean := fn:not(fn:true()); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2144,7 +2144,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'vardeclwithtype-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var as xs:boolean := fn:empty((1,2,3)); $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2159,7 +2159,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'internalvar-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare(::)variable(::)$var(::)as(::)item((: :))*(::):=(::)1(::);(::) 1(::)eq(::)1(::)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2174,7 +2174,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare(::)variable(::)$local:var(::)as(::)item((: :))* :=3(::);(::)1(::)eq(::)1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2189,7 +2189,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(::)declare(::)variable(::)$local:var(::):=(::)3;(::)1(::)eq(::)1(::)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2204,7 +2204,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar as xs:integer := subsequence((1, 2, \"a string\"), 3, 1); $myVar eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2219,7 +2219,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar as xs:gYear := 2006; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2242,7 +2242,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar as xs:gYear := 2006; $myVar",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2257,10 +2257,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-6a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-6b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var2; declare variable $var2 := 2; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2275,7 +2275,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable var1 := 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2290,7 +2290,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 = 1; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2305,10 +2305,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-9a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-9b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var2; declare variable $var2 := 2; $var1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2323,7 +2323,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $prefix:var1 := 2; declare namespace prefix = \"http://example.com/myNamespace\"; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2346,7 +2346,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := 2; declare variable $var2 := $var1; $var2 eq 2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2361,7 +2361,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := local:myFunc(); declare function local:myFunc() { 1 }; $var1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2376,7 +2376,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 as xs:string := local:myFunc(); declare function local:myFunc() as xs:integer { 1 }; $var1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2391,7 +2391,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 as xs:string := local:myFunc(); declare function local:myFunc() { 1 }; $var1 eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2406,10 +2406,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-15a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-15b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 := $var1; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2424,10 +2424,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-16a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare variable $var := local:func1(); 
       declare function local:func1() { local:func2() }; 
@@ -2448,10 +2448,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-17a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { 1 }; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2466,10 +2466,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-18a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { $arg2 }; $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2484,10 +2484,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-19a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var2 := local:func1(); declare variable $var := ($var2 treat as xs:integer) + 1; declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2502,10 +2502,10 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-InternalVariablesWith-20a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare variable $var2 := local:func2(); declare function local:func3() { $var2 }; boolean($var)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2520,7 +2520,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-InternalVariablesWith-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:var as item() *:=3; true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2535,7 +2535,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-InternalVariablesWith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $var1 as xs:string := 1 treat as item(); $var1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

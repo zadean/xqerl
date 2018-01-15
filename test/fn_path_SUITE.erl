@@ -27,7 +27,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 , try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
@@ -229,7 +229,7 @@ environment('pathdata',BaseDir) ->
 {modules, []}
 ].
 'path001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(())",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -245,7 +245,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(/*)",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -269,7 +269,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path((//*:all-of)[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -293,7 +293,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(//*[@name=\"fn-absintg1args-1\"])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -317,7 +317,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path((//@idref)[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -341,7 +341,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path((//*:source)[3]/@xml:id)",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -365,7 +365,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path((//comment())[2])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -389,7 +389,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(//text()[.='2147483647'][1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -413,7 +413,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(//processing-instruction()[1])",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -437,7 +437,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(//p)",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -461,16 +461,16 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'path012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'path013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP30+"}.
 'path014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         fn:path(copy:copy((//employee)[1])/pnum)
@@ -489,7 +489,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(/)",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -513,7 +513,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(attribute name {\"fred\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -536,7 +536,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(text{\"fred\"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -559,7 +559,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(<a b=\"c\"/>/@b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -582,7 +582,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:path(<a><b/><b/></a>/(b[2]))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -605,7 +605,7 @@ environment('pathdata',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'path020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(//*:all-of)[1] ! fn:path()",
    {Env,Opts} = xqerl_test:handle_environment(environment('pathdata',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

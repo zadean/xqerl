@@ -18,7 +18,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -199,7 +199,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'fn-available-environment-variables-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists(fn:available-environment-variables#0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -214,7 +214,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(fn:empty(fn:function-lookup(
 	  fn:QName('http://www.w3.org/2005/xpath-functions',
 	  'available-environment-variables'), 0)))
@@ -232,7 +232,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:available-environment-variables#1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -247,7 +247,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:available-environment-variables#2",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -262,7 +262,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $all := fn:available-environment-variables()
 	  return empty($all) or ($all[1] ne \"\")
       ",
@@ -279,7 +279,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	   (for $e in fn:available-environment-variables()
 	   return fn:environment-variable($e) instance of xs:string) = (false())
@@ -297,7 +297,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	  let $all := fn:available-environment-variables(), 
 	      $n := count(fn:available-environment-variables())
@@ -319,7 +319,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	  let $all := fn:available-environment-variables()
 	  return count($all) eq count(distinct-values($all))
@@ -337,7 +337,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
           
 	  let $first := <all>{
@@ -366,7 +366,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	  let $all := fn:available-environment-variables()
 	  return if (fn:empty($all)) then true()
@@ -385,7 +385,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-available-environment-variables-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	  let $all := fn:available-environment-variables()
 	  return if (fn:empty($all)) then true()

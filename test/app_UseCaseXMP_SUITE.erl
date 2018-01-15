@@ -19,7 +19,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -250,7 +250,7 @@ environment('prices',BaseDir) ->
 {modules, []}
 ].
 'xmp-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<bib> { 
       		for $b in /bib/book 
@@ -271,7 +271,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<results> { 
       		for $b in /bib/book, $t in $b/title, $a in $b/author 
@@ -291,7 +291,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<results> { 
       		for $b in /bib/book 
@@ -312,7 +312,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<results> { 
       		let $a := //author 
@@ -340,7 +340,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<books-with-prices> { 
         for $b in $bib//book, $a in $reviews//entry 
         where $b/title = $a/title 
@@ -360,7 +360,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<bib> { 
       		for $b in //book 
@@ -386,7 +386,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<bib> { 
       		for $b in //book 
@@ -409,7 +409,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	for $b in //book 
       	let $e := $b/*[contains(string(.), \"Suciu\") and ends-with(local-name(.), \"or\")] 
@@ -430,7 +430,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<results> { 
       		for $t in //(chapter | section)/title 
@@ -452,7 +452,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<results> { 
       		let $doc := (/) 
@@ -475,7 +475,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<bib> { 
       		for $b in //book[author] 
@@ -499,7 +499,7 @@ environment('prices',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'xmp-queries-results-q12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<bib> { 
       		for $book1 in //book, $book2 in //book 

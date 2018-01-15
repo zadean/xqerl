@@ -55,7 +55,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -285,7 +285,7 @@ environment('concepts',BaseDir) ->
 {modules, []}
 ].
 'fn-substring-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"motor car\", 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -308,7 +308,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"metadata\", 4, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -323,7 +323,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"12345\", 1.5, 2.6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -338,7 +338,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"12345\", 0, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -353,7 +353,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring(\"12345\", 5, -3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -368,7 +368,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"12345\", -3, 5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -383,7 +383,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring(\"12345\", 0 div 0E0, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -398,7 +398,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring(\"12345\", 1, 0 div 0E0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -413,7 +413,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring((), 1, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -428,7 +428,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"12345\", -42, 1 div 0E0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -443,7 +443,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring(\"12345\", -1 div 0E0, 1 div 0E0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -458,7 +458,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:count(fn:substring(\"\",0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -473,7 +473,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:substring(\"ABC\",1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -488,7 +488,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:not(fn:substring(\"ABC\",1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -503,7 +503,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(fn:substring(\"ABCDE\",1),1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -518,7 +518,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"substring\",1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -533,7 +533,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:concat(fn:substring(\"ABC\",1),\"DEF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -548,7 +548,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:contains(fn:substring(\"ABCDEF\",1),\"DEF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -563,7 +563,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"!@#$%^*()\",1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -578,7 +578,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"ABCD\",xs:double(1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -593,7 +593,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:substring(\"ABCDE\",1+1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -608,7 +608,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat('#', fn:substring(./concepts/@id, string-length(./concepts/@id) - 18, 1), '#')",
    {Env,Opts} = xqerl_test:handle_environment(environment('concepts',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -624,7 +624,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"abcd𐀁efgh\", 6)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -639,7 +639,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"abcd𐀁efgh\", 5, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -654,7 +654,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁\", 1, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -669,7 +669,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁\", 2, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -684,7 +684,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁\", 0, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -699,7 +699,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁\", 0, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -714,7 +714,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁𐀁\", 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -729,7 +729,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"𐀁𐀁\", 0)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -744,7 +744,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-substring-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", -3.1e0, 5.2e0) eq \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -759,7 +759,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sub-string(\"a string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "sub-string(\"a string\", 1, 2, \"wrong param\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -789,7 +789,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring((), 1, 2) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -804,7 +804,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring((), 1) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -819,7 +819,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", 1.5, 2.6) eq \"234\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -834,7 +834,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring((), 1, 3) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -849,7 +849,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"motor car\", 6) eq \" car\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -864,7 +864,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", 0, 3) eq \"12\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -879,7 +879,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"metadata\", 4, 3) eq \"ada\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -894,7 +894,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", 0 div 0E0, 3) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -909,7 +909,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", 1, 0 div 0E0) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -924,7 +924,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", -3, 5) eq \"1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -939,7 +939,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", -42, 1 div 0E0) eq \"12345\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -954,7 +954,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", -1 div 0E0, 1 div 0E0) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -969,7 +969,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SubstringFunc-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "substring(\"12345\", 5, -3) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -984,7 +984,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-substring-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:substring('', 1, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -999,7 +999,7 @@ environment('concepts',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-substring-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean(fn:substring('five', 5, 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

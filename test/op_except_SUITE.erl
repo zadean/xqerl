@@ -78,7 +78,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")
 
@@ -343,7 +343,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'fn-except-node-args-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[1]/title except /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -359,7 +359,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book/title except /bib/book[1]/title",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -375,7 +375,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/bib/book[3] except root(exactly-one(/bib/book[3]/title)))/string(@year)",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -391,7 +391,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book[3]/title/text() except /bib/book/title/text()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -407,7 +407,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction() except /processing-instruction()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -423,7 +423,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/processing-instruction() except /processing-instruction(PI1))/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -439,7 +439,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/comment() except /comment()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -455,7 +455,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((for $node in /bib/book/title/text() except /bib/book[3]/title/text() return $node/string()), \"|\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -471,7 +471,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/processing-instruction() except /bib/book[2]/title)/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -487,7 +487,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(/processing-instruction(PI1) except /bib/book)/name()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -503,7 +503,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/bib/book except /bib/book",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -527,7 +527,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author except //nonexisting",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -543,7 +543,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "//author except ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -559,7 +559,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() except ()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -583,28 +583,28 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'fn-except-node-args-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((for $node in ((//price/text()) , (//price/text())) except (//price) return $node)/string(), \"|\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -620,7 +620,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-except-node-args-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "((//price/text()) , (//price/text())) except (//price/text())",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -636,7 +636,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2, 3) except (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,7 +651,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except text))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -666,7 +666,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -681,7 +681,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -696,7 +696,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -711,7 +711,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except document-node))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -726,7 +726,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except comment))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -741,7 +741,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except processing-instruction))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -756,7 +756,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except item))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -771,7 +771,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except document))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -786,7 +786,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except if))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -801,7 +801,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except then))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -816,7 +816,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except mod))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -831,7 +831,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except div))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -846,7 +846,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except empty-sequence))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -861,7 +861,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except schema-attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -876,7 +876,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(author except schema-element))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -891,7 +891,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except attribute {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -906,7 +906,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except attribute name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -921,7 +921,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except element {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -944,7 +944,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except element name {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -967,7 +967,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except processing-instruction {\"name\"} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -982,7 +982,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except processing-instruction name {}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -997,7 +997,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except comment {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1012,7 +1012,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<e/>/(a except text {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1027,7 +1027,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except descendant))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1042,7 +1042,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except attribute))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1057,7 +1057,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1072,7 +1072,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except descendant-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1087,7 +1087,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except following-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1102,7 +1102,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except following))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1117,7 +1117,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except preceding-sibling))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1132,7 +1132,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except preceding))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1147,7 +1147,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except parent))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1162,7 +1162,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1177,7 +1177,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except ancestor))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1192,7 +1192,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except ancestor-or-self))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1207,7 +1207,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(<e/>/(a except declare))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1222,7 +1222,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(//employee[location = \"Denver\"] except //employee[last()])",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1238,7 +1238,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { //(employee[location = \"Denver\"] except //employee[last()])/./location } </r>",
    {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1254,7 +1254,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a/> except <b/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1269,7 +1269,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExcept-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i except ($i, $i)), (($t, $t) except $t)) } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1284,7 +1284,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1307,7 +1307,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>,<a>0</a>)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1330,7 +1330,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(() except (<a>3</a>,<a>4</a>,<a>0</a>))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1353,7 +1353,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( count((//hours) except (//hours))) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1369,7 +1369,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( count(($works//hours) except ($staff//grade,$works//hours))) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1385,7 +1385,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'combiningnodeseqexcepthc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $h in ( ($works//hours) except ($staff//grade)) order by number($h) return $h",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

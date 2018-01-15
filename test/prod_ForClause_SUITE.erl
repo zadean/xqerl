@@ -196,7 +196,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -603,7 +603,7 @@ environment('SpecialTypes',BaseDir) ->
 {modules, []}
 ].
 'ForExpr001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (\"test\", \"test1\", \"test2\") return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -618,7 +618,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in $folder/File return <file name=\"{$folder/File/FileName}\"/>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -634,7 +634,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $f in /MyComputer/Drive4/Folder[@id=\"128\"] return <FolderName>{$f/@name}</FolderName>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -650,7 +650,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $f in /MyComputer/Drive1/Folder[@creator=\"Mani\"]/File[@creation_date=\"08/06/00\"] return <file>{$f/../@creator}{$f/@creation_date}</file>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -666,7 +666,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $f in /MyComputer//File[@creation_date=\"08/06/00\"]/SecurityObject/Denies/Deny[security/right] return $f/../../@name/string()",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -682,7 +682,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<fragment-result>{ for $folder in /MyComputer/Drive3/Folder ,$file in /MyComputer/Drive3/Folder/File return <Folder>{ $folder/@name, $folder/@id }<file>{ $file/@idref }{ data($file/@name) }</file> </Folder> }</fragment-result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -698,7 +698,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $AaBbCc.-_Dd in /MyComputer/Drive1/Folder return $AaBbCc.-_Dd/FolderName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -714,7 +714,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $AaBbCc.-_Dd in /MyComputer/Drive1/Folder where $AaBbCc.-_Dd/@creator = \"Mani\" return $AaBbCc.-_Dd/FolderName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -730,7 +730,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in $a/* return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -745,7 +745,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder for $file in $folder//File return <File folder=\"{$folder/FolderName}\">{string($file/FileName[1])}</File>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -761,7 +761,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder, $file in $folder//File return <File folder=\"{$folder/FolderName}\">{string($file/FileName[1])}</File>",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -777,7 +777,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $fileName in for $file in //Folder/File return $file/FileName return string( $fileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -793,7 +793,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $fileName in //File/FileName, 
             $folderName in //Folder[contains(description, 'fren')]/FolderName 
@@ -812,7 +812,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $fileName in //File/FileName for $folderName in //Folder/FolderName return $folderName return $fileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -828,7 +828,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder return for $file in $folder/File return string( $file/FileName[1] )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -844,7 +844,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder, $index in (1, 2, 3) return $folder/File[$index]/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -860,7 +860,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder return $folder return $folder",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -876,7 +876,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in in .//Folder return $folder",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -892,7 +892,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for for $folder in //Folder return $folder",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -908,7 +908,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $folder in //Folder, $file in $folder/File, return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -924,7 +924,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 2), $j in (3, 4) return ($i, $j)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -940,7 +940,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $pos in (//Folder)[1]/File return (string($file/FileName[1]), $pos)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -956,7 +956,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $pos in (//Folder)[1]/File, $pos2 in $pos+1 return (string($file/FileName[1]), $pos, $pos2)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -972,7 +972,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $file in (//Folder)[1]/File return (string($file/FileName[1]), $file)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -988,7 +988,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File, $file in (//Folder)[2]/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1004,7 +1004,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file (//Folder)[1]/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1020,7 +1020,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File at $pos return (string($file/FileName[1]), $pos)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1036,7 +1036,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $num in ( <one/>, <two/>, <three/> ) return $num",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1052,7 +1052,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (1,2) for $var in (2,2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1067,7 +1067,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var in (1,2), $var in (2,2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1082,7 +1082,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $var at $var in (1, 2) return $var * $var",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1097,7 +1097,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExpr032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $j external := 1;
          for $x at $i in (2, 3)
@@ -1117,7 +1117,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in 1, $bar in 2, $moo in 3, return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1132,7 +1132,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for in 1 return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1147,7 +1147,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for return 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1162,7 +1162,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in 1 satisfies 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1177,7 +1177,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(1 to 5, (for $i in (1,2,3,4,5) return $i))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1192,7 +1192,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1207,7 +1207,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $foo in 1 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1222,7 +1222,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "2 eq (for $foo in 1 return $foo + 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1237,7 +1237,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $foo in 3 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1252,7 +1252,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((for $var in (1, 2, 3) return $var), (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1267,7 +1267,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((2, 2), (for $foo in (1, 1) return 1 + $foo))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1282,7 +1282,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "4 eq (for $foo in 1, $bar in 2, $moo in 3 return 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1297,7 +1297,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $bar in 2 return $bar + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1312,7 +1312,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (for $foo in 1 return for $bar in 2 return $bar + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1327,7 +1327,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 eq (for $foo in 1, $foo in 3 return $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1342,7 +1342,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "8 eq (for $foo in 1, $foo in 3, $moo in 5 return $moo + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1357,7 +1357,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "6 eq (for $foo in 1, $foo in 3 return $foo + $foo)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1372,7 +1372,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $var in () return current-time())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1395,7 +1395,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $var in () return 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1418,7 +1418,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((for $var in () return current-time()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1441,7 +1441,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty((for $var in () return 1) eq 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1464,7 +1464,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(for $var in subsequence((current-time(), 1), 4) return 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1479,7 +1479,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(remove(for $var in (current-time(), 2, 3, 4) return $var, 1), (2, 3, 4))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1494,7 +1494,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $fn:name in (1, 1) return $fn:name) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1509,7 +1509,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $xs:name in (1, 1) return $xs:name) instance of xs:integer+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1524,7 +1524,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1539,7 +1539,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$PREFIXNOTEXIST:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1554,7 +1554,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$xs:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1569,7 +1569,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1584,7 +1584,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + $prefix:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1599,7 +1599,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 + $xs:NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1614,7 +1614,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1629,7 +1629,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$PREFIXNOTEXIST:NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1644,7 +1644,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "$xs:NOTEXIST + 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1659,7 +1659,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in 1 return $NOTEXIST",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1674,7 +1674,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in (1, 2, $foo) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1689,7 +1689,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in (1, $foo, 3) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1704,7 +1704,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in ($foo, 2, 3) return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1719,7 +1719,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in $foo return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1734,7 +1734,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in 1 return $bar + (for $bar in 2 return $bar)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1749,7 +1749,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 2, 3), $b in (1, 2, 3, $b) return $a, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1764,7 +1764,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1779,7 +1779,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 2) return 1, $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1794,7 +1794,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1809,7 +1809,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 2), $b in (1, 2), $c in (1, 2) return 1, $c",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1824,7 +1824,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in \"foo\" return 1 + $foo",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1839,7 +1839,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $foo in (\"a string\", \"another one\") return 1 + subsequence($foo, 1, 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1854,7 +1854,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $a in 1 return $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1869,7 +1869,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal((for $fo in trace((1, 2, 3), \"msg\") return $fo), (1, 2, 3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1884,7 +1884,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $a in 1 return $a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1899,7 +1899,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 eq (for $xs:a in 1 return $xs:a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1914,7 +1914,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
@@ -1933,7 +1933,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $my := 3; (for $i in 1 return $my) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1948,7 +1948,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := 3; (for $i in 1 return $i) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1963,7 +1963,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(for $i in (1, 2, current-time()) return ($i, $i)) eq 6",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1978,7 +1978,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-ForExprWithout-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(for $i in (1, 2, timezone-from-time(current-time())) return ($i, $i)) eq 6 or count(for $i in (1, 2, timezone-from-time(current-time())) return ($i, $i)) eq 4",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1993,7 +1993,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "FOR $i IN (1, 2, 3)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2008,7 +2008,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:myFunc() { for $i in (1, 2, 3) return position() }; 
         local:myFunc()",
@@ -2025,7 +2025,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i in (1, 2, 3) return position() }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2048,7 +2048,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i at $p in (1, 2, 3) return position() }; local:myFunc()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2063,7 +2063,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { for $i at $p in (1, 2, 3) return position() }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2086,7 +2086,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $ti in <ti><rangeDate><initDate>17880505</initDate><terminatingDate>19550505</terminatingDate></rangeDate></ti> return <result> { fn:min(if ($ti/singleDate) then let $tmp:=$ti/singleDate/compute return xs:date(fn:concat(fn:substring($tmp, 1, 4), \"-\", fn:substring($tmp, 5, 2), \"-\", fn:substring($tmp, 7, 2))) else let $tmp:=$ti/rangeDate/initDate return xs:date(fn:concat(fn:substring($tmp, 1, 4), \"-\", fn:substring($tmp, 5, 2), \"-\", fn:substring($tmp, 7, 2)))) } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2101,7 +2101,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $d in person return $d",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2116,7 +2116,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $d in <people> <person id=\"person0\"> <name>First</name> </person> <person> <name>Second</name> </person> </people>/person return if (some $id in 1 satisfies typeswitch ($d/@id) case $n as node() return $d/@id = \"person0\" default $d return ()) then $d/name else ())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2131,7 +2131,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a at $pos1 in (1, 2, 3) return for $b at $pos2 in (4, 5, 6) return for $c at $pos3 in (7, 8, 9) return ($a, $pos1, $b, $pos2, $c, $pos2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2146,7 +2146,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $a in (3, 2, 1) 
         for $b in (6, 5, 4) 
@@ -2175,7 +2175,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1, 1) stable order by $a return 5",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2190,7 +2190,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1, 1) stable order by 1 return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2205,7 +2205,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(for $i in self::node() return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2220,7 +2220,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(for $i in 1, $b in self::node() return $b)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2235,7 +2235,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/element return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2250,7 +2250,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/document return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2265,7 +2265,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/document-node return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2280,7 +2280,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/attribute return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2295,7 +2295,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/comment return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2310,7 +2310,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/processing-instruction return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2325,7 +2325,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/processing-instruction return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2340,7 +2340,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/text return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2355,7 +2355,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/typeswitch return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2370,7 +2370,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/if return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2385,7 +2385,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/for return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2400,7 +2400,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/let return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2415,7 +2415,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/declare return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2430,7 +2430,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/some return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2445,7 +2445,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/child return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2460,7 +2460,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/ordered return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2475,7 +2475,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/unordered return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2490,7 +2490,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/schema-attribute return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2505,7 +2505,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/schema-element return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2520,7 +2520,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/item return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2535,7 +2535,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/following-sibling return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2550,7 +2550,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/validate return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2565,7 +2565,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/instance return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2580,7 +2580,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/castable return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2595,7 +2595,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:func($arg as element()* ) as element()* { for $n in $arg/import return $n }; 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2610,7 +2610,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in node return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2625,7 +2625,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in document return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2640,7 +2640,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in attribute return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2655,7 +2655,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in element return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2670,7 +2670,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in processing-instruction return {()} return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2685,7 +2685,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWithout-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $n in attribute return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2708,7 +2708,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file as element(File,xs:untyped) in (//Folder)[1]/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2724,7 +2724,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $fileName as attribute(name,xs:untypedAtomic) in (//Folder)[1]/File/@name return data($fileName)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2740,7 +2740,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $PI as processing-instruction() in //processing-instruction() return $PI",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2756,7 +2756,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $comment as comment() in //comment() return $comment",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2772,7 +2772,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $int as xs:int in (xs:int(1), xs:int(2)) return $int",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2788,7 +2788,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $int as xs:string in (xs:int(1), xs:int(2)) return $int",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2804,7 +2804,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file in (//Folder)[1]/File as element(Folder,xs:untypedAny) return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2820,7 +2820,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file at $pos as element(Folder,xs:untyped) in (//Folder)[1]/File return (string($file/FileName[1]), $pos)",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2836,13 +2836,13 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file as in (//Folder)[1]/File return $file",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2858,13 +2858,13 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $num as xs:decimal in (xs:integer(1), xs:integer(2), xs:integer(3)) return $num",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2880,7 +2880,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $num as xs:decimal in (xs:integer(1), xs:decimal(2), xs:integer(3)) return $num",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2896,7 +2896,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $num as xs:double in (xs:int(\"1\"), xs:integer(\"2\"), xs:string(\"3\")) return $num",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2912,7 +2912,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $file as node() in (//Folder)[1]/File return $file/FileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2928,7 +2928,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $fileName as text() in (//Folder)[1]/File/FileName/text() return string( $fileName )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2944,7 +2944,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $fileName as item() in data( (//Folder)[1]/File/FileName ) return $fileName",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2960,7 +2960,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $doc as document-node() in (/) return count( $doc )",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -2976,16 +2976,16 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:integer in ( xs:byte(\"1\"), xs:long(\"10000\"), xs:negativeInteger(\"-10\"), 
                         xs:short(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
@@ -3004,7 +3004,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:decimal in ( xs:integer(\"100\"), xs:short(\"1\"), xs:int(\"10000\"), 
                 xs:nonPositiveInteger(\"-10\"), xs:unsignedShort(\"100\"), xs:positiveInteger(\"100\"), xs:nonNegativeInteger(\"100\") ) 
@@ -3023,7 +3023,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:normalizedString in ( xs:language(\"en-US\"), xs:NCName(\"foobar\"), 
             xs:NMTOKEN(\"token1\"), xs:ENTITY(\"entity1\") ) 
@@ -3042,7 +3042,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:duration(\"P0Y1347M0D\"), xs:dateTime(\"1999-05-31T13:20:00-05:00\"), 
                     xs:time(\"13:00:00-05:00\"), xs:date(\"1999-05-10Z\"), xs:gYearMonth(\"2002-03\"), xs:gYear(\"1999\"), 
@@ -3062,7 +3062,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:boolean(\"true\"), xs:base64Binary(\"abcd\"), xs:hexBinary(\"1234\"),
                      xs:float(\"5.7\"), xs:double(\"7.5\"), xs:anyURI(\"http://foo\") ) 
@@ -3081,7 +3081,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         for $test as xs:anyAtomicType in ( xs:unsignedByte(\"10\"), xs:short(\"20\"), xs:positiveInteger(\"30\"), 
                 xs:nonPositiveInteger(\"-40\"), xs:decimal(\"5.5\"), xs:ENTITY(\"entity1\"), xs:NCName(\"foobar\"), 
@@ -3101,7 +3101,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $test as xs:decimal in ( 1, 0.3 ) return $test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3116,7 +3116,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $test as xs:anyAtomicType in ( 1, \"string\", 1e2, 0.3 ) return $test",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3131,19 +3131,19 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'ForExprType054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3162,7 +3162,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName
@@ -3181,7 +3181,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName
@@ -3200,7 +3200,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         document{for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test}
@@ -3219,7 +3219,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         document{for $test as comment() in (//fs:Folder)[1]/comment() return $test}
@@ -3238,7 +3238,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test
@@ -3257,7 +3257,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace fs=\"http://www.example.com/filesystem\"; for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test",
    {Env,Opts} = xqerl_test:handle_environment(environment('fsx_NS2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -3273,7 +3273,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"unknown\") in (//fs:Folder)[1]//processing-instruction() return $test
@@ -3292,7 +3292,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3311,7 +3311,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3330,7 +3330,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3349,7 +3349,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3368,7 +3368,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3387,7 +3387,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3406,7 +3406,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3425,7 +3425,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3444,7 +3444,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"foo\") in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3463,7 +3463,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType071'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as processing-instruction(\"foo\") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3482,7 +3482,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
@@ -3501,7 +3501,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'ForExprType073'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace fs=\"http://www.example.com/filesystem\"; 
         for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
@@ -3520,7 +3520,7 @@ environment('SpecialTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ForExprWith-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i as xs:string in xs:untypedAtomic(\"input\") return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

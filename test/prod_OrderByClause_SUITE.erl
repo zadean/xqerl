@@ -212,7 +212,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -611,205 +611,205 @@ environment('orderdata2',BaseDir) ->
 {modules, []}
 ].
 'orderBy1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy29a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'orderBy30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy52a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'orderBy53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'orderBy67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          for $j in (text{'Az'}, text{'Bx'}, text{'Cy'}) 
          order by $j/substring(., $j/string-length(.)) 
@@ -828,7 +828,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderBy68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare variable $in := <in><e on=\"2017-09-18\"/><e on=\"2016-04-15\"/><e on=\"2012-07-09\"/></in>;
          for $j in ($in//e/@on, xs:date('1999-12-17')) 
@@ -848,7 +848,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",
         \"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",
         \"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by xs:string($x) 
@@ -866,7 +866,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",
         \"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",
         \"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by xs:string($x) 
@@ -884,7 +884,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",
         \"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",
         \"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"()\") 
@@ -902,7 +902,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"()\") descending return concat(xs:string($x),\"()\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -917,7 +917,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"another String After\") ascending return concat(xs:string($x),\"another String After\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -932,7 +932,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"another String After\") descending return concat(xs:string($x),\"another String After\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -947,7 +947,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"another String Before\",xs:string($x)) ascending return concat(\"another String Before\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -962,7 +962,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"another String Before\",xs:string($x)) descending return concat(\"another String Before\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -977,7 +977,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"\") descending return concat(xs:string($x),\"\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -992,7 +992,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"\") ascending return concat(xs:string($x),\"\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1007,7 +1007,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"\",xs:string($x)) descending return concat(\"\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1022,7 +1022,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"\",xs:string($x)) ascending return concat(\"\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1037,7 +1037,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),xs:string($x)) ascending return concat(xs:string($x),xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1052,7 +1052,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in(\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by string-length(xs:string($x)) ascending return string-length(xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1067,7 +1067,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by count(xs:string($x)) ascending return count(xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1082,7 +1082,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by string-length(xs:string($x)) ascending return string-length(xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1097,7 +1097,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:decimal($x) ascending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1112,7 +1112,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1127,7 +1127,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by (xs:decimal($x) + xs:decimal($x)) descending return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1142,7 +1142,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:float($x) descending return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1157,7 +1157,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1172,7 +1172,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:double($x) descending return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1187,7 +1187,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:integer($x) descending return xs:integer($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1202,7 +1202,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by (xs:decimal($x) * -1) descending return (xs:decimal($x) * -1) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1217,7 +1217,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:decimal($x) ascending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1232,7 +1232,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1247,7 +1247,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by (xs:decimal($x) + xs:decimal($x)) descending return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1262,7 +1262,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:float($x) descending return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1277,7 +1277,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1292,7 +1292,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:double($x) descending return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1307,7 +1307,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:integer($x) descending return xs:integer($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1322,7 +1322,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by string($x) ascending return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1337,7 +1337,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by $x ascending return $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1352,7 +1352,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1367,7 +1367,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by (xs:decimal($x) + xs:decimal($x)) descending return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1382,7 +1382,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results>{ for $x in (<a>0.000000000000000001</a>,<a>0.00000000000000001</a>,<a>0.0000000000000001</a>,<a>0.000000000000001</a>,<a>0.00000000000001</a>,<a>0.0000000000001</a>,<a>0.000000000001</a>,<a>0.00000000001</a>,<a>0.0000000001</a>,<a>0.000000001</a>,<a>0.00000001</a>,<a>0.0000001</a>,<a>0.000001</a>,<a>0.00001</a>,<a>0.0001</a>,<a>0.001</a>,<a>0.01</a>,<a>0.1</a>,<a>0.0</a>) order by $x is $x ascending return $x is $x}</results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1397,7 +1397,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results>{ for $x in (<a>0.000000000000000001</a>,<a>0.00000000000000001</a>,<a>0.0000000000000001</a>,<a>0.000000000000001</a>,<a>0.00000000000001</a>,<a>0.0000000000001</a>,<a>0.000000000001</a>,<a>0.00000000001</a>,<a>0.0000000001</a>,<a>0.000000001</a>,<a>0.00000001</a>,<a>0.0000001</a>,<a>0.000001</a>,<a>0.00001</a>,<a>0.0001</a>,<a>0.001</a>,<a>0.01</a>,<a>0.1</a>,<a>0.0</a>) order by $x is $x descending return $x is $x }</results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1412,7 +1412,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:float($x) descending return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1427,7 +1427,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1442,7 +1442,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:double($x) descending return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1457,7 +1457,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by string($x) ascending return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1472,7 +1472,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:decimal($x) ascending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1487,7 +1487,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1502,7 +1502,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by (xs:decimal($x) + xs:decimal($x)) descending return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1517,7 +1517,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:float($x) descending return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1532,7 +1532,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:decimal($x) descending return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1547,7 +1547,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:double($x) descending return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1562,7 +1562,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by string($x) ascending return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1577,7 +1577,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbylocal-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (\"A\",\"B\",\"C\") order by string($x) ascending collation \"http://nonexistentcollition.org/ifsupportedwoooayouarethebestQueryimplementation/makeitharder\" return string($x)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1592,7 +1592,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by xs:string($x) return xs:string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1607,7 +1607,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"()\") return concat(xs:string($x),\"()\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1622,7 +1622,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"another String After\") return concat(xs:string($x),\"another String After\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1637,7 +1637,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"another String Before\",xs:string($x)) return concat(\"another String Before\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1652,7 +1652,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),\"\") return concat(xs:string($x),\"\") } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1667,7 +1667,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(\"\",xs:string($x)) return concat(\"\",xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1682,7 +1682,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<a>A String</a>,<a>B String</a>,<a>C String</a>,<a>D String</a>,<a>E String</a>,<a>F String</a>,<a>G String</a>,<a>H String</a>,<a>I String</a>, <a>J String</a>,<a>K String</a>,<a>L String</a>,<a>M String</a>,<a>N String</a>,<a>O String</a>,<a>P String</a>,<a>R String</a>,<a>S String</a>,<a>T String</a>, <a>U String</a>,<a>V String</a>,<a>W String</a>,<a>X String</a>,<a>Y String</a>,<a>Z String</a>) order by $x is $x return $x is $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1697,7 +1697,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by concat(xs:string($x),xs:string($x)) return concat(xs:string($x),xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1712,7 +1712,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<a>A String</a>,<a>B String</a>,<a>C String</a>,<a>D String</a>,<a>E String</a>,<a>F String</a>,<a>G String</a>,<a>H String</a>,<a>I String</a>, <a>J String</a>,<a>K String</a>,<a>L String</a>,<a>M String</a>,<a>N String</a>,<a>O String</a>,<a>P String</a>,<a>R String</a>,<a>S String</a>,<a>T String</a>, <a>U String</a>,<a>V String</a>,<a>W String</a>,<a>X String</a>,<a>Y String</a>,<a>Z String</a>) order by string-length($x) return string-length($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1727,7 +1727,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (\"A String\",\"B String\",\"C String\",\"D String\",\"E String\",\"F String\",\"G String\",\"H String\",\"I String\",\"J String\",\"K String\",\"L String\",\"M String\",\"N String\",\"O String\",\"P String\",\"R String\",\"S String\",\"T String\",\"U String\",\"V String\",\"W String\",\"X String\",\"Y String\",\"Z String\") order by count(xs:string($x)) return count(xs:string($x)) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1742,7 +1742,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1757,7 +1757,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by (xs:decimal($x) + xs:decimal($x)) return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1772,7 +1772,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<orderData>-100000000000000000</orderData>,<orderData>-10000000000000000</orderData>,<orderData>-1000000000000000</orderData>,<orderData>-100000000000000</orderData>, <orderData>-10000000000000</orderData>,<orderData>-1000000000000</orderData>,<orderData>-100000000000</orderData>,<orderData>-10000000000</orderData>,<orderData>-1000000000</orderData>, <orderData>-100000000</orderData>,<orderData>-10000000</orderData>,<orderData>-1000000</orderData>,<orderData>-100000</orderData>,<orderData>-10000</orderData>,<orderData>-1000</orderData>, <orderData>-100</orderData>,<orderData>-10</orderData>,<orderData>-1</orderData>,<orderData>-0</orderData>) order by $x is $x return $x is $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1787,7 +1787,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:float($x) return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1802,7 +1802,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:double($x) return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1817,7 +1817,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by xs:integer($x) return xs:integer($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1832,7 +1832,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-100000000000000000,-10000000000000000,-1000000000000000,-100000000000000,-10000000000000,-1000000000000,-100000000000,-10000000000,-1000000000,-100000000,-10000000,-1000000,-100000,-10000,-1000,-100,-10,-1,-0) order by (xs:decimal($x) * -1) return (xs:decimal($x) * -1) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1847,7 +1847,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1862,7 +1862,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by (xs:decimal($x) + xs:decimal($x)) return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1877,7 +1877,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<orderData>100000000000000000</orderData>,<orderData>10000000000000000</orderData>,<orderData>1000000000000000</orderData>, <orderData>100000000000000</orderData>,<orderData>10000000000000</orderData>,<orderData>1000000000000</orderData>,<orderData>100000000000</orderData>, <orderData>10000000000</orderData>,<orderData>1000000000</orderData>,<orderData>100000000</orderData>,<orderData>10000000</orderData>, <orderData>1000000</orderData>,<orderData>100000</orderData>,<orderData>10000</orderData>,<orderData>1000</orderData>,<orderData>100</orderData>, <orderData>10</orderData>,<orderData>1</orderData>,<orderData>0</orderData>) order by $x is $x return $x is $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1892,7 +1892,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:float($x) return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1907,7 +1907,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1922,7 +1922,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:double($x) return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1937,7 +1937,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by xs:integer($x) return xs:integer($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1952,7 +1952,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (100000000000000000,10000000000000000,1000000000000000,100000000000000,10000000000000,1000000000000,100000000000,10000000000,1000000000,100000000,10000000,1000000,100000,10000,1000,100,10,1,0) order by string($x) return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1967,7 +1967,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by $x return $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1982,7 +1982,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1997,7 +1997,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by (xs:decimal($x) + xs:decimal($x)) return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2012,7 +2012,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<orderData>0.000000000000000001</orderData>,<orderData>0.00000000000000001</orderData>,<orderData>0.0000000000000001</orderData>,<orderData>0.000000000000001</orderData>, <orderData>0.00000000000001</orderData>,<orderData>0.0000000000001</orderData>,<orderData>0.000000000001</orderData>,<orderData>0.00000000001</orderData>,<orderData>0.0000000001</orderData>, <orderData>0.000000001</orderData>,<orderData>0.00000001</orderData>,<orderData>0.0000001</orderData>,<orderData>0.000001</orderData>,<orderData>0.00001</orderData>, <orderData>0.0001</orderData>,<orderData>0.001</orderData>,<orderData>0.01</orderData>,<orderData>0.1</orderData>,<orderData>0.0</orderData>) order by $x is $x return $x is $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2027,7 +2027,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:float($x) return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2042,7 +2042,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2057,7 +2057,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by xs:double($x) return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2072,7 +2072,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (0.000000000000000001,0.00000000000000001,0.0000000000000001,0.000000000000001,0.00000000000001,0.0000000000001,0.000000000001,0.00000000001,0.0000000001,0.000000001,0.00000001,0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.1,0.0) order by string($x) return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2087,7 +2087,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2102,7 +2102,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by (xs:decimal($x) + xs:decimal($x)) return xs:decimal($x) + xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2117,7 +2117,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (<orderData>-0.000000000000000001</orderData>,<orderData>-0.00000000000000001</orderData>,<orderData>-0.0000000000000001</orderData>,<orderData>-0.000000000000001</orderData>,<orderData>-0.00000000000001</orderData>,<orderData>-0.0000000000001</orderData>, <orderData>-0.000000000001</orderData>,<orderData>-0.00000000001</orderData>,<orderData>-0.0000000001</orderData>,<orderData>-0.000000001</orderData>, <orderData>-0.00000001</orderData>,<orderData>-0.0000001</orderData>,<orderData>-0.000001</orderData>,<orderData>-0.00001</orderData>,<orderData>-0.0001</orderData>,<orderData>-0.001</orderData>,<orderData>-0.01</orderData>,<orderData>-0.0</orderData>, <orderData>-0.1</orderData>) order by $x is $x return $x is $x } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2132,7 +2132,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:float($x) return xs:float($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2147,7 +2147,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:decimal($x) return xs:decimal($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2162,7 +2162,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by xs:double($x) return xs:double($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2177,7 +2177,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'orderbywithout-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<results> { for $x in (-0.000000000000000001,-0.00000000000000001,-0.0000000000000001,-0.000000000000001,-0.00000000000001,-0.0000000000001,-0.000000000001,-0.00000000001,-0.0000000001,-0.000000001,-0.00000001,-0.0000001,-0.000001,-0.00001,-0.0001,-0.001,-0.01,-0.0,-0.1) order by string($x) return string($x) } </results>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2192,7 +2192,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/2005/xpath-functions/\"; let $i as xs:integer* := (1, 2, 3) order by 1 collation \"collation/codepoint\" return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2207,7 +2207,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/2005/xpath-functions/\"; let $i as xs:integer* := (1, 2, 3) order by 1 collation \"collation/\" return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2222,7 +2222,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/2005/xpath-functions/\"; let $i as xs:integer* := (1, 2, 3) order by 1 collation \"collation/\" return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2237,7 +2237,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 3, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2252,7 +2252,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 3, 2) order by $i return ($i, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2267,7 +2267,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 3, 2) order by $i empty INVALID return ($i, 2)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2282,7 +2282,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2305,7 +2305,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2), $b := (4, 6, 5) order by $b return $b",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2328,7 +2328,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 4, 2) let $i := (1, $a, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2343,7 +2343,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 4, 2) let $i := (1, 3, 2) order by $a return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2358,7 +2358,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1), $b in (6, 5, 4) order by $a return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2373,7 +2373,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1), $b in (6, 5, 4) stable order by $b return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2388,7 +2388,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <e> <a>3</a> <a>2</a> <a>1</a> </e>; <result> { avg(for $i in $e/a order by $i return $i) } </result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2403,7 +2403,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $e := <e> <a>3</a> <a>2</a> <a>1</a> </e>; exactly-one(for $i in $e/a order by $i return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2418,7 +2418,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (false(), true(), true(), false(), true(), false()) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2433,7 +2433,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean((for $i in (false(), true(), true(), false(), true(), false()) order by $i return $i)[1])",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2448,7 +2448,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(for $i in current-time() order by $i return $i) eq current-time()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2463,7 +2463,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2486,7 +2486,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (<e>1</e>, <e>3</e>, <e>2</e>) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2509,7 +2509,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (<e>1</e>, <e>3</e>, <e>2</e>) order by 1 return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2524,7 +2524,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 3, 2) let $c := 3 stable order by () return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2551,7 +2551,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2) stable order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2574,7 +2574,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (<e>1</e>, <e>3</e>, <e>2</e>) stable order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2597,7 +2597,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:hexBinary(\"FF\")) stable order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2620,7 +2620,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:hexBinary(\"FF\")) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2643,7 +2643,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:date(\"2001-02-03\"), xs:time(\"01:02:03Z\")) stable order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2666,7 +2666,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:date(\"2001-02-03\"), xs:time(\"01:02:03Z\")) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2689,7 +2689,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { for $i in attribute name {()} order by () return () } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2712,7 +2712,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<r> { for $i in 1 order by () return () } </r>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2735,7 +2735,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 2, 3) order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2758,7 +2758,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 2, 3) stable order by $i return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2781,7 +2781,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:hexBinary(\"FF\")) stable order by $i[1] return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2804,7 +2804,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:hexBinary(\"FF\")) order by $i[1] return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2827,7 +2827,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:time(\"03:03:03Z\"), xs:hexBinary(\"FF\")) stable order by $i[1] return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2850,7 +2850,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (xs:hexBinary(\"FF\"), xs:time(\"03:03:03Z\"), xs:hexBinary(\"FF\")) order by $i[1] return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2873,7 +2873,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 3, 2) stable order by () return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2900,7 +2900,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in (1, 2, 3) stable order by 1 return reverse(($i, \"FO\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2915,7 +2915,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (1, 4, 2) let $i := (1, 3, 2) order by $i return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2938,7 +2938,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1) let $a := ($a, 1), $b := (2, 1), $c := (2, 1), $d:= (2, 1) order by $a return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2953,7 +2953,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1) let $b := (2, 1), $c := (2, 1), $d := (2, 1), $e := (2, 1) order by $a return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2968,7 +2968,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(for $i in current-date() order by $i return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2983,7 +2983,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "if(for $i in <e> <a id=\"3\"/> <b id=\"2\"/> <c id=\"1\"/> </e>/* order by xs:integer($i/@id) return $i) then 4 else 9",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2998,7 +2998,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (2, 1) let $b := 1 where true() order by $a return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3013,7 +3013,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in (3, 2, 1), $b in (6) stable order by $b return $a",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3028,7 +3028,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $numbers := (1, 2, 1.3, 3e3, xs:double(\"NaN\"), xs:double(\"-INF\"), xs:double(\"INF\")) return (for $i in $numbers order by $i empty least return $i, \"SEP\", for $i in $numbers order by $i empty greatest return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3043,7 +3043,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $numbers := (1, 2, 1.3, 3e3, xs:double(\"NaN\"), xs:double(\"-INF\"), xs:double(\"INF\")) return (for $i in $numbers stable order by $i empty least return $i, \"SEP\", for $i in $numbers order by $i empty greatest return $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3058,7 +3058,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $numbers := (<e>NaN</e>, <e/>, <e/>, <e>NaN</e>, <e>NaN</e>, <e>INF</e>, <e>NaN</e>, <e/>, <e>3</e>, comment{\"3\"}) return (for $i in $numbers order by xs:double($i/text()) empty least return xs:double($i/text()), \"SEP\", for $i in $numbers order by xs:double($i/text()) empty greatest return xs:double($i/text()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -3073,7 +3073,7 @@ environment('orderdata2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-OrderbyExprWithout-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $numbers := (<e>NaN</e>, <e/>, <e/>, <e>NaN</e>, <e>NaN</e>, <e>INF</e>, <e>NaN</e>, <e/>, <e>3</e>, comment{\"3\"}) return (for $i in $numbers stable order by xs:double($i/text()) empty least return xs:double($i/text()), \"SEP\", for $i in $numbers stable order by xs:double($i/text()) empty greatest return xs:double($i/text()))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

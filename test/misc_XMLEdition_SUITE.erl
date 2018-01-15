@@ -26,7 +26,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "misc")
 
@@ -215,7 +215,7 @@ environment('array-and-map',BaseDir) ->
 {modules, []}
 ].
 'XML10-3ed-Mixed-content'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo> a <![CDATA[cdata section]]> in mixed content. a <!-- comment --> in mixed content. a <?processing instruction?> in mixed content. </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -230,7 +230,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XML10-4ed-Excluded-char-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"1.0\" encoding \"utf-8\"; <Ϳnode/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -245,7 +245,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XML10-4ed-Excluded-char-1-new'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xquery version \"1.0\" encoding \"utf-8\"; <Ϳnode/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -265,7 +265,7 @@ environment('array-and-map',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'XML10-4ed-Excluded-char-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: Name: Excluded-char-2 :)
 (: Written by: Nicolae Brinza :)
 (: Description: The character #x0100 is excluded from the start of a Name :)
@@ -288,7 +288,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'XML10-5ed-Included-char-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo></foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -303,10 +303,10 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'XML10-5ed-Included-char-1-new'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'XML11-1ed-Included-char-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<eggſ/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -321,7 +321,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'XML11-1ed-Included-char-1-new'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<eggſ/>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -341,7 +341,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints('
 '), (10))",
    Qry1 = Qry,
@@ -357,7 +357,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints('
 '), (10))",
    Qry1 = Qry,
@@ -373,7 +373,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints(' 
  
 '), (10, 32, 10, 32, 10, 10))",
@@ -390,16 +390,16 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'line-ending-Q005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'line-ending-Q006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'line-ending-Q007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints(''), (10, 133))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +414,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints('  '), (32, 133, 32))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -429,7 +429,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-Q009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(string-to-codepoints('   '), (32, 8232, 32))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -444,8 +444,8 @@ xquery version \"1.0\" encoding \"utf-8\";
       Err -> ct:fail(Err)
    end.
 'line-ending-P002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20+"}.
 'XML11-c0-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.

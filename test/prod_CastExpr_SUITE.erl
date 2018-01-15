@@ -2778,7 +2778,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -5731,7 +5731,7 @@ environment('NOTATION-type',BaseDir) ->
 {modules, []}
 ].
 'casthc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5746,7 +5746,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5761,7 +5761,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5776,7 +5776,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5791,7 +5791,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5806,7 +5806,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(5 + 5) cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5821,7 +5821,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"A String\" cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5836,7 +5836,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(2.1E3) cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5851,7 +5851,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(2.1E3) cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5866,7 +5866,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(2.1E3) cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5881,7 +5881,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(2.1E3) cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5896,7 +5896,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(1267.43233E12) cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5911,7 +5911,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(1267.43233E12) cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5926,7 +5926,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:double(1267.43233E12) cast as xs:float) eq xs:float(1267.43233E12)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5941,7 +5941,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(1267.43233E12) cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5956,7 +5956,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5971,7 +5971,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -5986,7 +5986,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6001,7 +6001,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6016,7 +6016,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6031,7 +6031,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(12678967.543233) cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6046,7 +6046,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(12678967543233) cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6061,7 +6061,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:integer(12678967543233) cast as xs:float) eq xs:float(12678967543233)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6076,7 +6076,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(12678967543233) cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6091,7 +6091,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(12678967543233) cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6106,7 +6106,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(12678967543233) cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6121,7 +6121,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(12678967543233) cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6136,7 +6136,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00-05:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6151,7 +6151,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00-05:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6166,7 +6166,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00-05:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6181,7 +6181,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6196,7 +6196,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6211,7 +6211,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6226,7 +6226,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6241,7 +6241,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"12:00:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6256,7 +6256,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"12:00:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6271,7 +6271,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6286,7 +6286,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6301,7 +6301,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6316,7 +6316,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6331,7 +6331,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6346,7 +6346,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:true() cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6361,7 +6361,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'casthc43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"A String\") cast as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6376,7 +6376,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6391,7 +6391,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6406,7 +6406,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6421,7 +6421,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"INF\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6436,7 +6436,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0E0\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6451,7 +6451,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6466,7 +6466,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6481,7 +6481,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6496,7 +6496,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6511,7 +6511,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6526,7 +6526,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6541,7 +6541,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6556,7 +6556,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6571,7 +6571,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6586,7 +6586,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-10000000\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6601,7 +6601,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6616,7 +6616,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6631,7 +6631,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6646,7 +6646,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6661,7 +6661,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"5.5432\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6676,7 +6676,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6691,7 +6691,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0.0E0\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6706,7 +6706,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"NaN\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6721,7 +6721,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1e-5\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6736,7 +6736,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1.1234\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6751,7 +6751,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6766,7 +6766,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P1Y2M3DT10H30M23S\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6781,7 +6781,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6796,7 +6796,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6811,7 +6811,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6826,7 +6826,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P24M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6841,7 +6841,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P21M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6856,7 +6856,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6871,7 +6871,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-P1Y1M1DT1H1M1.123S\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6886,7 +6886,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"P3DT10H30M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6901,7 +6901,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-PT100M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6916,7 +6916,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6931,7 +6931,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31T13:20:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6946,7 +6946,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-1999-05-31T13:20:00+14:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6961,7 +6961,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"2000-01-16T00:00:00Z\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6976,7 +6976,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -6991,7 +6991,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00-05:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7006,7 +7006,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:02.123\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7021,7 +7021,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"13:20:00Z\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7036,7 +7036,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7051,7 +7051,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7066,7 +7066,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-03-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7081,7 +7081,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05-31Z\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7096,7 +7096,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7111,7 +7111,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7126,7 +7126,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-12-05:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7141,7 +7141,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999-05Z\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7156,7 +7156,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7171,7 +7171,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7186,7 +7186,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"-0012-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7201,7 +7201,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"1999Z\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7216,7 +7216,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7231,7 +7231,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7246,7 +7246,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31+14:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7261,7 +7261,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05-31Z\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7276,7 +7276,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7291,7 +7291,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7306,7 +7306,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---03-05:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7321,7 +7321,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"---31Z\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7336,7 +7336,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7351,7 +7351,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7366,7 +7366,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--12-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7381,7 +7381,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"--05Z\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7396,7 +7396,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7411,7 +7411,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0.0\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7426,7 +7426,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs071'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7441,7 +7441,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7456,7 +7456,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs073'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7471,7 +7471,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs074'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"00000000\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7486,7 +7486,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs075'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7501,7 +7501,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs076'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7516,7 +7516,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs077'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"010010101\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7531,7 +7531,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs078'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"0fb7\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7546,7 +7546,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs079'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"D74D35D35D35\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7561,7 +7561,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs080'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.example.com/~b%C3%A9b%C3%A9\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7576,7 +7576,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"true\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7591,7 +7591,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs082'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7606,7 +7606,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs083'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"INF\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7621,7 +7621,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs084'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7636,7 +7636,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7651,7 +7651,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs086'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"INF\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7666,7 +7666,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs087'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0E0\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7681,7 +7681,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs088'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7696,7 +7696,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs089'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7711,7 +7711,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7726,7 +7726,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7741,7 +7741,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-10000000\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7756,7 +7756,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs093'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7771,7 +7771,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs094'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7786,7 +7786,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs095'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7801,7 +7801,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs096'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7816,7 +7816,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs097'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-10000000\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7831,7 +7831,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs098'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7846,7 +7846,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs099'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7861,7 +7861,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7876,7 +7876,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7891,7 +7891,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"5.5432\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7906,7 +7906,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7921,7 +7921,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0.0E0\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7936,7 +7936,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"NaN\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7951,7 +7951,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1e-5\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7966,7 +7966,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-1.1234\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7981,7 +7981,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -7996,7 +7996,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P1Y2M3DT10H30M23S\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8011,7 +8011,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8026,7 +8026,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8041,7 +8041,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8056,7 +8056,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P24M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8071,7 +8071,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P21M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8086,7 +8086,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8101,7 +8101,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-P1Y1M1DT1H1M1.123S\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8116,7 +8116,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"P3DT10H30M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8131,7 +8131,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-PT100M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8146,7 +8146,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8161,7 +8161,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31T13:20:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8176,7 +8176,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-1999-05-31T13:20:00+14:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8191,7 +8191,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"2000-01-16T00:00:00Z\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8206,7 +8206,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8221,7 +8221,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:00-05:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8236,7 +8236,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:02.123\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8251,7 +8251,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"13:20:00Z\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8266,7 +8266,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8281,7 +8281,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8296,7 +8296,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-12-03-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8311,7 +8311,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05-31Z\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8326,7 +8326,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8341,7 +8341,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8356,7 +8356,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-12-05:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8371,7 +8371,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999-05Z\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8386,7 +8386,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8401,7 +8401,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8416,7 +8416,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"-0012-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8431,7 +8431,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"1999Z\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8446,7 +8446,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8461,7 +8461,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8476,7 +8476,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31+14:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8491,7 +8491,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05-31Z\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8506,7 +8506,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8521,7 +8521,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---31\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8536,7 +8536,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---03-05:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8551,7 +8551,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"---31Z\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8566,7 +8566,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8581,7 +8581,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8596,7 +8596,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--12-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8611,7 +8611,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"--05Z\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8626,7 +8626,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8641,7 +8641,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0.0\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8656,7 +8656,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8671,7 +8671,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8686,7 +8686,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8701,7 +8701,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"00000000\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8716,7 +8716,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8731,7 +8731,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8746,7 +8746,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"010010101\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8761,7 +8761,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"0fb7\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8776,7 +8776,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"D74D35D35D35\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8791,7 +8791,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://www.example.com/~b%C3%A9b%C3%A9\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8806,7 +8806,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"true\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8821,7 +8821,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8836,7 +8836,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8851,7 +8851,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8866,7 +8866,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8881,7 +8881,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"NaN\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8896,7 +8896,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8919,7 +8919,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8934,7 +8934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"INF\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8949,7 +8949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8964,7 +8964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8979,7 +8979,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -8994,7 +8994,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9009,7 +9009,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9024,7 +9024,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round-half-to-even(xs:float(\"-1.75e-3\") cast as xs:decimal,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9039,7 +9039,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9054,7 +9054,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9069,7 +9069,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"INF\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9084,7 +9084,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-1.75e-3\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9099,7 +9099,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9122,7 +9122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9145,7 +9145,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9168,7 +9168,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9191,7 +9191,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9214,7 +9214,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9237,7 +9237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9260,7 +9260,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9283,7 +9283,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9306,7 +9306,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs191'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9329,7 +9329,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-0.0E0\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9344,7 +9344,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs193'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"1e5\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9359,7 +9359,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-INF\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9374,7 +9374,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs195'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"NaN\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9389,7 +9389,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs196'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9412,7 +9412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs197'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9435,7 +9435,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs198'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"5.4321E-100\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9458,7 +9458,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs199'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9473,7 +9473,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs200'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9488,7 +9488,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e8\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9503,7 +9503,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9518,7 +9518,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9533,7 +9533,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9556,7 +9556,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9571,7 +9571,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9586,7 +9586,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"NaN\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9601,7 +9601,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9616,7 +9616,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9631,7 +9631,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9646,7 +9646,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"5.4321E-1001\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9661,7 +9661,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "round-half-to-even(xs:double(\"-1.75e-3\") cast as xs:decimal,5)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9676,7 +9676,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9699,7 +9699,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-0.0E0\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9714,7 +9714,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9729,7 +9729,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-1.75e-3\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9744,7 +9744,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"INF\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9759,7 +9759,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"NaN\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9774,7 +9774,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9789,7 +9789,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9804,7 +9804,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9819,7 +9819,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9834,7 +9834,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9849,7 +9849,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9864,7 +9864,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9879,7 +9879,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9894,7 +9894,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9909,7 +9909,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9924,7 +9924,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9939,7 +9939,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9954,7 +9954,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9969,7 +9969,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9984,7 +9984,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"1e5\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -9999,7 +9999,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10014,7 +10014,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10029,7 +10029,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10044,7 +10044,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10059,7 +10059,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10074,7 +10074,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10089,7 +10089,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"5.5432\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10104,7 +10104,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10119,7 +10119,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10134,7 +10134,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10149,7 +10149,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10164,7 +10164,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10179,7 +10179,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10194,7 +10194,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10209,7 +10209,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10224,7 +10224,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10239,7 +10239,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10254,7 +10254,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10269,7 +10269,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10284,7 +10284,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10299,7 +10299,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10314,7 +10314,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-1.1234\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10329,7 +10329,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs256'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"1\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10344,7 +10344,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs257'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10359,7 +10359,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs258'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10374,7 +10374,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs259'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10389,7 +10389,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs260'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10404,7 +10404,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10419,7 +10419,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10434,7 +10434,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10449,7 +10449,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs264'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10464,7 +10464,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs265'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10479,7 +10479,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs266'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10494,7 +10494,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs267'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10509,7 +10509,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs268'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10524,7 +10524,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs269'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10539,7 +10539,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10554,7 +10554,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10569,7 +10569,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs272'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10584,7 +10584,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10599,7 +10599,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs274'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10614,7 +10614,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs275'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10629,7 +10629,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs276'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"-100\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10644,7 +10644,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs277'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10659,7 +10659,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs278'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10674,7 +10674,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs279'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10689,7 +10689,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10704,7 +10704,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs281'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10719,7 +10719,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs282'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10734,7 +10734,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10749,7 +10749,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs284'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10764,7 +10764,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs285'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10779,7 +10779,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs286'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10794,7 +10794,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs287'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P24M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10809,7 +10809,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10824,7 +10824,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs289'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"PT10H\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10839,7 +10839,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs290'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P24M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10854,7 +10854,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs291'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10869,7 +10869,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs292'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10884,7 +10884,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs293'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10899,7 +10899,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10914,7 +10914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs295'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10929,7 +10929,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs296'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10944,7 +10944,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs297'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10959,7 +10959,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10974,7 +10974,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -10989,7 +10989,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11004,7 +11004,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11019,7 +11019,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M23S\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11034,7 +11034,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11049,7 +11049,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11064,7 +11064,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11079,7 +11079,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11094,7 +11094,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11109,7 +11109,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11124,7 +11124,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11139,7 +11139,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11154,7 +11154,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"-P21M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11169,7 +11169,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11184,7 +11184,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11199,7 +11199,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11214,7 +11214,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11229,7 +11229,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11244,7 +11244,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11259,7 +11259,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11274,7 +11274,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11289,7 +11289,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11304,7 +11304,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11319,7 +11319,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11334,7 +11334,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11349,7 +11349,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y2M\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11364,7 +11364,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11379,7 +11379,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11394,7 +11394,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11409,7 +11409,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11424,7 +11424,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11439,7 +11439,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11454,7 +11454,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11469,7 +11469,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11484,7 +11484,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11499,7 +11499,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"PT24H\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11514,7 +11514,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11529,7 +11529,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11544,7 +11544,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11559,7 +11559,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P14D\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11574,7 +11574,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-PT100M\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11589,7 +11589,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11604,7 +11604,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11619,7 +11619,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11634,7 +11634,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11649,7 +11649,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11664,7 +11664,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11679,7 +11679,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11694,7 +11694,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11709,7 +11709,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11724,7 +11724,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11739,7 +11739,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11754,7 +11754,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H30M\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11769,7 +11769,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11784,7 +11784,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11799,7 +11799,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11814,7 +11814,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11829,7 +11829,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11844,7 +11844,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2000-01-16T00:00:00Z\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11859,7 +11859,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11874,7 +11874,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11889,7 +11889,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11904,7 +11904,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11919,7 +11919,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11934,7 +11934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11949,7 +11949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11964,7 +11964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11979,7 +11979,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -11994,7 +11994,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12009,7 +12009,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12024,7 +12024,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12039,7 +12039,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12054,7 +12054,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12069,7 +12069,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12084,7 +12084,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12099,7 +12099,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12114,7 +12114,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12129,7 +12129,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12144,7 +12144,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"-1999-05-31T13:20:00+14:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12159,7 +12159,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12174,7 +12174,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12189,7 +12189,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12204,7 +12204,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-05-31T13:20:00\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12219,7 +12219,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12234,7 +12234,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12249,7 +12249,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12264,7 +12264,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12279,7 +12279,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12294,7 +12294,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12309,7 +12309,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12324,7 +12324,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12339,7 +12339,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12354,7 +12354,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12369,7 +12369,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12384,7 +12384,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:02.123\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12399,7 +12399,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00Z\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12414,7 +12414,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12429,7 +12429,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12444,7 +12444,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12459,7 +12459,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12474,7 +12474,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12489,7 +12489,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs400'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12504,7 +12504,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12519,7 +12519,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12534,7 +12534,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12549,7 +12549,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"13:20:00-05:00\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12564,7 +12564,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12579,7 +12579,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12602,7 +12602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12617,7 +12617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12640,7 +12640,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12655,7 +12655,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs410'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12670,7 +12670,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12685,7 +12685,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs412'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12700,7 +12700,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs413'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12715,7 +12715,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs414'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12730,7 +12730,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs415'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12745,7 +12745,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs416'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12760,7 +12760,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs417'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12775,7 +12775,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs418'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12790,7 +12790,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12813,7 +12813,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12828,7 +12828,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs421'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12843,7 +12843,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs422'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12858,7 +12858,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs423'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12881,7 +12881,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs424'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12896,7 +12896,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs425'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12911,7 +12911,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs426'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12934,7 +12934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs427'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12949,7 +12949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs428'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12964,7 +12964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs429'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-0012-12-03-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -12987,7 +12987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs430'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31Z\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13002,7 +13002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs431'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13017,7 +13017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs432'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13032,7 +13032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs433'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13047,7 +13047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs434'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-05-31\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13062,7 +13062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs435'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13077,7 +13077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs436'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13092,7 +13092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs437'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13107,7 +13107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs438'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13122,7 +13122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs439'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13137,7 +13137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs440'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13152,7 +13152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs441'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13167,7 +13167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs442'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13182,7 +13182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs443'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13197,7 +13197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs444'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13212,7 +13212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs445'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13227,7 +13227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs446'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13242,7 +13242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs447'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13257,7 +13257,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs448'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13272,7 +13272,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs449'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"-0012-12-05:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13287,7 +13287,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs450'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13302,7 +13302,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs451'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13317,7 +13317,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs452'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13332,7 +13332,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs453'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13347,7 +13347,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs454'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13362,7 +13362,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs455'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13377,7 +13377,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs456'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13392,7 +13392,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs457'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13407,7 +13407,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs458'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-05Z\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13422,7 +13422,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs459'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13437,7 +13437,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs460'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13452,7 +13452,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs461'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13467,7 +13467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs462'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13482,7 +13482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs463'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13497,7 +13497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs464'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13512,7 +13512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs465'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13527,7 +13527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs466'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13542,7 +13542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs467'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13557,7 +13557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs468'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13572,7 +13572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs469'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13587,7 +13587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs470'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13602,7 +13602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs471'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13617,7 +13617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"-0012-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13632,7 +13632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs473'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999Z\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13647,7 +13647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs474'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13662,7 +13662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs475'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13677,7 +13677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs476'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13692,7 +13692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs477'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13707,7 +13707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs478'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13722,7 +13722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs479'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13737,7 +13737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs480'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13752,7 +13752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs481'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13767,7 +13767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13782,7 +13782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs483'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13797,7 +13797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs484'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13812,7 +13812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs485'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13827,7 +13827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs486'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13842,7 +13842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs487'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13857,7 +13857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13872,7 +13872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs489'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13887,7 +13887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs490'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13902,7 +13902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs491'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13917,7 +13917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs492'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13932,7 +13932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs493'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13947,7 +13947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs494'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13962,7 +13962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs495'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13977,7 +13977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs496'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--12-03-05:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -13992,7 +13992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs497'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31Z\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14007,7 +14007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs498'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14022,7 +14022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs499'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14037,7 +14037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs500'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14052,7 +14052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14067,7 +14067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14082,7 +14082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--05-31\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14097,7 +14097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14112,7 +14112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14127,7 +14127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14142,7 +14142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14157,7 +14157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14172,7 +14172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14187,7 +14187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14202,7 +14202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14217,7 +14217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14232,7 +14232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14247,7 +14247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14262,7 +14262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14277,7 +14277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs516'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14292,7 +14292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14307,7 +14307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14322,7 +14322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14337,7 +14337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs520'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03-05:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14352,7 +14352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31Z\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14367,7 +14367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs522'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14382,7 +14382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14397,7 +14397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14412,7 +14412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs525'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14427,7 +14427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs526'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---31\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14442,7 +14442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs527'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14457,7 +14457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs528'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14472,7 +14472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs529'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14487,7 +14487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs530'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14502,7 +14502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs531'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14517,7 +14517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs532'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14532,7 +14532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs533'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14547,7 +14547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14562,7 +14562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs535'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14577,7 +14577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs536'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14592,7 +14592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs537'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14607,7 +14607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs538'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14622,7 +14622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs539'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14637,7 +14637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs540'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14652,7 +14652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs541'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14667,7 +14667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs542'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14682,7 +14682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs543'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14697,7 +14697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--12-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14712,7 +14712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs545'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05Z\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14727,7 +14727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs546'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14742,7 +14742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs547'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14757,7 +14757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs548'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14772,7 +14772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs549'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--05\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14787,7 +14787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs550'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14802,7 +14802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs551'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14817,7 +14817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs552'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14832,7 +14832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs553'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14847,7 +14847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs554'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14862,7 +14862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs555'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14877,7 +14877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs556'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14892,7 +14892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs557'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14907,7 +14907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs558'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14922,7 +14922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs559'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14937,7 +14937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs560'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14952,7 +14952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs561'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14967,7 +14967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs562'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14982,7 +14982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs563'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -14997,7 +14997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs564'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15012,7 +15012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs565'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15027,7 +15027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs566'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15042,7 +15042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs567'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15057,7 +15057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs568'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15072,7 +15072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs569'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15087,7 +15087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs570'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15102,7 +15102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs571'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15117,7 +15117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs572'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"false\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15132,7 +15132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs573'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15147,7 +15147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs574'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15162,7 +15162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs575'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15177,7 +15177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs576'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15192,7 +15192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs577'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15207,7 +15207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs578'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15222,7 +15222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs579'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15237,7 +15237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs580'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15252,7 +15252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs581'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15267,7 +15267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs582'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15282,7 +15282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs583'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15297,7 +15297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs584'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15312,7 +15312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs585'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15327,7 +15327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs586'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15342,7 +15342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs587'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15357,7 +15357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs588'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15372,7 +15372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs589'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15387,7 +15387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs590'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15402,7 +15402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs591'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15417,7 +15417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs592'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15432,7 +15432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs593'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15447,7 +15447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs594'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15462,7 +15462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs595'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15477,7 +15477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs596'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"01001010\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15492,7 +15492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs597'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15507,7 +15507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs598'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"00000000\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15522,7 +15522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs599'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15537,7 +15537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs600'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aA+zZ/09\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15552,7 +15552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs601'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"0FB7\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15567,7 +15567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs602'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"10010101\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15582,7 +15582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs603'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15597,7 +15597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs604'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15612,7 +15612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs605'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15627,7 +15627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs606'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15642,7 +15642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs607'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15657,7 +15657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs608'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15672,7 +15672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs609'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15687,7 +15687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs610'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15702,7 +15702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs611'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15717,7 +15717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs612'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15732,7 +15732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs613'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15747,7 +15747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs614'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15762,7 +15762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs615'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15777,7 +15777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs616'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15792,7 +15792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs617'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15807,7 +15807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs618'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15822,7 +15822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs619'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15837,7 +15837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs620'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15852,7 +15852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs621'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15867,7 +15867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs622'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0fb7\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15882,7 +15882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs623'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15897,7 +15897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs624'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"d74d35d35d35\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15912,7 +15912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs625'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"D74D35D35D35\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15927,7 +15927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs626'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15942,7 +15942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs627'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15957,7 +15957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs628'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15972,7 +15972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs629'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -15987,7 +15987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs630'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16002,7 +16002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs631'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16017,7 +16017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs632'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16032,7 +16032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs633'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16047,7 +16047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs634'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16062,7 +16062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs635'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16077,7 +16077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs636'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16092,7 +16092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs637'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16107,7 +16107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs638'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16122,7 +16122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs639'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16137,7 +16137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs640'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16152,7 +16152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs641'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16167,7 +16167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs642'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16182,7 +16182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs643'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16197,7 +16197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs644'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16212,7 +16212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs645'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16227,7 +16227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs646'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.ietf.org/rfc/rfc2396.txt\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16242,7 +16242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs647'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(2.123456789123456789) cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16265,7 +16265,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs648'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(-20) cast as xs:nonPositiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16280,7 +16280,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs649'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(20) cast as xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16295,7 +16295,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs650'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(200) cast as xs:nonNegativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16310,7 +16310,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs651'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(-201) cast as xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16325,7 +16325,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs652'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(20) cast as xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16340,7 +16340,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs653'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(20) cast as xs:unsignedLong",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16355,7 +16355,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs654'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(300) cast as xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16370,7 +16370,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs655'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(30) cast as xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16385,7 +16385,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs656'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(300) cast as xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16400,7 +16400,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs657'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(120) cast as xs:byte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16415,7 +16415,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs658'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(12) cast as xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16430,7 +16430,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs659'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(12) cast as xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16445,7 +16445,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs660'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:long(120) cast as xs:short return $var instance of xs:short",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16460,7 +16460,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs661'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:short(120) cast as xs:long return $var instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16475,7 +16475,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs662'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:nonPositiveInteger(-120) cast as xs:negativeInteger return $var instance of xs:negativeInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16490,7 +16490,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs663'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:nonNegativeInteger(120) cast as xs:positiveInteger return $var instance of xs:positiveInteger",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16505,7 +16505,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs664'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:short(120) cast as xs:unsignedShort return $var instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16520,7 +16520,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs665'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:int(120) cast as xs:long return $var instance of xs:long",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16535,7 +16535,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs666'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:long(120) cast as xs:int return $var instance of xs:int",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16550,7 +16550,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs667'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:unsignedShort(120) cast as xs:unsignedInt return $var instance of xs:unsignedInt",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16565,7 +16565,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs668'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:unsignedInt(120) cast as xs:unsignedShort return $var instance of xs:unsignedShort",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16580,7 +16580,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs669'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := xs:byte(120) cast as xs:unsignedByte return $var instance of xs:unsignedByte",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16595,7 +16595,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs670'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $d1 := '2006-07-12' cast as xs:date let $oneky := xs:yearMonthDuration('P1000Y') let $d2 := $d1 + $oneky let $d3 := $d2 + $oneky let $d4 := $d3 + $oneky let $d5 := $d4 + $oneky let $d6 := $d5 + $oneky let $d7 := $d6 + $oneky let $d8 := $d7 + $oneky let $d9 := $d8 + $oneky let $d10 := $d9 + $oneky return $d10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16618,7 +16618,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs671'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"abc\" cast as xs:ENTITY return $var instance of xs:ENTITY",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16633,7 +16633,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs672'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := (\"a\",\"b\",\"c\") cast as xs:ENTITY return count($var) lt 10",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16648,10 +16648,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs673a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'CastAs673b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := \"ABC\" return $var cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16666,10 +16666,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs674'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'CastAs674a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $var := <e>xml:space</e> return $var cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16692,10 +16692,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs675'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'CastAs675a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:clarkname($q as xs:QName) as xs:string { 
           concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
@@ -16716,7 +16716,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs676'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"9999-12-31T23:59:59.9999999\") cast as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16743,7 +16743,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs677'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(xs:normalizedString(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16758,7 +16758,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs678'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-to-codepoints(xs:token(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16773,7 +16773,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs679'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime('2017-07-19T12:00:00-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16788,7 +16788,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs680'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time('12:00:00-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16803,7 +16803,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs681'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date('2017-07-19-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16818,7 +16818,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs682'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear('2017-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16833,7 +16833,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs683'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth('2017-07-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16848,7 +16848,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs684'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth('--07-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16863,7 +16863,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs685'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay('--07-12-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16878,7 +16878,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAs686'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay('---12-00:30')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -16893,7 +16893,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:clarkname($q as xs:QName) as xs:string { 
       concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
@@ -16914,7 +16914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:clarkname($q as xs:QName) as xs:string { 
       concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
@@ -16935,7 +16935,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:clarkname($q as xs:QName) as xs:string { 
       concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
@@ -16956,7 +16956,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:clarkname($q as xs:NOTATION) as xs:string { 
         $q cast as xs:string
@@ -16977,7 +16977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       declare function local:clarkname($q as xs:NOTATION) as xs:string { 
         $q cast as xs:string
@@ -16998,28 +16998,28 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastAsNamespaceSensitiveType-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastAsNamespaceSensitiveType-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'CastFOCA0001-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(99e100)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17042,7 +17042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'CastFOCA0003-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(99e100)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17065,7 +17065,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:string*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17080,7 +17080,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:string+",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17095,10 +17095,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-3a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anyType*",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17121,10 +17121,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-4a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anySimpleType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17139,10 +17139,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-5a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:untyped",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17157,7 +17157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anyAtomicType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17172,10 +17172,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-7a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as xs:anyType",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17190,7 +17190,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 cast as prefixDoesNotExist:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17205,10 +17205,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-9a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 cast as xs:doesNotExist",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17223,10 +17223,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-10a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as item()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17249,10 +17249,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-11a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as node()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17275,10 +17275,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-12a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as attribute()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17301,10 +17301,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'K-SeqExprCast-13a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'string' cast as empty-sequence()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17327,7 +17327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'1' cast as xs:boolean eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17342,7 +17342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'true' cast as xs:boolean eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17357,7 +17357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'false' cast as xs:boolean eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17372,7 +17372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'0' cast as xs:boolean eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17387,7 +17387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() cast as xs:boolean eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17402,7 +17402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(true() cast as xs:boolean eq false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17417,7 +17417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:double(3)) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17432,7 +17432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:string(1)) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17447,7 +17447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:integer(3)) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17462,7 +17462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:decimal(3)) eq true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17477,7 +17477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:double(0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17492,7 +17492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:string(0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17507,7 +17507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:integer(0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17522,7 +17522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:decimal(0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17537,7 +17537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:decimal(0.0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17552,7 +17552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(+0) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17567,7 +17567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(-0) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17582,7 +17582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:double(+0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17597,7 +17597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:double(-0)) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17612,7 +17612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(0.0E0) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17627,7 +17627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:double(\"NaN\")) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17642,7 +17642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:float(\"NaN\")) eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17657,7 +17657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "'12312' cast as xs:boolean eq false()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17672,7 +17672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() cast as xs:string eq \"false\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17687,7 +17687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() cast as xs:string eq \"true\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17702,7 +17702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "('1' cast as xs:boolean) cast as xs:string eq 'true'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17717,7 +17717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean('0') cast as xs:string eq 'false'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17732,7 +17732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\" white space left alone\" cast as xs:string eq xs:string(\" white space left alone\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17747,7 +17747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:QName(\"fn:local-name\") cast as xs:string) eq \"fn:local-name\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17762,7 +17762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:QName(\"local-name\") cast as xs:string) eq \"local-name\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17777,7 +17777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:anyURI('example.com/')) eq 'example.com/'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17792,7 +17792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:double(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17807,7 +17807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:string(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17822,7 +17822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:integer(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17837,7 +17837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:decimal(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17852,7 +17852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"untyped a \" cast as xs:untypedAtomic eq xs:untypedAtomic(\"untyped a \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17867,7 +17867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() cast as xs:untypedAtomic eq xs:untypedAtomic(\"false\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17882,7 +17882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() cast as xs:untypedAtomic eq xs:untypedAtomic(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17897,7 +17897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "false() cast as xs:untypedAtomic instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17912,7 +17912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "true() cast as xs:untypedAtomic instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17927,7 +17927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:QName(\"local-name\") cast as xs:untypedAtomic) eq xs:untypedAtomic(\"local-name\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17942,7 +17942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:QName(\"fn:local-name\") cast as xs:untypedAtomic) eq xs:untypedAtomic(\"fn:local-name\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17957,7 +17957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:anyURI('example.com/')) eq 'example.com/'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17972,7 +17972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:double(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -17987,7 +17987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:string(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18002,7 +18002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:integer(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18017,7 +18017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:decimal(3)) eq '3'",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18032,7 +18032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"notation is abstract\" cast as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18047,7 +18047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"notation is abstract\" cast as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18062,7 +18062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() cast as xs:NOTATION?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18085,7 +18085,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() cast as xs:NOTATION",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18112,7 +18112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NOTATION(xs:anyURI('example.com/'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18127,7 +18127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NOTATION(QName('example.com', 'p:foo'))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18142,7 +18142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "() cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18165,7 +18165,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "3 cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18180,7 +18180,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = ". cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18203,7 +18203,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:QName(\"local-name\") cast as xs:QName) eq xs:QName(\"local-name\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18218,10 +18218,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-71a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XP20 XQ10"}.
 'K-SeqExprCast-71b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"ncname\") cast as xs:QName?",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18236,7 +18236,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"example.com/\" cast as xs:anyURI eq xs:anyURI('example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18251,7 +18251,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"example.com/\") cast as xs:anyURI eq xs:anyURI('example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18266,7 +18266,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"example.com/\") cast as xs:anyURI eq xs:anyURI('example.com/')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18281,7 +18281,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18296,7 +18296,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(3.1) eq 3.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18311,7 +18311,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(6) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18326,7 +18326,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:double(\"INF\")) eq \"INF\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18341,7 +18341,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:double(\"-INF\")) eq \"-INF\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18356,7 +18356,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18371,7 +18371,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(3.1) eq 3.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18386,7 +18386,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(6) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18401,7 +18401,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:float(\"INF\")) eq \"INF\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18416,7 +18416,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:float(\"-INF\")) eq \"-INF\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18431,7 +18431,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18446,7 +18446,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(3.1) eq 3.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18461,7 +18461,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(6) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18476,7 +18476,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(3) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18491,7 +18491,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(3.1) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18506,7 +18506,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(3.1) eq 3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18521,7 +18521,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(6) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18536,7 +18536,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(6) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18551,7 +18551,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"FFF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18566,7 +18566,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"FFxF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18581,7 +18581,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0xFF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18596,7 +18596,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"F\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18611,7 +18611,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-97'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"x\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18626,7 +18626,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-98'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exists(xs:hexBinary(\"Ab08bcFFAA08b6\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18641,7 +18641,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-99'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exists(xs:hexBinary(\"FF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18656,7 +18656,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "exists(xs:hexBinary(\"aa\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18671,7 +18671,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(xs:hexBinary(xs:hexBinary(\"03\"))) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18686,7 +18686,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"aa\")) eq \"AA\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18701,7 +18701,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"0a\")) eq \"0A\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18716,7 +18716,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"a0\")) eq \"A0\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18731,7 +18731,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"a4\")) eq \"A4\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18746,7 +18746,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"c0\")) eq \"C0\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18761,7 +18761,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"fA\")) eq \"FA\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18776,7 +18776,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"10\")) eq \"10\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18791,7 +18791,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"031a34123b\")) eq \"031A34123B\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18806,7 +18806,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"03\")) eq \"03\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18821,7 +18821,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"0c\")) eq \"0C\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18836,7 +18836,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"0b\")) eq \"0B\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18851,7 +18851,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"3a\")) eq \"3A\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18866,7 +18866,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(\"\")) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18881,7 +18881,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"=aaabbcd\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18896,7 +18896,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"F===\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18911,7 +18911,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"a\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18926,7 +18926,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaaa====\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18941,7 +18941,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaaa=bcd\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18956,7 +18956,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaaaa=======\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18971,7 +18971,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaaabcd\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -18986,7 +18986,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaaabcd|\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19001,7 +19001,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aabb=d==\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19016,7 +19016,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aabbcd=a\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19031,7 +19031,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"abcdefghi\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19046,7 +19046,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"0w==\")) eq \"0w==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19061,7 +19061,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"aaa a\")) eq \"aaaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19076,7 +19076,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"frfhforlksid7453\")) eq \"frfhforlksid7453\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19091,7 +19091,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"frfhforlksid745323==\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19106,7 +19106,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"03\"))) eq \"Aw==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19121,7 +19121,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"0f3c\"))) eq \"Dzw=\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19136,7 +19136,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"12\"))) eq \"Eg==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19151,7 +19151,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"3B\"))) eq \"Ow==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19166,7 +19166,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"69A69A\"))) eq \"aaaa\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19181,7 +19181,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"F43D1234ce8f\"))) eq \"9D0SNM6P\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19196,7 +19196,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"f0\"))) eq \"8A==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19211,7 +19211,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"ffaabbddcceeff0134f001d8ca9bc77899c83e6f7d\"))) eq \"/6q73czu/wE08AHYypvHeJnIPm99\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19226,7 +19226,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"ffff\"))) eq \"//8=\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19241,7 +19241,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(xs:hexBinary(\"ffff34564321deac9876\"))) eq \"//80VkMh3qyYdg==\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19256,7 +19256,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(xs:base64Binary(\"Ow==\"))) eq \"3B\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19271,7 +19271,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:hexBinary(xs:base64Binary(\"aaa a\"))) eq \"69A69A\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19286,7 +19286,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:base64Binary(\"\")) eq \"\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19301,7 +19301,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(remove((\"3B\", 1.1), 2) treat as xs:string)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19316,7 +19316,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(xs:decimal(remove((3e3, 1.1), 1))) eq 1.1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19339,7 +19339,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(remove((1, 2, 3), 1))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19354,7 +19354,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"+P1Y2M123DT10H30M99S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19369,7 +19369,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M123DT10H30M99S+08:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19384,7 +19384,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"1Y2M123DT10H30M99S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19399,7 +19399,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19414,7 +19414,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"-P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19429,7 +19429,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y24MT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19444,7 +19444,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P24H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19459,7 +19459,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P0010Y0010M0010DT0010H0010M0010S\")) eq \"P10Y10M10DT10H10M10S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19474,7 +19474,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"-P0010DT0010H0010M0010S\")) eq \"-P10DT10H10M10S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19489,7 +19489,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P0Y0M0DT00H00M00.000S\")) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19504,7 +19504,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"-PT8H23M0S\")) eq \"-PT8H23M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19519,7 +19519,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"-P2000Y11M5DT0H0M0.000S\")) eq \"-P2000Y11M5D\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19534,7 +19534,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P365D\")) eq \"P365D\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19549,7 +19549,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P12M\")) eq \"P1Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19564,7 +19564,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P31D\")) eq \"P31D\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19579,7 +19579,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"P3Y0M\")) eq \"P3Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19594,7 +19594,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"P31DT3H2M10.001S\")) eq \"P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19609,7 +19609,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(\"-PT0S\")) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19624,7 +19624,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(xs:dayTimeDuration(\"P31DT3H2M10.001S\"))) eq \"P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19639,7 +19639,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(xs:yearMonthDuration(\"P543Y456M\"))) eq \"P581Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19654,7 +19654,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(xs:dayTimeDuration(\"-P31DT3H2M10.001S\"))) eq \"-P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19669,7 +19669,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:duration(xs:yearMonthDuration(\"-P543Y456M\"))) eq \"-P581Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19684,7 +19684,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"+P3DT10H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19699,7 +19699,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT10H+08:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19714,7 +19714,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"3DT10H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19729,7 +19729,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19744,7 +19744,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"-P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19759,7 +19759,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P1DT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19774,7 +19774,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"P0DT00H00M00.000S\")) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19789,7 +19789,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P1Y12M1D\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19804,7 +19804,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P24M1D\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19819,7 +19819,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"PDT3H2M10.001S\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19834,7 +19834,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"P0010DT0010H0010M0010S\")) eq \"P10DT10H10M10S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19849,7 +19849,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"-P0010DT0010H0010M0010S\")) eq \"-P10DT10H10M10S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19864,7 +19864,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"-PT8H23M0S\")) eq \"-PT8H23M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19879,7 +19879,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"-P5DT0H0M0.000S\")) eq \"-P5D\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19894,7 +19894,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"P9876DT1M\")) eq \"P9876DT1M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19909,7 +19909,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"PT9876H1M\")) eq \"P411DT12H1M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19924,7 +19924,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"PT6000M\")) eq \"P4DT4H\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19939,7 +19939,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"PT1M1231.432S\")) eq \"PT21M31.432S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19954,7 +19954,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"P31DT3H2M10.001S\")) eq \"P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19969,7 +19969,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"-PT0S\")) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19984,7 +19984,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(xs:duration(\"P3Y0M31DT3H2M10.001S\"))) eq \"P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -19999,7 +19999,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(xs:yearMonthDuration(\"P543Y456M\"))) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20014,7 +20014,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-191'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(xs:duration(\"-P3Y0M31DT3H2M10.001S\"))) eq \"-P31DT3H2M10.001S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20029,7 +20029,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(xs:yearMonthDuration(\"-P543Y456M\"))) eq \"PT0S\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20044,7 +20044,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-193'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dayTimeDuration(\"P3D\")) eq \"P3D\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20059,7 +20059,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"+P20Y15M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20074,7 +20074,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-195'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P20Y15M+08:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20089,7 +20089,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-196'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"20Y15M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20104,7 +20104,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-197'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20119,7 +20119,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-198'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"-P\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20134,7 +20134,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-199'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y24MT\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20149,7 +20149,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-200'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P731D\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20164,7 +20164,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"-P3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20179,7 +20179,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"P0010Y0010M\")) eq \"P10Y10M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20194,7 +20194,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"-P0010Y0010M\")) eq \"-P10Y10M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20209,7 +20209,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"P0Y0M\")) eq \"P0M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20224,7 +20224,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"P2Y323M\")) eq \"P28Y11M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20239,7 +20239,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"-P543Y456M\")) eq \"-P581Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20254,7 +20254,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(\"-P0M\")) eq \"P0M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20269,7 +20269,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(xs:duration(\"P3Y0M31DT3H2M10.001S\"))) eq \"P3Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20284,7 +20284,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(xs:dayTimeDuration(\"P31DT3H2M10.001S\"))) eq \"P0M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20299,7 +20299,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(xs:duration(\"-P3Y0M31DT3H2M10.001S\"))) eq \"-P3Y\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20314,7 +20314,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:yearMonthDuration(xs:dayTimeDuration(\"-P31DT3H2M10.001S\"))) eq \"P0M\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20329,7 +20329,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20344,7 +20344,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20359,7 +20359,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"867\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20374,7 +20374,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"+1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20389,7 +20389,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"+1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20404,7 +20404,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"+0000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20419,7 +20419,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1111-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20434,7 +20434,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1111a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20449,7 +20449,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"a1111\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20464,7 +20464,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1 111\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20479,7 +20479,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1111 Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20494,7 +20494,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1111 Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20509,7 +20509,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1956-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20524,7 +20524,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1956+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20539,7 +20539,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1956+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20554,7 +20554,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1956-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20569,7 +20569,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"02004\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20584,7 +20584,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1956-10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20599,7 +20599,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYear(\"1999-00:00\")) eq \"1999Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20614,7 +20614,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYear(\"1999+00:00\")) eq \"1999Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20629,7 +20629,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYear(\"1999Z\")) eq \"1999Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20644,7 +20644,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20659,7 +20659,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20674,7 +20674,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---321\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20689,7 +20689,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"--01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20704,7 +20704,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"E---01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20719,7 +20719,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---01E\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20734,7 +20734,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---01-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20749,7 +20749,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20764,7 +20764,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---32\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20779,7 +20779,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20794,7 +20794,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"+--08\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20809,7 +20809,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"+--08\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20824,7 +20824,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"+---08\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20839,7 +20839,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08 Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20854,7 +20854,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20869,7 +20869,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20884,7 +20884,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20899,7 +20899,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20914,7 +20914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---08-10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20929,7 +20929,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gDay(\"---01-00:00\")) eq \"---01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20944,7 +20944,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gDay(\"---01+00:00\")) eq \"---01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20959,7 +20959,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gDay(\"---01Z\")) eq \"---01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20974,7 +20974,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-256'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -20989,7 +20989,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-257'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"---01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21004,7 +21004,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-258'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"+--01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21019,7 +21019,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-259'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21034,7 +21034,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-260'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--431\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21049,7 +21049,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21064,7 +21064,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21079,7 +21079,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--08-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21094,7 +21094,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-264'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--08+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21109,7 +21109,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-265'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--08+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21124,7 +21124,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-266'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--08-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21139,7 +21139,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-267'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--08-10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21154,7 +21154,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-268'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonth(\"--01-00:00\")) eq \"--01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21169,7 +21169,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-269'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonth(\"--01+00:00\")) eq \"--01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21184,7 +21184,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonth(\"--01Z\")) eq \"--01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21199,7 +21199,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"--1999-12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21214,7 +21214,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-272'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"+1999-12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21229,7 +21229,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-12-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21244,7 +21244,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-274'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999--12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21259,7 +21259,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-275'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21274,7 +21274,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-276'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21289,7 +21289,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-277'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"02004-08\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21304,7 +21304,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-278'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-08-10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21319,7 +21319,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-279'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-01-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21334,7 +21334,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-01+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21349,7 +21349,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-281'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-01+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21364,7 +21364,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-282'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-01-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21379,7 +21379,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYearMonth(\"1999-01-00:00\")) eq \"1999-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21394,7 +21394,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-284'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYearMonth(\"1999-01+00:00\")) eq \"1999-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21409,7 +21409,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-285'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gYearMonth(\"1999-01Z\")) eq \"1999-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21424,7 +21424,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-286'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"-01-12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21439,7 +21439,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-287'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"+--01-12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21454,7 +21454,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"01-12-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21469,7 +21469,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-289'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01--12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21484,7 +21484,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-290'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21499,7 +21499,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-291'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--00-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21514,7 +21514,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-292'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--13-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21529,7 +21529,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-293'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--111-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21544,7 +21544,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--1967-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21559,7 +21559,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-295'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--02-31\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21574,7 +21574,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-296'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-08-10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21589,7 +21589,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-297'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--02-30\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21604,7 +21604,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--04-31\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21619,7 +21619,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-31\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21634,7 +21634,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01-01-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21649,7 +21649,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01-01+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21664,7 +21664,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01-01+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21679,7 +21679,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--01-01-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21694,7 +21694,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonthDay(\"--01-01-00:00\")) eq \"--01-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21709,7 +21709,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonthDay(\"--01-01+00:00\")) eq \"--01-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21724,7 +21724,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:gMonthDay(\"--01-01Z\")) eq \"--01-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21739,7 +21739,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--02-29+00:00\") eq xs:gMonthDay(\"--02-29+00:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21754,7 +21754,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"+2004-08-01T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21769,7 +21769,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"02004-08-01T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21784,7 +21784,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"00004-08-01T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21799,7 +21799,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2004-32-01T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21814,7 +21814,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-30T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21829,7 +21829,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-002-15T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21844,7 +21844,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-150T12:44:05\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21859,7 +21859,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-15T24:00:00.001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21874,7 +21874,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-15T24:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21889,7 +21889,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-15T25:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21904,7 +21904,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-15T21:60:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21919,7 +21919,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-02-15T21:01:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21934,7 +21934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"--2002-02-15T21:01:23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21949,7 +21949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01T23:59:12.432-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21964,7 +21964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01T23:59:12.432+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21979,7 +21979,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01T23:59:12.432+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -21994,7 +21994,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01T23:59:12.432-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22009,7 +22009,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01T23:59:12.999-00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22024,7 +22024,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(xs:dateTime(\"2002-11-23T23:12:23.867-00:00\")) eq xs:gYear(\"2002Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22039,7 +22039,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(xs:dateTime(\"2002-11-23T23:12:23.867-13:37\")) eq xs:gYear(\"2002-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22054,7 +22054,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(xs:dateTime(\"2002-11-23T23:12:23.867-00:00\")) eq xs:gYearMonth(\"2002-11Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22069,7 +22069,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(xs:dateTime(\"2002-11-23T23:12:23.867-13:37\")) eq xs:gYearMonth(\"2002-11-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22084,7 +22084,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(xs:dateTime(\"2002-11-23T22:12:23.867-00:00\")) eq xs:gMonth(\"--11Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22099,7 +22099,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(xs:dateTime(\"2002-11-23T22:12:23.867-13:37\")) eq xs:gMonth(\"--11-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22114,7 +22114,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(xs:dateTime(\"2002-11-23T22:12:23.867-00:00\")) eq xs:gMonthDay(\"--11-23Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22129,7 +22129,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(xs:dateTime(\"2002-11-23T22:12:23.867-13:37\")) eq xs:gMonthDay(\"--11-23-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22144,7 +22144,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(xs:dateTime(\"2002-11-23T22:12:23.867-00:00\")) eq xs:gDay(\"---23Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22159,7 +22159,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(xs:dateTime(\"2002-11-23T22:12:23.867-13:37\")) eq xs:gDay(\"---23-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22174,7 +22174,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(xs:dateTime(\"2002-11-23T22:12:23.867-00:00\")) eq xs:date(\"2002-11-23Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22189,7 +22189,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(xs:dateTime(\"2002-11-23T22:12:23.867-13:37\")) eq xs:date(\"2002-11-23-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22204,7 +22204,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(xs:dateTime(\"2002-11-23T22:12:23.867-00:00\")) eq xs:time(\"22:12:23.867Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22219,7 +22219,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(xs:dateTime(\"2002-11-23T22:12:23.867-13:37\")) eq xs:time(\"22:12:23.867-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22234,7 +22234,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"1999-12-01T23:59:12.999-00:00\")) eq \"1999-12-01T23:59:12.999Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22249,7 +22249,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"1999-12-01T23:59:12.432+00:00\")) eq \"1999-12-01T23:59:12.432Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22264,7 +22264,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.000\")) eq \"2002-02-15T21:01:23\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22279,7 +22279,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.100\")) eq \"2002-02-15T21:01:23.1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22294,7 +22294,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.001\")) eq \"2002-02-15T21:01:23.001\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22309,7 +22309,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.010\")) eq \"2002-02-15T21:01:23.01\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22324,7 +22324,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.435\")) eq \"2002-02-15T21:01:23.435\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22339,7 +22339,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.11\")) eq \"2002-02-15T21:01:23.11\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22354,7 +22354,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:dateTime(\"2002-02-15T21:01:23.110\")) eq \"2002-02-15T21:01:23.11\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22369,7 +22369,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:dateTime(\"2000-08-01T12:44:05\")) eq \"2000-08-01T12:44:05\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22384,7 +22384,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:dateTime(\"2004-03-31T24:00:00\")) eq \"2004-04-01T00:00:00\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22399,7 +22399,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"24:00:00.001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22414,7 +22414,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"24:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22429,7 +22429,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"25:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22444,7 +22444,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"21:60:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22459,7 +22459,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"21:01:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22474,7 +22474,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"+21:01:50\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22489,7 +22489,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"-21:01:50\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22504,7 +22504,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"2002-02-15T08:12:12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22519,7 +22519,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"23:59:12.432-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22534,7 +22534,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"23:59:12.432+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22549,7 +22549,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"23:59:12.432+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22564,7 +22564,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"23:59:12.432-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22579,7 +22579,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"T23:59:12.999-03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22594,7 +22594,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:time(\"12:44:05\")) eq \"12:44:05\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22609,7 +22609,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"23:59:12.999-00:00\")) eq \"23:59:12.999Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22624,7 +22624,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"23:59:12.432+00:00\")) eq \"23:59:12.432Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22639,7 +22639,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.000\")) eq \"21:01:23\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22654,7 +22654,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.100\")) eq \"21:01:23.1\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22669,7 +22669,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.001\")) eq \"21:01:23.001\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22684,7 +22684,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.010\")) eq \"21:01:23.01\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22699,7 +22699,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.435\")) eq \"21:01:23.435\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22714,7 +22714,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.11\")) eq \"21:01:23.11\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22729,7 +22729,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:time(\"21:01:23.110\")) eq \"21:01:23.11\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22744,7 +22744,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(xs:time(\"24:00:00\")) eq \"00:00:00\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22759,7 +22759,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"+2004-08-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22774,7 +22774,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"02004-08-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22789,7 +22789,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"00004-08-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22804,7 +22804,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-32-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22819,7 +22819,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2002-02-30\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22834,7 +22834,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2002-002-15\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22849,7 +22849,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2002-02-150\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22864,7 +22864,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"--2002-02-15\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22879,7 +22879,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2002-02-15T08:12:12\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22894,7 +22894,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-01-15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22909,7 +22909,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-01+15:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22924,7 +22924,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-01+10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22939,7 +22939,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1999-12-01-10:60\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22954,7 +22954,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"1999-12-01-03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22969,7 +22969,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(xs:date(\"2002-11-23Z\")) eq xs:gYear(\"2002Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22984,7 +22984,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(xs:date(\"2002-11-23-13:37\")) eq xs:gYear(\"2002-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -22999,7 +22999,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(xs:date(\"2002-11-23Z\")) eq xs:gYearMonth(\"2002-11Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23014,7 +23014,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(xs:date(\"2002-11-23-13:37\")) eq xs:gYearMonth(\"2002-11-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23029,7 +23029,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(xs:date(\"2002-11-23-00:00\")) eq xs:gMonth(\"--11Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23044,7 +23044,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(xs:date(\"2002-11-23-13:37\")) eq xs:gMonth(\"--11-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23059,7 +23059,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(xs:date(\"2002-11-23-00:00\")) eq xs:gMonthDay(\"--11-23Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23074,7 +23074,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(xs:date(\"2002-11-23-13:37\")) eq xs:gMonthDay(\"--11-23-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23089,7 +23089,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(xs:date(\"2002-11-23-00:00\")) eq xs:gDay(\"---23Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23104,7 +23104,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(xs:date(\"2002-11-23-13:37\")) eq xs:gDay(\"---23-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23119,7 +23119,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(xs:date(\"2002-11-23-00:00\")) eq xs:dateTime(\"2002-11-23T00:00:00.000Z\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23134,7 +23134,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-400'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(xs:date(\"2002-11-23-13:37\")) eq xs:dateTime(\"2002-11-23T00:00:00.000-13:37\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23149,7 +23149,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"1999-12-01-00:00\")) eq \"1999-12-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23164,7 +23164,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"1999-12-01+00:00\")) eq \"1999-12-01Z\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23179,7 +23179,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23194,7 +23194,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23209,7 +23209,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23224,7 +23224,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23239,7 +23239,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23254,7 +23254,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23269,7 +23269,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:date(\"2002-02-15\")) eq \"2002-02-15\"",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23284,7 +23284,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23299,7 +23299,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-412'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic( \"an arbitrary string(untypedAtomic source)\" , \"an arbitrary string(untypedAtomic source)\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23314,7 +23314,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-413'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")), 3, 1) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23329,7 +23329,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-414'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\" an arbitrary string(untypedAtomic source) \") eq xs:untypedAtomic(\" an arbitrary string(untypedAtomic source) \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23344,7 +23344,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-415'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"\") eq xs:untypedAtomic(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23359,7 +23359,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-416'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:untypedAtomic( \"an arbitrary string(untypedAtomic source)\" )) eq xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23374,7 +23374,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-417'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23389,7 +23389,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-418'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") cast as xs:untypedAtomic eq xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23404,7 +23404,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23419,7 +23419,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23434,7 +23434,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-421'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23449,10 +23449,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-422'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10 XP20"}.
 'K-SeqExprCast-422a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23467,7 +23467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-423'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23482,7 +23482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-424'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23497,7 +23497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-425'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23512,7 +23512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-426'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string( \"an arbitrary string\" , \"an arbitrary string\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23527,7 +23527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-427'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:string(\"an arbitrary string\")), 3, 1) instance of xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23542,7 +23542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-428'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\" an arbitrary string \") eq xs:string(\" an arbitrary string \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23557,7 +23557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-429'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"\") eq xs:string(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23572,7 +23572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-430'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:untypedAtomic( \"an arbitrary string\" )) eq xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23587,7 +23587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-431'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:string(\"an arbitrary string\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23602,7 +23602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-432'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"an arbitrary string\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23617,7 +23617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-433'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"an arbitrary string\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23632,7 +23632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-434'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"an arbitrary string\") cast as xs:string eq xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23647,7 +23647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-435'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(\"an arbitrary string\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23662,7 +23662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-436'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:string(\"an arbitrary string\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23677,7 +23677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-437'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23692,7 +23692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-438'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float( \"3.4e5\" , \"3.4e5\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23707,7 +23707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-439'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:float(\"3.4e5\")), 3, 1) instance of xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23722,7 +23722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-440'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\" 3.4e5 \") eq xs:float(\" 3.4e5 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23737,7 +23737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-441'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23752,7 +23752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-442'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:untypedAtomic( \"3.4e5\" )) eq xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23767,7 +23767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-443'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:float(\"3.4e5\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23782,7 +23782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-444'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23797,7 +23797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-445'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23812,7 +23812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-446'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23827,7 +23827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-447'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23842,7 +23842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-448'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:float eq xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23857,7 +23857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-449'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23872,7 +23872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-450'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:double ne xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23887,7 +23887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-451'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23902,7 +23902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-452'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23917,7 +23917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-453'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23932,7 +23932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-454'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23947,7 +23947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-455'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23962,7 +23962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-456'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23977,7 +23977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-457'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -23992,7 +23992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-458'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24007,7 +24007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-459'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24022,7 +24022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-460'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24037,7 +24037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-461'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24052,7 +24052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-462'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24067,7 +24067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-463'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24082,7 +24082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-464'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24097,7 +24097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-465'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24112,7 +24112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-466'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24127,7 +24127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-467'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24142,7 +24142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-468'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24157,7 +24157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-469'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24172,7 +24172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-470'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24187,7 +24187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-471'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24202,7 +24202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24217,7 +24217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-473'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24232,7 +24232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-474'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:boolean eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24247,7 +24247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-475'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24262,7 +24262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-476'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24277,7 +24277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-477'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24292,7 +24292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-478'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24307,7 +24307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-479'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24322,7 +24322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-480'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24337,7 +24337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-481'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24352,7 +24352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"3.4e5\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24367,7 +24367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-483'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24382,7 +24382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-484'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:float(\"3.4e5\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24397,7 +24397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-485'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24412,7 +24412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-486'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double( \"3.3e3\" , \"3.3e3\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24427,7 +24427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-487'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:double(\"3.3e3\")), 3, 1) instance of xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24442,7 +24442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\" 3.3e3 \") eq xs:double(\" 3.3e3 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24457,7 +24457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-489'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24472,7 +24472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-490'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:untypedAtomic( \"3.3e3\" )) eq xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24487,7 +24487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-491'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:double(\"3.3e3\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24502,7 +24502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-492'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24517,7 +24517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-493'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24532,7 +24532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-494'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24547,7 +24547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-495'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24562,7 +24562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-496'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:float ne xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24577,7 +24577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-497'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24592,7 +24592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-498'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:double eq xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24607,7 +24607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-499'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24622,7 +24622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-500'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24637,7 +24637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24652,7 +24652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24667,7 +24667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24682,7 +24682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24697,7 +24697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24712,7 +24712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24727,7 +24727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24742,7 +24742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24757,7 +24757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24772,7 +24772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24787,7 +24787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24802,7 +24802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24817,7 +24817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24832,7 +24832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24847,7 +24847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24862,7 +24862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-516'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24877,7 +24877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24892,7 +24892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24907,7 +24907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24922,7 +24922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-520'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24937,7 +24937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24952,7 +24952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-522'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:boolean eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24967,7 +24967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24982,7 +24982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -24997,7 +24997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-525'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25012,7 +25012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-526'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25027,7 +25027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-527'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25042,7 +25042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-528'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25057,7 +25057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-529'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25072,7 +25072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-530'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"3.3e3\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25087,7 +25087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-531'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25102,7 +25102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-532'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:double(\"3.3e3\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25117,7 +25117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-533'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25132,7 +25132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-534'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal( \"10.01\" , \"10.01\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25147,7 +25147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-535'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:decimal(\"10.01\")), 3, 1) instance of xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25162,7 +25162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-536'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\" 10.01 \") eq xs:decimal(\" 10.01 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25177,7 +25177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-537'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25192,7 +25192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-538'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:untypedAtomic( \"10.01\" )) eq xs:decimal(\"10.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25207,7 +25207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-539'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:decimal(\"10.01\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25222,7 +25222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-540'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25237,7 +25237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-541'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25252,7 +25252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-542'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25267,7 +25267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-543'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25282,7 +25282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-544'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:float ne xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25297,7 +25297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-545'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25312,7 +25312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-546'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:double ne xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25327,7 +25327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-547'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25342,7 +25342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-548'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:decimal eq xs:decimal(\"10.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25357,7 +25357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-549'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25372,7 +25372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-550'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:integer ne xs:integer(\"6789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25387,7 +25387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-551'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25402,7 +25402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-552'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25417,7 +25417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-553'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25432,7 +25432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-554'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25447,7 +25447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-555'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25462,7 +25462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-556'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25477,7 +25477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-557'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25492,7 +25492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-558'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25507,7 +25507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-559'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25522,7 +25522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-560'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25537,7 +25537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-561'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25552,7 +25552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-562'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25567,7 +25567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-563'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25582,7 +25582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-564'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25597,7 +25597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-565'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25612,7 +25612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-566'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25627,7 +25627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-567'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25642,7 +25642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-568'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25657,7 +25657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-569'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25672,7 +25672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-570'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25687,7 +25687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-571'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25702,7 +25702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-572'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25717,7 +25717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-573'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25732,7 +25732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-574'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:boolean eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25747,7 +25747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-575'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25762,7 +25762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-576'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25777,7 +25777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-577'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25792,7 +25792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-578'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25807,7 +25807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-579'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25822,7 +25822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-580'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25837,7 +25837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-581'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25852,7 +25852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-582'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"10.01\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25867,7 +25867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-583'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25882,7 +25882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-584'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:decimal(\"10.01\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25897,7 +25897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-585'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25912,7 +25912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-586'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer( \"6789\" , \"6789\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25927,7 +25927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-587'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:integer(\"6789\")), 3, 1) instance of xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25942,7 +25942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-588'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\" 6789 \") eq xs:integer(\" 6789 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25957,7 +25957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-589'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25972,7 +25972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-590'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:untypedAtomic( \"6789\" )) eq xs:integer(\"6789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -25987,7 +25987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-591'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:integer(\"6789\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26002,7 +26002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-592'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26017,7 +26017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-593'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26032,7 +26032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-594'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26047,7 +26047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-595'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26062,7 +26062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-596'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:float ne xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26077,7 +26077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-597'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26092,7 +26092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-598'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:double ne xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26107,7 +26107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-599'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26122,7 +26122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-600'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:decimal ne xs:decimal(\"10.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26137,7 +26137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-601'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26152,7 +26152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-602'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:integer eq xs:integer(\"6789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26167,7 +26167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-603'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26182,7 +26182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-604'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26197,7 +26197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-605'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26212,7 +26212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-606'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26227,7 +26227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-607'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26242,7 +26242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-608'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26257,7 +26257,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-609'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26272,7 +26272,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-610'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26287,7 +26287,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-611'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26302,7 +26302,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-612'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26317,7 +26317,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-613'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26332,7 +26332,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-614'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26347,7 +26347,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-615'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26362,7 +26362,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-616'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26377,7 +26377,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-617'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26392,7 +26392,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-618'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26407,7 +26407,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-619'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26422,7 +26422,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-620'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26437,7 +26437,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-621'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26452,7 +26452,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-622'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26467,7 +26467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-623'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26482,7 +26482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-624'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26497,7 +26497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-625'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26512,7 +26512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-626'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:boolean eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26527,7 +26527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-627'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26542,7 +26542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-628'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26557,7 +26557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-629'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26572,7 +26572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-630'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26587,7 +26587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-631'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26602,7 +26602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-632'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26617,7 +26617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-633'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26632,7 +26632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-634'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(\"6789\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26647,7 +26647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-635'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26662,7 +26662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-636'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:integer(\"6789\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26677,7 +26677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-637'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26692,7 +26692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-638'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration( \"P1Y2M3DT10H30M\" , \"P1Y2M3DT10H30M\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26707,7 +26707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-639'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:duration(\"P1Y2M3DT10H30M\")), 3, 1) instance of xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26722,7 +26722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-640'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\" P1Y2M3DT10H30M \") eq xs:duration(\" P1Y2M3DT10H30M \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26737,7 +26737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-641'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26752,7 +26752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-642'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(xs:untypedAtomic( \"P1Y2M3DT10H30M\" )) eq xs:duration(\"P1Y2M3DT10H30M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26767,7 +26767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-643'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:duration(\"P1Y2M3DT10H30M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26782,7 +26782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-644'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26797,7 +26797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-645'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26812,7 +26812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-646'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26827,7 +26827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-647'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26842,7 +26842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-648'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26857,7 +26857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-649'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26872,7 +26872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-650'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26887,7 +26887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-651'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26902,7 +26902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-652'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26917,7 +26917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-653'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26932,7 +26932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-654'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26947,7 +26947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-655'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26962,7 +26962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-656'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:duration eq xs:duration(\"P1Y2M3DT10H30M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26977,7 +26977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-657'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -26992,7 +26992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-658'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:yearMonthDuration ne xs:yearMonthDuration(\"P1Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27007,7 +27007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-659'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27022,7 +27022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-660'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:dayTimeDuration ne xs:dayTimeDuration(\"P3DT2H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27037,7 +27037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-661'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27052,7 +27052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-662'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27067,7 +27067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-663'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27082,7 +27082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-664'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27097,7 +27097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-665'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27112,7 +27112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-666'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27127,7 +27127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-667'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27142,7 +27142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-668'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27157,7 +27157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-669'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27172,7 +27172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-670'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27187,7 +27187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-671'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27202,7 +27202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-672'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27217,7 +27217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-673'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27232,7 +27232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-674'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27247,7 +27247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-675'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27262,7 +27262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-676'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27277,7 +27277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-677'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27292,7 +27292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-678'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27307,7 +27307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-679'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27322,7 +27322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-680'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27337,7 +27337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-681'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27352,7 +27352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-682'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27367,7 +27367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-683'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27382,7 +27382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-684'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27397,7 +27397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-685'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27412,7 +27412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-686'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:duration(\"P1Y2M3DT10H30M\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27427,7 +27427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-687'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27442,7 +27442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-688'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:duration(\"P1Y2M3DT10H30M\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27457,7 +27457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-689'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27472,7 +27472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-690'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration( \"P1Y12M\" , \"P1Y12M\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27487,7 +27487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-691'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:yearMonthDuration(\"P1Y12M\")), 3, 1) instance of xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27502,7 +27502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-692'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\" P1Y12M \") eq xs:yearMonthDuration(\" P1Y12M \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27517,7 +27517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-693'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27532,7 +27532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-694'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(xs:untypedAtomic( \"P1Y12M\" )) eq xs:yearMonthDuration(\"P1Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27547,7 +27547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-695'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:yearMonthDuration(\"P1Y12M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27562,7 +27562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-696'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27577,7 +27577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-697'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27592,7 +27592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-698'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27607,7 +27607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-699'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27622,7 +27622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-700'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27637,7 +27637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-701'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27652,7 +27652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-702'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27667,7 +27667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-703'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27682,7 +27682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-704'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27697,7 +27697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-705'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27712,7 +27712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-706'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27727,7 +27727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-707'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27742,7 +27742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-708'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:duration ne xs:duration(\"P1Y2M3DT10H30M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27757,7 +27757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-709'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27772,7 +27772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-710'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:yearMonthDuration eq xs:yearMonthDuration(\"P1Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27787,7 +27787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-711'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27802,7 +27802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-712'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:dayTimeDuration ne xs:dayTimeDuration(\"P3DT2H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27817,7 +27817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-713'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27832,7 +27832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-714'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27847,7 +27847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-715'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27862,7 +27862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-716'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27877,7 +27877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-717'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27892,7 +27892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-718'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27907,7 +27907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-719'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27922,7 +27922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-720'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27937,7 +27937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-721'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27952,7 +27952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-722'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27967,7 +27967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-723'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27982,7 +27982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-724'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -27997,7 +27997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-725'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28012,7 +28012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-726'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28027,7 +28027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-727'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28042,7 +28042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-728'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28057,7 +28057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-729'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28072,7 +28072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-730'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28087,7 +28087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-731'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28102,7 +28102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-732'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28117,7 +28117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-733'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28132,7 +28132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-734'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28147,7 +28147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-735'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28162,7 +28162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-736'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28177,7 +28177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-737'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28192,7 +28192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-738'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration(\"P1Y12M\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28207,7 +28207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-739'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28222,7 +28222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-740'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:yearMonthDuration(\"P1Y12M\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28237,7 +28237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-741'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28252,7 +28252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-742'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration( \"P3DT2H\" , \"P3DT2H\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28267,7 +28267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-743'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:dayTimeDuration(\"P3DT2H\")), 3, 1) instance of xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28282,7 +28282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-744'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\" P3DT2H \") eq xs:dayTimeDuration(\" P3DT2H \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28297,7 +28297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-745'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28312,7 +28312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-746'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(xs:untypedAtomic( \"P3DT2H\" )) eq xs:dayTimeDuration(\"P3DT2H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28327,7 +28327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-747'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:dayTimeDuration(\"P3DT2H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28342,7 +28342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-748'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28357,7 +28357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-749'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28372,7 +28372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-750'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28387,7 +28387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-751'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28402,7 +28402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-752'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28417,7 +28417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-753'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28432,7 +28432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-754'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28447,7 +28447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-755'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28462,7 +28462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-756'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28477,7 +28477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-757'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28492,7 +28492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-758'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28507,7 +28507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-759'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28522,7 +28522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-760'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:duration ne xs:duration(\"P1Y2M3DT10H30M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28537,7 +28537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-761'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") castable as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28552,7 +28552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-762'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:yearMonthDuration ne xs:yearMonthDuration(\"P1Y12M\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28567,7 +28567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-763'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") castable as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28582,7 +28582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-764'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:dayTimeDuration eq xs:dayTimeDuration(\"P3DT2H\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28597,7 +28597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-765'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") castable as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28612,7 +28612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-766'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28627,7 +28627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-767'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28642,7 +28642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-768'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28657,7 +28657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-769'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28672,7 +28672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-770'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28687,7 +28687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-771'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28702,7 +28702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-772'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28717,7 +28717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-773'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28732,7 +28732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-774'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28747,7 +28747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-775'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28762,7 +28762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-776'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28777,7 +28777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-777'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28792,7 +28792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-778'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28807,7 +28807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-779'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28822,7 +28822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-780'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28837,7 +28837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-781'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28852,7 +28852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-782'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28867,7 +28867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-783'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28882,7 +28882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-784'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28897,7 +28897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-785'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28912,7 +28912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-786'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28927,7 +28927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-787'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28942,7 +28942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-788'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28957,7 +28957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-789'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28972,7 +28972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-790'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration(\"P3DT2H\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -28987,7 +28987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-791'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29002,7 +29002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-792'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dayTimeDuration(\"P3DT2H\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29017,7 +29017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-793'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29032,7 +29032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-794'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime( \"2002-10-10T12:00:00-05:00\" , \"2002-10-10T12:00:00-05:00\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29047,7 +29047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-795'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:dateTime(\"2002-10-10T12:00:00-05:00\")), 3, 1) instance of xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29062,7 +29062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-796'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\" 2002-10-10T12:00:00-05:00 \") eq xs:dateTime(\" 2002-10-10T12:00:00-05:00 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29077,7 +29077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-797'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29092,7 +29092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-798'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(xs:untypedAtomic( \"2002-10-10T12:00:00-05:00\" )) eq xs:dateTime(\"2002-10-10T12:00:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29107,7 +29107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-799'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:dateTime(\"2002-10-10T12:00:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29122,7 +29122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-800'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29137,7 +29137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-801'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29152,7 +29152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-802'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29167,7 +29167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-803'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29182,7 +29182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-804'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29197,7 +29197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-805'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29212,7 +29212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-806'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29227,7 +29227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-807'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29242,7 +29242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-808'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29257,7 +29257,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-809'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29272,7 +29272,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-810'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29287,7 +29287,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-811'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29302,7 +29302,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-812'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29317,7 +29317,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-813'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29332,7 +29332,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-814'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29347,7 +29347,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-815'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29362,7 +29362,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-816'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29377,7 +29377,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-817'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29392,7 +29392,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-818'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:dateTime eq xs:dateTime(\"2002-10-10T12:00:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29407,7 +29407,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-819'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29422,7 +29422,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-820'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:time ne xs:time(\"03:20:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29437,7 +29437,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-821'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29452,7 +29452,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-822'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:date ne xs:date(\"2004-10-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29467,7 +29467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-823'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29482,7 +29482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-824'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:gYearMonth ne xs:gYearMonth(\"1999-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29497,7 +29497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-825'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29512,7 +29512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-826'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:gYear ne xs:gYear(\"1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29527,7 +29527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-827'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29542,7 +29542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-828'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:gMonthDay ne xs:gMonthDay(\"--11-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29557,7 +29557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-829'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29572,7 +29572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-830'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:gDay ne xs:gDay(\"---03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29587,7 +29587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-831'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29602,7 +29602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-832'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:gMonth ne xs:gMonth(\"--11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29617,7 +29617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-833'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29632,7 +29632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-834'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29647,7 +29647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-835'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29662,7 +29662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-836'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29677,7 +29677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-837'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29692,7 +29692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-838'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29707,7 +29707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-839'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29722,7 +29722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-840'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29737,7 +29737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-841'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29752,7 +29752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-842'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-10-10T12:00:00-05:00\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29767,7 +29767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-843'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29782,7 +29782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-844'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:dateTime(\"2002-10-10T12:00:00-05:00\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29797,7 +29797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-845'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29812,7 +29812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-846'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time( \"03:20:00-05:00\" , \"03:20:00-05:00\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29827,7 +29827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-847'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:time(\"03:20:00-05:00\")), 3, 1) instance of xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29842,7 +29842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-848'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\" 03:20:00-05:00 \") eq xs:time(\" 03:20:00-05:00 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29857,7 +29857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-849'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29872,7 +29872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-850'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(xs:untypedAtomic( \"03:20:00-05:00\" )) eq xs:time(\"03:20:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29887,7 +29887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-851'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:time(\"03:20:00-05:00\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29902,7 +29902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-852'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29917,7 +29917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-853'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29932,7 +29932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-854'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29947,7 +29947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-855'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29962,7 +29962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-856'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29977,7 +29977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-857'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -29992,7 +29992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-858'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30007,7 +30007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-859'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30022,7 +30022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-860'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30037,7 +30037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-861'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30052,7 +30052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-862'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30067,7 +30067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-863'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30082,7 +30082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-864'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30097,7 +30097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-865'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30112,7 +30112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-866'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30127,7 +30127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-867'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30142,7 +30142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-868'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30157,7 +30157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-869'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30172,7 +30172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-870'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30187,7 +30187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-871'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30202,7 +30202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-872'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:time eq xs:time(\"03:20:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30217,7 +30217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-873'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") castable as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30232,7 +30232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-874'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30247,7 +30247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-875'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30262,7 +30262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-876'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30277,7 +30277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-877'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30292,7 +30292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-878'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30307,7 +30307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-879'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30322,7 +30322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-880'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30337,7 +30337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-881'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30352,7 +30352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-882'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30367,7 +30367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-883'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30382,7 +30382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-884'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30397,7 +30397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-885'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30412,7 +30412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-886'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30427,7 +30427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-887'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30442,7 +30442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-888'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30457,7 +30457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-889'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30472,7 +30472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-890'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30487,7 +30487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-891'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30502,7 +30502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-892'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30517,7 +30517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-893'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30532,7 +30532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-894'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"03:20:00-05:00\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30547,7 +30547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-895'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30562,7 +30562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-896'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:time(\"03:20:00-05:00\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30577,7 +30577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-897'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30592,7 +30592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-898'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date( \"2004-10-13\" , \"2004-10-13\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30607,7 +30607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-899'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:date(\"2004-10-13\")), 3, 1) instance of xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30622,7 +30622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-900'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\" 2004-10-13 \") eq xs:date(\" 2004-10-13 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30637,7 +30637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-901'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30652,7 +30652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-902'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(xs:untypedAtomic( \"2004-10-13\" )) eq xs:date(\"2004-10-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30667,7 +30667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-903'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:date(\"2004-10-13\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30682,7 +30682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-904'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30697,7 +30697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-905'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30712,7 +30712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-906'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30727,7 +30727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-907'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30742,7 +30742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-908'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30757,7 +30757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-909'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30772,7 +30772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-910'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30787,7 +30787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-911'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30802,7 +30802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-912'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30817,7 +30817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-913'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30832,7 +30832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-914'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30847,7 +30847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-915'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30862,7 +30862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-916'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30877,7 +30877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-917'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30892,7 +30892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-918'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30907,7 +30907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-919'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30922,7 +30922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-920'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30937,7 +30937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-921'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30952,7 +30952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-922'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:dateTime ne xs:dateTime(\"2002-10-10T12:00:00-05:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30967,7 +30967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-923'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30982,7 +30982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-924'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -30997,7 +30997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-925'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31012,7 +31012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-926'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:date eq xs:date(\"2004-10-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31027,7 +31027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-927'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31042,7 +31042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-928'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:gYearMonth ne xs:gYearMonth(\"1999-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31057,7 +31057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-929'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31072,7 +31072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-930'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:gYear ne xs:gYear(\"1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31087,7 +31087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-931'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31102,7 +31102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-932'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:gMonthDay ne xs:gMonthDay(\"--11-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31117,7 +31117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-933'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31132,7 +31132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-934'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:gDay ne xs:gDay(\"---03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31147,7 +31147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-935'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31162,7 +31162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-936'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:gMonth ne xs:gMonth(\"--11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31177,7 +31177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-937'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31192,7 +31192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-938'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31207,7 +31207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-939'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31222,7 +31222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-940'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31237,7 +31237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-941'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31252,7 +31252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-942'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31267,7 +31267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-943'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31282,7 +31282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-944'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31297,7 +31297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-945'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31312,7 +31312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-946'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"2004-10-13\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31327,7 +31327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-947'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31342,7 +31342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-948'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:date(\"2004-10-13\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31357,7 +31357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-949'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31372,7 +31372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-950'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth( \"1999-11\" , \"1999-11\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31387,7 +31387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-951'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:gYearMonth(\"1999-11\")), 3, 1) instance of xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31402,7 +31402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-952'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\" 1999-11 \") eq xs:gYearMonth(\" 1999-11 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31417,7 +31417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-953'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31432,7 +31432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-954'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(xs:untypedAtomic( \"1999-11\" )) eq xs:gYearMonth(\"1999-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31447,7 +31447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-955'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:gYearMonth(\"1999-11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31462,7 +31462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-956'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31477,7 +31477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-957'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31492,7 +31492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-958'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31507,7 +31507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-959'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31522,7 +31522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-960'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31537,7 +31537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-961'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31552,7 +31552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-962'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31567,7 +31567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-963'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31582,7 +31582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-964'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31597,7 +31597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-965'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31612,7 +31612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-966'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31627,7 +31627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-967'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31642,7 +31642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-968'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31657,7 +31657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-969'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31672,7 +31672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-970'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31687,7 +31687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-971'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31702,7 +31702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-972'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31717,7 +31717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-973'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31732,7 +31732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-974'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31747,7 +31747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-975'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31762,7 +31762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-976'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31777,7 +31777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-977'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31792,7 +31792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-978'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31807,7 +31807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-979'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31822,7 +31822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-980'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:gYearMonth eq xs:gYearMonth(\"1999-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31837,7 +31837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-981'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") castable as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31852,7 +31852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-982'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31867,7 +31867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-983'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31882,7 +31882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-984'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31897,7 +31897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-985'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31912,7 +31912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-986'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31927,7 +31927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-987'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31942,7 +31942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-988'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31957,7 +31957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-989'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31972,7 +31972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-990'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -31987,7 +31987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-991'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32002,7 +32002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-992'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32017,7 +32017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-993'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32032,7 +32032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-994'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32047,7 +32047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-995'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32062,7 +32062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-996'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32077,7 +32077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-997'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32092,7 +32092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-998'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"1999-11\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32107,7 +32107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-999'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32122,7 +32122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1000'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYearMonth(\"1999-11\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32137,7 +32137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32152,7 +32152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear( \"1999\" , \"1999\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32167,7 +32167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:gYear(\"1999\")), 3, 1) instance of xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32182,7 +32182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\" 1999 \") eq xs:gYear(\" 1999 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32197,7 +32197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32212,7 +32212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(xs:untypedAtomic( \"1999\" )) eq xs:gYear(\"1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32227,7 +32227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:gYear(\"1999\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32242,7 +32242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32257,7 +32257,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32272,7 +32272,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32287,7 +32287,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32302,7 +32302,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32317,7 +32317,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32332,7 +32332,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32347,7 +32347,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32362,7 +32362,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32377,7 +32377,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32392,7 +32392,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32407,7 +32407,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32422,7 +32422,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32437,7 +32437,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32452,7 +32452,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32467,7 +32467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32482,7 +32482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32497,7 +32497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32512,7 +32512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32527,7 +32527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32542,7 +32542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32557,7 +32557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32572,7 +32572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32587,7 +32587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32602,7 +32602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32617,7 +32617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32632,7 +32632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gYear eq xs:gYear(\"1999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32647,7 +32647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") castable as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32662,7 +32662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32677,7 +32677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32692,7 +32692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32707,7 +32707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32722,7 +32722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32737,7 +32737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32752,7 +32752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32767,7 +32767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32782,7 +32782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32797,7 +32797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32812,7 +32812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32827,7 +32827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32842,7 +32842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32857,7 +32857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32872,7 +32872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"1999\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32887,7 +32887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32902,7 +32902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gYear(\"1999\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32917,7 +32917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1053'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32932,7 +32932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1054'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay( \"--11-13\" , \"--11-13\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32947,7 +32947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1055'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:gMonthDay(\"--11-13\")), 3, 1) instance of xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32962,7 +32962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1056'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\" --11-13 \") eq xs:gMonthDay(\" --11-13 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32977,7 +32977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1057'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -32992,7 +32992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1058'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(xs:untypedAtomic( \"--11-13\" )) eq xs:gMonthDay(\"--11-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33007,7 +33007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1059'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:gMonthDay(\"--11-13\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33022,7 +33022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1060'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33037,7 +33037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1061'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33052,7 +33052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1062'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33067,7 +33067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1063'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33082,7 +33082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1064'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33097,7 +33097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1065'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33112,7 +33112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1066'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33127,7 +33127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1067'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33142,7 +33142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1068'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33157,7 +33157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1069'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33172,7 +33172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1070'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33187,7 +33187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1071'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33202,7 +33202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1072'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33217,7 +33217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1073'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33232,7 +33232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1074'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33247,7 +33247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1075'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33262,7 +33262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1076'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33277,7 +33277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1077'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33292,7 +33292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1078'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33307,7 +33307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1079'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33322,7 +33322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1080'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33337,7 +33337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1081'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33352,7 +33352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1082'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33367,7 +33367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1083'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33382,7 +33382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1084'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33397,7 +33397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1085'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33412,7 +33412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1086'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33427,7 +33427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1087'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33442,7 +33442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1088'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:gMonthDay eq xs:gMonthDay(\"--11-13\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33457,7 +33457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1089'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") castable as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33472,7 +33472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1090'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33487,7 +33487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1091'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33502,7 +33502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1092'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33517,7 +33517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1093'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33532,7 +33532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1094'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33547,7 +33547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1095'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33562,7 +33562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1096'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33577,7 +33577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1097'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33592,7 +33592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1098'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33607,7 +33607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1099'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33622,7 +33622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33637,7 +33637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33652,7 +33652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonthDay(\"--11-13\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33667,7 +33667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33682,7 +33682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonthDay(\"--11-13\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33697,7 +33697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33712,7 +33712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay( \"---03\" , \"---03\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33727,7 +33727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:gDay(\"---03\")), 3, 1) instance of xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33742,7 +33742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\" ---03 \") eq xs:gDay(\" ---03 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33757,7 +33757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33772,7 +33772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(xs:untypedAtomic( \"---03\" )) eq xs:gDay(\"---03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33787,7 +33787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:gDay(\"---03\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33802,7 +33802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33817,7 +33817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33832,7 +33832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33847,7 +33847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33862,7 +33862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33877,7 +33877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33892,7 +33892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33907,7 +33907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33922,7 +33922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33937,7 +33937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33952,7 +33952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33967,7 +33967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33982,7 +33982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -33997,7 +33997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34012,7 +34012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34027,7 +34027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34042,7 +34042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34057,7 +34057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34072,7 +34072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34087,7 +34087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34102,7 +34102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34117,7 +34117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34132,7 +34132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34147,7 +34147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34162,7 +34162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34177,7 +34177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34192,7 +34192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34207,7 +34207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34222,7 +34222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34237,7 +34237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34252,7 +34252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:gDay eq xs:gDay(\"---03\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34267,7 +34267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") castable as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34282,7 +34282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34297,7 +34297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34312,7 +34312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34327,7 +34327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34342,7 +34342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34357,7 +34357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34372,7 +34372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34387,7 +34387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34402,7 +34402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34417,7 +34417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34432,7 +34432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gDay(\"---03\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34447,7 +34447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34462,7 +34462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gDay(\"---03\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34477,7 +34477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34492,7 +34492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth( \"--11\" , \"--11\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34507,7 +34507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:gMonth(\"--11\")), 3, 1) instance of xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34522,7 +34522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\" --11 \") eq xs:gMonth(\" --11 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34537,7 +34537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34552,7 +34552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(xs:untypedAtomic( \"--11\" )) eq xs:gMonth(\"--11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34567,7 +34567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:gMonth(\"--11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34582,7 +34582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34597,7 +34597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34612,7 +34612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34627,7 +34627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34642,7 +34642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34657,7 +34657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34672,7 +34672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34687,7 +34687,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34702,7 +34702,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34717,7 +34717,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34732,7 +34732,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34747,7 +34747,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34762,7 +34762,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34777,7 +34777,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34792,7 +34792,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34807,7 +34807,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34822,7 +34822,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34837,7 +34837,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34852,7 +34852,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34867,7 +34867,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34882,7 +34882,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34897,7 +34897,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34912,7 +34912,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34927,7 +34927,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34942,7 +34942,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34957,7 +34957,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34972,7 +34972,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -34987,7 +34987,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1191'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35002,7 +35002,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35017,7 +35017,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1193'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35032,7 +35032,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35047,7 +35047,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1195'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35062,7 +35062,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1196'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:gMonth eq xs:gMonth(\"--11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35077,7 +35077,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1197'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") castable as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35092,7 +35092,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1198'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35107,7 +35107,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1199'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35122,7 +35122,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1200'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35137,7 +35137,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35152,7 +35152,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35167,7 +35167,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35182,7 +35182,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35197,7 +35197,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35212,7 +35212,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--11\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35227,7 +35227,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35242,7 +35242,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:gMonth(\"--11\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35257,7 +35257,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35272,7 +35272,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean( \"true\" , \"true\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35287,7 +35287,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:boolean(\"true\")), 3, 1) instance of xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35302,7 +35302,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\" true \") eq xs:boolean(\" true \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35317,7 +35317,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35332,7 +35332,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(xs:untypedAtomic( \"true\" )) eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35347,7 +35347,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:boolean(\"true\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35362,7 +35362,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35377,7 +35377,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35392,7 +35392,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35407,7 +35407,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35422,7 +35422,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:float ne xs:float(\"3.4e5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35437,7 +35437,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35452,7 +35452,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:double ne xs:double(\"3.3e3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35467,7 +35467,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35482,7 +35482,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:decimal ne xs:decimal(\"10.01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35497,7 +35497,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35512,7 +35512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:integer ne xs:integer(\"6789\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35527,7 +35527,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35542,7 +35542,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35557,7 +35557,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35572,7 +35572,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35587,7 +35587,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35602,7 +35602,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35617,7 +35617,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35632,7 +35632,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35647,7 +35647,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35662,7 +35662,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35677,7 +35677,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35692,7 +35692,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35707,7 +35707,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35722,7 +35722,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35737,7 +35737,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35752,7 +35752,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35767,7 +35767,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35782,7 +35782,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35797,7 +35797,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35812,7 +35812,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35827,7 +35827,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35842,7 +35842,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35857,7 +35857,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35872,7 +35872,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:boolean eq xs:boolean(\"true\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35887,7 +35887,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") castable as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35902,7 +35902,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35917,7 +35917,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35932,7 +35932,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35947,7 +35947,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35962,7 +35962,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1256'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35977,7 +35977,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1257'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -35992,7 +35992,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1258'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:boolean(\"true\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36007,7 +36007,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1259'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36022,7 +36022,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1260'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:boolean(\"true\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36037,7 +36037,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36052,7 +36052,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary( \"aaaa\" , \"aaaa\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36067,7 +36067,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:base64Binary(\"aaaa\")), 3, 1) instance of xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36082,7 +36082,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1264'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\" aaaa \") eq xs:base64Binary(\" aaaa \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36097,7 +36097,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1265'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"\") eq xs:base64Binary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36112,7 +36112,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1266'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(xs:untypedAtomic( \"aaaa\" )) eq xs:base64Binary(\"aaaa\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36127,7 +36127,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1267'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:base64Binary(\"aaaa\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36142,7 +36142,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1268'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36157,7 +36157,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1269'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36172,7 +36172,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36187,7 +36187,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36202,7 +36202,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1272'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36217,7 +36217,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36232,7 +36232,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1274'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36247,7 +36247,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1275'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36262,7 +36262,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1276'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36277,7 +36277,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1277'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36292,7 +36292,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1278'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36307,7 +36307,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1279'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36322,7 +36322,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36337,7 +36337,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1281'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36352,7 +36352,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1282'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36367,7 +36367,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36382,7 +36382,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1284'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36397,7 +36397,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1285'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36412,7 +36412,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1286'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36427,7 +36427,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1287'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36442,7 +36442,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36457,7 +36457,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1289'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36472,7 +36472,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1290'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36487,7 +36487,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1291'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36502,7 +36502,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1292'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36517,7 +36517,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1293'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36532,7 +36532,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36547,7 +36547,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1295'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36562,7 +36562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1296'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36577,7 +36577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1297'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36592,7 +36592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36607,7 +36607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36622,7 +36622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36637,7 +36637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36652,7 +36652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36667,7 +36667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36682,7 +36682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:base64Binary eq xs:base64Binary(\"aaaa\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36697,7 +36697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36712,7 +36712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:hexBinary ne xs:hexBinary(\"0FB7\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36727,7 +36727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36742,7 +36742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36757,7 +36757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36772,7 +36772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:base64Binary(\"aaaa\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36787,7 +36787,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36802,7 +36802,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:base64Binary(\"aaaa\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36817,7 +36817,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36832,7 +36832,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary( \"0FB7\" , \"0FB7\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36847,7 +36847,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:hexBinary(\"0FB7\")), 3, 1) instance of xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36862,7 +36862,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\" 0FB7 \") eq xs:hexBinary(\" 0FB7 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36877,7 +36877,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"\") eq xs:hexBinary(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36892,7 +36892,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(xs:untypedAtomic( \"0FB7\" )) eq xs:hexBinary(\"0FB7\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36907,7 +36907,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:hexBinary(\"0FB7\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36922,7 +36922,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36937,7 +36937,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36952,7 +36952,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36967,7 +36967,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36982,7 +36982,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -36997,7 +36997,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37012,7 +37012,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37027,7 +37027,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37042,7 +37042,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37057,7 +37057,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37072,7 +37072,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37087,7 +37087,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37102,7 +37102,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37117,7 +37117,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37132,7 +37132,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37147,7 +37147,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37162,7 +37162,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37177,7 +37177,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37192,7 +37192,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37207,7 +37207,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37222,7 +37222,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37237,7 +37237,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37252,7 +37252,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37267,7 +37267,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37282,7 +37282,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37297,7 +37297,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37312,7 +37312,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37327,7 +37327,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37342,7 +37342,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37357,7 +37357,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37372,7 +37372,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37387,7 +37387,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37402,7 +37402,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37417,7 +37417,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37432,7 +37432,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37447,7 +37447,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37462,7 +37462,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:base64Binary ne xs:base64Binary(\"aaaa\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37477,7 +37477,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") castable as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37492,7 +37492,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:hexBinary eq xs:hexBinary(\"0FB7\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37507,7 +37507,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") castable as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37522,7 +37522,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37537,7 +37537,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37552,7 +37552,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:hexBinary(\"0FB7\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37567,7 +37567,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37582,7 +37582,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:hexBinary(\"0FB7\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37597,7 +37597,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37612,7 +37612,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI( \"http://www.example.com/an/arbitrary/URI.ext\" , \"http://www.example.com/an/arbitrary/URI.ext\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37627,7 +37627,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\")), 3, 1) instance of xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37642,7 +37642,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\" http://www.example.com/an/arbitrary/URI.ext \") eq xs:anyURI(\" http://www.example.com/an/arbitrary/URI.ext \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37657,7 +37657,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"\") eq xs:anyURI(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37672,7 +37672,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(xs:untypedAtomic( \"http://www.example.com/an/arbitrary/URI.ext\" )) 
       eq xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\")",
    Qry1 = Qry,
@@ -37688,7 +37688,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37703,7 +37703,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:untypedAtomic
       ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
@@ -37719,7 +37719,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37734,7 +37734,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37749,7 +37749,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37764,7 +37764,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37779,7 +37779,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37794,7 +37794,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37809,7 +37809,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37824,7 +37824,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37839,7 +37839,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37854,7 +37854,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37869,7 +37869,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37884,7 +37884,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37899,7 +37899,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37914,7 +37914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37929,7 +37929,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37944,7 +37944,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37959,7 +37959,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37974,7 +37974,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -37989,7 +37989,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38004,7 +38004,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38019,7 +38019,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38034,7 +38034,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38049,7 +38049,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38064,7 +38064,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38079,7 +38079,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38094,7 +38094,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38109,7 +38109,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38124,7 +38124,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1400'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38139,7 +38139,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38154,7 +38154,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38169,7 +38169,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38184,7 +38184,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38199,7 +38199,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38214,7 +38214,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38229,7 +38229,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38244,7 +38244,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38259,7 +38259,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38274,7 +38274,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1410'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38289,7 +38289,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38304,7 +38304,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1412'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:anyURI eq xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38319,7 +38319,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1413'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38334,7 +38334,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1414'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") cast as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38349,7 +38349,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1415'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38364,7 +38364,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1416'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:anyURI(\"http://www.example.com/an/arbitrary/URI.ext\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38379,7 +38379,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1417'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38394,7 +38394,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1418'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName( \"ncname\" , \"ncname\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38409,7 +38409,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "subsequence((\"dummy\", 1.1, xs:QName(\"ncname\")), 3, 1) instance of xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38424,7 +38424,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\" ncname \") eq xs:QName(\" ncname \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38439,7 +38439,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1421'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38454,7 +38454,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1422'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(xs:QName(\"ncname\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38469,7 +38469,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1423'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:untypedAtomic ne xs:untypedAtomic(\"an arbitrary string(untypedAtomic source)\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38484,7 +38484,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1424'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") castable as xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38499,7 +38499,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1425'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:string ne xs:string(\"an arbitrary string\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38514,7 +38514,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1426'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") castable as xs:string",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38529,7 +38529,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1427'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:float",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38544,7 +38544,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1428'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38559,7 +38559,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1429'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:double",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38574,7 +38574,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1430'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38589,7 +38589,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1431'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38604,7 +38604,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1432'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38619,7 +38619,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1433'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:integer",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38634,7 +38634,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1434'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38649,7 +38649,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1435'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:duration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38664,7 +38664,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1436'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38679,7 +38679,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1437'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:yearMonthDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38694,7 +38694,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1438'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38709,7 +38709,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1439'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:dayTimeDuration",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38724,7 +38724,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1440'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38739,7 +38739,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1441'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:dateTime",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38754,7 +38754,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1442'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38769,7 +38769,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1443'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:time",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38784,7 +38784,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1444'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38799,7 +38799,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1445'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:date",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38814,7 +38814,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1446'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38829,7 +38829,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1447'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:gYearMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38844,7 +38844,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1448'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38859,7 +38859,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1449'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:gYear",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38874,7 +38874,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1450'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38889,7 +38889,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1451'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:gMonthDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38904,7 +38904,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1452'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38919,7 +38919,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1453'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:gDay",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38934,7 +38934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1454'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38949,7 +38949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1455'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:gMonth",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38964,7 +38964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1456'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38979,7 +38979,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1457'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:boolean",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -38994,7 +38994,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1458'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39009,7 +39009,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1459'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:base64Binary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39024,7 +39024,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1460'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39039,7 +39039,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1461'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:hexBinary",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39054,7 +39054,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1462'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39069,7 +39069,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1463'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") cast as xs:anyURI",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39084,7 +39084,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1464'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39099,7 +39099,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1465'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName(\"ncname\") castable as xs:QName",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39114,7 +39114,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1466'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:QName(\"ncname\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39129,7 +39129,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1467'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NOTATION()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39144,7 +39144,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1468'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NOTATION( \"prefix:local\" , \"prefix:local\" )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39159,7 +39159,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1469'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:untypedAtomic)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39174,7 +39174,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1470'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:string)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39189,7 +39189,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1471'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:float)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39204,7 +39204,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:double)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39219,7 +39219,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1473'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:decimal)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39234,7 +39234,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1474'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:integer)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39249,7 +39249,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1475'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:duration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39264,7 +39264,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1476'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:yearMonthDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39279,7 +39279,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1477'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:dayTimeDuration)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39294,7 +39294,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1478'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:dateTime)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39309,7 +39309,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1479'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:time)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39324,7 +39324,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1480'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:date)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39339,7 +39339,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1481'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:gYearMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39354,7 +39354,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:gYear)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39369,7 +39369,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1483'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:gMonthDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39384,7 +39384,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1484'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:gDay)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39399,7 +39399,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1485'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:gMonth)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39414,7 +39414,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1486'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:boolean)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39429,7 +39429,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1487'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:base64Binary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39444,7 +39444,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:hexBinary)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39459,7 +39459,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1489'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:anyURI)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39474,7 +39474,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1490'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:QName)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39489,7 +39489,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-SeqExprCast-1491'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "not(xs:NOTATION(\"prefix:local\") castable as xs:NOTATION)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39512,7 +39512,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"myPrefix:ncname\" cast as xs:QName eq QName(\"http://example.com/\", \"anotherPrefix:ncname\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -39539,7 +39539,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "empty(() cast as xs:QName?)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39562,7 +39562,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39577,7 +39577,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39592,7 +39592,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"9223372036854775807\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39607,7 +39607,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483647\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39622,7 +39622,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39637,7 +39637,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"-128\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39652,7 +39652,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39667,7 +39667,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39682,7 +39682,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39697,7 +39697,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39712,7 +39712,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39727,7 +39727,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39742,7 +39742,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39757,7 +39757,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39772,7 +39772,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-9223372036854775808\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39795,7 +39795,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39810,7 +39810,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32767\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39825,7 +39825,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"127\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39840,7 +39840,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39855,7 +39855,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"18446744073709551615\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39878,7 +39878,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"4294967295\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39893,7 +39893,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"65535\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39908,7 +39908,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"255\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39923,7 +39923,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"999999999999999999\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39938,7 +39938,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39953,7 +39953,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39968,7 +39968,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39983,7 +39983,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -39998,7 +39998,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40013,7 +40013,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40028,7 +40028,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40043,7 +40043,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40058,7 +40058,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40073,7 +40073,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40088,7 +40088,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40103,7 +40103,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40118,7 +40118,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40133,7 +40133,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40148,7 +40148,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40163,7 +40163,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40178,7 +40178,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40193,7 +40193,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40208,7 +40208,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40223,7 +40223,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40238,7 +40238,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40253,7 +40253,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40268,7 +40268,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40283,7 +40283,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40298,7 +40298,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40313,7 +40313,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40328,7 +40328,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40343,7 +40343,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40358,7 +40358,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40373,7 +40373,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40388,7 +40388,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40403,7 +40403,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40418,7 +40418,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40433,7 +40433,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40448,7 +40448,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40463,7 +40463,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-62'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40478,7 +40478,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-63'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40493,7 +40493,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-64'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40508,7 +40508,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-65'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40523,7 +40523,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-66'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40538,7 +40538,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-67'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40553,7 +40553,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-68'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40568,7 +40568,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-69'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40583,7 +40583,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-70'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"+0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40598,7 +40598,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-71'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"--0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40613,7 +40613,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-72'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"--1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40628,7 +40628,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-73'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"--0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40643,7 +40643,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-74'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"--1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40658,7 +40658,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-75'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"++1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40673,7 +40673,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-76'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"++1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40688,7 +40688,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-77'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"++0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40703,7 +40703,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-78'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"-9223372036854775809\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40726,7 +40726,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-79'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"-2147483649\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40741,7 +40741,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-80'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-32769\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40756,7 +40756,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-81'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"-129\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40771,7 +40771,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-82'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40786,7 +40786,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-83'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40801,7 +40801,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-84'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40816,7 +40816,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-85'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40831,7 +40831,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-86'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40846,7 +40846,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-87'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40861,7 +40861,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-88'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40876,7 +40876,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-89'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40891,7 +40891,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-90'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"9223372036854775808\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40914,7 +40914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-91'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"2147483648\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40929,7 +40929,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-92'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40944,7 +40944,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-93'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"128\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40959,7 +40959,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-94'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40974,7 +40974,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-95'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -40989,7 +40989,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-96'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41004,7 +41004,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-97'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41019,7 +41019,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-98'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41034,7 +41034,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-99'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41049,7 +41049,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-100'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41064,7 +41064,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-101'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41079,7 +41079,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-102'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41094,7 +41094,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-103'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41109,7 +41109,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-104'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41124,7 +41124,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-105'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41139,7 +41139,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-106'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41154,7 +41154,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-107'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41169,7 +41169,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-108'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41184,7 +41184,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-109'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41199,7 +41199,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-110'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41214,7 +41214,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-111'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41229,7 +41229,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41244,7 +41244,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41259,7 +41259,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41274,7 +41274,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41289,7 +41289,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41304,7 +41304,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"3.0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41319,7 +41319,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"- 0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41334,7 +41334,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-119'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"+ 0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41349,7 +41349,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-120'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"- 3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41364,7 +41364,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-121'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"+ 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41379,7 +41379,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-122'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"+ 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41394,7 +41394,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-123'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"+ 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41409,7 +41409,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-124'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"+ 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41424,7 +41424,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-125'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"- 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41439,7 +41439,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-126'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"- 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41454,7 +41454,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-127'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"- 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41469,7 +41469,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-128'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"- 5\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41484,7 +41484,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-129'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"+ 0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41499,7 +41499,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-130'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"- 0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41514,7 +41514,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-131'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"+ 3\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41529,7 +41529,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-132'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41544,7 +41544,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-133'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"-000000000\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41559,7 +41559,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-134'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41574,7 +41574,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-135'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41589,7 +41589,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-136'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41604,7 +41604,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-137'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41619,7 +41619,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-138'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41634,7 +41634,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-139'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41649,7 +41649,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-140'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41664,7 +41664,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-141'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41679,7 +41679,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-142'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41694,7 +41694,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-143'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41709,7 +41709,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-144'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"000000001\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41724,7 +41724,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-145'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41739,7 +41739,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-146'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(\"-0x1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41754,7 +41754,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-147'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(\"0x9223372036854775807\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41769,7 +41769,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-148'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(\"0x2147483647\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41784,7 +41784,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-149'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(\"-0x32768\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41799,7 +41799,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-150'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(\"-0x128\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41814,7 +41814,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-151'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41829,7 +41829,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-152'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41844,7 +41844,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-153'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41859,7 +41859,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-154'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41874,7 +41874,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-155'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(\"0x0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41889,7 +41889,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-156'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:positiveInteger(\"0x1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41904,7 +41904,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-157'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(false())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41919,7 +41919,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-158'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(true())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41934,7 +41934,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-159'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41949,7 +41949,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-160'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcdefjhl\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41964,7 +41964,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-161'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41979,7 +41979,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-162'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"a1a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -41994,7 +41994,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-163'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"a.a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42009,7 +42009,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-164'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"a*a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42024,7 +42024,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-165'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42039,7 +42039,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-166'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc--ab\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42054,7 +42054,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-167'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-ab-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42069,7 +42069,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-168'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42084,7 +42084,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-169'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-abcdefikl\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42099,7 +42099,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-170'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-abcdef.k\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42114,7 +42114,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-171'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-ab1efikl\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42129,7 +42129,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-172'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-a-1b1efikl\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42144,7 +42144,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-173'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-a-1-1b1efil\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42159,7 +42159,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-174'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc-a-1-1b01efil\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42174,7 +42174,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-175'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42189,7 +42189,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-176'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:short(\"1\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42204,7 +42204,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-177'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(current-date())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42219,7 +42219,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-178'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(current-time())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42234,7 +42234,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-179'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(current-dateTime())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42249,7 +42249,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-180'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:name(\"input\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42264,7 +42264,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-181'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"1abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42279,7 +42279,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-182'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"ab\\c\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42294,7 +42294,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-183'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"ab|\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42309,7 +42309,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-184'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"a c\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42324,7 +42324,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-185'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42339,7 +42339,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-186'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"::::\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42354,7 +42354,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-187'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"_\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42369,7 +42369,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-188'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\":\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42384,7 +42384,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-189'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42399,7 +42399,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-190'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\" a \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42414,7 +42414,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-191'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"a1123-_--__-__--....-.--.-..12309asd\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42429,7 +42429,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-192'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:normalizedString(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42444,7 +42444,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-193'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:token(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42459,7 +42459,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-194'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42474,7 +42474,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-195'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42489,7 +42489,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-196'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:Name(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42504,7 +42504,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-197'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42519,7 +42519,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-198'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:ID(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42534,7 +42534,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-199'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:IDREF(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42549,7 +42549,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-200'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:ENTITY(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42564,7 +42564,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-201'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "namespace-uri-from-QName(xs:QName(\"ncname\"))",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -42591,7 +42591,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-202'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\" ::::...:SDA21455313 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42606,7 +42606,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-203'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\" f f\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42621,7 +42621,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-204'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42636,7 +42636,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-205'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\" \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42651,7 +42651,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-206'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NMTOKEN(\";\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42666,7 +42666,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-207'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http:\\\\invalid>URI\\someURI\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42689,7 +42689,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-208'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "concat(\"b\", xs:anyURI(\" \"), \"b\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42704,7 +42704,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-209'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"〜\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42719,7 +42719,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-210'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"http://www.example.com/file%GF.html\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42734,7 +42734,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-211'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42749,7 +42749,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-212'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyAtomic(\"1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42764,7 +42764,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-213'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:positiveInteger(\"52\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42779,7 +42779,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-214'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:int(\"-1873914410\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42794,7 +42794,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-215'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42809,7 +42809,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-216'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42824,7 +42824,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-217'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42839,7 +42839,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-218'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42854,7 +42854,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-219'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"+Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42869,7 +42869,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-220'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"+Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42884,7 +42884,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-221'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\" NaN \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42899,7 +42899,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-222'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\" NaN \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42914,7 +42914,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-223'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\" INF \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42929,7 +42929,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-224'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\" INF \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42944,7 +42944,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-225'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"nan\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42959,7 +42959,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-226'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"nan\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42974,7 +42974,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-227'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"- INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -42989,7 +42989,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-228'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"- INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43004,7 +43004,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-229'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"+ INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43019,7 +43019,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-230'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"+ INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43034,7 +43034,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-231'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"+INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43049,10 +43049,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-231a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'K2-SeqExprCast-232'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"+INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43067,10 +43067,10 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-232a'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XSD 1.1"}.
 'K2-SeqExprCast-233'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43085,7 +43085,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-234'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43100,7 +43100,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-235'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"+Inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43115,7 +43115,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-236'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"nan\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43130,7 +43130,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-237'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"- INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43145,7 +43145,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-238'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"+ INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43160,7 +43160,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-239'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"+INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43175,7 +43175,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-240'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"INF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43190,7 +43190,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-241'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"NaN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43205,7 +43205,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-242'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43220,7 +43220,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-243'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43235,7 +43235,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-244'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43250,7 +43250,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-245'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43265,7 +43265,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-246'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43280,7 +43280,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-247'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43295,7 +43295,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-248'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43310,7 +43310,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-249'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43325,7 +43325,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-250'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43340,7 +43340,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-251'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43355,7 +43355,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-252'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43370,7 +43370,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-253'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43385,7 +43385,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-254'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43400,7 +43400,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-255'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43415,7 +43415,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-256'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43430,7 +43430,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-257'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43445,7 +43445,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-258'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43460,7 +43460,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-259'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43475,7 +43475,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-260'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43490,7 +43490,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-261'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43505,7 +43505,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-262'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43520,7 +43520,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-263'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43535,7 +43535,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-264'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43550,7 +43550,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-265'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonPositiveInteger(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43565,7 +43565,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-266'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43580,7 +43580,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-267'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43595,7 +43595,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-268'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43610,7 +43610,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-269'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43625,7 +43625,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-270'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43640,7 +43640,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-271'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:negativeInteger(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43655,7 +43655,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-272'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43670,7 +43670,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-273'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43685,7 +43685,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-274'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43700,7 +43700,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-275'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43715,7 +43715,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-276'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43730,7 +43730,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-277'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:long(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43745,7 +43745,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-278'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43760,7 +43760,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-279'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43775,7 +43775,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-280'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43790,7 +43790,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-281'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43805,7 +43805,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-282'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43820,7 +43820,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-283'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:int(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43835,7 +43835,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-284'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43850,7 +43850,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-285'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43865,7 +43865,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-286'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43880,7 +43880,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-287'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43895,7 +43895,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-288'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43910,7 +43910,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-289'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:short(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43925,7 +43925,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-290'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43940,7 +43940,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-291'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43955,7 +43955,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-292'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43970,7 +43970,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-293'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -43985,7 +43985,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-294'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44000,7 +44000,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-295'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:byte(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44015,7 +44015,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-296'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44030,7 +44030,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-297'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44045,7 +44045,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-298'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44060,7 +44060,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-299'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44083,7 +44083,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-300'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44098,7 +44098,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-301'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:nonNegativeInteger(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44113,7 +44113,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-302'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44128,7 +44128,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-303'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44143,7 +44143,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-304'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44158,7 +44158,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-305'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44173,7 +44173,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-306'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44188,7 +44188,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-307'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44203,7 +44203,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-308'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44218,7 +44218,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-309'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44233,7 +44233,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-310'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44248,7 +44248,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-311'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44263,7 +44263,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-312'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44278,7 +44278,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-313'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44293,7 +44293,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-314'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44308,7 +44308,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-315'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44323,7 +44323,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-316'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44338,7 +44338,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-317'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44353,7 +44353,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-318'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44368,7 +44368,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-319'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedShort(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44383,7 +44383,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-320'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44398,7 +44398,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-321'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44413,7 +44413,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-322'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44428,7 +44428,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-323'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44443,7 +44443,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-324'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44458,7 +44458,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-325'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedByte(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44473,7 +44473,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-326'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44488,7 +44488,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-327'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"-INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44503,7 +44503,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-328'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44518,7 +44518,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-329'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"INF\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44533,7 +44533,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-330'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:float(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44548,7 +44548,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-331'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInt(xs:double(\"NaN\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44563,7 +44563,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-332'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedInteger(1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44578,7 +44578,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-333'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:byte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44593,7 +44593,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-334'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:int(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44608,7 +44608,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-335'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:long(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44623,7 +44623,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-336'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:negativeInteger(-3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44638,7 +44638,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-337'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:nonNegativeInteger(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44653,7 +44653,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-338'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:nonPositiveInteger(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44668,7 +44668,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-339'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:short(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44683,7 +44683,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-340'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:unsignedByte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44698,7 +44698,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-341'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44713,7 +44713,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-342'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44728,7 +44728,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-343'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:unsignedLong(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44743,7 +44743,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-344'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(xs:unsignedShort(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44758,7 +44758,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-345'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:byte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44773,7 +44773,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-346'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:int(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44788,7 +44788,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-347'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:long(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44803,7 +44803,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-348'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:negativeInteger(-3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44818,7 +44818,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-349'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:nonNegativeInteger(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44833,7 +44833,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-350'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:nonPositiveInteger(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44848,7 +44848,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-351'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:short(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44863,7 +44863,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-352'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:unsignedByte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44878,7 +44878,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-353'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44893,7 +44893,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-354'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44908,7 +44908,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-355'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:unsignedLong(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44923,7 +44923,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-356'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(xs:unsignedShort(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44938,7 +44938,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-357'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:byte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44953,7 +44953,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-358'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:int(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44968,7 +44968,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-359'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:long(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44983,7 +44983,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-360'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:negativeInteger(-3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -44998,7 +44998,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-361'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:nonNegativeInteger(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45013,7 +45013,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-362'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:nonPositiveInteger(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45028,7 +45028,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-363'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:short(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45043,7 +45043,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-364'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:unsignedByte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45058,7 +45058,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-365'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45073,7 +45073,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-366'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45088,7 +45088,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-367'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:unsignedLong(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45103,7 +45103,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-368'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(xs:unsignedShort(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45118,7 +45118,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-369'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:byte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45133,7 +45133,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-370'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:int(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45148,7 +45148,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-371'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:long(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45163,7 +45163,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-372'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:negativeInteger(-3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45178,7 +45178,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-373'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:nonNegativeInteger(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45193,7 +45193,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-374'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:nonPositiveInteger(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45208,7 +45208,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-375'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:short(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45223,7 +45223,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-376'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:unsignedByte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45238,7 +45238,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-377'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45253,7 +45253,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-378'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45268,7 +45268,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-379'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:unsignedLong(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45283,7 +45283,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-380'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:unsignedShort(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45298,7 +45298,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-381'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:byte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45313,7 +45313,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-382'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:int(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45328,7 +45328,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-383'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:long(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45343,7 +45343,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-384'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:negativeInteger(-3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45358,7 +45358,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-385'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:nonNegativeInteger(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45373,7 +45373,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-386'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:nonPositiveInteger(0))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45388,7 +45388,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-387'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:short(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45403,7 +45403,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-388'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:unsignedByte(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45418,7 +45418,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-389'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45433,7 +45433,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-390'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:unsignedInt(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45448,7 +45448,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-391'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:unsignedLong(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45463,7 +45463,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-392'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:unsignedShort(3))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45478,7 +45478,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-393'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:normalizedString(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45493,7 +45493,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-394'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:token(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45508,7 +45508,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-395'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:language(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45523,7 +45523,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-396'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:NMTOKEN(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45538,7 +45538,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-397'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:Name(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45553,7 +45553,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-398'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:NCName(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45568,7 +45568,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-399'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:ID(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45583,7 +45583,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-400'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:IDREF(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45598,7 +45598,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-401'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(xs:ENTITY(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45613,7 +45613,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-402'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:normalizedString(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45628,7 +45628,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-403'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:token(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45643,7 +45643,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-404'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:language(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45658,7 +45658,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-405'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:NMTOKEN(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45673,7 +45673,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-406'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:Name(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45688,7 +45688,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-407'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:NCName(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45703,7 +45703,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-408'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:ID(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45718,7 +45718,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-409'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:IDREF(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45733,7 +45733,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-410'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string(xs:ENTITY(\"foo\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45748,7 +45748,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-411'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"a\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45763,7 +45763,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-412'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"ab\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45778,7 +45778,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-413'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abc\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45793,7 +45793,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-414'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcd\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45808,7 +45808,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-415'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcde\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45823,7 +45823,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-416'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcdef\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45838,7 +45838,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-417'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcdefg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45853,7 +45853,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-418'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcdefgh\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45868,7 +45868,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-419'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(\"abcdefgh-abcdefgh\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45883,7 +45883,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-420'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\" http://example.com/ foo.xml \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45898,7 +45898,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-421'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"foo://\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45925,7 +45925,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-422'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45940,7 +45940,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-423'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\":/cut.jpg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45955,7 +45955,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-424'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\":/images/cut.png\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -45970,7 +45970,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-425'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((\"START\", 
       		string(QName(\"http://example.com\", \"prefix:localName\")), 
       		string(QName(\"http://example.com\", \"localName\")), 
@@ -45991,7 +45991,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-426'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-join((\"START\", 
       	string(QName(\"http://example.com\", 
       	\"prefix:localName\")), 
@@ -46013,7 +46013,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-427'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\"//server/share/dir1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46028,7 +46028,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-428'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:unsignedLong(\"-9876\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46043,7 +46043,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-429'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:-1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46058,7 +46058,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-430'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:+1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46073,7 +46073,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-431'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11: 1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46088,7 +46088,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-432'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46103,7 +46103,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-433'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46118,7 +46118,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-434'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46133,7 +46133,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-435'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11: 1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46148,7 +46148,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-436'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"-1:11:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46163,7 +46163,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-437'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"+1:11:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46178,7 +46178,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-438'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"+1:11:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46193,7 +46193,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-439'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:1e0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46208,7 +46208,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-440'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:1E0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46223,7 +46223,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-441'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:1b0\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46238,7 +46238,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-442'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11: 10\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46253,7 +46253,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-443'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11b33\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46268,7 +46268,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-444'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:111\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46283,7 +46283,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-445'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11.+11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46298,7 +46298,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-446'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11.-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46313,7 +46313,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-447'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11. 11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46328,7 +46328,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-448'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"24:00:00.1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46343,7 +46343,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-449'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"24:01:00\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46358,7 +46358,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-450'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"24:00:01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46373,7 +46373,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-451'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11++1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46388,7 +46388,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-452'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11+-1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46403,7 +46403,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-453'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11+ 1:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46418,7 +46418,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-454'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11+11:+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46433,7 +46433,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-455'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11+11:-1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46448,7 +46448,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-456'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:11+11: 1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46463,7 +46463,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-457'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46478,7 +46478,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-458'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"1 :11:11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46493,7 +46493,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-459'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:time(\"11:11:1 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46508,7 +46508,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-460'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"+2002-12-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46523,7 +46523,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-461'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\" 111-11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46538,7 +46538,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-462'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\" +11-11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46553,7 +46553,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-463'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111- 1-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46568,7 +46568,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-464'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"-111-11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46583,7 +46583,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-465'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"+111-11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46598,7 +46598,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-466'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-11- 1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46613,7 +46613,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-467'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-+1-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46628,7 +46628,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-468'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-11-+1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46643,7 +46643,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-469'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111--1-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46658,7 +46658,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-470'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-11--1\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46673,7 +46673,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-471'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-11-1F\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46688,7 +46688,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-472'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"0x10-11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46703,7 +46703,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-473'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"111 -11-11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46718,7 +46718,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-474'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-1 -11\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46733,7 +46733,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-475'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"1111-11-1 \")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46748,7 +46748,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-476'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"2002-11-23\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46763,7 +46763,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-477'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYear(\"0040\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46778,7 +46778,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-478'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gYearMonth(\"0040-01\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46793,7 +46793,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-479'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:prefix=\"http://example.com/\"> { xs:QName(\"prefix:localName\") } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46808,7 +46808,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-480'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:untypedAtomic(\"xs:untypedAtomic\"), xs:dateTime(\"2002-10-10T23:02:12Z\"), xs:date(\"2002-10-10Z\"), xs:time(\"23:02:12Z\"),
                 xs:duration(\"P12M\"), xs:dayTimeDuration(\"PT1S\"), xs:yearMonthDuration(\"P1M\"), xs:float(\"3e3\"), xs:double(\"4e4\"),
                 xs:decimal(\"2.0\"), xs:integer(\"16\"), xs:nonPositiveInteger(\"0\"), xs:negativeInteger(\"-4\"), xs:long(\"5\"),
@@ -46833,7 +46833,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-481'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"inf\" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46848,7 +46848,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-482'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"inF\" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46863,7 +46863,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-483'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-inF\" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46878,7 +46878,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-484'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"inF \" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46893,7 +46893,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-485'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"-inF \" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46908,7 +46908,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-486'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\"naN\" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46923,7 +46923,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-487'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "\" naN\" cast as xs:decimal",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46938,7 +46938,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-488'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(QName(\"http://example.com/\", \"p:localName\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46953,7 +46953,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-489'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:base64Binary(\"1111\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46968,7 +46968,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-490'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:hexBinary(\"11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46983,7 +46983,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-491'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:gMonth(\"--10\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -46998,7 +46998,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-492'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:gDay(\"---11\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47013,7 +47013,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-493'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:gMonthDay(\"--10-15\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47028,7 +47028,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-494'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:gYear(\"4004\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47043,7 +47043,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-495'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:integer(\"543\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47058,7 +47058,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-496'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:decimal(\"543\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47073,7 +47073,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-497'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:double(\"543\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47088,7 +47088,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-498'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:float(\"543\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47103,7 +47103,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-499'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(current-time())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47118,7 +47118,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-500'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(current-date())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47133,7 +47133,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-501'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:duration(\"P1M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47148,7 +47148,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-502'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:dayTimeDuration(\"P1DT4H\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47163,7 +47163,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-503'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:language(xs:yearMonthDuration(\"P4Y5M\"))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47178,7 +47178,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-504'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:NCName(codepoints-to-string((3648, 3592, 3617, 3626, 3660)))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47193,7 +47193,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-505'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:anyURI(\":/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47208,7 +47208,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-506'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:gMonth(\"--02--\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47223,7 +47223,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-507'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"inF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47238,7 +47238,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-508'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"inF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47253,7 +47253,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-509'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"inF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47268,7 +47268,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-510'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47283,7 +47283,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-511'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47298,7 +47298,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-512'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"inf\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47313,7 +47313,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-513'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47328,7 +47328,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-514'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47343,7 +47343,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-515'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47358,7 +47358,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-516'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"-InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47373,7 +47373,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-517'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"-InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47388,7 +47388,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-518'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"-InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47403,7 +47403,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-519'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"+InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47418,7 +47418,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-520'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"+InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47433,7 +47433,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-521'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"+InF\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47448,7 +47448,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-522'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(\"naN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47463,7 +47463,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-523'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:double(\"naN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -47478,7 +47478,7 @@ environment('NOTATION-type',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-SeqExprCast-524'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(\"naN\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

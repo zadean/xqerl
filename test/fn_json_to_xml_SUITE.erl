@@ -101,7 +101,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -391,7 +391,7 @@ environment('json-ns',BaseDir) ->
 {modules, []}
 ].
 'json-to-xml-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('{}')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -419,7 +419,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -447,7 +447,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[1]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -487,7 +487,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[\"a\"]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -527,7 +527,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[true]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -567,7 +567,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[false]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -607,7 +607,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml('[null]')",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -647,7 +647,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -683,7 +683,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -707,7 +707,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -723,7 +723,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string",
    {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -739,7 +739,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
       ",
@@ -773,7 +773,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"Data with \\\" within it\"]')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
@@ -799,7 +799,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//Q{http://www.w3.org/2005/xpath-functions}string
       ",
@@ -826,7 +826,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(codepoints-to-string(65279)||'[1]')
       ",
@@ -846,16 +846,16 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-017b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}')
       ",
@@ -876,7 +876,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':true()})
       ",
@@ -897,7 +897,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':false()})
       ",
@@ -917,7 +917,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':true()})
       ",
@@ -939,7 +939,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':false()})
       ",
@@ -960,7 +960,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', map{'escape':false()})
       ",
@@ -979,7 +979,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', map{'escape':true()})
       ",
@@ -998,7 +998,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', 
               map{'escape':false(), 'fallback':function($s){'??'}})
@@ -1020,7 +1020,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', 
              map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
@@ -1040,7 +1040,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', 
             map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
@@ -1058,7 +1058,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml((), 
             map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
@@ -1076,7 +1076,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('23', map{})
       ",
@@ -1094,7 +1094,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('23E0', map{})
       ",
@@ -1112,7 +1112,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('0.23e+02')
       ",
@@ -1130,7 +1130,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('0')
       ",
@@ -1148,7 +1148,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-0')
       ",
@@ -1166,7 +1166,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"\":\"\", \"0\":\"0\"}')
       ",
@@ -1184,7 +1184,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(())
       ",
@@ -1201,7 +1201,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}', map{\"duplicates\":\"use-first\"})
       ",
@@ -1222,19 +1222,19 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-037b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-038b'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\uDEAD\"', map{'fallback':function($s){substring($s, 3)}})
       ",
@@ -1253,7 +1253,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5, \"c\":5}', map{'duplicates':'use-first'})
       ",
@@ -1274,7 +1274,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          static-base-uri() eq base-uri(fn:json-to-xml('true'))
       ",
@@ -1291,7 +1291,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"\\n\":1, \"\\u000A\":2}', map{'escape':true(), 'duplicates':'reject'})
       ",
@@ -1309,7 +1309,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"\\u005c\"')
       ",
@@ -1328,19 +1328,19 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1355,7 +1355,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"', map {'escape':true()})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1370,7 +1370,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('')
       ",
@@ -1387,7 +1387,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{error}')
       ",
@@ -1405,7 +1405,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{terriblyWrong}')
       ",
@@ -1423,7 +1423,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(\"{}extra token\")
       ",
@@ -1441,7 +1441,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{1:1}')
       ",
@@ -1459,7 +1459,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{true:1}')
       ",
@@ -1477,7 +1477,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\" 1}')
       ",
@@ -1495,7 +1495,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\" :1 2}')
       ",
@@ -1513,7 +1513,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[+1]')
       ",
@@ -1531,7 +1531,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[01]')
       ",
@@ -1549,7 +1549,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[1234A]')
       ",
@@ -1567,7 +1567,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"123\\\"]')
       ",
@@ -1585,7 +1585,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"123\\u234\"]')
       ",
@@ -1603,7 +1603,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\":123,}')
       ",
@@ -1621,7 +1621,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\":123 ,}', map{\"liberal\":false()})
       ",
@@ -1639,7 +1639,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"key\":123,]')
       ",
@@ -1657,7 +1657,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"key\":123 ,]', map{'liberal':true()})
       ",
@@ -1675,7 +1675,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\",]', map{'liberal':()})
       ",
@@ -1701,7 +1701,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'liberal':'something'})
       ",
@@ -1719,7 +1719,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':()})
       ",
@@ -1737,7 +1737,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':(true(),true())})
       ",
@@ -1755,7 +1755,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':'EMCA-262'})
       ",
@@ -1773,7 +1773,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':()})
       ",
@@ -1791,7 +1791,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':(true(),true())})
       ",
@@ -1809,7 +1809,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':'EMCA-262'})
       ",
@@ -1827,7 +1827,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'fallback':'dummy'})
       ",
@@ -1845,13 +1845,13 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XML 1.1"}.
 'json-to-xml-error-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-error-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-00')
       ",
@@ -1868,7 +1868,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('+10')
       ",
@@ -1885,7 +1885,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('.1')
       ",
@@ -1902,7 +1902,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('1.')
       ",
@@ -1919,7 +1919,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('1.e2')
       ",
@@ -1936,7 +1936,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-.01')
       ",
@@ -1953,7 +1953,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}', map{\"duplicates\":\"reject\"})
       ",
@@ -1970,7 +1970,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\\"')
       ",
@@ -1987,7 +1987,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\uAAA\"')
       ",
@@ -2004,7 +2004,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\xAA\"')
       ",
@@ -2021,7 +2021,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"c\":5}', map{\"duplicates\":\"use-last\"})
       ",
@@ -2038,7 +2038,7 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"\\uFFFF\"', map{'fallback':concat#2})
       ",
@@ -2055,8 +2055,8 @@ environment('json-ns',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'json-to-xml-error-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'json-to-xml-error-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

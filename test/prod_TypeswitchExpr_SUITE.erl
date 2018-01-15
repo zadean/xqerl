@@ -79,7 +79,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -333,7 +333,7 @@ environment('ListUnionTypes',BaseDir) ->
 {modules, []}
 ].
 'typeswitchhc1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5) 
         case $i as xs:integer return <wrap>test passed - integer data type</wrap> 
@@ -354,7 +354,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5.1) 
         case $i as xs:decimal return <wrap>test passed - 5.1 is a decimal type</wrap> 
@@ -375,7 +375,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5.1E2) 
         case $i as xs:integer return <wrap>test failed2</wrap> 
@@ -394,7 +394,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (\"A String\") 
         case $i as xs:decimal return <wrap>test failed</wrap> 
@@ -414,7 +414,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1267.43233E12) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -434,7 +434,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(1 > 2) case $i as xs:string return <wrap>test failed</wrap> 
         case $i as xs:integer return <wrap>test failed</wrap> 
@@ -453,7 +453,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(xs:date(\"1999-05-31\")) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -473,7 +473,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(xs:time(\"12:00:00\")) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -493,7 +493,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(xs:dateTime(\"1999-12-31T19:20:00\")) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -513,7 +513,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(xs:anyURI(\"http://example.com\")) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -533,7 +533,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(123) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -553,7 +553,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(123) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -573,7 +573,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(if (1 lt 2) then 3 else 4.5E4) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -593,7 +593,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(fn:true() and fn:true()) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -613,7 +613,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(fn:true() or fn:false()) 
         case $i as xs:string return <wrap>test failed</wrap> 
@@ -633,7 +633,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch(typeswitch (1) 
         case $i as xs:integer return $i default return <a>fn:false</a> ) 
@@ -654,7 +654,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5) 
         case $i as xs:integer return xs:integer(1 + 1) 
@@ -675,7 +675,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5.1) 
         case $i as xs:decimal return xs:decimal(1.1 + 3.1) 
@@ -696,7 +696,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (5.1E2) 
         case $i as xs:integer return <wrap>test failed2</wrap> 
@@ -715,7 +715,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (\"A String\") 
         case $i as xs:decimal return <wrap>test failed</wrap> 
@@ -735,7 +735,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1) 
         case $i as xs:double return <wrap>test failed</wrap> 
@@ -755,7 +755,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1) 
         case $i as xs:double return <wrap>test failed</wrap> 
@@ -775,7 +775,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1) 
         case $i as xs:double return <wrap>test failed</wrap> 
@@ -795,7 +795,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1) 
         case $i as xs:double return <wrap>test failed</wrap> 
@@ -815,7 +815,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitchhc25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch (1) 
         case $i as xs:double return <wrap>test failed</wrap> 
@@ -835,7 +835,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch((1, 2)) case xs:integer return -1 case xs:integer+ return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -850,7 +850,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(\"a string\") case xs:anyURI return -1 case xs:string return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -865,7 +865,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(\"a string\") case xs:untypedAtomic return -1 case xs:string return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -880,7 +880,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch((1, \"a string\")) case xs:integer return -1 case xs:string return -2 case xs:anyAtomicType+ return 1 default return -3) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -895,7 +895,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(((1, current-time())[1])) case element() return -1 case xs:integer return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -910,7 +910,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(()) case xs:integer* return 1 case empty-sequence() return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -925,7 +925,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(1, 2, 3) case xs:string+ return -1 case xs:integer+ return 1 default return -2) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -940,7 +940,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K-sequenceExprTypeswitch-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(typeswitch(1, 2, current-time()) case element() return -1 case document-node() return -2 default return 1) eq 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -955,7 +955,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "boolean(typeswitch (current-time(), 1, 3e3, \"foo\") case node() return 0 case xs:integer return 3 case xs:anyAtomicType return true() default return -1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -970,7 +970,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch(current-time()) case node() return 0 case xs:integer return 3 case xs:anyAtomicType return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -985,7 +985,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch 1 case node() return 0 case xs:integer return 3 default return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1000,7 +1000,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case $i as node() return <e/> case xs:integer* return $i default return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1015,7 +1015,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return $i case $i as xs:integer return 1 default return true()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1030,7 +1030,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> case $i as xs:integer return 1 default return $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1045,7 +1045,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> case xs:integer* return $i default $i return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1060,7 +1060,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> case xs:integer return 3 default $i as item() return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1075,7 +1075,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> case xs:integer return 3 default $i return 1, $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1090,7 +1090,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> case $i as xs:integer return 3 default return 1, $i",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1105,7 +1105,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch (1, 2, 3) case node() return <e/> default $i return 1 , typeswitch (1, 2, 3) case xs:integer* return $i default return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1120,7 +1120,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := (attribute name {\"content\"}, <a attr=\"content\"/>, <e/>, 1, \"str\", <!-- a comment -->); <d> { typeswitch(typeswitch($i) case $b as element(e) return concat(\"Found an element by name \", $b) case $b as element() return comment{concat(\"Found: \", $b)} case $c as attribute(doesntMatch) return $c/.. default $def return $def) case $str as xs:string return \"A string\" case $attr as attribute() return string($attr) default $def return $def } </d>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1135,7 +1135,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $i := (<e/>, attribute name {\"content\"}, <a attr=\"content\"/>, <e/>, 1, \"str\", <!-- a comment -->); <d> { typeswitch(typeswitch($i) case $b as element(e) return concat(\"Found an element by name \", $b) case $b as element() return comment{concat(\"Found: \", $b)} case $c as attribute(doesntMatch) return $c/.. default $def return $def) case $str as xs:string return \"A string\" case $attr as attribute() return string($attr) default $def return $def } </d>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1150,7 +1150,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(typeswitch (self::node()) case $i as node() return . default return 1)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1165,7 +1165,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(typeswitch (self::node()) case $i as xs:integer return $i default $v return $v)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1180,7 +1180,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-sequenceExprTypeswitch-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "typeswitch(<e/>, <e/>) case $b as element() return concat(\"\", $b treat as element()) default return 1",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1195,7 +1195,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-nomatch'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (<e/>) 
 	 case $i as xs:integer | xs:string return $i
@@ -1214,7 +1214,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-nomatch-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (<e/>) 
 	 case xs:integer | xs:string return 1
@@ -1233,7 +1233,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (47) 
 	 case $i as xs:integer | xs:string return $i
@@ -1260,7 +1260,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-1-dup'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (47) 
 	 case $i as xs:integer | xs:string return $i
@@ -1288,7 +1288,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (47) 
 	 case $i as xs:string | xs:integer return $i
@@ -1315,7 +1315,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-2-dup'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (47) 
 	 case $i as xs:string | xs:integer return $i
@@ -1343,7 +1343,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-both'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (xs:integer(47)) 
 	 case $i as xs:decimal | xs:integer return $i
@@ -1370,7 +1370,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-branch-both-dup'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 typeswitch (xs:integer(47)) 
 	 case $i as xs:decimal | xs:integer return $i
@@ -1398,7 +1398,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-multi'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
 	 for $x in (<e/>, 1, \"x\") return
 	 typeswitch ($x) 
@@ -1418,25 +1418,25 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-union-in-xquery-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"XQ10"}.
 'typeswitch-112'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'typeswitch-113'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'typeswitch-114'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'typeswitch-115'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'typeswitch-116'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
 'typeswitch-117'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $x := [map{'x':1, 'y':2}, 'x']
       	let $y := [array{1, 2, 3}, 1]
@@ -1461,7 +1461,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'typeswitch-118'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $x := map{'x':1, 'y':2}
       	let $y := map{'A':1, 'B':2}
@@ -1494,7 +1494,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         upper-case(typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return \"int\" default return \"false\")
       ",
@@ -1511,7 +1511,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         upper-case(typeswitch ((1 to 10)[. div 2 = 0]) case xs:integer+ return \"int\" default return \"false\")
       ",
@@ -1528,7 +1528,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return true() default return true()
       ",
@@ -1545,7 +1545,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return false() default return true()
       ",
@@ -1562,7 +1562,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         subsequence((1 to 10)[. mod 2 = 0] instance of xs:integer+,1)
       ",
@@ -1579,7 +1579,7 @@ environment('ListUnionTypes',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-typeswitch-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "xs:string((1 to 10)[. mod 2 = 0] instance of xs:integer+)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

@@ -75,7 +75,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -433,7 +433,7 @@ environment('bib2',BaseDir) ->
 {modules, []}
 ].
 'NodeTest001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/comment()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -449,7 +449,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "/processing-instruction()",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -465,7 +465,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {/bib/book/editor/affiliation/text()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('bib',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -481,7 +481,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest007-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//processing-instruction('a-pi'))}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -497,7 +497,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest007-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//processing-instruction('a-pi'))}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -513,7 +513,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest008-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/text())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -529,7 +529,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest008-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/text())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -545,7 +545,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest009-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/comment())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -561,7 +561,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest009-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/comment())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -577,7 +577,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest010-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//comment())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -593,7 +593,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest010-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//comment())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -609,7 +609,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest011-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/processing-instruction())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('Tree1Child',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -625,7 +625,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest011-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/processing-instruction())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -641,7 +641,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest012-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//processing-instruction())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeEmpty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -657,7 +657,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest012-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//processing-instruction())}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -673,7 +673,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest013-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/processing-instruction('a-pi'))}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -689,7 +689,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTest013-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<out>{fn:count(//center/processing-instruction('a&#x2d;pi'))}</out>",
    {Env,Opts} = xqerl_test:handle_environment(environment('TreeCompass',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -705,7 +705,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//text() and fn:true()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -721,7 +721,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//text() or fn:true()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -737,7 +737,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//text() and fn:false()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -753,7 +753,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//text() or fn:false()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -769,7 +769,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//overtime/node() or fn:false()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -785,7 +785,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//overtime/node() or fn:true()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -801,7 +801,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//overtime/node() and fn:false()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -817,7 +817,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'NodeTesthc-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<result> {//overtime/node() and fn:true()} </result>",
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -833,7 +833,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a></a>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -856,7 +856,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<a/>/node())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -871,7 +871,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -886,7 +886,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "text(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -901,7 +901,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "comment(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -916,7 +916,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "node(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -931,7 +931,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -946,7 +946,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-attribute(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -961,7 +961,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-element(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -976,7 +976,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -991,7 +991,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1006,7 +1006,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 instance of document(*)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1021,7 +1021,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "1 instance of document()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1036,7 +1036,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1051,7 +1051,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(local:name)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1066,7 +1066,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(processing-instruction())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1081,7 +1081,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(unknown())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1096,7 +1096,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(schema-attribute(ncname))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1111,7 +1111,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(schema-element(thisTypeIsNotRecognizedExample.Com))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1126,7 +1126,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare namespace ex = \"http://www.example.com/\"; 
          document-node(schema-element(ex:thisTypeIsNotRecognizedExample.Com))",
@@ -1143,7 +1143,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
          declare namespace ex = \"http://www.example.com/\"; 
          declare function local:userFunction() { document-node(element(local:ncname)) }; 1",
@@ -1168,7 +1168,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(element(notBound:ncname))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1183,7 +1183,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element(notBound:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1198,7 +1198,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute(notBound:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1213,7 +1213,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "document-node(schema-element(notBound:ncname))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1228,7 +1228,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-element(notBound:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1243,7 +1243,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "schema-attribute(notBound:ncname)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1258,7 +1258,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e/>/(/)//f",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1273,7 +1273,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction('ncname')",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1288,7 +1288,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1303,7 +1303,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:aFunction() { <e/>/(1, <e/>) }; 1, local:aFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1318,7 +1318,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> <a/> <b/> </e>/(if(position() = 10) then (<e/>, .) else 4)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1333,7 +1333,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVariable := <e/>/(1, <e/>); $myVariable",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1348,7 +1348,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVariable := <e/>/(<e/>, 2); $myVariable",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1363,7 +1363,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:aFunction() { <e/>/(<e/>, 2) }; 1, local:aFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1378,7 +1378,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:aFunction() { (1, 2, 3, (4, <e/>/(<e/>, 2))) }; 1, local:aFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1393,7 +1393,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:aFunction() { (<e/>/., <e/>/((<e/>, 2), 1, 2)) }; 1, local:aFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1408,7 +1408,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:aFunction() { (<e/>/(., 4, 5, <e/>/((<e/>, 2)))) }; 1, local:aFunction()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1423,7 +1423,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i := <e/>/(., 4, 5, <e/>/((<e/>, 2))) return ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1438,7 +1438,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $i in <e/>/(., 4, 5, <e/>/((<e/>, 2))) return ($i, $i)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1453,7 +1453,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a><b name=\"C\"/><b name= \"D\"/></a>//b[@name=\"D\"][last() = 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1468,7 +1468,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(4, 5)[position() = 2][last() = 1]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1483,7 +1483,7 @@ environment('bib2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-NodeTest-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(4, 5)[position() = 2][last() = 1][last() = 1][last()]",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),

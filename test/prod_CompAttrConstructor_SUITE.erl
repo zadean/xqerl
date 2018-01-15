@@ -117,7 +117,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
 
@@ -409,7 +409,7 @@ environment('DupNode',BaseDir) ->
 {modules, []}
 ].
 'Constr-compattr-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -424,7 +424,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo=\"http://www.example.com/foo\"; element elem {attribute foo:attr {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -439,7 +439,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute foo:attr {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -454,7 +454,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element x { attribute Q{http://example.com/x}y { } }",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -469,7 +469,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {()} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -484,7 +484,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {'one', 'two'} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -499,7 +499,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -514,7 +514,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {//a} {'text'}}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -530,7 +530,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {1,2} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -545,7 +545,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {123} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -560,7 +560,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:dateTime(\"1999-05-31T13:20:00\")} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -575,10 +575,10 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"Validation Environment"}.
 'Constr-compattr-compname-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:QName('aQname')} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -593,7 +593,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {'attr'} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -608,7 +608,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {'attr', ()} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -623,7 +623,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {(), 'attr'} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -638,7 +638,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{element elem {attribute {'foo:attr'} {}}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -653,7 +653,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {'foo:attr'} {}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -668,7 +668,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:untypedAtomic('attr')} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -683,7 +683,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem xmlns:foo=\"http://www.example.com/foo\">{attribute {xs:untypedAtomic('foo:attr')} {'text'}}</elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -698,7 +698,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:untypedAtomic('foo:elem')} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -713,7 +713,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {'el em'} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -728,7 +728,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-compname-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute {xs:untypedAtomic('el em')} {'text'}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -743,7 +743,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-doc-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {., .}}",
    {Env,Opts} = xqerl_test:handle_environment(environment('DupNode',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -759,7 +759,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-parent-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count((attribute attr {})/..)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +774,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-string-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:string(attribute attr {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -789,7 +789,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-data-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:data(attribute attr {'a', element a {}, 'b'})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -804,7 +804,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-enclexpr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -819,7 +819,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-enclexpr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -834,7 +834,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-enclexpr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {1,'',2}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -849,7 +849,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-enclexpr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute attr {1,<a/>,2}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -864,7 +864,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-id-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute xml:id {\"ncname\"}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -879,7 +879,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'Constr-compattr-id-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "element elem {attribute xml:id {\" ab c d \"}}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -902,7 +902,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'constattrerr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute xmlns {}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -917,7 +917,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute \"name\" {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -932,7 +932,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <?target content ?> {attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -947,7 +947,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> {\"a string\", attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -962,7 +962,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> {\"a string\", attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -977,7 +977,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <![CDATA[]]> {attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -992,7 +992,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <![CDATA[content]]> {attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1007,7 +1007,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <!-- content --> {attribute name {\"content\"}} </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1022,7 +1022,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-8'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <!-- comment --> { \"a string\", 999, attribute name {\"content\"}, xs:hexBinary(\"FF\") } </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1037,7 +1037,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-9'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem> <!-- comment --> { \"a string\", 999, (\"another string\", attribute name {\"content\"}, 383), xs:hexBinary(\"FF\") } </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1052,7 +1052,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-10'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <?target content?> {<b>{attribute name{\"content\"}}</b>} </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1067,7 +1067,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-11'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a>{(<?target content?>, attribute name{\"content\"})[2]} </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1082,7 +1082,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-12'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> <!-- content --> {attribute name{\"content\"}} </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1097,7 +1097,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-13'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<foo > <doo/> {attribute name {\"content\"}} </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1112,7 +1112,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-14'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { <a/> }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1127,7 +1127,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-15'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { comment {\"content\"} }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1142,7 +1142,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-16'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() as element()+ { <a/> }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1157,7 +1157,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-17'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() as item() { <a/> }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1172,7 +1172,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-18'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() as item() { <a/> }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1187,7 +1187,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-19'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($recurse as xs:integer) { <nested> { if ($recurse = 0) then () else local:myFunc($recurse - 1) } </nested> }; <b> {local:myFunc(3)} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1202,7 +1202,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-20'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($recurse as xs:integer) as item() { <nested> { if ($recurse = 0) then () else local:myFunc($recurse - 1) } </nested> }; <b> {local:myFunc(3)} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1217,7 +1217,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-21'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { <elem/>, attribute name {\"content\"} }; <b> {local:myFunc()} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1232,7 +1232,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-22'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := (<elem/>, attribute name {\"content\"}); <b> {$myVar} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1247,7 +1247,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-23'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := (<elem/>, attribute name {\"content\"}); <b> {$myVar[2]} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1262,7 +1262,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-24'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $myVar := (attribute name {\"content\"}, <elem/>); <b> {$myVar[2]} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1277,7 +1277,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-25'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc($recurse as xs:integer) { attribute {concat(\"name\", $recurse)} {\"content\"} , if ($recurse = 0) then () else local:myFunc($recurse - 1) }; <b> {local:myFunc(2)} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1292,7 +1292,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-26'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { attribute name {\"content\"}, <elem/> }; <b> {local:myFunc()} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1307,7 +1307,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-27'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { <elem/>, attribute name {\"content\"} }; <b> {local:myFunc()[2]} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1322,7 +1322,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-28'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := <a/>; <b> {$local:myVar} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1337,7 +1337,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-29'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar as item() := <a/>; <b> {$local:myVar} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1352,7 +1352,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-30'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $local:myVar := attribute n2 {\"content\"}; <b> {$local:myVar} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1367,7 +1367,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-31'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare function local:myFunc() { attribute n2 {\"content\"} }; <b> {local:myFunc()} {attribute name {\"content\"}} </b>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1382,7 +1382,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-32'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute name {<anElement/>}, attribute name2 {\"content\"} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1397,7 +1397,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-33'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute name {\"content\"}, attribute name2 {\"content\"} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1412,7 +1412,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-34'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute name {xs:hexBinary(\"ff\")}, attribute name2 {\"content\"} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1427,7 +1427,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-35'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<elem><![CDATA[]]>{attribute name {\"content\"}}<alem/> </elem>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1442,7 +1442,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-36'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "count(<elem><![CDATA[]]></elem>/text())",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1457,7 +1457,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-37'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute xmlns:localName {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1472,7 +1472,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-38'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute {\"xmlns:localName\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1495,7 +1495,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-39'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute aPrefix:localName {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1510,7 +1510,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-40'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute {\"aPrefix:localName\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1525,7 +1525,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-41'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute {xs:untypedAtomic(\"aPrefix::localName\")} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1540,7 +1540,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-42'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace prefix = \"http://www.w3.org/2000/xmlns/\"; 
         <e>{attribute prefix:localName {\"content\"}}</e>",
@@ -1557,7 +1557,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-43'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/2000/xmlns/\"; <e>{attribute {\"prefix:localName\"} {\"content\"}}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1572,7 +1572,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-44'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute {\"xmlns\"} {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1587,7 +1587,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-45'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "attribute xmlns {\"content\"}",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1602,7 +1602,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-46'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.example.com/\"; <e>{attribute xmlns {\"content\"}}</e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1617,7 +1617,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-47'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "data(attribute foo {\"content\"}) instance of xs:untypedAtomic",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1632,7 +1632,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-48'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string(attribute xml:id {\" ab c d \"})",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1655,7 +1655,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-49'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace a = \"http://example.com/A\"; declare namespace b = \"http://example.com/A\"; <e> { attribute a:localName {()}, attribute b:localName {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1670,7 +1670,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-50'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute {QName(\"http://example.com/\", \"attr\")} {()}, attribute {QName(\"http://example.com/\", \"attr\")} {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1685,7 +1685,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-51'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute {QName(\"http://example.com/\", \"attr\")} {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1712,7 +1712,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-52'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://example.com/\" p:attr=\"\"> { attribute {QName(\"http://example.com/\", \"p:attr\")} {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1727,7 +1727,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-53'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute {QName(\"http://example.com/\", \"attr\")} {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1754,7 +1754,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-54'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "string-length(xs:NCName(prefix-from-QName(node-name(attribute {QName(\"http://example.com/\", \"attr\")} {()})))) > 0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1769,7 +1769,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-55'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "prefix-from-QName(node-name(attribute {QName(\"http://www.w3.org/XML/1998/namespace\", \"attr\")} {()}))",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1784,7 +1784,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-56'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute {QName(\"http://www.w3.org/XML/1998/namespace\", \"space\")} {\"default\"} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1799,7 +1799,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-57'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e> { attribute {QName(\"http://www.w3.org/2000/xmlns/\", \"space\")} {\"default\"} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1814,7 +1814,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-58'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<e xmlns:p=\"http://example.com/\" p:attr1=\"value\"> { attribute {QName(\"http://example.com/\", \"attr2\")} {()} } </e>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1829,7 +1829,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-59'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute xml:id {\"1\"} } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1852,7 +1852,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-60'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute xml:space {\"DEFAULT\"} } </a>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1875,7 +1875,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'K2-ComputeConAttr-61'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $x := ( attribute a { \"a\" }, element b { \"b\" }, attribute c { \"c\" } ) return <foo> { $x } </foo>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1890,7 +1890,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege :) <result>{attribute {\"xmlns:error\"} {}}</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1913,7 +1913,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if no namespace prefix and local name is 'xmlns' Mary Holstege :) <result>{attribute {\"xmlns\"} {}}</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1928,7 +1928,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) <result>{ attribute { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"error\")} {} }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1943,7 +1943,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) <result>{ attribute { fn:QName(\"http://www.w3.org/2000/xmlns/\",\"foo:error\")} {} }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1958,7 +1958,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xml' and namespace URI is not 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) <result>{ attribute { fn:QName(\"http://example.com/not-XML-uri\",\"xml:error\") } {} }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1973,7 +1973,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-6'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is not 'xml' and namespace URI is 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) <result>{ attribute { fn:QName(\"http://www.w3.org/XML/1998/namespace\",\"foo:error\")} {} }</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1988,7 +1988,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'comp-attr-bad-name-7'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege :) <result>{attribute {fn:QName(\"http://example.com/some-uri\",\"xmlns:error\")} {}}</result>",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2003,7 +2003,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in attribute { fn:QName(\"http://www.w3.org/2000/xmlns/\", \"namespace:foo\") } { \"bar\" } return name($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2018,7 +2018,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in attribute { fn:QName(\"http://www.example.com/\", \"xmlns:foo\") } { \"bar\" } return name($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2033,7 +2033,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $a in attribute { \"xmlns\" } { \"bar\" } return name($a)",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -2048,7 +2048,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	for $a in attribute { fn:QName(\"http://www.example.com/\", \"xml:foo\") } { \"bar\" } 
       	return name($a)
@@ -2066,7 +2066,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	for $a in attribute { fn:QName(\"http://www.w3.org/XML/1998/namespace\", \"sgml:foo\") } { \"bar\" } 
       	return name($a)
@@ -2084,7 +2084,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	<element xmlns:sgml=\"http://www.example.com/other\"> { 
       		for $a in attribute { fn:QName(\"http://www.example.com/\", \"sgml:foo\") } { } 
@@ -2104,7 +2104,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:factorial($arg as xs:integer) as xs:integer { 
       		if ($arg le 1) then 1 else $arg * local:factorial($arg - 1) 
@@ -2124,7 +2124,7 @@ environment('DupNode',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'cbcl-constr-compattr-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:even-range($arg as xs:integer) as xs:integer* { (1 to $arg)[. mod 2 = 9] }; 
       	<element> { attribute { 'attr' } { local:even-range(0) } } </element>

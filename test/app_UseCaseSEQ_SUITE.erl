@@ -12,7 +12,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
 
@@ -199,7 +199,7 @@ environment('report1',BaseDir) ->
 {modules, []}
 ].
 'seq-queries-results-q1'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $s in //section[section.title = \"Procedure\"] return ($s//incision)[2]/instrument",
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -215,7 +215,7 @@ environment('report1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'seq-queries-results-q2'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $s in //section[section.title = \"Procedure\"] return ($s//instrument)[position()<=2]",
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -231,7 +231,7 @@ environment('report1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'seq-queries-results-q3'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "let $i2 := (//incision)[2] for $a in (//action)[. >> $i2][position()<=2] return $a//instrument",
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -247,7 +247,7 @@ environment('report1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'seq-queries-results-q4'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "for $p in //section[section.title = \"Procedure\"] where not(some $a in $p//anesthesia satisfies $a << ($p//incision)[1] ) return $p",
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -263,7 +263,7 @@ environment('report1',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'seq-queries-results-q5'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "<critical_sequence> { let $proc := //section[section.title=\"Procedure\"][1], $i1 := ($proc//incision)[1], $i2 := ($proc//incision)[2] for $n in $proc//node() except $i1//node() where $n >> $i1 and $n << $i2 return $n } </critical_sequence>",
    {Env,Opts} = xqerl_test:handle_environment(environment('report1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),

@@ -59,7 +59,7 @@
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   DD = filename:dirname(filename:dirname(proplists:get_value(data_dir, Config))),
+   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
 
@@ -332,7 +332,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
 {modules, []}
 ].
 'fn-unparsed-text-available-001'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available()",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -347,7 +347,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-002'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available#0",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -362,7 +362,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-003'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists( fn:unparsed-text-available#1 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -377,7 +377,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-004'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:exists( fn:unparsed-text-available#2 )",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -392,7 +392,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-005'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(static-base-uri(), \"utf-8\", \"\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -407,7 +407,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-006'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available#3",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -422,10 +422,10 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-007'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-unparsed-text-available-008'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available(
                 if (current-date() eq xs:date('1900-01-01'))
                 then \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\"
@@ -447,10 +447,10 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-009'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-unparsed-text-available-010'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available( 
                 \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
                 if (current-date() eq xs:date('1900-01-01'))
@@ -474,10 +474,10 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-011'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    {skip,"staticTyping"}.
 'fn-unparsed-text-available-012'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "( fn:unparsed-text-available( 
                 \"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\",
                 if (current-date() eq xs:date('1900-01-01'))
@@ -501,7 +501,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-013'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.example.org/#fragment\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -516,7 +516,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-014'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.example.org/#fragment\", \"utf-8\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -531,7 +531,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-015'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.example.org/%gg\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -546,7 +546,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-016'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.example.org/%gg\", \"utf-8\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -561,7 +561,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-017'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\":/\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -576,7 +576,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-018'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\":/\", \"utf-8\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -591,7 +591,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-019'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available( \"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -606,7 +606,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-020'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available( \"http://www.w3.org/fots/unparsed-text/does-not-exist.txt\", \"utf-8\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -621,7 +621,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-021'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"surely-nobody-supports-this:/path.txt\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -636,7 +636,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-022'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"surely-nobody-supports-this:/path.txt\", \"utf-8\")",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -651,7 +651,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-023'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"unparsed-text/text-plain-utf-8.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -678,7 +678,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-024'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"unparsed-text/text-plain-utf-8.txt\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -705,7 +705,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-025'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"does-not-exist.txt\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -732,7 +732,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-026'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"does-not-exist.txt\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -759,7 +759,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-027'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"text-plain-utf-8.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -775,7 +775,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-028'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"text-plain-utf-8.txt\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -791,7 +791,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-029'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"C:\\file-might-exist.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -807,7 +807,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-030'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"C:\\file-might-exist.txt\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -823,7 +823,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-031'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -839,7 +839,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-032'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available-with-base-uri-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -855,7 +855,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-033'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -882,7 +882,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-034'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"\", \"utf-8\")",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
@@ -909,7 +909,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-035'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\", \"123\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -925,7 +925,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-036'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/unknown-encoding.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -941,7 +941,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-037'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-invalid.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -957,7 +957,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-038'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/non-xml-character.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -973,7 +973,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-039'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/invalid-xml.xml\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -989,7 +989,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-040'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1005,7 +1005,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-041'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1021,7 +1021,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-042'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1037,7 +1037,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-043'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1053,7 +1053,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-044'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-iso-8859-1.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1077,7 +1077,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-045'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-xml-utf-8.xml\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1093,7 +1093,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-046'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1109,7 +1109,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-047'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1133,7 +1133,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-048'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-lines.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1149,7 +1149,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-049'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1165,7 +1165,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-050'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1181,7 +1181,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-051'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available(\"http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt\")",
    {Env,Opts} = xqerl_test:handle_environment(environment('unparsed-text-available',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
@@ -1197,7 +1197,7 @@ environment('unparsed-text-available-with-base-uri-2',BaseDir) ->
       Err -> ct:fail(Err)
    end.
 'fn-unparsed-text-available-052'(Config) ->
-   BaseDir = proplists:get_value(base_dir, Config),
+   BaseDir = ?config(base_dir, Config),
    Qry = "fn:unparsed-text-available($href)",
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
