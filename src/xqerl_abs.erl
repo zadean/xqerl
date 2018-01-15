@@ -322,7 +322,7 @@ scan_mod(#xqModule{prolog = Prolog,
    %export_variables(Variables, EmptyMap) ++
    export_functions(Functions) ++
    [attribute(compile,inline_list_funcs)] ++
-   %[attribute(compile,native)] ++ 
+   [attribute(compile,native)] ++ 
    [ {function,?L,init,0,
      [{clause,?L,
        [],
@@ -591,24 +591,24 @@ expr_do(Ctx, {pragma, _Pragmas, Exprs}) ->
 expr_do(_Ctx, undefined) ->
    {atom,?L,undefined};
 % try/catch
-expr_do(Ctx, {'try',Expr,{'catch',CatchClauses}}) ->
+expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    TryAbs = expr_do(Ctx, Expr),
    
-%%    CodeVar = next_var_name(),
-%%    DescVar = next_var_name(),
-%%    ValuVar = next_var_name(),
-%%    ModuVar = next_var_name(),
-%%    LineVar = next_var_name(),
-%%    ColnVar = next_var_name(),
+   CodeVar = list_to_atom("CodeVar" ++ integer_to_list(Id)),
+   DescVar = list_to_atom("DescVar" ++ integer_to_list(Id)),
+   ValuVar = list_to_atom("ValuVar" ++ integer_to_list(Id)),
+   ModuVar = list_to_atom("ModuVar" ++ integer_to_list(Id)),
+   LineVar = list_to_atom("LineVar" ++ integer_to_list(Id)),
+   ColnVar = list_to_atom("ColnVar" ++ integer_to_list(Id)),
    
    ErrNs = "http://www.w3.org/2005/xqt-errors",
    
-   NewCodeVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "code"},#xqSeqType{type = 'xs:QName', occur = one},[],'CodeVar'},
-   NewDescVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "description"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],'DescVar'},
-   NewValuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "value"},#xqSeqType{type = 'item', occur = zero_or_many},[],'ValuVar'},
-   NewModuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "module"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],'ModuVar'},
-   NewLineVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'LineVar'},
-   NewColnVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'ColnVar'},
+   NewCodeVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "code"},#xqSeqType{type = 'xs:QName', occur = one},[],CodeVar},
+   NewDescVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "description"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],DescVar},
+   NewValuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "value"},#xqSeqType{type = 'item', occur = zero_or_many},[],ValuVar},
+   NewModuVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "module"},#xqSeqType{type = 'xs:string', occur = zero_or_one},[],ModuVar},
+   NewLineVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],LineVar},
+   NewColnVar = {#qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},#xqSeqType{type = 'xs:integer', occur = zero_or_one},[],ColnVar},
    
    Ctx0 = add_variable(NewCodeVar, Ctx),
    Ctx1 = add_variable(NewDescVar, Ctx0),
@@ -636,11 +636,11 @@ expr_do(Ctx, {'try',Expr,{'catch',CatchClauses}}) ->
                                                                   if Ln == "*" -> {var,?L,'_'};
                                                                      true -> {string,?L,Ln}
                                                                   end]}]},
-                                                              {var,?L,'CodeVar'}
+                                                              {var,?L,CodeVar}
                                                              },
-                                                             {var,?L,'DescVar'},
-                                                             {var,?L,'ValuVar'},
-                                                             {tuple,?L,[{var,?L,'ModuVar'},{var,?L,'LineVar'},{var,?L,'ColnVar'}]}
+                                                             {var,?L,DescVar},
+                                                             {var,?L,ValuVar},
+                                                             {tuple,?L,[{var,?L,ModuVar},{var,?L,LineVar},{var,?L,ColnVar}]}
                                                             ]}, 
                                              {clause,?L,
                                               [{tuple,?L,

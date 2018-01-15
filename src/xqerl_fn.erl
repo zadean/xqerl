@@ -1612,7 +1612,6 @@ pct_encode3([H|T]) ->
                         false;
                      {'EXIT',#xqError{} = E} ->
                         ?dbg("O",E),
-                        ?dbg("O",erlang:get_stacktrace()),
                         throw(E);
                      O ->
                         ?dbg("O",O),
@@ -3925,6 +3924,9 @@ zip_map_trans([H|T],[TH|TT]) ->
             ?str( xqerl_file:bin_to_utf8(Binary, Enc))
       end
    catch 
+      _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "FORG0002"}}} ->
+         ?dbg("E",erlang:get_stacktrace()),
+         xqerl_error:error('FOUT1170');
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XQST0046"}}} ->
          ?dbg("E",erlang:get_stacktrace()),
          xqerl_error:error('FOUT1170');

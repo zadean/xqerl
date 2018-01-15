@@ -1988,8 +1988,15 @@ handle_node(State, {every, Vars, Test}) ->
    set_statement_and_type(State, {every, l(VarsSt), TestSt}, #xqSeqType{type = 'xs:boolean', occur = one});
 
 %% 3.17 Try/Catch Expressions
-handle_node(State, {'try', Expr, {'catch', CatchClauses}}) -> 
+handle_node(State, {'try', Id, Expr, {'catch', CatchClauses}}) -> 
 %%  CatchClauses = [{Errors,DoExpr}]
+   CodeVar = list_to_atom("CodeVar" ++ integer_to_list(Id)),
+   DescVar = list_to_atom("DescVar" ++ integer_to_list(Id)),
+   ValuVar = list_to_atom("ValuVar" ++ integer_to_list(Id)),
+   ModuVar = list_to_atom("ModuVar" ++ integer_to_list(Id)),
+   LineVar = list_to_atom("LineVar" ++ integer_to_list(Id)),
+   ColnVar = list_to_atom("ColnVar" ++ integer_to_list(Id)),
+
    TryState = handle_node(State, Expr),
    TrySt = get_statement(TryState),
    TryTy = get_statement_type(TryState),
@@ -1997,17 +2004,17 @@ handle_node(State, {'try', Expr, {'catch', CatchClauses}}) ->
                      % add the magic error variables
                      ErrNs = "http://www.w3.org/2005/xqt-errors",
                     Stat1 = add_inscope_variable(State, {#qname{namespace = ErrNs,prefix = "err", local_name = "code"},
-                                                  #xqSeqType{type = 'xs:QName', occur = one},[],'CodeVar'}),
+                                                  #xqSeqType{type = 'xs:QName', occur = one},[],CodeVar}),
                     Stat2 = add_inscope_variable(Stat1, {#qname{namespace = ErrNs,prefix = "err", local_name = "description"},
-                                                  #xqSeqType{type = 'xs:string', occur = zero_or_one},[],'DescVar'}),
+                                                  #xqSeqType{type = 'xs:string', occur = zero_or_one},[],DescVar}),
                     Stat3 = add_inscope_variable(Stat2, {#qname{namespace = ErrNs,prefix = "err", local_name = "value"},
-                                                  #xqSeqType{type = 'item', occur = zero_or_many},[],'ValuVar'}),
+                                                  #xqSeqType{type = 'item', occur = zero_or_many},[],ValuVar}),
                     Stat4 = add_inscope_variable(Stat3, {#qname{namespace = ErrNs,prefix = "err", local_name = "module"},
-                                                  #xqSeqType{type = 'xs:string', occur = zero_or_one},[],'ModuVar'}),
+                                                  #xqSeqType{type = 'xs:string', occur = zero_or_one},[],ModuVar}),
                     Stat5 = add_inscope_variable(Stat4, {#qname{namespace = ErrNs,prefix = "err", local_name = "line-number"},
-                                                  #xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'LineVar'}),
+                                                  #xqSeqType{type = 'xs:integer', occur = zero_or_one},[],LineVar}),
                     Stat6 = add_inscope_variable(Stat5, {#qname{namespace = ErrNs,prefix = "err", local_name = "column-number"},
-                                                  #xqSeqType{type = 'xs:integer', occur = zero_or_one},[],'ColnVar'}),
+                                                  #xqSeqType{type = 'xs:integer', occur = zero_or_one},[],ColnVar}),
                     
                     CatchState = handle_node(Stat6, DoExpr),
                     CatchSt = get_statement(CatchState),
@@ -2019,7 +2026,7 @@ handle_node(State, {'try', Expr, {'catch', CatchClauses}}) ->
                     {{ResErrors, CatchSt}, CombType}
               end,   
    {Statements, Type} = lists:mapfoldl(CatchFun, TryTy, CatchClauses),
-   set_statement_and_type(State, {'try', TrySt, {'catch', Statements}}, Type);
+   set_statement_and_type(State, {'try', Id, TrySt, {'catch', Statements}}, Type);
 %% 3.18 Expressions on SequenceTypes
 %% 3.18.1 Instance Of
 handle_node(State, {instance_of, Expr1, Expr2}) ->

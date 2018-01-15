@@ -357,11 +357,10 @@ parsed_to_path([],{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
       true ->
          atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ Frag
    end;
-parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
-   PathDir = if Scheme =:= file ->
-                   filename:dirname(tl(Path));
-                true ->
-                   tl(Path)
+parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, []}) ->
+   PathDir = case lists:last(Path) =:= $/ of
+                true -> tl(Path);
+                false -> filename:dirname(tl(Path))
              end,
    Joined = simplify_path(uri_join(PathDir,RelPath)),
    ?dbg("PathDir",PathDir),
@@ -376,8 +375,10 @@ parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
       RelDir ->
          atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined ++ "/";
       true ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined ++ Frag
-   end.
+         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined% ++ Frag
+   end;
+parsed_to_path(_,_) ->
+   ?err('FORG0002').
 
 uri_join([],Path) ->
    Path;

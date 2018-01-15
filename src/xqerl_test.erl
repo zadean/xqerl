@@ -15,7 +15,7 @@
 -export([assert_error/2]).
 
 -export([compile/3]).
--export([parallel_compile/1]).
+%% -export([parallel_compile/1]).
 
 -export([size/1]).
 -export([string_value/1]).
@@ -727,26 +727,32 @@ run(Str, Options) ->
    xqerl:run(Str, Options).
 
 
-parallel_compile(ArgL) ->
-    Keys = map_keys(ArgL),
-    [rpc:yield(K) || K <- Keys].
-
-map_keys([]) -> [];
-map_keys([Args|Tail]) ->
-    [rpc:async_call(node(),?MODULE,compile,tuple_to_list(Args)) | 
-     map_keys(Tail)].
+%% parallel_compile(ArgL) ->
+%%     Keys = map_keys(ArgL),
+%%     [rpc:yield(K) || K <- Keys].
+%% 
+%% map_keys([]) -> [];
+%% map_keys([Args|Tail]) ->
+%%     [rpc:async_call(node(),?MODULE,compile,tuple_to_list(Args)) | 
+%%      map_keys(Tail)].
 
 
 compile(Name, Env, Qry) ->
    {EnvStr,Opts} = xqerl_test:handle_environment(Env),
+   %Qry1 = EnvStr ++ Qry,
    Qry1 = lists:flatten(EnvStr ++ Qry),
-   try xqerl_module:compile(Name, Qry1) of
-      Mod ->
-         {Name,Mod,Opts}
-   catch
-      _:#xqError{} = E ->
-         {Name,E};
-      _:E ->
+   case xqerl_module:test_compile(Name, Qry1) of
+      {ok,M,B} ->
+         case file:write_file("../../../test/ebin/"++atom_to_list(M)++".beam", B) of
+            ok ->
+               ?dbg("M",M),
+               {Name,M,Opts};
+            {error,Er} ->
+               ?dbg("Er",Er),
+               {Name,Er}
+         end;
+      {error,E} ->
+         ?dbg("E",E),
          {Name,E}
    end.
 
@@ -851,10 +857,12 @@ handle_environment(List) ->
                                              ok
                                     end,
                                     ok
-                              end,                                    
+                              end,
+                              ?dbg("Role",Role),
                               if Role == "." ->
-                                    R = xqerl:run("Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"')"),
-                                    {"",Map#{'context-item' => R}};
+                                    Doc = xqerl_doc:retrieve_doc(Uri2),
+                                    %R = xqerl:run("Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"')"),
+                                    {"",Map#{'context-item' => #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}}};
                                  Role == "" ->
                                     {"",Map};
                                  true ->

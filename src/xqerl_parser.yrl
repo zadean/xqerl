@@ -894,7 +894,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [77]
 'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : {'if-then-else', '$3', '$6', '$8'}.
 % [78]
-'TryCatchExpr'           -> 'TryClause' 'CatchClauses' : {'try', '$1', {'catch', '$2'}}  .
+'TryCatchExpr'           -> 'TryClause' 'CatchClauses' : {'try', next_id(), '$1', {'catch', '$2'}}.
 % [79]
 'TryClause'              -> 'try' 'EnclosedTryTargetExpr' : '$2'.
 % [80]

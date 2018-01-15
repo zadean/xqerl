@@ -925,7 +925,7 @@ instance_of( #xqNode{} = Seq, #xqSeqType{type = TType,
                                                                TOccur == one_or_many;
                                                                TOccur == zero_or_one;
                                                                TOccur == zero_or_many -> 
-   ?dbg("Seq",Seq),
+   %?dbg("Seq",Seq),
    ?xav('xs:boolean',instance_of1(Seq, TType));
 instance_of( #array{} = Seq, #xqSeqType{type = TType, 
                                         occur = TOccur}) when TOccur == one;

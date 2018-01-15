@@ -101,6 +101,8 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
+-export([test_compile/2]).
+
 -export([get_signatures/1]).
 -export([get_static_signatures/0]).
 -export([compile/1]).
@@ -270,6 +272,37 @@ compile(FileName, Str) ->
          ?dbg("Error",erlang:get_stacktrace()),
          % TODO save the error
          Error
+   end.   
+
+test_compile(FileName, Str) ->
+   try
+      Str2 = xqerl_scanner:remove_all_comments(Str),
+      ?dbg("Step","1"),
+      Toks = scan_tokens(Str2),
+      ?dbg("Step","2"),
+      erlang:erase(),
+      ?dbg("Step","3"),
+      erlang:put(xquery_id, xqerl_context:init(parser)),
+      ?dbg("Step","4"),
+      Tree = parse_tokens(Toks),
+      ?dbg("Step","5"),
+      Static = scan_tree_static(Tree, FileName),
+      ?dbg("Step","6"),
+      %Static = scan_tree_static(Tree, xqerl_lib:resolve_against_base_uri("file:///", FileName)),
+      ?dbg("Static",Static),
+      {_,_,_,_,_,Ret} = scan_tree(Static),
+      ?dbg("Step","7"),
+      xqerl_context:destroy(Static),
+      ?dbg("Step","8"),
+      compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars])
+   of
+      {ok,M,B} ->
+         {ok,M,B}
+   catch 
+      _:Error ->
+         ?dbg("Error",Error),
+         ?dbg("Error",erlang:get_stacktrace()),
+         {error,Error}
    end.   
 
 load(ModNamespace) ->
