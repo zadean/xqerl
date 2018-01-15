@@ -1618,7 +1618,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 %%
 %% xqerl - XQuery processor
 %%
-%% Copyright (c) 2017 Zachary N. Dean  All Rights Reserved.
+%% Copyright (c) 2017-2018 Zachary N. Dean  All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
