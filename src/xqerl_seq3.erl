@@ -190,10 +190,10 @@ singleton([V]) ->
 singleton(V) when is_list(V)->
    ?err('XPTY0004').
 
-subsequence(List,Start) when Start > 0 ->
-   lists:sublist(List, Start);
-subsequence(List,_Start) ->
-   List.
+%% subsequence(List,Start) when Start > 0 ->
+%%    lists:sublist(List, Start);
+%% subsequence(List,_Start) ->
+%%    List.
 
 subsequence(List,Start,Length) when Start < 1 ->
    Start1 = 1,
@@ -604,13 +604,13 @@ all_node(Seq) when is_list(Seq) ->
 all_node(Seq) ->
    all_node([Seq]).
 
-all_xqnode(Seq) ->
-   IsNode = fun(#xqNode{}) ->
-                  true;
-               (_) ->
-                  false
-            end,
-   lists:all(IsNode, Seq).
+%% all_xqnode(Seq) ->
+%%    IsNode = fun(#xqNode{}) ->
+%%                   true;
+%%                (_) ->
+%%                   false
+%%             end,
+%%    lists:all(IsNode, Seq).
 
 all_not_node(Seq) ->
    IsNode = fun(Item) when ?noderecs(Item) ->

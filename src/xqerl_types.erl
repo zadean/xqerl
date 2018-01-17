@@ -553,7 +553,7 @@ promote(At,Type) ->
       true when is_map(At) ->
          At;
       true ->
-         #xqAtomicValue{type = Type, value = value(At)};
+         #xqAtomicValue{type = Type#xqSeqType.type, value = value(At)};
       
       _ when is_record(Type#xqSeqType.type, xqFunTest) ->
          ?err('XPTY0004');

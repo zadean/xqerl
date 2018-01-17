@@ -1500,6 +1500,7 @@ val_reverse([{_,V}|T], Acc) ->
 %%       value,
 %%       location % {Module, Line, Column} %TODO
 %%    }). 
+-dialyzer({[no_return], [error/1,error/2,error/3,error/4]}).
 'error'(_Ctx) -> 
    xqerl_error:error('FOER0000').
 'error'(_Ctx,[]) ->
@@ -1871,7 +1872,7 @@ unmask_static_mod_ns(T) -> T.
 
 %% Returns the name of the function identified by a function item. 
 %% fn:function-name($func as function(*)) as xs:QName? 
-'function-name'(Ctx,Arg1) when is_function(Arg1) ->
+'function-name'(#{tab := Tab} = Ctx,Arg1) when is_function(Arg1) ->
    ?dbg("Arg1",Arg1),
    {_,N} = erlang:fun_info(Arg1,name),
    {_,M} = erlang:fun_info(Arg1,module),
@@ -1905,7 +1906,7 @@ unmask_static_mod_ns(T) -> T.
          
          NsL = atom_to_list(M),
          Ns = unmask_static_mod_ns(NsL),
-         PxDict = xqerl_context:get_statically_known_namespaces(),
+         PxDict = xqerl_context:get_statically_known_namespaces(Tab),
          PxL = dict:to_list(PxDict),
          %?dbg("PxL",{PxL,Ns}),
          {Px,_} = lists:keyfind(Ns, 2, PxL),
@@ -2218,9 +2219,10 @@ check_json_to_xml_opts(_) ->
 'last'(Ctx) ->
    xqerl_context:get_context_size(Ctx).
 
+-dialyzer({[no_return], ['load-xquery-module'/2, 'load-xquery-module'/3]}).
 %% Provides access to the public functions and global variables of a dynamically-loaded XQuery library module. 
-'load-xquery-module'(_Ctx,_Arg1) -> xqerl_error:error('FOQM0006').
-'load-xquery-module'(_Ctx,_Arg1,_Arg2) -> xqerl_error:error('FOQM0006').
+'load-xquery-module'(_Ctx,_Arg1) -> ?err('FOQM0006').
+'load-xquery-module'(_Ctx,_Arg1,_Arg2) -> ?err('FOQM0006').
 
 %% Returns the local part of the name of $arg as an xs:string that is either the zero-length string, or has the lexical form of an xs:NCName. 
 'local-name'(Ctx) -> 
@@ -2951,10 +2953,10 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
 
 %% This function takes as input an XML document represented as a string, and returns the document node at the root of an XDM tree representing the parsed document. 
 'parse-xml'(_,[]) -> [];
-'parse-xml'(#{'base-uri' := BaseUri},Arg1) ->
+'parse-xml'(#{'base-uri' := BaseUri} = Ctx,Arg1) ->
    String = xqerl_types:string_value(Arg1),
    if String =:= [] ->
-         xqerl_node:new_fragment([]);
+         xqerl_node:new_fragment(Ctx, []);
       true ->
          BaseUri1 = xqerl_types:string_value(BaseUri),
          try
@@ -3371,6 +3373,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'seconds-from-time'(Ctx,Arg1) -> 
    'seconds-from-duration'(Ctx, Arg1).
 
+-dialyzer({[no_return], [serialize/2, serialize/3]}).
 %% This function serializes the supplied input sequence $arg as described in [xslt-xquery-serialization-31], 
 %% returning the serialized representation of the sequence as a string. 
 'serialize'(_Ctx,_Arg1) -> ?err('FODC0010').
@@ -3858,8 +3861,9 @@ sum1([H|T], Sum) ->
    io:format("~s:~p~n", [Str,Arg1]),
    Arg1.
 
+-dialyzer({[no_return], [transform/2]}).
 %% Invokes a transformation using a dynamically-loaded XSLT stylesheet. 
-'transform'(_Ctx,_Arg1) -> xqerl_error:error('FOXT0004').
+'transform'(_Ctx,_Arg1) -> ?err('FOXT0004').
 
 %% Returns the value of $arg modified by replacing or removing individual characters. 
 'translate'(_Ctx,Arg,MapString,TransString) -> 

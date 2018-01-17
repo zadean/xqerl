@@ -49,17 +49,17 @@
 %% binary               - last successful BEAM binary
 %% erl_code             - Erlang code from debug_info 
 -record(xq_module, 
-        {target_namespace           :: string(),
-         type              = main   :: main | library,
-         status            = waiting:: loaded | compiled | error | waiting,
-         name_atom                  :: atom(),
-         full_text                  :: string(),
-         error                      :: term(),
-         last_compile_time          :: term(),
-         first_compile_time         :: term(),
-         imported_modules  = []     :: [string()],
-         binary            = <<>>   :: binary(),
-         erl_code                   :: string() | atom()
+        {target_namespace           :: string() | '_',
+         type              = main   :: main | library | '_',
+         status            = waiting:: loaded | unloaded | compiled | error | waiting | '_',
+         name_atom                  :: atom() | '$1' | '_',
+         full_text                  :: string() | '_',
+         error                      :: term() | '_',
+         last_compile_time          :: term() | '_',
+         first_compile_time         :: term() | '_',
+         imported_modules  = []     :: [string()] | '_' | '$2',
+         binary            = <<>>   :: binary() | '_',
+         erl_code                   :: string() | atom() | '_'
         }).
 
 %% ====================================================================
@@ -72,11 +72,12 @@
 %% external             - flag if this function is external
 %% annotations          - list of annotations for this function
 -record(xq_function, 
-        {module_name_atom           :: {atom(),atom(),integer()}, % {M,F,A}
-         signature                  :: term(),
-         name                       :: string(),
-         external                   :: boolean(),
-         annotations       = []     :: [term()]
+        {module_name_atom           :: {atom(),atom(),integer()} | 
+                                       {atom(),'_','_'}, % {M,F,A}
+         signature                  :: term() | '_',
+         name                       :: string() | '_',
+         external                   :: boolean() | '_',
+         annotations       = []     :: [term()] | '_'
         }).
 
 %% ====================================================================
@@ -90,12 +91,12 @@
 %% external             - flag if this variable can be externally set
 %% annotations          - list of annotations for this variable
 -record(xq_variable, 
-        {module_name_atom           :: {atom(),atom()},
-         signature                  :: term(),
-         name                       :: string(),
-         position                   :: integer(),
-         external                   :: boolean(),
-         annotations       = []     :: [term()]
+        {module_name_atom           :: {atom(),atom()} | {atom(),'_'},
+         signature                  :: term() | '_',
+         name                       :: string() | '_',
+         position                   :: integer() | '_',
+         external                   :: boolean() | '_',
+         annotations       = []     :: [term()] | '_'
         }).
 
 %% ====================================================================
@@ -110,6 +111,7 @@
 -export([compile/2]).
 -export([load/1]).
 -export([unload/1]).
+
 
 %% ====================================================================
 %% One-time init.
@@ -369,6 +371,7 @@ unload(_) ->
    ok.
    
 
+-dialyzer({[no_return], [delete_functions/1]}).
 delete_functions(ModName) ->
    F = fun() ->
              Fun = #xq_function{module_name_atom = {ModName,'_','_'},  _ = '_'},

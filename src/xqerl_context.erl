@@ -716,7 +716,8 @@ get_available_collections(Tab) ->
    get(Tab, 'available-collections').
 get_available_collection(Tab, Name) ->
    All = get_available_collections(Tab),
-   gb_trees:lookup(Name, All).
+   {value,V} = gb_trees:lookup(Name, All),
+   V.
 set_available_collections(Tab, Value) ->
    set(Tab, 'available-collections', Value).
 add_available_collection(Tab, Name, Value) ->

@@ -546,19 +546,19 @@ self(#xqNode{node = Node}) ->
 descendant_or_self(#xqNode{doc = Doc, node = Node}) ->
    [Node|descendant_1(Doc,Node)].
 
-following_sibling(#xqNode{doc = {doc,File}, node = Node},Name) ->
-   Doc = ?get({doc,File}),
-   following_sibling(#xqNode{doc = Doc, node = Node},Name);
-following_sibling(#xqNode{doc = Doc, node = Node},Name) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
-      attribute ->
-         [];
-      _ ->
-         Parent = xqerl_xdm:dm_parent(Doc, Node),
-         Children = get_named_children(Doc, Parent, Name),
-         NodeId = xqerl_xdm:uid(Node),
-         xqerl_xdm:after_id(Children, NodeId)
-   end.
+%% following_sibling(#xqNode{doc = {doc,File}, node = Node},Name) ->
+%%    Doc = ?get({doc,File}),
+%%    following_sibling(#xqNode{doc = Doc, node = Node},Name);
+%% following_sibling(#xqNode{doc = Doc, node = Node},Name) ->
+%%    case xqerl_xdm:dm_node_kind(Doc, Node) of
+%%       attribute ->
+%%          [];
+%%       _ ->
+%%          Parent = xqerl_xdm:dm_parent(Doc, Node),
+%%          Children = get_named_children(Doc, Parent, Name),
+%%          NodeId = xqerl_xdm:uid(Node),
+%%          xqerl_xdm:after_id(Children, NodeId)
+%%    end.
 
 following(#xqNode{doc = {doc,File}, node = Node}) ->
    Doc = ?get({doc,File}),

@@ -371,19 +371,19 @@ nonignore_test() ->
    {ok,FP} = file:open("../test/UCA/CollationTest/CollationTest_NON_IGNORABLE_SHORT.txt", [read]),
    List = read_lines(FP),
    ok = file:close(FP),
-   ?assertEqual(ok, gt(List)).
+   ?assertEqual([ok], gt(List)).
 shifted_test() ->
    {ok,FS} = file:open("../test/UCA/CollationTest/CollationTest_SHIFTED_SHORT.txt", [read]),
    ListS = read_lines(FS,shift),
    ok = file:close(FS),
-   ?assertEqual(ok, gt(ListS)).
+   ?assertEqual([ok], gt(ListS)).
 
 gt([{H1,_},{H2,S}|T]) when H2 >= H1 ->
    gt([{H2,S}|T]);
 gt([{H1,S1},{H2,S2}|T]) when H2 < H1 ->
    [{S1,H1}|gt([{H2,S2}|T])];
 gt([_]) ->
-   ok.
+   [ok].
 
 read_lines(FP) ->
    case file:read_line(FP) of

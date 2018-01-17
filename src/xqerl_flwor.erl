@@ -58,7 +58,7 @@
 -export([allow_empty/2]).
 
 % internal use
-%-export([int_order_1/2]).
+%% -export([int_order_1/2]).
    
 allow_empty(Seq,true) ->
    case ?seq:is_empty(Seq) of
@@ -472,6 +472,45 @@ reverse(List) ->
 %%                    {V,D,E}
 %%              end, Clauses),
 %%    {Tuple,Cs}.
+%% 
+%% pmap(F, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
+%%          L11,L12,L13,L14,L15,L16,L17,L18,L19,L20|T]) ->
+%%    S = self(),
+%%    Ref = make_ref(),
+%%    Pids = lists:map(fun(I) ->
+%%                           spawn(fun() ->
+%%                                       do_f(S,Ref,F,I) 
+%%                                 end)
+%%                     end, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
+%%          L11,L12,L13,L14,L15,L16,L17,L18,L19,L20]),
+%%    H = gather(Pids,Ref),
+%%    H ++ pmap(F,T);
+%% pmap(F, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10|T]) ->
+%%    S = self(),
+%%    Ref = make_ref(),
+%%    Pids = lists:map(fun(I) ->
+%%                           spawn(fun() ->
+%%                                       do_f(S,Ref,F,I) 
+%%                                 end)
+%%                     end, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10]),
+%%    H = gather(Pids,Ref),
+%%    H ++ pmap(F,T);
+%% pmap(F, L) ->
+%%    lists:map(fun(I) ->
+%%                    F(I)
+%%              end,L).
+%% 
+%% do_f(Parent,Ref,F,I) ->
+%%    Parent ! {self(),Ref,F(I)}.
+%% 
+%% gather([Pid|T],Ref) ->
+%%    receive
+%%       {Pid,Ref,Ret} ->
+%%          %?dbg("Ret",Ret),
+%%          [Ret|gather(T,Ref)]
+%%    end;
+%% gather([],_) ->
+%%    [].
 
 
 % Clauses are funs that take an entire VarStream tuple
@@ -486,6 +525,7 @@ orderbyclause(VarStream, Clauses) ->
        end,
 %%    Set = rpc:pmap({?MODULE,int_order_1}, [Clauses], VarStream),
    Set = lists:map(F, VarStream),
+%%    Set = pmap(F, VarStream),
    %?dbg("orderbyclause 2",erlang:system_time()),
    Sorted = lists:sort(fun(A,B) ->
                              do_order(A,B)

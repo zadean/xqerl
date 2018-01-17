@@ -1361,9 +1361,9 @@ is_separator_template([{separator, C}|T],Cnt,{P,S}) ->
 is_separator_template([_|T],Cnt,{P,S}) ->
    is_separator_template(T,Cnt + 1,{P,S}).
 
-format_decimal({xsDecimal,_,_} = Dec, Format) ->
-   Str = xqerl_numeric:string(Dec),
-   format_decimal(Str, Format);
+%% format_decimal({xsDecimal,_,_} = Dec, Format) ->
+%%    Str = xqerl_numeric:string(Dec),
+%%    format_decimal(Str, Format);
 format_decimal(Str1, Format) ->
    %?dbg("Str1",Str1),
    %?dbg("Format",Format),

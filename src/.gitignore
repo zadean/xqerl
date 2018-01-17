@@ -2,3 +2,4 @@
 /ietf_date_parse.erl
 /json_parser.erl
 /xq_regex_parser.erl
+/typer_ann/

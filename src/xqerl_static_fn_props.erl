@@ -59,7 +59,7 @@ get_props(#qname{namespace = ?AR,local_name = "sort"}, 1) ->
 get_props(#qname{namespace = ?AR,local_name = "sort"}, 2) -> 
   props(true, true, false, false, [known_collations], []);
 get_props(#qname{namespace = ?AR,local_name = "sort"}, 3) -> 
-  props(true, false, false, true, [], []);
+  props(true, false, false, true, [known_collations], []);
 get_props(#qname{namespace = ?AR,local_name = "subarray"}, 2) -> 
   props(true, false, false, false, [], []);
 get_props(#qname{namespace = ?AR,local_name = "subarray"}, 3) -> 

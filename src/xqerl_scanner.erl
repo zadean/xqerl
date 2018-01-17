@@ -100,9 +100,9 @@ dc_tokens(Str, Acc, Depth) ->
          dc_tokens(NewStr, Acc, Depth);
       {computed, NewStr} ->
          tokens(strip_ws(NewStr), Acc);
-      {error, E} ->
-         ?dbg(?LINE,'XPST0003'),
-         xqerl_error:error('XPST0003', #xqError{value = E} );
+%%       {error, E} ->
+%%          ?dbg(?LINE,'XPST0003'),
+%%          xqerl_error:error('XPST0003', #xqError{value = E} );
       {Token, T, D2} ->
          dc_tokens(T, [Token|Acc], D2)
     end.
@@ -1935,11 +1935,11 @@ scan_prefix(":" ++ T, Acc) ->
                 {[Prefix, {':',?L, ':'}, LocalPart], T1};
              _ ->
                 {{'NCName',?L, lists:reverse(Acc)}, ": " ++ L1 ++ T1}
-          end;
-       _ ->
-          %?dbg("LocalPart",LocalPart),
-          Prefix = {'NCName',?L, lists:reverse(Acc)},
-          {[Prefix, {':',?L, ':'}, LocalPart], T1}
+          end%;
+%%        _ ->
+%%           %?dbg("LocalPart",LocalPart),
+%%           Prefix = {'NCName',?L, lists:reverse(Acc)},
+%%           {[Prefix, {':',?L, ':'}, LocalPart], T1}
     end;
 scan_prefix("*:" ++ T, _Acc) when T =/= [] ->
     {LocalPart, T1} = scan_local_part(T, []),
