@@ -30,6 +30,7 @@
 -export(['array-sort-023'/1]).
 -export(['array-sort-024'/1]).
 -export(['array-sort-025'/1]).
+-export(['array-sort-026'/1]).
 -export(['array-sort-collation-1'/1]).
 -export(['array-sort-collation-2'/1]).
 -export(['array-sort-collation-3'/1]).
@@ -73,6 +74,7 @@ all() -> [
    'array-sort-023',
    'array-sort-024',
    'array-sort-025',
+   'array-sort-026',
    'array-sort-collation-1',
    'array-sort-collation-2',
    'array-sort-collation-3',
@@ -903,6 +905,47 @@ environment('array-with-collation',BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-sort-026'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+            declare namespace array = \"http://www.w3.org/2005/xpath-functions/array\";
+            declare namespace serialization = \"http://www.w3.org/2010/xslt-xquery-serialization\";
+            
+            (:declare option serialization:method \"adaptive\";:)
+            
+            declare function local:fact($n as xs:integer) {
+              if ($n eq 1)
+                then 1
+                else $n * local:fact($n - 1)
+            };
+            
+            declare function local:permute($seq as item()*) as array(item()*) {
+              local:permute($seq, local:fact(count($seq)), random-number-generator())
+            };
+            
+            declare function local:permute($seq as item()*, $n as xs:integer, $rng as map(*)) as array(item()*) {
+              if ($n eq 0)
+                then []
+                else array:append(local:permute($seq, $n - 1, $rng?next()), $rng?permute($seq))
+            };
+            
+            let $s := ('A', 'B', 'C')
+            
+            return array:sort(local:permute($s), (), function($s) { $s!. }) => array:for-each(string-join#1)
+        ",
+   {Env,Opts} = xqerl_test:handle_environment(environment('array',BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-sort-026.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert(Res,"every $s in $result?* satisfies $s = (\"ABC\", \"ACB\", \"BAC\", \"BCA\", \"CAB\", \"CBA\")") of 
+      true -> {comment, "Correct results"};
       {false, F} -> F 
    end, 
    case Out of

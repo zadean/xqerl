@@ -19,6 +19,7 @@
 -export(['array-remove-414'/1]).
 -export(['array-remove-415'/1]).
 -export(['array-remove-416'/1]).
+-export(['array-remove-417'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
@@ -42,7 +43,8 @@ all() -> [
    'array-remove-413',
    'array-remove-414',
    'array-remove-415',
-   'array-remove-416'].
+   'array-remove-416',
+   'array-remove-417'].
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -549,6 +551,21 @@ environment('array-and-map',BaseDir) ->
    end]) of 
       true -> {comment, "all-of"};
       _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-remove-417'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "array:remove([1], 4294967297)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-remove-417.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};

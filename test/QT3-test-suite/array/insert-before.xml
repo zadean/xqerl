@@ -163,6 +163,16 @@
         <result>
             <assert-deep-eq>("a", "b", "c")</assert-deep-eq>
         </result>
-    </test-case>    
+    </test-case> 
+    
+    <test-case name="array-insert-before-511">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:insert-before([1], 4294967297, 22)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
     
 </test-set>

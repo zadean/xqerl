@@ -24,6 +24,10 @@
 -export(['generate-id-017'/1]).
 -export(['generate-id-018'/1]).
 -export(['generate-id-019'/1]).
+-export(['generate-id-020'/1]).
+-export(['generate-id-021'/1]).
+-export(['generate-id-022'/1]).
+-export(['generate-id-023'/1]).
 -export(['generate-id-901'/1]).
 -export(['generate-id-902'/1]).
 -export(['generate-id-903'/1]).
@@ -58,6 +62,10 @@ all() -> [
    'generate-id-017',
    'generate-id-018',
    'generate-id-019',
+   'generate-id-020',
+   'generate-id-021',
+   'generate-id-022',
+   'generate-id-023',
    'generate-id-901',
    'generate-id-902',
    'generate-id-903',
@@ -536,6 +544,82 @@ environment('collection',BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'generate-id-020'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $nodes := (<a lang='de' xml:lang='de'>Insel</a>, <a lang='en' xml:lang='en'>Island</a>)
+         let $ids := for $n in $nodes return generate-id($n)
+         return count($nodes) = count(distinct-values($ids))
+       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-020.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'generate-id-021'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $nodes := (<a lang='de' xml:lang='de'>Insel</a>, <a lang='en' xml:lang='en'>Island</a>)
+         let $ids := for $n in $nodes return generate-id($n)
+         return every $id in $ids satisfies matches($id, '^[A-Za-z][A-Za-z0-9]*$')
+       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'generate-id-022'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $nodes := (text{''}, text{''}, text{''}, text{''})
+         let $ids := for $n in $nodes return generate-id($n)
+         return count($nodes) = count(distinct-values($ids))
+       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_true(Res) of 
+      true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'generate-id-023'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         let $nodes := (text{''}, text{''}, text{''}, text{''})
+         let $ids := for $n in $nodes return generate-id($n)
+         return every $id in $ids satisfies matches($id, '^[A-Za-z][A-Za-z0-9]*$')
+       ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-023.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
       {false, F} -> F 

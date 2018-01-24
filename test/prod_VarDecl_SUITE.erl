@@ -73,6 +73,8 @@
 -export(['internalvar-2'/1]).
 -export(['K2-InternalVariablesWithout-1'/1]).
 -export(['K2-InternalVariablesWithout-1a'/1]).
+-export(['K2-InternalVariablesWithout-1b'/1]).
+-export(['K2-InternalVariablesWithout-1c'/1]).
 -export(['K2-InternalVariablesWithout-2'/1]).
 -export(['K2-InternalVariablesWithout-2a'/1]).
 -export(['K2-InternalVariablesWithout-3'/1]).
@@ -227,6 +229,8 @@ all() -> [
    'internalvar-2',
    'K2-InternalVariablesWithout-1',
    'K2-InternalVariablesWithout-1a',
+   'K2-InternalVariablesWithout-1b',
+   'K2-InternalVariablesWithout-1c',
    'K2-InternalVariablesWithout-2',
    'K2-InternalVariablesWithout-2a',
    'K2-InternalVariablesWithout-3',
@@ -1515,6 +1519,48 @@ environment('bib2',BaseDir) ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-InternalVariablesWithout-1a.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K2-InternalVariablesWithout-1b'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         declare variable $local:myVar := local:myFunction();
+         declare function local:myFunction() {
+           if (current-date() lt xs:date('1990-01-01')) then $local:myVar + 1 else 22
+         };
+         $local:myVar
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-InternalVariablesWithout-1b.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"22") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K2-InternalVariablesWithout-1c'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "
+         declare variable $local:myVar := local:myFunction();
+         declare function local:myFunction() {
+         if (current-date() gt xs:date('1990-01-01')) then $local:myVar + 1 else 22
+         };
+         $local:myVar
+      ",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-InternalVariablesWithout-1c.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQDY0054") of 
       true -> {comment, "Correct error"};

@@ -296,6 +296,7 @@ declare option output:cdata-section-elements  "b html:em";
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <modified by="Michael Kay" on="2013-06-13" change="correct expected result"/>
+      <modified by="Michael Kay" on="2017-12-19" change="fix bug 30120 (namespace prefix normalization for XHTML)"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -308,7 +309,12 @@ declare option output:cdata-section-elements  "b html:em";
 
 <html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>No CDATA</html:em></p></body></html>]]></test>
       <result>
-        <serialization-matches><![CDATA[<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</html:b><html:em *xmlns:html=(['"])http://www.w3.org/1999/xhtml\2>No CDATA</html:em></p></body></html>]]></serialization-matches>
+        <all-of>
+          <serialization-matches><![CDATA[<html><body><p><b>No CDATA</b>]]></serialization-matches>
+          <serialization-matches><![CDATA[<em>No CDATA</em>]]></serialization-matches>
+          <serialization-matches><![CDATA[<b xmlns=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</b>]]></serialization-matches>
+          <serialization-matches><![CDATA[<em xmlns=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</em></p></body></html>]]></serialization-matches>
+        </all-of>
       </result>
    </test-case>
 

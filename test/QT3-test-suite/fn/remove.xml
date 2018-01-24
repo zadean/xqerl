@@ -412,6 +412,33 @@
       </result>
    </test-case>
    
+   <test-case name="K-SeqRemoveFunc-25">
+      <description> Index must be an integer. </description>
+      <created by="Michael Kay" on="2017-11-24"/>
+      <test>remove(1 to 10, 1.0)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqRemoveFunc-26">
+      <description> Index must be an integer. </description>
+      <created by="Michael Kay" on="2017-11-24"/>
+      <test>remove(1 to 10, 1.0e0)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqRemoveFunc-27">
+      <description> Index must be an integer. </description>
+      <created by="Michael Kay" on="2017-11-24"/>
+      <test>remove(1 to 10, "1")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
    <test-case name="cbcl-fn-remove-001">
       <description> Tests with non-value position </description>
       <created by="Nick Jones" on="2008-06-16"/>

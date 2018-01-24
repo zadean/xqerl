@@ -33,6 +33,7 @@
 -export(['fn-sort-error-1'/1]).
 -export(['fn-sort-error-2'/1]).
 -export(['fn-sort-error-3'/1]).
+-export(['fn-sort-error-4'/1]).
 -export(['fn-sort-spec-1'/1]).
 -export(['fn-sort-spec-1b'/1]).
 -export(['fn-sort-spec-2'/1]).
@@ -84,6 +85,7 @@ all() -> [
    'fn-sort-error-1',
    'fn-sort-error-2',
    'fn-sort-error-3',
+   'fn-sort-error-4',
    'fn-sort-spec-1',
    'fn-sort-spec-1b',
    'fn-sort-spec-2',
@@ -755,6 +757,21 @@ environment('array-and-map',BaseDir) ->
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-sort-error-3.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'fn-sort-error-4'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "fn:sort( (1, <a>1</a>) )",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-sort-error-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};

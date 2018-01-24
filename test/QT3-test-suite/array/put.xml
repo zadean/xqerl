@@ -182,4 +182,14 @@
         </result>
     </test-case>
     
+    <test-case name="array-put-013">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:put([1], 4294967297, 2)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
 </test-set>

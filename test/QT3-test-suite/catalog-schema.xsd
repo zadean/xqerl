@@ -651,7 +651,7 @@
                     <p>Indicates a dependency which must be satisfied in order for a test to be run.</p>
                     
                     <p>A dependency may be associated with an individual test case or with
-                        a test-set. A dependency at the level of a test-set appplies to all test cases in
+                        a test-set. A dependency at the level of a test-set applies to all test cases in
                         that test-set.</p> 
                         
                     <p>The attribute setting <code>satisfied="false"</code> indicates that the test should only
@@ -889,7 +889,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>all-of</h3>
+                    <h3>not</h3>
                     <p>
                         Negates an assertion: this assertion is satisfied if the contained assertion fails,
                         and vice versa. Particularly useful with assert-serialization-matches.      
@@ -1188,7 +1188,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-true</h3>
+                    <h3>assert-false</h3>
                     <p>
                         Asserts that the result of the test is the singleton boolean value false().
                         Note, the test expression must actually evaluate to false: this is not an assertion
@@ -1241,7 +1241,7 @@
                     </p>
                     <p>
                         For the purpose of official test reporting, an implementation is considered to pass a test
-                        if the test expects and error and the implementation raises an error, regardless whether
+                        if the test expects an error and the implementation raises an error, regardless whether
                         the error codes match. Implementors are advised, however, that raising the wrong error code
                         often indicates a problem, so it is advisable to detect this situation. When reporting
                         requirements are finalized, we will be asking implementors to indicate tests which passed

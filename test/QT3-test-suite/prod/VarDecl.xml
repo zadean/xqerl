@@ -686,6 +686,38 @@
          <error code="XQDY0054"/>
       </result>
    </test-case>
+   
+   <test-case name="K2-InternalVariablesWithout-1b" covers-30="declaration-cycles">
+      <description>Static circularity with no dynamic circularity: see bug 29590 (and Saxon bug 2726)</description>
+      <created by="Michael Kay" on="2017-10-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $local:myVar := local:myFunction();
+         declare function local:myFunction() {
+           if (current-date() lt xs:date('1990-01-01')) then $local:myVar + 1 else 22
+         };
+         $local:myVar
+      </test>
+      <result>
+         <assert-eq>22</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-InternalVariablesWithout-1c" covers-30="declaration-cycles">
+      <description>Dynamic circularity within a conditional: see bug 29590 (and Saxon bug 2726)</description>
+      <created by="Michael Kay" on="2017-10-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $local:myVar := local:myFunction();
+         declare function local:myFunction() {
+         if (current-date() gt xs:date('1990-01-01')) then $local:myVar + 1 else 22
+         };
+         $local:myVar
+      </test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
 
    <test-case name="K2-InternalVariablesWithout-2">
       <description> A variable depending on a recursive function. </description>

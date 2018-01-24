@@ -915,6 +915,108 @@
          <assert-eq>'["Michael","Howard"]'</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="xml-to-json-071">
+      <description>A valid JSON escape sequence is copied unchanged to the output</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\\\b\f\n\r\t\/\\\u00a0\u00A0\ud83d\udc4A\\</fn:string>)]]></test>
+      <result>
+         <assert-eq>'"\\\b\f\n\r\t\/\\\u00a0\u00A0\ud83d\udc4A\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-072">
+      <description>Any unescaped occurrence of .... is replaced by an escape sequence</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">{codepoints-to-string((8, 9, 10, 12, 13, 34, 47))}</fn:string>)]]></test>
+      <result>
+         <assert-eq>'"\b\t\n\f\r\"\/"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-073">
+      <description>Any other character in the range 1-31, 127-159 .... is replaced by \uHHHH</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">{codepoints-to-string((1 to 7, 11, 14 to 31, 127 to 159))}</fn:string>)]]></test>
+      <result>
+         <assert-eq>'"\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u000B\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B\u001C\u001D\u001E\u001F\u007F\u0080\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088\u0089\u008A\u008B\u008C\u008D\u008E\u008F\u0090\u0091\u0092\u0093\u0094\u0095\u0096\u0097\u0098\u0099\u009A\u009B\u009C\u009D\u009E\u009F"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-074">
+      <description>An invalid escape sequence results in a dynamic error</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\x22</fn:string>)]]></test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-075">
+      <description>An invalid escape sequence results in a dynamic error</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\(\)</fn:string>)]]></test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-076">
+      <description>An invalid escape sequence results in a dynamic error</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\'</fn:string>)]]></test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-077">
+      <description>An invalid escape sequence results in a dynamic error</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\uABC</fn:string>)]]></test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-078">
+      <description>An invalid escape sequence results in a dynamic error</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\u\n</fn:string>)]]></test>
+      <result>
+         <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-079">
+      <description>Unescaped quote after escaped backslash</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\\\"\\</fn:string>)]]></test>
+      <result>
+         <assert-eq>'"\\\"\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-080">
+      <description>Unescaped solidus after escaped backslash</description>
+      <created by="Michael Kay" on="2017-12-22"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[xml-to-json(<fn:string escaped="true">\\\/\\</fn:string>)]]></test>
+      <result>
+         <assert-eq>'"\\\/\\"'</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="xml-to-json-C-001">
       <description>Invalid input</description>

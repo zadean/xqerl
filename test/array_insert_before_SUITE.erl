@@ -14,6 +14,7 @@
 -export(['array-insert-before-508'/1]).
 -export(['array-insert-before-509'/1]).
 -export(['array-insert-before-510'/1]).
+-export(['array-insert-before-511'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
@@ -32,7 +33,8 @@ all() -> [
    'array-insert-before-507',
    'array-insert-before-508',
    'array-insert-before-509',
-   'array-insert-before-510'].
+   'array-insert-before-510',
+   'array-insert-before-511'].
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -472,6 +474,21 @@ environment('array-and-map',BaseDir) ->
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"(\"a\", \"b\", \"c\")") of 
       true -> {comment, "Deep equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-insert-before-511'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "array:insert-before([1], 4294967297, 22)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-insert-before-511.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of

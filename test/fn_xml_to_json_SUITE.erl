@@ -71,6 +71,16 @@
 -export(['xml-to-json-068'/1]).
 -export(['xml-to-json-069'/1]).
 -export(['xml-to-json-070'/1]).
+-export(['xml-to-json-071'/1]).
+-export(['xml-to-json-072'/1]).
+-export(['xml-to-json-073'/1]).
+-export(['xml-to-json-074'/1]).
+-export(['xml-to-json-075'/1]).
+-export(['xml-to-json-076'/1]).
+-export(['xml-to-json-077'/1]).
+-export(['xml-to-json-078'/1]).
+-export(['xml-to-json-079'/1]).
+-export(['xml-to-json-080'/1]).
 -export(['xml-to-json-C-001'/1]).
 -export(['xml-to-json-C-002'/1]).
 -export(['xml-to-json-C-003'/1]).
@@ -211,6 +221,16 @@ all() -> [
    'xml-to-json-068',
    'xml-to-json-069',
    'xml-to-json-070',
+   'xml-to-json-071',
+   'xml-to-json-072',
+   'xml-to-json-073',
+   'xml-to-json-074',
+   'xml-to-json-075',
+   'xml-to-json-076',
+   'xml-to-json-077',
+   'xml-to-json-078',
+   'xml-to-json-079',
+   'xml-to-json-080',
    'xml-to-json-C-001',
    'xml-to-json-C-002',
    'xml-to-json-C-003',
@@ -1529,6 +1549,132 @@ environment('xml-to-json-D',BaseDir) ->
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-070.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"'[\"Michael\",\"Howard\"]'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-071'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\b\\f\\n\\r\\t\\/\\\\\\u00a0\\u00A0\\ud83d\\udc4A\\\\</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-071.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\b\\f\\n\\r\\t\\/\\\\\\u00a0\\u00A0\\ud83d\\udc4A\\\\\"'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-072'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   {skip,"XML 1.1"}.
+'xml-to-json-073'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   {skip,"XML 1.1"}.
+'xml-to-json-074'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\x22</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-074.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-075'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\(\\)</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-075.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-076'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\'</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-076.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-077'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\uABC</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-077.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-078'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\u\\n</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-078.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOJS0007") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-079'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\\"\\\\</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-079.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\\"\\\\\"'") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'xml-to-json-080'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "xml-to-json(<fn:string escaped=\"true\">\\\\\\/\\\\</fn:string>)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xml-to-json-080.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_eq(Res,"'\"\\\\\\/\\\\\"'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
    end, 

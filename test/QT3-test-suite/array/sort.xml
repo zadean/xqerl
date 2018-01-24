@@ -397,7 +397,43 @@
         <result>
             <error code="XPTY0004"/>
         </result>
-    </test-case>    
+    </test-case>
+
+    <test-case name="array-sort-026">
+        <description>Apply sort function to array returned from a function</description>
+        <created by="Michael Kay after Martin Honnen" on="2017-11-19"/>
+        <environment ref="array"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+            declare namespace serialization = "http://www.w3.org/2010/xslt-xquery-serialization";
+            
+            (:declare option serialization:method "adaptive";:)
+            
+            declare function local:fact($n as xs:integer) {
+              if ($n eq 1)
+                then 1
+                else $n * local:fact($n - 1)
+            };
+            
+            declare function local:permute($seq as item()*) as array(item()*) {
+              local:permute($seq, local:fact(count($seq)), random-number-generator())
+            };
+            
+            declare function local:permute($seq as item()*, $n as xs:integer, $rng as map(*)) as array(item()*) {
+              if ($n eq 0)
+                then []
+                else array:append(local:permute($seq, $n - 1, $rng?next()), $rng?permute($seq))
+            };
+            
+            let $s := ('A', 'B', 'C')
+            
+            return array:sort(local:permute($s), (), function($s) { $s!. }) => array:for-each(string-join#1)
+        ]]></test>
+        <result>
+            <assert>every $s in $result?* satisfies $s = ("ABC", "ACB", "BAC", "BCA", "CAB", "CBA")</assert>
+        </result>
+    </test-case>
     
     <test-case name="array-sort-collation-1">
         <description>array:sort#1 uses the default collation</description>
@@ -529,4 +565,5 @@
             <assert-deep-eq>[3, 2, 5, 4, 1]</assert-deep-eq>
         </result>
     </test-case>
+    
 </test-set>

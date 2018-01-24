@@ -20,6 +20,8 @@
 -export(['array-subarray-314'/1]).
 -export(['array-subarray-315'/1]).
 -export(['array-subarray-316'/1]).
+-export(['array-subarray-317'/1]).
+-export(['array-subarray-318'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
@@ -44,7 +46,9 @@ all() -> [
    'array-subarray-313',
    'array-subarray-314',
    'array-subarray-315',
-   'array-subarray-316'].
+   'array-subarray-316',
+   'array-subarray-317',
+   'array-subarray-318'].
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -588,6 +592,36 @@ environment('array-and-map',BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-subarray-316.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-subarray-317'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "array:subarray([1,2,3,4,5], 4294967297, 2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-subarray-317.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-subarray-318'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "array:subarray([1,2,3,4,5], 1, 4294967297)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-subarray-318.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

@@ -199,4 +199,24 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
+    
+    <test-case name="array-subarray-317">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:subarray([1,2,3,4,5], 4294967297, 2)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-subarray-318">
+        <description>length out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:subarray([1,2,3,4,5], 1, 4294967297)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
 </test-set>

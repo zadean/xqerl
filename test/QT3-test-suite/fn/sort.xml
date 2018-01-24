@@ -363,6 +363,16 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-error-4">
+      <description>check for type error</description>
+      <created by="Michael Kay after Christian Gruen" on="2017-11-16"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[fn:sort( (1, <a>1</a>) )]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 
    <!--* the examples from the spec *-->
    <test-case name="fn-sort-spec-1">

@@ -48,6 +48,9 @@
 -export(['K-SeqRemoveFunc-22'/1]).
 -export(['K-SeqRemoveFunc-23'/1]).
 -export(['K-SeqRemoveFunc-24'/1]).
+-export(['K-SeqRemoveFunc-25'/1]).
+-export(['K-SeqRemoveFunc-26'/1]).
+-export(['K-SeqRemoveFunc-27'/1]).
 -export(['cbcl-fn-remove-001'/1]).
 -export(['cbcl-fn-remove-002'/1]).
 -export(['cbcl-fn-remove-003'/1]).
@@ -105,6 +108,9 @@ all() -> [
    'K-SeqRemoveFunc-22',
    'K-SeqRemoveFunc-23',
    'K-SeqRemoveFunc-24',
+   'K-SeqRemoveFunc-25',
+   'K-SeqRemoveFunc-26',
+   'K-SeqRemoveFunc-27',
    'cbcl-fn-remove-001',
    'cbcl-fn-remove-002',
    'cbcl-fn-remove-003',
@@ -958,6 +964,51 @@ environment('array-and-map',BaseDir) ->
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
       true -> {comment, "True"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K-SeqRemoveFunc-25'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "remove(1 to 10, 1.0)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqRemoveFunc-25.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K-SeqRemoveFunc-26'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "remove(1 to 10, 1.0e0)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqRemoveFunc-26.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'K-SeqRemoveFunc-27'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "remove(1 to 10, \"1\")",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-SeqRemoveFunc-27.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
+      true -> {comment, "Correct error"};
       {false, F} -> F 
    end, 
    case Out of

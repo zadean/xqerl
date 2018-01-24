@@ -16,6 +16,7 @@
 -export(['array-put-010'/1]).
 -export(['array-put-011'/1]).
 -export(['array-put-012'/1]).
+-export(['array-put-013'/1]).
 suite() ->[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
@@ -36,7 +37,8 @@ all() -> [
    'array-put-009',
    'array-put-010',
    'array-put-011',
-   'array-put-012'].
+   'array-put-012',
+   'array-put-013'].
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -501,6 +503,21 @@ environment('array-and-map',BaseDir) ->
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-put-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
+'array-put-013'(Config) ->
+   BaseDir = ?config(base_dir, Config),
+   Qry = "array:put([1], 4294967297, 2)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "array-put-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOAY0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 

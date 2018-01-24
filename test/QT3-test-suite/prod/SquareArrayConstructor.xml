@@ -71,4 +71,18 @@
         </result>
     </test-case>
     
+    <test-case name="SquareArray-010" covers="array-square-constructor">
+        <description>square array constructor, lookup: array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>[1](4294967297)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    
+    
+    
+    
 </test-set>
