@@ -46,7 +46,8 @@ range_to_list({value,Val}) ->
 
 
 range_to_set(Range) ->
-   Nums = lists:flatten(
+   % pmap-ed due to huge lists
+   Nums = lists:append(
             rpc:pmap({?MODULE,range_to_list}, [], Range)
             ),
    sets:from_list(Nums).
@@ -75,7 +76,7 @@ set_to_range(Set) ->
                {C,C,[New|Acc]}
          end,
    {F,L,Range} = lists:foldl(Fun, {[],[],[]}, lists:sort(sets:to_list(Set))),
-   if F == [] ->
+   if F =:= [] ->
          [];
       F =:= L ->
          lists:reverse([{value,F}|Range]);

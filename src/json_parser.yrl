@@ -85,27 +85,23 @@ Erlang code.
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
 val({_,_,Token}) when hd(Token) == $" ->
-    lists:reverse(tl(lists:reverse(tl(Token))));
+    tl(lists:droplast(Token));
 val({_,_,Token}) ->
-   %   string:strip(Token, both, $").
    Token.
 
 str_val(Val) ->
-   ?dbg("Val",val(Val)),
-   N = norm_str(val(Val)),
-   ?dbg("N",N),
-   N.
+   norm_str(val(Val)).
    %unicode:characters_to_list(norm_str(val(Val))).
 
 
 list_to_number(List) ->
-%?dbg("List",List),
    case catch list_to_float(List) of
       {'EXIT',_} ->
          case catch float(list_to_integer(List)) of
             {'EXIT',_} ->
-               #xqAtomicValue{value = V} = xqerl_types:cast_as(#xqAtomicValue{type = 'xs:string', value = List}, 'xs:double'),
-               V;
+               Str = #xqAtomicValue{type = 'xs:string', value = List},
+               Dbl = xqerl_types:cast_as(Str, 'xs:double'),
+               xqerl_types:value(Dbl);
             F ->
                F
          end;

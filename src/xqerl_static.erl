@@ -591,7 +591,9 @@ handle_node(State,#xqVar{id = Id,
                              expr = VarStmt},
    set_statement_and_type(State1, NewStatement, VarType);
 
-handle_node(State, #xqFunction{name = FName, type = FType, params = Params, body = Expr} = Node) -> 
+handle_node(State, #xqFunction{name = FName, type = FType, 
+                               annotations = Annotations,
+                               params = Params, body = Expr} = Node) -> 
    % add parameters to state
    {State1,_} = lists:foldl(fun(#xqVar{id = Id,name = Name,type = Type}, {TState,Pos}) ->
                            ErlVarName = param_variable_name(Id),
@@ -611,12 +613,12 @@ handle_node(State, #xqFunction{name = FName, type = FType, params = Params, body
          end,
    Sty = get_statement_type(S1),
    ParamTypes = [T || #xqVar{type = T} <- Params],
-   ST  = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one},
-%%          if FName == undefined ->
-%%                #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one};
-%%             true ->
-%%                Sty
-%%          end,
+   ST  = if FName == undefined ->
+               ok = check_anon_fun_annos(Annotations),
+               #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one};
+            true ->
+               #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = Sty}, occur = one}
+         end,
    SC = get_static_count(S1),
 %?dbg("SC", SC),
    FType1 = #xqSeqType{type = #xqFunTest{kind = function,params = ParamTypes,type = FType}, occur = one},
@@ -4628,6 +4630,16 @@ check_occurance_match1(In, Target, _) ->
    %?dbg("{In,Target}",{In,Target}),
    ?err('XPTY0004').
 
+check_anon_fun_annos(Annotations) ->
+   _ = lists:foreach(
+         fun({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery",local_name = "private"},_LiteralList}}) ->
+               xqerl_error:error('XQST0125');
+            ({annotation,{#qname{namespace = "http://www.w3.org/2012/xquery",local_name = "public"},_LiteralList}}) ->
+               xqerl_error:error('XQST0125');
+            (_) ->
+               false
+         end, Annotations),
+   ok.
 
 %% ====================================================================
 %% GETTER/SETTERS for static context information being passed around

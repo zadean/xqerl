@@ -1,3 +1,4 @@
+%% only used for validating URIs
 Definitions.
 
 %ALPHA = [A-Za-z]

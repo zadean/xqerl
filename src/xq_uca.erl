@@ -20,7 +20,8 @@
 %%
 %% -------------------------------------------------------------------
 
-%% @doc UNICODE COLLATION ALGORITHM (UCA) & Default Unicode Collation Element Table (DUCET) - non-tailored.
+%% @doc UNICODE COLLATION ALGORITHM (UCA) & Default Unicode Collation Element 
+%% Table (DUCET) - non-tailored.
 
 %% uppercase first means set level 3 to value bor 64
 
@@ -57,7 +58,10 @@ uca(Opts) ->
 %% ====================================================================
 
 get_fun({en,Strength,MaxVar,Alternate,Backwards,true,CaseFirst}) ->
-   Strength1 = case lists:member(3, Strength) of true -> Strength; _ -> lists:sort(Strength ++ [2.5]) end,
+   Strength1 = case lists:member(3, Strength) of 
+                  true -> Strength; 
+                  _ -> lists:sort(Strength ++ [2.5]) 
+               end,
    get_fun({en,Strength1,MaxVar,Alternate,Backwards,false,CaseFirst});
 get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
    ImplQuat = Alternate == shifted,
@@ -80,7 +84,6 @@ get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
                         true -> Strength; 
                         _ when ImplQuat -> lists:sort(Strength ++ [4]);
                         _ -> Strength end,
-         %?dbg("Strength1",Strength1),
          << if L == 2 andalso Backwards == yes ->
                   (level_part_key(W2, L, reverse));
                L == 5 ->
@@ -109,7 +112,8 @@ parse_options(#{fallback      := Fallback,
    if Fb ->
          ok;
       true ->
-         List = [fallback,lang,version,strength,maxVariable,alternate,backwards,normalization,caseLevel,caseFirst,numeric,reorder],
+         List = [fallback,lang,version,strength,maxVariable,alternate,
+                 backwards,normalization,caseLevel,caseFirst,numeric,reorder],
          case lists:all(fun(I) -> lists:member(I, List) end, maps:keys(M)) of
             true ->
                ok;
@@ -254,7 +258,8 @@ default_options() ->
      strength        => tertiary,
      maxVariable     => punct,
      alternate       => non_ignorable,
-     backwards       => no,            % reverse second level non-0 values, for trailing accents in French
+     backwards       => no,            % reverse second level non-0 values, 
+                                       % for trailing accents in French
      normalization   => no,            % not implemented
      caseLevel       => no,
      caseFirst       => upper,

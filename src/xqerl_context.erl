@@ -326,10 +326,11 @@ get_context_item_static_type(Tab) ->
    get(Tab, 'context-item-static-type').
 set_context_item_static_type(Tab,Value) ->
    set(Tab, 'context-item-static-type', Value).
-get_ordering_mode(Tab) ->
-   get(Tab, 'ordering-mode').
-set_ordering_mode(Tab,Value) ->
-   set(Tab, 'ordering-mode', Value).
+
+get_ordering_mode(#{'ordering-mode' := O}) ->
+   O.
+set_ordering_mode(Ctx,O) ->
+   Ctx#{'ordering-mode' := O}.
 
 get_default_function_namespace(parser) ->
    case erlang:get('default-function-namespace') of
@@ -824,6 +825,8 @@ import_variables(Variables,Tab) ->
 set(Tab,Key,Value) ->
    ets:insert(Tab, {Key,Value}).
 
+get(#{tab := Tab},Key) ->
+   get(Tab,Key);
 get(Tab,Key) ->
    case ets:lookup(Tab, Key) of
       [{Key,Value}] ->

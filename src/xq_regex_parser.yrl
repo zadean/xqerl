@@ -34,10 +34,7 @@ Terminals
 
 Rootsymbol regExp.
 
-%Left  100   charGroup.
 Nonassoc  100   '|'.
-%Left  100   charGroupPart.
-%Nonassoc  200   singleChar.
 
 %% Regular Expression
 %[64]     regExp      ::=      branch ( '|' branch )*
@@ -69,7 +66,8 @@ quantity -> 'QuantRange' : val('$1').
 quantity -> 'QuantMin'   : val('$1').
 quantity -> 'QuantExact' : val('$1').
 %% Atom
-%[72]     atom     ::=      NormalChar | charClass | ( '(' '?:'? regExp ')' ) | backReference
+%[72]     atom     ::=   NormalChar | charClass | 
+%                        ( '(' '?:'? regExp ')' ) | backReference
 %[72a] backReference ::= "\" [1-9][0-9]*
 atom -> 'NormalChar'       : {char,val('$1')}.
 atom -> '-'                : {char,"-"}.
@@ -82,22 +80,31 @@ atom -> '(' '?:'        ')': {char,"(?:)"}.
 atom -> 'BackReference'    : {back_ref,list_to_integer(tl(val('$1')))}.
 
 %% Character Class
-%[74]     charClass      ::=      SingleCharEsc | charClassEsc | charClassExpr | WildcardEsc | '^' | '$'
+%[74]     charClass      ::= SingleCharEsc | charClassEsc | charClassExpr | 
+%                            WildcardEsc | '^' | '$'
 charClass -> 'SingleCharEsc' : {char, val('$1')}.
 charClass ->  charClassEsc   : '$1'.
 charClass ->  charClassExpr  : '$1'.
 charClass -> 'WildcardEsc'   : {char, val('$1')}.
 charClass -> '^'             : val('$1').
 charClass -> '$'             : val('$1').
+
 %% Character Class Expression
 %[75]     charClassExpr  ::=      '[' charGroup ']'
 charClassExpr ->  '[' charGroup ']' : '$2'.
+
 %% Character Group
-%[76]     charGroup      ::=      ( posCharGroup | negCharGroup ) ( '-' charClassExpr )?
-charGroup ->  posCharGroup                      : {group,'$1'}.
-charGroup ->  posCharGroup 'sub' charClassExpr  : {subtract,{group,'$1'},'$3'}.
-charGroup ->  negCharGroup                      : {neg_group,'$1'}.
-charGroup ->  negCharGroup 'sub' charClassExpr  : {subtract,{neg_group,'$1'},'$3'}.
+%[76]     charGroup      ::=      ( posCharGroup | 
+%                                   negCharGroup ) ( '-' charClassExpr )?
+charGroup ->  posCharGroup                      : 
+   {group,'$1'}.
+charGroup ->  posCharGroup 'sub' charClassExpr  : 
+   {subtract,{group,'$1'},'$3'}.
+charGroup ->  negCharGroup                      : 
+   {neg_group,'$1'}.
+charGroup ->  negCharGroup 'sub' charClassExpr  : 
+   {subtract,{neg_group,'$1'},'$3'}.
+
 %% Positive Character Group
 %[77]     posCharGroup   ::=      ( charGroupPart )+
 posCharGroup -> charGroupParts             : '$1'.
@@ -109,34 +116,10 @@ charGroupParts -> charGroupPart charGroupParts : ['$1'|'$2'].
 %%Negative Character Group
 %[78]     negCharGroup   ::=      '^' posCharGroup
 negCharGroup ->  '^' posCharGroup : '$2'.
+
 %% Character Group Part
 %[79]     charGroupPart  ::=      singleChar | charRange | charClassEsc
-charGroupPart -> singleChar   :  if is_tuple('$1') ->
-                                       {value,hd(element(2,'$1'))};
-                                    '$1' == "\\n" ->
-                                       {value,$\n};
-                                    '$1' == "\\r" ->
-                                       {value,$\r};
-                                    '$1' == "\\t" ->
-                                       {value,$\t};
-                                    '$1' == "\\|";
-                                    '$1' == "\\.";
-                                    '$1' == "\\?";
-                                    '$1' == "\\*";
-                                    '$1' == "\\+";
-                                    '$1' == "\\(";
-                                    '$1' == "\\)";
-                                    '$1' == "\\{";
-                                    '$1' == "\\}";
-                                    '$1' == "\\-";
-                                    '$1' == "\\[";
-                                    '$1' == "\\]";
-                                    '$1' == "\\$";
-                                    '$1' == "\\^" ->
-                                       {value,hd(tl('$1'))};
-                                    true ->
-                                       {value,hd('$1')}
-                                 end.
+charGroupPart -> singleChar   : char_group_part('$1').
 charGroupPart -> '('          : {value,$(}.
 charGroupPart -> ')'          : {value,$)}.
 charGroupPart -> charRange    : '$1'.
@@ -150,40 +133,22 @@ singleChar -> 'WildcardEsc'     : {char,val('$1')}.
 singleChar -> '}'               : {char,"}"}.
 singleChar -> '{'               : {char,"{"}.
 singleChar -> '-'               : {char,"-"}.
+
 %% Character Range
 %[81]     charRange      ::=      singleChar '-' singleChar
-charRange -> singleChar '-' singleChar :  case '$1' == '$3' of
-                                             true when is_tuple('$1') ->
-                                                {value,hd(element(2,'$1'))};
-                                             true when length('$1') > 1 ->
-                                                {value,hd(tl('$1'))};
-                                             true ->
-                                                {value,hd('$1')};
-                                             _ when is_tuple('$1'), is_tuple('$3') ->
-                                                {range,hd(element(2,'$1')),hd(element(2,'$3'))};
-                                             _ when is_tuple('$1'), length('$3') > 1 ->
-                                                {range,hd(element(2,'$1')),hd(tl('$3'))};
-                                             _ when is_tuple('$1') ->
-                                                {range,hd(element(2,'$1')),hd('$3')};
-                                             _ when is_tuple('$3'), length('$1') > 1 ->
-                                                {range,hd(tl('$1')),hd(element(2,'$3'))};
-                                             _ when is_tuple('$3') ->
-                                                {range,hd('$1'),hd(element(2,'$3'))};
-                                             _ when length('$1') > 1, length('$3') > 1  ->
-                                                {range,hd(tl('$1')),hd(tl('$3'))};
-                                             _ when length('$1') > 1  ->
-                                                {range,hd(tl('$1')),hd('$3')};
-                                             _ when length('$3') > 1  ->
-                                                {range,hd('$1'),hd(tl('$3'))};
-                                             _ ->
-                                                {range,hd('$1'),hd('$3')}
-                                          end.
+charRange -> singleChar '-' singleChar :  char_range('$1', '$3').
+
 %% Character Class Escape
 %[83]    charClassEsc    ::=      ( MultiCharEsc | catEsc | complEsc )
-charClassEsc -> 'MultiCharEsc'      : {char_class,     val('$1')}.
-charClassEsc -> 'MultiCharComplEsc' : {neg_char_class, val('$1')}.
-charClassEsc -> 'CatEsc'            : {char_class,     strip_cat_brackets(val('$1'))}.
-charClassEsc -> 'ComplEsc'          : {neg_char_class, strip_cat_brackets(val('$1'))}.
+charClassEsc -> 'MultiCharEsc'      : 
+   {char_class,     val('$1')}.
+charClassEsc -> 'MultiCharComplEsc' : 
+   {neg_char_class, val('$1')}.
+charClassEsc -> 'CatEsc'            : 
+   {char_class,     strip_cat_brackets(val('$1'))}.
+charClassEsc -> 'ComplEsc'          : 
+   {neg_char_class, strip_cat_brackets(val('$1'))}.
+
 %% Category Escape ---- do these in the scanner as Terminals
 %[85]     catEsc      ::=      '\p{' charProp '}'
 %[86]     complEsc    ::=      '\P{' charProp '}'
@@ -191,7 +156,7 @@ charClassEsc -> 'ComplEsc'          : {neg_char_class, strip_cat_brackets(val('$
 %MultiCharEsc   = \\[sSiIcCdDwW]
 
 
-
+Expect 1. % one conflict
 
 Erlang code.
 %% -------------------------------------------------------------------
@@ -229,3 +194,45 @@ strip_cat_brackets("\\p{" ++ Rest) ->
 strip_cat_brackets("\\P{" ++ Rest) ->
    lists:droplast(Rest).  
 
+char_range(Min, Min) when is_tuple(Min) -> {value,hd(element(2,Min))};
+char_range(Min, Min) when length(Min) > 1 -> {value,hd(tl(Min))};
+char_range(Min, Min) -> {value,hd(Min)};
+char_range(Min, Max) when is_tuple(Min) andalso is_tuple(Max) ->
+   {range,hd(element(2,Min)),hd(element(2,Max))};
+char_range(Min, Max) when is_tuple(Min) andalso length(Max) > 1 ->
+   {range,hd(element(2,Min)),hd(tl(Max))};
+char_range(Min, Max) when is_tuple(Min) ->
+   {range,hd(element(2,Min)),hd(Max)};
+char_range(Min, Max) when length(Min) > 1 andalso is_tuple(Max) ->
+   {range,hd(tl(Min)),hd(element(2,Max))};
+char_range(Min, Max) when is_tuple(Max) ->
+   {range,hd(Min),hd(element(2,Max))};
+char_range(Min, Max) when length(Min) > 1 andalso length(Max) > 1 ->
+   {range,hd(tl(Min)),hd(tl(Max))};
+char_range(Min, Max) when length(Min) > 1 ->
+   {range,hd(tl(Min)),hd(Max)};
+char_range(Min, Max) when length(Max) > 1 ->
+   {range,hd(Min),hd(tl(Max))};
+char_range(Min, Max) ->
+   {range,hd(Min),hd(Max)}.
+
+char_group_part(Val) when is_tuple(Val) ->
+   {value,hd(element(2,Val))};
+char_group_part("\\n") -> {value,$\n};
+char_group_part("\\r") -> {value,$\r};
+char_group_part("\\t") -> {value,$\t};
+char_group_part("\\|") -> {value,$|};
+char_group_part("\\.") -> {value,$.};
+char_group_part("\\?") -> {value,$?};
+char_group_part("\\*") -> {value,$*};
+char_group_part("\\+") -> {value,$+};
+char_group_part("\\(") -> {value,$(};
+char_group_part("\\)") -> {value,$)};
+char_group_part("\\{") -> {value,${};
+char_group_part("\\}") -> {value,$}};
+char_group_part("\\-") -> {value,$-};
+char_group_part("\\[") -> {value,$[};
+char_group_part("\\]") -> {value,$]};
+char_group_part("\\$") -> {value,$$};
+char_group_part("\\^") -> {value,$^};
+char_group_part(Val) -> {value,hd(Val)}.
