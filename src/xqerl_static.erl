@@ -2891,7 +2891,7 @@ analyze_fun_vars(Body, Functions, Variables) ->
    if IsLib ->
          digraph:add_vertex(G, library);
       true ->
-         digraph:add_vertex(G, library)
+         digraph:add_vertex(G, main)
    end,
    %G = digraph:new([acyclic]),
    % add the variables
@@ -2899,14 +2899,14 @@ analyze_fun_vars(Body, Functions, Variables) ->
    %?dbg("Variables",Variables),
    M1 = lists:foldl(fun({#qname{} = Nm,_,_,_,_}, Map) when IsLib ->
                         digraph:add_vertex(G, {0,sim_name(Nm)}),
-                        add_edge(G, library,{0,sim_name(Nm)}),
+                        add_edge(G,{0,sim_name(Nm)}, library),
                         maps:put(sim_name(Nm), 0, Map);
                        ({#qname{} = Nm,_,_,_,_}, Map) ->
                         digraph:add_vertex(G, {0,sim_name(Nm)}),
                         maps:put(sim_name(Nm), 0, Map);
                        (#xqVar{id = Id, name = Nm}, Map) when IsLib ->
                         digraph:add_vertex(G, {Id,sim_name(Nm)}),
-                        add_edge(G, library,{Id,sim_name(Nm)}),
+                        add_edge(G, {Id,sim_name(Nm)},library),
                         maps:put(sim_name(Nm), Id, Map);
                        (#xqVar{id = Id, name = Nm}, Map) ->
                         digraph:add_vertex(G, {Id,sim_name(Nm)}),
@@ -3018,6 +3018,8 @@ x(G, Map, [#xqQuery{query = Qry}|T], _Data) ->
    end;
 x(G, Map, [{'context-item',{_,_,Expr}}|T],_Data ) ->
    %?dbg("Adding context item",Expr),
+   digraph:add_vertex(G, context_item),
+   add_edge(G,context_item,main),
    x(G, Map, context_item, Expr),
    x(G, Map, T, []);
 x(G, Map, Parent, Data) when is_list(Data) ->
@@ -3170,7 +3172,7 @@ add_edge(G, A, B) ->
 
 has_cycle(G) ->
    Vars = [Var || {I,_} = Var <- digraph:vertices(G), is_integer(I)],
-   ?dbg("Vars",Vars),
+   %?dbg("Vars",Vars),
    lists:foreach(fun(Var) ->
                        case digraph:get_cycle(G, Var) of
                            false ->
@@ -4380,11 +4382,14 @@ get_list_type([#xqSeqType{type = H}|Types], BType) ->
          end
    end.
 
+get_array_type(#xqFunTest{kind = array, type = any}) ->
+   array;
 get_array_type(#xqFunTest{kind = array, type = #xqSeqType{type = AType}}) ->
    get_array_type(AType);
 get_array_type(#xqFunTest{kind = map}) ->
    map;
 get_array_type(O) ->
+   ?dbg("O",O),
    O.
 
 % for now until other stuff fixed
@@ -4698,8 +4703,8 @@ add_inscope_variable(State, {A,B,C,D}) ->
    add_inscope_variable(State, {A,B,C,D,false});
 % {Name,Type,Annos,ErlVarName,External}
 add_inscope_variable(#state{inscope_vars = Vars} = State, {#qname{namespace = Ns, local_name = Ln},_,_,_,_} = NewVar) ->
-   ?dbg("NewVar",NewVar),
-   ?dbg("Vars",Vars),
+   %?dbg("NewVar",NewVar),
+   %?dbg("Vars",Vars),
    NewVars = [NewVar | [Var || {#qname{namespace = Ns1, local_name = Ln1},_,_,_,_} = Var  <- Vars, {Ns1,Ln1} =/= {Ns,Ln}]],
    State#state{inscope_vars = NewVars}.
 
