@@ -574,7 +574,7 @@ count_context_items(Items) ->
    
 
 % returns new Ctx map
-set_empty_context_item(Ctx) when is_map(Ctx) ->
+set_empty_context_item(#{'context-item' := _} = Ctx) ->
    Ctx1 = maps:remove('context-item', Ctx),
    Ctx2 = maps:remove('context-position', Ctx1),
    Ctx3 = maps:remove('context-item-count', Ctx2),
