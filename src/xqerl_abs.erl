@@ -2095,7 +2095,8 @@ return_part(Ctx,{Id, Expr}) ->
                {clause,?L, [{var,?L, 'Ctx'},OldVariableTupleMatch],[], % guards
                 [expr_do(LocCtx,Expr)]
                }]},
-   {Ctx,[InLine, RetFun]}.
+   %{Ctx,[InLine, RetFun]}.
+   {Ctx,[RetFun]}.
 
 where_part(Ctx,{'where',{Id, Expr}},_NextFunAtom) ->
    FunctionName = glob_fun_name({where, Id}),
@@ -2129,7 +2130,8 @@ where_part(Ctx,{'where',{Id, Expr}},_NextFunAtom) ->
                      {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]}
                     ]}]}
                 ]}]},
-   {Ctx,[InLine,WhereFun]}.
+   %{Ctx,[InLine,WhereFun]}.
+   {Ctx,[WhereFun]}.
 
 count_part(Ctx,{'count',#xqVar{id = Id,
                                name = Name}} = Part,NextFunAtom) ->
@@ -2279,7 +2281,8 @@ let_part(Ctx,{'let',#xqVar{id = Id,
                    end
                 ]
                }]},
-   {NewCtx,[InLine, LetFun]}.
+   %{NewCtx,[InLine, LetFun]}.
+   {NewCtx,[LetFun]}.
 
 window_loop(Ctx, #xqWindow{type = Type,
                            win_variable = #xqVar{id = WId,name = WName,type = WType,expr = Expr}, 
