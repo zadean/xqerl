@@ -427,13 +427,19 @@ to_list(#array{} = A) -> xqerl_array:flatten([], A);
 to_list(List) when is_list(List) -> List;
 to_list(A) -> [A].
 
-flatten(List) when is_list(List) ->
-   lists:flatten(List);
-flatten(List) ->
-   [List].
+
+flatten([H|T]) when is_list(H) -> H ++ flatten(T);
+flatten([H|T]) -> [H | flatten(T)];
+flatten([]) -> [];
+flatten(E) -> [E].
+
+%% flatten(List) when is_list(List) ->
+%%    lists:flatten(List);
+%% flatten(List) ->
+%%    [List].
 
 from_list(List) when is_list(List) ->
-   lists:flatten(List);
+   ?MODULE:flatten(List);
 
 %%    lists:flatten(List);
 

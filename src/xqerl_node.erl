@@ -323,7 +323,7 @@ handle_contents(Ctx, _Parent, [undefined], _Ns, Sz) -> {[], Sz, Ctx};
 handle_contents(Ctx, Parent, Content, Ns, Sz) ->
    Content0 = case Content of
                   _ when is_list(Content) ->
-                     lists:flatten(Content);
+                     ?seq:flatten(Content);
                   C ->
                      [C]
                end,
@@ -481,7 +481,7 @@ handle_content(#{'base-uri' := BU,
    
    ok = check_element_name(ElemQName),
    % base-uri will come from the children
-   NewBase = lists:flatten([Uri || #xqAttributeNode{name = #qname{namespace = "http://www.w3.org/XML/1998/namespace", 
+   NewBase = ?seq:flatten([Uri || #xqAttributeNode{name = #qname{namespace = "http://www.w3.org/XML/1998/namespace", 
                                                                   local_name = "base"}, expr = Uri} <- Content3]),
    BU1 = if NewBase == [] ->
                BU;

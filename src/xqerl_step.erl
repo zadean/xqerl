@@ -35,6 +35,7 @@
 -export([reverse/5]).
 
 -define(ctx, xqerl_context).
+-compile(inline_list_funcs).
 
 % for internal use when the root node is not a document
 any_root(Ctx, Seq) when not is_list(Seq) ->
@@ -107,7 +108,7 @@ ids(_Ctx, Nodes) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:flatmap(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:flatmap(Fun1, ?seq:flatten(Nodes)),
    lists:usort(PrePredicate).
 
 idrefs(_Ctx, Nodes) ->
@@ -367,7 +368,7 @@ reverse(Ctx, Nodes, parent, #qname{} = Name, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -380,7 +381,7 @@ reverse(Ctx, Nodes, parent, #xqKindTest{kind = Kind, name = Name}, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -392,7 +393,7 @@ reverse(Ctx, Nodes, ancestor, #qname{} = Name, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -405,7 +406,7 @@ reverse(Ctx, Nodes, ancestor, #xqKindTest{kind = Kind, name = Name}, PredFuns) -
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -417,7 +418,7 @@ reverse(Ctx, Nodes, 'preceding-sibling', #qname{} = Name, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -430,7 +431,7 @@ reverse(Ctx, Nodes, 'preceding-sibling', #xqKindTest{kind = Kind, name = Name}, 
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -442,7 +443,7 @@ reverse(Ctx, Nodes, preceding, #qname{} = Name, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -455,7 +456,7 @@ reverse(Ctx, Nodes, preceding, #xqKindTest{kind = Kind, name = Name}, PredFuns) 
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -467,7 +468,7 @@ reverse(Ctx, Nodes, 'ancestor-or-self', #qname{} = Name, PredFuns) ->
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -480,7 +481,7 @@ reverse(Ctx, Nodes, 'ancestor-or-self', #xqKindTest{kind = Kind, name = Name}, P
              (_) ->
                 ?err('XPTY0019')
           end,
-   PrePredicate = lists:map(Fun1, lists:flatten(Nodes)),
+   PrePredicate = lists:map(Fun1, ?seq:flatten(Nodes)),
    PostPredicat = do_preds(Ctx, lists:reverse(PrePredicate), PredFuns),
    lists:usort(PostPredicat);
 
@@ -496,16 +497,14 @@ filter(Ctx, PredFuns,PreFilterSeq) ->
   end.
 
 
-do_preds(Ctx, PreFilterSeq, PredFuns) ->
-   L = lists:map(fun(Sub) ->
-      lists:foldl(fun([],SeqAcc) ->
-                        SeqAcc;
-                     (Pred,SeqAcc) ->
-                        %?dbg("Line",PreFilterSeq),
-                        ?seq:filter(Ctx, Pred, SeqAcc)
-                  end, Sub, PredFuns)
-             end, PreFilterSeq),
-   lists:flatten(L).
+do_preds(_, [], _) -> [];
+do_preds(_, PreFilterSeq, []) -> ?seq:flatten(PreFilterSeq);
+do_preds(Ctx, [H|PreFilterSeq], PredFuns) ->
+   lists:append(
+     pred_filter(Ctx, H, PredFuns),
+     do_preds(Ctx, PreFilterSeq, PredFuns)
+     ).
+
 
 pred_filter(Ctx, PreFilterSeq, PredFuns) ->
    lists:foldl(fun([],SeqAcc) ->

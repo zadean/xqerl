@@ -636,7 +636,7 @@ copy(OldDoc,Node, Position, NewDoc, OuterNamespaces) ->
                   copy(OldDoc,CNode, {Position,Pos}, Doc)
             end,
    {ChNodes,{Doc3,_}} = lists:mapfoldl(ChFold, {Doc2,Position + Dist2}, dm_children(OldDoc, Node)),
-   All = lists:flatten([NSNodes, AtNodes, ChNodes]),
+   All = lists:append([NSNodes, AtNodes, ChNodes]),
    Size = length(All),
    {ENs,EPx} = dm_node_name(OldDoc, Node),
    {ENsId,Doc4} = get_namespace_id(Doc3, ENs),
@@ -700,7 +700,7 @@ copy(OldDoc, <<_:32,1:3,_:93>> = Node, {ParentPos,Position}, NewDoc) ->
                   copy(OldDoc,CNode, {Position,Pos}, Doc)
             end,
    {ChNodes,{Doc3,_}} = lists:mapfoldl(ChFold, {Doc2,Position + Dist2}, dm_children(OldDoc, Node)),
-   All = lists:flatten([NSNodes,AtNodes,ChNodes]),
+   All = lists:append([NSNodes,AtNodes,ChNodes]),
    Size = length(All),
    {ENs,EPx} = dm_node_name(OldDoc, Node),
    {ENsId,Doc4} = get_namespace_id(Doc3, ENs),
