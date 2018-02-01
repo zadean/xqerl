@@ -24,6 +24,7 @@
 
 -module(xqerl_regex).
 -include("xqerl.hrl").
+-compile(inline_list_funcs).
 
 %% ====================================================================
 %% API functions

@@ -26,6 +26,7 @@
 
 -module(xqerl_format).
 -include("xqerl.hrl").
+-compile(inline_list_funcs).
 
 %-export([test/2]).
 -export([parse_picture/2]).

@@ -40,6 +40,7 @@
 -define(MAXSYMBOLVAR, 16#1AF9).
 -define(MAXVAR, 16#1C5B).
 
+-compile(inline_list_funcs).
 
 %% ====================================================================
 %% API functions

@@ -25,6 +25,7 @@
 -module(xqerl_map).
 
 -include("xqerl.hrl").
+-compile(inline_list_funcs).
 
 -define(sin(V), ?seq:singleton(V)).
 -define(val(V), ?seq:singleton_value(V)).

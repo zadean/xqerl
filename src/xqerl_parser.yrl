@@ -503,7 +503,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DFPropertyName'         -> 'pattern-separator'  : 'pattern-separator' .
 'DFPropertyName'         -> 'exponent-separator' : 'exponent-separator'.
 
-'Import'                 -> 'SchemaImport' : xqerl_error:error('XQST0009').
+'Import'                 -> 'SchemaImport' : ?err('XQST0009').
 'Import'                 -> 'ModuleImport' : {'module-import', '$1'}.
 
 %list of URILiteral
@@ -520,14 +520,14 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 
 'ModuleImport'           -> 'import' 'module' 'URILiteral'
                            : if '$3' == [] ->
-                                    xqerl_error:error('XQST0088');
+                                    ?err('XQST0088');
                                  true ->
                                     xqerl_context:add_statically_known_namespace(parser,"Q{"++'$3'++"}", []),
                                     {"Q{"++'$3'++"}", []}
                               end.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 
                            : if '$6' == [] ->
-                                    xqerl_error:error('XQST0088');
+                                    ?err('XQST0088');
                                  true ->
                                     xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
                                     {"Q{"++'$6'++"}", value_of('$4')}
@@ -536,7 +536,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 %'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' : {'module-import', '$3', undefined, '$5'}.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 'at' 'URILiteralList' 
                            : if '$6' == [] ->
-                                    xqerl_error:error('XQST0088');
+                                    ?err('XQST0088');
                                  true ->
                                     xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
                                     {"Q{"++'$6'++"}", value_of('$4')}
@@ -553,7 +553,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
                            : xqerl_context:set_default_function_namespace(parser,'$5'), 
                              {'function-namespace', '$5'}.
-%% xqerl_error:error('XQST0066'). % NOPE
+%% ?err('XQST0066'). % NOPE
 
 % ignoring annotations for now TODO
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2'}.
@@ -981,7 +981,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'uplus'                  -> '+' 'uminus' : {'unary', '+', '$2'}.
 'uplus'                  -> '+' 'uplus'  : {'unary', '+', '$2'}.
 % [98]     ValueExpr      ::=      ValidateExpr | ExtensionExpr | SimpleMapExpr 
-'ValueExpr'              -> 'ValidateExpr'   : xqerl_error:error('XQST0075'). %TODO Schema Aware Feature
+'ValueExpr'              -> 'ValidateExpr'   : ?err('XQST0075'). %TODO Schema Aware Feature
 'ValueExpr'              -> 'ExtensionExpr'  : '$1'.
 'ValueExpr'              -> 'SimpleMapExpr'  : '$1'.
 % [99]     GeneralComp    ::=      "=" | "!=" | "<" | "<=" | ">" | ">="   
@@ -1250,22 +1250,22 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' '>' 
                               : if '$2' == '$7' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$7' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' '>' 
                               : if '$2' == '$6' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2')};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$6' ->
                                  #xqElementNode{attributes = '$3', name = qname(other,'$2')};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' '/>' 
                               : #xqElementNode{name = qname(other,'$2')}.
@@ -1276,12 +1276,12 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' '>' 
                               : if '$2' == '$5' ->
                                  #xqElementNode{name = qname(other,'$2')};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$5' ->
                                  #xqElementNode{name = qname(other,'$2')};
-                                 true -> xqerl_error:error('XQST0118')
+                                 true -> ?err('XQST0118')
                                 end.  
 % [143]    DirAttributeList     ::=      (S (QName S? "=" S? DirAttributeValue)?)* /* ws: explicit */
 'DirAttributeList'       -> 'DirAttribute' 'DirAttributeList' : case '$1' of
@@ -1643,6 +1643,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 
 -compile([{hipe,[{regalloc,linear_scan}]}]).
 
+-dialyzer(no_return).
+
 value_of(Token) ->
     element(3, Token).
 
@@ -1690,24 +1692,24 @@ qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
       {qname,undefined,Px,Ln}
    end;
 % reserved function names
-qname(func, {qname,default,_,"array"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"attribute"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"comment"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"document-node"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"element"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"empty-sequence"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"function"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"if"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"item"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"map"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"namespace-node"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"node"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"processing-instruction"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"schema-attribute"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"schema-element"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"switch"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"text"}) -> xqerl_error:error('XPST0003');
-qname(func, {qname,default,_,"typeswitch"}) -> xqerl_error:error('XPST0003');
+qname(func, {qname,default,_,"array"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"attribute"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"comment"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"document-node"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"element"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"empty-sequence"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"function"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"if"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"item"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"map"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"namespace-node"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"node"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"processing-instruction"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"schema-attribute"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"schema-element"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"switch"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"text"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,"typeswitch"}) -> ?err('XPST0003');
 % default
 qname(func, {qname,default,_Px,Ln}) ->
    {qname,xqerl_context:get_default_function_namespace(parser),"",Ln};
@@ -1718,17 +1720,17 @@ qname(pi, Ln) ->
    Str = string:trim(Ln),
    case xqerl_lib:is_xsncname_start_char(hd(Str)) of
       true ->
-         lists:foreach(fun($:) -> xqerl_error:error('XPTY0004');
+         lists:foreach(fun($:) -> ?err('XPTY0004');
                           (C) ->
                            case xqerl_lib:is_xsname_char(C) of
                               false ->
                                  ?dbg("C",C),
-                                 xqerl_error:error('XPTY0004');
+                                 ?err('XPTY0004');
                               _ -> ok
                            end
                         end, Str);
       _ ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end,
    % allow "xml" here
    {qname,'no-namespace',[],Str};
@@ -1876,7 +1878,7 @@ at_value(A) when is_list(A) ->
    catch _:E ->
       ?dbg("XQST0022",E),
       ?dbg("XQST0022",A),
-      xqerl_error:error('XQST0022')
+      ?err('XQST0022')
    end;
 at_value(#xqAtomicValue{value = V}) ->
    V;
@@ -1884,7 +1886,7 @@ at_value({expr,A}) ->
    at_value(A);
 at_value(A) ->
    ?dbg("XQST0022",A),
-   xqerl_error:error('XQST0022').
+   ?err('XQST0022').
 
 ns_value([]) ->
    [];
@@ -1893,14 +1895,14 @@ ns_value([#xqAtomicValue{} = At]) ->
    xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
-   xqerl_error:error('XQST0022');
+   ?err('XQST0022');
 ns_value(A) when is_list(A) ->
    %?dbg("1708",A),
    try
       L = lists:flatmap( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,_E}) ->
-                            xqerl_error:error('XQST0022');
+                            ?err('XQST0022');
                         ({entity_ref,E}) ->
                             E;
                         ({char_ref,E}) ->
@@ -1909,11 +1911,11 @@ ns_value(A) when is_list(A) ->
       xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
       ?dbg("XQST0022",A),
-      xqerl_error:error('XQST0022')
+      ?err('XQST0022')
    end;
 ns_value(A) ->
    ?dbg("XQST0022",A),
-   xqerl_error:error('XQST0022').
+   ?err('XQST0022').
 
 
 as_list(L) ->
