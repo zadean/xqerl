@@ -342,6 +342,7 @@ dm_attributes(_Doc,_Node) ->
 
 % return the base-uri for a node if there is one
 dm_base_uri(_,[]) -> [];
+dm_base_uri(D,[H|_]) -> dm_base_uri(D,H); % multi-root
 dm_base_uri(#{base := Base},<<_:32,0:3,_:93>>) ->
    Base;
 dm_base_uri(#{base  := Base,
@@ -495,6 +496,10 @@ dm_string_value(#{nodes := Nodes,
                                                                    N == 1 ->
    Possible = get_bin_part(Nodes, Id * ?BS, Size * ?BS),
    AllTexts = get_texts_1(Possible),
+%%    erlang:iolist_to_binary(
+%%    lists:map(fun(<<_:64,Value:32,_:32>>) ->
+%%                    maps:get(Value,Texts)
+%%              end, AllTexts));
    lists:flatmap(fun(<<_:64,Value:32,_:32>>) ->
                        maps:get(Value,Texts)
                  end, AllTexts);
