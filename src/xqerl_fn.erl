@@ -31,19 +31,18 @@
 
 -define(inbool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
-%% %-define(bool(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:boolean', value = Val})).
-%% -define(atint(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:integer', value = Val})).
-%% -define(dec(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:decimal', value = Val})).
-%% -define(dbl(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:double', value = Val})).
-%% -define(str(Val), ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
-%% -define(atm(Typ,Val), ?seq:singleton(#xqAtomicValue{type = Typ, value = Val})).
-%% -define(node_test, ?seq:singleton(#xqAtomicValue{type = 'xs:string', value = Val})).
 -define(atint(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
 -define(dec(Val), #xqAtomicValue{type = 'xs:decimal', value = Val}).
 -define(dbl(Val), #xqAtomicValue{type = 'xs:double', value = Val}).
 -define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(atm(Typ,Val), #xqAtomicValue{type = Typ, value = Val}).
 -define(node_test, #xqAtomicValue{type = 'xs:string', value = Val}).
+
+-define(NS, "http://www.w3.org/2005/xpath-functions").
+-define(ERROR_MATCH(Err), _:#xqError{name = 
+                                       #xqAtomicValue{value=
+                                                        #qname{local_name = 
+                                                                 Err}}}).
 
 -define(noderecs(N), is_record(N, xqNode);
                      is_record(N, xqElementNode);
@@ -61,461 +60,461 @@
 -'module-namespace'({"http://www.w3.org/2005/xpath-functions", "fn"}).
 -variables([]).
 -functions([
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","abs"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","abs"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'abs', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-dateTime-to-timezone"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
+{{qname, ?NS, "fn","adjust-dateTime-to-timezone"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
  {'adjust-dateTime-to-timezone', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-dateTime-to-timezone"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
+{{qname, ?NS, "fn","adjust-dateTime-to-timezone"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
  {'adjust-dateTime-to-timezone', 3}, 2,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-date-to-timezone"},{xqSeqType, 'xs:date', zero_or_one}, [], 
+{{qname, ?NS, "fn","adjust-date-to-timezone"},{xqSeqType, 'xs:date', zero_or_one}, [], 
  {'adjust-date-to-timezone', 2}, 1, [{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-date-to-timezone"},{xqSeqType, 'xs:date', zero_or_one}, [], 
+{{qname, ?NS, "fn","adjust-date-to-timezone"},{xqSeqType, 'xs:date', zero_or_one}, [], 
  {'adjust-date-to-timezone', 3},2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-time-to-timezone"},{xqSeqType, 'xs:time', zero_or_one}, [], 
+{{qname, ?NS, "fn","adjust-time-to-timezone"},{xqSeqType, 'xs:time', zero_or_one}, [], 
  {'adjust-time-to-timezone', 2},1, [{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","adjust-time-to-timezone"},{xqSeqType, 'xs:time', zero_or_one}, [], 
+{{qname, ?NS, "fn","adjust-time-to-timezone"},{xqSeqType, 'xs:time', zero_or_one}, [], 
  {'adjust-time-to-timezone', 3},2,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
  {'analyze-string', 3},2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
  {'analyze-string', 4},3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","apply"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","apply"},{xqSeqType, item, zero_or_many}, [], 
  {'apply', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","available-environment-variables"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","available-environment-variables"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'available-environment-variables', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","avg"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","avg"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'avg', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'base-uri', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'base-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","boolean"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","boolean"},{xqSeqType, 'xs:boolean', one}, [], 
  {'boolean', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","ceiling"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","ceiling"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'ceiling', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","codepoint-equal"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
+{{qname, ?NS, "fn","codepoint-equal"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
  {'codepoint-equal', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","codepoints-to-string"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","codepoints-to-string"},{xqSeqType, 'xs:string', one}, [], 
  {'codepoints-to-string', 2}, 1,[{xqSeqType, 'xs:integer', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collation-key"},{xqSeqType, 'xs:base64Binary', one}, [], 
+{{qname, ?NS, "fn","collation-key"},{xqSeqType, 'xs:base64Binary', one}, [], 
  {'collation-key', 2},1, [{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collation-key"},{xqSeqType, 'xs:base64Binary', one}, [], 
+{{qname, ?NS, "fn","collation-key"},{xqSeqType, 'xs:base64Binary', one}, [], 
  {'collation-key', 3},2,[{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
  {'collection', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","collection"},{xqSeqType, item, zero_or_many}, [], 
  {'collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","compare"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","compare"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'compare', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","compare"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","compare"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'compare', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","concat"},{xqSeqType, 'xs:string', one}, [], 
  {'concat', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","contains"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains-token"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","contains-token"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains-token', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","contains-token"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","contains-token"},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains-token', 4}, 3,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","count"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","count"},{xqSeqType, 'xs:integer', one}, [], 
  {'count', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","current-date"},{xqSeqType, 'xs:date', one}, [], 
+{{qname, ?NS, "fn","current-date"},{xqSeqType, 'xs:date', one}, [], 
  {'current-date', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","current-dateTime"},{xqSeqType, 'xs:dateTime', one}, [], 
+{{qname, ?NS, "fn","current-dateTime"},{xqSeqType, 'xs:dateTime', one}, [], 
  {'current-dateTime', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","current-time"},{xqSeqType, 'xs:time', one}, [], 
+{{qname, ?NS, "fn","current-time"},{xqSeqType, 'xs:time', one}, [], 
  {'current-time', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","data"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, "fn","data"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'data', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","data"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, "fn","data"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'data', 2}, 1, [{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","dateTime"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
+{{qname, ?NS, "fn","dateTime"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
  {'dateTime', 3}, 2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","day-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","day-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'day-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","day-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","day-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'day-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","days-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","days-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'days-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","deep-equal"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","deep-equal"},{xqSeqType, 'xs:boolean', one}, [], 
  {'deep-equal', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","deep-equal"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","deep-equal"},{xqSeqType, 'xs:boolean', one}, [], 
  {'deep-equal', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","default-collation"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","default-collation"},{xqSeqType, 'xs:string', one}, [], 
  {'default-collation', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","default-language"},{xqSeqType, 'xs:language', one}, [], 
+{{qname, ?NS, "fn","default-language"},{xqSeqType, 'xs:language', one}, [], 
  {'default-language', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","distinct-values"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, "fn","distinct-values"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'distinct-values', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","distinct-values"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, "fn","distinct-values"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'distinct-values', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","doc"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
+{{qname, ?NS, "fn","doc"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
  {'doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","doc-available"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","doc-available"},{xqSeqType, 'xs:boolean', one}, [], 
  {'doc-available', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","document-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","document-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'document-uri', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","document-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","document-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'document-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","element-with-id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","element-with-id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
  {'element-with-id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","element-with-id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","element-with-id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
  {'element-with-id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","empty"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","empty"},{xqSeqType, 'xs:boolean', one}, [], 
  {'empty', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","encode-for-uri"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","encode-for-uri"},{xqSeqType, 'xs:string', one}, [], 
  {'encode-for-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","ends-with"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","ends-with"},{xqSeqType, 'xs:boolean', one}, [], 
  {'ends-with', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","ends-with"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","ends-with"},{xqSeqType, 'xs:boolean', one}, [], 
  {'ends-with', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","environment-variable"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","environment-variable"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'environment-variable', 2}, 1, [{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
+{{qname, ?NS, "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
  {'error', 1},0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
+{{qname, ?NS, "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
  {'error', 2},1, [{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
+{{qname, ?NS, "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
  {'error', 3},2,[{xqSeqType, 'xs:QName', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
+{{qname, ?NS, "fn","error"},{xqSeqType, 'empty-sequence', none}, [], 
  {'error', 4},3,[{xqSeqType, 'xs:QName', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","escape-html-uri"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","escape-html-uri"},{xqSeqType, 'xs:string', one}, [], 
  {'escape-html-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","exactly-one"},{xqSeqType, item, one}, [], 
+{{qname, ?NS, "fn","exactly-one"},{xqSeqType, item, one}, [], 
  {'exactly-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","exists"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","exists"},{xqSeqType, 'xs:boolean', one}, [], 
  {'exists', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","false"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","false"},{xqSeqType, 'xs:boolean', one}, [], 
  {'false', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","filter"},{xqSeqType, item, zero_or_many}, [], 
- {'filter', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","filter"},[{xqSeqType, item, one}],{xqSeqType, 'xs:boolean', one}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","floor"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","filter"},{xqSeqType, item, zero_or_many}, [], 
+ {'filter', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","filter"},[{xqSeqType, item, one}],{xqSeqType, 'xs:boolean', one}},one}]},
+{{qname, ?NS, "fn","floor"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'floor', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","fold-left"},{xqSeqType, item, zero_or_many}, [], 
- {'fold-left', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","fold-left"},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","fold-right"},{xqSeqType, item, zero_or_many}, [], 
- {'fold-right', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","fold-right"},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each"},{xqSeqType, item, zero_or_many}, [], 
- {'for-each', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each"},[{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each-pair"},{xqSeqType, item, zero_or_many}, [], 
- {'for-each-pair', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","for-each-pair"},[{xqSeqType, item, one},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","fold-left"},{xqSeqType, item, zero_or_many}, [], 
+ {'fold-left', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","fold-left"},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
+{{qname, ?NS, "fn","fold-right"},{xqSeqType, item, zero_or_many}, [], 
+ {'fold-right', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","fold-right"},[{xqSeqType, item, zero_or_many},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
+{{qname, ?NS, "fn","for-each"},{xqSeqType, item, zero_or_many}, [], 
+ {'for-each', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","for-each"},[{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},zero_or_many}]},
+{{qname, ?NS, "fn","for-each-pair"},{xqSeqType, item, zero_or_many}, [], 
+ {'for-each-pair', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","for-each-pair"},[{xqSeqType, item, one},{xqSeqType, item, one}],{xqSeqType, item, zero_or_many}},one}]},
+{{qname, ?NS, "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-date', 3}, 2,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","format-date"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-date', 6}, 5,[{xqSeqType, 'xs:date', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-dateTime"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","format-dateTime"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-dateTime', 3}, 2,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-dateTime"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","format-dateTime"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-dateTime', 6}, 5,[{xqSeqType, 'xs:dateTime', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-integer"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","format-integer"},{xqSeqType, 'xs:string', one}, [], 
  {'format-integer', 3}, 2,[{xqSeqType, 'xs:integer', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-integer"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","format-integer"},{xqSeqType, 'xs:string', one}, [], 
  {'format-integer', 4}, 3,[{xqSeqType, 'xs:integer', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-number"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","format-number"},{xqSeqType, 'xs:string', one}, [], 
  {'format-number', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-number"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","format-number"},{xqSeqType, 'xs:string', one}, [], 
  {'format-number', 4}, 3,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-time"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","format-time"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-time', 3}, 2,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","format-time"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","format-time"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'format-time', 6}, 5,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","function-arity"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","function-arity"},{xqSeqType, 'xs:integer', one}, [], 
  {'function-arity', 2}, 1,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","function-lookup"},{xqSeqType,{xqFunTest,function,[],undefined,any,any},zero_or_one},[], 
+{{qname, ?NS, "fn","function-lookup"},{xqSeqType,{xqFunTest,function,[],undefined,any,any},zero_or_one},[], 
  {'function-lookup', 3}, 2,[{xqSeqType, 'xs:QName', one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","function-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
+{{qname, ?NS, "fn","function-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
  {'function-name', 2}, 1,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","generate-id"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","generate-id"},{xqSeqType, 'xs:string', one}, [], 
  {'generate-id', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","generate-id"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","generate-id"},{xqSeqType, 'xs:string', one}, [], 
  {'generate-id', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","has-children"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","has-children"},{xqSeqType, 'xs:boolean', one}, [], 
  {'has-children', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","has-children"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","has-children"},{xqSeqType, 'xs:boolean', one}, [], 
  {'has-children', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","head"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","head"},{xqSeqType, item, zero_or_one}, [], 
  {'head', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","hours-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","hours-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'hours-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","hours-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","hours-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'hours-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","hours-from-time"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","hours-from-time"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'hours-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
  {'id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","id"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
  {'id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","idref"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","idref"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
  {'idref', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","idref"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","idref"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
  {'idref', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","implicit-timezone"},{xqSeqType, 'xs:dayTimeDuration', one}, [],
+{{qname, ?NS, "fn","implicit-timezone"},{xqSeqType, 'xs:dayTimeDuration', one}, [],
  {'implicit-timezone', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","index-of"},{xqSeqType, 'xs:integer', zero_or_many}, [],
+{{qname, ?NS, "fn","index-of"},{xqSeqType, 'xs:integer', zero_or_many}, [],
  {'index-of', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","index-of"},{xqSeqType, 'xs:integer', zero_or_many}, [],
+{{qname, ?NS, "fn","index-of"},{xqSeqType, 'xs:integer', zero_or_many}, [],
  {'index-of', 4}, 3,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","innermost"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","innermost"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
  {'innermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","in-scope-prefixes"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","in-scope-prefixes"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'in-scope-prefixes', 2}, 1,[{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","insert-before"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","insert-before"},{xqSeqType, item, zero_or_many}, [], 
  {'insert-before', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","iri-to-uri"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","iri-to-uri"},{xqSeqType, 'xs:string', one}, [], 
  {'iri-to-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
  {'json-doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","json-doc"},{xqSeqType, item, zero_or_one}, [], 
  {'json-doc', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
+{{qname, ?NS, "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
  {'json-to-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
+{{qname, ?NS, "fn","json-to-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
  {'json-to-xml', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
  {'lang', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","lang"},{xqSeqType, 'xs:boolean', one}, [], 
  {'lang', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","last"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","last"},{xqSeqType, 'xs:integer', one}, [], 
  {'last', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
+{{qname, ?NS, "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
  {'load-xquery-module', 2}, 1,[{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
+{{qname, ?NS, "fn","load-xquery-module"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
  {'load-xquery-module', 3}, 2,[{xqSeqType, 'xs:string', one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
  {'local-name', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","local-name"},{xqSeqType, 'xs:string', one}, [], 
  {'local-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","local-name-from-QName"},{xqSeqType, 'xs:NCName', zero_or_one}, [],
+{{qname, ?NS, "fn","local-name-from-QName"},{xqSeqType, 'xs:NCName', zero_or_one}, [],
  {'local-name-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","lower-case"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","lower-case"},{xqSeqType, 'xs:string', one}, [], 
  {'lower-case', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","matches"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","matches"},{xqSeqType, 'xs:boolean', one}, [], 
  {'matches', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","matches"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","matches"},{xqSeqType, 'xs:boolean', one}, [], 
  {'matches', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","max"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","max"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'max', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","max"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","max"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'max', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","min"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","min"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'min', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","min"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","min"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'min', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","minutes-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","minutes-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'minutes-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","minutes-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","minutes-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'minutes-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","minutes-from-time"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","minutes-from-time"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'minutes-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","month-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","month-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'month-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","month-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","month-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'month-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","months-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","months-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'months-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","name"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","name"},{xqSeqType, 'xs:string', one}, [], 
  {'name', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","name"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","name"},{xqSeqType, 'xs:string', one}, [], 
  {'name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","namespace-uri"},{xqSeqType, 'xs:anyURI', one}, [], 
+{{qname, ?NS, "fn","namespace-uri"},{xqSeqType, 'xs:anyURI', one}, [], 
  {'namespace-uri', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","namespace-uri"},{xqSeqType, 'xs:anyURI', one}, [], 
+{{qname, ?NS, "fn","namespace-uri"},{xqSeqType, 'xs:anyURI', one}, [], 
  {'namespace-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","namespace-uri-for-prefix"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","namespace-uri-for-prefix"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'namespace-uri-for-prefix', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","namespace-uri-from-QName"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","namespace-uri-from-QName"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'namespace-uri-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","nilled"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
+{{qname, ?NS, "fn","nilled"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
  {'nilled', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","nilled"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
+{{qname, ?NS, "fn","nilled"},{xqSeqType, 'xs:boolean', zero_or_one}, [],
  {'nilled', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","node-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
+{{qname, ?NS, "fn","node-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
  {'node-name', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","node-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
+{{qname, ?NS, "fn","node-name"},{xqSeqType, 'xs:QName', zero_or_one}, [],
  {'node-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","normalize-space"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","normalize-space"},{xqSeqType, 'xs:string', one}, [], 
  {'normalize-space', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","normalize-space"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","normalize-space"},{xqSeqType, 'xs:string', one}, [], 
  {'normalize-space', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","normalize-unicode"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","normalize-unicode"},{xqSeqType, 'xs:string', one}, [], 
  {'normalize-unicode', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","normalize-unicode"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","normalize-unicode"},{xqSeqType, 'xs:string', one}, [], 
  {'normalize-unicode', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","not"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","not"},{xqSeqType, 'xs:boolean', one}, [], 
  {'not', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","number"},{xqSeqType, 'xs:double', one}, [], 
+{{qname, ?NS, "fn","number"},{xqSeqType, 'xs:double', one}, [], 
  {'number', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","number"},{xqSeqType, 'xs:double', one}, [], 
+{{qname, ?NS, "fn","number"},{xqSeqType, 'xs:double', one}, [], 
  {'number', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","one-or-more"},{xqSeqType, item, one_or_many}, [], 
+{{qname, ?NS, "fn","one-or-more"},{xqSeqType, item, one_or_many}, [], 
  {'one-or-more', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","outermost"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, "fn","outermost"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
  {'outermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-ietf-date"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
+{{qname, ?NS, "fn","parse-ietf-date"},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
  {'parse-ietf-date', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","parse-json"},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,{xqKindTest,'element',undefined,undefined,undefined},undefined}, one}, [],
+{{qname, ?NS, "fn","parse-xml"},{xqSeqType, {xqKindTest,'document-node',undefined,{xqKindTest,'element',undefined,undefined,undefined},undefined}, one}, [],
  {'parse-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","parse-xml-fragment"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
+{{qname, ?NS, "fn","parse-xml-fragment"},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
  {'parse-xml-fragment', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","path"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","path"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'path', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","path"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","path"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'path', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","position"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","position"},{xqSeqType, 'xs:integer', one}, [], 
  {'position', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","prefix-from-QName"},{xqSeqType, 'xs:NCName', zero_or_one}, [],
+{{qname, ?NS, "fn","prefix-from-QName"},{xqSeqType, 'xs:NCName', zero_or_one}, [],
  {'prefix-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","QName"},{xqSeqType, 'xs:QName', one}, [], 
+{{qname, ?NS, "fn","QName"},{xqSeqType, 'xs:QName', one}, [], 
  {'QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
+{{qname, ?NS, "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
  {'random-number-generator', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
+{{qname, ?NS, "fn","random-number-generator"},{xqSeqType,{xqFunTest,map,[],undefined,[{xqSeqType, 'xs:string', one}],{xqSeqType, item, one}},one},[], 
  {'random-number-generator', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","remove"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","remove"},{xqSeqType, item, zero_or_many}, [], 
  {'remove', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","replace"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","replace"},{xqSeqType, 'xs:string', one}, [], 
  {'replace', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","replace"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","replace"},{xqSeqType, 'xs:string', one}, [], 
  {'replace', 5}, 4,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","resolve-QName"},{xqSeqType, 'xs:QName', zero_or_one}, [],
+{{qname, ?NS, "fn","resolve-QName"},{xqSeqType, 'xs:QName', zero_or_one}, [],
  {'resolve-QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","resolve-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","resolve-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'resolve-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","resolve-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","resolve-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'resolve-uri', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","reverse"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","reverse"},{xqSeqType, item, zero_or_many}, [], 
  {'reverse', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","root"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, "fn","root"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}, [], 
  {'root', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","root"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}, [],
+{{qname, ?NS, "fn","root"},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}, [],
  {'root', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","round"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","round"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'round', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","round"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","round"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'round', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","round-half-to-even"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","round-half-to-even"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'round-half-to-even', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","round-half-to-even"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
+{{qname, ?NS, "fn","round-half-to-even"},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'round-half-to-even', 3}, 2,[{xqSeqType, 'xs:numeric', zero_or_one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","seconds-from-dateTime"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
+{{qname, ?NS, "fn","seconds-from-dateTime"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
  {'seconds-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","seconds-from-duration"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
+{{qname, ?NS, "fn","seconds-from-duration"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
  {'seconds-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","seconds-from-time"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
+{{qname, ?NS, "fn","seconds-from-time"},{xqSeqType, 'xs:decimal', zero_or_one}, [],
  {'seconds-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","serialize"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","serialize"},{xqSeqType, 'xs:string', one}, [], 
  {'serialize', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","serialize"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","serialize"},{xqSeqType, 'xs:string', one}, [], 
  {'serialize', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
  {'sort', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
  {'sort', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
- {'sort', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{xqFunTest,function,[],{qname, "http://www.w3.org/2005/xpath-functions", "fn","sort"},[{xqSeqType, item, one}],{xqSeqType, 'xs:anyAtomicType', zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","sort"},{xqSeqType, item, zero_or_many}, [], 
+ {'sort', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{xqFunTest,function,[],{qname, ?NS, "fn","sort"},[{xqSeqType, item, one}],{xqSeqType, 'xs:anyAtomicType', zero_or_many}},one}]},
+{{qname, ?NS, "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
  {'starts-with', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","starts-with"},{xqSeqType, 'xs:boolean', one}, [], 
  {'starts-with', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","static-base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
+{{qname, ?NS, "fn","static-base-uri"},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'static-base-uri', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","string"},{xqSeqType, 'xs:string', one}, [], 
  {'string', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","string"},{xqSeqType, 'xs:string', one}, [], 
  {'string', 2}, 1,[{xqSeqType, item, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string-join"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","string-join"},{xqSeqType, 'xs:string', one}, [], 
  {'string-join', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string-join"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","string-join"},{xqSeqType, 'xs:string', one}, [], 
  {'string-join', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string-length"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","string-length"},{xqSeqType, 'xs:integer', one}, [], 
  {'string-length', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string-length"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, "fn","string-length"},{xqSeqType, 'xs:integer', one}, [], 
  {'string-length', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","string-to-codepoints"},{xqSeqType, 'xs:integer', zero_or_many}, [],
+{{qname, ?NS, "fn","string-to-codepoints"},{xqSeqType, 'xs:integer', zero_or_many}, [],
  {'string-to-codepoints', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","subsequence"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","subsequence"},{xqSeqType, item, zero_or_many}, [], 
  {'subsequence', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:double', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","subsequence"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","subsequence"},{xqSeqType, item, zero_or_many}, [], 
  {'subsequence', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:double', one},{xqSeqType, 'xs:double', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring"},{xqSeqType, 'xs:string', one}, [], 
  {'substring', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:double', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring"},{xqSeqType, 'xs:string', one}, [], 
  {'substring', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:double', one},{xqSeqType, 'xs:double', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring-after"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring-after"},{xqSeqType, 'xs:string', one}, [], 
  {'substring-after', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring-after"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring-after"},{xqSeqType, 'xs:string', one}, [], 
  {'substring-after', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring-before"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring-before"},{xqSeqType, 'xs:string', one}, [], 
  {'substring-before', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","substring-before"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","substring-before"},{xqSeqType, 'xs:string', one}, [], 
  {'substring-before', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","sum"},{xqSeqType, 'xs:anyAtomicType', one}, [],
+{{qname, ?NS, "fn","sum"},{xqSeqType, 'xs:anyAtomicType', one}, [],
  {'sum', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","sum"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
+{{qname, ?NS, "fn","sum"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
  {'sum', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","tail"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","tail"},{xqSeqType, item, zero_or_many}, [], 
  {'tail', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","timezone-from-date"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
+{{qname, ?NS, "fn","timezone-from-date"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
  {'timezone-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","timezone-from-dateTime"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
+{{qname, ?NS, "fn","timezone-from-dateTime"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
  {'timezone-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","timezone-from-time"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
+{{qname, ?NS, "fn","timezone-from-time"},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}, [],
  {'timezone-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'tokenize', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'tokenize', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","tokenize"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'tokenize', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","trace"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","trace"},{xqSeqType, item, zero_or_many}, [], 
  {'trace', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","trace"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","trace"},{xqSeqType, item, zero_or_many}, [], 
  {'trace', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","transform"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
+{{qname, ?NS, "fn","transform"},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
  {'transform', 2}, 1,[{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","translate"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","translate"},{xqSeqType, 'xs:string', one}, [], 
  {'translate', 4}, 3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","true"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","true"},{xqSeqType, 'xs:boolean', one}, [], 
  {'true', 1}, 0,[]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unordered"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, "fn","unordered"},{xqSeqType, item, zero_or_many}, [], 
  {'unordered', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","unparsed-text"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'unparsed-text', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","unparsed-text"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'unparsed-text', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text-available"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","unparsed-text-available"},{xqSeqType, 'xs:boolean', one}, [], 
  {'unparsed-text-available', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text-available"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, "fn","unparsed-text-available"},{xqSeqType, 'xs:boolean', one}, [], 
  {'unparsed-text-available', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text-lines"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","unparsed-text-lines"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'unparsed-text-lines', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","unparsed-text-lines"},{xqSeqType, 'xs:string', zero_or_many}, [],
+{{qname, ?NS, "fn","unparsed-text-lines"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'unparsed-text-lines', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","upper-case"},{xqSeqType, 'xs:string', one}, [], 
+{{qname, ?NS, "fn","upper-case"},{xqSeqType, 'xs:string', one}, [], 
  {'upper-case', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","uri-collection"},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
+{{qname, ?NS, "fn","uri-collection"},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
  {'uri-collection', 1}, 0, []},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","uri-collection"},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
+{{qname, ?NS, "fn","uri-collection"},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
  {'uri-collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'xml-to-json', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
+{{qname, ?NS, "fn","xml-to-json"},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","year-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","year-from-date"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'year-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","year-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","year-from-dateTime"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'year-from-dateTime', 2}, 1,[{xqSeqType, 'xs:dateTime', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","years-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
+{{qname, ?NS, "fn","years-from-duration"},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'years-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","zero-or-one"},{xqSeqType, item, zero_or_one}, [], 
+{{qname, ?NS, "fn","zero-or-one"},{xqSeqType, item, zero_or_one}, [], 
  {'zero-or-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions", "fn","put"},{xqSeqType, 'empty-sequence', one},[{annotation,{{qname, "http://www.w3.org/2012/xquery", [],"updating"},[]}}],
+{{qname, ?NS, "fn","put"},{xqSeqType, 'empty-sequence', one},[{annotation,{{qname, "http://www.w3.org/2012/xquery", [],"updating"},[]}}],
  {'put', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one},{xqSeqType, 'xs:string', one}]}]).
 
 %% ====================================================================
@@ -692,33 +691,33 @@
          #xqAtomicValue{type = Type, value = 0.0};
       nan ->
          Arg1;
+      _ when ?integer(Type) ->
+         #xqAtomicValue{type = 'xs:integer', 
+                        value = xqerl_numeric:abs_val(Val)};
       _ ->
-         case xqerl_types:subtype_of(Type, 'xs:integer') of
-            true ->
-               #xqAtomicValue{type = 'xs:integer', value = xqerl_numeric:abs_val(Val)};
-            _ ->
-               #xqAtomicValue{type = Type, value = xqerl_numeric:abs_val(Val)}
-         end
+         #xqAtomicValue{type = Type, value = xqerl_numeric:abs_val(Val)}
    end.
 
-%% Adjusts an xs:dateTime value to a specific timezone, or to no timezone at all. 
+%% Adjusts an xs:dateTime value to a specific timezone, 
+%% or to no timezone at all. 
 'adjust-dateTime-to-timezone'(_Ctx,[]) -> [];
 'adjust-dateTime-to-timezone'(#{tab := Tab} = Ctx,Arg1) ->
    Itz = xqerl_context:get_implicit_timezone(Tab),
-   ?dbg("Itz",Itz),
-   'adjust-dateTime-to-timezone'(Ctx,Arg1, #xqAtomicValue{type = 'xs:dayTimeDuration', 
-                                                         value = #xsDateTime{month = 0,
-                                                                             day = 0,
-                                                                             offset = Itz,
-                                                                             string_value = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration')}}
-                                          ).
+   Str = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration'),
+   Dt = #xqAtomicValue{type = 'xs:dayTimeDuration',
+                       value = #xsDateTime{month = 0,
+                                           day = 0,
+                                           offset = Itz,
+                                           string_value = Str}},
+   'adjust-dateTime-to-timezone'(Ctx, Arg1, Dt).
 
 'adjust-dateTime-to-timezone'(_Ctx,[],_Arg2) -> [];
 'adjust-dateTime-to-timezone'(_Ctx,Arg1,Arg2) ->
    xqerl_datetime:align_to_timezone(Arg1,Arg2).
 
-
-%% Adjusts an xs:date value to a specific timezone, or to no timezone at all; the result is the date in the target timezone that contains the starting instant of the supplied date. 
+%% Adjusts an xs:date value to a specific timezone, or to no timezone at all; 
+%% the result is the date in the target timezone that contains the starting 
+%% instant of the supplied date. 
 'adjust-date-to-timezone'(Ctx,Arg1) -> 
    'adjust-dateTime-to-timezone'(Ctx,Arg1).
 'adjust-date-to-timezone'(Ctx,Arg1,Arg2) -> 
@@ -730,7 +729,10 @@
 'adjust-time-to-timezone'(Ctx,Arg1,Arg2) -> 
    'adjust-dateTime-to-timezone'(Ctx,Arg1,Arg2).
 
-%% Analyzes a string using a regular expression, returning an XML structure that identifies which parts of the input string matched or failed to match the regular expression, and in the case of matched substrings, which substrings matched each capturing group in the regular expression. 
+%% Analyzes a string using a regular expression, returning an XML structure 
+%% that identifies which parts of the input string matched or failed to match 
+%% the regular expression, and in the case of matched substrings, which 
+%% substrings matched each capturing group in the regular expression. 
 'analyze-string'(Ctx,Input,Pattern) ->
    'analyze-string'(Ctx,Input,Pattern,[]).
 
@@ -744,63 +746,64 @@
                 {match,List} ->
                    List
              end,
-   %?dbg("Content",Content),
-   Frag = #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+   Expr = if Input1 == [] -> [];
+             true ->
+                analyze_string1(Content,Input1)
+          end,
+   Frag = #xqElementNode{name = #qname{namespace = ?NS,
                                        prefix = "fn",
                                        local_name = "analyze-string-result"},
-                         expr = if Input1 == [] ->
-                                      [];
-                                   true ->
-                                      analyze_string1(Content,Input1)
-                                end},
-   ?seq:singleton(xqerl_node:new_fragment(Ctx, Frag)).
+                         expr = Expr},
+   xqerl_node:new_fragment(Ctx, Frag).
 
 analyze_string1([],String) -> % no matches
-   #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+   #xqElementNode{name = #qname{namespace = ?NS,
                                 prefix = "fn",
                                 local_name = "non-match"},
                          expr = ?str(String)};
 analyze_string1(List,String) ->
-   Fun = fun([{Start,End}|Groups],LastPos) ->
-               Pre = if Start =/= LastPos ->
-                           [analyze_string1([],string:slice(String,LastPos,(Start-LastPos)))];
-                        true ->
-                           []
-                     end,
-               Matches = case Groups of
-                            [] ->
-                               S = string:slice(String,Start,End),
-                               #xqTextNode{expr = ?str(S)};
-                            _ ->
-                               {B,_} = hd(Groups),
-                               {Es,Ee} = hd(lists:reverse(Groups)),
-                               GrpSize = Es+Ee,
-                               Tail = if (Start + End) > GrpSize -> % missing tail text 
-                                            [#xqTextNode{expr = ?str(string:slice(String,GrpSize,Start + End - GrpSize))}];
-                                         true ->
-                                            []
-                                      end,
-                               %?dbg("B",B),
-                               %?dbg("{Es,Ee}",{Es,Ee}),
-                               %?dbg("{Start,End}",{Start,End}),
-                               %?dbg("GrpSize",GrpSize),
-                               if B > Start ->
-                                     S = string:slice(String,Start,Start + End - B),
-                                     [#xqTextNode{expr = ?str(S)}|get_groups(String,Groups,1)] ++ Tail;
-                                  true ->
-                                     get_groups(String,Groups,1) ++ Tail
-                               end
-                         end,
-               Match = #xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
-                                                    prefix = "fn",
-                                                    local_name = "match"},
-                                      expr = Matches},
-               if End == 0 ->
-                     xqerl_error:error('FORX0003'); % would match empty str
-                  true ->
-                     {Pre++[Match],Start + End}
-               end
-         end,
+   Fun = 
+     fun([{Start,End}|Groups],LastPos) ->
+           Pre = if Start =/= LastPos ->
+                       Slc = string:slice(String,LastPos,(Start-LastPos)),
+                       [analyze_string1([],Slc)];
+                    true ->
+                       []
+                 end,
+           Matches = 
+              case Groups of
+                [] ->
+                   S = string:slice(String,Start,End),
+                   #xqTextNode{expr = ?str(S)};
+                _ ->
+                   {B,_} = hd(Groups),
+                   {Es,Ee} = hd(lists:reverse(Groups)),
+                   GrpSize = Es+Ee,
+                   Tail = if (Start + End) > GrpSize -> % missing tail text 
+                                Slc1 = string:slice(String,GrpSize,
+                                                    Start + End - GrpSize),
+                                [#xqTextNode{expr = ?str(Slc1)}];
+                             true ->
+                                []
+                          end,
+                    if B > Start ->
+                          S = string:slice(String,Start,Start + End - B),
+                          [#xqTextNode{expr = ?str(S)} |
+                             get_groups(String,Groups,1)] ++ Tail;
+                       true ->
+                          get_groups(String,Groups,1) ++ Tail
+                    end
+              end,
+           Match = #xqElementNode{name = #qname{namespace = ?NS,
+                                                prefix = "fn",
+                                                local_name = "match"},
+                                  expr = Matches},
+           if End == 0 ->
+                 ?err('FORX0003'); % would match empty str
+              true ->
+                 {Pre++[Match],Start + End}
+           end
+     end,
    {Els,Pos} = lists:mapfoldl(Fun, 0, List),
    StrLen = string:length(String),
    Return = if Pos =/= StrLen andalso StrLen > 0 ->
@@ -812,50 +815,70 @@ analyze_string1(List,String) ->
 
 %% all groups here are connected, could be sub-groups 
 get_groups(String,[{Start,End}],Cnt) ->
-   [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+   [#xqElementNode{name = #qname{namespace = ?NS,
                                 prefix = "fn",
                                 local_name = "group"},
-                  expr = [#xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"},
+                  expr = [#xqAttributeNode{name = 
+                                             #qname{namespace = 'no-namespace', 
+                                                    prefix = [], 
+                                                    local_name = "nr"},
                                            expr = ?atint(Cnt)},
                           if End == 0 ->
                                 [];
                              true ->
-                                #xqTextNode{expr = ?str(string:slice(String,Start,End))}
+                                Slc = string:slice(String,Start,End),
+                                #xqTextNode{expr = ?str(Slc)}
                           end
                          ]}];   
 get_groups(String,[{-1,0}|T],Cnt) ->
    get_groups(String,T,Cnt+1);   
 get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
-   %?dbg("{Start,End,NStart,NEnd}",{Start,End,NStart,NEnd}),
    Pos1 = Start + End,
    if NStart < Pos1 orelse NEnd == 0;
       {Start,End} == {NStart,NEnd} -> % overlap/empty group
          End1 = NStart - Start,
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End1))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
-         [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
-                                      prefix = "fn",
-                                      local_name = "group"},
-                        expr = [Att1,Txt1,get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]}];
+         Att1 = #xqAttributeNode{name = 
+                                   #qname{namespace = 'no-namespace', 
+                                          prefix = [], 
+                                          local_name = "nr"}, 
+                                 expr = ?atint(Cnt)},
+         Grps = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
+         [#xqElementNode{name = #qname{namespace = ?NS,
+                                       prefix = "fn",
+                                       local_name = "group"},
+                         expr = [Att1,
+                                 Txt1,
+                                 Grps]}];
       NStart > Pos1 -> % gap
          Length = NStart - Pos1,  
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
          Txt2 = #xqTextNode{expr = ?str(string:slice(String,Pos1,Length))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
-         [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
+                                               prefix = [], 
+                                               local_name = "nr"}, 
+                                 expr = ?atint(Cnt)},
+         Grps1 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
+         [#xqElementNode{name = #qname{namespace = ?NS,
                                       prefix = "fn",
                                       local_name = "group"},
-                        expr = [Att1,Txt1]},Txt2|get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)];
+                        expr = [Att1,Txt1]},
+          Txt2|Grps1];
       true -> % no overlap
          Txt1 = #xqTextNode{expr = ?str(string:slice(String,Start,End))},
-         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = "nr"}, expr = ?atint(Cnt)},
-         [#xqElementNode{name = #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+         Att1 = #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
+                                               prefix = [], 
+                                               local_name = "nr"}, 
+                                 expr = ?atint(Cnt)},
+         Grps2 = get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1),
+         [#xqElementNode{name = #qname{namespace = ?NS,
                                       prefix = "fn",
                                       local_name = "group"},
-                        expr = [Att1,Txt1]}|get_groups(String,[{NStart,NEnd}|Rest],Cnt + 1)]
+                        expr = [Att1,Txt1]}|Grps2]
   end.
 
-%% Makes a dynamic call on a function with an argument list supplied in the form of an array. 
+%% Makes a dynamic call on a function with an argument list supplied 
+%% in the form of an array. 
 'apply'(Ctx,Function,#array{data = Args}) when is_map(Function) ->
    xqerl_operators:lookup(Ctx, Function, Args);
 'apply'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
@@ -873,28 +896,28 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
 'apply'(Ctx,#xqFunction{body = Function},Args) when is_function(Function) -> 
    ?MODULE:apply(Ctx,Function,Args).
 
-%% Returns a list of environment variable names that are suitable for passing to fn:environment-variable, as a (possibly empty) sequence of strings. 
+%% Returns a list of environment variable names that are suitable for passing 
+%% to fn:environment-variable, as a (possibly empty) sequence of strings. 
 'available-environment-variables'(_Ctx) -> 
    % NOT ALLOWING ACCESS TO ENVIRONMENT
-   ?seq:empty().
+   [].
 
-%% Returns the average of the values in the input sequence $arg, that is, the sum of the values divided by the number of values. 
+%% Returns the average of the values in the input sequence $arg, that is, 
+%% the sum of the values divided by the number of values. 
 'avg'(_Ctx,[]) -> [];
 'avg'(_Ctx,Arg1) ->
    {Seq,SeqType} = compare_convert_seq(?seq:to_list(Arg1), [], []),
-   %?dbg("{Seq,SeqType}", {Seq,SeqType}),
    try
       Avg = avg1(Seq, [], 0),
-      %?dbg("Avg", Avg),
-      OutType = case xqerl_types:subtype_of(SeqType, 'xs:integer') of
-                             true ->
-                                'xs:decimal';
-                             _ ->
-                                SeqType
-                          end,
-       xqerl_types:cast_as(Avg,OutType)
+      OutType = if ?integer(SeqType) ->
+                      'xs:decimal';
+                   true ->
+                      SeqType
+                end,
+      xqerl_types:cast_as(Avg,OutType)
    catch 
-      _:#xqError{name = #xqAtomicValue{value=#qname{local_name = "XPTY0004"}}} -> xqerl_error:error('FORG0006');
+      ?ERROR_MATCH("XPTY0004") ->
+         ?err('FORG0006');
       E -> throw(E)
    end.
 
@@ -909,7 +932,6 @@ avg1([H|T], [], 0) ->
 avg1([H|T], Sum, Count) ->
    avg1(T, xqerl_operators:add(H, Sum), Count + 1).
 
-
 %% Returns the base URI of a node. 
 'base-uri'(Ctx) -> 'base-uri'(Ctx,xqerl_context:get_context_item(Ctx)).
 'base-uri'(_Ctx,[]) -> ?seq:empty();
@@ -922,15 +944,11 @@ avg1([H|T], Sum, Count) ->
       [] ->
          [];
       BaseUri ->
-         %SBUValue = xqerl_types:value(SBU),
-         %Resolved = xqerl_lib:resolve_against_base_uri(SBUValue, BaseUri),
          ?atm('xs:anyURI',BaseUri)
-         %?atm('xs:anyURI',Resolved)
    end;
 'base-uri'(_,_) -> ?err('XPTY0004').
 
 %% Computes the effective boolean value of the sequence $arg. 
-% 1
 'boolean'(_Ctx,Arg) ->
    ?bool(xqerl_operators:eff_bool_val(Arg)).
 
@@ -950,47 +968,44 @@ avg1([H|T], Sum, Count) ->
    end.
 
 %% Returns true if two strings are equal, considered codepoint-by-codepoint. 
-'codepoint-equal'(_Ctx,Arg1,Arg2) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         case ?seq:is_empty(Arg2) of
-            true ->
-               Arg2;
-            _ ->
-               try
-                  #xqAtomicValue{type = 'xs:string', value = Str1} = ?seq:singleton_value(Arg1),
-                  #xqAtomicValue{type = 'xs:string', value = Str2} = ?seq:singleton_value(Arg2),
-                  ?bool(Str1 == Str2)
-               catch
-                  _:_ ->
-                     xqerl_error:error('XPTY0004')
-               end
-         end
-   end.
+'codepoint-equal'(_Ctx,[],_Arg2) -> [];
+'codepoint-equal'(_Ctx,_Arg1,[]) -> [];
+'codepoint-equal'(_Ctx,[Arg1],Arg2) -> 'codepoint-equal'(_Ctx,Arg1,Arg2);
+'codepoint-equal'(_Ctx,Arg1,[Arg2]) -> 'codepoint-equal'(_Ctx,Arg1,Arg2);
+'codepoint-equal'(_Ctx,
+                  #xqAtomicValue{type = 'xs:string', value = Str1},
+                  #xqAtomicValue{type = 'xs:string', value = Str2}) -> 
+      ?bool(Str1 == Str2);
+'codepoint-equal'(_,_,_) -> ?err('XPTY0004').
 
 %% Returns an xs:string whose characters have supplied codepoints. 
 'codepoints-to-string'(_Ctx,[]) -> ?str("");
+'codepoints-to-string'(_Ctx,Arg1) when not is_list(Arg1) ->
+   'codepoints-to-string'(_Ctx,[Arg1]);
 'codepoints-to-string'(_Ctx,Arg1) -> 
-   %?dbg("codepoints-to-string", Arg1),
-   Ints = ?seq:to_list(Arg1),
-   %?dbg("codepoints-to-string",?LINE),
-   Fun = fun(#xqAtomicValue{value = Int}) when is_integer(Int) ->
-               case xqerl_lib:is_xschar(Int) of
-                  true ->
-                     Int;
-                  _ ->
-                     xqerl_error:error('FOCH0001')
-               end
-         end,
-   %?dbg("codepoints-to-string",?LINE),
-   Cps = lists:map(Fun, Ints),
-   %?dbg("codepoints-to-string",?LINE),
-   ?str(Cps).
+   Rev = lists:reverse(Arg1),
+   CPs = codepoint(Rev, []),
+   ?str(CPs).
 
-%% Given a string value and a collation, generates an internal value called a collation key, with the property that 
-%% the matching and ordering of collation keys reflects the matching and ordering of strings under the specified collation. 
+codepoint([],Acc) -> Acc;
+codepoint([#xqAtomicValue{value = 16#09}|T],Acc) -> codepoint(T,[16#09|Acc]);
+codepoint([#xqAtomicValue{value = 16#0A}|T],Acc) -> codepoint(T,[16#0A|Acc]);
+codepoint([#xqAtomicValue{value = 16#0D}|T],Acc) -> codepoint(T,[16#0D|Acc]);
+codepoint([#xqAtomicValue{value = X}|T],Acc) when X >= 16#20, 
+                                                  X =< 16#D7FF -> 
+   codepoint(T,[X|Acc]);
+codepoint([#xqAtomicValue{value = X}|T],Acc) when X >= 16#E000, 
+                                                  X =< 16#FFFD -> 
+   codepoint(T,[X|Acc]);
+codepoint([#xqAtomicValue{value = X}|T],Acc) when X >= 16#10000, 
+                                                  X =< 16#10FFFF -> 
+   codepoint(T,[X|Acc]);
+codepoint(_,_) -> ?err('FOCH0001').
+
+%% Given a string value and a collation, generates an internal value called 
+%% a collation key, with the property that the matching and ordering of 
+%% collation keys reflects the matching and ordering of strings under the 
+%% specified collation. 
 'collation-key'(Ctx,Arg1) -> 
    Coll = xqerl_context:get_default_collation(Ctx),
    'collation-key'(Ctx,Arg1,Coll).
@@ -1000,7 +1015,8 @@ avg1([H|T], Sum, Count) ->
    Bin = xqerl_coll:sort_key(StrVal, ColVal),
    ?atm('xs:base64Binary',Bin).
 
-%% Returns a sequence of items identified by a collection URI; or a default collection if no URI is supplied. 
+%% Returns a sequence of items identified by a collection URI; or a default 
+%% collection if no URI is supplied. 
 'collection'(_Ctx) -> 
    {ok,Doc} = xqerl_collection:get(default),
    Doc.
@@ -1010,7 +1026,7 @@ avg1([H|T], Sum, Count) ->
 'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-   ?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+   %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try 
       Val = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       {ok,Doc} = if Val == "" ->
@@ -1024,47 +1040,38 @@ avg1([H|T], Sum, Count) ->
          ?err('FODC0002')
    end.
 
-%% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal to, or after $comparand2 according to the rules of a selected collation. 
+%% Returns -1, 0, or 1, depending on whether $comparand1 collates before, equal 
+%% to, or after $comparand2 according to the rules of a selected collation. 
 'compare'(Ctx,Arg1,Arg2) -> 
    Coll = xqerl_context:get_default_collation(Ctx),
    'compare'(Ctx,Arg1,Arg2,Coll).
 
 'compare'(_Ctx,[],_Arg2,_Collation) -> [];
 'compare'(_Ctx,_Arg1,[],_Collation) -> [];
-'compare'(_Ctx,Arg1,Arg2,Collation) ->
+'compare'(_Ctx,Arg1,Arg2,Collation) when is_function(Collation) ->
    try
-      ColVal = xqerl_coll:parse(xqerl_types:string_value(Collation)),
       StrVal1 = xqerl_types:string_value(Arg1),
       StrVal2 = xqerl_types:string_value(Arg2),
-      Bin1 = xqerl_coll:sort_key(StrVal1, ColVal),
-      Bin2 = xqerl_coll:sort_key(StrVal2, ColVal),
-      %?dbg("Bin1",Bin1),
-      %?dbg("Bin2",Bin2),
+      Bin1 = xqerl_coll:sort_key(StrVal1, Collation),
+      Bin2 = xqerl_coll:sort_key(StrVal2, Collation),
       if Bin1 < Bin2 -> ?atint(-1);
          Bin1 > Bin2 -> ?atint(1);
          true -> ?atint(0)
       end
    catch
       _:_ ->
-         ?dbg("compare",erlang:get_stacktrace()),
+         %?dbg("compare",erlang:get_stacktrace()),
          ?err('FOCH0002')
-  end.
+  end;
+'compare'(_Ctx,Arg1,Arg2,Collation) ->
+   ColVal = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+   'compare'(_Ctx,Arg1,Arg2,ColVal).
 
 %% Returns the concatenation of the string values of the arguments. 
-%% 'concat'(Ctx,Arg1,Arg2) -> concat1(Ctx,[Arg1,Arg2]).
 'concat'(Ctx,Arg1) -> 'string-join'(Ctx,Arg1).
 
-
-%% 'concat'(_Ctx,Arg1,Arg2) -> 
-%%    Val1 = xqerl_types:string_value(Arg1),
-%%    Val2 = xqerl_types:string_value(Arg2),
-%%    ?seq:singleton(#xqAtomicValue{type='xs:string', value = lists:concat([Val1,Val2])}).
-
-%% concat1(Ctx,List) ->
-%%    'string-join'(Ctx,?seq:from_list(List)).
-
-
-%% Returns true if the string $arg1 contains $arg2 as a substring, taking collations into account. 
+%% Returns true if the string $arg1 contains $arg2 as a substring, 
+%% taking collations into account. 
 'contains'(Ctx,Arg1,Arg2) ->
    Coll = xqerl_context:get_default_collation(Ctx),
    'contains'(Ctx,Arg1,Arg2,Coll).
@@ -1075,9 +1082,7 @@ avg1([H|T], Sum, Count) ->
    S2 = xqerl_types:value(Arg2),
    B1 = xqerl_coll:as_bin_list(S1, Coll),
    B2 = xqerl_coll:as_bin_list(S2, Coll),
-   %?dbg("B1",B1),
-   %?dbg("B2",B2),
-   if B2 == <<>> ->
+   if B2 =:= <<>> ->
          ?bool(true);
       true ->
          case binary:matches(B1,B2) of
@@ -1088,8 +1093,9 @@ avg1([H|T], Sum, Count) ->
          end
    end.
 
-%% Determines whether or not any of the supplied strings, when tokenized at whitespace boundaries, 
-%% contains the supplied token, under the rules of the supplied collation. 
+%% Determines whether or not any of the supplied strings, when tokenized at 
+%% whitespace boundaries, contains the supplied token, under the rules of the 
+%% supplied collation. 
 'contains-token'(Ctx,InputList,Token) -> 
    Coll = xqerl_context:get_default_collation(Ctx),
    'contains-token'(Ctx,InputList,Token, Coll).
@@ -1099,16 +1105,19 @@ avg1([H|T], Sum, Count) ->
    'contains-token'(Ctx,[InputList],Token,Collation);
 'contains-token'(Ctx,InputList,Token,Collation) -> 
    Token1 = string:trim(xqerl_types:string_value(Token)),
+   Coll = xqerl_coll:parse(xqerl_types:value(Collation)),
    if Token1 == [] ->
          ?bool(false);
       true ->
          Token2 = ?str(Token1),
-         Bool = lists:any(fun(Str) ->
-                                Strs = tokenize(Ctx, Str),
-                                lists:any(fun(S) ->
-                                                compare(Ctx, S, Token2, Collation) == ?atint(0)
-                                          end, Strs)
-                          end, InputList),
+         AnyFun1 = fun(S) ->
+                         compare(Ctx, S, Token2, Coll) == ?atint(0)
+                   end,
+         AnyFun2 = fun(Str) ->
+                        Strs = tokenize(Ctx, Str),
+                        lists:any(AnyFun1, Strs)
+                   end,
+         Bool = lists:any(AnyFun2, InputList),
          ?bool(Bool)
    end.
 
@@ -1120,7 +1129,7 @@ avg1([H|T], Sum, Count) ->
 
 %% Returns the current date. 
 'current-date'(#{tab := Tab}) -> 
-   xqerl_types:cast_as(xqerl_context:get_current_datetime(Tab), 'xs:date') .
+   xqerl_types:cast_as(xqerl_context:get_current_datetime(Tab), 'xs:date').
 
 %% Returns the current date and time (with timezone). 
 'current-dateTime'(#{tab := Tab}) -> 
@@ -1130,7 +1139,8 @@ avg1([H|T], Sum, Count) ->
 'current-time'(#{tab := Tab}) -> 
    xqerl_types:cast_as(xqerl_context:get_current_datetime(Tab), 'xs:time') .
 
-%% Returns the result of atomizing a sequence. This process flattens arrays, and replaces nodes by their typed values. 
+%% Returns the result of atomizing a sequence. This process flattens arrays, 
+%% and replaces nodes by their typed values. 
 'data'(Ctx) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    'data'(Ctx, Ci).
@@ -1150,10 +1160,6 @@ data1([H|T]) when ?noderecs(H) ->
 data1(_) ->
    ?err('FOTY0013').
 
-   
-
-
-
 %% Returns an xs:dateTime value created by combining an xs:date and an xs:time. 
 'dateTime'(_Ctx,#xqAtomicValue{type = 'xs:date', 
                                value = #xsDateTime{offset = DateOffset} = Date},
@@ -1167,24 +1173,21 @@ data1(_) ->
                   TimeOffset == [] -> DateOffset;
                   TimeOffset == DateOffset -> DateOffset;
                   true ->
-                     xqerl_error:error('FORG0008')
+                     ?err('FORG0008')
                end,
-   DT = Date#xsDateTime{hour = Hour, minute = Min, second = Sec, offset = NewOffset},
-   ?seq:singleton(
+   DT = Date#xsDateTime{hour = Hour, 
+                        minute = Min, 
+                        second = Sec, 
+                        offset = NewOffset},
+   Str = xqerl_datetime:to_string(DT,'xs:dateTime'),
    #xqAtomicValue{type = 'xs:dateTime', 
-                  value = DT#xsDateTime{string_value = xqerl_datetime:to_string(DT,'xs:dateTime')}});
-'dateTime'(Ctx,Arg1,Arg2) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         Arg1;
-      _ ->
-         case ?seq:is_empty(Arg2) of
-            true ->
-               Arg2;
-            _ ->
-               'dateTime'(Ctx,?seq:singleton_value(Arg1),?seq:singleton_value(Arg2))
-         end
-   end.
+                  value = DT#xsDateTime{string_value = Str}};
+'dateTime'(_,[],_) -> [];
+'dateTime'(_,_,[]) -> [];
+'dateTime'(Ctx,[Arg1],Arg2) ->
+   'dateTime'(Ctx,Arg1,Arg2);
+'dateTime'(Ctx,Arg1,[Arg2]) ->
+   'dateTime'(Ctx,Arg1,Arg2).
 
 %% Returns the day component of an xs:date. 
 'day-from-date'(Ctx,Arg1) -> 
@@ -1195,25 +1198,20 @@ data1(_) ->
    'days-from-duration'(Ctx, Arg1).
 
 %% Returns the number of days in a duration. 
-'days-from-duration'(_Ctx, Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-        Arg1;
-      _ ->
-         #xqAtomicValue{value = #xsDateTime{sign = Sn, day = Dy}} = ?seq:singleton_value(Arg1),
-         Dy1 = if Sn =:= '-' ->
-                     Dy * -1;
-                  true ->
-                     Dy
-               end,
-         ?atint(Dy1)
-   end.
+'days-from-duration'(_, []) -> [];
+'days-from-duration'(Ctx, [Arg1]) -> 'days-from-duration'(Ctx, Arg1);
+'days-from-duration'(_, #xqAtomicValue{value = #xsDateTime{sign = '-', 
+                                                           day = Dy}}) ->
+   ?atint(-Dy);
+'days-from-duration'(_, #xqAtomicValue{value = #xsDateTime{day = Dy}}) ->
+   ?atint(Dy).
 
 %% This function assesses whether two sequences are deep-equal to each other. 
 %% To be deep-equal, they must contain items that are pairwise deep-equal; 
-%% and for two items to be deep-equal, they must either be atomic values that compare equal, 
-%% or nodes of the same kind, with the same name, whose children are deep-equal, 
-%% or maps with matching entries, or arrays with matching members. 
+%% and for two items to be deep-equal, they must either be atomic values that 
+%% compare equal, or nodes of the same kind, with the same name, whose children 
+%% are deep-equal, or maps with matching entries, or arrays with matching 
+%% members. 
 'deep-equal'(Ctx,Arg1,Arg2) ->
    Coll = xqerl_context:get_default_collation(Ctx),
    'deep-equal'(Ctx,Arg1,Arg2,Coll).
@@ -1223,72 +1221,80 @@ data1(_) ->
    'deep-equal'(Ctx,[Arg1],Arg2,Collation);
 'deep-equal'(Ctx,Arg1,Arg2,Collation) when not is_list(Arg2) -> 
    'deep-equal'(Ctx,Arg1,[Arg2],Collation);
-'deep-equal'(Ctx,Arg1,Arg2,Collation) -> 
-   _ = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+'deep-equal'(Ctx,Arg1,Arg2,Collation) when not is_function(Collation) -> 
+   CollFun = xqerl_coll:parse(xqerl_types:string_value(Collation)),
+   'deep-equal'(Ctx,Arg1,Arg2,CollFun);
+'deep-equal'(Ctx,Arg1,Arg2,CollFun) when is_function(CollFun) -> 
    case count([], Arg1) =/= count([], Arg2) of
       true ->
          ?bool(false);
       _ ->
          Zip = lists:zip(Arg1, Arg2),
-         %?dbg("deep-equal",Zip),
+         EqFun = 
+             fun({X,Y}) when is_list(X),is_list(Y) ->
+                   'deep-equal'(Ctx,X,Y,CollFun) == ?bool(true);
+                ({#xqNode{} = N1,#xqNode{} = N2}) ->
+                   A1 = xqerl_node:nodes_equal(N1,N2,CollFun),
+                   A1 == {xqAtomicValue,'xs:boolean',true};
+                ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
+                   true;
+                ({#xqAtomicValue{value = infinity},
+                  #xqAtomicValue{value = infinity}}) ->
+                   true;
+                ({#xqAtomicValue{value = neg_infinity},
+                  #xqAtomicValue{value = neg_infinity}}) ->
+                   true;
+                ({#xqAtomicValue{type = T1} = N1,
+                  #xqAtomicValue{type = T2} = N2}) 
+                   when ?string(T1) andalso ?string(T2) ->
+                   compare(Ctx, N1, N2, CollFun) == ?atint(0);
+                ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
+                   xqerl_operators:equal(N1,N2) == 
+                     {xqAtomicValue,'xs:boolean',true};
+                ({_,#xqFunction{}}) ->
+                   ?err('FOTY0015');
+                ({#xqFunction{},_}) ->
+                   ?err('FOTY0015');
+                ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
+                   F1 == F2;
+                ({M1,M2}) when is_map(M1) andalso is_map(M2) ->
+                     Sz1 = xqerl_map:size([], M1),
+                     Sz2 = xqerl_map:size([], M2),
+                     if Sz1 == Sz2 ->
+                           K1 = xqerl_map:keys([],M1),
+                           F = fun(K) ->
+                                     xqerl_map:contains([], M2, K) == 
+                                       ?bool(true) andalso
+                                     'deep-equal'(
+                                       [],
+                                       xqerl_map:get([], M1, K), 
+                                       xqerl_map:get([], M2, K),
+                                       CollFun) == ?bool(true)
+                               end,         
+                           lists:all(F, K1);
+                        true ->
+                           false
+                     end;
+                ({{array,A1},{array,A2}}) ->
+                   'deep-equal'(Ctx,A1,A2,CollFun) == ?bool(true)
+                end,
          try
-            ?bool(lists:all(fun({X,Y}) when is_list(X),is_list(Y) ->
-                                  'deep-equal'(Ctx,X,Y,Collation) == ?bool(true);
-                               %({X,X}) ->
-                               %   true;
-                               ({#xqNode{} = N1,#xqNode{} = N2}) ->
-                                  A1 = xqerl_node:nodes_equal(N1,N2,Collation),
-                                  %?dbg("deep-equal",A1),
-                                  A1 == {xqAtomicValue,'xs:boolean',true};
-                               ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
-                                  true;
-                               ({#xqAtomicValue{value = infinity},#xqAtomicValue{value = infinity}}) ->
-                                  true;
-                               ({#xqAtomicValue{value = neg_infinity},#xqAtomicValue{value = neg_infinity}}) ->
-                                  true;
-                               ({#xqAtomicValue{type = T1} = N1,#xqAtomicValue{type = T2} = N2}) when ?string(T1) andalso ?string(T2) ->
-                                  compare(Ctx, N1, N2, Collation) == ?atint(0);
-                               ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
-                                  xqerl_operators:equal(N1,N2) == {xqAtomicValue,'xs:boolean',true};
-                               ({_,#xqFunction{}}) ->
-                                  xqerl_error:error('FOTY0015');
-                               ({#xqFunction{},_}) ->
-                                  xqerl_error:error('FOTY0015');
-                               ({F1,F2}) when is_function(F1) andalso is_function(F2) ->
-                                  F1 == F2;
-                               ({M1,M2}) when is_map(M1) andalso is_map(M2) ->
-                                    Sz1 = xqerl_map:size([], M1),
-                                    Sz2 = xqerl_map:size([], M2),
-                                    if Sz1 == Sz2 ->
-                                          K1 = xqerl_map:keys([],M1),
-                                          F = fun(K) ->
-                                                    xqerl_map:contains([], M2, K) == ?bool(true) andalso
-                                                    'deep-equal'([],xqerl_map:get([], M1, K), xqerl_map:get([], M2, K),Collation) == ?bool(true)
-                                              end,         
-                                          lists:all(F, K1);
-                                       true ->
-                                          false
-                                    end;
-                               ({{array,A1},{array,A2}}) ->
-                                  'deep-equal'(Ctx,A1,A2,Collation) == ?bool(true)
-                               end, Zip))
-            catch
-               _:#xqError{name = ?atm('xs:QName',#qname{local_name = "FOTY0015"})} = E ->
-                  throw(E);
-               _:_ ->
-                  ?dbg("deep-equal",erlang:get_stacktrace()),
-                  ?bool(false)
+            ?bool(lists:all(EqFun, Zip))
+         catch
+            ?ERROR_MATCH("FOTY0015") = E -> throw(E);
+            _:_ ->
+               %?dbg("deep-equal",erlang:get_stacktrace()),
+               ?bool(false)
          end
    end.
 
 %% Returns the value of the default collation property from the static context. 
 'default-collation'(Ctx) -> 
-   Str = maps:get('default-collation', Ctx),
-   ?str(Str).
+   xqerl_context:get_default_collation(Ctx).
 
 %% Returns the value of the default language property from the dynamic context. 
 'default-language'(#{tab := Tab}) -> 
-   ?seq:singleton(xqerl_context:get_default_language(Tab)).
+   xqerl_context:get_default_language(Tab).
 
 %% Returns the values that appear in a sequence, with duplicates eliminated. 
 'distinct-values'(_Ctx,[]) -> [];
@@ -1296,20 +1302,10 @@ data1(_) ->
    Collation = xqerl_context:get_default_collation(Ctx),
    'distinct-values'(Ctx,Arg1, Collation).
 
-'distinct-values'(Ctx,Arg1,Collation) ->
+'distinct-values'(Ctx,Arg1,Collation) when not is_list(Arg1) ->
+   'distinct-values'(Ctx,[Arg1],Collation);
+'distinct-values'(_,Arg1,Collation) ->
    Coll = xqerl_types:value(Collation),
-   All = maps:get(known_collations, Ctx),
-   case lists:any(fun(U) -> U == Coll end, All) of
-      true ->
-         ok;
-      _ ->
-         xqerl_error:error('FOCH0002')
-   end,
-   Vals = if is_list(Arg1) ->
-                Arg1;
-             true ->
-                [Arg1]
-          end,
    NewColl = xqerl_coll:parse(Coll),
    
    CompVal = fun(#xqAtomicValue{type = T} = A) when ?string(T);
@@ -1325,42 +1321,49 @@ data1(_) ->
                    {Key, A}
              end,                   
    
-   Unique = lists:foldl(
-              fun(Value, Acc) ->
-                    {Key,ActVal} = CompVal(Value),
-                    InList = lists:any(fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
-                                             case Key of
-                                                #xqAtomicValue{type = KeyType, value = nan} when ?numeric(KeyType) ->
-                                                   ?numeric(AccType) andalso AccKey#xqAtomicValue.value == nan;
-                                                #xqAtomicValue{type = KeyType} when ?string(KeyType), ?string(AccType) ->
-                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
-                                                #xqAtomicValue{type = KeyType} when ?numeric(KeyType), ?numeric(AccType) ->
-                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
-                                                #xqAtomicValue{type = KeyType} when ?duration(KeyType), ?duration(AccType) ->
-                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
-                                                #xqAtomicValue{type = AccType} ->
-                                                    xqerl_operators:equal(AccKey, Key) == ?bool(true);
-                                                _ ->
-                                                   false
-                                             end;                                             
-                                          ({AccKey,_}) ->
-                                             Key == AccKey                                             
-                                       end, Acc),
-                    if InList ->
-                          Acc;
-                       true ->
-                          [{Key,ActVal}|Acc]
-                    end
-              end,[],Vals),
+   Unique = distinct_vals(Arg1,CompVal),
    val_reverse(Unique, []).
 
 val_reverse([],Acc) -> Acc;
 val_reverse([{_,V}|T], Acc) -> 
    val_reverse(T,[V|Acc]).
 
-   
+distinct_vals(Vals,Fun) ->
+   F = fun(Value, Acc) ->
+             {Key,ActVal} = Fun(Value),
+             X = fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
+                       case Key of
+                          #xqAtomicValue{type = KeyType, value = nan} 
+                             when ?numeric(KeyType) ->
+                             ?numeric(AccType) andalso 
+                               AccKey#xqAtomicValue.value == nan;
+                          #xqAtomicValue{type = KeyType} 
+                             when ?string(KeyType), ?string(AccType) ->
+                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                          #xqAtomicValue{type = KeyType} 
+                             when ?numeric(KeyType), ?numeric(AccType) ->
+                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                          #xqAtomicValue{type = KeyType} 
+                             when ?duration(KeyType), ?duration(AccType) ->
+                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                          #xqAtomicValue{type = AccType} ->
+                              xqerl_operators:equal(AccKey, Key) == ?bool(true);
+                          _ ->
+                             false
+                       end;
+                    ({AccKey,_}) ->
+                       Key == AccKey
+                 end,
+             InList = lists:any(X, Acc),
+             if InList -> Acc;
+                true -> [{Key,ActVal}|Acc]
+             end
+       end,
+   lists:foldl(F,[],Vals).
 
-%% Retrieves a document using a URI supplied as an xs:string, and returns the corresponding document node. 
+
+%% Retrieves a document using a URI supplied as an xs:string, and returns 
+%% the corresponding document node. 
 'doc'(_Ctx,[]) -> [];
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
@@ -1387,14 +1390,14 @@ val_reverse([{_,V}|T], Acc) ->
                %#xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}
                #xqNode{doc = {doc,ResVal}, node = xqerl_xdm:root(Doc)}
          end
-   catch _:_ ->
-            ?dbg("FODC0005",erlang:get_stacktrace()),
-            ?err('FODC0005')
+   catch 
+      _:_ ->
+         ?dbg("FODC0005",erlang:get_stacktrace()),
+         ?err('FODC0005')
    end.
 
-
-
-%% The function returns true if and only if the function call fn:doc($uri) would return a document node. 
+%% The function returns true if and only if the function call fn:doc($uri) 
+%% would return a document node. 
 'doc-available'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
@@ -1406,11 +1409,9 @@ val_reverse([{_,V}|T], Acc) ->
             _ ->
                ?bool(false)
          end
-   catch 
-      _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "FORG0002"}}} ->
-         ?bool(false);
-      _:_ ->
-         ?err('FODC0005')
+   catch
+      ?ERROR_MATCH("FORG0002") -> ?bool(false);
+      _:_ -> ?err('FODC0005')
    end.
 
 %% Returns the URI of a resource where a document can be found, if available. 
@@ -1431,7 +1432,8 @@ val_reverse([{_,V}|T], Acc) ->
          ?atm('xs:anyURI', DUri)
    end.
 
-%% Returns the sequence of element nodes that have an ID value matching the value of one or more of the IDREF values supplied in $arg. 
+%% Returns the sequence of element nodes that have an ID value matching the 
+%% value of one or more of the IDREF values supplied in $arg. 
 %% Behaves like fn:id, since no validation.
 'element-with-id'(Ctx,Arg1) -> id(Ctx,Arg1).
 'element-with-id'(Ctx,Arg1,Arg2) -> id(Ctx,Arg1,Arg2).
@@ -1439,25 +1441,16 @@ val_reverse([{_,V}|T], Acc) ->
 %% Returns true if the argument is the empty sequence. 
 'empty'(_Ctx,[]) -> ?bool(true);
 'empty'(_Ctx,_) -> ?bool(false).
-%% ;
-%% 'empty'(_Ctx,#xqNode{}) -> ?bool(false);
-%% 'empty'(_Ctx,#xqFunction{}) -> ?bool(false);
-%% 'empty'(_Ctx,#xqAtomicValue{}) -> ?bool(false);
-%% 'empty'(_Ctx,Arg1) -> 
-%%    ?bool(?seq:is_empty(Arg1)).
 
-%% Encodes reserved characters in a string that is intended to be used in the path segment of a URI. 
-'encode-for-uri'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         ?str("");
-      _ ->
-         Val = xqerl_types:string_value(Arg1),
-         ?str(xqerl_lib:encode_for_uri(Val))
-   end.
+%% Encodes reserved characters in a string that is intended to be used in 
+%% the path segment of a URI. 
+'encode-for-uri'(_,[]) -> ?str(""); 
+'encode-for-uri'(_,Arg1) -> 
+   Val = xqerl_types:string_value(Arg1),
+   ?str(xqerl_lib:encode_for_uri(Val)).
 
-
-%% Returns true if the string $arg1 contains $arg2 as a trailing substring, taking collations into account. 
+%% Returns true if the string $arg1 contains $arg2 as a trailing substring, 
+%% taking collations into account. 
 'ends-with'(Ctx,[],Arg2) -> 'ends-with'(Ctx,?str(""),Arg2);
 'ends-with'(_Ctx,_Arg1,[]) -> ?bool(true);
 'ends-with'(#{'default-collation' := DefColl} = Ctx,Arg1,Arg2) -> 
@@ -1478,7 +1471,8 @@ val_reverse([{_,V}|T], Acc) ->
          if VBin == <<>> andalso SBin =/= <<>> ->
                ?bool(false);
             true ->
-               case lists:suffix(binary:bin_to_list(SBin), binary:bin_to_list(VBin)) of
+               case lists:suffix(binary:bin_to_list(SBin), 
+                                 binary:bin_to_list(VBin)) of
                   true ->
                      ?bool(true);
                   _ ->
@@ -1487,11 +1481,10 @@ val_reverse([{_,V}|T], Acc) ->
          end
    end.
 
-
 %% Returns the value of a system environment variable, if it exists. 
-%% NOT IMPLEMENTING
 'environment-variable'(_Ctx,_Arg1) -> 
-   ?seq:empty().
+   %% NOT IMPLEMENTING
+   [].
 
 %% Calling the fn:error function raises an application-defined error.
 %% -record(xqError, {
@@ -1516,95 +1509,61 @@ val_reverse([{_,V}|T], Acc) ->
 'error'(_Ctx,QName,Description,Object) ->
    xqerl_error:error(xqerl_types:value(QName),Description, Object).
 
-
 %% Escapes a URI in the same way that HTML user agents handle attribute values expected to contain URIs. 
-'escape-html-uri'(_Ctx,Arg1) -> 
-   case ?seq:is_empty(Arg1) of
-      true ->
-         ?str("");
-      _ ->
-         Val = xqerl_types:string_value(Arg1),
-         ?str(pct_encode2(Val))
-   end.
+'escape-html-uri'(_,[]) -> ?str("");
+'escape-html-uri'(_,Arg1) -> 
+   Val = xqerl_types:string_value(Arg1),
+   ?str(pct_encode2(Val)).
 
-pct_encode2([]) ->
-   [];
+pct_encode2([]) -> [];
 pct_encode2([H|T]) when H >= 32, H =< 126 ->
    [H|pct_encode2(T)];
 pct_encode2([H|T]) ->
-   %?dbg("pct_encode2",H),
-   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode2(T).
+   string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode2(T).
 
-pct_encode3([]) ->
-   [];
+pct_encode3([]) -> [];
 pct_encode3([H|T]) when H == $< ;H == $>;
                         H == $\";H == $ ;
                         H == ${ ;H == $};
                         H == $| ;H == $\\;
                         H == $^ ;H == $` ->
-   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T);
+   string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode3(T);
 pct_encode3([H|T]) when H >= 32, H =< 126 ->
    [H|pct_encode3(T)];
 pct_encode3([H|T]) ->
-   string:to_upper(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
+   string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
 %% Returns $arg if it contains exactly one item. Otherwise, raises an error. 
-'exactly-one'(_Ctx,[]) -> ?err('FORG0005');
-'exactly-one'(_Ctx,Arg1) -> 
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         case ?seq:size(Arg1) of
-            1 ->
-               Arg1;
-            _ ->
-               ?err('FORG0005')
-         end;
-      _ ->
-         ?seq:singleton(Arg1)
-  end.
+'exactly-one'(_,[]) -> ?err('FORG0005');
+'exactly-one'(_,[Arg1]) -> Arg1;
+'exactly-one'(_,Arg1) when is_list(Arg1) -> ?err('FORG0005');
+'exactly-one'(_,Arg1) -> Arg1.
 
 %% Returns true if the argument is a non-empty sequence. 
-'exists'(_Ctx,Arg1) ->
-   case ?seq:is_sequence(Arg1) of
-      true ->
-         ?bool(not ?seq:is_empty(Arg1));
-      _ ->
-         ?bool(not ?seq:is_empty(?seq:singleton(Arg1)))
-   end.
+'exists'(_,[]) -> ?bool(false);
+'exists'(_,_) -> ?bool(true).
 
 %% Returns the xs:boolean value false. 
-'false'(_Ctx) -> 
+'false'(_) -> 
    ?bool(false).
 
-%% Returns those items from the sequence $seq for which the supplied function $f returns true. 
+%% Returns those items from the sequence $seq for which the supplied 
+%% function $f returns true. 
 'filter'(Ctx,Seq,#xqFunction{body = F}) ->
    'filter'(Ctx,Seq,F);
-'filter'(Ctx,Seq,#array{} = A) ->
+'filter'(Ctx,Seq,MA) when is_record(MA, array);
+                          is_map(MA) ->
    lists:filter(fun(S) ->
-                   case xqerl_operators:lookup(Ctx, A, S) of
+                   case xqerl_operators:lookup(Ctx, MA, S) of
                       #xqAtomicValue{type = 'xs:boolean', value = true} ->
                          true;
                       #xqAtomicValue{type = 'xs:boolean', value = false} ->
                          false;
-                      O ->
-                         ?dbg("O",O),
-                         xqerl_error:error('XPTY0004')
+                      _ ->
+                         ?err('XPTY0004')
                    end
              end, Seq);
-'filter'(Ctx,Seq,Map) when is_map(Map) ->
-   lists:filter(fun(S) ->
-                   case xqerl_operators:lookup(Ctx, Map, S) of
-                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
-                         true;
-                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
-                         false;
-                      O ->
-                         ?dbg("O",O),
-                         xqerl_error:error('XPTY0004')
-                   end
-             end, Seq);
-
-'filter'(Ctx,Seq,F) ->
+'filter'(Ctx,Seq,F) when is_function(F,2) ->
    lists:filter(fun(Val) ->
                   case catch ?seq:singleton_value(F(Ctx,Val)) of
                      #xqAtomicValue{type = 'xs:boolean', value = true} ->
@@ -1612,13 +1571,13 @@ pct_encode3([H|T]) ->
                      #xqAtomicValue{type = 'xs:boolean', value = false} ->
                         false;
                      {'EXIT',#xqError{} = E} ->
-                        ?dbg("O",E),
                         throw(E);
-                     O ->
-                        ?dbg("O",O),
-                        xqerl_error:error('XPTY0004')
+                     _ ->
+                        ?err('XPTY0004')
                   end
-            end, Seq).
+            end, Seq);
+'filter'(_,_,_) ->
+  ?err('XPTY0004').
 
 %% Rounds $arg downwards to a whole number. 
 'floor'(_Ctx,[]) -> [];
@@ -1635,23 +1594,26 @@ pct_encode3([H|T]) ->
          xqerl_types:cast_as(?atint(T), Type)
    end.
 
-%% Processes the supplied sequence from left to right, applying the supplied function repeatedly to each item in turn, 
-%% together with an accumulated result value. 
+%% Processes the supplied sequence from left to right, applying the supplied 
+%% function repeatedly to each item in turn, together with an accumulated 
+%% result value. 
 'fold-left'(Ctx,Seq,Zero,F) -> 
    ?seq:foldl(Ctx,F, Zero, Seq).
 
-%% Processes the supplied sequence from right to left, applying the supplied function repeatedly to each item in turn, 
+%% Processes the supplied sequence from right to left, applying the supplied 
+%% function repeatedly to each item in turn, 
 %% together with an accumulated result value. 
 'fold-right'(Ctx,Seq,Zero,F) -> 
    ?seq:foldr(Ctx,F, Zero, Seq).
 
-%% Applies the function item $action to every item from the sequence $seq in turn, 
-%% returning the concatenation of the resulting sequences in order. 
+%% Applies the function item $action to every item from the sequence $seq in 
+%% turn, returning the concatenation of the resulting sequences in order. 
 'for-each'(Ctx,Seq,Action) -> 
    ?seq:for_each(Ctx, Action, Seq).
 
-%% Applies the function item $action to successive pairs of items taken one from $seq1 and one from $seq2, 
-%% returning the concatenation of the resulting sequences in order. 
+%% Applies the function item $action to successive pairs of items taken one 
+%% from $seq1 and one from $seq2, returning the concatenation of the resulting 
+%% sequences in order. 
 'for-each-pair'(Ctx,Seq1,Seq2,Action) -> 
    ?seq:zip_with(Ctx, Action, Seq1, Seq2).
 
@@ -1666,19 +1628,19 @@ pct_encode3([H|T]) ->
    IntVal = ?seq:singleton_value(Date),
    StrVal = xqerl_types:value(Picture),
    if StrVal == [] ->
-         xqerl_error:error('FODF1310');
+         ?err('FODF1310');
       true ->
-         try xqerl_format:parse_picture(IntVal, StrVal) of
-            Formatted ->
-               ?str(Formatted)
+         try 
+            Formatted = xqerl_format:parse_picture(IntVal, StrVal),
+            ?str(Formatted)
          catch
-            _:#xqError{name = ?atm('xs:QName',#qname{local_name = "FODF1310"})} ->
-                  xqerl_error:error('FOFD1340');
+            ?ERROR_MATCH("FODF1310") ->
+               ?err('FOFD1340');
             _:#xqError{} = E ->
-               ?dbg("E",erlang:get_stacktrace()),
+               %?dbg("E",erlang:get_stacktrace()),
                throw(E);
             _:_ ->
-               ?dbg("FOFD1340",erlang:get_stacktrace()),
+               %?dbg("FOFD1340",erlang:get_stacktrace()),
                ?err('FOFD1340')
          end
    end.
@@ -1689,13 +1651,16 @@ pct_encode3([H|T]) ->
          'format-dateTime'(Ctx,Date,Picture);
       true ->
          try
-            ?atm('xs:QName',#qname{namespace = CNs, local_name = CLn}) = xqerl_types:cast_as(Calendar, 'xs:QName', maps:get(namespaces, Ctx)),
+            Nss = maps:get(namespaces, Ctx),
+            QN = xqerl_types:cast_as(Calendar, 'xs:QName', Nss),
+            ?atm('xs:QName',#qname{namespace = CNs, local_name = CLn}) = QN,
             true = is_valid_calendar({CNs,CLn}),
-            if CLn == "AD";
-               CLn == "ISO" ->
+            if CLn =:= "AD";
+               CLn =:= "ISO" ->
                   'format-dateTime'(Ctx,Date,Picture);
                true ->
-                  NewVal = xqerl_types:string_value('format-dateTime'(Ctx,Date,Picture)),
+                  Fmt = 'format-dateTime'(Ctx,Date,Picture),
+                  NewVal = xqerl_types:string_value(Fmt),
                   ?str("[Calendar: AD]" ++ NewVal)
             end
          catch
@@ -1704,8 +1669,8 @@ pct_encode3([H|T]) ->
          end
    end.
 
-is_valid_calendar({Ns,Name}) when Ns == 'no-namespace';
-                                  Ns == [] ->
+is_valid_calendar({Ns,Name}) when Ns =:= 'no-namespace';
+                                  Ns =:= [] ->
    Known = ["AD","AH","AME","AM","AP","AS","BE","CB","CE","CL","CS","EE",
             "FE","ISO","JE","KE","KY","ME","MS","NS","OS","RS","SE","SH",
             "SS","TE","VE","VS"],
@@ -1714,13 +1679,13 @@ is_valid_calendar({_,_}) ->
    % calendar in some namespace but not known
    true.
 
-
-%% Formats an integer according to a given picture string, using the conventions of a given natural language if specified. 
+%% Formats an integer according to a given picture string, using the 
+%% conventions of a given natural language if specified. 
 'format-integer'(_Ctx,Int,Picture) -> 
    IntVal = xqerl_types:value(Int),
    StrVal = xqerl_types:value(Picture),
    if StrVal == [] ->
-         xqerl_error:error('FODF1310');
+         ?err('FODF1310');
       IntVal == [] ->
          ?str("");
       true ->
@@ -1730,8 +1695,8 @@ is_valid_calendar({_,_}) ->
 'format-integer'(_Ctx,Int,Picture,_Lang) -> 
    'format-integer'(_Ctx,Int,Picture).
 
-%% Returns a string containing a number formatted according to a given picture string, 
-%% taking account of decimal formats specified in the static context. 
+%% Returns a string containing a number formatted according to a given picture 
+%% string, taking account of decimal formats specified in the static context. 
 'format-number'(#{known_dec_formats := Dfs} = Ctx,Arg1,Arg2) ->
    [DF] = [D || {[],D} <- Dfs],
    'format-number'(Ctx,Arg1,Arg2,DF).
@@ -1739,15 +1704,15 @@ is_valid_calendar({_,_}) ->
    Num = xqerl_types:value(Number),
    PicStr = xqerl_types:value(PicString),
    {PosFun,NegFun} = xqerl_format:parse_picture_string(PicStr, DF),
-   Str = if Num == [] ->
+   Str = if Num =:= [] ->
                PosFun([],[]);
-            Num == neg_zero ->
+            Num =:= neg_zero ->
                NegFun(0,[]);
-            Num == nan ->
+            Num =:= nan ->
                PosFun(nan,[]);
-            Num == infinity ->
+            Num =:= infinity ->
                PosFun(infinity,[]);
-            Num == neg_infinity ->
+            Num =:= neg_infinity ->
                NegFun(infinity,[]);
             true ->
                case xqerl_numeric:less_than(Num, 0) of
@@ -1766,20 +1731,18 @@ is_valid_calendar({_,_}) ->
    S2 = string:trim(S1),
    try xqerl_types:value(xqerl_types:cast_as(?str(S2), 'xs:QName', Nss)) of
       #qname{namespace = N,local_name = L} ->
-         case [D || {#qname{namespace = N1, local_name = L1},D} <- Dfs, L == L1, N == N1] of
+         case [D || {#qname{namespace = N1, local_name = L1},D} <- Dfs, 
+                    L == L1, 
+                    N == N1] of
             [DF] ->
                'format-number'(Ctx,Number,PicString,DF);
             _ ->
                ?err('FODF1280')
          end
-   catch _:_ ->
-            ?err('FODF1280')
+   catch 
+      _:_ ->
+         ?err('FODF1280')
    end.
-
-
-
-%% 'format-number'(_Ctx,Number,PicString,Format) -> 
-%%    exit({not_implemented,?LINE}).
 
 %% Returns a string containing an xs:time value formatted for display. 
 'format-time'(_Ctx,Date,Picture) -> 
@@ -1789,9 +1752,10 @@ is_valid_calendar({_,_}) ->
 
 %% Returns the arity of the function identified by a function item. 
 'function-arity'(_Ctx,[]) ->
-   xqerl_error:error('XPTY0004');
+   ?err('XPTY0004');
 'function-arity'(_Ctx,Arg1) when is_function(Arg1) ->
    {_,A} = erlang:fun_info(Arg1,arity),
+   % minus the Ctx parameter
    ?atint(A - 1);
 'function-arity'(_Ctx,#xqFunction{arity = A}) ->
    ?atint(A);
@@ -1799,15 +1763,16 @@ is_valid_calendar({_,_}) ->
    case ?seq:singleton_value(Arg1) of
       Fx when is_function(Fx) ->
          {_,A} = erlang:fun_info(Fx,arity),
+         % minus the Ctx parameter
          ?atint(A - 1);
       #xqFunction{arity = Ar} ->
          ?atint(Ar);
       _ ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 %% Returns the function having a given name and arity, if there is one. 
-'function-lookup'(_Ctx,[],_Arity) -> xqerl_error:error('XPTY0004');
+'function-lookup'(_Ctx,[],_Arity) -> ?err('XPTY0004');
 'function-lookup'(Ctx,Name,Arity) -> 
    QName = xqerl_types:value(Name),
    Arity1 = xqerl_types:value(Arity),
@@ -1815,24 +1780,22 @@ is_valid_calendar({_,_}) ->
 
 get_static_function(_,{_, []}) ->
    ?err('XPTY0004');
-get_static_function(Ctx,{#qname{namespace = "http://www.w3.org/2005/xpath-functions", 
-                                local_name = "concat"} = Name, Arity}) when Arity =/= 1 ->
-   if Arity > 1 ->
-         get_static_function(Ctx, {Name, 1});
-      true ->
-         %?dbg("Arity",Arity),
-         xqerl_error:error('XPST0017')
-   end;
-get_static_function(#{tab := Tab},{#qname{namespace = Ns, local_name = Ln}, Arity}) ->
+get_static_function(Ctx,{#qname{namespace = ?NS, 
+                                local_name = "concat"} = Name, Arity}) 
+   when Arity > 1 -> 
+   get_static_function(Ctx, {Name, 1});
+%% get_static_function(_,{#qname{namespace = ?NS, 
+%%                               local_name = "concat"}, A}) -> ?dbg("A",A),
+%%    ?err('XPST0017');
+get_static_function(#{tab := Tab},
+                    {#qname{namespace = Ns, local_name = Ln}, Arity}) ->
    Sigs = xqerl_context:get_named_functions(Tab),
-   %Sigs = maps:get(named_functions, Ctx),
    Lookup = [#xqFunction{annotations = Annotations,
                          name = Name1,
                          arity = Arity1,
                          params = ParamTypes,
                          type = ReturnType,
                          body = fun M:F/A
-                         %body = Location
                         }
             || {#qname{namespace = Ns1, local_name = Ln1} = Name1,
                 ReturnType, 
@@ -1847,27 +1810,24 @@ get_static_function(#{tab := Tab},{#qname{namespace = Ns, local_name = Ln}, Arit
    FunSig = if length(Lookup) == 1 ->
                   hd(Lookup);
                true ->
-                 ?seq:empty()
+                  []
             end,
    FunSig.
 
-
-%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions") -> "xqerl_fn";
-%% mask_static_mod_ns("http://www.w3.org/2001/XMLSchema") -> "xqerl_xs";
-%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/math") -> "xqerl_math";
-%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/map") -> "xqerl_map";
-%% mask_static_mod_ns("http://www.w3.org/2005/xpath-functions/array") -> "xqerl_array";
-%% mask_static_mod_ns("http://www.w3.org/2005/xqt-errors") -> "xqerl_error";
-%% mask_static_mod_ns("http://www.w3.org/2005/xquery-local-functions") -> "xqerl_main";
-%% mask_static_mod_ns(T) -> T.
-
-unmask_static_mod_ns("xqerl_fn") -> "http://www.w3.org/2005/xpath-functions";
-unmask_static_mod_ns("xqerl_xs") -> "http://www.w3.org/2001/XMLSchema";
-unmask_static_mod_ns("xqerl_math") -> "http://www.w3.org/2005/xpath-functions/math";
-unmask_static_mod_ns("xqerl_map") -> "http://www.w3.org/2005/xpath-functions/map";
-unmask_static_mod_ns("xqerl_array") -> "http://www.w3.org/2005/xpath-functions/array";
-unmask_static_mod_ns("xqerl_error") -> "http://www.w3.org/2005/xqt-errors";
-unmask_static_mod_ns("xqerl_main") -> "http://www.w3.org/2005/xquery-local-functions";
+unmask_static_mod_ns("xqerl_fn") -> 
+   "http://www.w3.org/2005/xpath-functions";
+unmask_static_mod_ns("xqerl_xs") -> 
+   "http://www.w3.org/2001/XMLSchema";
+unmask_static_mod_ns("xqerl_math") -> 
+   "http://www.w3.org/2005/xpath-functions/math";
+unmask_static_mod_ns("xqerl_map") -> 
+   "http://www.w3.org/2005/xpath-functions/map";
+unmask_static_mod_ns("xqerl_array") -> 
+   "http://www.w3.org/2005/xpath-functions/array";
+unmask_static_mod_ns("xqerl_error") -> 
+   "http://www.w3.org/2005/xqt-errors";
+unmask_static_mod_ns("xqerl_main") -> 
+   "http://www.w3.org/2005/xquery-local-functions";
 unmask_static_mod_ns(T) -> T.
 
 %% Returns the name of the function identified by a function item. 
@@ -1877,38 +1837,29 @@ unmask_static_mod_ns(T) -> T.
    {_,N} = erlang:fun_info(Arg1,name),
    {_,M} = erlang:fun_info(Arg1,module),
    {_,T} = erlang:fun_info(Arg1,type),
-   %?dbg("N",N),
-   %?dbg("M",M),
-   %?dbg("T",T),
-   if T == local ->
-         ?seq:empty();
+   if T =:= local ->
+         [];
       true ->
          Funs = maps:get(named_functions, Ctx),
-         %Name1 = Name#qname{namespace = Ns2},
-         %?dbg("Funs", {N,M, }), 
          N2 = case lists:filter(fun(F) ->
                                  case element(4, F) of
                                     {M,N,_} ->
                                        true;
                                     {N,_} ->
                                        true;
-                                    _X ->
-                                       %?dbg("X",X),
+                                    _ ->
                                        false
                                  end
                               end, Funs) of
                   [] ->
-                     %?dbg("Arg1",Arg1),
-                     xqerl_error:error('XPST0017');
+                     ?err('XPST0017');
                   FX ->
                      element(4,element(1,hd(FX)))
                end,
-         
          NsL = atom_to_list(M),
          Ns = unmask_static_mod_ns(NsL),
          PxDict = xqerl_context:get_statically_known_namespaces(Tab),
          PxL = dict:to_list(PxDict),
-         %?dbg("PxL",{PxL,Ns}),
          {Px,_} = lists:keyfind(Ns, 2, PxL),
          Qn = #qname{namespace = Ns, prefix = Px, local_name = N2},
          ?atm('xs:QName',Qn)
@@ -1916,12 +1867,11 @@ unmask_static_mod_ns(T) -> T.
 'function-name'(_Ctx,#xqFunction{name = undefined}) ->
    [];
 'function-name'(_Ctx,#xqFunction{name = Name}) ->
-   ?dbg("Name",Name),
    ?atm('xs:QName',Name);
 'function-name'(Ctx,[Arg1]) ->
    'function-name'(Ctx,Arg1);
-'function-name'(_Ctx,_) ->
-   xqerl_error:error('XPTY0004').
+'function-name'(_,_) ->
+   ?err('XPTY0004').
 
 %% This function returns a string that uniquely identifies a given node. 
 'generate-id'(Ctx) ->
@@ -1954,33 +1904,29 @@ unmask_static_mod_ns(T) -> T.
 'has-children'(_,_) -> ?err('XPTY0004').
 
 %% Returns the first item in a sequence. 
-'head'(_Ctx,Arg1) -> 
-   ?seq:head(Arg1).
+'head'(_,[]) -> [];
+'head'(_,[H|_]) -> H;
+'head'(_,H) -> H.
 
 %% Returns the hours component of an xs:dateTime. 
 'hours-from-dateTime'(Ctx,Arg1) -> 
    'hours-from-duration'(Ctx, Arg1).
 
 %% Returns the number of hours in a duration. 
-'hours-from-duration'(_Ctx, Arg1) ->
-   case ?seq:is_empty(Arg1) of
-      true ->
-        Arg1;
-      _ ->
-         #xqAtomicValue{value = #xsDateTime{sign = Sn, hour = Hr}} = ?seq:singleton_value(Arg1),
-         Hr1 = if Sn =:= '-' ->
-                     Hr * -1;
-                  true ->
-                     Hr
-               end,
-         ?atint(Hr1)
-   end.
+'hours-from-duration'(_, []) -> [];
+'hours-from-duration'(Ctx, [Arg1]) -> 'hours-from-duration'(Ctx, Arg1);
+'hours-from-duration'(_, #xqAtomicValue{value = #xsDateTime{sign = '-', 
+                                                            hour = Hr}}) ->
+   ?atint(-Hr);
+'hours-from-duration'(_, #xqAtomicValue{value = #xsDateTime{hour = Hr}}) ->
+   ?atint(Hr).
 
 %% Returns the hours component of an xs:time. 
 'hours-from-time'(Ctx,Arg1) -> 
    'hours-from-duration'(Ctx, Arg1).
 
-%% Returns the sequence of element nodes that have an ID value matching the value of one or more of the IDREF values supplied in $arg. 
+%% Returns the sequence of element nodes that have an ID value matching the 
+%% value of one or more of the IDREF values supplied in $arg. 
 'id'(Ctx,Refs) -> 
    Ci = xqerl_context:get_context_item(Ctx),
    'id'(Ctx,Refs,Ci).
@@ -1989,29 +1935,27 @@ unmask_static_mod_ns(T) -> T.
    'id'(Ctx,[Refs],Node);
 'id'(Ctx,Refs,[Node]) ->
    'id'(Ctx,Refs,Node);
-'id'(Ctx,Refs,#xqNode{} = Node) -> 
-   RefToks = lists:flatmap(fun(Val) ->
-                                 Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
-                                 'tokenize'(Ctx, Norm)
-                          end, Refs),
+'id'(Ctx,Refs,#xqNode{} = Node) ->
+   TokF = fun(Val) ->
+                Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
+                'tokenize'(Ctx, Norm)
+          end,
+   RefToks = lists:flatmap(TokF, Refs),
    try
       Root = xqerl_step:root(Ctx,Node),
-      Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
+      Desc = xqerl_step:forward(Ctx,Root, 'descendant-or-self', 
+                                #qname{namespace = "*", local_name = "*"}, []),
       Atts = xqerl_step:ids(Ctx, Desc),
-      Filtered = lists:filter(
-                   fun(A) ->
-                         xqerl_operators:general_compare('=',A,RefToks) == ?bool(true)
-                   end, Atts),
+      FilF = fun(A) ->
+                   xqerl_operators:general_compare('=',A,RefToks) == ?bool(true)
+             end,
+      Filtered = lists:filter(FilF, Atts),
       xqerl_step:reverse(Ctx,Filtered, parent, #xqKindTest{kind = element},[])
    catch 
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
-            xqerl_error:error('FODC0001');
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0020"})} ->
-            xqerl_error:error('XPTY0004');
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0019"})} ->
-            xqerl_error:error('XPTY0004');
+      ?ERROR_MATCH("XPDY0050") -> ?err('FODC0001');
+      ?ERROR_MATCH("XPTY0020") -> ?err('XPTY0004');
+      ?ERROR_MATCH("XPTY0019") -> ?err('XPTY0004');
       _:E ->
-         %?dbg(?LINE,E),
          throw(E)
    end.
 
@@ -2026,43 +1970,38 @@ unmask_static_mod_ns(T) -> T.
 'idref'(Ctx,Refs,[Node]) ->
    'idref'(Ctx,Refs,Node);
 'idref'(Ctx,Refs,Node) -> % dtd-infoset dependency 
-   RefToks = lists:flatmap(fun(Val) ->
-                                 Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
-                                 'tokenize'(Ctx, Norm)
-                          end, Refs),
+   RefF = fun(Val) ->
+                Norm = 'normalize-space'(Ctx, ?seq:singleton(Val)),
+                'tokenize'(Ctx, Norm)
+          end,
+   RefToks = lists:flatmap(RefF, Refs),
    try
-      Desc = xqerl_step:forward(Ctx,Node, 'descendant-or-self', #qname{namespace = "*", local_name = "*"}, []),
+      Desc = xqerl_step:forward(Ctx,Node, 'descendant-or-self', 
+                                #qname{namespace = "*", local_name = "*"}, []),
       Atts = xqerl_step:idrefs(Ctx, Desc),
-      Filtered = lists:filter(
-                   fun(A) ->
-                         ANorm = 'normalize-space'(Ctx, A),
-                         AToks = 'tokenize'(Ctx, ANorm),
-                         xqerl_operators:general_compare('=',AToks,RefToks) == ?bool(true)
-                   end, Atts),
-      Filtered
+      FilF = fun(A) ->
+                   ANorm = 'normalize-space'(Ctx, A),
+                   AToks = 'tokenize'(Ctx, ANorm),
+                   xqerl_operators:general_compare('=',AToks,RefToks) == 
+                     ?bool(true)
+             end,
+      lists:filter(FilF, Atts)
    catch 
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPDY0050"})} ->
-            xqerl_error:error('FODC0001');
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0020"})} ->
-            xqerl_error:error('XPTY0004');
-      _:#xqError{name = ?atm('xs:QName',#qname{namespace = _, prefix = "err", local_name = "XPTY0019"})} ->
-            xqerl_error:error('XPTY0004');
-      _:E ->
-         %?dbg(?LINE,E),
-         throw(E)
+      ?ERROR_MATCH("XPDY0050") -> ?err('FODC0001');
+      ?ERROR_MATCH("XPTY0020") -> ?err('XPTY0004');
+      ?ERROR_MATCH("XPTY0019") -> ?err('XPTY0004');
+      _:E -> throw(E)
    end.
 
 %% Returns the value of the implicit timezone property from the dynamic context. 
 'implicit-timezone'(_Ctx) ->
    ImpOs = xqerl_context:get_implicit_timezone(),
-   %?dbg("implicit-timezone ImpOs", ImpOs),
    ImpOsStr = xqerl_datetime:to_string(ImpOs, 'xs:dayTimeDuration'),
-   %?dbg("implicit-timezone ImpOsStr", ImpOsStr),
    xqerl_types:cast_as(?str(ImpOsStr), 'xs:dayTimeDuration').
 
 %% Returns a sequence of positive integers giving the positions within the sequence $seq of items that are equal to $search. 
 'index-of'(_Ctx,[],_Arg2) -> ?seq:empty();
-'index-of'(_Ctx,_Seq,[]) -> xqerl_error:error('XPTY0004');
+'index-of'(_Ctx,_Seq,[]) -> ?err('XPTY0004');
 'index-of'(_Ctx,Seq,Arg2) -> 
    %{index,counter}
    Fun = fun(Elem,{List,Counter}) ->
@@ -2085,7 +2024,7 @@ unmask_static_mod_ns(T) -> T.
       true ->
          ?MODULE:'index-of'(Ctx,Seq,Arg2);
       _ ->
-         xqerl_error:error('FOCH0002')
+         ?err('FOCH0002')
    end.
 
 %% Returns every node within the input sequence that is not an ancestor of another member of the input sequence; 
@@ -2210,9 +2149,9 @@ check_json_to_xml_opts(_) ->
       end
    catch 
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPDY0050"}}} ->
-            xqerl_error:error('FODC0001');
+            ?err('FODC0001');
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XPTY0019"}}} ->
-            xqerl_error:error('XPTY0004')
+            ?err('XPTY0004')
    end.
 
 %% Returns the context size from the dynamic context. 
@@ -2271,7 +2210,7 @@ check_json_to_xml_opts(_) ->
                      Upp = string:lowercase(Str),
                      #xqAtomicValue{type = 'xs:string', value = Upp};
                   _ ->
-                     xqerl_error:error('XPTY0004')
+                     ?err('XPTY0004')
                end
          end,
    ?seq:singleton(Out).   
@@ -2309,7 +2248,7 @@ check_json_to_xml_opts(_) ->
       true ->
          ?MODULE:'max'(Ctx,Arg1);
       _ ->
-         xqerl_error:error('FOCH0002')
+         ?err('FOCH0002')
    end.   
 
 max1([], Max) ->
@@ -2361,18 +2300,18 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                if ?numeric(SeqType) orelse SeqType == [] ->
                      compare_convert_seq([H1|T], Acc, 'xs:double');
                   true ->
-                     xqerl_error:error('FORG0006')
+                     ?err('FORG0006')
                end
          catch 
             _:_ ->
-               xqerl_error:error('FORG0001')
+               ?err('FORG0001')
          end;
       #xqAtomicValue{type = 'xs:anyURI'} ->
          H1 = xqerl_types:cast_as(H,'xs:string'),
          if ?string(SeqType) orelse SeqType == [] ->
                compare_convert_seq(T, [H1|Acc], 'xs:string');
             true ->
-               xqerl_error:error('FORG0006')
+               ?err('FORG0006')
          end;
       #xqAtomicValue{type = StrType} when ?string(StrType), ?string(SeqType) ->
          NewType = if SeqType == 'xs:string' ->
@@ -2383,7 +2322,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                          xqerl_btypes:get_type(BType band BSeqType)
                    end,
          if NewType == 'item' ->
-               xqerl_error:error('FORG0006');
+               ?err('FORG0006');
             true ->
                compare_convert_seq(T, [H|Acc], NewType)
          end;
@@ -2399,7 +2338,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                    end,
          %?dbg("NewType",NewType),
          if NewType == 'item' ->
-               xqerl_error:error('FORG0006');
+               ?err('FORG0006');
             true ->
                compare_convert_seq(T, [H|Acc], NewType)
          end;
@@ -2411,7 +2350,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
             SeqType == 'xs:double' ->
                compare_convert_seq(T, [H|Acc], 'xs:double');
             true ->
-               xqerl_error:error('FORG0006')
+               ?err('FORG0006')
          end;
       #xqAtomicValue{type = 'xs:decimal'} ->
          if SeqType == 'xs:decimal' orelse ?integer(SeqType) orelse SeqType == [] ->
@@ -2421,7 +2360,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
             SeqType == 'xs:double' ->
                compare_convert_seq(T, [H|Acc], 'xs:double');
             true ->
-               xqerl_error:error('FORG0006')
+               ?err('FORG0006')
          end;
       #xqAtomicValue{type = 'xs:integer'} ->
          if SeqType == 'xs:integer' orelse SeqType == [] ->
@@ -2433,7 +2372,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
             SeqType == 'xs:double' ->
                compare_convert_seq(T, [H|Acc], 'xs:double');
             true ->
-               xqerl_error:error('FORG0006')
+               ?err('FORG0006')
          end;
       #xqAtomicValue{type = Type} ->
          case xqerl_operators:is_comparable(Type) of
@@ -2446,11 +2385,11 @@ compare_convert_seq([H|T], Acc, SeqType) ->
                         true ->
                            compare_convert_seq(T, [H|Acc], Type);
                         _ ->
-                           xqerl_error:error('FORG0006')
+                           ?err('FORG0006')
                      end
                end;
             _ ->
-               xqerl_error:error('FORG0006')
+               ?err('FORG0006')
          end
    
    end.
@@ -2477,7 +2416,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
       true ->
          ?MODULE:'min'(Ctx,Arg1);
       _ ->
-         xqerl_error:error('FOCH0002')
+         ?err('FOCH0002')
    end.
 
 %% Returns the minute component of an xs:dateTime. 
@@ -2650,7 +2589,7 @@ compare_convert_seq([H|T], Acc, SeqType) ->
 
 'node-name'(Ctx, [Arg]) ->
    'node-name'(Ctx, Arg);
-'node-name'(_Ctx, #xqAtomicValue{}) -> xqerl_error:error('XPTY0004');
+'node-name'(_Ctx, #xqAtomicValue{}) -> ?err('XPTY0004');
 'node-name'(Ctx, #xqNode{doc = {doc,File}, node = Node}) ->
    Doc = ?get({doc,File}),
    'node-name'(Ctx, #xqNode{doc = Doc, node = Node});
@@ -2789,7 +2728,7 @@ shrink_spaces([H|T]) ->
    %?dbg("one-or-more",Arg1),
    case ?seq:is_empty(Arg1) of
       true ->
-         xqerl_error:error('FORG0004');
+         ?err('FORG0004');
       _ ->
          Arg1
    end.
@@ -2830,7 +2769,7 @@ shrink_spaces([H|T]) ->
    catch
       _:_ ->
          ?dbg("E",erlang:get_stacktrace()),
-         xqerl_error:error('FORG0010')
+         ?err('FORG0010')
    end.
 
 %% Parses a string supplied in the form of a JSON text, returning the results typically in the form of a map or array. 
@@ -3097,7 +3036,7 @@ path_1(Doc,[Node|Rest],Acc) ->
 'QName'(Ctx,Uri,QNameTxt) ->
    case string_value(QNameTxt) of
       [] ->
-         xqerl_error:error('FOCA0002');
+         ?err('FOCA0002');
       Str ->
          StrUri = case string_value(Uri) of
                      'no-namespace' ->
@@ -3116,7 +3055,7 @@ path_1(Doc,[Node|Rest],Acc) ->
                                  {"", L}
                            end,
          if Prefix =/= "" andalso StrUri == 'no-namespace' ->
-               xqerl_error:error('FOCA0002');
+               ?err('FOCA0002');
             Prefix == "" andalso StrUri == 'no-namespace' ->
                Q = #qname{namespace = StrUri, prefix = Prefix, local_name = Local},
                ?atm('xs:QName',Q);
@@ -3257,15 +3196,14 @@ string_value(At) -> xqerl_types:string_value(At).
    'resolve-uri'(Ctx,Relative,Base).
 'resolve-uri'(_Ctx,[],_Base) -> ?seq:empty();
 'resolve-uri'(Ctx,Relative,Base) ->
-   Base1 = case xqerl_types:value(Base) of
-              [] ->
-                 maps:get('base-uri', Ctx);
-              _ ->
-                 Base
-           end,
+   BasVal = case xqerl_types:value(Base) of
+               [] ->
+                  xqerl_types:value(maps:get('base-uri', Ctx));
+               B ->
+                  B
+            end,
    try
       RelVal = xqerl_types:value(Relative),
-      BasVal = xqerl_types:value(Base1),
       case xqerl_lib:resolve_against_base_uri(BasVal, RelVal) of
          {error,_} ->
             ?err('FORG0002');
@@ -3302,7 +3240,7 @@ string_value(At) -> xqerl_types:string_value(At).
       true ->
          xqerl_step:any_root(Ctx,Arg1);
       _ ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 %% Rounds a value to a specified number of decimal places, rounding upwards if two such values are equally near. 
@@ -3728,7 +3666,7 @@ sort1(Ctx,A,B,Coll) ->
                      Sum1 = sum1(lists:reverse(Seq), []),
                      xqerl_types:cast_as(Sum1, SeqType);
                   _ ->
-                     xqerl_error:error('FORG0006')
+                     ?err('FORG0006')
                end
          end
    end.
@@ -3747,7 +3685,7 @@ sum1([H|T], Sum) ->
    %?dbg("sum1",Sum),
    case catch xqerl_operators:add(Sum, H) of
       {'EXIT',_} ->
-         xqerl_error:error('FOAR0002');
+         ?err('FOAR0002');
       NewSum ->
          sum1(T, NewSum)
    end.
@@ -3929,10 +3867,10 @@ zip_map_trans([H|T],[TH|TT]) ->
    catch 
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "FORG0002"}}} ->
          ?dbg("E",erlang:get_stacktrace()),
-         xqerl_error:error('FOUT1170');
+         ?err('FOUT1170');
       _:#xqError{name = #xqAtomicValue{value = #qname{namespace = _, local_name = "XQST0046"}}} ->
          ?dbg("E",erlang:get_stacktrace()),
-         xqerl_error:error('FOUT1170');
+         ?err('FOUT1170');
       _:#xqError{} = E ->
          ?dbg("E",erlang:get_stacktrace()),
          exit(E);
@@ -4007,7 +3945,7 @@ to_lines([C|Rest],Sub,Acc) ->
                Upp = string:uppercase(Str),
                #xqAtomicValue{type = 'xs:string', value = Upp};
             _ ->
-               xqerl_error:error('XPTY0004')
+               ?err('XPTY0004')
          end,
    ?seq:singleton(Out).   
 
@@ -4051,7 +3989,7 @@ to_lines([C|Rest],Sub,Acc) ->
 'zero-or-one'(_Ctx,[L]) -> [L];
 'zero-or-one'(_Ctx,Arg1) when not is_list(Arg1) -> Arg1;
 'zero-or-one'(_Ctx,_Arg1) ->
-   xqerl_error:error('FORG0003').
+   ?err('FORG0003').
 
 %% The external effects of fn:put are implementation-defined, since they occur outside the domain of XQuery. 
 %% The intent is that, if fn:put is invoked on a document node and no error is raised, a subsequent 

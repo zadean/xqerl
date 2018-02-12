@@ -390,24 +390,32 @@ equal([Arg1], Arg2, Collation) ->
    equal(Arg1, Arg2, Collation);
 equal(Arg1, [Arg2], Collation) ->
    equal(Arg1, Arg2, Collation);
-equal(#xqAtomicValue{type = T2, value = Val2}, #xqAtomicValue{type = T1, value = Val1}, Collation) when ?string(T1),?string(T2);
-                                                                                                        ?string(T1), T2 == 'xs:anyURI';
-                                                                                                        ?string(T1), T2 == 'xs:NCName';
-                                                                                                        ?string(T1), T2 == 'xs:untypedAtomic';
-                                                                                                        ?string(T2), T1 == 'xs:anyURI';
-                                                                                                        ?string(T2), T1 == 'xs:NCName';
-                                                                                                        ?string(T2), T1 == 'xs:untypedAtomic';
-                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:anyURI';
-                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:NCName';
-                                                                                                        T1 == 'xs:anyURI', T2 == 'xs:untypedAtomic';
-                                                                                                        T1 == 'xs:NCName', T2 == 'xs:anyURI';
-                                                                                                        T1 == 'xs:NCName', T2 == 'xs:NCName';
-                                                                                                        T1 == 'xs:NCName', T2 == 'xs:untypedAtomic';
-                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:anyURI';
-                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:NCName';
-                                                                                                        T1 == 'xs:untypedAtomic', T2 == 'xs:untypedAtomic' ->
+equal(#xqAtomicValue{type = T2, value = Val2}, 
+      #xqAtomicValue{type = T1, value = Val1}, Collation) 
+   when not is_function(Collation) ->
    Coll = xqerl_coll:parse(xqerl_types:string_value(Collation)),
-   Eq = xqerl_coll:sort_key(Val1, Coll) == xqerl_coll:sort_key(Val2, Coll),
+   equal(#xqAtomicValue{type = T2, value = Val2},
+         #xqAtomicValue{type = T1, value = Val1}, Coll);
+equal(#xqAtomicValue{type = T2, value = Val2}, 
+      #xqAtomicValue{type = T1, value = Val1}, Collation) 
+   when ?string(T1),?string(T2);
+        ?string(T1), T2 == 'xs:anyURI';
+        ?string(T1), T2 == 'xs:NCName';
+        ?string(T1), T2 == 'xs:untypedAtomic';
+        ?string(T2), T1 == 'xs:anyURI';
+        ?string(T2), T1 == 'xs:NCName';
+        ?string(T2), T1 == 'xs:untypedAtomic';
+        T1 == 'xs:anyURI', T2 == 'xs:anyURI';
+        T1 == 'xs:anyURI', T2 == 'xs:NCName';
+        T1 == 'xs:anyURI', T2 == 'xs:untypedAtomic';
+        T1 == 'xs:NCName', T2 == 'xs:anyURI';
+        T1 == 'xs:NCName', T2 == 'xs:NCName';
+        T1 == 'xs:NCName', T2 == 'xs:untypedAtomic';
+        T1 == 'xs:untypedAtomic', T2 == 'xs:anyURI';
+        T1 == 'xs:untypedAtomic', T2 == 'xs:NCName';
+        T1 == 'xs:untypedAtomic', T2 == 'xs:untypedAtomic' ->
+   Eq = xqerl_coll:sort_key(Val1, Collation) == 
+          xqerl_coll:sort_key(Val2, Collation),
    ?bool(Eq);
 equal(#xqAtomicValue{} = Arg1, #xqAtomicValue{} = Arg2, _Collation) ->
    equal(Arg1, Arg2).

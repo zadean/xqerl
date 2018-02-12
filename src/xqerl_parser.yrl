@@ -633,8 +633,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = xqerl_flwor:split_clauses('$1'++'$2'), return = '$3'}.
-'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = xqerl_flwor:split_clauses('$1'), return = '$2'}.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = '$2'}.
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -793,7 +793,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [60]
 'WhereClause'            -> 'where' 'ExprSingle' : [{'where', {next_id(),'$2'}}].
 % [61]
-'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : xqerl_flwor:sort_grouping('$3', next_id()).
+'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : sort_grouping('$3', next_id()).
 % [62]
 'GroupingSpecList'       ->  'GroupingSpec' ',' 'GroupingSpecList' : '$1' ++ '$3'.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
@@ -1968,3 +1968,7 @@ is_partial_impl(PostFixes) ->
                 (_) -> false
              end,PostFixes).
 
+sort_grouping(Groups, Id) ->
+   Lets = [E || E <- Groups, element(1, E) == 'let'],
+   Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
+   Lets ++ [{group_by, Id, Vars}].
