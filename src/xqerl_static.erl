@@ -4705,7 +4705,7 @@ get_can_inline(#state{context = #context{can_inline = CanInline}}) -> CanInline.
 global_variable_name(Name) ->
    variable_hash_name(Name).
 local_variable_name(Id) ->
-   list_to_atom(lists:concat(["XQ__var_", Id])).
+   list_to_atom(lists:concat(["__XQ__var_", Id])).
 param_variable_name(Id) ->
    list_to_atom(lists:concat(["Param__var_", Id])).
 
