@@ -56,8 +56,8 @@
                 inscope_ns       = maps:new(),
                 element_stack    = [],
                 base_uri         = [],
-                nodes            = maps:new(),
-                texts            = maps:new(),
+                nodes            ,
+                texts            ,
                 names            = maps:new(),
                 namsp            = maps:new(),
                 att_types        = maps:new(),
@@ -176,13 +176,15 @@ read_file(Pid, File, Uri) ->
    Pid ! {self(),ok}.
 
 read_stream(Xml, Name) ->
-   read_stream(Xml, Name, #state{filename = Name}).
+   read_stream(Xml, Name, #state{filename = Name, 
+                                 nodes = ets:new(?MODULE, [ordered_set]),
+                                 texts = ets:new(?MODULE, [set])}).
 
 read_stream(Xml, Name, State) ->
    %?dbg("IntName",IntName),
    %?dbg("CurrLoc",CurrLoc),
    case catch xmerl_sax_parser:stream(Xml, [{current_location, Name},
-                                            {event_fun, fun(A,B,C) -> handle_event(A,B,C) end },
+                                            {event_fun, fun handle_event/3 },
                                             {event_state, State}]) of
       {ok, State1, R} ->
          case R of
@@ -190,7 +192,7 @@ read_stream(Xml, Name, State) ->
                 #{file  => Name,
                   base  => Name,
                   nodes => map_to_bin(State1#state.nodes),
-                  texts => State1#state.texts,
+                  texts => add_text_lookup(State1#state.texts),
                   names => State1#state.names,
                   namsp => State1#state.namsp,
                   att_types => State1#state.att_types};
@@ -199,7 +201,8 @@ read_stream(Xml, Name, State) ->
          end;
       {fatal_error,_Line, Reason, _EndTags, State2} -> % trailing content in a document
          ?dbg("Reason",Reason),
-         case maps:size(State2#state.nodes) of
+         case ets:info(State2#state.nodes,size) of
+         %case maps:size(State2#state.nodes) of
             1 -> % invalid document
                {error,Reason};
             _ ->
@@ -207,7 +210,7 @@ read_stream(Xml, Name, State) ->
                 #{file  => Name,
                   base  => Name,
                   nodes => map_to_bin(State2#state.nodes),
-                  texts => State2#state.texts,
+                  texts => add_text_lookup(State2#state.texts),
                   names => State2#state.names,
                   namsp => State2#state.namsp,
                   att_types => State2#state.att_types}
@@ -344,9 +347,10 @@ handle_event({endElement, _Uri, _LocalName, _QualifiedName}, _Ln, #state{stack =
    State1 = add_node(State, NewRec),
    State1#state{stack = S, element_stack = ElemStk};
 
-handle_event({characters, String}, _Ln, #state{counter = C, 
+handle_event({characters, String0}, _Ln, #state{counter = C, 
                                                stack = [P|_],
                                                cdata_flag = Flag} = State) ->
+   String = String0,%unicode:characters_to_binary(String0),
    Val1 = if Flag ->
                 String;
              true ->
@@ -388,8 +392,9 @@ handle_event({processingInstruction, Target, Data}, _Ln, #state{counter = C,
    State4 = add_node(State3, Record),
    State4#state{counter = C +1};   
 
-handle_event({comment, String}, _Ln, #state{counter = C,
+handle_event({comment, String0}, _Ln, #state{counter = C,
                                             stack = [P|_]} = State) -> 
+   String = String0,%unicode:characters_to_binary(String0),
    {TxId, State1} = get_text_id(State, String),
    Record = #nodes{id = C, 
                    tp = comment,
@@ -442,15 +447,23 @@ get_namespace_id(#state{namsp = Names} = State, Val) ->
          {Cnt, State#state{namsp = NewNames}}
    end.
 
-get_text_id(#state{texts = Names} = State, Val) ->
-   case maps:find(Val, Names) of
-      {ok, Id} ->
+get_text_id(#state{texts = Texts} = State, Val) ->
+   case ets:lookup(Texts, Val) of
+      [{_,Id}] ->
          {Id,State};
-      error ->
-         Cnt = maps:size(Names) + 1,
-         NewNames = maps:put(Val, Cnt, Names),
-         {Cnt, State#state{texts = NewNames}}
+      [] ->
+         Cnt = ets:info(Texts, size) + 1,
+         _ = ets:insert_new(Texts, {Val,Cnt}),
+         {Cnt, State}
    end.
+%%    case maps:find(Val, Names) of
+%%       {ok, Id} ->
+%%          {Id,State};
+%%       error ->
+%%          Cnt = maps:size(Names) + 1,
+%%          NewNames = maps:put(Val, Cnt, Names),
+%%          {Cnt, State#state{texts = NewNames}}
+%%    end.
 
 %% -record(nodes, {id = -1, tp = -1, atsz = 0, sz = 0, dst = 0, ln = 0, ns = 0, val = 0}).
 
@@ -470,33 +483,52 @@ norm(#nodes{id = I, tp = namespace, dst = D, ln = L, ns = N}) ->
    xqerl_xdm:namespace_node(N, L, D, I).
 
 doc_to_binary(#{file := Uri} = Doc) ->
-   Doc1 = add_text_lookup(Doc),
+   Doc1 = Doc,
+   %Doc1 = add_text_lookup(Doc),
    Bin = erlang:term_to_binary(Doc1, [compressed]),
    {Uri, Bin}.
 
 doc_to_xqnode_doc(Doc) ->
-   add_text_lookup(Doc).
+   Doc.
+   %add_text_lookup(Doc).
 
 binary_to_doc(Bin) ->
    erlang:binary_to_term(Bin).
 
 %% map with position => node
-map_to_bin(Map) ->
-   SKeys = lists:seq(1,maps:size(Map)),
-   List = lists:map(fun(Key) ->
-                        maps:get(Key, Map)
-                    end, SKeys),
-   erlang:iolist_to_binary(List).
+map_to_bin(Tab) ->
+   Fun = fun({_,V},Acc) ->
+               [V|Acc]
+         end,
+   O = erlang:iolist_to_binary(ets:foldr(Fun, <<>>, Tab)),
+   ets:delete(Tab),
+   O.
+%% map_to_bin(Map) ->
+%%    SKeys = lists:seq(1,maps:size(Map)),
+%%    List = lists:map(fun(Key) ->
+%%                         maps:get(Key, Map)
+%%                     end, SKeys),
+%%    erlang:iolist_to_binary(List).
 
 add_text_lookup(#{texts := Texts} = Doc) ->
-   F = fun(K,V,AccIn) -> AccIn#{V => K} end,
-   TextLu = maps:fold(F,#{},Texts),
-   Doc#{texts := TextLu}.
+   F = fun({K,V},AccIn) -> AccIn#{V => K} end,
+   %F = fun(K,V,AccIn) -> AccIn#{V => K} end,
+   TextLu = ets:foldl(F,#{},Texts),
+   %TextLu = maps:fold(F,#{},Texts),
+   ets:delete(Texts),
+   Doc#{texts := TextLu};
+add_text_lookup(Texts) ->
+   F = fun({K,V},AccIn) -> AccIn#{V => K} end,
+   TextLu = ets:foldl(F,#{},Texts),
+   ets:delete(Texts),
+   TextLu.
 
 add_node(#state{nodes = Nodes} = State, #nodes{id = K} = Rec) ->
    V = norm(Rec),
-   Nodes2 = maps:put(K, V, Nodes),
-   State#state{nodes = Nodes2}.
+   ets:insert_new(Nodes, {K,V}),
+   %Nodes2 = maps:put(K, V, Nodes),
+   %State#state{nodes = Nodes2}.
+   State.
 
 store_doc(_Uri, {error,E}) -> {error,E};
 store_doc(Uri, Doc) ->
