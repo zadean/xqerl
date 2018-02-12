@@ -33,14 +33,6 @@
 
 -define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
-
--export([split_clauses/1]).
-
--export([expand_nodes/1]).
--export([expand_nodes/2]).
-
--export([sort_grouping/2]).
-
 -export([windowclause/2]).
 -export([windowclause/4]).
 -export([orderbyclause/2]).
@@ -48,80 +40,9 @@
 
 -export([simple_map/3]).
 
--export([stream_append/2]).
--export([stream_new/0]).
--export([stream_iter/1]).
--export([stream_next/1]).
--export([stream_from_list/1]).
--export([stream_to_list/1]).
-
--export([allow_empty/2]).
-
 % internal use
 %% -export([int_order_1/2]).
    
-allow_empty(Seq,true) ->
-   case ?seq:is_empty(Seq) of
-      true ->
-         stream_append({?seq:empty()},stream_new());
-      _ ->
-         Seq
-   end;
-allow_empty(Seq,_) -> Seq.
-   
-
-stream_append({Sz,_} = Stream1, Stream2) when is_integer(Sz), Sz >= 0 ->
-   concat_streams(Stream2,Stream1);
-stream_append(VariableTuple, Stream) ->
-   gb_trees:enter(gb_trees:size(Stream)+1, VariableTuple, Stream).
-stream_new() ->
-   gb_trees:empty().
-stream_iter(Stream) ->
-   gb_trees:iterator(Stream).
-stream_next(Stream) ->
-   gb_trees:next(Stream).
-
-stream_to_list(Stream) ->
-   gb_trees:values(Stream).
-stream_from_list(List) ->
-   lists:foldl(fun(Item,Stream) ->
-                     stream_append(Item, Stream)
-               end, stream_new(), List).
-
-
-concat_streams(Seq1,Seq2) ->
-   Iter = stream_iter(Seq2),
-   FunLoop = fun Loop(CurrIter,CurrSeq) ->
-                    case stream_next(CurrIter) of
-                       none ->
-                          CurrSeq;
-                       {_Key,Value,NewIter} ->
-                          NewSeq = stream_append(Value, CurrSeq),
-                          Loop(NewIter,NewSeq)
-                    end
-             end,
-   FunLoop(Iter,Seq1).
-
-
-expand_nodes([Nodes]) when is_map(Nodes) ->
-   xqerl_context:get_context_item(Nodes);
-expand_nodes(Nodes) when is_map(Nodes) ->
-   xqerl_context:get_context_item(Nodes);
-expand_nodes(Nodes) when is_list(Nodes) ->
-   lists:flatmap(fun(Node) ->
-                   expand_nodes(Node)
-             end, Nodes);
-expand_nodes(Node) ->
-   [Node].
-
-expand_nodes(Node, allow_empty) ->
-   case expand_nodes(Node) of
-      [] ->
-         [[]];
-      N ->
-         N
-   end.
-
 add_position(List) when is_list(List) ->
    add_position(List, 1, []);
 add_position(List) ->
@@ -137,6 +58,27 @@ add_position(H, Cnt, Acc) ->
    New = {H, ?atint(Cnt)},
    add_position([], Cnt + 1, [New|Acc]).
 
+do_atomize([],_) -> {<<>>, []};
+do_atomize([V],C) -> do_atomize(V,C);
+do_atomize(#xqNode{} = N,Coll) ->
+   A = ?seq:singleton_value(xqerl_node:atomize_nodes(N)),
+   #xqAtomicValue{value = Val} = A,
+   {xqerl_coll:sort_key(Val, Coll), A};
+do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
+   when T =:= 'xs:gYearMonth' orelse
+        T =:= 'xs:gYear' orelse
+        T =:= 'xs:gMonthDay' orelse
+        T =:= 'xs:gDay' orelse
+        T =:= 'xs:gMonth' orelse
+        T =:= 'xs:date' orelse
+        T =:= 'xs:dateTime' orelse
+        T =:= 'xs:time' ->
+    #xqAtomicValue{value = Val, type = T} = A ,
+    {xqerl_coll:sort_key(Val, T), A};
+do_atomize(#xqAtomicValue{value = Val} = A,Coll) ->
+       {xqerl_coll:sort_key(Val, Coll), A}.
+
+
 %% takes {{{K1,C1},{KN,CN}}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
 groupbyclause(KeyVals) ->
    % atomize where needed
@@ -145,25 +87,7 @@ groupbyclause(KeyVals) ->
                      KC = tuple_to_list(K1),
                      {
                       lists:map(fun({K,C}) ->
-                                     Coll = xqerl_coll:parse(C),
-                                     case ?seq:singleton_value(K) of
-                                        #xqNode{} = N ->
-                                           #xqAtomicValue{value = Val} = A = ?seq:singleton_value(xqerl_node:atomize_nodes(N)),
-                                           {xqerl_coll:sort_key(Val, Coll), A};
-                                        #xqAtomicValue{value = Val, type = T} = A when T == 'xs:gYearMonth';
-                                                                                       T == 'xs:gYear';
-                                                                                       T == 'xs:gMonthDay';
-                                                                                       T == 'xs:gDay';
-                                                                                       T == 'xs:gMonth';
-                                                                                       T == 'xs:date';
-                                                                                       T == 'xs:dateTime';
-                                                                                       T == 'xs:time' ->
-                                           {xqerl_coll:sort_key(Val, T), A};
-                                        #xqAtomicValue{value = Val} = A ->
-                                           {xqerl_coll:sort_key(Val, Coll), A};
-                                        [] ->
-                                           {<<>>, []}
-                                     end
+                                     do_atomize(K,C)
                                end, KC), 
                       list_to_tuple(lists:map(fun({Va,_}) -> Va;
                                    (Va) -> Va
@@ -171,18 +95,11 @@ groupbyclause(KeyVals) ->
                      }
                end, KeyVals),
     
-   %?dbg("KeyVals1",KeyVals1),
    Keys = [K || {K,_V} <- KeyVals1],
-   %Keys = [grouped_key(K) || {K,_V} <- KeyVals1],
-
-   %?dbg("Keys",Keys),
-   %?dbg("KeyVals",KeyVals),
    UKeys = unique(Keys),
-   %?dbg("UKeys",UKeys),
    Mapped = lists:foldl(fun({K,V},Acc) ->
                      upsert(K,V,Acc)
                end, maps:new(), KeyVals1),
-   %?dbg("Mapped",Mapped),
    All = lists:foldl(fun(Ks,Acc) ->
                            K = [K || {K,_V} <- Ks],
                            Vs = [V || {_K,V} <- Ks],
@@ -191,17 +108,12 @@ groupbyclause(KeyVals) ->
                                        ?seq:from_list(ListVal)
                                  end, V),
                   New = list_to_tuple(Vs ++ V1) ,
-                  %?dbg("V1",V1),
                   [New|Acc]
                end, [], UKeys),
-   %?dbg("All",All),
    lists:reverse(All).
 
-%% grouped_key(Keys) ->
-%%    list_to_tuple([K || {K,_} <- tuple_to_list(Keys)]).
-
-
-%% takes single list from expression and the start function and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
+%% takes single list from expression and the start function and returns 
+%% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% can only be tumbling with no end function
 windowclause(L, StartFun) ->
    case add_position(L) of
@@ -216,7 +128,8 @@ windowclause(L, StartFun) ->
          lists:reverse(Bw2)
    end.
 
-%% takes single list from expression and the start/end functions and returns {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
+%% takes single list from expression and the start/end functions and returns 
+%% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% Type is tumbling or sliding
 windowclause(L, StartFun, EndFun, {Type, Only}) ->
    case add_position(L) of
@@ -292,7 +205,8 @@ winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, Acc) ->
       true ->
          case Acc of
             [] ->
-               winstart(tl(L), StartFun, {S,SPos,SPrev,SNext,S,SPos,SPrev,SNext,[S]});
+               winstart(tl(L), StartFun, 
+                        {S,SPos,SPrev,SNext,S,SPos,SPrev,SNext,[S]});
             A ->
                R = lists:reverse(element(9, A)),
                winstart(L, StartFun, []) ++ [setelement(9, A, R)]
@@ -313,7 +227,7 @@ winstart([], _StartFun, _EndFun, _Type, _Only) ->
 winstart([{SPrev,_}] = L, StartFun, EndFun, _Type, Only) ->
    case bool(StartFun({[],[],SPrev,[]})) of
       true ->
-         {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, ?seq:empty(), Only),
+         {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
          % could send Win someplace now
          Win;
       _ ->
@@ -322,7 +236,7 @@ winstart([{SPrev,_}] = L, StartFun, EndFun, _Type, Only) ->
 winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,[],SNext})) of
       true ->
-         {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, ?seq:empty(), Only),
+         {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
          % could send Win someplace now
          if Type == tumbling ->
                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
@@ -335,7 +249,7 @@ winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) ->
 winstart([[],{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,[],[]})) of
       true ->
-         {Win, _Rest} = winend([], S, SPos, [], L, EndFun, ?seq:empty(), Only),
+         {Win, _Rest} = winend([], S, SPos, [], L, EndFun, [], Only),
          % could send Win someplace now
          Win;
 %%          if Type == tumbling ->
@@ -350,17 +264,17 @@ winstart([[],{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
 winstart([{SPrev,_},{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,SPrev,[]})) of
       true ->
-         {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, ?seq:empty(), Only),
+         {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, [], Only),
          % could send Win someplace now
          Win;
       _ ->
 %%          []
          winstart(tl(L), StartFun, EndFun, Type, Only)
    end;
-winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) ->
+winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L,StartFun,EndFun,Type,Only) ->
    case bool(StartFun({S,SPos,SPrev,SNext})) of
       true ->
-         {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, ?seq:empty(), Only),
+         {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
          % could send Win someplace now
          if Type == tumbling ->
                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
@@ -408,19 +322,15 @@ winend(SPrev,S,SPos,SNext,[{EPrev,_}], EndFun, Acc, Only) ->
                {[{S,SPos,SPrev,SNext,[],[],EPrev,[], Acc}], []}
          end
    end;
-winend(SPrev,S,SPos,SNext,[{EPrev,_},{E, EPos},{ENext, _}|_] = L, EndFun, Acc, Only) ->
+winend(SPrev,S,SPos,SNext,[{EPrev,_},{E, EPos},{ENext, _}|_] = L, 
+       EndFun, Acc, Only) ->
    case bool(EndFun({S,SPos,SPrev,SNext,E,EPos,EPrev,ENext})) of
       true ->
-         {[{S,SPos,SPrev,SNext,E,EPos,EPrev,ENext, ?seq:append(E, Acc)}], tl(L)};
+         {[{S,SPos,SPrev,SNext,E,EPos,EPrev,ENext, ?seq:append(E, Acc)}], 
+          tl(L)};
       _ ->
          winend(SPrev,S,SPos,SNext,tl(L), EndFun, ?seq:append(E, Acc), Only)
    end.
-
-
-
-
-
-
 
 %% functions for group by
 unique(KeysAll) ->
@@ -441,10 +351,8 @@ upsert(K,V,Map) ->
    H1 = [Q || {Q,_} <- K],
    case maps:find(H1, Map) of
       error ->
-   %?dbg("H1",H1),
          maps:put(H1, append(V,[]), Map);
       {ok, Val} ->
-   %?dbg("H1",H1),
          maps:put(H1, append(V,Val), Map)
    end.
 
@@ -543,15 +451,19 @@ do_order({TA,[{ValA,descending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          true;
       Empty == greatest andalso ValB == [] ->
          false;
-      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', value = nan};
-      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', value = nan} ->
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:float', 
+                                                       value = nan};
+      Empty == greatest andalso ValA == #xqAtomicValue{type = 'xs:double', 
+                                                       value = nan} ->
          true;
       Empty == least andalso ValA == [] ->
          false;
       Empty == least andalso ValB == [] ->
          true;
-      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', value = nan};
-      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', value = nan} ->
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:float', 
+                                                    value = nan};
+      Empty == least andalso ValB == #xqAtomicValue{type = 'xs:double', 
+                                                    value = nan} ->
          true;
       true ->
          case val(xqerl_operators:greater_than(ValA, ValB)) of
@@ -573,15 +485,19 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          false;
       Empty == greatest andalso ValB == [] ->
          true;
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', value = nan};
-      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', value = nan} ->
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:float', 
+                                                       value = nan};
+      Empty == greatest andalso ValB == #xqAtomicValue{type = 'xs:double', 
+                                                       value = nan} ->
          true;
       Empty == least andalso ValA == [] ->
          true;
       Empty == least andalso ValB == [] ->
          false;
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', value = nan};
-      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', value = nan} ->
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:float', 
+                                                    value = nan};
+      Empty == least andalso ValA == #xqAtomicValue{type = 'xs:double', 
+                                                    value = nan} ->
          true;
       true ->
          case val(xqerl_operators:less_than(ValA, ValB)) of
@@ -597,79 +513,9 @@ do_order({TA,[{ValA,ascending,Empty}|RestA]},{TB,[{ValB,_,_}|RestB]}) ->
          end
    end.
 
+val(T) -> xqerl_types:value(T).
 
-
-
-
-sort_grouping(Groups, Id) ->
-   Lets = [E || E <- Groups, element(1, E) == 'let'],
-   Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
-   Lets ++ [{group_by, Id, Vars}].
-
-   
-
-
-
-
-split_clauses(Clauses) ->
-   Clauses.
-   %split_clauses(Clauses, []).
-
-%% split_clauses([], Acc) ->
-%%    Acc;
-%% split_clauses(List, Acc) ->
-%%    {Fors,Rest} = lists:splitwith(fun({for,_}) -> true;
-%%                                     ({'let',_}) -> true;
-%%                                     %({where,_}) -> true;
-%%                                     (#xqWindow{}) -> true;
-%%                                     (_) -> false
-%%                                  end,
-%%                                  List),
-%%    %?dbg("Fors",Fors),
-%%    if Fors == [] ->
-%%          {Grps,Rest1} = lists:splitwith(fun(#xqGroupBy{}) -> true;
-%%                                            (_) -> false
-%%                                        end,
-%%                                        List),
-%%          if Grps == [] ->
-%%                {Ords,Rest2} = lists:splitwith(fun({order,_,_}) -> true;
-%%                                                  (_) -> false
-%%                                              end,
-%%                                              List),
-%%                if Ords == [] ->
-%%                   {Wheres,Rest3} = lists:splitwith(fun({where,_}) -> true;
-%%                                                     (_) -> false
-%%                                                 end,
-%%                                                 List),
-%%                   if Wheres == [] ->
-%%                         [H|T] = Rest,
-%%                         split_clauses(T,    Acc ++ [{count,[H]}]);
-%%                      true ->
-%%                         split_clauses(Rest3, Acc ++ [{where, Wheres}])
-%%                   end;
-%%                   true ->
-%%                      split_clauses(Rest2, Acc ++ [{order, Ords}])
-%%                end;
-%%             true ->
-%%                split_clauses(Rest1, Acc ++ [{group, Grps}])
-%%          end;
-%%       true ->
-%%          split_clauses(Rest, Acc ++ [{for_let, Fors}])
-%%    end.
-
-
-
-
-val(T) ->
-   xqerl_types:value(T).
-
-bool(T) ->
-   %?dbg("T",T),
-   xqerl_operators:eff_bool_val(T).
-
-%   T#xqAtomicValue.value.
-
-
+bool(T) -> xqerl_operators:eff_bool_val(T).
 
 simple_map(Ctx, Seq, MapFun) ->
    ?seq:map(Ctx, MapFun, Seq).

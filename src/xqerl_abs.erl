@@ -1670,7 +1670,32 @@ group_part(#{grp_variables := GrpVars,
          %TODO move this check to static phase
          ?err('XQST0094')% out of scope grouping variable
    end,
-   KeyTuples   = [{tuple,?L,[{var,?L,Name},{string,?L,Coll}]} || 
+   UColls = lists:usort([Coll ||
+                         #xqGroupBy{collation = Coll} <- alist(Clauses)]),
+   
+   CollsFun = fun(Str,{Acc,I}) ->
+                    {
+                     Acc#{Str =>
+                            {a_remote_call(
+                             {xqerl_coll,parse,?L},
+                             [{string,?L,Str}]),
+                          I}}, I + 1}
+              end,
+   {CollsMap,_} = lists:foldl(CollsFun, {#{},1}, UColls),
+   CollMFun = fun(_K,{V,Id1},L) ->
+                    [a_match(list_to_atom("C"++integer_to_list(Id1)), ?L, V)|L]
+              end,
+   CollMatch = maps:fold(CollMFun, [], CollsMap),
+   CollNFun = fun(_K,{_V,Id1},L) ->
+                    [{var,?L,list_to_atom("C"++integer_to_list(Id1))}|L]
+              end,
+   CollNT = {tuple,?L,maps:fold(CollNFun, [], CollsMap)},
+   
+   KeyTuples   = [begin
+                     {_,Id2} = maps:get(Coll, CollsMap),
+                     VName = list_to_atom("C"++integer_to_list(Id2)),
+                     {tuple,?L,[{var,?L,Name},{var,?L,VName}]}
+                  end || 
                   #xqGroupBy{grp_variable = {variable, Name}, 
                              collation = Coll} <- alist(Clauses)],
    KeyNamesTup = [{var,?L,Name} || 
@@ -1701,7 +1726,7 @@ group_part(#{grp_variables := GrpVars,
    IsList = a_remote_call({erlang,is_list,?L}, [{var,?L,'List'}]),
    
    LC1 = {lc,?L,
-          {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'}]},
+          {call,?L,{atom,?L,FunctionName},[{var,?L,'Ctx'},{var,?L, 'T'},CollNT]},
           [{generate,?L,{var,?L, 'T'},{var,?L, 'List'}}]},
    LC2 = {lc,?L,OuterTups,[{generate,?L,OutgoingVarTup,{var,?L, 'List'}}]},
    Flatten = a_remote_call({lists,flatten,?L}, [LC1]),
@@ -1714,20 +1739,23 @@ group_part(#{grp_variables := GrpVars,
      {function, ?L, FunctionName, 2,
       [{clause,?L, [{var,?L,'_'},{nil,?L}],[],[{nil,?L}]},
        {clause,?L, [{var,?L,'Ctx'},{var,?L,'List'}],[[IsList]],
+        CollMatch ++ 
         [a_match('Split', ?L, Flatten),
          a_match('Rest', ?L, Rest),
          {call,?L,{atom,?L,FunctionName},
           [{var,?L,'Ctx'},{var,?L, 'Split'},{var,?L,'Rest'}]}
-        ]},
-       {clause,?L, [{var,?L, 'Ctx'}, OutgoingVarTup],[],[ToGroupTuple]}]},
+        ]}
+       ]},
    GrpFun2 = 
      {function, ?L, FunctionName, 3,
-      [{clause,?L, [{var,?L, 'Ctx'},{var,?L,'Split'},OuterTups],[],
+      [{clause,?L, [{var,?L, 'Ctx'}, OutgoingVarTup, CollNT],[],
+        [ToGroupTuple]},
+       {clause,?L, [{var,?L, 'Ctx'},{var,?L,'Split'},OuterTups],[],
         [a_match('Grouped',?L,Grouped),
          {lc,?L,OutgoingVarTup,[{generate,?L,OutputTuple,{var,?L,'Grouped'}}]}
         ]}]},
    {Ctx,[GrpFun1,GrpFun2]}.
-   
+%CollNT
 let_part(Ctx,{'let',#xqVar{id = Id,
                            name = Name,
                            type = Type,
