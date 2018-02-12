@@ -76,9 +76,12 @@ error(#qname{} = Name, Msg, Obj) ->
                   value = Obj},
    exit(Err);
 error(Code, Msg, Obj) ->
-   Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = #qname{namespace = ?NS, 
-                                prefix = "err", 
-                                local_name = atom_to_list(Code)}},
+   Err = #xqError{name = 
+                    #xqAtomicValue{type = 'xs:QName',
+                                   value = #qname{namespace = ?NS,
+                                                  prefix = "err",
+                                                  local_name = 
+                                                    atom_to_list(Code)}},
                   description = Msg,
                   value = Obj},
    exit(Err).

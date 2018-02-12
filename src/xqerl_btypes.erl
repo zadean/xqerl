@@ -196,17 +196,19 @@ sequence_type([H|T],ListType) ->
 
 
 % is subtype
-can_substitute(Type,TargetType) when Type band TargetType =:= TargetType -> true;
+can_substitute(Type,TargetType) 
+   when Type band TargetType =:= TargetType -> true;
 % is in union type
-can_substitute(Type,TargetType) when TargetType band 1024 =:= 1024 andalso
-                                    Type band TargetType =/= ?anyAtomicType andalso
-                                    Type band TargetType =/= ?item -> true;
+can_substitute(Type,TargetType) 
+   when TargetType band 1024 =:= 1024 andalso
+          Type band TargetType =/= ?anyAtomicType andalso
+          Type band TargetType =/= ?item -> true;
 can_substitute(_Type,_TargetType) -> false.
 
 % numeric promotion
 can_promote(?float,?double) -> true;
-can_promote(Decimal,?double) when Decimal band ?decimal == ?decimal -> true;
-can_promote(Decimal,?float) when Decimal band ?decimal == ?decimal -> true;
+can_promote(Decimal,?double) when Decimal band ?decimal =:= ?decimal -> true;
+can_promote(Decimal,?float) when Decimal band ?decimal =:= ?decimal -> true;
 % URI promotion
 can_promote(?anyURI,?string) -> true;
 can_promote(?untypedAtomic,?string) -> true;
@@ -222,9 +224,9 @@ is_node(Type) ->
 is_atomic(Type) ->
    Type band ?anyAtomicType =:= ?anyAtomicType.
 
-is_numeric(Type) when Type band ?decimal == ?decimal;
-                      Type band ?float == ?float;
-                      Type band ?double == ?double->
+is_numeric(Type) when Type band ?decimal =:= ?decimal;
+                      Type band ?float =:= ?float;
+                      Type band ?double =:= ?double ->
    true;
 is_numeric(_) ->
    false.

@@ -198,9 +198,12 @@ merge(#{namespaces := INs} = InitialContext, OuterContext) ->
    % ns is {xqNamespace, Uri, Prefix}
    Merged = maps:merge(InitialContext, OuterContext),
    NsToMerge = maps:get(namespaces, OuterContext, []),
-   NewNs = lists:foldl(fun({Prefix,Namespace},Acc) ->
-                             lists:keystore(Prefix, 3, Acc, #xqNamespace{namespace = Namespace, prefix = Prefix})
-                       end, INs, NsToMerge),
+   F = fun({Prefix,Namespace},Acc) ->
+             lists:keystore(Prefix, 3, Acc, 
+                            #xqNamespace{namespace = Namespace, 
+                                         prefix = Prefix})
+       end,
+   NewNs = lists:foldl(F, INs, NsToMerge),
    Merged#{namespaces => NewNs};
 merge(InitialContext, OuterContext) ->
    maps:merge(InitialContext, OuterContext).
@@ -234,8 +237,10 @@ set_statically_known_namespaces(Tab,Value) ->
    set(Tab, 'statically-known-namespaces', Value).
 
 % block static prefixes
-add_statically_known_namespace(_,"http://www.w3.org/XML/1998/namespace","xml") -> ok;
-add_statically_known_namespace(_,"http://www.w3.org/2000/xmlns/","xmlns") -> ok;
+add_statically_known_namespace(_,"http://www.w3.org/XML/1998/namespace",
+                               "xml") -> ok;
+add_statically_known_namespace(_,"http://www.w3.org/2000/xmlns/",
+                               "xmlns") -> ok;
 add_statically_known_namespace(parser,Namespace,Prefix) ->
    Old = case erlang:get('statically-known-namespaces') of
             undefined ->
@@ -550,12 +555,12 @@ set_serial_version(Tab,Value) ->
 %%% DYNAMIC CONTEXT
 
 %% inscope namespaces
-add_inscope_namespace(Ctx,Prefix,Namespace) ->
-   maps:put(namespaces, [#xqNamespace{namespace = Namespace, prefix = Prefix}|maps:get(namespaces, Ctx)], Ctx).
-get_inscope_namespace(Ctx,Prefix) ->
-   List = maps:get(namespaces, Ctx),
-   proplists:get_value(Prefix, List,undefined).
+add_inscope_namespace(#{namespaces := Old} = Ctx,Prefix,Namespace) ->
+   New = [#xqNamespace{namespace = Namespace, prefix = Prefix} | Old],
+   Ctx#{namespaces := New}.
 
+get_inscope_namespace(#{namespaces := List},Prefix) ->
+   proplists:get_value(Prefix, List, undefined).
 
 % returns context item
 get_context_item(#{'context-item' := Ci}) ->
@@ -586,14 +591,18 @@ set_empty_context_item(Ctx) ->
 % returns new Ctx map
 set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
-set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) when is_integer(Size) ->
+set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) 
+   when is_integer(Size) ->
    Ctx#{'context-item' := CI,
         'context-position' := Pos,
-        'context-item-count' := #xqAtomicValue{type = 'xs:integer',value = Size}};
-set_context_item(Ctx, CI, Pos, Size) when is_integer(Size) ->
+        'context-item-count' := #xqAtomicValue{type = 'xs:integer',
+                                               value = Size}};
+set_context_item(Ctx, CI, Pos, Size) 
+   when is_integer(Size) ->
    Ctx#{'context-item' => CI,
         'context-position' => Pos,
-        'context-item-count' => #xqAtomicValue{type = 'xs:integer',value = Size}};
+        'context-item-count' => #xqAtomicValue{type = 'xs:integer',
+                                               value = Size}};
 set_context_item(#{'context-item' := _,
                    'context-position' := _,
                    'context-item-count' := Size} = Ctx, CI, Pos, Size) ->
@@ -636,7 +645,8 @@ get_context_size(_) ->
    ?err('XPDY0002').
 
 set_context_size(Ctx, Value) when is_integer(Value)->
-   maps:put('context-item-count', #xqAtomicValue{type = 'xs:integer',value = Value}, Ctx);
+   maps:put('context-item-count', #xqAtomicValue{type = 'xs:integer',
+                                                 value = Value}, Ctx);
 set_context_size(Ctx, Value) ->
    maps:put('context-item-count', Value, Ctx).
 
@@ -747,22 +757,23 @@ set_default_uri_collection(Tab, Value) ->
    set(Tab, 'default-uri-collection', Value).
 
 static_namespaces() ->
-   [ {[],'no-namespace'},
+   [ {[],     'no-namespace'},
      {"local","http://www.w3.org/2005/xquery-local-functions"},
-     {"fn","http://www.w3.org/2005/xpath-functions"},
-     {"xsi","http://www.w3.org/2001/XMLSchema-instance"},
-     {"xml","http://www.w3.org/XML/1998/namespace"},
-     {"xs","http://www.w3.org/2001/XMLSchema"},
-     {"math","http://www.w3.org/2005/xpath-functions/math"},
-     {"map","http://www.w3.org/2005/xpath-functions/map"},
+     {"fn",   "http://www.w3.org/2005/xpath-functions"},
+     {"xsi",  "http://www.w3.org/2001/XMLSchema-instance"},
+     {"xml",  "http://www.w3.org/XML/1998/namespace"},
+     {"xs",   "http://www.w3.org/2001/XMLSchema"},
+     {"math", "http://www.w3.org/2005/xpath-functions/math"},
+     {"map",  "http://www.w3.org/2005/xpath-functions/map"},
      {"array","http://www.w3.org/2005/xpath-functions/array"},
-     {"err","http://www.w3.org/2005/xqt-errors"}].
+     {"err",  "http://www.w3.org/2005/xqt-errors"}].
 
 static_collations() ->
    ["http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind", % testing
     "http://www.w3.org/2005/xpath-functions/collation/codepoint",
     "http://www.w3.org/2013/collation/UCA",
-    "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"].
+    "http://www.w3.org/2005/xpath-functions/collation/"
+      "html-ascii-case-insensitive"].
 
 
 get_local_timezone(RawCdt) ->
@@ -791,7 +802,8 @@ add_default_static_values(Tab, RawCdt) ->
    StaticNsList = static_namespaces(),
    StaticNsDict = dict:from_list(StaticNsList),
    set_statically_known_namespaces(Tab, StaticNsDict),
-   set_default_language(Tab, #xqAtomicValue{type = 'xs:language', value = "en"}),
+   set_default_language(Tab, #xqAtomicValue{type = 'xs:language', 
+                                            value = "en"}),
    
    %% non-augmentable values from dynamic context can be put here as well.
    set_current_datetime(Tab, xqerl_datetime:get_from_now_local(RawCdt)),
@@ -813,12 +825,12 @@ get_module_exports(Imports) ->
 
 import_functions(Functions,Tab) ->
    lists:foreach(fun(F) ->
-                       xqerl_context:add_statically_known_function(Tab, F)
+                       add_statically_known_function(Tab, F)
                  end, Functions).
 
 import_variables(Variables,Tab) ->
    lists:foreach(fun(V) ->
-                       xqerl_context:add_in_scope_variable(Tab,V)
+                       add_in_scope_variable(Tab,V)
                  end, Variables).
 
 

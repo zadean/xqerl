@@ -51,7 +51,8 @@ read(Io) ->
 
 read_file(File) ->
    case file:read_file(File) of
-      {ok, Bin} -> {ok, bin_to_utf8(Bin)};
+      {ok, Bin} -> {ok, Bin};
+      %{ok, bin_to_utf8(Bin)};
       {error, Reason} -> {error, Reason}
    end.
 
@@ -145,13 +146,15 @@ bin_to_utf8(Binary,Enc) ->
          valid_unicode(List)
    end.
 
-valid_unicode([]) -> [];
-valid_unicode([H|_T]) when H == 16#FFFE;
-                           H == 16#FFFF;
-                           H == 0 ->
-  ?err('FOUT1190');
-valid_unicode([H|T]) ->
-  [H|valid_unicode(T)].
+valid_unicode(List) -> List.
+%% %% remove for now 
+%% valid_unicode([]) -> [];
+%% valid_unicode([H|_T]) when H == 16#FFFE;
+%%                            H == 16#FFFF;
+%%                            H == 0 ->
+%%   ?err('FOUT1190');
+%% valid_unicode([H|T]) ->
+%%   [H|valid_unicode(T)].
 
 
 %% from edoc_lib for reading files at URI

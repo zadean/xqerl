@@ -20,7 +20,7 @@
 %%
 %% -------------------------------------------------------------------
 
-%% @doc Helper functions for parsing dateTime values from string and outputting to string 
+%% @doc Helper functions for parsing dateTime values to/from string 
 
 -module(xqerl_datetime).
 
@@ -62,15 +62,17 @@ get_from_now(Now) ->
             minute = MI,
             second = SS + (Millis / 1000)
          },
-   #xqAtomicValue{type = 'xs:dateTime', value = Ret#xsDateTime{string_value = to_string(Ret,'xs:dateTime')}}
-   .
+   Str = to_string(Ret,'xs:dateTime'),
+   #xqAtomicValue{type = 'xs:dateTime', 
+                  value = Ret#xsDateTime{string_value = Str}}.
 
 get_from_now_local(Now) ->
    {_,_,Micro} = Now,
    Millis =  Micro div 1000,
    {{Y,M,D}, {HH,MI,SS}} = calendar:now_to_local_time(Now),
    Loc = calendar:datetime_to_gregorian_seconds({{Y,M,D}, {HH,MI,SS}}),
-   Utc = calendar:datetime_to_gregorian_seconds(calendar:now_to_universal_time(Now)),
+   Ut = calendar:now_to_universal_time(Now),
+   Utc = calendar:datetime_to_gregorian_seconds(Ut),
    Dif = Loc - Utc,
    {{_,_,_},{Hd,Md,_}} = calendar:gregorian_seconds_to_datetime(Dif),
    Ret = #xsDateTime{
@@ -82,9 +84,9 @@ get_from_now_local(Now) ->
             second = xqerl_numeric:decimal(SS + (Millis / 1000)),
             offset = #off_set{hour = Hd, min = Md}
          },
-   #xqAtomicValue{type = 'xs:dateTime', value = Ret#xsDateTime{string_value = to_string(Ret,'xs:dateTime')}}.
-
-
+   Str = to_string(Ret,'xs:dateTime'),
+   #xqAtomicValue{type = 'xs:dateTime', 
+                  value = Ret#xsDateTime{string_value = Str}}.
 
 to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
@@ -97,47 +99,62 @@ to_string(#xsDateTime{sign     = Sign,
           'xs:dateTime') ->
    SN = sign_str(Sign),
    Offset = offset_str(OS),
-   lists:flatten(io_lib:format("~s~s-~2..0b-~2..0bT~2..0b:~2..0b:~s~s", [SN,year_str(Y),M,D,HH,MI,sec_str(SS),Offset]));
+   flat_form("~s~s-~2..0b-~2..0bT~2..0b:~2..0b:~s~s",
+             [SN,year_str(Y),M,D,HH,MI,sec_str(SS),Offset]);
 
+to_string(#xsDateTime{sign     = _,
+                      day      = 0,
+                      hour     = 0,
+                      minute   = 0,
+                      second   = #xsDecimal{int = 0, scf = 0}},
+          'xs:dayTimeDuration') ->
+   "PT0S";
 to_string(#xsDateTime{sign     = Sign,
                       day      = D,
                       hour     = HH,
                       minute   = MI,
                       second   = SS},
           'xs:dayTimeDuration') ->
-   if D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == #xsDecimal{} ->
-         "PT0S";
-      true ->
-         SN = sign_str(Sign),
-         DT = date_dur_str(0,0,D),
-         TM = time_dur_str(HH,MI,SS),
-         SN ++ DT ++ TM
-   end;
+   SN = sign_str(Sign),
+   DT = date_dur_str(0,0,D),
+   TM = time_dur_str(HH,MI,SS),
+   lists:append([SN, DT, TM]);
 
+to_string(#off_set{sign = _,
+                   hour = 0,
+                   min  = 0},
+          'xs:dayTimeDuration') ->
+   "PT0S";
 to_string(#off_set{sign = Sign,
                    hour = HH,
                    min  = MI},
           'xs:dayTimeDuration') ->
-   if HH =:= 0 andalso MI =:= 0 ->
-         "PT0S";
-      true ->
-         SN = sign_str(Sign),
-         TM = time_dur_str(HH,MI,0),
-         SN ++ "P" ++ TM
-   end;
+   SN = sign_str(Sign),
+   TM = time_dur_str(HH,MI,0),
+   lists:append([SN, "P", TM]);
 
+to_string(#xsDateTime{sign     = _,
+                      year     = 0,
+                      month    = 0},
+          'xs:yearMonthDuration') ->
+   "P0M";
 to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
                       month    = M},
           'xs:yearMonthDuration') ->
-   if Y =:= 0 andalso M =:= 0 ->
-         "P0M";
-      true ->
-         SN = sign_str(Sign),
-         DT = date_dur_str(Y,M,0),
-         SN ++ DT
-   end;
+   SN = sign_str(Sign),
+   DT = date_dur_str(Y,M,0),
+   lists:append([SN, DT]);
 
+to_string(#xsDateTime{sign     = _,
+                      year     = 0,
+                      month    = 0,
+                      day      = 0,
+                      hour     = 0,
+                      minute   = 0,
+                      second   = #xsDecimal{int = 0, scf = 0}},
+          'xs:duration') ->
+   "PT0S";
 to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
                       month    = M,
@@ -146,14 +163,10 @@ to_string(#xsDateTime{sign     = Sign,
                       minute   = MI,
                       second   = SS},
           'xs:duration') ->
-   if Y =:= 0 andalso M =:= 0 andalso D =:= 0 andalso HH =:= 0 andalso MI =:= 0 andalso SS == {xsDecimal,0,0} ->
-         "PT0S";
-      true ->
-         SN = sign_str(Sign),
-         DT = date_dur_str(Y,M,D),
-         TM = time_dur_str(HH,MI,SS),
-         SN ++ DT ++ TM
-   end;
+   SN = sign_str(Sign),
+   DT = date_dur_str(Y,M,D),
+   TM = time_dur_str(HH,MI,SS),
+   lists:append([SN, DT, TM]);
 
 to_string(#xsDateTime{hour     = Hour,
                       minute   = Min,
@@ -161,7 +174,7 @@ to_string(#xsDateTime{hour     = Hour,
                       offset   = OS},
           'xs:time') ->
    Offset = offset_str(OS),
-   lists:flatten(io_lib:format( "~2..0b:~2..0b:~s~s",  [Hour,Min,sec_str(Sec),Offset]));
+   flat_form( "~2..0b:~2..0b:~s~s",[Hour,Min,sec_str(Sec),Offset]);
 
 to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
@@ -170,20 +183,19 @@ to_string(#xsDateTime{sign     = Sign,
                       offset   = OS},
           'xs:date') ->
    Offset = offset_str(OS),
-   List = io_lib:format("~s~s-~2..0b-~2..0b~s", [sign_str(Sign),year_str(Y),M,D,Offset]),
-   lists:flatten(List);
+   flat_form("~s~s-~2..0b-~2..0b~s", [sign_str(Sign),year_str(Y),M,D,Offset]);
 
 to_string(#xsDateTime{day      = D,
                       offset   = OS},
           'xs:gDay') ->
    Offset = offset_str(OS),
-   lists:flatten(io_lib:format("---~2..0b~s", [D,Offset]));
+   flat_form("---~2..0b~s", [D,Offset]);
 
 to_string(#xsDateTime{month    = M,
                       offset   = OS},
           'xs:gMonth') ->
    Offset = offset_str(OS),
-   lists:flatten(io_lib:format("--~2..0b~s", [M,Offset]));
+   flat_form("--~2..0b~s", [M,Offset]);
 
 to_string(#xsDateTime{sign   = Sign,
                       year   = Y,
@@ -191,7 +203,7 @@ to_string(#xsDateTime{sign   = Sign,
           'xs:gYear') ->
    Offset = offset_str(OS),
    SN = sign_str(Sign),
-   lists:flatten(io_lib:format("~s~s~s", [SN,year_str(Y),Offset]));
+   flat_form("~s~s~s", [SN,year_str(Y),Offset]);
 
 to_string(#xsDateTime{sign   = Sign,
                       year   = Y,
@@ -200,86 +212,77 @@ to_string(#xsDateTime{sign   = Sign,
           'xs:gYearMonth') ->
    Offset = offset_str(OS),
    SN = sign_str(Sign),
-   lists:flatten(io_lib:format("~s~s-~2..0b~s", [SN,year_str(Y),M,Offset]));
+   flat_form("~s~s-~2..0b~s", [SN,year_str(Y),M,Offset]);
 
 to_string(#xsDateTime{day      = D,
                       month    = M,
                       offset   = OS},
           'xs:gMonthDay') ->
    Offset = offset_str(OS),
-   lists:flatten(io_lib:format("--~2..0b-~2..0b~s", [M,D,Offset])).
-
-
+   flat_form("--~2..0b-~2..0b~s", [M,D,Offset]).
 
 
 ymd_is_valid(Y,M,D) ->
    try
       calendar:date_to_gregorian_days(abs(Y), M, D)
-   catch _:_ ->
-            xqerl_error:error('FORG0001')
+   catch 
+      _:_ ->
+         ?err('FORG0001')
    end.
 
+align_to_timezone(Arg1,[]) ->
+   #xqAtomicValue{type = Type, 
+                  value = #xsDateTime{} = Val
+                 } = ?seq:singleton_value(Arg1),
+   NewDtTmWOs = Val#xsDateTime{offset = []},
+   Str = to_string(NewDtTmWOs, Type),
+   #xqAtomicValue{type = Type, 
+                  value = NewDtTmWOs#xsDateTime{string_value = Str}};
 align_to_timezone(Arg1,Arg2) ->
-   #xqAtomicValue{type = Type, value = #xsDateTime{offset = Os} = Val} = ?seq:singleton_value(Arg1),
-   case ?seq:is_empty(Arg2) of
-      true ->
-         NewDtTmWOs = Val#xsDateTime{offset = []},
-         %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
+   #xqAtomicValue{type = Type, 
+                  value = #xsDateTime{offset = Os} = Val
+                 } = ?seq:singleton_value(Arg1),
+   ArgDurStr  = case Os of
+                   [] -> [];
+                   _ -> to_string(Os,'xs:dayTimeDuration')
+                end,
+   AdjDurStr = case ?seq:singleton_value(Arg2) of
+                  #xqAtomicValue{type = 'xs:dayTimeDuration', 
+                                 value = #xsDateTime{second = Sec,
+                                                     string_value = DStr}} ->
+                     Gt = xqerl_numeric:greater_than(Sec, 0),
+                     if Gt ->
+                           ?err('FODT0003');
+                        true ->
+                           ?str(DStr)
+                     end;
+                  O ->
+                     ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
+               end,
+   if ArgDurStr =:= [] ->
+         AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+         #xsDateTime{sign = S, 
+                     hour = H, 
+                     minute = M} = xqerl_types:value(AdjDur),
+         NewOffset = #off_set{sign = S, hour = H, min = M},
+         NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
          Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-         %?dbg("adjust-dateTime-to-timezone Str",Str),
-         #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
-   _ ->
-      ArgDurStr  = case Os of 
-                     [] ->
-                        [];
-                     _ ->
-                        xqerl_datetime:to_string(Os,'xs:dayTimeDuration')
-                  end,
-      AdjDurStr = case ?seq:singleton_value(Arg2) of
-                     #xqAtomicValue{type = 'xs:dayTimeDuration', value = #xsDateTime{second = Sec,string_value = DStr}} ->
-                        GT = xqerl_numeric:greater_than(Sec, 0),
-                        if GT ->
-                              ?err('FODT0003');
-                           true ->
-                              ?str(DStr)
-                        end;
-                     O ->
-                        ?str(xqerl_datetime:to_string(O,'xs:dayTimeDuration'))
-                  end,
-      %?dbg("ArgDurStr",ArgDurStr),
-      %?dbg("AdjDurStr",AdjDurStr),
-      %?dbg("Arg2",Arg2),
-      if %ArgDurStr == [] andalso AdjDurStr == [] ->
-         %   Arg1;
-         ArgDurStr == [] ->
-            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-            NewOffset = #off_set{sign = S, hour = H, min = M},
-            NewDtTmWOs = Val#xsDateTime{offset = NewOffset},
-            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}};
-         true ->
-            DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
-            %?dbg("adjust-dateTime-to-timezone DtDur",DtDur),
-            %?dbg("adjust-dateTime-to-timezone AdjDurStr",AdjDurStr),
-            AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
-            %?dbg("adjust-dateTime-to-timezone AdjDur",AdjDur),
-            #xsDateTime{sign = S, hour = H, minute = M} = xqerl_types:value(AdjDur),
-            Diff = xqerl_operators:subtract(AdjDur, DtDur),
-            %?dbg("adjust-dateTime-to-timezone Diff",Diff),
-            #xqAtomicValue{value = NewDtTm} = ?seq:singleton_value(xqerl_operators:add(Arg1, Diff)),
-            %?dbg("adjust-dateTime-to-timezone NewDtTm",NewDtTm),
-            NewOffset = #off_set{sign = S, hour = H, min = M},
-            NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
-            %?dbg("adjust-dateTime-to-timezone NewDtTmWOs",NewDtTmWOs),
-            Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
-            %?dbg("adjust-dateTime-to-timezone Str",Str),
-            #xqAtomicValue{type = Type, value = NewDtTmWOs#xsDateTime{string_value = Str}}
-      end
+         #xqAtomicValue{type = Type, 
+                        value = NewDtTmWOs#xsDateTime{string_value = Str}};
+      true ->
+         DtDur  = xqerl_types:cast_as(?str(ArgDurStr), 'xs:dayTimeDuration'),
+         AdjDur = xqerl_types:cast_as(AdjDurStr, 'xs:dayTimeDuration'),
+         #xsDateTime{sign = S, 
+                     hour = H, 
+                     minute = M} = xqerl_types:value(AdjDur),
+         Diff = xqerl_operators:subtract(AdjDur, DtDur),
+         #xqAtomicValue{value = NewDtTm} = xqerl_operators:add(Arg1, Diff),
+         NewOffset = #off_set{sign = S, hour = H, min = M},
+         NewDtTmWOs = NewDtTm#xsDateTime{offset = NewOffset},
+         Str = xqerl_datetime:to_string(NewDtTmWOs, Type),
+         #xqAtomicValue{type = Type, 
+                        value = NewDtTmWOs#xsDateTime{string_value = Str}}
    end.
-   
-
-
 
 sec_str(Secs) ->
    Str = xqerl_numeric:string(Secs),
@@ -306,71 +309,55 @@ sign_str('-') ->
 
 offset_str([]) ->
    "";
+offset_str(#off_set{hour = 0, min = 0}) -> "Z";
+offset_str(#xqAtomicValue{type = 'xs:dayTimeDuration',
+                          value = #xsDateTime{hour = 0, minute = 0}}) -> "Z";
 offset_str(#off_set{sign = OS, hour = OH, min = OM}) ->
-   if OH == 0 andalso OM == 0 ->
-         "Z";
-      (OH * 60 + OM) > 840 ->
-         xqerl_error:error('FODT0003');
+   if (OH * 60 + OM) > 840 ->
+         ?err('FODT0003');
       true ->
-         lists:flatten(io_lib:format("~s~2..0b:~2..0b", [atom_to_list(OS), OH,OM]))
+         flat_form("~s~2..0b:~2..0b",[atom_to_list(OS), OH,OM])
    end;
 offset_str(#xqAtomicValue{type = 'xs:dayTimeDuration',
-                          value = #xsDateTime{sign = OS, hour = OH, minute = OM}}) ->
-   case OH == 0 andalso OM == 0 of
-      true ->
-         "Z";
-      _ ->
-         lists:flatten(io_lib:format("~s~2..0b:~2..0b", [atom_to_list(OS), OH,OM]))
-   end.
+                          value = #xsDateTime{sign = OS, 
+                                              hour = OH, 
+                                              minute = OM}}) ->
+   flat_form("~s~2..0b:~2..0b", [atom_to_list(OS), OH,OM]).
 
 time_dur_str(H,M,S) ->
-   %?dbg("S",S),
    SStr = case sec_str(S) of
              [$0|R] ->
                 R;
              R ->
                 R
           end,
-   %?dbg("SStr",SStr),
    if H =:= 0 andalso M =:= 0 andalso SStr == "0" -> "";
       true -> 
-         F = "T" ++ 
-               if H > 0 -> "~bH";
-                  true -> "~i"
-               end ++
-               if M > 0 -> "~bM";
-                  true -> "~i"
-               end ++
-               if SStr == "0" ->
-                     "";
-                  true ->
-                     SStr++"S"
-               end,
-         lists:flatten(io_lib:format(F, [H,M]))
+         Hf = if H > 0 -> "~bH";
+                 true -> "~i"
+              end,
+         Mf = if M > 0 -> "~bM";
+                 true -> "~i"
+              end,
+         Sf = if SStr == "0" -> "";
+                 true -> SStr ++ "S"
+              end,
+         F = lists:append(["T", Hf, Mf, Sf]),
+         flat_form(F, [H,M])
    end.
 
 date_dur_str(Y,M,D) ->
-   F = "P" ++
-    if Y > 0 -> "~bY";
-       true -> "~i"
-    end ++
-    if M > 0 -> "~bM";
-       true -> "~i"
-    end ++
-    if D > 0 -> "~bD";
-       true -> "~i"
-    end,
-   lists:flatten(io_lib:format(F, [Y,M,D])).
-%% date_dur_str(Y,M,D) ->
-%%    lists:concat(["P",
-%%     if Y > 0 -> io_lib:format("~pY", [Y]);
-%%        true -> "~i"
-%%     end,
-%%     if M > 0 -> io_lib:format("~p~s", [M,"M"]);
-%%        true -> ""
-%%     end,
-%%     if D > 0 -> io_lib:format("~p~s", [D,"D"]);
-%%        true -> ""
-%%     end
-%%    ]).
+   Yf = if Y > 0 -> "~bY";
+           true -> "~i"
+        end,
+   Mf = if M > 0 -> "~bM";
+           true -> "~i"
+        end,
+   Df = if D > 0 -> "~bD";
+           true -> "~i"
+        end, 
+   F = lists:append(["P", Yf, Mf, Df]),
+   flat_form(F, [Y,M,D]).
 
+flat_form(Format,Things) ->
+   lists:flatten(io_lib:format(Format, Things)).
