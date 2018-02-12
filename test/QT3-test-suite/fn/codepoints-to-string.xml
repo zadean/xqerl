@@ -742,7 +742,6 @@
    <test-case name="cbcl-codepoints-to-string-022">
       <description> Tests overflows </description>
       <created by="Nick Jones" on="2008-06-16"/>      
-      <dependency type="problem" value="HUGE RANGE"/>
       <dependency type="spec" value="XQ10+ XP30+"/>
       <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)</test>
       <result>

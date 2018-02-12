@@ -1419,7 +1419,19 @@ environment('array-and-map',BaseDir) ->
    {skip," HUGE RANGE "}.
 'cbcl-codepoints-to-string-022'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-022.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-023'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x in 9 to 15 return codepoints-to-string($x to $x)",
