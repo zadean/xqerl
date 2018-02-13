@@ -206,7 +206,7 @@ read_stream(Xml, Name, State) ->
             1 -> % invalid document
                {error,Reason};
             _ ->
-               %?dbg("State2",State2),
+               %?dbg("State2",ets:tab2list(State2#state.nodes)),
                 #{file  => Name,
                   base  => Name,
                   nodes => map_to_bin(State2#state.nodes),
@@ -225,8 +225,8 @@ read_stream(Xml, Name, State) ->
 handle_event(startDocument, _Ln, #state{counter = C, 
                                         inscope_ns = IsNs, 
                                         filename = FileName} = State) -> 
-   ?dbg("startDocument",_Ln),
    if C == 1 ->
+   ?dbg("startDocument",_Ln),
          Record = #nodes{id = C, tp = document},
          NewIsNs = IsNs#{[] => 1,
                          "xml" => 2},
@@ -238,6 +238,7 @@ handle_event(startDocument, _Ln, #state{counter = C,
                      base_uri = FileName,
                      element_stack = [Record]};
       true -> % more in doc
+   ?dbg("startDocument",_Ln),
          Record = #nodes{id = 1, tp = document},
          State#state{counter = C, 
                      stack = [1], 
@@ -525,7 +526,7 @@ add_text_lookup(Texts) ->
 
 add_node(#state{nodes = Nodes} = State, #nodes{id = K} = Rec) ->
    V = norm(Rec),
-   ets:insert_new(Nodes, {K,V}),
+   ets:insert(Nodes, {K,V}),
    %Nodes2 = maps:put(K, V, Nodes),
    %State#state{nodes = Nodes2}.
    State.

@@ -428,7 +428,7 @@ to_list(List) when is_list(List) -> List;
 to_list(A) -> [A].
 
 
-flatten([H|T]) when is_list(H) -> H ++ flatten(T);
+flatten([H|T]) when is_list(H) -> flatten(H) ++ flatten(T);
 flatten([H|T]) -> [H | flatten(T)];
 flatten([]) -> [];
 flatten(E) -> [E].

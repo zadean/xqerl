@@ -755,14 +755,14 @@ get_named_children_after(#{file := File} = Doc,Node,Name,Uid) ->
    end.
 
 usort(L) ->
-   U = lists:usort(L),
-   case lists:all(fun(#xqNode{}) ->
-                        true;
-                     (_) ->
-                        false
-                  end, U) of
-      true ->
-         U;
-      _ ->
-         ?err('XPTY0019')
-  end.
+   E = expand(L),
+   lists:usort(E).
+
+expand([#xqNode{node = N} = X|T]) when is_list(N) ->
+   [X#xqNode{node = I} || I <- N] ++ expand(T);
+expand([#xqNode{} = X|T]) ->
+   [X|expand(T)];
+expand([]) -> [];
+expand(_) ->
+   ?err('XPTY0019').
+
