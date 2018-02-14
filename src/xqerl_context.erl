@@ -812,16 +812,21 @@ add_default_static_values(Tab, RawCdt) ->
 %TODO annotations (private)
 get_module_exports(Imports) ->
    Acc = xqerl_module:get_static_signatures(),
-   lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
-                     {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
-                     {atomic,Name} = xqerl_module:get_module_name(Ns),
-                     Props = Name:static_props(),
-                     %?dbg("{Funs,Vars}",{Funs,Vars}),
-                     FunsAcc1 = Funs ++ FunsAcc, 
-                     VarsAcc1 = Vars ++ VarsAcc,
-                     PropsAcc1 = Props ++ PropsAcc,
-                     {FunsAcc1,VarsAcc1,PropsAcc1}
-               end, Acc, Imports).
+   try
+      lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
+                        {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
+                        {atomic,Name} = xqerl_module:get_module_name(Ns),
+                        Props = Name:static_props(),
+                        %?dbg("{Funs,Vars}",{Funs,Vars}),
+                        FunsAcc1 = Funs ++ FunsAcc, 
+                        VarsAcc1 = Vars ++ VarsAcc,
+                        PropsAcc1 = Props ++ PropsAcc,
+                        {FunsAcc1,VarsAcc1,PropsAcc1}
+                  end, Acc, Imports)
+   catch
+      _:_ ->
+         ?err('XQST0059')
+   end.
 
 import_functions(Functions,Tab) ->
    lists:foreach(fun(F) ->

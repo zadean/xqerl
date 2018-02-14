@@ -254,6 +254,7 @@ scan_mod(#xqModule{prolog = Prolog,
        [],
        [],
        [ % body here
+         a_match('_',?L,a_remote_call({xqerl_lib,lnew,?L},[])),
          a_match('Tab',?L,a_remote_call({xqerl_context,init,?L},[])),
          a_match('Map',?L,
                  a_remote_call({maps,put,?L},
@@ -609,7 +610,10 @@ expr_do(Ctx, #xqFunction{id = _Id,
                 VarName = list_to_atom(lists:concat(["Param__var_", ID])),
                 %% {name,type,annos,Name}
                 NewMap = add_param({Name,Type,Annos,VarName}, Map),
-                {{var,?L, VarName}, NewMap}
+                {{var,?L, VarName}, NewMap};
+             (X,Map) ->
+               X1 = expr_do(Ctx,X),
+               {X1,Map}
           end,
    {ParamList,Ctx2} =  lists:mapfoldl(PFun, Ctx1, Params),
    Ctx3 = set_context_variable_name(Ctx2, NextNextCtxVar),
@@ -903,7 +907,8 @@ expr_do(Ctx, {'ordered-expr', Expr}) ->
    a_block(?L, [S2,S3]);
 
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
-                                           body = {M,F,_A}}}) ->
+                                           body = {M,F,_A}}}) when is_atom(M),
+                                                                   is_atom(F) ->
    CtxName = get_context_variable_name(Ctx),
    NewArgs = lists:map(fun(P) ->
                              expr_do(Ctx,P)
@@ -978,6 +983,41 @@ expr_do(Ctx, {'function-call', #xqFunction{params = Params,
    {call,?L,
      {atom,?L,F},
     [{var,?L,CtxName}|NewArgs]};
+
+expr_do(Ctx, {'anon-call', #xqFunction{params = {P1,OldP1},
+                                       body = #xqFunction{params = P2,
+                                                          body = B2}}}) ->
+   CtxVar = get_context_variable_name(Ctx),
+   PFun = fun(#xqVar{id = ID, 
+                     name = #qname{} = Name,
+                     type = Type, 
+                     annotations = Annos}, Map) ->
+                VarName = list_to_atom(lists:concat(["Param__var_", ID])),
+                %% {name,type,annos,Name}
+                NewMap = add_param({Name,Type,Annos,VarName}, Map),
+                {{var,?L, VarName}, NewMap};
+             (X,Map) ->
+               X1 = expr_do(Ctx,X),
+               {X1,Map}
+          end,
+   {P1_1,Ctx2} =  lists:mapfoldl(PFun, Ctx, P1),
+   {P1_2,Ctx3} =  lists:mapfoldl(PFun, Ctx2, OldP1),
+   P2_1 = lists:map(fun(P) ->
+                             expr_do(Ctx3,P)
+                       end, P2),
+   B2_1 = expr_do(Ctx3, B2),
+   F1 = {call,?L,
+         {'fun',?L,
+          {clauses,
+           [{clause,?L,[{var,?L,CtxVar}|P1_2],[],
+             alist(B2_1)
+            }]
+          }
+         },[{var,?L,CtxVar}|P2_1]},
+   {'fun',?L,
+    {clauses,
+     [{clause,?L,[{var,?L,CtxVar}|P1_1],[],[F1]}
+      ]}};
 
 % list 
 expr_do(Ctx, {expr,[Sing]}) ->
@@ -3183,7 +3223,11 @@ abs_param_list(Ctx, List) ->
    lists:foldr(fun(#xqSeqType{} = St,Acc) ->
                      {cons,?L,abs_seq_type(Ctx, St) ,Acc};
                   (#xqVar{type = #xqSeqType{} = St},Acc) ->
-                     {cons,?L,abs_seq_type(Ctx, St) ,Acc}
+                     {cons,?L,abs_seq_type(Ctx, St) ,Acc};
+                  (#xqAtomicValue{type = St},Acc) ->
+                     {cons,?L,abs_seq_type(Ctx, 
+                                           #xqSeqType{occur = one,
+                                                      type = St}) ,Acc}
                end, {nil,?L}, List).
    
 abs_boolean(Bool) ->

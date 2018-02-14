@@ -375,16 +375,18 @@ kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
                 #xqSeqType{type = #xqKindTest{kind = Kind2,
                                               name = Name2,
                                               type = Type2}} = Kt2) ->
-   case seq_type_val_match(Kt2,Kt1) of
+   case seq_type_val_match(Kt1,Kt2) of
       false ->
+         %?dbg("Type match",{Type1,Type2}),
          false;
       nocast ->
+         %?dbg("Type match",{Type1,Type2}),
          true;
       _ -> % maybe, so check name and type
          if Kind1 == Kind2 ->
                NameMatch = name_match(Name1, Name2),
                if NameMatch ->
-                     %?dbg("Type match",{Type1,Type2}),
+                     ?dbg("Type match",{Type1,Type2}),
                      if Type2 == undefined ->
                            true;
                         true ->

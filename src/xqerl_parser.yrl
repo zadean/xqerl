@@ -428,8 +428,10 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'LibraryModule'          -> 'ModuleDecl'          : {'$1', [], undefined}.
 
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
-                           : xqerl_context:add_statically_known_namespace(parser,"Q{"++'$5'++"}", value_of('$3')), 
-                           {'module-namespace', {"Q{"++'$5'++"}", value_of('$3')}}.
+                           : if '$5' == [] -> ?err('XQST0088');
+                                true -> xqerl_context:add_statically_known_namespace(parser,"Q{"++'$5'++"}", value_of('$3')), 
+                                        {'module-namespace', {"Q{"++'$5'++"}", value_of('$3')}}
+                             end.
 
 'Separator'              -> ';'.
 

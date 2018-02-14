@@ -39,6 +39,7 @@
 -define(MAXSPACEVAR, 16#0209). 
 -define(MAXPUNCTVAR, 16#0497). 
 -define(MAXSYMBOLVAR, 16#1AF9).
+-define(MAXCURRVAR, 16#1CA2).
 -define(MAXVAR, 16#1C5B).
 
 -compile(inline_list_funcs).
@@ -50,8 +51,13 @@
 
 uca(Opts) ->
    MM = maps:merge(default_options(), Opts),
-   POpts = parse_options(MM),
-   get_fun(POpts).
+   try
+      POpts = parse_options(MM),
+      get_fun(POpts)
+   catch
+      _:_ ->
+         ?err('FOCH0002')
+   end.
 
 %% ====================================================================
 %% Internal functions
@@ -64,7 +70,6 @@ get_fun({en,Strength,MaxVar,Alternate,Backwards,true,CaseFirst}) ->
                end,
    get_fun({en,Strength1,MaxVar,Alternate,Backwards,false,CaseFirst});
 get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
-   ImplQuat = Alternate == shifted,
    fun(Str) ->
          N = normalize(Str),
          W = ?UTIL:lookup(N),
@@ -80,10 +85,11 @@ get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
                  true ->
                     W1
               end,
-         Strength1 = case lists:member(4, Strength) of 
-                        true -> Strength; 
-                        _ when ImplQuat -> lists:sort(Strength ++ [4]);
-                        _ -> Strength end,
+%%          Strength1 = case lists:member(4, Strength) of 
+%%                         true -> Strength; 
+%%                         _ when Alternate == non_ignorable -> 
+%%                            lists:sort([4|Strength]);
+%%                         _ -> Strength end,
          << if L == 2 andalso Backwards == yes ->
                   (level_part_key(W2, L, reverse));
                L == 5 ->
@@ -91,7 +97,7 @@ get_fun({en,Strength,MaxVar,Alternate,Backwards,false,CaseFirst}) ->
                true ->
                   (level_part_key(W2, L, forward))
             end ||
-            L <- Strength1 >>
+            L <- Strength >>
 
    end.
 
@@ -125,10 +131,11 @@ parse_options(#{fallback      := Fallback,
               undefined when Fb -> en;
               undefined -> throw({error,unknown_language});
               CL -> CL
-           end,                        
-    _ = case catch parse_version(Vers) of 
+           end,
+    _ = case parse_version(Vers) of 
            _ when Fb -> ?UTIL:spec_version();
-           _ -> throw({error,unsupported_version})
+           undefined -> throw({error,unsupported_version});
+           _ -> Vers
         end,
    Strength1 = case parse_strength(Strength) of 
                   undefined when Fb -> [1,2,3];
@@ -198,15 +205,20 @@ parse_yes_no(0) -> no;
 parse_yes_no(_) -> undefined.
 
 parse_lang(en) -> en;
+parse_lang("en") -> en;
 parse_lang(_) -> undefined.
 
 parse_version(Str) when is_list(Str) ->
-   [Maj,Min] = string:split(Str, "."),
-   parse_version({Maj,Min});
+   case string:split(Str, ".") of
+      [Maj,Min] ->
+         parse_version({Maj,Min});
+      _ ->
+         undefined
+   end;
 parse_version({Maj,Min}) ->
    {CMaj,CMin} = ?UTIL:spec_version(),
    if CMaj > Maj -> {CMaj,CMin};
-      CMaj == Maj, CMin >= Min -> {CMaj,CMin};
+      CMaj =:= Maj, CMin >= Min -> {CMaj,CMin};
       true -> undefined
    end.
 
@@ -233,8 +245,8 @@ parse_maxvariable(punct) -> ?MAXPUNCTVAR;
 parse_maxvariable("punct") -> ?MAXPUNCTVAR;
 parse_maxvariable(symbol) -> ?MAXSYMBOLVAR;
 parse_maxvariable("symbol") -> ?MAXSYMBOLVAR;
-parse_maxvariable(currency) -> ?MAXVAR;
-parse_maxvariable("currency") -> ?MAXVAR;
+parse_maxvariable(currency) -> ?MAXCURRVAR;
+parse_maxvariable("currency") -> ?MAXCURRVAR;
 parse_maxvariable(_) -> undefined.
 
 parse_alternate(non_ignorable) -> non_ignorable;
@@ -262,7 +274,7 @@ default_options() ->
                                        % for trailing accents in French
      normalization   => no,            % not implemented
      caseLevel       => no,
-     caseFirst       => upper,
+     caseFirst       => lower,
      numeric         => no,            % not implemented
      reorder         => []}.           % not implemented
 
@@ -362,11 +374,12 @@ blank_variables([{W1,W2,W3}|T],Max) ->
    [{W1,W2,W3,16#FFFF}|blank_variables(T,Max)].
 
 upper_first([]) -> [];
-upper_first([H|T]) when element(3,H) >= 8 andalso element(3,H) =< 12 orelse
-                        element(3,H) == 14 orelse
-                        element(3,H) == 17 orelse
-                        element(3,H) == 18 orelse
-                        element(3,H) == 29 ->
+upper_first([H|T]) 
+   when not ((element(3,H) >= 8 andalso element(3,H) =< 12) orelse
+               element(3,H) == 14 orelse
+               element(3,H) == 17 orelse
+               element(3,H) == 18 orelse
+               element(3,H) == 29) ->
    [setelement(3, H, element(3,H) bor 64)|upper_first(T)];
 upper_first([H|T]) -> 
    [H|upper_first(T)].

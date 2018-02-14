@@ -806,9 +806,11 @@ handle_node(State, {partial_postfix, #xqVarRef{name = Name} = Ref, [{arguments,A
                                      type = Type}, occur = one} ,
    set_statement_and_type(State, AnonFun, ST);
 
-handle_node(State, {partial_postfix, {'function-ref',_,_} = Ref, [{arguments,Args}|RestArgs]}) ->
+handle_node(State, {partial_postfix, Ref, [{arguments,Args}|RestArgs]}) 
+   when element(1, Ref) == 'function-ref' ->
    FState = handle_node(State, Ref),
-   #xqFunction{params = Params, type = Type} = Fx = get_statement(FState),   
+   Fx = get_statement(FState),
+   #xqFunction{params = Params, type = Type} = Fx,   
    StateC = set_in_constructor(State, false),
    SimpArgs = handle_list(StateC, Args),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
@@ -834,6 +836,46 @@ handle_node(State, {partial_postfix, {'function-ref',_,_} = Ref, [{arguments,Arg
                                      type = Type}, occur = one} ,
    set_statement_and_type(State, AnonFun, ST);
 
+handle_node(State, {partial_postfix, #xqFunction{params = Params, 
+                                                 body = Body,
+                                                 type = Type} = F,
+                     [{arguments,Args}]}) ->
+   StateC = set_in_constructor(State, false),
+   SimpArgs = handle_list(StateC, Args),
+   CheckArgs = check_fun_arg_types(State, SimpArgs, Params),
+   NewArgs = lists:map(fun({S,_C}) ->
+                           S
+                       end, CheckArgs),
+   PlaceHolders = [#xqVar{id = Id, 
+                          type = P#xqVar.type,
+                          %name = param_variable_name(Id)
+                          name = #qname{local_name = "aVeryLongBogusName__"++integer_to_list(Id)}
+                         }
+                  || {P, {'?',Id}} <- lists:zip(Params, Args)],
+   AnonArity = length(PlaceHolders),
+   AnonParamTypes = lists:filtermap(fun({P,{'?',_}}) ->
+                                          {true,P};
+                                       (_) ->
+                                          false
+                                    end, lists:zip(Params, Args)),
+   {State1,_} = lists:foldl(
+                  fun(#xqVar{id = Id,name = Name,type = NewType}, {TState,Pos}) ->
+                        ErlVarName = param_variable_name(Id),
+                        NewVar  = {Name,NewType,[],ErlVarName},
+                        {add_inscope_variable(TState, NewVar),Pos + 1}
+                  end, {State,1}, Params),
+   BodyS = handle_node(State1, Body),
+   BodyF = get_statement(BodyS),
+   %?dbg("BodyF",BodyF),
+   AnonFun = #xqFunction{params = {PlaceHolders,Params},
+                         arity = AnonArity,
+                         body = F#xqFunction{params = NewArgs,
+                                             body = BodyF},
+                         type = Type},
+   ST = #xqSeqType{type = #xqFunTest{kind = function,
+                                     params = AnonParamTypes,
+                                     type = Type}, occur = one} ,
+   set_statement_and_type(State, {'anon-call',AnonFun}, ST);
 
 handle_node(State, {postfix, Sequence, Filters }) -> 
    S1 = handle_node(State, Sequence),
@@ -4233,15 +4275,15 @@ check_fun_arg_types(_State, Args, any) ->
 check_fun_arg_types(State, Args, ArgTypes) ->
    if length(Args) =:= length(ArgTypes) ->
          Arg_ArgTypes = lists:zip(Args, ArgTypes),
-         Fun = fun({Arg, ArgType}) ->
-                     %?dbg("ArgS",get_statement(Arg)),
-                     %?dbg("ArgType",ArgType),
-                     %?dbg("ArgT",get_statement_type(Arg)),
+         Fun = fun({Arg, #xqVar{type = ArgType}}) ->
                      S1 = check_fun_arg_type(State, Arg, ArgType),
                      Cnt = get_static_count(S1),
-                     %?dbg("Cnt",Cnt),
                      Stmnt = get_statement(S1),
-                     %?dbg("Stmnt",Stmnt),
+                     {Stmnt, Cnt};
+                  ({Arg, ArgType}) ->
+                     S1 = check_fun_arg_type(State, Arg, ArgType),
+                     Cnt = get_static_count(S1),
+                     Stmnt = get_statement(S1),
                      {Stmnt, Cnt}
                end,
          lists:map(Fun, Arg_ArgTypes);
@@ -4592,6 +4634,8 @@ check_type_cast(P, T) ->
 
 
 % check if the occurance marker is okaay for these types in a function
+check_occurance_match(#xqSeqType{} = InType, #xqVar{type = TargetType}, Cnt) ->
+   check_occurance_match(InType, TargetType, Cnt);
 check_occurance_match(#xqSeqType{occur = InType}, #xqSeqType{occur = TargetType}, undefined) ->
    check_occurance_match1(InType, TargetType, 1);
 check_occurance_match(#xqSeqType{occur = InType}, #xqSeqType{occur = TargetType}, StatCnt) ->

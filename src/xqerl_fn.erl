@@ -1010,11 +1010,15 @@ codepoint(_,_) -> ?err('FOCH0001').
 %% Returns a sequence of items identified by a collection URI; or a default 
 %% collection if no URI is supplied. 
 'collection'(_Ctx) -> 
-   {ok,Doc} = xqerl_collection:get(default),
-   Doc.
-'collection'(_,[]) -> 
-   {ok,Doc} = xqerl_collection:get(default),
-   Doc;
+   case xqerl_collection:get(default) of
+      {ok,Doc} ->
+         Doc;
+      _ ->
+         ?err('FODC0002')
+   end.
+
+'collection'(_Ctx,[]) -> 
+   'collection'(_Ctx);
 'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
