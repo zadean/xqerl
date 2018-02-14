@@ -96,7 +96,7 @@ run(Str, Options) ->
       Static = scan_tree_static(Tree, "xqerl_main"),
 %      ?dbg("Static",maps:get(body, Static)),
       {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
-      %?dbg("Ret",Ret),
+%      ?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
       B = compile_abstract(Ret),
 %      print_erl(B),

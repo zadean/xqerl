@@ -2416,10 +2416,16 @@ step_expr_do(Ctx, {'any-root', Step}, Source) ->
    Lt = [Vr|Stp2],
    a_block(?L, Lt);
 
-step_expr_do(Ctx, {root}, Source) ->
+step_expr_do(Ctx, {root}, Source) when is_atom(Source) ->
+   ?dbg("Source",Source),
    CurrCtxVar = get_context_variable_name(Ctx),
    Ci = a_remote_call({xqerl_context,get_context_item,?L}, 
                       [{var,?L,Source}]),
+   a_remote_call({xqerl_step,root,?L}, [{var,?L,CurrCtxVar},Ci]);
+step_expr_do(Ctx, {root}, Source) ->
+   CurrCtxVar = get_context_variable_name(Ctx),
+   Ci = a_remote_call({xqerl_context,get_context_item,?L}, 
+                      [Source]),
    a_remote_call({xqerl_step,root,?L}, [{var,?L,CurrCtxVar},Ci]);
 
 step_expr_do(Ctx, #xqAxisStep{direction = Direction, 
@@ -2741,6 +2747,50 @@ add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
    Map#{variables => NewVars,
         grp_variables => GNewVars}.
 
+get_variable_ref(Name, #{tab        := Tab,
+                         parameters := Vars1,
+                         variables  := Vars2} = Map) when is_atom(Name) ->
+   Vars0 = xqerl_context:get_in_scope_variables(Tab),
+   Vars = Vars2 ++ Vars1 ++ Vars0,
+   Var = lists:filter(fun({_,_,_,{N,1},_}) ->
+                            N =:= Name;
+                         (_) ->
+                            false
+                      end, Vars),
+   Loc = case Var of 
+            [] ->
+               ?err('XPST0008');
+            [H] ->
+               element(4, H);
+            [H|_] ->
+               element(4, H)
+         end,
+   Typ = case Var of 
+            [H1] ->
+               element(2, H1);
+            [H1|_] ->
+               element(2, H1)
+         end,
+   if is_atom(Loc) ->
+         {{var,?L,Loc},Typ};
+      true ->
+         case tuple_size(Loc) of
+            2 ->
+               Get = a_remote_call({xqerl_lib,lget,?L}, 
+                                   [{atom,?L,element(1, Loc)}]),
+               {Get,Typ};
+            3 ->
+               Var = a_remote_call({element(1, Loc),element(2, Loc),?L}, 
+                                   [{var,?L,get_context_variable_name(Map)}]),
+               MFA = {tuple,?L,
+                      [{atom,?L,element(1, Loc)},
+                       {atom,?L,element(2, Loc)},
+                       {integer,?L,element(3, Loc)}]},
+               GetV = a_remote_call({xqerl_context,get_variable_value,?L}, 
+                                    [MFA, Var]),
+               {GetV,Typ}
+         end
+   end;   
 get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln}, 
                  #{tab        := Tab,
                    parameters := Vars1,
@@ -3276,6 +3326,8 @@ handle_predicate({Ctx, {LU, Val}}, Abs)
    a_remote_call({xqerl_operators,lookup,?L}, [{var,?L,CtxVar},Abs, ValExp]);
 
 handle_predicate({Ctx, {positional_predicate, [P]}}, Abs) ->
+   handle_predicate({Ctx, {positional_predicate, P}}, Abs);
+handle_predicate({Ctx, {positional_predicate, {sequence,[P]}}}, Abs) ->
    handle_predicate({Ctx, {positional_predicate, P}}, Abs);
 handle_predicate({Ctx, {positional_predicate, {variable, Name}}}, Abs) ->
    CtxVar = get_context_variable_name(Ctx),

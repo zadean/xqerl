@@ -76,7 +76,9 @@ do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
     #xqAtomicValue{value = Val, type = T} = A ,
     {xqerl_coll:sort_key(Val, T), A};
 do_atomize(#xqAtomicValue{value = Val} = A,Coll) ->
-       {xqerl_coll:sort_key(Val, Coll), A}.
+       {xqerl_coll:sort_key(Val, Coll), A};
+do_atomize(_,_) ->
+   ?err('XPTY0004').
 
 
 %% takes {{{K1,C1},{KN,CN}}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped

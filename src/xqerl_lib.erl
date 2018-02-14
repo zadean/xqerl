@@ -417,8 +417,8 @@ ensure_schema([C, $:, $/ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
     "file:///" ++ Path;
 ensure_schema([C, $:, $\ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
     "file:///" ++ Path;
-ensure_schema("/" ++ _ = Path) -> 
-   "file://" ++ Path;
+%ensure_schema("/" ++ _ = Path) -> 
+%   "file://" ++ Path;
 ensure_schema(Path) -> Path.  
 
 lnew() ->

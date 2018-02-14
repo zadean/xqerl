@@ -3098,11 +3098,11 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-QName'(Ctx,String,#xqNode{doc = {doc,File}, node = Node}) -> 
    Doc = ?get({doc,File}),
    'resolve-QName'(Ctx,String,#xqNode{doc = Doc, node = Node});
-'resolve-QName'(#{namespaces := SNS},String,#xqNode{doc = Doc, node = Node}) -> 
+'resolve-QName'(Ctx,String,#xqNode{doc = Doc, node = Node}) -> 
    InScopeNs = xqerl_xdm:inscope_namespaces(Doc, Node),
    IsNs = lists:map(fun({U,P}) ->
                         #xqNamespace{namespace = U, prefix = P}
-                    end, InScopeNs) ++ SNS,
+                    end, InScopeNs) ++ maps:get(namespaces, Ctx,[]),
    try
       xqerl_types:cast_as(String, 'xs:QName', IsNs)
    catch 
@@ -3114,6 +3114,7 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-uri'(_Ctx,[]) -> ?seq:empty();
 'resolve-uri'(#{'base-uri' := Base} = Ctx,Relative) -> 
    'resolve-uri'(Ctx,Relative,Base).
+
 'resolve-uri'(_Ctx,[],_Base) -> ?seq:empty();
 'resolve-uri'(Ctx,Relative,Base) ->
    BasVal = case xqerl_types:value(Base) of
