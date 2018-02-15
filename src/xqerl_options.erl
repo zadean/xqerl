@@ -26,6 +26,7 @@
 -module(xqerl_options).
 
 -define(NS,"https://www.w3.org/2010/xslt-xquery-serialization").
+-define(OUTPUT(N), #qname{namespace = ?NS, prefix = "output", local_name = N}).
 
 -include("xqerl.hrl").
 
@@ -121,53 +122,51 @@ default_state() ->
      'version'                => 1.0
     }.
 
-
 validate(Options) ->
    validate1(Options,default_state()).
 
-
 validate1([],State) -> State;
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "allow-duplicate-names"},Value}|T],State) -> 
+validate1([{?OUTPUT("allow-duplicate-names"),Value}|T],State) -> 
    validate1(T,maps:put('allow-duplicate-names', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "byte-order-mark"},Value}|T],State) ->
+validate1([{?OUTPUT("byte-order-mark"),Value}|T],State) ->
    validate1(T,maps:put('byte-order-mark', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "cdata-section-elements"},_Value}|T],State) -> 
+validate1([{?OUTPUT("cdata-section-elements"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-public"},_Value}|T],State) -> 
+validate1([{?OUTPUT("doctype-public"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "doctype-system"},_Value}|T],State) -> 
+validate1([{?OUTPUT("doctype-system"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "encoding"},_Value}|T],State) -> 
+validate1([{?OUTPUT("encoding"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "escape-uri-attributes"},Value}|T],State) -> 
+validate1([{?OUTPUT("escape-uri-attributes"),Value}|T],State) -> 
    validate1(T,maps:put('escape-uri-attributes', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "html-version"},_Value}|T],State) -> 
+validate1([{?OUTPUT("html-version"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "include-content-type"},Value}|T],State) -> 
+validate1([{?OUTPUT("include-content-type"),Value}|T],State) -> 
    validate1(T,maps:put('include-content-type', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "indent"},Value}|T],State) -> 
+validate1([{?OUTPUT("indent"),Value}|T],State) -> 
    validate1(T,maps:put('indent', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "item-separator"},_Value}|T],State) -> 
+validate1([{?OUTPUT("item-separator"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "json-node-output-method"},_Value}|T],State) -> 
+validate1([{?OUTPUT("json-node-output-method"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "media-type"},_Value}|T],State) -> 
+validate1([{?OUTPUT("media-type"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "method"},_Value}|T],State) -> 
+validate1([{?OUTPUT("method"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "normalization-form"},_Value}|T],State) -> 
+validate1([{?OUTPUT("normalization-form"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "omit-xml-declaration"},_Value}|T],State) -> 
+validate1([{?OUTPUT("omit-xml-declaration"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "standalone"},_Value}|T],State) -> 
+validate1([{?OUTPUT("standalone"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "suppress-indentation"},_Value}|T],State) -> 
+validate1([{?OUTPUT("suppress-indentation"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "undeclare-prefixes"},Value}|T],State) -> 
+validate1([{?OUTPUT("undeclare-prefixes"),Value}|T],State) -> 
    validate1(T,maps:put('undeclare-prefixes', true_false(Value), State));
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "use-character-maps"},_Value}|T],State) -> 
+validate1([{?OUTPUT("use-character-maps"),_Value}|T],State) -> 
    validate1(T,State);
-validate1([{#qname{namespace = ?NS, prefix = "output", local_name = "version"},_Value}|T],State) -> 
+validate1([{?OUTPUT("version"),_Value}|T],State) -> 
    validate1(T,State);
 validate1([{#qname{} = Q,Value}|T],State) ->
    ?dbg("Unknown option",{Q,Value}),
@@ -180,4 +179,4 @@ true_false("true") -> true;
 true_false("0") -> false;
 true_false("no") -> false;
 true_false("false") -> false;
-true_false(_) -> xqerl_error:error('SEPM0016').
+true_false(_) -> ?err('SEPM0016').

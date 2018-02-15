@@ -1650,11 +1650,6 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 value_of(Token) ->
     element(3, Token).
 
-%% merge_xqvariable_annotation(#xqVar{annotations = A},#xqVar{} = R2) ->
-%%    R2#xqVar{annotations = A}.
-%% merge_xqfunction_annotation(#xqFunction{annotations = A},#xqFunction{} = R2) ->
-%%    R2#xqFunction{annotations = A}.
-
 qname_to_atom(Q) ->
    L = get_qname_local_name(Q),
    P = get_qname_prefix(Q),
@@ -1663,29 +1658,6 @@ qname_to_atom(Q) ->
 xqAtomicValue(Type,Value) ->
    {xqAtomicValue, Type,Value}.
 
-%% qname(func, {qname,"http://www.w3.org/2005/xpath-functions",_,Ln}) ->
-%%    Ns = "http://www.w3.org/2005/xpath-functions",
-%%    {qname,Ns,"fn",Ln};
-%% qname(func, {qname,"http://www.w3.org/2001/XMLSchema",_,Ln}) ->
-%%    Ns = "xqerl_xs",
-%%    {qname,Ns,"xs",Ln};
-%% qname(func, {qname,"http://www.w3.org/2005/xpath-functions/math",_,Ln}) ->
-%%    Ns = "xqerl_math",
-%%    {qname,Ns,"math",Ln};
-%% qname(func, {qname,"http://www.w3.org/2005/xpath-functions/map",_,Ln}) ->
-%%    Ns = "xqerl_map",
-%%    {qname,Ns,"map",Ln};
-%% qname(func, {qname,"http://www.w3.org/2005/xpath-functions/array",_,Ln}) ->
-%%    Ns = "xqerl_array",
-%%    {qname,Ns,"array",Ln};
-%% qname(func, {qname,"http://www.w3.org/2005/xqt-errors",_,Ln}) ->
-%%    Ns = "xqerl_error",
-%%    {qname,Ns,"err",Ln};
-%% qname(func, {qname,undefined,"xs",Ln}) ->
-%%    Ns = "xqerl_xs",
-%%    {qname,Ns,"xs",Ln};
-%% qname(_, {qname,undefined,"local",Ln}) ->
-%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
    try
       Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
@@ -1736,15 +1708,7 @@ qname(pi, Ln) ->
    end,
    % allow "xml" here
    {qname,'no-namespace',[],Str};
-
-%% qname(type, {qname,_,"xs",Ln}) ->
-%%    Ns = "xqerl_xs",
-%%    {qname,Ns,"xs",Ln};
-%% qname(type, {qname,default,_,Ln}) ->
-%%    {qname,"xqerl_xs","xs",Ln};
-qname(type, Q) ->
-   Q;
-
+qname(type, Q) -> Q;
 qname(var, {qname,default,default,Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,default,"",Ln}) ->
@@ -1811,8 +1775,6 @@ qname(other, {qname,_,"*",Ln}) ->
 qname(other, {qname,undefined,Px,"*"}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,"*"};
-%% qname(other, {qname,_,"local",Ln}) ->
-%%    {qname,"http://www.w3.org/2005/xquery-local-functions","local",Ln};
 qname(other, {qname,_,"fn",Ln}) ->
    {qname,"http://www.w3.org/2005/xpath-functions","fn",Ln};
 qname(other, {qname,_,"xsi",Ln}) ->
@@ -1927,19 +1889,26 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
-         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = QName#qname.local_name, local_name = []}};
+         #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
+                                        prefix = QName#qname.local_name, 
+                                        local_name = []}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
             "" -> 
-               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', prefix = [], local_name = []}};
+               #xqNamespaceNode{name = #qname{namespace = 'no-namespace', 
+                                              prefix = [], local_name = []}};
             _ -> 
-               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), prefix = [], local_name = []}} 
+               #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
+                                              prefix = [], local_name = []}} 
          end;
       true ->
          #xqAttributeNode{name = qname(other,QName), 
                           expr = case Value of
-                                    [] -> [#xqAtomicValue{type = 'xs:string', value = ""}];
-                                    undefined -> [#xqAtomicValue{type = 'xs:string', value = ""}];
+                                    [] -> [#xqAtomicValue{type = 'xs:string', 
+                                                          value = ""}];
+                                    undefined -> 
+                                       [#xqAtomicValue{type = 'xs:string', 
+                                                       value = ""}];
                                     _ -> normalize_att_content(Value)
                                     end}
    end.

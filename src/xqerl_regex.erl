@@ -32,7 +32,8 @@
 -export([parse_repl/2]).
 -export([get_depth/1]).
 -export([esc_esc/1]).
--export([regex_flags/1]).
+
+%-export([regex_flags/1]).
 -export([regex_comp/2]).
 
 -export([translate/1]).
@@ -40,7 +41,6 @@
 translate([]) -> [];
 translate(String) ->
    {ok,Tokens,_} = xq_regex_scanner:string(String),
-   %?dbg("Tokens",Tokens),
    case xq_regex_parser:parse(Tokens) of
       {ok,Tree} ->
          translate_1(Tree);
@@ -51,7 +51,9 @@ translate(String) ->
 -type regex()  :: list(branch()).
 -type branch() :: list({branch,piece()}).
 -type piece()  :: {piece, re_atom(), one | quantifier()}.
--type re_atom() :: '^' | '$' | {char, char()} | char_class() | {paren, regex()} | {nc_paren, regex()} | {back_ref, integer()}.
+-type re_atom() :: '^' | '$' | {char, char()} | char_class() | 
+                   {paren, regex()} | {nc_paren, regex()} | 
+                   {back_ref, integer()}.
 -type char_class() :: string() | char_class_esc().
 -type char_class_esc() :: {char_class, string()} | 
                           {neg_char_class, string()} |
@@ -82,10 +84,8 @@ translate_1({branch,Pieces}) ->
    Out = lists:map(fun(X) ->
                          translate_1(X)
                    end, Rest),
-   %?dbg("Out",Out),
    Hd ++ lists:flatten(Out) ++ Tl;
 
-%-type re_atom() :: '^' | '$' | {char, char()} | char_class() | {paren, regex()} | {nc_paren, regex()} | {back_ref, integer()}.
 translate_1({piece, Atom, Quant}) ->
    Quant1 = check_quantifier(Quant),
    translate_1(Atom) ++ Quant1;
@@ -122,7 +122,6 @@ translate_1(Tree) ->
    ?dbg("TODO",Tree),
    "TODO".
 
-%{Hd,Tl,Rest} = 
 maybe_strip_anchors([{piece,'^',_}]) -> {"^","",[]};
 maybe_strip_anchors([{piece,'^',_}|Pieces]) ->
    Hd = "^",
@@ -140,7 +139,6 @@ maybe_strip_anchors(Pieces) ->
          {"","",Pieces}
    end.
 
-
 translate_group({group, G}) ->
    ok = no_back_ref(G),
    case is_all_value(G) of
@@ -148,7 +146,6 @@ translate_group({group, G}) ->
          "["++Str++"]";
       false ->
          NewGroup = combine_group({group, G}),
-         %?dbg("NewGroup",NewGroup),
          translate_group(NewGroup)
    end;
 translate_group({neg_group, [{neg_char_class,Neg}]}) -> % double negative
@@ -160,7 +157,6 @@ translate_group({neg_group, G}) ->
          "[^"++Str++"]";
       false ->
          NewGroup = combine_group({neg_group, G}),
-         %?dbg("NewGroup",NewGroup),
          translate_group(NewGroup)
    end;
 translate_group({subtract,{group,_} = G1,{neg_group,_} = G2}) ->
@@ -194,23 +190,6 @@ translate_group({subtract,G1,G2}) ->
 translate_group(_) ->
    "TODO".
 
-%% combine_group({Type,List}) when Type == group;
-%%                                 Type == neg_group ->
-%%    lists:flatmap(fun({neg_char_class,C}) ->
-%%                        G = xq_unicode:range(C),
-%%                        "[^"++xq_unicode:range_to_regex(G)++"]";
-%%                     ({char_class,C}) ->
-%%                        G = xq_unicode:range(C),
-%%                        "["++xq_unicode:range_to_regex(G)++"]";
-%%                     ({range,_,_} = G) ->
-%%                        "["++xq_unicode:range_to_regex(G)++"]";
-%%                     ({neg_range,_,_} = G) ->
-%%                        "[^"++xq_unicode:range_to_regex(G)++"]";
-%%                     ({value,V}) ->
-%%                        [V]
-%%                      end, List).
-%% 
-
 combine_group({Type,List}) when Type == group;
                                 Type == neg_group ->
    List1 = lists:map(fun({neg_char_class,C}) ->
@@ -222,20 +201,17 @@ combine_group({Type,List}) when Type == group;
                         (O) ->
                            O
                      end, List),
-   %?dbg("List1",List1),
    Negatives = [N || N <- List1, element(1, N) == neg_group],
    Positives = [N || N <- List1, element(1, N) == group],
-   Rest = [N || N <- List1, element(1, N) =/= group, element(1, N) =/= neg_group],
-   %?dbg("Negatives",Negatives),
-   %?dbg("Positives",Positives),
-   %?dbg("Rest",Rest),
+   Rest = [N || N <- List1, 
+                element(1, N) =/= group, 
+                element(1, N) =/= neg_group],
    Pos = lists:foldl(fun({group,R},Acc) ->
                            S = xq_unicode:range_to_set(R),
                            xq_unicode:union(Acc, S)
                      end, xq_unicode:range_to_set(Rest), Positives),
    if length(Negatives) == 0 ->
          OutRange = xq_unicode:set_to_range(Pos),
-         %?dbg("{Type,OutRange}",{Type,OutRange}),
          {Type,OutRange};
       true ->
          Neg = lists:foldl(fun({neg_group,R},Acc) ->
@@ -244,16 +220,12 @@ combine_group({Type,List}) when Type == group;
                            end, xq_unicode:range_to_set([]), Negatives),
          Rest1 = xq_unicode:subtract(Neg, Pos),
          OutRange1 = xq_unicode:set_to_range(Rest1),
-         %?dbg("{Type,OutRange1}",{Type,OutRange1}),
          if Type == group ->
                {neg_group,OutRange1};
             true ->
                {Type,OutRange1}
          end
    end;
-
-   
-   
 combine_group(List) ->
    Fun = fun({char_class,Name}) ->
                xq_unicode:range(Name);
@@ -268,9 +240,7 @@ combine_group(List) ->
                            S = xq_unicode:range_to_set(R),
                            xq_unicode:union(A,S)
                      end, SetHd, tl(Ranges)),
-   R1 = xq_unicode:set_to_range(Set),
-   R1.
-   
+   xq_unicode:set_to_range(Set).
 
 translate_group_as_set({neg_group,_} = G) ->
    {_,R} = combine_group(G),
@@ -278,7 +248,6 @@ translate_group_as_set({neg_group,_} = G) ->
 translate_group_as_set({group,_} = G) ->
    {_,R} = combine_group(G),
    xq_unicode:range_to_set(R).
-
 
 is_all_value(G) ->
    All = lists:all(fun({value,_}) ->
@@ -290,7 +259,6 @@ is_all_value(G) ->
                    end, G),
    if All ->
          {true, xq_unicode:range_to_regex(G)};
-         %{true, [V || {value,V} <- G]};
       true ->
          false
    end.
@@ -301,14 +269,7 @@ no_back_ref([{value,$\\},{value,N}|_]) when N >= $0, N =< $9 ->
 no_back_ref([_|T]) ->
    no_back_ref(T).
 
-   
-
-%% ====================================================================
-%% Internal functions
-%% ====================================================================
-
-check_quantifier(one) ->
-   "";
+check_quantifier(one) -> "";
 check_quantifier({q,"{," ++ _}) ->
    {error, no_min};
 check_quantifier({q,Quant}) ->
@@ -337,7 +298,6 @@ count_capturing_patterns(Term, Cnt) when is_tuple(Term) ->
 count_capturing_patterns(_, Cnt) ->
    Cnt.
 
-
 check_back_refs(Pieces) ->
    check_back_refs(Pieces,[]).
 
@@ -362,14 +322,6 @@ check_back_refs([{piece,{back_ref,N},one} = H|T], Acc) ->
 check_back_refs([H|T],Acc) ->
    check_back_refs(T, [H|Acc]).
 
-
-
-
-
-
-
-
-
 %% ====================================================================
 %% Old functions
 %% ====================================================================
@@ -392,7 +344,6 @@ regex_flags(Flags) ->
                end
          end,        
    M = lists:foldl(Fun, #{}, Flags1),
-   %?dbg("M",M),
    lists:flatten(maps:values(M)).
 
 esc_esc([]) -> [];
@@ -405,8 +356,6 @@ get_depth(String) ->
    get_depth(String,0).
 
 get_depth([],D) -> D;
-%% get_depth([$(|T],D) when D > 0 ->
-%%    get_depth(T,D-1);
 get_depth([$)|T],D) ->
    get_depth(T,D+1);
 get_depth([_|T],D) ->
@@ -441,31 +390,32 @@ get_digits([H|T],Acc) when H >= $0, H =< $9 ->
 get_digits([H|T],Acc) -> 
    {lists:reverse(Acc),[H|T]}.
 
-   
-
 %returns {IntAsList,Tail}
 chop_to(Int,Max,Acc) when Int > Max ->
    Next = Int div 10,
    Rem = integer_to_list(Int rem 10),
-   %?dbg("{Int,Max,Acc}",{Int,Max,Acc}),
-   %?dbg("{Next,Rem}",{Next,Rem}),
    chop_to(Next,Max,Rem ++ Acc);
 chop_to(Int,_Max,Acc) ->
    {integer_to_list(Int), Acc}.
 
 
-
-% http://www.unicode.org/reports/tr18/ "The values for these properties must follow the Unicode definitions, and include the property and property value aliases from the UCD. Matching of Binary, Enumerated, Catalog, and Name values, must follow the Matching Rules from [UAX44] with one exception: implementations are not required to ignore an initial prefix string of "is" in property values."
-% http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML shorthand)
+% http://www.unicode.org/reports/tr18/ "The values for these properties must 
+% follow the Unicode definitions, and include the property and property value 
+% aliases from the UCD. Matching of Binary, Enumerated, Catalog, and Name 
+% values, must follow the Matching Rules from [UAX44] with one exception: 
+% implementations are not required to ignore an initial prefix string of "is" 
+% in property values."
+% http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML 
+% shorthand)
 % returns {MatchesZeroLengthString, MP}
 regex_comp(Expr0,Flags) ->
    case ?get({regex,Expr0,Flags}) of 
       [] ->
          try
-            %?dbg("Expr0",Expr0),
             FlagList1 = regex_flags(Flags),
             X = lists:member(extended, FlagList1),
-            FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, no_start_optimize],
+            FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, 
+                                     no_start_optimize],
             Opts = FlagList -- [do_qe],
             Q = [F || F <- FlagList, F == do_qe],
             Expr = if X ->
@@ -473,11 +423,9 @@ regex_comp(Expr0,Flags) ->
                       true ->
                          Expr0
                    end,
-            %?dbg("Expr ",Expr),
             Expr1 = if Q == [] -> translate(Expr);
                        true -> "\\Q" ++ Expr ++ "\\E"
                     end,
-            %?dbg("Expr1",Expr1),
             {ok, MP} = re:compile(Expr1, Opts),
             Out = case catch re:run("",MP) of
                nomatch ->
@@ -500,7 +448,6 @@ regex_comp(Expr0,Flags) ->
       O ->
          O
    end.
-
 
 strip_esc_ws([]) -> [];
 strip_esc_ws([$[|T]) -> 
