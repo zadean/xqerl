@@ -21,7 +21,8 @@
 %% -------------------------------------------------------------------
 
 %% @doc A veritable cornucopia of 'helpful' functions. 
-%% All decode/helper functions that are spread throughout the code should be brought in.
+%% All decode/helper functions that are spread throughout the 
+%% code should be brought in.
 
 -module(xqerl_lib).
 
@@ -33,7 +34,6 @@
 -export([lnew/0,
          lget/1,
          lput/2]).
-
 
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
@@ -75,9 +75,10 @@ is_xschar(X) when X >= 16#10000, X =< 16#10FFFF -> true;
 is_xschar(_) -> false.
 
 
-% ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | 
-% [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | 
-% [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
+% ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] | [#xF8-#x2FF] | 
+% [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | 
+% [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | 
+% [#x10000-#xEFFFF]
 is_xsname_start_char(C) when C >= $a, C =< $z -> true;
 is_xsname_start_char(C) when C >= $A, C =< $Z -> true;
 is_xsname_start_char($_) -> true; 
@@ -189,17 +190,14 @@ reserved_namespaces(Ns) ->
       Ns == "http://www.w3.org/2005/xpath-functions/math";
       Ns == "http://www.w3.org/2005/xpath-functions/array";
       Ns == "http://www.w3.org/2005/xpath-functions/map";
-      Ns == "http://www.w3.org/2012/xquery" -> xqerl_error:error('XQST0045');
+      Ns == "http://www.w3.org/2012/xquery" -> ?err('XQST0045');
       true ->
          ok
    end.
 
 shrink_spaces([]) ->
    [];
-shrink_spaces([32,WS|T]) when WS == 32;
-                              WS == 13;
-                              WS == 10;
-                              WS == 9 ->
+shrink_spaces([32,WS|T]) when ?WS(WS) ->
    shrink_spaces([32|T]);
 shrink_spaces("&#xD;"++T) ->
    shrink_spaces([32|T]);
@@ -207,19 +205,14 @@ shrink_spaces("&#xA;"++T) ->
    shrink_spaces([32|T]);
 shrink_spaces("&#x9;"++T) ->
    shrink_spaces([32|T]);
-shrink_spaces([WS|T]) when WS == 13;
-                           WS == 10;
-                           WS == 9 ->
+shrink_spaces([WS|T]) when ?NSWS(WS) ->
    shrink_spaces([32|T]);
 shrink_spaces([H|T]) ->
    [H|shrink_spaces(T)].
 
-
 normalize_spaces([]) ->
    [];
-normalize_spaces([WS|T]) when WS == 13;
-                              WS == 10;
-                              WS == 9 ->
+normalize_spaces([WS|T]) when ?NSWS(WS) ->
    [32|normalize_spaces(T)];
 normalize_spaces("&#xD;"++T) ->
    [32|normalize_spaces(T)];
@@ -233,9 +226,9 @@ normalize_spaces([H|T]) ->
 encode_for_uri([]) ->
    [];
 encode_for_uri([H|T]) when H == $-;
-                        H == $_;
-                        H == $.;
-                        H == $~ ->
+                           H == $_;
+                           H == $.;
+                           H == $~ ->
    [H|encode_for_uri(T)];
 encode_for_uri([H|T]) when H >= $A, H =< $Z ->
    [H|encode_for_uri(T)];
@@ -245,7 +238,6 @@ encode_for_uri([H|T]) when H >= $0, H =< $9 ->
    [H|encode_for_uri(T)];
 encode_for_uri([H|T]) ->
    string:uppercase(edoc_lib:escape_uri([H])) ++ encode_for_uri(T).
-
 
 pct_encode3([]) ->
    [];
@@ -312,7 +304,8 @@ resolve_against_base_uri(Base,RelPath0) ->
    ok = check_bad_percent(RelPath0),
    RelPath = ensure_schema(RelPath0),
    ?dbg("RelPath",RelPath),
-   Opts = [{scheme_defaults,[{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
+   Opts = [{scheme_defaults,
+            [{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
    case http_uri:parse(RelPath,Opts) of
       % not absolute
       {error,_} ->
@@ -330,7 +323,8 @@ resolve_against_base_uri(Base,RelPath0) ->
                              true ->
                                 RelPath
                           end,
-               {ok, Parsed} = http_uri:parse(Base,Opts), % fragments allowed on base
+               % fragments allowed on base
+               {ok, Parsed} = http_uri:parse(Base,Opts), 
                ?dbg("RelPath1",RelPath1),
                ?dbg("Parsed",Parsed),
                parsed_to_path(RelPath1,Parsed)
@@ -445,7 +439,7 @@ lput(Key,Val) ->
    _ = erlang:put(Key, Val),
    ok.
 
-
+%% creates a new namespace prefix
 next_comp_prefix(Namespaces) ->
    Pxs = [P || #xqNamespace{prefix = P} <- Namespaces],
    F = fun("ns_"++SNum, Max) ->
@@ -460,8 +454,4 @@ next_comp_prefix(Namespaces) ->
        end,
    Last = lists:foldl(F, 0, Pxs),
    "ns_" ++ integer_to_list(Last + 1).
-
-
-
-
 

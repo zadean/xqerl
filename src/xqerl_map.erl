@@ -20,7 +20,8 @@
 %%
 %% -------------------------------------------------------------------
 
-%% @doc Implementation of the "http://www.w3.org/2005/xpath-functions/map" namespace.
+%% @doc Implementation of the "http://www.w3.org/2005/xpath-functions/map" 
+%% namespace.
 
 -module(xqerl_map).
 
@@ -47,7 +48,9 @@
 -export([construct/2]).
 
 -'module-namespace'({"http://www.w3.org/2005/xpath-functions/map","map"}).
--namespaces([{"http://www.w3.org/2005/xpath-functions", "fn"}, {"xqerl_xs", "xs"},{"http://www.w3.org/2005/xpath-functions/map","map"}]).
+-namespaces([{"http://www.w3.org/2005/xpath-functions", "fn"}, 
+             {"xqerl_xs", "xs"},
+             {"http://www.w3.org/2005/xpath-functions/map","map"}]).
 
 -variables([]).
 
@@ -75,8 +78,6 @@
 {{qname, "http://www.w3.org/2005/xpath-functions/map", "map", "size"},{xqSeqType, 'xs:integer', one}, [], 
  {'size', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]}]).
 
-
-
 %% Tests whether a supplied map contains an entry for a given key 
 'contains'(_Ctx,Map,Key) when is_map(Map) ->
    MKey = xqerl_operators:key_val(Key),
@@ -86,15 +87,16 @@
    if is_map(IMap) ->
          'contains'(_Ctx,IMap,Key);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 %% Returns a map that contains a single entry (a key-value pair). 
 'entry'(_Ctx,Key0,Value0) -> 
    Key = xqerl_operators:key_val(Key0),
-   maps:put(Key, {Key0, Value0}, maps:new()).
+   #{Key => {Key0, Value0}}.
 
-%% Searches the supplied input sequence and any contained maps and arrays for a map entry with the supplied key, and returns the corresponding values. 
+%% Searches the supplied input sequence and any contained maps and arrays for 
+%% a map entry with the supplied key, and returns the corresponding values. 
 'find'(_Ctx,Input,Key) when not is_list(Input) ->
    'find'(_Ctx,[Input],Key);
 'find'(_Ctx,Input,Key) ->
@@ -116,23 +118,23 @@ find1([#array{data = H}|T], Key) ->
 find1([_|T], Key) ->
    find1(T, Key).
 
-%% Applies a supplied function to every entry in a map, returning the concatenation of the results. 
+%% Applies a supplied function to every entry in a map, returning the 
+%% concatenation of the results. 
 'for-each'(_Ctx,Map,[]) when is_map(Map) -> Map;
 'for-each'(Ctx,Map,Action) when is_map(Map), is_function(Action) ->
-   %?dbg("Map",Map),
    lists:map(fun({K,V}) ->
                    Action(Ctx,K,V)
              end, maps:values(Map));
-'for-each'(_Ctx,Map,#xqFunction{body = Function}) when is_map(Map), is_function(Function) ->
+'for-each'(_Ctx,Map,#xqFunction{body = Function}) when is_map(Map), 
+                                                       is_function(Function) ->
    'for-each'(_Ctx,Map,Function).
 
 %% Returns the value associated with a supplied key in a given map. 
 'get'(_Ctx,Map,Key) when is_map(Map) -> 
    MKey = xqerl_operators:key_val(Key),
-   %?dbg("MKey",MKey),
    case maps:find(MKey, Map) of
            error ->
-              ?seq:empty();
+              [];
            {ok, {_,V}} ->
               V
         end;
@@ -141,47 +143,44 @@ find1([_|T], Key) ->
    if is_map(IMap) ->
          'get'(_Ctx,IMap,Key);
       true ->
-         xqerl_error:error('XPTY0004')
+         ?err('XPTY0004')
    end.
 
 %% Returns a sequence containing all the keys present in a map 
 'keys'(_Ctx,Map) ->
    % true keys are in position 1 in value
-   ?seq:from_list(
-   maps:fold(fun(_K,V,L) ->
-                  [element(1, V) | L]
-            end, [], ?val(Map))).
+   maps:fold(fun(_K,{V,_},L) ->
+                  [V | L]
+            end, [], ?val(Map)).
 
 %% Returns a map that combines the entries from a number of existing maps. 
 'merge'(_Ctx,[]) -> #{};
 'merge'(_Ctx,Maps) when is_map(Maps) ->
    Maps;
 'merge'(_Ctx,Maps) ->
-   OptionMap = ?MODULE:put([],
-                           maps:new(),
-                           #xqAtomicValue{value = "duplicates", type = 'xs:string'}, 
-                           #xqAtomicValue{value = "use-first"}),
+   OptionMap = 
+     ?MODULE:put([],
+                 #{},
+                 #xqAtomicValue{value = "duplicates", type = 'xs:string'},
+                 #xqAtomicValue{value = "use-first"}),
    'merge'(_Ctx,Maps,OptionMap).
 
 'merge'(_Ctx,[],_) -> #{};
-'merge'(_Ctx,Maps,Options) -> 
-   Dup = case maps:get("duplicates", Options) of
-      {'EXIT',_} ->
-         xqerl_error:error('FOJS0005');
-      {_,#xqAtomicValue{value = O}} ->
-         ?dbg("O",O),
-         O
-   end,
+'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
-               end, [], ?seq:to_list(?seq:reverse(Maps))).
+               end, [], lists:reverse(Maps));
+'merge'(_,_,_) -> 
+   ?err('FOJS0005').
 
-%% Returns a map containing all the contents of the supplied map, but with an additional entry, which replaces any existing entry for the same key. 
+%% Returns a map containing all the contents of the supplied map, but with an 
+%% additional entry, which replaces any existing entry for the same key. 
 'put'(_Ctx,Map,Key,Value) -> 
    Key1 = xqerl_operators:key_val(Key),
-   maps:put(Key1, {Key, Value}, ?val(Map)).
+   (?val(Map))#{Key1 => {Key, Value}}.
 
-%% Returns a map containing all the entries from a supplied map, except those having a specified key. 
+%% Returns a map containing all the entries from a supplied map, except 
+%% those having a specified key. 
 'remove'(_Ctx,Map,Keys) -> 
    lists:foldl(fun(K,M) ->
                      maps:remove(xqerl_operators:key_val(K), M)
@@ -206,24 +205,25 @@ combine_maps(Map1, Map2, "reject") ->
       0 ->
          maps:merge(Map2, Map1);
       _ ->
-         xqerl_error:error('FOJS0003')
+         ?err('FOJS0003')
    end;
 combine_maps(Map1, Map2, "combine") ->
-   maps:fold(fun(K,V,M) ->
-                   case maps:is_key(K, M) of
-                      false ->
-                         maps:put(K, V, M);
-                      _ ->
-                         Ov = maps:get(K, M),
-                         Ov1 = element(2, Ov),
-                         Ov2 = element(2, V),
-                         Ov3 = {element(1, V), vconcat(Ov2,Ov1)},
-                         maps:update(K, Ov3, M)
-                   end
-             end, Map1, Map2);
+   F = fun(K,V,M) ->
+             case maps:is_key(K, M) of
+                false ->
+                   maps:put(K, V, M);
+                _ ->
+                   Ov = maps:get(K, M),
+                   Ov1 = element(2, Ov),
+                   Ov2 = element(2, V),
+                   Ov3 = {element(1, V), vconcat(Ov2,Ov1)},
+                   maps:update(K, Ov3, M)
+             end
+       end,
+   maps:fold(F, Map1, Map2);
 combine_maps(_, _, O) -> 
    ?dbg("Options",O),
-   xqerl_error:error('FOJS0005').
+   ?err('FOJS0005').
 
 vconcat(V1,V2) when is_list(V1), is_list(V2) ->
    V1 ++ V2;
@@ -234,15 +234,17 @@ vconcat(V1,V2) when is_list(V1) ->
 vconcat(V1,V2) ->
    [V1,V2].
 
-
 % used in deep-equal
 equal(Map1,Map2) ->
    Sz1 = ?MODULE:size([], Map1),
    Sz2 = ?MODULE:size([], Map2),
-   if Sz1 == Sz2 ->
+   if Sz1 =:= Sz2 ->
          K1 = keys([],Map1),
          F = fun(K) ->
-                   xqerl_operators:equal(get([], Map1, K), get([], Map2, K)) == #xqAtomicValue{type = 'xs:boolean',value = true}
+                   V1 = ?MODULE:get([], Map1, K),
+                   V2 = ?MODULE:get([], Map2, K),
+                   xqerl_operators:equal(V1,V2) == 
+                     #xqAtomicValue{type = 'xs:boolean',value = true}
              end,         
          lists:all(F, K1);
       true ->
@@ -269,7 +271,8 @@ construct(_, KeyValList) ->
                   Key1 = xqerl_operators:key_val(Key),
                   case maps:is_key(Key1, Map) of
                      true ->
-                        xqerl_error:error('XQDY0137');
+                        % no duplicates on construct
+                        ?err('XQDY0137');
                      _ ->
                         maps:put(Key1, {Key, Val}, Map)
                   end
