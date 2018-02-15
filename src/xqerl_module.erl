@@ -51,7 +51,8 @@
 -record(xq_module, 
         {target_namespace           :: string() | '_',
          type              = main   :: main | library | '_',
-         status            = waiting:: loaded | unloaded | compiled | error | waiting | '_',
+         status            = waiting:: loaded | unloaded | compiled | 
+                                       error | waiting | '_',
          name_atom                  :: atom() | '$1' | '_',
          full_text                  :: string() | '_',
          error                      :: term() | '_',
@@ -156,37 +157,45 @@ one_time_init() ->
 %% ====================================================================
 
 get_signatures(ModNamespace) ->
-   Query = fun() ->
-                 ModName = #xq_module{name_atom = '$1', target_namespace = ModNamespace,  _ = '_'},
-                 ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
-                 %?dbg("ModNameAtom",ModNameAtom0),
-                 ModNameAtom = if ModNameAtom0 == [] ->
-                                     ?dbg("Unknown ModNamespace",ModNamespace),
-                                     ?err('XQST0059');
-                                  true ->
-                                     hd(ModNameAtom0)
-                               end,
-                 Fun = #xq_function{signature = '$1', module_name_atom = {ModNameAtom,'_','_'},  _ = '_'},
-                 Funs = mnesia:select(xq_function, [{Fun, [], ['$1']}]),
-                 Var = #xq_variable{signature = '$1', module_name_atom = {ModNameAtom,'_'},  _ = '_'},
-                 Vars = mnesia:select(xq_variable, [{Var, [], ['$1']}]),
-                 {Funs,Vars}
-           end,
-   mnesia:transaction(Query).
+   Q = fun() ->
+              ModName = #xq_module{name_atom = '$1', 
+                                   target_namespace = ModNamespace,
+                                   _ = '_'},
+              ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
+              %?dbg("ModNameAtom",ModNameAtom0),
+              ModNameAtom = if ModNameAtom0 == [] ->
+                                  ?dbg("Unknown ModNamespace",ModNamespace),
+                                  ?err('XQST0059');
+                               true ->
+                                  hd(ModNameAtom0)
+                            end,
+              Fun = #xq_function{signature = '$1', 
+                                 module_name_atom = {ModNameAtom,'_','_'},  
+                                 _ = '_'},
+              Funs = mnesia:select(xq_function, [{Fun, [], ['$1']}]),
+              Var = #xq_variable{signature = '$1', 
+                                 module_name_atom = {ModNameAtom,'_'},  
+                                 _ = '_'},
+              Vars = mnesia:select(xq_variable, [{Var, [], ['$1']}]),
+              {Funs,Vars}
+        end,
+   mnesia:transaction(Q).
 
 get_module_name(ModNamespace) ->
-   Query = fun() ->
-                 ModName = #xq_module{name_atom = '$1', target_namespace = ModNamespace,  _ = '_'},
-                 ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
-                 %?dbg("ModNameAtom",ModNameAtom0),
-                 if ModNameAtom0 == [] ->
-                       ?dbg("Unknown ModNamespace",ModNamespace),
-                       ?err('XQST0059');
-                    true ->
-                       hd(ModNameAtom0)
-                 end
-           end,
-   mnesia:transaction(Query).
+   Q = fun() ->
+             ModName = #xq_module{name_atom = '$1', 
+                                  target_namespace = ModNamespace,  
+                                  _ = '_'},
+             ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
+             %?dbg("ModNameAtom",ModNameAtom0),
+             if ModNameAtom0 == [] ->
+                   ?dbg("Unknown ModNamespace",ModNamespace),
+                   ?err('XQST0059');
+                true ->
+                   hd(ModNameAtom0)
+             end
+       end,
+   mnesia:transaction(Q).
    
 
 get_static_signatures() ->
@@ -207,20 +216,6 @@ get_static_signatures() ->
            end,
    lists:foldl(Query, {[],[],[]}, Mods).
 
-
-%% -record(xq_module, 
-%%         {target_namespace           :: string(),
-%%          type              = main   :: main | library,
-%%          status            = waiting:: compiled | error | waiting | loaded,
-%%          name_atom                  :: atom(),
-%%          full_text                  :: string(),
-%%          error                      :: term(),
-%%          last_compile_time          :: term(),
-%%          first_compile_time         :: term(),
-%%          imported_modules  = []     :: [string()],
-%%          binary            = <<>>   :: binary(),
-%%          erl_code                   :: string()
-%%         }).
 compile(FileName) ->
    ?dbg("compile",FileName),
    {ok, Bin} = file:read_file(FileName),
@@ -236,12 +231,15 @@ compile(FileName, Str) ->
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Toks),
 %?dbg("Tree",Tree),
-      Static = scan_tree_static(Tree, xqerl_lib:resolve_against_base_uri("file:///", FileName)),
+      Static = scan_tree_static(
+                 Tree, 
+                 xqerl_lib:resolve_against_base_uri("file:///", FileName)),
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
       %?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
-      {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]),
+      {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,
+                                     no_auto_import,nowarn_unused_vars]),
       _Erl = print_erl(B),
       ok = check_cycle(M,ImportedMods),
       %?dbg("Erl",Erl),
@@ -271,7 +269,8 @@ compile(FileName, Str) ->
                                        (hd(OldRec))#xq_module.first_compile_time
                                  end,
                       delete_functions(MN),
-                      mnesia:write(Rec#xq_module{first_compile_time = NewFirst}),
+                      Rec1 = Rec#xq_module{first_compile_time = NewFirst},
+                      mnesia:write(Rec1),
                       Funs = build_fun_recs(MN, FS),
                       Vars = build_var_recs(MN, VS),
                       lists:foreach(fun(F) ->
@@ -307,13 +306,13 @@ test_compile(FileName, Str) ->
       ?dbg("Step","5"),
       Static = scan_tree_static(Tree, FileName),
       ?dbg("Step","6"),
-      %Static = scan_tree_static(Tree, xqerl_lib:resolve_against_base_uri("file:///", FileName)),
       ?dbg("Static",Static),
       {_,_,_,_,_,Ret} = scan_tree(Static),
       ?dbg("Step","7"),
       xqerl_context:destroy(Static),
       ?dbg("Step","8"),
-      compile:forms(Ret, [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars])
+      compile:forms(Ret, [debug_info,verbose,return_errors,
+                          no_auto_import,nowarn_unused_vars])
    of
       {ok,M,B} ->
          {ok,M,B}
@@ -374,80 +373,75 @@ unload(_) ->
 -dialyzer({[no_return], [delete_functions/1]}).
 delete_functions(ModName) ->
    F = fun() ->
-             Fun = #xq_function{module_name_atom = {ModName,'_','_'},  _ = '_'},
+             Fun = #xq_function{module_name_atom = {ModName,'_','_'},  
+                                _ = '_'},
              Funs = mnesia:select(xq_function, [{Fun, [], ['$_']}]),
-             _ = lists:foreach(fun(F) ->
-                                     mnesia:delete({xq_function,F#xq_function.module_name_atom})
-                               end, Funs),
+             Del = fun(F) ->
+                         mnesia:delete(
+                           {xq_function,F#xq_function.module_name_atom})
+                   end,
+             _ = lists:foreach(Del, Funs),
              Var = #xq_variable{module_name_atom = {ModName,'_'},  _ = '_'},
              Vars = mnesia:select(xq_variable, [{Var, [], ['$_']}]),
-             _ = lists:foreach(fun(V) ->
-                                     mnesia:delete({xq_variable,V#xq_variable.module_name_atom})
-                               end, Vars),
+             VDel = fun(V) ->
+                          mnesia:delete(
+                            {xq_variable,V#xq_variable.module_name_atom})
+                    end,
+             _ = lists:foreach(VDel, Vars),
              ok
        end,
    {atomic,ok} = mnesia:transaction(F),
    ok.
    
-
-%% -record(xq_function, 
-%%         {module_name_atom           :: {atom(),atom(),integer()},
-%%          signature                  :: term(),
-%%          name                       :: string(),
-%%          external                   :: boolean(),
-%%          annotations       = []     :: [term()]
-%%         }).
 build_fun_recs(ModName,FunSigs) ->
-   Fx = fun({#qname{namespace = Namespace, local_name = LocalName},_,Annos,{FunName,A},Arity,_} = Sig) ->
-               #xq_function{module_name_atom = {ModName,FunName,Arity}, signature = setelement(4, Sig, {ModName,FunName,A}) ,
-                            name = "Q{"++Namespace++"}"++LocalName, 
-                            external = false, annotations = Annos};
-           ({#qname{namespace = Namespace, local_name = LocalName},_,Annos,{_ModName1,FunName,A},Arity,_} = Sig) ->
-               #xq_function{module_name_atom = {ModName,FunName,Arity}, signature = setelement(4, Sig, {ModName,FunName,A}) ,
-                            name = "Q{"++Namespace++"}"++LocalName, 
-                            external = false, annotations = Annos}
+   Fx = fun({#qname{namespace = Namespace, 
+                    local_name = LocalName},_,Annos,
+             {FunName,A},Arity,_} = Sig) ->
+              #xq_function{module_name_atom = {ModName,FunName,Arity}, 
+                           signature = setelement(4, Sig, {ModName,FunName,A}),
+                           name = "Q{"++Namespace++"}"++LocalName,
+                           external = false, annotations = Annos};
+           ({#qname{namespace = Namespace, 
+                    local_name = LocalName},_,Annos,
+             {_ModName1,FunName,A},Arity,_} = Sig) ->
+              #xq_function{module_name_atom = {ModName,FunName,Arity}, 
+                           signature = setelement(4, Sig, {ModName,FunName,A}),
+                           name = "Q{"++Namespace++"}"++LocalName,
+                           external = false, annotations = Annos}
         end,
    lists:map(Fx, FunSigs).
 
-%% -record(xq_variable, 
-%%         {module_name_atom           :: {atom(),atom()},
-%%          signature                  :: term(),
-%%          name                       :: string(),
-%%          position                   :: integer(),
-%%          external                   :: boolean(),
-%%          annotations       = []     :: [term()]
-%%         }).
 build_var_recs(ModName,VarSigs) ->
-   IsPriv = fun(Annos) ->
-                  lists:any(fun({annotation,{#qname{namespace="http://www.w3.org/2012/xquery",local_name="private"},_}}) ->
-                                  true;
-                               (_) ->
-                                  false
-                            end, Annos)
-            end,
-   Fx = fun({#qname{namespace = Namespace0, local_name = LocalName},_,Annos,VarName,External} = Sig,Pos) ->
-                 Namespace = if Namespace0 == 'no-namespace' ->
-                                   "";
-                                true ->
-                                   Namespace0
-                             end,
-                 NewSig = setelement(4, Sig, {ModName,VarName}),
-                 {#xq_variable{module_name_atom = {ModName,VarName}, signature = NewSig,
-                               name = "Q{"++Namespace++"}"++LocalName, 
-                               external = External, position = Pos, annotations = Annos}, 
-                  Pos + 1}
+   Priv = fun({annotation,{#qname{namespace="http://www.w3.org/2012/xquery",
+                                  local_name="private"},_}}) ->
+                true;
+             (_) ->
+                false
+          end,
+   IsPriv = fun(Annos) -> lists:any(Priv, Annos) end,
+   Fx = fun({#qname{namespace = Namespace0, local_name = LocalName},
+             _,Annos,VarName,External} = Sig,Pos) ->
+              Namespace = if Namespace0 == 'no-namespace' ->
+                                "";
+                             true ->
+                                Namespace0
+                          end,
+              NewSig = setelement(4, Sig, {ModName,VarName}),
+              {#xq_variable{module_name_atom = {ModName,VarName}, 
+                            signature = NewSig,
+                            name = "Q{"++Namespace++"}"++LocalName,
+                            external = External, 
+                            position = Pos, 
+                            annotations = Annos},
+               Pos + 1}
         end,
-   {Ret,_} = lists:mapfoldl(Fx, 1, lists:filter(fun({_,_,I,_,_}) -> not IsPriv(I) end, VarSigs)),
+   Fil = lists:filter(fun({_,_,I,_,_}) -> not IsPriv(I) end, VarSigs),
+   {Ret,_} = lists:mapfoldl(Fx, 1, Fil),
    Ret.
-
-
 
 scan_tokens(Str) ->
    try 
       xqerl_scanner:tokens(Str) 
-   of
-      Tokens ->
-         Tokens
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tokens e",E),
@@ -476,9 +470,6 @@ parse_tokens(Tokens) ->
 scan_tree(Tree) ->
    try 
       xqerl_abs:scan_mod(Tree) 
-   of
-      Abstract ->
-         Abstract
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tree",E),
@@ -489,9 +480,8 @@ scan_tree(Tree) ->
    end.
 
 scan_tree_static(Tree, BaseUri) ->
-   try xqerl_static:handle_tree(Tree, BaseUri) of
-      Abstract ->
-         Abstract
+   try 
+      xqerl_static:handle_tree(Tree, BaseUri)
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tree_static",E),
@@ -507,7 +497,8 @@ scan_tree_static(Tree, BaseUri) ->
 print_erl(B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
-   PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
+   PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, 
+                                        {encoding, utf8}])),
    Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
    %?dbg("",Flat),
    %io:fwrite("~ts~n", [PP]),
@@ -525,7 +516,6 @@ check_cycle(Mod,ImportedMods) ->
                      end, ImportedMods),
    Match = #xq_module{name_atom = '$1',imported_modules = '$2', _ = '_'},
    Mods = mnesia:dirty_select(xq_module, [{Match, [], [['$1','$2']]}]),
-   %?dbg("Mods",Mods),
    _ = lists:foreach(fun([_,[]]) ->
                            ok;
                         ([M,I]) ->
@@ -535,11 +525,5 @@ check_cycle(Mod,ImportedMods) ->
                                                digraph:add_edge(G, J, M)
                                          end, I)
                      end, Mods),
-   %?dbg("Mods",digraph:edges(G)),
    digraph:delete(G),
    ok.
-
-%% add_adge(G, V1, V2) ->
-%%    case digraph:add_edge(G, V1, V2) of
-%%       {error,_} ->
-%%          ?err('')

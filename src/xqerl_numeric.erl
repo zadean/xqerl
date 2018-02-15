@@ -26,7 +26,7 @@
 
 -include("xqerl.hrl").
 
--define(MAXDEC, 18).
+-define(MAXDEC, 20).
 
 %% ====================================================================
 %% API functions
@@ -86,7 +86,8 @@ float_to_decimal(Float) when is_float(Float) ->
    IntPart = if TotalShift > 0 ->
                    list_to_integer(Sign ++ Int ++ Fract);
                 true ->
-                   list_to_integer(Sign ++ Int ++ Fract ++ lists:duplicate(-TotalShift, $0))
+                   list_to_integer(Sign ++ Int ++ Fract ++ 
+                                     lists:duplicate(-TotalShift, $0))
              end,
    #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
@@ -107,7 +108,7 @@ decimal(Float) when is_float(Float) ->
       end
    catch
       _:_ ->
-         xqerl_error:error('FOCA0001')
+         ?err('FOCA0001')
    end;
 decimal(Int) when is_integer(Int) ->
    #xsDecimal{int = Int, scf = 0};
@@ -151,16 +152,15 @@ float(Float) when is_float(Float) ->
    New;
 float(Int) when is_integer(Int) ->
    ?MODULE:float(erlang:float(Int));
-   %?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E0"));
 float(#xsDecimal{int = Int, scf = Scf}) ->
-   ?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf))).
+   ?MODULE:float(list_to_float(integer_to_list(Int) ++ ".0E-" ++ 
+                                 integer_to_list(Scf))).
 
 integer(Int) when is_integer(Int) -> Int;
 integer(Float) when is_float(Float) -> trunc(Float);
 integer(#xsDecimal{int = Int, scf = 0}) -> Int;
 integer(#xsDecimal{int = Int, scf = Scf}) -> 
    Int div pow10(Scf).
-
 
 float_string(Float) when is_float(Float) ->
    format_float(Float).
@@ -172,17 +172,16 @@ string(Int) when is_integer(Int) ->
 string(#xsDecimal{int = Int, scf = Scf}) ->
    decimal_to_string(Int,Scf).
 
-
-add(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         #xsDecimal{int = IntA1 + IntB, scf = ScfB};
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         #xsDecimal{int = IntA + IntB1, scf = ScfA};
-      true ->
-         #xsDecimal{int = IntA + IntB, scf = ScfA}
-   end;
+add(#xsDecimal{int = IntA, scf = ScfA},#xsDecimal{int = IntB, scf = ScfB})
+   when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   #xsDecimal{int = IntA1 + IntB, scf = ScfB};
+add(#xsDecimal{int = IntA, scf = ScfA},#xsDecimal{int = IntB, scf = ScfB}) 
+   when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   #xsDecimal{int = IntA + IntB1, scf = ScfA};
+add(#xsDecimal{int = IntA, scf = ScfA},#xsDecimal{int = IntB}) ->
+   #xsDecimal{int = IntA + IntB, scf = ScfA};
 add(#xsDecimal{} = A, B) when is_integer(B) ->
    add(A, decimal(B));
 add(A, #xsDecimal{} = B) when is_integer(A) ->
@@ -192,18 +191,19 @@ add(#xsDecimal{} = A, B) when is_float(B) ->
 add(A, #xsDecimal{} = B) when is_float(A) ->
    add(A, double(B));
 add(A,B) ->
-  A + B.
+   A + B.
 
-subtract(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         #xsDecimal{int = IntA1 - IntB, scf = ScfB};
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         #xsDecimal{int = IntA - IntB1, scf = ScfA};
-      true ->
-         #xsDecimal{int = IntA - IntB, scf = ScfA}
-   end;
+subtract(#xsDecimal{int = IntA, scf = ScfA}, 
+         #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   #xsDecimal{int = IntA1 - IntB, scf = ScfB};
+subtract(#xsDecimal{int = IntA, scf = ScfA}, 
+         #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   #xsDecimal{int = IntA - IntB1, scf = ScfA};
+subtract(#xsDecimal{int = IntA, scf = ScfA}, 
+         #xsDecimal{int = IntB}) ->
+   #xsDecimal{int = IntA - IntB, scf = ScfA};
 subtract(#xsDecimal{} = A, B) when is_integer(B) ->
    subtract(A, decimal(B));
 subtract(A, #xsDecimal{} = B) when is_integer(A) ->
@@ -213,9 +213,10 @@ subtract(#xsDecimal{} = A, B) when is_float(B) ->
 subtract(A, #xsDecimal{} = B) when is_float(A) ->
    subtract(A, double(B));
 subtract(A,B) ->
-  A - B.
+   A - B.
 
-multiply(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
+multiply(#xsDecimal{int = IntA, scf = ScfA}, 
+         #xsDecimal{int = IntB, scf = ScfB}) ->
    #xsDecimal{int = IntA * IntB, scf = ScfA + ScfB};
 multiply(#xsDecimal{} = A, B) when is_integer(B) ->
    multiply(A, decimal(B));
@@ -225,22 +226,25 @@ multiply(#xsDecimal{} = A, B) when is_float(B) ->
    multiply(double(A), B);
 multiply(A, #xsDecimal{} = B) when is_float(A) ->
    multiply(A, double(B));
+multiply(A,1) -> A;
+multiply(1,B) -> B;
 multiply(A,B) ->
-  A * B.
+   A * B.
 
-divide(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   IntA1 = if ScfA < ScfB ->
-                 IntA * pow10(ScfB - ScfA);
-              true ->
-                 IntA
-           end,
-   IntB1 = if ScfA > ScfB ->
-                 IntB * pow10(ScfA - ScfB);
-              true ->
-                 IntB
-           end,
+divide(#xsDecimal{int = IntA, scf = ScfA}, 
+       #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
    IntA2 = IntA1 * pow10(?MAXDEC + 1),
+   simplify(round1(#xsDecimal{int = IntA2 div IntB, scf = ?MAXDEC + 1}));
+divide(#xsDecimal{int = IntA, scf = ScfA}, 
+       #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA2 = IntA * pow10(?MAXDEC + 1),
    simplify(round1(#xsDecimal{int = IntA2 div IntB1, scf = ?MAXDEC + 1}));
+divide(#xsDecimal{int = IntA}, 
+       #xsDecimal{int = IntB}) ->
+   IntA2 = IntA * pow10(?MAXDEC + 1),
+   simplify(round1(#xsDecimal{int = IntA2 div IntB, scf = ?MAXDEC + 1}));
 divide(#xsDecimal{} = A, B) when is_integer(B) ->
    divide(A, decimal(B));
 divide(A, #xsDecimal{} = B) when is_integer(A) ->
@@ -252,89 +256,76 @@ divide(#xsDecimal{} = A, B) when is_float(B) ->
 divide(A, #xsDecimal{} = B) when is_float(A) ->
    divide(A, double(B));
 divide(A,B) ->
-  A / B.
+   A / B.
 
-equal(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         IntA1 == IntB;
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         IntA == IntB1;
-      true ->
-         IntA == IntB
-   end;
+equal(#xsDecimal{int = IntA, scf = ScfA}, 
+      #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   IntA1 == IntB;
+equal(#xsDecimal{int = IntA, scf = ScfA}, 
+      #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA == IntB1;
+equal(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
+   IntA == IntB;
 equal(A, B) ->
-   A1 = double(A), 
-   B1 = double(B),
-   A1 == B1.
+   double(A) == double(B).
 
-greater_than(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         IntA1 > IntB;
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         IntA > IntB1;
-      true ->
-         IntA > IntB
-   end;
+greater_than(#xsDecimal{int = IntA, scf = ScfA}, 
+             #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   IntA1 > IntB;
+greater_than(#xsDecimal{int = IntA, scf = ScfA}, 
+             #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA > IntB1;
+greater_than(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
+   IntA > IntB;
 greater_than(A, B) ->
-   A1 = double(A), 
-   B1 = double(B),
-   A1 > B1.
+   double(A) > double(B).
 
-greater_than_equal(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         IntA1 >= IntB;
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         IntA >= IntB1;
-      true ->
-         IntA >= IntB
-   end;
+greater_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
+                   #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   IntA1 >= IntB;
+greater_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
+                   #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA >= IntB1;
+greater_than_equal(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
+   IntA >= IntB;
 greater_than_equal(A, B) ->
-   A1 = double(A), 
-   B1 = double(B),
-   A1 >= B1.
+   double(A) >= double(B).
 
-less_than(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         IntA1 < IntB;
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         IntA < IntB1;
-      true ->
-         IntA < IntB
-   end;
+less_than(#xsDecimal{int = IntA, scf = ScfA}, 
+          #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   IntA1 < IntB;
+less_than(#xsDecimal{int = IntA, scf = ScfA}, 
+          #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA < IntB1;
+less_than(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
+   IntA < IntB;
 less_than(A, B) ->
-   A1 = double(A), 
-   B1 = double(B),
-   A1 < B1.
+   double(A) < double(B).
 
-less_than_equal(#xsDecimal{int = IntA, scf = ScfA}, #xsDecimal{int = IntB, scf = ScfB}) ->
-   if ScfA < ScfB ->
-         IntA1 = IntA * pow10(ScfB - ScfA),
-         IntA1 =< IntB;
-      ScfA > ScfB ->
-         IntB1 = IntB * pow10(ScfA - ScfB),
-         IntA =< IntB1;
-      true ->
-         IntA =< IntB
-   end;
+less_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
+                #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
+   IntA1 = IntA * pow10(ScfB - ScfA),
+   IntA1 =< IntB;
+less_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
+                #xsDecimal{int = IntB, scf = ScfB}) when ScfA > ScfB ->
+   IntB1 = IntB * pow10(ScfA - ScfB),
+   IntA =< IntB1;
+less_than_equal(#xsDecimal{int = IntA}, #xsDecimal{int = IntB}) ->
+   IntA =< IntB;
 less_than_equal(A, B) ->
-   A1 = double(A), 
-   B1 = double(B),
-   A1 =< B1.
-
+   double(A) =< double(B).
 
 unary_minus(#xsDecimal{int = IntA} = D) ->
    D#xsDecimal{int = IntA * -1};
 unary_minus(Val) -> Val * -1.
-
-
 
 abs_val(#xsDecimal{int = Int} = D) when Int >= 0 ->
    D;
@@ -346,17 +337,7 @@ abs_val(D) ->
 floor(#xsDecimal{int = Int, scf = 0}) ->
    Int;
 floor(#xsDecimal{} = D) ->
-   #xsDecimal{int = Int1, scf = Scf1} = simplify(D),
-   if Scf1 == 0 ->
-         % no significant decimals
-         Int1;
-      true ->
-         if Int1 < 0 ->
-               (Int1 div pow10(Scf1)) - 1;
-            true ->
-               Int1 div pow10(Scf1)
-         end
-   end;
+   floor_1(simplify(D));
 floor(Int) when is_integer(Int) ->
    Int;
 floor(Float) ->
@@ -369,20 +350,17 @@ floor(Float) ->
          T
    end.
 
+floor_1(#xsDecimal{int = Int1, scf = 0}) ->
+   Int1;
+floor_1(#xsDecimal{int = Int1, scf = Scf1}) when Int1 < 0 ->
+   (Int1 div pow10(Scf1)) - 1;
+floor_1(#xsDecimal{int = Int1, scf = Scf1}) ->
+   Int1 div pow10(Scf1).
+
 ceiling(#xsDecimal{int = Int, scf = 0}) ->
    Int;
 ceiling(#xsDecimal{} = D) ->
-   #xsDecimal{int = Int1, scf = Scf1} = simplify(D),
-   if Scf1 == 0 ->
-         % no significant decimals
-         Int1;
-      true ->
-         if Int1 < 0 ->
-               Int1 div pow10(Scf1);
-            true ->
-               (Int1 div pow10(Scf1)) + 1
-         end
-   end;
+   ceiling_1(simplify(D));
 ceiling(Int) when is_integer(Int) ->
    Int;
 ceiling(Float) ->
@@ -395,14 +373,18 @@ ceiling(Float) ->
          T + 1
    end.
 
-truncate(#xsDecimal{int = Int, scf = Scf}) when Scf == 0 ->
-   Int;
+ceiling_1(#xsDecimal{int = Int1, scf = 0}) -> Int1;
+ceiling_1(#xsDecimal{int = Int1, scf = Scf1}) when Int1 < 0 ->
+   Int1 div pow10(Scf1);
+ceiling_1(#xsDecimal{int = Int1, scf = Scf1}) ->
+   (Int1 div pow10(Scf1)) + 1.
+
+truncate(#xsDecimal{int = Int, scf = 0}) -> Int;
 truncate(#xsDecimal{int = Int, scf = Scf}) ->
    Int div pow10(Scf);
 truncate(Float) when is_float(Float) ->
    trunc(Float);
-truncate(D) ->
-   D.
+truncate(D) -> D.
 
 round_half_even(#xsDecimal{scf = Scf} = D, Prec) when Prec >= Scf ->
    D;
@@ -445,7 +427,6 @@ round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
    LowVal = simplify(#xsDecimal{int = Low, scf = Prec}),
    HighVal = simplify(#xsDecimal{int = High, scf = Prec}),
    #xsDecimal{int = Diff, scf = P} = simplify(subtract(D, LowVal)),
-   %?dbg("{Diff,P,Prec}",{Diff,P,Prec}),
    if (P - Prec) == 1, abs(Diff) == 5 ->
          if Low rem 2 == 0 ->
                LowVal;
@@ -456,8 +437,6 @@ round_half_even(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
          LowVal;
       true ->
          Rnd = abs(round(Diff / pow10(P - Prec))),
-         %?dbg("Rnd",Rnd),
-         %?dbg("Diff",Diff),
          if Rnd == 1 ->
                HighVal;
             true ->
@@ -514,8 +493,6 @@ round_half(#xsDecimal{int = Int, scf = Scf} = D, Prec) when Prec >= 0 ->
          end;
       true ->
          Rnd = abs(round(Diff / pow10(P - Prec))),
-         %?dbg("Rnd",Rnd),
-         %?dbg("Diff",Diff),
          if Rnd == 1 ->
                HighVal;
             true ->
@@ -528,6 +505,7 @@ round_half(Flt,0) ->
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+
 round1(#xsDecimal{int = Int, scf = Scf}) ->
    Rem = Int rem 10,
    Int1 = if Rem > -5, Rem < 5 ->
@@ -539,15 +517,9 @@ round1(#xsDecimal{int = Int, scf = Scf}) ->
            end,
    #xsDecimal{int = Int1, scf = Scf - 1}.
 
-simplify(#xsDecimal{int = Int, scf = Scf} = D) when Scf > 0 ->
-   case Int rem 10 of
-      0 ->
-         simplify(#xsDecimal{int = Int div 10, scf = Scf - 1});
-      _ ->
-         D
-   end;
-simplify(#xsDecimal{} = D) ->
-   D.
+simplify(#xsDecimal{int = Int, scf = Scf}) when Scf > 0, Int rem 10 =:= 0 ->
+   simplify(#xsDecimal{int = Int div 10, scf = Scf - 1});
+simplify(#xsDecimal{} = D) -> D.
 
 
 pow10(0) -> 1;
@@ -563,13 +535,12 @@ pow10(9) -> 1000000000;
 pow10(N) when N > 9 -> 
    10000000000 * pow10(N - 10).
 
+decimal_to_string(Int,Scf) when Int < 0 ->
+   List = lists:reverse(integer_to_list(abs(Int))),
+   [$-|decimal_to_string(List,Scf,[])];
 decimal_to_string(Int,Scf) ->
    List = lists:reverse(integer_to_list(abs(Int))),
-   if Int < 0 ->
-         [$-|decimal_to_string(List,Scf,[])];
-      true ->
-         decimal_to_string(List,Scf,[])
-   end.
+   decimal_to_string(List,Scf,[]).
 
 % trailing zeroes
 decimal_to_string([$0|T], Scf, []) when Scf > 0 ->
@@ -611,7 +582,6 @@ format_double(Float) when is_float(Float) ->
     {Frac, Exp} = mantissa_exponent_d(Float),
     {Place, Digits} = format_double_1(Float, Exp, Frac),
     R = insert_decimal(Place, [$0 + D || D <- Digits]),
-    %?dbg("All",{Frac, Exp, Place, Digits, R}),
     [$- || true <- [Float < 0.0]] ++ R.
 
 

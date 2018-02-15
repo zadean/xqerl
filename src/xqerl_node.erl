@@ -20,8 +20,9 @@
 %%
 %% -------------------------------------------------------------------
 
-%% @doc Processing for local nodes created in XQuery. Translation from 'doc' -> node.
-%% @TODO MESSY
+%% @doc Processing for local nodes created in XQuery. Translation from 
+%% 'doc' -> node.
+%% TODO : Complete rewrite. simplify, use mnesia for files, ets for temp
 
 -module(xqerl_node).
 -compile(inline_list_funcs).
@@ -32,15 +33,8 @@
 -define(str(Val), #xqAtomicValue{type = 'xs:string', value = Val}).
 -define(untyp(Val), #xqAtomicValue{type = 'xs:untypedAtomic', value = Val}).
 
-
-%-export([test/0]).
-
-%-export([node_type/1]).
 -export([new_fragment/1]).
 -export([new_fragment/2]).
-
-%% -export([position_range/2]).
-%% -export([position_single/2]).
 
 -export([atomize_nodes/1]).
 -export([to_xml/1]).
@@ -70,21 +64,22 @@ new_context(Ctx) ->
 new_fragment(#xqNode{doc = Doc } = Node) -> 
    Node#xqNode{doc = Doc#{file := next_frag_id()}}.
 
-% return document {RootId, Doc}
+% return document 
 new_fragment(Ctx0, Content) when is_list(Content) ->
    %?dbg("Content",Content),
    DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns 
                <- maps:get(namespaces, Ctx0,
-                           [#xqNamespace{namespace = 'no-namespace', prefix = []}]), 
-                      Px == []],
+                           [#xqNamespace{namespace = 'no-namespace', 
+                                         prefix = []}]), 
+                      Px =:= []],
    Ctx = new_context(Ctx0),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},
    Ctx2 = add_node(Ctx1, Id, Doc),
-   DynNs = [#xqNamespace{namespace = "http://www.w3.org/XML/1998/namespace", prefix = "xml"}|DefaultNs],
+   DynNs = [#xqNamespace{namespace = "http://www.w3.org/XML/1998/namespace", 
+                         prefix = "xml"}|DefaultNs],
    {Children, Sz, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
-   if Children == [] ->
-         ?seq:empty();
+   if Children == [] -> [];
       true ->
          Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
          FragId = get_frag_id(Ctx5),
@@ -93,7 +88,6 @@ new_fragment(Ctx0, Content) when is_list(Content) ->
    end;
 new_fragment(Ctx0, Content) ->
    new_fragment(Ctx0, [Content]).
-
 
 can_follow([],_Curr) -> true;
 can_follow(element,attribute) -> false;
@@ -115,32 +109,38 @@ get_node_type(#xqCommentNode{}) -> comment;
 get_node_type(#xqTextNode{}) -> text;
 get_node_type(#xqProcessingInstructionNode{}) -> 'processing-instruction'.
 
+string_if_tuple(Val) when is_tuple(Val) ->
+   xqerl_types:string_value(Val);
+string_if_tuple(Val) ->
+   Val.
 
-
-ensure_qname(#qname{namespace = #xqAtomicValue{} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, 
+             _InScopeNamespaces) -> QName;
+ensure_qname(#qname{namespace = #xqAtomicValue{} = Nx} = QName, 
+             InScopeNamespaces) ->
    NewNx = xqerl_types:string_value(Nx),
    ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
-ensure_qname(#qname{prefix = #xqAtomicValue{value = V} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#qname{prefix = #xqAtomicValue{value = []}} = QName, 
+             InScopeNamespaces) ->
+   ensure_qname(QName#qname{prefix = []}, InScopeNamespaces);
+ensure_qname(#qname{prefix = #xqAtomicValue{} = Nx} = QName, 
+             InScopeNamespaces) ->
    try
-      if V == [] ->
-            ensure_qname(QName#qname{prefix = []}, InScopeNamespaces);
-         true ->
-            NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
-            ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
-      end
+      NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
+      ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
    catch
       _:_ ->
-         xqerl_error:error('XQDY0074')
+         ?err('XQDY0074')
    end;
-ensure_qname(#qname{local_name = #xqAtomicValue{} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#qname{local_name = #xqAtomicValue{} = Nx} = QName, 
+             InScopeNamespaces) ->
    try
       NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
       ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces)
    catch
       _:_ ->
-         xqerl_error:error('XQDY0074')
+         ?err('XQDY0074')
    end;
-
 ensure_qname(#qname{namespace = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
    NewNx = xqerl_types:string_value(Nx),
    ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
@@ -150,7 +150,7 @@ ensure_qname(#qname{prefix = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
       ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
    catch
       _:_ ->
-         xqerl_error:error('XQDY0074')
+         ?err('XQDY0074')
    end;
 ensure_qname(#qname{local_name = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
    try
@@ -158,94 +158,75 @@ ensure_qname(#qname{local_name = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
       ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces)
    catch
       _:_ ->
-         xqerl_error:error('XQDY0074')
+         ?err('XQDY0074')
    end;
-
-ensure_qname(#qname{namespace = Ns, prefix = Px, local_name = Ln} = QName, InScopeNamespaces) -> 
+ensure_qname(#qname{namespace = Ns, prefix = Px, local_name = Ln} = QName, 
+             InScopeNamespaces) -> 
    SNs = is_tuple(Ns),
    SPx = is_tuple(Px),
    SLn = is_tuple(Ln),
-   Ns1 = if SNs ->
-               xqerl_types:string_value(Ns);
-            true ->
-               Ns
-         end,
-   Px1 = if SPx ->
-               xqerl_types:string_value(Px);
-            true ->
-               Px
-         end,
-   Ln1 = if SLn ->
-               xqerl_types:string_value(Ln);
-            true ->
-               Ln
-         end,
+   Ns1 = string_if_tuple(Ns),
+   Px1 = string_if_tuple(Px),
+   Ln1 = string_if_tuple(Ln),
    if SNs orelse SPx orelse SLn ->
-         ensure_qname(#qname{namespace = Ns1, prefix = Px1, local_name = Ln1}, InScopeNamespaces);
+         ensure_qname(#qname{namespace = Ns1, prefix = Px1, local_name = Ln1}, 
+                      InScopeNamespaces);
       true ->
          QName
    end;
-
 ensure_qname(#xqNode{} = Node, InScopeNamespaces) -> 
    try
       Q = xqerl_types:cast_as(Node,'xs:QName',InScopeNamespaces),
       xqerl_types:value(Q)
    catch
-      _:E ->
-         ?dbg("E",E),
-         xqerl_error:error('XQDY0074')
+      _:_ ->
+         ?err('XQDY0074')
    end;
-ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, _InScopeNamespaces) -> QName;
-ensure_qname(#xqAtomicValue{type = Ty} = At, InScopeNamespaces) when Ty == 'xs:string';
-                                                                     Ty == 'xs:untypedAtomic' ->
+ensure_qname(#xqAtomicValue{type = Ty} = At, InScopeNamespaces) 
+   when Ty =:= 'xs:string';
+        Ty =:= 'xs:untypedAtomic' ->
    try
       xqerl_types:value(xqerl_types:cast_as(At,'xs:QName',InScopeNamespaces))
    catch
-      _:E ->
-         ?dbg("E",E),
-         ?dbg("At",At),
-         ?dbg("InScopeNamespaces",InScopeNamespaces),
-         xqerl_error:error('XQDY0074')
+      _:_ ->
+         ?err('XQDY0074')
    end;
 ensure_qname(#xqAtomicValue{} = V, InScopeNamespaces) ->
    ?dbg("XPTY0004",{V, InScopeNamespaces}),
-   xqerl_error:error('XPTY0004');
+   ?err('XPTY0004');
 ensure_qname([H], InScopeNamespaces) ->
    ensure_qname(H, InScopeNamespaces);
-ensure_qname(List, InScopeNamespaces) when is_list(List) ->
-   case ?seq:from_list(List) of
-      [H] ->
-         ensure_qname(H, InScopeNamespaces);
-      _ ->
-         ?dbg("XPTY0004",{List, InScopeNamespaces}),
-         xqerl_error:error('XPTY0004')
-   end;
-   
 ensure_qname(QName, InScopeNamespaces) ->
    ?dbg("XPTY0004",{QName, InScopeNamespaces}),
-   xqerl_error:error('XPTY0004').
-   
+   ?err('XPTY0004').
 
-
-%% A namespace binding is created for each namespace declared in the current element constructor by a namespace declaration attribute.
-%% A namespace binding is created for each namespace node in the content sequence of the current element constructor.
-%% A namespace binding is created for each namespace that is declared in a namespace declaration attribute of an enclosing 
-%%   direct element constructor and not overridden by the current element constructor or an intermediate constructor.
-%% A namespace binding is always created to bind the prefix xml to the namespace URI http://www.w3.org/XML/1998/namespace.
-%% For each prefix used in the name of the constructed element or in the names of its attributes, a namespace binding must exist. 
-%%   If a namespace binding does not already exist for one of these prefixes, a new namespace binding is created for it. 
-%%   If this would result in a conflict, because it would require two different bindings of the same prefix, then the prefix used 
-%%   in the node name is changed to an arbitrary implementation-dependent prefix that does not cause such a conflict, and a 
-%%   namespace binding is created for this new prefix. If there is an in-scope default namespace, then a binding is created 
-%%   between the empty prefix and that URI.
+%% A namespace binding is created for each namespace declared in the current 
+%%   element constructor by a namespace declaration attribute.
+%% A namespace binding is created for each namespace node in the content 
+%%   sequence of the current element constructor.
+%% A namespace binding is created for each namespace that is declared in a 
+%%   namespace declaration attribute of an enclosing 
+%%   direct element constructor and not overridden by the current element 
+%%   constructor or an intermediate constructor.
+%% A namespace binding is always created to bind the prefix xml to the 
+%%   namespace URI http://www.w3.org/XML/1998/namespace.
+%% For each prefix used in the name of the constructed element or in the names 
+%%   of its attributes, a namespace binding must exist. 
+%%   If a namespace binding does not already exist for one of these prefixes, 
+%%   a new namespace binding is created for it. 
+%%   If this would result in a conflict, because it would require two different 
+%%   bindings of the same prefix, then the prefix used in the node name is 
+%%   changed to an arbitrary implementation-dependent prefix that does not 
+%%   cause such a conflict, and a namespace binding is created for this new 
+%%   prefix. If there is an in-scope default namespace, then a binding is 
+%%   created between the empty prefix and that URI.
 % return new in-scope namespaces
-augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, prefix = Px}}, InscopeNamespaces) ->
+augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, 
+                                                        prefix = Px}}, 
+                           InscopeNamespaces) ->
    % contructed names may bring in namepace binding
    NewNs = #xqNamespace{namespace = Ns, prefix = Px},
    AlreadyInScope = lists:member(NewNs, InscopeNamespaces),
-   %?dbg("NewNs",NewNs),
-   %?dbg("AlreadyInScope",AlreadyInScope),
-   %?dbg("InscopeNamespaces",InscopeNamespaces),
    if AlreadyInScope ->
          InscopeNamespaces;
       Px == [] andalso Ns == 'no-namespace' ->
@@ -253,10 +234,11 @@ augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, prefix =
       true -> % new binding
          PxList = [Px1 || #xqNamespace{prefix = Px1} <- InscopeNamespaces],
          PxAlreadyInUse = lists:member(Px, PxList),
-         %?dbg("PxList",PxList),
-         %?dbg("PxAlreadyInUse",PxAlreadyInUse),
          if Px == [] -> % default override from element
-               [NewNs|[Nx || #xqNamespace{prefix = Px1} = Nx <- InscopeNamespaces, Px1 =/= []]];
+               [NewNs|
+                  [Nx || 
+                   #xqNamespace{prefix = Px1} = Nx 
+                  <- InscopeNamespaces, Px1 =/= []]];
             PxAlreadyInUse == false ->
                [NewNs|InscopeNamespaces];
             true ->
@@ -270,9 +252,12 @@ augment_inscope_namespaces(#xqElementNode{name = #qname{namespace = Ns, prefix =
                end
          end
    end;
-augment_inscope_namespaces(#xqAttributeNode{name = Name} = Att, InscopeNamespaces) ->
-   #qname{namespace = Ns, prefix = Px, local_name = Ln} = ensure_qname(Name,InscopeNamespaces),
-   % attributes in namespaces unknown add the namespace to the inscopes, they do not override prefixes
+augment_inscope_namespaces(#xqAttributeNode{name = Name} = Att, 
+                           InscopeNamespaces) ->
+   #qname{namespace = Ns, prefix = Px, local_name = Ln} = 
+     ensure_qname(Name,InscopeNamespaces),
+   % attributes in namespaces unknown add the namespace to the inscopes, 
+   %  they do not override prefixes
    % catch overwrites of xml and xmlns namespaces here
    % errors on attribute
    if Px == "xmlns";
@@ -280,61 +265,55 @@ augment_inscope_namespaces(#xqAttributeNode{name = Name} = Att, InscopeNamespace
       Ns == "http://www.w3.org/2000/xmlns/";
       Px == "xml" andalso Ns =/= "http://www.w3.org/XML/1998/namespace";
       Ns == "http://www.w3.org/XML/1998/namespace" andalso Px =/= "xml" ->
-         xqerl_error:error('XQDY0044');
+         ?err('XQDY0044');
       true ->
          ok
    end,
    NewNs = #xqNamespace{namespace = Ns, prefix = Px},
    AlreadyInScope = lists:member(NewNs, InscopeNamespaces),
-   %?dbg("Name",Name),
-   %?dbg("NewNs",NewNs),
-   %?dbg("AlreadyInScope",AlreadyInScope),
-   %?dbg("InscopeNamespaces",InscopeNamespaces),
    if AlreadyInScope ->
          {Att,InscopeNamespaces};
       Px == [] andalso Ns == 'no-namespace' ->
          {Att,InscopeNamespaces};
-         %[#xqNamespace{prefix = Px,namespace = Ns}|InscopeNamespaces];
       true -> % new binding
          PxList = [Px1 || #xqNamespace{prefix = Px1} <- InscopeNamespaces],
          PxAlreadyInUse = lists:member(Px, PxList),
-         %?dbg("PxList",PxList),
-         %?dbg("PxAlreadyInUse",PxAlreadyInUse),
          if PxAlreadyInUse == false andalso Px =/= [] ->
                {Att,[NewNs|InscopeNamespaces]};
             true ->
                NewPx = xqerl_lib:next_comp_prefix(InscopeNamespaces),
                NewNs1 = NewNs#xqNamespace{prefix = NewPx},
-               %?dbg("NewNs1",NewNs1),
-               {Att#xqAttributeNode{name = #qname{namespace = Ns, prefix = NewPx, local_name = Ln}}, [NewNs1|InscopeNamespaces]}
+               {Att#xqAttributeNode{name = #qname{namespace = Ns, 
+                                                  prefix = NewPx, 
+                                                  local_name = Ln}}, 
+                [NewNs1|InscopeNamespaces]}
          end
    end;
 augment_inscope_namespaces(#xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, InscopeNamespaces) ->
    % namespace nodes overwrite prefix bindings
-   [#xqNamespace{namespace = Ns, prefix = Px}|lists:filter(fun(#xqNamespace{prefix = Px1}) ->
-                                                                 Px1 =/= Px
-                                                           end, InscopeNamespaces)];
+   Fil = lists:filter(fun(#xqNamespace{prefix = Px1}) ->
+                            Px1 =/= Px
+                      end, InscopeNamespaces),
+   [#xqNamespace{namespace = Ns, prefix = Px}|Fil];
 augment_inscope_namespaces(_, InscopeNamespaces) -> InscopeNamespaces.
-
 
 % returns {Children, Sz, Ctx3}
 handle_contents(Ctx, _Parent, [], _Ns, Sz) -> {[], Sz, Ctx};
 handle_contents(Ctx, _Parent, [undefined], _Ns, Sz) -> {[], Sz, Ctx};
 handle_contents(Ctx, Parent, Content, Ns, Sz) ->
-   Content0 = case Content of
+   Content1 = case Content of
                   _ when is_list(Content) ->
                      ?seq:flatten(Content);
                   C ->
                      [C]
                end,
-   Content1 = Content0,
    Fun = fun(Node, {Children, Sz1, Ctx1, LastType, _UsedAttNames}) ->
                Type = get_node_type(Node),
                case can_follow(LastType,Type) of
                   false ->
-                     xqerl_error:error('XQTY0024');
+                     ?err('XQTY0024');
                   _ ->
-                     {Id, Sz2,Ctx2} = handle_content(Ctx1, Parent, Node, Ns, Sz1),
+                     {Id, Sz2,Ctx2} = handle_content(Ctx1,Parent,Node,Ns,Sz1),
                      if is_list(Id) ->
                            {Id ++ Children, Sz2,Ctx2,Type,[]};
                         true ->
@@ -342,31 +321,34 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
                      end
                end
          end,
-   {Ids, Sz3,Ctx3,_Type,_UsedAtts} = lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
+   {Ids, Sz3,Ctx3,_Type,_UsedAtts} = 
+     lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
    {Ids, Sz3,Ctx3}.
 
 check_element_name(#qname{prefix = "xmlns"}) -> 
-   xqerl_error:error('XQDY0096');
+   ?err('XQDY0096');
 check_element_name(#qname{namespace = "http://www.w3.org/2000/xmlns/"}) -> 
-   xqerl_error:error('XQDY0096');
+   ?err('XQDY0096');
 check_element_name(#qname{namespace = TNs, 
-                          prefix = "xml"}) when TNs =/= "http://www.w3.org/XML/1998/namespace" -> 
-   xqerl_error:error('XQDY0096');
+                          prefix = "xml"}) 
+   when TNs =/= "http://www.w3.org/XML/1998/namespace" -> 
+   ?err('XQDY0096');
 check_element_name(#qname{namespace = "http://www.w3.org/XML/1998/namespace", 
-                          prefix = TPx}) when TPx =/= "xml" -> 
-   xqerl_error:error('XQDY0096');
+                          prefix = TPx}) 
+   when TPx =/= "xml" -> 
+   ?err('XQDY0096');
 check_element_name(_) ->
    ok.
 
 check_attribute_names(AttributeNodes) ->
-   Names = [{Ns,Ln} || #xqAttributeNode{name = #qname{namespace = Ns, local_name = Ln}} <- AttributeNodes],
+   Names = [{Ns,Ln} || 
+            #xqAttributeNode{name = #qname{namespace = Ns, local_name = Ln}} 
+           <- AttributeNodes],
    OK = length(lists:sort(Names)) == length(lists:usort(Names)),
-   %?dbg("AttributeNodes",AttributeNodes),
-   %?dbg("Names",Names),
    if OK ->
          ok;
       true ->
-         xqerl_error:error('XQDY0025')
+         ?err('XQDY0025')
    end.
    
 ensure_content(undefined) -> [];
@@ -375,12 +357,13 @@ ensure_content(Content) ->
    [Content]. % leave sequences alone, they get atomized
 
 merge_inscope_namespaces(StaticInScopeNs,InScopeNs) ->
-   InScopeNs ++ lists:filter(fun(#xqNamespace{namespace = NS1, prefix = PX1}) ->
-                                   not lists:any(fun(#xqNamespace{namespace = NS2, prefix = PX2}) ->
-                                                       NS1 == NS2 orelse PX1 == PX2
-                                                 end , InScopeNs)
-                             end, StaticInScopeNs).
-
+   A = fun(#xqNamespace{namespace = NS1, prefix = PX1}) ->
+             B = fun(#xqNamespace{namespace = NS2, prefix = PX2}) ->
+                       NS1 == NS2 orelse PX1 == PX2
+                 end,
+             not lists:any(B, InScopeNs)
+       end,
+   InScopeNs ++ lists:filter(A, StaticInScopeNs).
 
 % returns {Id, Sz,Ctx2}
 handle_content(#{'base-uri' := BU,
@@ -388,10 +371,10 @@ handle_content(#{'base-uri' := BU,
                Parent, #xqElementNode{name = QName,
                                       inscope_ns = ElemNs,
                                       attributes = Atts, 
-                                      expr = Content} = N, InScopeNs0, Sz) ->
-   %?dbg("InScopeNs0",InScopeNs0),
-   %?dbg("ElemNs",ElemNs),
-   % direct constructors have their namespaces in attributes, constructed are in expr
+                                      expr = Content} = N, 
+               InScopeNs0, Sz) ->
+   % direct constructors have their namespaces in attributes, 
+   % constructed are in expr
    
    % merge static namespaces into the inscope
    InScopeNs = merge_inscope_namespaces(ElemNs,InScopeNs0),
@@ -423,70 +406,79 @@ handle_content(#{'base-uri' := BU,
 
    ElemQName = ensure_qname(QName, InScopeNs1),
    
-   InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName}, InScopeNs1),
+   InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName}, 
+                                           InScopeNs1),
 
-   Content2 = merge_content(Ctx, RestNodes, InScopeNs2), %this will copy in any nodes
+   %this will copy in any nodes
+   Content2 = merge_content(Ctx, RestNodes, InScopeNs2),
    
-   {Content3,InScopeNs3} = lists:mapfoldl(fun(#xqAttributeNode{name = Q} = NsN, Is) ->
-                                                    NewQ = ensure_qname(Q, InScopeNs1),
-                                                    augment_inscope_namespaces(NsN#xqAttributeNode{name = NewQ}, Is);
-                                             (O, Is) ->
-                                                    {O, Is}
-                                              end, InScopeNs2, Content2),
-   %?dbg("{AttributeNodes2,InScopeNs3}",{AttributeNodes2,InScopeNs3}),
+   Fld1 = fun(#xqAttributeNode{name = Q} = NsN, Is) ->
+                NewQ = ensure_qname(Q, InScopeNs1),
+                augment_inscope_namespaces(
+                  NsN#xqAttributeNode{name = NewQ}, Is);
+             (O, Is) ->
+                {O, Is}
+          end,
+   {Content3,InScopeNs3} = lists:mapfoldl(Fld1, InScopeNs2, Content2),
+
    AttributeNodes2 = [X || X <- Content3, is_record(X, xqAttributeNode)],
    ok = check_attribute_names(AttributeNodes2),
-   %Content4 = [C || C <- Content3, not is_record(C, xqElementNode)],
-%%    MaybeDefault = if Parent == 0 andalso
-%%                        ElemQName#qname.prefix == [] andalso
-%%                        ElemQName#qname.namespace =/= 'no-namespace' ->
-%%                         [#xqNamespace{namespace = ElemQName#qname.namespace,prefix = []}];
-%%                      true ->
-%%                         []
-%%                   end,
-   NewNss = lists:filter(fun(#xqNamespace{namespace = Ns}) when Parent == 0, Ns =/= 'no-namespace' ->
-                               not lists:any(fun(#xqNamespaceNode{name = #qname{namespace = ImNs}}) ->
-                                                   ImNs == Ns
-                                             end, NamespaceNodes);                               
-                            (#xqNamespace{prefix = [],namespace = Ns}) ->
-                               not lists:keymember(Ns, #xqNamespace.namespace, InScopeNs0);
-                            (#xqNamespace{prefix = P1}) ->
-                               not lists:keymember(P1, #xqNamespace.prefix, InScopeNs0)                            
-                         end, InScopeNs3),
-   ImplNamespaces = lists:filtermap(fun(#xqNamespace{namespace = ImNs, prefix = ImPx}) ->
-                                          Done = lists:any(fun(#xqNamespaceNode{name = #qname{namespace = InnerNs, prefix = InnerPx}}) ->
-                                                          InnerNs == ImNs andalso InnerPx == ImPx;
-                                                       (_) ->
-                                                          false
-                                                    end,Content3 ++ NamespaceNodes),
-                                          if Done ->
-                                                false;
-                                             true ->
-                                                if ImPx == undefined ->
-                                                      {true,#xqNamespaceNode{name =#qname{namespace = ImNs,
-                                                                                           prefix = xqerl_lib:next_comp_prefix(InScopeNs3)}}};
-                                                   true ->
-                                                      {true,#xqNamespaceNode{name = #qname{namespace = ImNs,prefix = ImPx}}}
-                                                end
-                                          end
-                                    end, NewNss),
-   %?dbg("ImplNamespaces",ImplNamespaces),
-   %?dbg("ElemQName",ElemQName),
-   %?dbg("NewNss",NewNss),
-   %?dbg("InScopeNs3",InScopeNs3),
-   %?dbg("InScopeNs0",InScopeNs0),
-   %?dbg("Content3",Content3),
-   %?dbg("Content4",Content4),
+   
+   Fil1 = fun(#xqNamespace{namespace = Ns}) 
+                when Parent == 0, Ns =/= 'no-namespace' ->
+                not lists:any(
+                  fun(#xqNamespaceNode{name = #qname{namespace = ImNs}}) ->
+                        ImNs == Ns
+                  end, NamespaceNodes);
+             (#xqNamespace{prefix = [],namespace = Ns}) ->
+                not lists:keymember(Ns, #xqNamespace.namespace, InScopeNs0);
+             (#xqNamespace{prefix = P1}) ->
+                not lists:keymember(P1, #xqNamespace.prefix, InScopeNs0)
+          end,
+   NewNss = lists:filter(Fil1, InScopeNs3),
+   Flm1 = fun(#xqNamespace{namespace = ImNs, prefix = ImPx}) ->
+                A1 = fun(#xqNamespaceNode{name = 
+                                            #qname{namespace = InnerNs,
+                                                   prefix = InnerPx}}) ->
+                               InnerNs =:= ImNs andalso InnerPx =:= ImPx;
+                            (_) ->
+                               false
+                         end,
+                Done = lists:any(A1, Content3 ++ NamespaceNodes),
+                if Done ->
+                      false;
+                   true ->
+                      if ImPx == undefined ->
+                            Nxt = xqerl_lib:next_comp_prefix(InScopeNs3),
+                            {true,
+                             #xqNamespaceNode{name = 
+                                                #qname{namespace = ImNs,
+                                                       prefix = Nxt}}};
+                         true ->
+                            {true,#xqNamespaceNode{name = 
+                                                     #qname{namespace = ImNs,
+                                                            prefix = ImPx}}}
+                      end
+                end
+          end,
+   ImplNamespaces = lists:filtermap(Flm1, NewNss),
    ok = check_computed_default_override(ElemQName, ComputNamespaces1),
    
    ok = check_element_name(ElemQName),
    % base-uri will come from the children
-   NewBase = ?seq:flatten([Uri || #xqAttributeNode{name = #qname{namespace = "http://www.w3.org/XML/1998/namespace", 
-                                                                  local_name = "base"}, expr = Uri} <- Content3]),
+   Base1 = [Uri || 
+            #xqAttributeNode{name =
+                               #qname{namespace = 
+                                        "http://www.w3.org/XML/1998/namespace",
+                                      local_name = "base"}, 
+                             expr = Uri} <- Content3],
+   NewBase = ?seq:flatten(Base1),
    BU1 = if NewBase == [] ->
                BU;
             true ->
-               Path = xqerl_lib:resolve_against_base_uri(xqerl_types:value(BU),xqerl_types:value(hd(NewBase)) ),
+               Path = xqerl_lib:resolve_against_base_uri(
+                        xqerl_types:value(BU),
+                        xqerl_types:value(hd(NewBase))),
                #xqAtomicValue{type = 'xs:anyURI', value = Path}
          end,
    ElemQName1 = resolve_namespace(ElemQName, InScopeNs3),
@@ -498,7 +490,10 @@ handle_content(#{'base-uri' := BU,
                           attributes = undefined, 
                           inscope_ns = InScopeNs3},
    Ctx2 = (add_node(Ctx1, Id, Node)),
-   {Children, Sz1, Ctx3} = handle_contents(Ctx2#{'base-uri' := BU1}, Id, ImplNamespaces ++ NamespaceNodes ++ Content3, InScopeNs3, 0),
+   {Children, Sz1, Ctx3} = 
+     handle_contents(Ctx2#{'base-uri' := BU1}, 
+                     Id, ImplNamespaces ++ NamespaceNodes ++ Content3, 
+                     InScopeNs3, 0),
    Ctx4 = (set_node_children(Ctx3, Id, Children, Sz1)),
    {Id, Sz1 + Sz + 1,Ctx4};
 
@@ -506,11 +501,9 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
    {Id,Ctx1} = next_id(Ctx),
    Content1 = [Content],
    Content2 = merge_content(Ctx, Content1, INs),
-   %?dbg("Content1",Content1),
-   %?dbg("Content2",Content2),
    % no attributes on documents
    _ = lists:foreach(fun(#xqAttributeNode{}) ->
-                           xqerl_error:error('XPTY0004');
+                           ?err('XPTY0004');
                         (_) ->
                            ok
                      end, Content2),
@@ -520,20 +513,20 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
    Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
    {Id, Sz1 + Sz + 1,Ctx4};
 
-handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, InScopeNs, Sz) ->
+handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
+               InScopeNs, Sz) ->
    {Id,Ctx1} = next_id(Ctx),
    Content2 = merge_text_content(Content),
    AttQName = ensure_qname(QName, InScopeNs),
-   {N1,_} = augment_inscope_namespaces(N#xqAttributeNode{name = AttQName}, InScopeNs),
+   {N1,_} = augment_inscope_namespaces(N#xqAttributeNode{name = AttQName}, 
+                                       InScopeNs),
    #xqAttributeNode{name = AttQName1} = N1,
-   %?dbg("AttQName ",AttQName ),
-   %?dbg("AttQName1",AttQName1),
    Expr = case AttQName1 of
              #qname{namespace = _, prefix = "xml", local_name = "id"} ->
                 try
                   xqerl_types:cast_as(Content2,'xs:ID')
                 catch _:_ ->
-                  xqerl_error:error('XQDY0091')
+                  ?err('XQDY0091')
                 end;
              #qname{namespace = _, prefix = "xml", local_name = "space"} ->
                StrVal = xqerl_types:cast_as(Content2,'xs:string'),
@@ -543,7 +536,7 @@ handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
                   "default" ->
                      StrVal;
                   _ ->
-                     xqerl_error:error('XQDY0092')
+                     ?err('XQDY0092')
                end;
              #qname{namespace = _, prefix = "xml", local_name = "lang"} ->
                 Content2;
@@ -557,14 +550,17 @@ handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
              _ ->
                 Content2
           end,
-   Node = N1#xqAttributeNode{identity = Id, parent_node = Parent, name = AttQName1, expr = Expr},
+   Node = N1#xqAttributeNode{identity = Id, 
+                             parent_node = Parent, 
+                             name = AttQName1, 
+                             expr = Expr},
    Ctx3 = add_node(Ctx1, Id, Node),
    {Id, Sz + 1, Ctx3};
 
-handle_content(Ctx, Parent, #xqNamespaceNode{name = QName} = N, InScopeNamespaces, Sz) ->
+handle_content(Ctx, Parent, #xqNamespaceNode{name = QName} = N, 
+               InScopeNamespaces, Sz) ->
    % check if there is an inscope namespace with the same URI, use it's prefix
    {Id,Ctx1} = next_id(Ctx),
-   %?dbg("Id",Id),
    NsName = ensure_qname(QName, InScopeNamespaces),
    _ = check_computed_namespaces([N]),
    Node = N#xqNamespaceNode{identity = Id, 
@@ -573,10 +569,13 @@ handle_content(Ctx, Parent, #xqNamespaceNode{name = QName} = N, InScopeNamespace
    Ctx2 = add_node(Ctx1, Id, Node),
    {Id, Sz + 1, Ctx2};
 
-handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, expr = E, base_uri = _BU} = N, _INs, Sz) ->
+handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, 
+                                                         expr = E, 
+                                                         base_uri = _BU} = N, 
+               _INs, Sz) ->
    TExpr = string:trim(xqerl_types:string_value(E), leading),
-   case string:str(TExpr, "?>") of
-      0 ->
+   case string:find(TExpr, "?>") of
+      nomatch ->
          QName0 = if is_list(QName) ->
                         ?seq:singleton_value(QName);
                      true ->
@@ -586,40 +585,47 @@ handle_content(Ctx, Parent, #xqProcessingInstructionNode{name = QName, expr = E,
                      #qname{} ->
                         case string:lowercase(QName0#qname.local_name) of
                            "xml" ->
-                              xqerl_error:error('XQDY0064');
+                              ?err('XQDY0064');
                            _ ->
                               QName0
                         end;
-                     #xqAtomicValue{type = AT, value = _Val} when AT == 'xs:string';
-                                                                 AT == 'xs:untypedAtomic' ->
-                        try xqerl_types:value(xqerl_types:cast_as(QName0,'xs:NCName')) of
+                     #xqAtomicValue{type = AT, value = _Val} 
+                        when AT =:= 'xs:string';
+                             AT =:= 'xs:untypedAtomic' ->
+                        try 
+                           xqerl_types:value(
+                             xqerl_types:cast_as(QName0,'xs:NCName')) 
+                        of
                            L ->
                               case string:lowercase(L) of
                                  "xml" ->
-                                    xqerl_error:error('XQDY0064');
+                                    ?err('XQDY0064');
                                  _ ->
                                     #qname{local_name = L}
                               end
                         catch
                            _:_ ->
-                              xqerl_error:error('XQDY0041')
+                              ?err('XQDY0041')
                         end;
                      #xqAtomicValue{type = 'xs:QName', value = Q} ->
                         case string:lowercase(Q#qname.local_name) of
                            "xml" ->
-                              xqerl_error:error('XQDY0064');
+                              ?err('XQDY0064');
                            _ ->
                               Q
                         end;
                      _ ->
-                        xqerl_error:error('XPTY0004')
+                        ?err('XPTY0004')
                   end,
          {Id,Ctx1} = next_id(Ctx),
-         Node = N#xqProcessingInstructionNode{identity = Id, parent_node = Parent, name = QName1, expr = ?str(TExpr)},
+         Node = N#xqProcessingInstructionNode{identity = Id, 
+                                              parent_node = Parent, 
+                                              name = QName1, 
+                                              expr = ?str(TExpr)},
          Ctx2 = add_node(Ctx1, Id, Node),
          {Id, Sz + 1, Ctx2};
       _ ->
-         xqerl_error:error('XQDY0026')
+         ?err('XQDY0026')
    end;
 
 handle_content(Ctx, Parent, #xqCommentNode{expr = E} = N, _INs, Sz) ->
@@ -629,17 +635,18 @@ handle_content(Ctx, Parent, #xqCommentNode{expr = E} = N, _INs, Sz) ->
              true ->
                 hd(lists:reverse(Str))
           end,         
-   case string:str(Str, "--") == 0 andalso Last =/= $- of
+   case string:find(Str, "--") == nomatch andalso Last =/= $- of
       true ->
          {Id,Ctx1} = next_id(Ctx),
          Node = N#xqCommentNode{identity = Id, parent_node = Parent},
          Ctx2 = add_node(Ctx1, Id, Node),
          {Id, Sz + 1, Ctx2};
       _ ->
-         xqerl_error:error('XQDY0072')
+         ?err('XQDY0072')
    end;
 
-handle_content(Ctx, Parent, #xqTextNode{expr = Content, cdata = C} = N, _INs, Sz) ->
+handle_content(Ctx, Parent, #xqTextNode{expr = Content, 
+                                        cdata = C} = N, _INs, Sz) ->
    Content1 = maybe_merge_text_seq(Content),
    Content2 = merge_text_content(Content1),
    case Content2 == [] of
@@ -653,7 +660,9 @@ handle_content(Ctx, Parent, #xqTextNode{expr = Content, cdata = C} = N, _INs, Sz
          {Id, Sz + 1, Ctx2};
       _ ->
          {Id,Ctx1} = next_id(Ctx),
-         Node = N#xqTextNode{identity = Id, parent_node = Parent, expr = Content2},
+         Node = N#xqTextNode{identity = Id, 
+                             parent_node = Parent, 
+                             expr = Content2},
          Ctx2 = add_node(Ctx1, Id, Node),
          {Id, Sz + 1, Ctx2}
    end;
@@ -693,12 +702,9 @@ add_node(#{nodes := Nodes} = Ctx, Id, Node) ->
    NewNodes = Nodes#{Id => Node},
    Ctx#{nodes := NewNodes}.
 
-get_nodes(#{nodes := Nodes}) ->
-   Nodes.
+get_nodes(#{nodes := Nodes}) -> Nodes.
 
-get_frag_id(Ctx) ->
-   maps:get(frag_id, Ctx).
-
+get_frag_id(#{frag_id := F}) -> F.
 
 % returns new Ctx
 set_node_children(Ctx, Id, Children, Sz) ->
@@ -716,9 +722,13 @@ set_node_children(Ctx, Id, Children, Sz) ->
            end,
    add_node(Ctx,Id, Node2).
 
-resolve_namespace(#qname{namespace = Ns, prefix = LPx} = QName, InscopeNamespaces) ->
+resolve_namespace(#qname{namespace = Ns, 
+                         prefix = LPx} = QName, InscopeNamespaces) ->
    %check if there is a new prefix for the namespace
-   Px1 = [Px || #xqNamespace{namespace = Ns1, prefix = Px} <- InscopeNamespaces, Ns1 == Ns],
+   Px1 = [Px || 
+          #xqNamespace{namespace = Ns1, prefix = Px} 
+         <- InscopeNamespaces, 
+                Ns1 == Ns],
    case Px1 of
       [H] ->
          QName#qname{prefix = H};
@@ -731,11 +741,6 @@ resolve_namespace(#qname{namespace = Ns, prefix = LPx} = QName, InscopeNamespace
          end
    end.
 
-%% resolve_attribute_namespace(#qname{prefix = []} = QName, _Ns) -> 
-%%    QName#qname{namespace = 'no-namespace'};
-%% resolve_attribute_namespace(QName, Ns) ->
-%%    resolve_namespace(QName, Ns).
-
 merge_content(_,[],_) ->
    [];
 merge_content(Ctx, Content, InscopeNamespaces) when is_list(Content) ->
@@ -743,8 +748,11 @@ merge_content(Ctx, Content, InscopeNamespaces) when is_list(Content) ->
    L = expand_nodes(Content,CopyNsPreserve,InscopeNamespaces),
    merge_content(L, []).
 
-strip_unused_namespaces([#xqElementNode{name = #qname{namespace = ENs}, expr = ChildContent, inscope_ns = EIsNs} = E | T]) ->
-   InUseNs = [ENs|[ANs || #xqAttributeNode{name = #qname{namespace = ANs}} <- ChildContent]],
+strip_unused_namespaces([#xqElementNode{name = #qname{namespace = ENs}, 
+                                        expr = ChildContent, 
+                                        inscope_ns = EIsNs} = E | T]) ->
+   InUseNs = [ENs|[ANs || #xqAttributeNode{name = #qname{namespace = ANs}} 
+                  <- ChildContent]],
    FiltFun = fun(#xqNamespaceNode{name = #qname{namespace = NsNs}}) ->
                    lists:member(NsNs, InUseNs);
                 (_) ->
@@ -758,7 +766,8 @@ strip_unused_namespaces([#xqElementNode{name = #qname{namespace = ENs}, expr = C
    NewContent = lists:filter(FiltFun, ChildContent),
    NewContent1 = strip_unused_namespaces(NewContent),
    NewEIsNs = lists:filter(FiltFun2, EIsNs),
-   [E#xqElementNode{expr = NewContent1, inscope_ns = NewEIsNs} | strip_unused_namespaces(T)];
+   [E#xqElementNode{expr = NewContent1, inscope_ns = NewEIsNs} | 
+      strip_unused_namespaces(T)];
 strip_unused_namespaces([H|T]) ->
    [H|strip_unused_namespaces(T)];
 strip_unused_namespaces([]) ->
@@ -772,8 +781,6 @@ expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces) ->
                     Content
               end,
    Content1 ++ expand_nodes(T,Preserve,Namespaces);
-%% expand_nodes([List],Preserve,Namespaces) when is_list(List) ->
-%%    expand_nodes(List,Preserve,Namespaces);
 expand_nodes([#array{data = H}|T],Preserve,Namespaces) ->
    expand_nodes(H++T,Preserve,Namespaces);
 expand_nodes([#xqFunction{}|_],_,_) ->
@@ -792,17 +799,21 @@ merge_content([H1,#xqNode{} = Node|T], Acc) ->
    Content = node_to_content(Node),
    merge_content([H1|Content] ++ T, Acc);
 % empty strings ignored
-merge_content([#xqAtomicValue{type = Type, value = []}|T], Acc) when Type =/= 'xs:untypedAtomic' ->
+merge_content([#xqAtomicValue{type = Type, value = []}|T], Acc) 
+   when Type =/= 'xs:untypedAtomic' ->
    merge_content(T, Acc);
-merge_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:untypedAtomic' ->
+merge_content([#xqAtomicValue{type = Type} = H|T], Acc) 
+   when Type =/= 'xs:untypedAtomic' ->
    NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
    merge_content([NewH|T], Acc);
 merge_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = St1 ++ " " ++ St2,
-   merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', value = Str3}|T], Acc);
-merge_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) when Type == 'xs:untypedAtomic' ->
+   merge_content([#xqAtomicValue{type = 'xs:untypedAtomic', 
+                                 value = Str3}|T], Acc);
+merge_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) 
+   when Type == 'xs:untypedAtomic' ->
    merge_content([], [#xqTextNode{expr = Expr}|Acc]);
 merge_content([#xqAtomicValue{} = H1,H2|T], Acc) ->
    Node = #xqTextNode{expr = H1},
@@ -848,7 +859,8 @@ maybe_merge_seq(Seq) ->
 
 maybe_merge_seq([],Acc) ->
    lists:reverse(Acc);
-maybe_merge_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,#xqAtomicValue{} = H2|T], Acc) ->
+maybe_merge_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,
+                 #xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = lists:concat([St1," ",St2]),
@@ -865,7 +877,8 @@ maybe_merge_text_seq(Seq) -> maybe_merge_text_seq([Seq]).
 maybe_merge_text_seq([],Acc) ->
    lists:reverse(Acc);
 maybe_merge_text_seq([#xqElementNode{expr = []}|T], Acc) ->
-   maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic',value = ""}|T],Acc);
+   maybe_merge_text_seq(
+     [#xqAtomicValue{type = 'xs:untypedAtomic',value = ""}|T],Acc);
 maybe_merge_text_seq([#xqElementNode{} = H|T], Acc) ->
    maybe_merge_text_seq([atomize_node(H)|T],Acc);
 maybe_merge_text_seq([#xqAttributeNode{} = H|T], Acc) ->
@@ -876,13 +889,16 @@ maybe_merge_text_seq([#xqProcessingInstructionNode{} = H|T], Acc) ->
    maybe_merge_text_seq([atomize_node(H)|T],Acc);
 maybe_merge_text_seq([#xqTextNode{} = H|T], Acc) ->
    maybe_merge_text_seq([atomize_node(H)|T],Acc);
-maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,#xqAtomicValue{} = H2|T], Acc) ->
+maybe_merge_text_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H1,
+                      #xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = lists:concat([St1," ",St2]),
    maybe_merge_text_seq([?untyp(Str3)|T], Acc);
-maybe_merge_text_seq([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:untypedAtomic' ->
-   maybe_merge_text_seq([xqerl_types:cast_as(H, 'xs:untypedAtomic')|T],Acc);
+maybe_merge_text_seq([#xqAtomicValue{type = Type} = H|T], Acc) 
+   when Type =/= 'xs:untypedAtomic' ->
+   maybe_merge_text_seq(
+     [xqerl_types:cast_as(H, 'xs:untypedAtomic')|T],Acc);
 maybe_merge_text_seq([H|T], Acc) ->
    case is_list(H) of
       true when H == [], Acc == [] ->
@@ -931,7 +947,8 @@ merge_text_content([#xqProcessingInstructionNode{} = H|T], Acc) ->
    Atomized = atomize_node(H),
    merge_text_content(T, [Atomized | Acc]);
 
-merge_text_content([#xqAtomicValue{type = Type} = H|T], Acc) when Type =/= 'xs:untypedAtomic' ->
+merge_text_content([#xqAtomicValue{type = Type} = H|T], Acc) 
+   when Type =/= 'xs:untypedAtomic' ->
    NewH = xqerl_types:cast_as(H, 'xs:untypedAtomic'),
    merge_text_content([NewH|T], Acc);
 
@@ -939,16 +956,19 @@ merge_text_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:untypedAtomic')),
    Str3 = St1 ++ St2,
-   merge_text_content([#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
+   merge_text_content(
+     [#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
 
 merge_text_content([#xqAtomicValue{} = H1, #xqNode{} = Node|T], Acc) ->
    Atomized = [atomize_node(Node)],
    merge_text_content([H1|Atomized] ++ T, Acc);
 
-merge_text_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) when Type == 'xs:untypedAtomic' ->
+merge_text_content([#xqAtomicValue{type = Type, value = _Val} = Expr], Acc) 
+   when Type == 'xs:untypedAtomic' ->
    merge_text_content([], [Expr|Acc]);
 
-merge_text_content([#xqAtomicValue{} = H1,#xqElementNode{expr = Expr}|T], Acc) ->
+merge_text_content([#xqAtomicValue{} = H1,
+                    #xqElementNode{expr = Expr}|T], Acc) ->
    E1 = if Expr == [] ->
               [#xqAtomicValue{type = 'xs:untypedAtomic', value = ""}];
            is_list(Expr) ->
@@ -957,28 +977,32 @@ merge_text_content([#xqAtomicValue{} = H1,#xqElementNode{expr = Expr}|T], Acc) -
              [Expr]
         end,
    merge_text_content([H1|E1]++T, Acc);
-merge_text_content([#xqAtomicValue{} = H1,#xqAttributeNode{expr = Expr}|T], Acc) ->
+merge_text_content([#xqAtomicValue{} = H1,
+                    #xqAttributeNode{expr = Expr}|T], Acc) ->
    E1 = if is_list(Expr) ->
               Expr;
            true ->
              [Expr]
         end,
    merge_text_content([H1|E1]++T, Acc);
-merge_text_content([#xqAtomicValue{} = H1,#xqCommentNode{expr = Expr}|T], Acc) ->
+merge_text_content([#xqAtomicValue{} = H1,
+                    #xqCommentNode{expr = Expr}|T], Acc) ->
    E1 = if is_list(Expr) ->
               Expr;
            true ->
              [Expr]
         end,
    merge_text_content([H1|E1]++T, Acc);
-merge_text_content([#xqAtomicValue{} = H1,#xqTextNode{expr = Expr}|T], Acc) ->
+merge_text_content([#xqAtomicValue{} = H1,
+                    #xqTextNode{expr = Expr}|T], Acc) ->
    E1 = if is_list(Expr) ->
               Expr;
            true ->
              [Expr]
         end,
    merge_text_content([H1|E1]++T, Acc);
-merge_text_content([#xqAtomicValue{} = H1,#xqProcessingInstructionNode{expr = Expr}|T], Acc) ->
+merge_text_content([#xqAtomicValue{} = H1,
+                    #xqProcessingInstructionNode{expr = Expr}|T], Acc) ->
    E1 = if is_list(Expr) ->
               Expr;
            true ->
@@ -1020,7 +1044,8 @@ merge_text_content([#xqDocumentNode{expr = E}|T], Acc) ->
    merge_text_content([E|T], Acc);
 merge_text_content([#xqElementNode{expr = E}|T], Acc) ->
    if E == [] ->
-         merge_text_content([#xqAtomicValue{type = 'xs:untypedAtomic', value = ""}|T], Acc);
+         merge_text_content(
+           [#xqAtomicValue{type = 'xs:untypedAtomic', value = ""}|T], Acc);
       true ->
          merge_text_content([E|T], Acc)
    end;
@@ -1045,7 +1070,7 @@ get_node_hash(#xqNode{doc = {doc,File}} = Node) ->
 get_node_hash(#xqNode{} = Node) ->
    erlang:phash(Node, 4294967296);
 get_node_hash(_NonNode) ->
-   xqerl_error:error('XPTY0004').
+   ?err('XPTY0004').
 
 % string values  nodes as the correct type
 atomize_nodes(List) when is_list(List) ->
@@ -1076,7 +1101,8 @@ atomize_node(#xqElementNode{expr = S}) -> atomize_node(S);
 atomize_node(#xqAttributeNode{expr = S}) -> ?untyp(xqerl_types:string_value(S));
 atomize_node(#xqNamespaceNode{name = #qname{namespace = S}}) -> ?str(S);
 atomize_node(#xqNamespace{namespace = S}) -> ?str(S);
-atomize_node(#xqProcessingInstructionNode{expr = S}) -> ?str(string:trim(xqerl_types:string_value(S), leading));
+atomize_node(#xqProcessingInstructionNode{expr = S}) -> 
+   ?str(string:trim(xqerl_types:string_value(S), leading));
 atomize_node(#xqCommentNode{expr = S}) -> ?str(xqerl_types:string_value(S));
 atomize_node(#xqTextNode{expr = S}) -> ?untyp(xqerl_types:string_value(S)).
 
@@ -1118,11 +1144,14 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
          Name1 == Name2
             andalso
          begin
-            Val1 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc1, Node1)),
-            Val2 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc2, Node2)),
-            ?dbg("Val1",Val1),
-            ?dbg("Val2",Val2),
-            xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true)
+            Val1 = xqerl_lib:decode_string(
+                     xqerl_xdm:dm_string_value(Doc1, Node1)),
+            Val2 = xqerl_lib:decode_string(
+                     xqerl_xdm:dm_string_value(Doc2, Node2)),
+            %?dbg("Val1",Val1),
+            %?dbg("Val2",Val2),
+            xqerl_operators:equal(?str(Val1),
+                                  ?str(Val2),Collation) == ?bool(true)
          end;
       Type1 == text andalso Type2 == text ->
          Val1 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc1, Node1)),
@@ -1132,7 +1161,8 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
          Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),
          Val2 = xqerl_xdm:dm_string_value(Doc2, Node2),
          xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
-      Type1 == 'processing-instruction' andalso Type2 == 'processing-instruction' ->
+      Type1 == 'processing-instruction' andalso 
+        Type2 == 'processing-instruction' ->
          Name1 = xqerl_xdm:dm_node_name(Doc1, Node1),
          Name2 = xqerl_xdm:dm_node_name(Doc2, Node2),
          Name1 == Name2
@@ -1158,8 +1188,8 @@ nodes_equal(#xqNode{doc = {doc,File}} = N1,#xqNode{} = N2,C) ->
 nodes_equal(#xqNode{} = N2,#xqNode{doc = {doc,File}} = N1,C) ->
    Doc = ?get({doc,File}),
    nodes_equal(N2,N1#xqNode{doc = Doc},C);
-nodes_equal(#xqNode{doc = Doc1,node = Node1},#xqNode{doc = Doc2,node = Node2},Collation) ->
-   %?dbg("{Node1,Node2}",{Node1,Node2}),
+nodes_equal(#xqNode{doc = Doc1,node = Node1},
+            #xqNode{doc = Doc2,node = Node2},Collation) ->
    Eq = nodes_equal(Doc1,Node1,Doc2,Node2,Collation),
    ?bool(Eq).
 
@@ -1185,9 +1215,6 @@ get_comparable_child_nodes(Doc,Node) ->
     T =/= comment,
     T =/= 'processing-instruction'].
 
-
-%% to_xml({Map,Bin}) when is_map(Map), is_binary(Bin) ->
-%%    to_xml(#xqNode{doc = Map, node = Bin});
 to_xml(#xqError{} = E) ->
    E;
 to_xml(N) when is_list(N) ->
@@ -1235,14 +1262,14 @@ to_xml(element, Node, Doc) ->
    if ChldStr == [] ->
          "<" ++ ser_qname(QName) ++ NspStr ++ AttStr ++ "/>";
       true ->
-         "<" ++ ser_qname(QName) ++ NspStr ++ AttStr ++ ">" ++ ChldStr ++ "</" ++ ser_qname(QName) ++ ">" 
+         "<" ++ ser_qname(QName) ++ NspStr ++ AttStr ++ ">" ++ 
+           ChldStr ++ "</" ++ ser_qname(QName) ++ ">" 
    end;
 to_xml(attribute,Node, Doc) ->
    StrV = xqerl_xdm:dm_string_value(Doc, Node),
    {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
    Px = xqerl_xdm:prefix(Doc, Node),
    QName = #qname{namespace = Ns, prefix = Px, local_name = Ln},
-   %?dbg("QName",QName),
    " " ++ ser_qname(QName) ++ "=\"" ++ encode_att_text(StrV) ++ "\"";
 to_xml('processing-instruction',Node, Doc) ->
    {_, Local} = xqerl_xdm:dm_node_name(Doc, Node),
@@ -1253,7 +1280,9 @@ to_xml('processing-instruction',Node, Doc) ->
          "<?" ++ Local ++ " " ++ Txt ++ "?>"
    end;
 % namespace nodes can be here as records and not binary
-to_xml(namespace,#xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, _Doc) ->
+to_xml(namespace,
+       #xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, 
+       _Doc) ->
    if Px == "xml" ->
          "";
       true ->
@@ -1278,7 +1307,8 @@ to_xml(namespace,Node, Doc) ->
            [] ->
               []
         end,
-   to_xml(namespace,#xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, Doc);
+   to_xml(namespace,#xqNamespaceNode{name = #qname{namespace = Ns, 
+                                                   prefix = Px}}, Doc);
 to_xml(comment, Node, Doc) ->
    "<!--" ++ xqerl_xdm:dm_string_value(Doc, Node) ++ "-->";
 to_xml(text,Node, Doc) ->
@@ -1342,66 +1372,69 @@ ser_qname(#qname{prefix = Px, local_name = Ln}) ->
    end ++ Ln.
 
 check_computed_namespaces(NameSpaceNodes) ->
-   Namespaces = [{P,xqerl_types:value(N)} || #xqNamespaceNode{name=#qname{namespace = N, prefix = P}} <- NameSpaceNodes],
-   %?dbg("check_computed_namespaces",NameSpaceNodes),
+   Namespaces = [{P,xqerl_types:value(N)} || 
+                 #xqNamespaceNode{name=#qname{namespace = N, prefix = P}} 
+                <- NameSpaceNodes],
    Unique = lists:usort(Namespaces),
    Prefixes = lists:usort([P || {P,_} <- Unique]),
-   %?dbg("Unique",Unique),
-   %?dbg("Prefixes",length(Unique) =/= length(Prefixes)),
    if length(Unique) =/= length(Prefixes) ->
-         xqerl_error:error('XQDY0102');
+         ?err('XQDY0102');
       true ->
-         lists:foreach(fun({"xml",Ns}) when Ns =/= "http://www.w3.org/XML/1998/namespace" ->
-                             xqerl_error:error('XQDY0101');
-                          ({Px,"http://www.w3.org/XML/1998/namespace"}) when Px =/= "xml" ->
-                             xqerl_error:error('XQDY0101');
-                          ({"xmlns",_}) ->
-                             xqerl_error:error('XQDY0101');
-                          ({_,"http://www.w3.org/2000/xmlns/"}) ->
-                             xqerl_error:error('XQDY0101');
-                          ({_,""}) ->
-                             xqerl_error:error('XQDY0101');
-                          (_) ->
-                             ok
-                       end, Namespaces)
+         F = fun({"xml",Ns}) 
+                   when Ns =/= "http://www.w3.org/XML/1998/namespace" ->
+                   ?err('XQDY0101');
+                ({Px,"http://www.w3.org/XML/1998/namespace"}) 
+                   when Px =/= "xml" ->
+                   ?err('XQDY0101');
+                ({"xmlns",_}) ->
+                   ?err('XQDY0101');
+                ({_,"http://www.w3.org/2000/xmlns/"}) ->
+                   ?err('XQDY0101');
+                ({_,""}) ->
+                   ?err('XQDY0101');
+                (_) ->
+                   ok
+             end,
+         lists:foreach(F, Namespaces)
    end,
    ok.
    
 check_direct_namespaces(NameSpaceNodes) ->
-   Namespaces = [{P,xqerl_types:value(N)} || #xqNamespaceNode{name=#qname{namespace = N, prefix = P}} <- NameSpaceNodes],
-   %?dbg("has_bad_namespaces",Namespaces),
+   Namespaces = [{P,xqerl_types:value(N)} || 
+                 #xqNamespaceNode{name=#qname{namespace = N, prefix = P}} 
+                <- NameSpaceNodes],
    Unique = lists:usort(Namespaces),
    Prefixes = lists:usort([P || {P,_} <- Unique]),
-   %?dbg("Unique",Unique),
-   %?dbg("Prefixes",length(Unique) =/= length(Prefixes)),
    if length(Unique) =/= length(Prefixes) ->
-         xqerl_error:error('XQDY0102');
+         ?err('XQDY0102');
       true ->
-         lists:foreach(fun({"xml",Ns}) when Ns =/= "http://www.w3.org/XML/1998/namespace" ->
-                             xqerl_error:error('XQDY0096');
-                          ({Px,"http://www.w3.org/XML/1998/namespace"}) when Px =/= "xml" ->
-                             xqerl_error:error('XQDY0096');
-                          ({"xmlns",_}) ->
-                             xqerl_error:error('XQDY0096');
-                          ({_,"http://www.w3.org/2000/xmlns/"}) ->
-                             xqerl_error:error('XQDY0096');
-                          (_) ->
-                             ok
-                       end, Namespaces)
+         F = fun({"xml",Ns}) 
+                   when Ns =/= "http://www.w3.org/XML/1998/namespace" ->
+                   ?err('XQDY0096');
+                ({Px,"http://www.w3.org/XML/1998/namespace"}) 
+                   when Px =/= "xml" ->
+                   ?err('XQDY0096');
+                ({"xmlns",_}) ->
+                   ?err('XQDY0096');
+                ({_,"http://www.w3.org/2000/xmlns/"}) ->
+                   ?err('XQDY0096');
+                (_) ->
+                   ok
+             end,
+         lists:foreach(F, Namespaces)
    end,
    ok.
 
-check_computed_default_override(#qname{namespace = 'no-namespace'}, ComputNamespaces) ->
-   NewDef = [ok || #xqNamespaceNode{name = #qname{prefix = []}} <- ComputNamespaces],
-   if length(NewDef) == 0 ->
+check_computed_default_override(#qname{namespace = 'no-namespace'}, 
+                                ComputNamespaces) ->
+   NewDef = [ok || #xqNamespaceNode{name = #qname{prefix = []}} 
+            <- ComputNamespaces],
+   if NewDef == [] ->
          ok;
       true ->
-         xqerl_error:error('XQDY0102')
+         ?err('XQDY0102')
    end;
-check_computed_default_override(_, _) ->
-   ok.
-
-
+check_computed_default_override(_, _) -> ok.
 
 % return a list
 node_to_content(#xqNode{doc = {doc,File}, node = Node}) ->
@@ -1416,21 +1449,29 @@ node_to_content(#xqNode{doc = Doc, node = Node}) ->
          [Content]
    end.
 
+%TODO split to funs
 node_to_content(Doc,Node) ->
-   Fun = fun(N) ->
-               node_to_content(Doc, N)
-         end,
-  case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqerl_xdm:dm_node_kind(Doc, Node) of
      document ->
+      Fun = fun(N) ->
+                  node_to_content(Doc, N)
+            end,
         lists:map(Fun, xqerl_xdm:dm_children(Doc, Node));
      element ->
+      Fun = fun(N) ->
+                  node_to_content(Doc, N)
+            end,
         Namespaces = lists:map(Fun, xqerl_xdm:dm_namespace_nodes(Doc, Node)),
         Attributes = lists:map(Fun, xqerl_xdm:dm_attributes(Doc, Node)),
         Children   = lists:map(Fun, xqerl_xdm:dm_children(Doc, Node)),
         {Namespace,LocalName} = xqerl_xdm:dm_node_name(Doc, Node),
         Prefix = xqerl_xdm:prefix(Doc, Node),
-        #xqElementNode{name = #qname{namespace = Namespace, prefix = Prefix, local_name = LocalName},
-                       attributes = Namespaces, children = [], expr = Attributes ++ Children};
+        #xqElementNode{name = #qname{namespace = Namespace, 
+                                     prefix = Prefix, 
+                                     local_name = LocalName},
+                       attributes = Namespaces, 
+                       children = [], 
+                       expr = Attributes ++ Children};
      namespace ->
         Prefix = case xqerl_xdm:dm_node_name(Doc, Node) of
                     [] ->
@@ -1448,7 +1489,9 @@ node_to_content(Doc,Node) ->
                        xqerl_xdm:prefix(Doc, Node)
                  end,
         Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqAttributeNode{name = #qname{namespace = Namespace, prefix = Prefix, local_name = LocalName},
+        #xqAttributeNode{name = #qname{namespace = Namespace, 
+                                       prefix = Prefix, 
+                                       local_name = LocalName},
                          expr = ?untyp(Value)};
      comment ->
         Value = xqerl_xdm:dm_string_value(Doc, Node),
@@ -1459,7 +1502,8 @@ node_to_content(Doc,Node) ->
      'processing-instruction' ->
         {Namespace,LocalName} = xqerl_xdm:dm_node_name(Doc, Node),
         Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqProcessingInstructionNode{name = #qname{namespace = Namespace, local_name = LocalName},
+        #xqProcessingInstructionNode{name = #qname{namespace = Namespace, 
+                                                   local_name = LocalName},
                                      expr = ?str(Value)}
   end.
 
@@ -1492,12 +1536,17 @@ build_xqnode(#{nodes := Nodes} = State, []) ->
    Doc1 = add_text_lookup(State),
    Doc2 = Doc1#{nodes := NewNodes},
    #xqNode{doc = Doc2, node = xqerl_xdm:root(Doc2)};
-build_xqnode(State, [#xqDocumentNode{identity = Id, desc_count = Size}|List]) ->
+build_xqnode(State, [#xqDocumentNode{identity = Id, 
+                                     desc_count = Size}|List]) ->
    Bin = xqerl_xdm:document_node(Size, Id),
    State1 = add_node_to_map(State, Id, Bin),
    build_xqnode(State1, List);
 % TODO need att/ns count
-build_xqnode(State, [#xqElementNode{identity = Id, desc_count = Size, parent_node = Par, name = #qname{namespace = Ns, local_name = Ln}}|List]) ->
+build_xqnode(State, [#xqElementNode{identity = Id, 
+                                    desc_count = Size, 
+                                    parent_node = Par, 
+                                    name = #qname{namespace = Ns, 
+                                                  local_name = Ln}}|List]) ->
    AtNsSize = 31,
    {NsId,State1} = get_namespace_id(State, Ns),
    {LnId,State2} = get_local_name_id(State1, Ln),
@@ -1505,7 +1554,10 @@ build_xqnode(State, [#xqElementNode{identity = Id, desc_count = Size, parent_nod
    Bin = xqerl_xdm:element_node(AtNsSize, NsId, LnId, Offset, Size, Id),
    State3 = add_node_to_map(State2, Id, Bin),
    build_xqnode(State3, List);
-build_xqnode(State, [#xqNamespaceNode{identity = Id, parent_node = Par, name = #qname{namespace = Ns, prefix = Ln}}|List]) ->
+build_xqnode(State, [#xqNamespaceNode{identity = Id, 
+                                      parent_node = Par, 
+                                      name = #qname{namespace = Ns, 
+                                                    prefix = Ln}}|List]) ->
    {NsId,State1} = get_namespace_id(State, Ns),
    {LnId,State2} = get_local_name_id(State1, Ln),
    Offset = Id - Par,
@@ -1514,8 +1566,11 @@ build_xqnode(State, [#xqNamespaceNode{identity = Id, parent_node = Par, name = #
    build_xqnode(State3, List);
 % special case of stand-alone attribute with namespace
 build_xqnode(State, [#xqAttributeNode{identity = 1, 
-                                      name = #qname{namespace = Ns, prefix = Px, local_name = Ln}, 
-                                      expr = Val}|List]) when Ns =/= 'no-namespace' ->
+                                      name = #qname{namespace = Ns, 
+                                                    prefix = Px, 
+                                                    local_name = Ln}, 
+                                      expr = Val}|List]) 
+   when Ns =/= 'no-namespace' ->
    Value = xqerl_types:string_value(Val),
    {TId,State1} = get_text_id(State, Value),
    {NsId,State2} = get_namespace_id(State1, Ns),
@@ -1523,40 +1578,54 @@ build_xqnode(State, [#xqAttributeNode{identity = 1,
    {PxId,State4} = get_local_name_id(State3, Px),
    Offset = 0,
    Bin1 = xqerl_xdm:namespace_node(NsId, PxId, 0, 1),
-   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso Ln == "Id" -> 1;
+   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
+               Ln == "Id" -> 1;
              true -> 0
           end,
    Bin2 = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, 2),
    State5 = add_node_to_map(State4, 1, Bin1),
    State6 = add_node_to_map(State5, 2, Bin2),
    build_xqnode(State6, List);
-build_xqnode(State, [#xqAttributeNode{identity = Id, parent_node = Par, name = #qname{namespace = Ns, local_name = Ln}, expr = Val}|List]) ->
+build_xqnode(State, [#xqAttributeNode{identity = Id, 
+                                      parent_node = Par, 
+                                      name = #qname{namespace = Ns, 
+                                                    local_name = Ln}, 
+                                      expr = Val}|List]) ->
    Value = xqerl_types:string_value(Val),
    {TId,State1} = get_text_id(State, Value),
    {NsId,State2} = get_namespace_id(State1, Ns),
    {LnId,State3} = get_local_name_id(State2, Ln),
    Offset = Id - Par,
-   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso Ln == "Id" -> 1;
+   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
+               Ln == "Id" -> 1;
              true -> 0
           end,
    Bin = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, Id),
    State4 = add_node_to_map(State3, Id, Bin),
    build_xqnode(State4, List);
-build_xqnode(State, [#xqTextNode{identity = Id, parent_node = Par, expr = Val}|List]) ->
+build_xqnode(State, [#xqTextNode{identity = Id, 
+                                 parent_node = Par, 
+                                 expr = Val}|List]) ->
    Value = xqerl_types:string_value(Val),
    {TId,State1} = get_text_id(State, Value),
    Offset = Id - Par,
    Bin = xqerl_xdm:text_node(TId, Offset, Id),
    State2 = add_node_to_map(State1, Id, Bin),
    build_xqnode(State2, List);
-build_xqnode(State, [#xqCommentNode{identity = Id, parent_node = Par, expr = Val}|List]) ->
+build_xqnode(State, [#xqCommentNode{identity = Id, 
+                                    parent_node = Par, 
+                                    expr = Val}|List]) ->
    Value = xqerl_types:string_value(Val),
    {TId,State1} = get_text_id(State, Value),
    Offset = Id - Par,
    Bin = xqerl_xdm:comment_node(TId, Offset, Id),
    State2 = add_node_to_map(State1, Id, Bin),
    build_xqnode(State2, List);
-build_xqnode(State, [#xqProcessingInstructionNode{identity = Id, parent_node = Par, name = #qname{local_name = Ln}, expr = Val}|List]) ->
+build_xqnode(State, [#xqProcessingInstructionNode{identity = Id, 
+                                                  parent_node = Par, 
+                                                  name = 
+                                                    #qname{local_name = Ln}, 
+                                                  expr = Val}|List]) ->
    Value = xqerl_types:string_value(Val),
    {TId,State1} = get_text_id(State, Value),
    {LnId,State2} = get_local_name_id(State1, Ln),
