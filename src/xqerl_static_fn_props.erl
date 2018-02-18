@@ -591,15 +591,22 @@ merge_props(Props1, Props2) ->
    StaticProperties2 = maps:get(static_properties, Props2),
    DynamicProperties2= maps:get(dynamic_properties,Props2),
 
-   #{deterministic      => (Deterministic1 == true) andalso (Deterministic2 == true),
-     context_dependent  => (ContextDependent1 == true) orelse (ContextDependent2 == true),
-     focus_dependent    => (FocusDependent1 == true) orelse (FocusDependent2 == true),
-     higher_order       => (HigherOrder1 == true) orelse (HigherOrder2 == true),
-     static_properties  => lists:umerge([StaticProperties1,StaticProperties2]),
-     dynamic_properties => lists:umerge([DynamicProperties1,DynamicProperties2])}.
+   #{deterministic      => (Deterministic1 == true) andalso 
+                             (Deterministic2 == true),
+     context_dependent  => (ContextDependent1 == true) orelse 
+                             (ContextDependent2 == true),
+     focus_dependent    => (FocusDependent1 == true) orelse 
+                             (FocusDependent2 == true),
+     higher_order       => (HigherOrder1 == true) orelse 
+                             (HigherOrder2 == true),
+     static_properties  => lists:umerge([StaticProperties1,
+                                         StaticProperties2]),
+     dynamic_properties => lists:umerge([DynamicProperties1,
+                                         DynamicProperties2])}.
 
 
-props(Deterministic, ContextDependent, FocusDependent, HigherOrder, StaticProperties, DynamicProperties) ->
+props(Deterministic, ContextDependent, FocusDependent, HigherOrder, 
+      StaticProperties, DynamicProperties) ->
    #{deterministic      => Deterministic,
      context_dependent  => ContextDependent,
      focus_dependent    => FocusDependent,

@@ -40,9 +40,8 @@ assert(Result, QueryString) ->
              true ->
                 " as item()"
           end,
-   NewQueryString = "declare variable $result" ++ Type ++ " external; " ++ QueryString,
-   %?dbg("NewQueryString",NewQueryString),
-   %?dbg("Result",Result),
+   NewQueryString = "declare variable $result" ++ Type ++ 
+                    " external; " ++ QueryString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};
@@ -71,7 +70,8 @@ assert_empty(Result) ->
    end.
 %% assert_type            (: result instance of type :)
 assert_type(Result, TypeString) ->
-   NewQueryString = "declare variable $result as item()* external; ($result) instance of " ++ TypeString,
+   NewQueryString = "declare variable $result as item()* external; "
+                    "($result) instance of " ++ TypeString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, {assert_type,Res}};
@@ -87,7 +87,9 @@ assert_type(Result, TypeString) ->
 assert_xml(Result, {file, FileLoc}) ->
    _ = xqerl_doc:read_http(FileLoc),
    try
-      NewQueryString = "declare variable $result external; " ++ "fn:deep-equal($result , fn:doc('" ++ FileLoc ++ "')/* )",
+      NewQueryString = "declare variable $result external; " ++ 
+                       "fn:deep-equal($result , fn:doc('" ++ 
+                       FileLoc ++ "')/* )",
       Res1 = xqerl:run(NewQueryString, #{"result" => Result}),
       StrVal = string_value(Res1),
       if StrVal == "true" ->
@@ -101,12 +103,14 @@ assert_xml(Result, {file, FileLoc}) ->
    end;
 assert_xml(Result, QueryString) ->
    ResXml = xqerl_node:to_xml(Result),
-   case catch xqerl_lib:decode_string(ResXml) == xqerl_lib:decode_string(QueryString) of
+   case catch xqerl_lib:decode_string(ResXml) == 
+              xqerl_lib:decode_string(QueryString) of
       true ->
          true;
       _ ->
          try
-            NewQueryString = "fn:deep-equal(<x>" ++ ResXml ++ "</x> ,<x>" ++ QueryString ++ "</x>)",
+            NewQueryString = "fn:deep-equal(<x>" ++ ResXml ++ 
+                             "</x> ,<x>" ++ QueryString ++ "</x>)",
             Res1 = xqerl:run(NewQueryString, #{}),
             StrVal = string_value(Res1),
             if StrVal == "true" ->
@@ -121,7 +125,8 @@ assert_xml(Result, QueryString) ->
    end.
 %% assert_eq              (: '=' operator :)
 assert_eq(Result, TypeString) ->
-   NewQueryString = "declare variable $result as item() external; $result = " ++ TypeString,
+   NewQueryString = "declare variable $result as item() external; "
+                    "$result = " ++ TypeString,
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};
@@ -130,15 +135,14 @@ assert_eq(Result, TypeString) ->
          if StrVal == "true" ->
                true;
             true ->
-               %?dbg("Res1",Res1),
-               %?dbg("NewQueryString",NewQueryString),
                ?dbg("Result",Result),
                {false, {assert_eq,Res1,TypeString}}
          end
    end.
 %% assert_deep_eq         (: fn:deep-equal(result, run test query) :)
 assert_deep_eq(Result, QueryString) ->
-   NewQueryString = "declare variable $result as item() external; fn:deep-equal($result,(" ++ QueryString ++ "))",
+   NewQueryString = "declare variable $result as item() external; "
+                    "fn:deep-equal($result,(" ++ QueryString ++ "))",
    case catch xqerl:run(NewQueryString, #{"result" => Result}) of
       {'EXIT',Res} ->
          {false, Res};
@@ -180,7 +184,6 @@ assert_permutation(Result, PermuteString) ->
          Res3 = lists:map(fun(I) ->
                                 {xqerl_types:value(I)}
                           end, Result),
-         ?dbg("{Res2,Res3}",{Res2,Res3}),
          Rest1 = lists:foldl(fun({I},L) ->
                                   lists:keydelete(I, 1, L)
                             end, Res2, Res3),
@@ -196,20 +199,13 @@ assert_permutation(Result, PermuteString) ->
    end.
 %% assert_count           (: fn:count(result) == cnt :)
 assert_count(Result, TypeString) ->
-   %NewQueryString = "declare variable $result as item() external; fn:count($result) eq " ++ TypeString,
-   %case catch xqerl:run(NewQueryString, #{"result" => Result}) of
-   %   {'EXIT',Res} ->
-   %      {false, Res};
-   %   Res1 ->
-   %      StrVal = string_value(Res1),
    Cnt = list_to_integer(TypeString),
-         if is_list(Result), length(Result) == Cnt ->
-               true;
-            Cnt == 1 ->
-               true;
-            true ->
-               {false, {assert_count,Result,TypeString}}
-   %      end
+   if is_list(Result), length(Result) == Cnt ->
+         true;
+      Cnt == 1 ->
+         true;
+      true ->
+         {false, {assert_count,Result,TypeString}}
    end.
 %% assert_string_value    (: string value of result == Str :)
 assert_string_value(Result, String) ->
@@ -229,7 +225,10 @@ assert_norm_string_value(Result, String) ->
 %% assert_error
 assert_error(Result, ErrorCode) ->
    case Result of 
-      #xqError{name = #xqAtomicValue{value = #qname{namespace = ErrNs, local_name = Err}}} ->
+      #xqError{name = 
+                 #xqAtomicValue{value = 
+                                  #qname{namespace = ErrNs, 
+                                         local_name = Err}}} ->
          if Err == ErrorCode;
             ErrorCode == "*" ->
                true;
@@ -251,19 +250,16 @@ size(A) ->
 
 string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
    NewList = lists:map(fun(I) ->
-                             %xqerl_types:string_value(I)
                              ?seq:singleton(I)
                        end, List),
    Seq = ?seq:from_list(NewList),
    xqerl_types:string_value(Seq);
-   %lists:concat([hd(NewList)|[" "++ Av || Av <- tl(NewList), Av =/= [] ] ]);
 string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
    ok = application:ensure_started(xqerl_ds),
-   ct:run_test([{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}])
-.
+   ct:run_test([{suite, Suite},{dir, "../test"},{logdir, "../test/logs"}]).
 
 run(all) ->
    xqerl_module:one_time_init(),
@@ -726,7 +722,6 @@ run(Str, Options) ->
    io:format("~p~n",[Str]),
    xqerl:run(Str, Options).
 
-
 %% parallel_compile(ArgL) ->
 %%     Keys = map_keys(ArgL),
 %%     [rpc:yield(K) || K <- Keys].
@@ -736,14 +731,13 @@ run(Str, Options) ->
 %%     [rpc:async_call(node(),?MODULE,compile,tuple_to_list(Args)) | 
 %%      map_keys(Tail)].
 
-
 compile(Name, Env, Qry) ->
    {EnvStr,Opts} = xqerl_test:handle_environment(Env),
-   %Qry1 = EnvStr ++ Qry,
    Qry1 = lists:flatten(EnvStr ++ Qry),
    case xqerl_module:test_compile(Name, Qry1) of
       {ok,M,B} ->
-         case file:write_file("../../../test/ebin/"++atom_to_list(M)++".beam", B) of
+         case file:write_file("../../../test/ebin/"++
+                                atom_to_list(M)++".beam", B) of
             ok ->
                ?dbg("M",M),
                {Name,M,Opts};
@@ -755,8 +749,6 @@ compile(Name, Env, Qry) ->
          ?dbg("E",E),
          {Name,E}
    end.
-
-             
 
 handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
@@ -773,23 +765,6 @@ handle_environment(List) ->
    DecFormats = proplists:get_value('decimal-formats', List, []) ,
    DefCollation = proplists:get_value('default-collation', List, undefined) ,
 
-%% EmptyMap = #{namespaces => FinalState#state.known_ns,
-%%              variables => [],
-%%              var_tuple => [],
-%%              iter => [],
-%%              iter_loop => [],
-%%              ctx_var => 'Ctx0',
-%%              parameters => [],
-%%              known_fx_sigs => FinalState#state.known_fx_sigs,
-%%              'boundary-space' => FinalState#state.boundary_space,
-%%              'construction-mode' => FinalState#state.construction_mode,
-%%              'default-collation' => FinalState#state.default_collation,
-%%              'base-uri' => ?atomic('xs:anyURI', FinalState#state.base_uri),
-%%              'ordering-mode' => FinalState#state.order_mode,
-%%              'empty-seq-order' => FinalState#state.empty_order,
-%%              'copy-namespaces' => FinalState#state.copy_ns_mode,
-%%              body => Mod#xqModule{prolog = ContextItem ++ VarFunPart, % just for now
-%%                                   body = S1}
    Map1 = if DefCollation == undefined ->
                 #{};
              true ->
@@ -808,16 +783,19 @@ handle_environment(List) ->
          fun({Uri,CList}) ->
                All = lists:flatmap(
                  fun({src,FileName0}) ->
-                       FileName = xqerl_lib:resolve_against_base_uri("file:///", FileName0),
+                       FileName = xqerl_lib:resolve_against_base_uri("file:///", 
+                                                                     FileName0),
                        case xqerl_ds:exists_doc(Uri) of
                           true ->
                              Doc1 = xqerl_doc:retrieve_doc(FileName),
-                             Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+                             Doc2 = #xqNode{doc = Doc1, 
+                                            node = xqerl_xdm:root(Doc1)},
                              [Doc2];
                           _ ->
                              _ = xqerl_doc:read_http(FileName),
                              Doc1 = xqerl_doc:retrieve_doc(FileName),
-                             Doc2 = #xqNode{doc = Doc1, node = xqerl_xdm:root(Doc1)},
+                             Doc2 = #xqNode{doc = Doc1, 
+                                            node = xqerl_xdm:root(Doc1)},
                              [Doc2]
                        end;
                     ({query,Qry}) ->
@@ -828,76 +806,75 @@ handle_environment(List) ->
                              [L]
                        end
                  end, CList),
-               %?dbg("All",All),
                if Uri == "" ->
                      xqerl_collection:put(default, All);
                   true ->
                      xqerl_collection:put(Uri, All)
                end
          end, Collections),
-   {Sources1,EMap} = lists:mapfoldl(fun({File0,Role,Uri0},Map) ->
-                              ?dbg("File0",File0),
-                              File = xqerl_lib:resolve_against_base_uri("file:///", File0),
-                              Uri2 = if Uri0 == [] ->
-                                           File;
-                                        Uri0 == File0 ->
-                                           File;
-                                        true ->
-                                           Uri0
-                                     end,
-                              ?dbg("File",File),
-                              case xqerl_ds:exists_doc(Uri2) of
-                                 true ->
-                                    ok;
-                                 _ ->
-                                    try
-                                    _ = xqerl_doc:read_http(File, Uri2)
-                                    catch _:E ->
-                                             ?dbg("E",E),
-                                             ok
-                                    end,
-                                    ok
-                              end,
-                              ?dbg("Role",Role),
-                              if Role == "." ->
-                                    Doc = xqerl_doc:retrieve_doc(Uri2),
-                                    %R = xqerl:run("Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"')"),
-                                    {"",Map#{'context-item' => #xqNode{doc = Doc, node = xqerl_xdm:root(Doc)}}};
-                                 Role == "" ->
-                                    {"",Map};
-                                 true ->
-                                    {"declare variable "++Role++" := Q{http://www.w3.org/2005/xpath-functions}doc('"++Uri2++"');\n",Map}
-                              end
-                        end, Map1,Sources),
+   {Sources1,EMap} = 
+     lists:mapfoldl(
+       fun({File0,Role,Uri0},Map) ->
+            File = xqerl_lib:resolve_against_base_uri("file:///", File0),
+            Uri2 = if Uri0 == [] ->
+                         File;
+                      Uri0 == File0 ->
+                         File;
+                      true ->
+                         Uri0
+                   end,
+            ?dbg("File",File),
+            case xqerl_ds:exists_doc(Uri2) of
+               true ->
+                  ok;
+               _ ->
+                  try
+                  _ = xqerl_doc:read_http(File, Uri2)
+                  catch _:E ->
+                           ?dbg("E",E),
+                           ok
+                  end,
+                  ok
+            end,
+            ?dbg("Role",Role),
+            if Role == "." ->
+                  Doc = xqerl_doc:retrieve_doc(Uri2),
+                  {"",Map#{'context-item' => 
+                             #xqNode{doc = Doc,
+                                     node = xqerl_xdm:root(Doc)}}};
+               Role == "" ->
+                  {"",Map};
+               true ->
+                  {"declare variable " ++ Role ++ 
+                    " := Q{http://www.w3.org/2005/xpath-functions}doc('" ++
+                    Uri2 ++ "');\n", 
+                   Map}
+            end
+      end, Map1,Sources),
    Schemas1 = lists:map(fun({File,Uri}) ->
-                              "import schema default element namespace '"++Uri++"' at '"++File++"';\n"
+                              "import schema default element namespace '" ++
+                                Uri ++ "' at '" ++ File ++ "';\n"
              end, Schemas),
    _ = lists:foreach(fun({File,_Uri}) ->
-                           catch xqerl_module:compile(File)%,
-                           %xqerl_module:load(Uri)
+                           catch xqerl_module:compile(File)
              end, Modules),
-%%    _ = lists:foreach(fun({Uri,Docs}) ->
-%%                            lists:foreach(fun(File) ->
-%%                                                xqerl_doc:read_http(File)
-%%                                          end, Docs),
-%%                            xqerl_context:add_available_collection(Uri,Docs)
-%%                      end, Collections),
    
-   DecFormats1 = lists:map(fun({"",Values}) ->
-                                 "declare default decimal-format \n" ++
-                                 lists:flatmap(fun({K,V}) ->
-                                                 " " ++ atom_to_list(K) ++ "='" ++
-                                                   V ++ "' \n"
-                                           end, Values) ++
-                                   ";";
-                              ({Name,Values}) ->
-                                 "declare decimal-format " ++ Name ++ " \n" ++
-                                 lists:flatmap(fun({K,V}) ->
-                                                 " " ++ atom_to_list(K) ++ "='" ++
-                                                   V ++ "' \n"
-                                           end, Values) ++
-                                   ";"
-                           end, DecFormats),
+   DecFormats1 = lists:map(
+                   fun({"",Values}) ->
+                         "declare default decimal-format \n" ++
+                         lists:flatmap(fun({K,V}) ->
+                                         " " ++ atom_to_list(K) ++ "='" ++
+                                           V ++ "' \n"
+                                   end, Values) ++
+                           ";";
+                      ({Name,Values}) ->
+                         "declare decimal-format " ++ Name ++ " \n" ++
+                         lists:flatmap(fun({K,V}) ->
+                                         " " ++ atom_to_list(K) ++ "='" ++
+                                           V ++ "' \n"
+                                   end, Values) ++
+                           ";"
+                   end, DecFormats),
    
    BaseUri1 = lists:map(fun({Value}) ->
                               "declare base-uri '"++Value++"';\n"
@@ -909,7 +886,8 @@ handle_environment(List) ->
                        end, EMap, Params),
    Namespaces1 = lists:foldl(fun({Uri,Prefix}, Map) ->
                                    Ns = maps:get(namespaces, Map, []),
-                                   NewNs = lists:keystore(Prefix, 1, Ns, {Prefix,Uri}),
+                                   NewNs = lists:keystore(Prefix, 1, Ns, 
+                                                          {Prefix,Uri}),
                                    Map#{namespaces => NewNs}
                            end, Params1, Namespaces),
    ContextItem1 = lists:foldl(fun("",Map) ->
@@ -918,15 +896,17 @@ handle_environment(List) ->
                                     R = xqerl:run(C),
                                     Map#{'context-item' => R}
                               end, Namespaces1, ContextItem),
-   Namespaces2 = lists:map(fun({Uri,""}) ->
-                                   "declare default element namespace '"++Uri++"';\n";
+   Namespaces2 = lists:map(
+                   fun({Uri,""}) ->
+                         "declare default element namespace '" ++
+                           Uri ++ "';\n";
                               % block statically known 
-                              ({"http://www.w3.org/2005/xpath-functions/math","math"}) -> "";
-                              ({"http://www.w3.org/2005/xpath-functions/array","array"}) -> "";
-                              ({"http://www.w3.org/2005/xpath-functions/map","map"}) -> "";
-                              ({Uri,Prefix}) ->
-                                 "declare namespace "++Prefix++" = '"++Uri++"';\n"
-                           end, Namespaces),
+                      ({"http://www.w3.org/2005/xpath-functions/math","math"}) -> "";
+                      ({"http://www.w3.org/2005/xpath-functions/array","array"}) -> "";
+                      ({"http://www.w3.org/2005/xpath-functions/map","map"}) -> "";
+                      ({Uri,Prefix}) ->
+                           "declare namespace "++Prefix++" = '"++Uri++"';\n"
+                    end, Namespaces),
    Vars1   = lists:map(fun({Name,"",Value}) ->
                              "declare variable $"++Name++" := "++Value++";\n";
                           ({Name,As,Value}) ->

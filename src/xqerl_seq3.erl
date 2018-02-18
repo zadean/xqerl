@@ -57,8 +57,6 @@
 -export([append/2]).
 -export([get_seq_type/1]).
 
-%-export([get_seq_iter/1]).
-%-export([next/1]).
 -export([to_list/1]).
 -export([from_list/1]).
 -export([flatten/1]).
@@ -70,7 +68,6 @@
 -export([ensure_one_or_more/1]).
 -export([ensure_zero_or_one/1]).
 -export([ensure_zero_or_more/1]).
-
 
 -include("xqerl.hrl").
 
@@ -87,6 +84,7 @@
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
 
+% used?
 sequence(L) when is_list(L) ->
    L;
 sequence(L) ->
@@ -116,6 +114,7 @@ size(_) ->
 is_empty([]) -> true;
 is_empty(_) -> false.
 
+% used?
 is_sequence(L) when is_list(L) -> true;
 is_sequence(_) -> false.
 
@@ -162,19 +161,15 @@ except(Seq1, Seq2) ->
    except([Seq1], [Seq2]).
 
 set_fun1(List1, List2, Fun) ->
-   %?dbg("AN1",(List1)),
-   %?dbg("AN2",all_node(List2)),
    case all_node(List1) andalso all_node(List2) of 
       true ->
          U1 = ?set:from_list(List1),
          U2 = ?set:from_list(List2),
          U3 = ?set:Fun(U1, U2),
-         %?dbg("U3",U3),
          ?set:to_list(U3);
       _ ->
          ?err('XPTY0004')
    end.
-
 
 singleton_value([]) -> [];
 singleton_value([V]) -> V;
@@ -190,11 +185,6 @@ singleton([V]) ->
 singleton(V) when is_list(V)->
    ?err('XPTY0004').
 
-%% subsequence(List,Start) when Start > 0 ->
-%%    lists:sublist(List, Start);
-%% subsequence(List,_Start) ->
-%%    List.
-
 subsequence(List,Start,Length) when Start < 1 ->
    Start1 = 1,
    Length1 = Start + Length,
@@ -208,7 +198,6 @@ subsequence(List,Start,_Length) when Start > length(List) ->
 subsequence(List,Start,Length) ->
    lists:sublist(List, Start, Length).
 
-
 % insert Seq2 into Seq 1 at position Pos
 insert(Seq1,[],_Pos) -> Seq1;
 insert([],Seq2,_Pos) -> Seq2;
@@ -220,9 +209,6 @@ insert(Seq1,Seq2,Pos) when is_list(Seq1), is_list(Seq2) ->
           end,
    Head = subsequence(Seq1, 1, Pos1 - 1),
    Tail = subsequence(Seq1, Pos1, length(Seq1)),
-   %?dbg("Head",Head),
-   %?dbg("Seq2",Seq2),
-   %?dbg("Tail",Tail),
    Head ++ Seq2 ++ Tail;
 insert(Seq1,Seq2,Pos) when is_list(Seq1) ->
    insert(Seq1,[Seq2],Pos);
@@ -230,14 +216,14 @@ insert(Seq1,Seq2,Pos) when is_list(Seq2) ->
    insert([Seq1],Seq2,Pos);
 insert(Seq1,Seq2,Pos) ->
    insert([Seq1],[Seq2],Pos).
-
    
 zip_with(_Ctx, _Fun,[],[]) -> [];
 zip_with(_Ctx, _Fun,[],_) ->
    ?err('XPTY0004');
 zip_with(_Ctx, _Fun,_,[]) ->
    ?err('XPTY0004');
-zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
+zip_with(Ctx, Fun,Seq1,Seq2) 
+   when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
    Size = erlang:min(?MODULE:size(Seq1),?MODULE:size(Seq2)),
    NewCtx = xqerl_context:set_context_size(Ctx, int_rec(Size)),
    reverse(zip_with1(NewCtx,Fun,{Seq1,Seq2},1,[]));
@@ -317,12 +303,9 @@ val_map(_Fun,[]) -> [];
 val_map(Fun,H) when not is_list(H) ->
    val_map(Fun,[H]);
 val_map(Fun,[H|T]) ->
-   %?dbg("Fun",Fun),
-   %?dbg("H",H),
    Val = try Fun(H) 
          catch _:#xqError{} = E -> throw(E);
                _:_ -> ?err('XPTY0004') end,
-   %?dbg("Val",Val),
    if is_list(Val) ->
          Val ++ val_map(Fun, T);
       true ->
@@ -345,8 +328,6 @@ map(Ctx, Fun,Seq) ->
 
 map1(_Ctx, _Fun, [], _Pos) -> [];
 map1(Ctx, Fun, [H|T], Pos) ->
-   %?dbg("H",H),
-   %?dbg("Pos",Pos),
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
       Output = Fun(Ctx1),
@@ -369,11 +350,9 @@ node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
 node_map(Ctx, Fun, Seq) ->
    case all_node(Seq) of
       true ->
-         %?dbg("All node",Seq),
          Nodes = map(Ctx, Fun, Seq),
          case all_node(Nodes) of
             true ->
-               %?dbg("OK",Nodes),
                from_list(lists:usort(Nodes));
             _ ->
                case all_not_node(Nodes) of
@@ -388,7 +367,6 @@ node_map(Ctx, Fun, Seq) ->
          ?dbg("NOT All node",Seq),
          ?err('XPTY0019')
    end.
-
 
 foldl(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
    foldl1(Ctx,Fun,Acc,Seq);
@@ -420,46 +398,33 @@ foldr1(_Ctx,_Fun,Acc,[]) ->
 foldr1(Ctx,Fun,Acc,[H|T]) ->
    Fun(Ctx,H,foldr1(Ctx,Fun,Acc,T)).
 
-empty() ->
-   [].
+empty() -> [].
 
 to_list(#array{} = A) -> xqerl_array:flatten([], A);
 to_list(List) when is_list(List) -> List;
 to_list(A) -> [A].
-
 
 flatten([H|T]) when is_list(H) -> flatten(H) ++ flatten(T);
 flatten([H|T]) -> [H | flatten(T)];
 flatten([]) -> [];
 flatten(E) -> [E].
 
-%% flatten(List) when is_list(List) ->
-%%    lists:flatten(List);
-%% flatten(List) ->
-%%    [List].
-
 from_list(List) when is_list(List) ->
    ?MODULE:flatten(List);
-
-%%    lists:flatten(List);
-
-%%    Flat = lists:flatten(List),
-%%    case all_xqnode(Flat) of
-%%       true ->
-%%          union(Flat, []);
-%%       _ ->
-%%          Flat
-%%    end;
 from_list(List) ->
    [List].
 
 range(_, []) -> empty();
 range([], _) -> empty();
-range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) when is_integer(From),is_integer(To) ->
+range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) 
+   when is_integer(From),is_integer(To) ->
    range1(From,To);
 range(From, To) ->
-   case (xqerl_types:type(From) == node orelse xqerl_types:subtype_of(xqerl_types:type(From), 'xs:integer')) andalso
-        (xqerl_types:type(To) == node orelse xqerl_types:subtype_of(xqerl_types:type(To), 'xs:integer')) of
+   case (xqerl_types:type(From) == node orelse 
+           xqerl_types:subtype_of(xqerl_types:type(From), 'xs:integer')) 
+      andalso
+        (xqerl_types:type(To) == node orelse 
+           xqerl_types:subtype_of(xqerl_types:type(To), 'xs:integer')) of
       true ->
          To1 = xqerl_types:value(xqerl_types:cast_as(To, 'xs:integer')),
          From1 = xqerl_types:value(xqerl_types:cast_as(From, 'xs:integer')),
@@ -470,7 +435,6 @@ range(From, To) ->
             true ->
                R
          end;
-         %range2(To1 - From1 + 1, To1,From1,[]);
       _ ->
          ?err('XPTY0004')
    end.
@@ -490,9 +454,7 @@ append(Seq1, Seq2) ->
    concat_seqs(Seq2,Seq1).
 
 get_unique_values(Seq) when is_list(Seq) ->
-   %Vals = get_unique_values1(Seq),
    Vals = get_unique_values1(lists:flatten(Seq)),
-   %?dbg("Vals",Vals),
    lists:usort(Vals);
 get_unique_values(Seq) ->
    get_unique_values1([Seq]).
@@ -502,14 +464,13 @@ get_unique_values1([#xqAtomicValue{value = {xsDecimal,H,0}}|T]) ->
    [H|get_unique_values1(T)];
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
-  
    
 position_filter(Ctx, Fun, Seq) when is_list(Seq), is_function(Fun) ->
    Size = length(Seq),
-   %?dbg("Size",Size),
    {Positions,_} =
      lists:mapfoldl(fun(Item,Pos) ->
-                        Ctx1 = xqerl_context:set_context_item(Ctx, Item, Pos, Size),
+                        Ctx1 = xqerl_context:set_context_item(Ctx, Item, 
+                                                              Pos, Size),
                         Resp = Fun(Ctx1),
                         {Resp, Pos + 1}
                   end, 1, Seq),
@@ -547,7 +508,6 @@ filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
 filter(Ctx, Fun, Seq2) when is_function(Fun,1) ->
-   %Seq2 = flatten(Seq),
    Size = ?MODULE:size(Seq2),
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
    filter1(Ctx1, Fun, Seq2, 1).
@@ -557,31 +517,28 @@ filter1(Ctx, Fun, [H|T], Pos) ->
    NextPos = Pos + 1,
    Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
    try Fun(Ctx1) of
+      [#xqAtomicValue{type = NType, value = FPos}] when ?numeric(NType) ->
+         if FPos == Pos ->
+               [H|filter1(Ctx, Fun, T, NextPos)];
+            true ->
+               filter1(Ctx, Fun, T, NextPos)
+         end;
+      #xqAtomicValue{type = NType, value = FPos} when ?numeric(NType) ->
+         if FPos == Pos ->
+               [H|filter1(Ctx, Fun, T, NextPos)];
+            true ->
+               filter1(Ctx, Fun, T, NextPos)
+         end;
       Resp ->
-         %?dbg("Resp",Resp),
-         case Resp of
-            [#xqAtomicValue{type = NType, value = FPos}] when ?numeric(NType) ->
-               if FPos == Pos ->
-                     [H|filter1(Ctx, Fun, T, NextPos)];
-                  true ->
-                     filter1(Ctx, Fun, T, NextPos)
-               end;
-            #xqAtomicValue{type = NType, value = FPos} when ?numeric(NType) ->
-               if FPos == Pos ->
-                     [H|filter1(Ctx, Fun, T, NextPos)];
-                  true ->
-                     filter1(Ctx, Fun, T, NextPos)
-               end;
-            _ ->
-               Bool = xqerl_operators:eff_bool_val(Resp),
-               if Bool ->
-                     [H|filter1(Ctx, Fun, T, NextPos)];
-                  true ->
-                     filter1(Ctx, Fun, T, NextPos)
-               end
+         Bool = xqerl_operators:eff_bool_val(Resp),
+         if Bool ->
+               [H|filter1(Ctx, Fun, T, NextPos)];
+            true ->
+               filter1(Ctx, Fun, T, NextPos)
          end
    catch 
-      _:#xqError{name = #xqAtomicValue{value = #qname{local_name = "XPTY0019"}}} ->
+      _:#xqError{name = #xqAtomicValue{value = 
+                                         #qname{local_name = "XPTY0019"}}} ->
          % context was not a node when one was expected
          ?err('XPTY0020');
       _:#xqError{} = E ->
@@ -610,14 +567,6 @@ all_node(Seq) when is_list(Seq) ->
 all_node(Seq) ->
    all_node([Seq]).
 
-%% all_xqnode(Seq) ->
-%%    IsNode = fun(#xqNode{}) ->
-%%                   true;
-%%                (_) ->
-%%                   false
-%%             end,
-%%    lists:all(IsNode, Seq).
-
 all_not_node(Seq) ->
    IsNode = fun(Item) when ?noderecs(Item) ->
                   false;
@@ -627,7 +576,6 @@ all_not_node(Seq) ->
    lists:all(IsNode, Seq).
 
 get_seq_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
-
 get_seq_type(List) when is_list(List) ->
    Hd = hd(List),
    HType = get_item_type(Hd),

@@ -21,6 +21,7 @@
 %% -------------------------------------------------------------------
 
 %% @doc Scans/tokenizes XQuery source code for use in xqerl_parser.
+%% @TODO replace with leex. 
 
 -module(xqerl_scanner).
 
