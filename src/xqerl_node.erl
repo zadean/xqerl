@@ -197,8 +197,13 @@ ensure_qname(#xqAtomicValue{} = V, InScopeNamespaces) ->
 ensure_qname([H], InScopeNamespaces) ->
    ensure_qname(H, InScopeNamespaces);
 ensure_qname(QName, InScopeNamespaces) ->
-   ?dbg("XPTY0004",{QName, InScopeNamespaces}),
-   ?err('XPTY0004').
+   case ?seq:from_list(QName) of
+      [H] ->
+         ensure_qname(H, InScopeNamespaces);
+      _ ->
+         ?dbg("XPTY0004",{QName, InScopeNamespaces}),
+         ?err('XPTY0004')
+   end.
 
 %% A namespace binding is created for each namespace declared in the current 
 %%   element constructor by a namespace declaration attribute.

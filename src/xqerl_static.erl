@@ -873,13 +873,13 @@ handle_node(State, #xqKindTest{kind = 'document-node',
    set_statement(State, Node#xqKindTest{test = St});
 
 handle_node(State, #xqKindTest{kind = Kind, name = Name} = Node) ->
+   QName = resolve_qname(Name, State),
    if Kind == 'schema-element';
       Kind == 'schema-attribute' -> % not supported, so all names are unknown
          ?err('XPST0008');
       true ->
          ok
    end,
-   QName = resolve_qname(Name, State),
    set_statement(State, Node#xqKindTest{name = QName});
 
 handle_node(State, #xqNameTest{name = Name} = Node) ->
@@ -3386,7 +3386,7 @@ pro_glob_functions(Prolog) ->
              % check reserved NS 
              ok = xqerl_lib:reserved_namespaces(Ns),
              % check reserved annotation NS 
-             A = fun({annotation,
+             Af = fun({annotation,
                       {#qname{namespace = "http://www.w3.org/2012/xquery",
                               local_name = L},_}}) when L == "public";
                                                         L == "private" ->
@@ -3394,7 +3394,7 @@ pro_glob_functions(Prolog) ->
                     ({annotation,{#qname{namespace = N},_}}) ->
                        ok = xqerl_lib:reserved_namespaces(N)
                  end,
-             _ = lists:foreach(A, Annos),
+             _ = lists:foreach(Af, Annos),
              % check dupe public/private 
              B = fun({annotation,
                       {#qname{namespace = "http://www.w3.org/2012/xquery",
@@ -3486,7 +3486,7 @@ scan_functions(Functions) ->
                   name = Name, 
                   type = Type} <- Functions,
       % block private functions from being visible
-      not P(Annos)].
+      P(Annos) /= []].
 
 %% {Name, Type, Annos, function_name, External }
 scan_variables(_State, Variables) ->
