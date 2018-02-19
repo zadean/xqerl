@@ -91,7 +91,7 @@ sequence(L) ->
    [L].
 
 ensure_one([A]) -> A;
-ensure_one(A) when is_list(A) -> ?err('XPTY0004');
+ensure_one([_|_]) -> ?err('XPTY0004');
 ensure_one(A) -> A.
 
 ensure_one_or_more([]) -> ?err('XPTY0004');
@@ -100,7 +100,7 @@ ensure_one_or_more(A) -> A.
 
 ensure_zero_or_one([]) -> [];
 ensure_zero_or_one([A]) -> A;
-ensure_zero_or_one(A) when is_list(A) -> ?err('XPTY0004');
+ensure_zero_or_one([_|_]) -> ?err('XPTY0004');
 ensure_zero_or_one(A) -> A.
 
 ensure_zero_or_more(A) -> A.
@@ -115,8 +115,7 @@ is_empty([]) -> true;
 is_empty(_) -> false.
 
 % used?
-is_sequence(L) when is_list(L) -> true;
-is_sequence(_) -> false.
+is_sequence(L) -> is_list(L).
 
 head([]) -> [];
 head([H|_]) -> H;
@@ -173,10 +172,10 @@ set_fun1(List1, List2, Fun) ->
 
 singleton_value([]) -> [];
 singleton_value([V]) -> V;
+singleton_value([_|_]) -> ?err('XPTY0004');
 singleton_value(#xqFunction{body = V}) -> V;
-singleton_value(V) when not is_list(V) -> V;
-singleton_value(V) when is_list(V) -> 
-   ?err('XPTY0004').
+singleton_value(V) -> V.
+
 
 singleton(V) when not is_list(V) ->
    [V];
@@ -409,10 +408,8 @@ flatten([H|T]) -> [H | flatten(T)];
 flatten([]) -> [];
 flatten(E) -> [E].
 
-from_list(List) when is_list(List) ->
-   ?MODULE:flatten(List);
 from_list(List) ->
-   [List].
+   ?MODULE:flatten(List).
 
 range(_, []) -> empty();
 range([], _) -> empty();

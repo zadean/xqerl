@@ -907,12 +907,6 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                                        test = KTest, 
                                                        type = KType} = Kt, 
                                predicates = Preds} = Node) ->
-   if Kind == 'schema-element';
-      Kind == 'schema-attribute' -> % not supported, so all names are unknown
-         ?err('XPST0008');
-      true ->
-         ok
-   end,
    KName1 = if Kind == 'processing-instruction' ->
                   resolve_pi_name(State, KName);
                Kind == 'element' ->
@@ -922,6 +916,12 @@ handle_node(State, #xqAxisStep{direction = Direction,
                true ->
                   resolve_qname(KName, State)
             end,
+   if Kind == 'schema-element';
+      Kind == 'schema-attribute' -> % not supported, so all names are unknown
+         ?err('XPST0008');
+      true ->
+         ok
+   end,
    KTest1 = case KTest of
                #xqKindTest{} = KTt ->
                   get_statement(handle_node(State, KTt));

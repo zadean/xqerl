@@ -2581,14 +2581,14 @@ duration_loop(Year,Month,Day) ->
          duration_loop(OutYear,OutMonth,OutDay)
    end.
 
-key_val([Val]) ->
-   key_val(Val);
-key_val(#xqNode{} = Val) ->
-   key_val(xqerl_node:atomize_nodes(Val));
 key_val(#xqAtomicValue{type = Type, value = V}) 
    when ?string(Type);
         Type == 'xs:anyURI';
         Type == 'xs:untypedAtomic' -> V;
+key_val([Val]) ->
+   key_val(Val);
+key_val(#xqNode{} = Val) ->
+   key_val(xqerl_node:atomize_nodes(Val));
 key_val(#xqAtomicValue{type = 'xs:integer', value = V}) ->
    {number,decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:decimal', value = V}) ->
@@ -2618,17 +2618,17 @@ key_val(#xqAtomicValue{type = 'xs:duration', value = V}) ->
 key_val(#xqAtomicValue{type = 'xs:date'} = Val) ->
    S = #off_set{sign = '+', hour = 0, min = 0},
    #xqAtomicValue{type = 'xs:date', value = V} = 
-     xqerl_fn:'adjust-date-to-timezone'([],Val,S),
+     xqerl_datetime:align_to_timezone(Val,S),
    {time,V};
 key_val(#xqAtomicValue{type = 'xs:dateTime'} = Val) ->
    S = #off_set{sign = '+', hour = 0, min = 0},
-   #xqAtomicValue{type = 'xs:dateTime', value = V} = 
-     xqerl_fn:'adjust-dateTime-to-timezone'([],Val,S),
+   #xqAtomicValue{type = 'xs:dateTime', value = V} =
+     xqerl_datetime:align_to_timezone(Val,S),
    {time,V};
 key_val(#xqAtomicValue{type = 'xs:time'} = Val) ->
    S = #off_set{sign = '+', hour = 0, min = 0},
    #xqAtomicValue{type = 'xs:time', value = V} = 
-     xqerl_fn:'adjust-time-to-timezone'([],Val,S),
+     xqerl_datetime:align_to_timezone(Val,S),
    {time,V};
 key_val(#xqAtomicValue{type = 'xs:QName', 
                        value = #qname{namespace = N,local_name = L}}) ->

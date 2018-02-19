@@ -158,18 +158,14 @@ find1([_|T], Key) ->
 'merge'(_Ctx,Maps) when is_map(Maps) ->
    Maps;
 'merge'(_Ctx,Maps) ->
-   OptionMap = 
-     ?MODULE:put([],
-                 #{},
-                 #xqAtomicValue{value = "duplicates", type = 'xs:string'},
-                 #xqAtomicValue{value = "use-first"}),
-   'merge'(_Ctx,Maps,OptionMap).
+   Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
+   maps:from_list(Lists).
 
 'merge'(_Ctx,[],_) -> #{};
 'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
-               end, [], lists:reverse(Maps));
+               end, #{}, lists:reverse(Maps));
 'merge'(_,_,_) -> 
    ?err('FOJS0005').
 
@@ -190,16 +186,19 @@ find1([_|T], Key) ->
 'size'(_Ctx,Map) -> 
    ?sin(#xqAtomicValue{type='xs:integer', value = maps:size(?val(Map)) }).
 
-combine_maps(Map1, [], _Any) ->
+combine_maps(Map1, Map2, _Any) when erlang:map_size(Map2) == 0 ->
    Map1;
-combine_maps([], Map1, _Any) ->
-   Map1;
+combine_maps(Map1, Map2, _Any) when erlang:map_size(Map1) == 0 ->
+   Map2;
 combine_maps(Map1, Map2, "use-first") ->
-   maps:merge(Map1, Map2);
+   Lists = lists:append([maps:to_list(M) || M <- [Map1,Map2]]),
+   maps:from_list(Lists);
 combine_maps(Map1, Map2, "use-any") ->
-   maps:merge(Map2, Map1);
+   Lists = lists:append([maps:to_list(M) || M <- [Map1,Map2]]),
+   maps:from_list(Lists);
 combine_maps(Map1, Map2, "use-last") ->
-   maps:merge(Map2, Map1);
+   Lists = lists:append([maps:to_list(M) || M <- [Map2,Map1]]),
+   maps:from_list(Lists);
 combine_maps(Map1, Map2, "reject") ->
    case maps:size(maps:with(maps:keys(Map2), Map1)) of
       0 ->
