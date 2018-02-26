@@ -189,6 +189,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('acme_corp',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "union/acme_corp.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -198,6 +210,18 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
+{resources, []},
+{modules, []}
+];
+environment('bib2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "union/bib2.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -337,30 +361,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('acme_corp',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "union/acme_corp.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('bib2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "union/bib2.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

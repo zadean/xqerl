@@ -61,6 +61,18 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('json-files',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, [{filename:join(BaseDir, "../fn/parse-json/data004.json"),"http://www.w3.org/qt3/json/data004-json"}]},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -198,18 +210,6 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
-{modules, []}
-];
-environment('json-files',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{filename:join(BaseDir, "../fn/parse-json/data004.json"),"http://www.w3.org/qt3/json/data004-json"}]},
 {modules, []}
 ].
 'map-find-001'(Config) ->

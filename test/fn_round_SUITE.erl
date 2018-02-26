@@ -547,6 +547,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('emptydoc',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -559,10 +571,46 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('e0',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "abs/e0.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('e1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "abs/e1.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('e-1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "abs/e-1.xml"), ".",""}]},
+{schemas, []},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -695,54 +743,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('emptydoc',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('e0',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "abs/e0.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('e1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "abs/e1.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('e-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "abs/e-1.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

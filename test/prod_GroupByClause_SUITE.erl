@@ -99,6 +99,21 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('GroupByUseCases',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "GroupByClause/products.xml"), "$products-doc",""},
+{filename:join(BaseDir, "GroupByClause/sales-records.xml"), "$sales-records-doc",""},
+{filename:join(BaseDir, "GroupByClause/stores.xml"), "$stores-doc",""},
+{filename:join(BaseDir, "GroupByClause/books.xml"), "$books-doc",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -235,21 +250,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('GroupByUseCases',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "GroupByClause/products.xml"), "$products-doc",""},
-{filename:join(BaseDir, "GroupByClause/sales-records.xml"), "$sales-records-doc",""},
-{filename:join(BaseDir, "GroupByClause/stores.xml"), "$stores-doc",""},
-{filename:join(BaseDir, "GroupByClause/books.xml"), "$books-doc",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

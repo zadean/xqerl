@@ -1319,6 +1319,22 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('global',BaseDir) ->
+[{'decimal-formats', [{"ch",[{'decimal-separator',"·"},
+{'grouping-separator',"ʹ"}]},
+{"fortran",[{'exponent-separator',"E"}]}]},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"},
+{"http://www.w3.org/2005/xpath-functions/map","map"},
+{"http://www.w3.org/2005/xpath-functions/array","array"}]},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -1455,22 +1471,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('global',BaseDir) ->
-[{'decimal-formats', [{"ch",[{'decimal-separator',"·"},
-{'grouping-separator',"ʹ"}]},
-{"fortran",[{'exponent-separator',"E"}]}]},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"},
-{"http://www.w3.org/2005/xpath-functions/map","map"},
-{"http://www.w3.org/2005/xpath-functions/array","array"}]},
 {resources, []},
 {modules, []}
 ].

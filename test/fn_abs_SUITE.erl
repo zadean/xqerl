@@ -379,18 +379,6 @@ all() -> [
    'K2-ABSFunc-50',
    'fn-abs-1',
    'cbcl-abs-001'].
-environment('e0',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "abs/e0.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -403,9 +391,9 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('e1',BaseDir) ->
+environment('e0',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "abs/e1.xml"), ".",""}]},
+{sources, [{filename:join(BaseDir, "abs/e0.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -424,6 +412,18 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
+{resources, []},
+{modules, []}
+];
+environment('e1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "abs/e1.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];

@@ -213,6 +213,42 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('UCA-collation',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('UCA-collation.en',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('UCA-collation.en.primary',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -349,42 +385,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('UCA-collation',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('UCA-collation.en',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('UCA-collation.en.primary',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collation","","'http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;'"}]},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

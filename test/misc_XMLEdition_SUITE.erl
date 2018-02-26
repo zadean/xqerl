@@ -256,7 +256,7 @@ environment('array-and-map',BaseDir) ->
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end,
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;Ϳnode/&gt;</serialization-matches>", Res])]) of 
+   ct:fail(["<Ϳnode/>", Res])]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -273,7 +273,7 @@ environment('array-and-map',BaseDir) ->
 
 xquery version \"1.0\" encoding \"utf-8\";
 
-<��node/>
+< node/>
 ",
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
@@ -332,7 +332,7 @@ xquery version \"1.0\" encoding \"utf-8\";
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end,
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">&lt;eggſ/&gt;</serialization-matches>", Res])]) of 
+   ct:fail(["<eggſ/>", Res])]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

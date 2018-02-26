@@ -303,6 +303,30 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('MixNS',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "DirElemContent.namespace/MixNS.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('inscope',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "DirElemContent.namespace/inscope.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -439,30 +463,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('MixNS',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "DirElemContent.namespace/MixNS.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('inscope',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "DirElemContent.namespace/inscope.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

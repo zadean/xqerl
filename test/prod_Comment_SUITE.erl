@@ -127,6 +127,30 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('fsx_NS',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "ForClause/fsx_NS.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.example.com/filesystem","fs"}]},
+{resources, []},
+{modules, []}
+];
+environment('TreeEmpty',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "AxisStep/TreeEmpty.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -263,30 +287,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('fsx_NS',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "ForClause/fsx_NS.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/filesystem","fs"}]},
-{resources, []},
-{modules, []}
-];
-environment('TreeEmpty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "AxisStep/TreeEmpty.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

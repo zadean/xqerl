@@ -1029,6 +1029,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('functx_order',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "FunctxFn/functx_order.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -1041,10 +1053,46 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('functx_catalog',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "FunctxFn/functx_catalog.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('functx_cats',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "FunctxFn/functx_cats.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('functx_prices',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "FunctxFn/functx_prices.xml"), ".",""}]},
+{schemas, []},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -1177,54 +1225,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('functx_order',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_order.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('functx_catalog',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_catalog.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('functx_cats',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_cats.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('functx_prices',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "FunctxFn/functx_prices.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

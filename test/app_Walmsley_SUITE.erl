@@ -470,6 +470,20 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('all',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "Walmsley/catalog.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
+{filename:join(BaseDir, "Walmsley/render.xsl"), "","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/"}]},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, [{filename:join(BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -619,20 +633,6 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
-{modules, []}
-];
-environment('all',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "Walmsley/catalog.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
-{filename:join(BaseDir, "Walmsley/render.xsl"), "","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/"}]},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{filename:join(BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
 {modules, []}
 ].
 'd1e11215'(Config) ->

@@ -81,6 +81,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('fsx',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -229,18 +241,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('fsx',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

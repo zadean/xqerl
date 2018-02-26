@@ -39,6 +39,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('speech-representation.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseNLP/speech-representation.json"),"http://xqerl.org/speech-representation.json"}]},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -188,18 +200,6 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
-{modules, []}
-];
-environment('speech-representation.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseNLP/speech-representation.json"),"http://xqerl.org/speech-representation.json"}]},
 {modules, []}
 ].
 'UseCaseNLP-001'(Config) ->

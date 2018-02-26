@@ -571,10 +571,34 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('orderdata',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('namespace-sensitive',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xsd"),"http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -595,10 +619,34 @@ environment('works-mod',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('xqst0036',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQST0036.xsd"),"http://www.example.org/2007/schema/XQST0036"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('foty0012',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/FOTY0012.xsd"),"http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -619,11 +667,35 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('xqdy0027',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0027.xsd"),"http://www.example.org/2007/schema/XQDY0027"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
 {filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('xqdy0084',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0084.xsd"),"http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -707,78 +779,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('orderdata',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('namespace-sensitive',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xsd"),"http://www.xqsharp.com/test/namespace-sensitive"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('xqst0036',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQST0036.xsd"),"http://www.example.org/2007/schema/XQST0036"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('foty0012',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/FOTY0012.xsd"),"http://www.example.org/2007/schema/FOTY0012"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('xqdy0027',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0027.xsd"),"http://www.example.org/2007/schema/XQDY0027"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('xqdy0084',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0084.xsd"),"http://www.example.org/2007/schema/XQDY0084"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

@@ -103,6 +103,19 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('default-collection-1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -115,11 +128,38 @@ environment('atomic-xq',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('simple-collection-1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('default-collection-2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")},
+{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
 {'static-base-uri', []},
 {params, []},
 {vars, []},
@@ -164,6 +204,20 @@ environment('works-and-staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('simple-collection-2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")},
+{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
@@ -181,6 +235,30 @@ environment('auction',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('integer-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,"1 to 10"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('atomic-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,"(1, \"hello\", 1e0)"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
@@ -190,6 +268,18 @@ environment('qname',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
+{resources, []},
+{modules, []}
+];
+environment('default-string-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{query,"(\"goodbye\", \"cruel\", \"world\")"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -239,96 +329,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('default-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('simple-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('default-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('simple-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('integer-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,"1 to 10"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('atomic-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,"(1, \"hello\", 1e0)"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('default-string-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{query,"(\"goodbye\", \"cruel\", \"world\")"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

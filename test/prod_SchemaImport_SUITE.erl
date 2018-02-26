@@ -317,10 +317,46 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('hats',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('abf',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('abf-emptydoc',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -341,10 +377,34 @@ environment('works-mod',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('mini-fpml',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/mini-fpml.xsd"),"http://www.fpml.org/2005/FpML-4-2"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('addresses',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/addresses.xsd"),"http://www.w3.org/XQueryTest/addresses"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -365,10 +425,46 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('money',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/money.xsd"),"http://www.w3.org/XQueryTest/money"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
 {filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('QNameComparisonTest',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/QNameComparisonTest.xsd"),"http://www.w3.org/XQueryTest/QNameComparisonTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('emptydoc',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), "$emptydoc1",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -392,6 +488,42 @@ environment('auction',BaseDir) ->
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
 {"http://www.example.com/auctioneers#yabadoo","yabadoo"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('substitution',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/substitution.xsd"),"http://www.w3.org/XQueryTest/substitution"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('substitution11',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/substitution11.xsd"),"http://www.w3.org/XQueryTest/substitution11"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('validate',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -453,138 +585,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('hats',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('abf',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('abf-emptydoc',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('mini-fpml',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/mini-fpml.xsd"),"http://www.fpml.org/2005/FpML-4-2"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('addresses',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/addresses.xsd"),"http://www.w3.org/XQueryTest/addresses"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('money',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/money.xsd"),"http://www.w3.org/XQueryTest/money"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('QNameComparisonTest',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/QNameComparisonTest.xsd"),"http://www.w3.org/XQueryTest/QNameComparisonTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('emptydoc',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/emptydoc.xml"), "$emptydoc1",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('substitution',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/substitution.xsd"),"http://www.w3.org/XQueryTest/substitution"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('substitution11',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/substitution11.xsd"),"http://www.w3.org/XQueryTest/substitution11"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('validate',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

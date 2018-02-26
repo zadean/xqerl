@@ -133,6 +133,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('TopMany',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../prod/AxisStep/TopMany.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -142,6 +154,18 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
+{resources, []},
+{modules, []}
+];
+environment('works-mod-uri',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -281,30 +305,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('TopMany',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/AxisStep/TopMany.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('works-mod-uri',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].

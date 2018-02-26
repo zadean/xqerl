@@ -171,6 +171,20 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('json-files',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/json","j"}]},
+{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
+{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
+{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -181,6 +195,23 @@ environment('atomic-xq',BaseDir) ->
 {vars, []},
 {namespaces, []},
 {resources, []},
+{modules, []}
+];
+environment('json-doc-array',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "json-doc/arrayEmpty.json"),"http://www.w3.org/qt3/json/arrayEmpty-json"},
+{filename:join(BaseDir, "json-doc/arrayNumber.json"),"http://www.w3.org/qt3/json/arrayNumber-json"},
+{filename:join(BaseDir, "json-doc/arrayString.json"),"http://www.w3.org/qt3/json/arrayString-json"},
+{filename:join(BaseDir, "json-doc/arrayTrue.json"),"http://www.w3.org/qt3/json/arrayTrue-json"},
+{filename:join(BaseDir, "json-doc/arrayFalse.json"),"http://www.w3.org/qt3/json/arrayFalse-json"},
+{filename:join(BaseDir, "json-doc/arrayNull.json"),"http://www.w3.org/qt3/json/arrayNull-json"}]},
 {modules, []}
 ];
 environment('works-mod',BaseDir) ->
@@ -232,6 +263,24 @@ environment('works-and-staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('json-doc-map',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "json-doc/mapEmpty.json"),"http://www.w3.org/qt3/json/mapEmpty-json"},
+{filename:join(BaseDir, "json-doc/mapDuplicates.json"),"http://www.w3.org/qt3/json/mapDuplicates-json"},
+{filename:join(BaseDir, "json-doc/mapUnescape.json"),"http://www.w3.org/qt3/json/mapUnescape-json"},
+{filename:join(BaseDir, "json-doc/mapUnescape10.json"),"http://www.w3.org/qt3/json/mapUnescape10-json"},
+{filename:join(BaseDir, "json-doc/mapUnescapeUnpaired10.json"),"http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
+{filename:join(BaseDir, "json-doc/mapZeroLength.json"),"http://www.w3.org/qt3/json/mapZeroLength-json"},
+{filename:join(BaseDir, "json-doc/mapDuplicatesEscape.json"),"http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
+{modules, []}
+];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
@@ -259,6 +308,21 @@ environment('qname',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
 {resources, []},
+{modules, []}
+];
+environment('json-doc-number',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "json-doc/number001.json"),"http://www.w3.org/qt3/json/number001-json"},
+{filename:join(BaseDir, "json-doc/number002.json"),"http://www.w3.org/qt3/json/number002-json"},
+{filename:join(BaseDir, "json-doc/number003.json"),"http://www.w3.org/qt3/json/number003-json"},
+{filename:join(BaseDir, "json-doc/number004.json"),"http://www.w3.org/qt3/json/number004-json"}]},
 {modules, []}
 ];
 environment('math',BaseDir) ->
@@ -308,70 +372,6 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
-{modules, []}
-];
-environment('json-files',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/json","j"}]},
-{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
-{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
-{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
-{modules, []}
-];
-environment('json-doc-array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "json-doc/arrayEmpty.json"),"http://www.w3.org/qt3/json/arrayEmpty-json"},
-{filename:join(BaseDir, "json-doc/arrayNumber.json"),"http://www.w3.org/qt3/json/arrayNumber-json"},
-{filename:join(BaseDir, "json-doc/arrayString.json"),"http://www.w3.org/qt3/json/arrayString-json"},
-{filename:join(BaseDir, "json-doc/arrayTrue.json"),"http://www.w3.org/qt3/json/arrayTrue-json"},
-{filename:join(BaseDir, "json-doc/arrayFalse.json"),"http://www.w3.org/qt3/json/arrayFalse-json"},
-{filename:join(BaseDir, "json-doc/arrayNull.json"),"http://www.w3.org/qt3/json/arrayNull-json"}]},
-{modules, []}
-];
-environment('json-doc-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "json-doc/mapEmpty.json"),"http://www.w3.org/qt3/json/mapEmpty-json"},
-{filename:join(BaseDir, "json-doc/mapDuplicates.json"),"http://www.w3.org/qt3/json/mapDuplicates-json"},
-{filename:join(BaseDir, "json-doc/mapUnescape.json"),"http://www.w3.org/qt3/json/mapUnescape-json"},
-{filename:join(BaseDir, "json-doc/mapUnescape10.json"),"http://www.w3.org/qt3/json/mapUnescape10-json"},
-{filename:join(BaseDir, "json-doc/mapUnescapeUnpaired10.json"),"http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json"},
-{filename:join(BaseDir, "json-doc/mapZeroLength.json"),"http://www.w3.org/qt3/json/mapZeroLength-json"},
-{filename:join(BaseDir, "json-doc/mapDuplicatesEscape.json"),"http://www.w3.org/qt3/json/mapDuplicatesEscape-json"}]},
-{modules, []}
-];
-environment('json-doc-number',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "json-doc/number001.json"),"http://www.w3.org/qt3/json/number001-json"},
-{filename:join(BaseDir, "json-doc/number002.json"),"http://www.w3.org/qt3/json/number002-json"},
-{filename:join(BaseDir, "json-doc/number003.json"),"http://www.w3.org/qt3/json/number003-json"},
-{filename:join(BaseDir, "json-doc/number004.json"),"http://www.w3.org/qt3/json/number004-json"}]},
 {modules, []}
 ];
 environment('json-doc-string',BaseDir) ->

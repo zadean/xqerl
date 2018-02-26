@@ -259,10 +259,39 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('works-mod-uri2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"},
+{filename:join(BaseDir, "transform/render.xsl"), "","http://www.w3.org/fots/fn/transform/render.xsl"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"},
+{"render","xs:string","'http://www.w3.org/fots/fn/transform/render.xsl'"},
+{"base-uri","xs:string","'http://www.w3.org/fots/fn/transform/output-doc.xml'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('works-mod-local',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), "$works",""},
+{filename:join(BaseDir, "transform/render.xsl"), "$render",""},
+{filename:join(BaseDir, "transform/include.xsl"), "$include",""}]},
+{schemas, []},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -295,6 +324,18 @@ environment('works',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('variable-uri',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "transform/variable.xsl"), ".","http://www.w3.org/fots/fn/transform/variable.xsl"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"variable-uri","xs:string","'http://www.w3.org/fots/fn/transform/variable.xsl'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
@@ -317,6 +358,31 @@ environment('works-and-staff',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('variable-with-context',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "transform/variable-with-context.xsl"), "$stylesheet",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('multiple-result-docs',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "transform/multipledocs.xsl"), "$multipledocs",""},
+{filename:join(BaseDir, "transform/sections.xml"), "$sections",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ];
@@ -395,72 +461,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('works-mod-uri2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"},
-{filename:join(BaseDir, "transform/render.xsl"), "","http://www.w3.org/fots/fn/transform/render.xsl"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"},
-{"render","xs:string","'http://www.w3.org/fots/fn/transform/render.xsl'"},
-{"base-uri","xs:string","'http://www.w3.org/fots/fn/transform/output-doc.xml'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('works-mod-local',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), "$works",""},
-{filename:join(BaseDir, "transform/render.xsl"), "$render",""},
-{filename:join(BaseDir, "transform/include.xsl"), "$include",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('variable-uri',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "transform/variable.xsl"), ".","http://www.w3.org/fots/fn/transform/variable.xsl"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"variable-uri","xs:string","'http://www.w3.org/fots/fn/transform/variable.xsl'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('variable-with-context',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "transform/variable-with-context.xsl"), "$stylesheet",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('multiple-result-docs',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "transform/multipledocs.xsl"), "$multipledocs",""},
-{filename:join(BaseDir, "transform/sections.xml"), "$sections",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
 ].

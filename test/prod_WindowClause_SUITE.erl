@@ -271,6 +271,30 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('WindowingUseCases01',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases01S',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/arrange_rows.xsd"),""}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -283,10 +307,34 @@ environment('atomic-xq',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('WindowingUseCases02',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases02S',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/head_para.xsd"),""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -319,11 +367,35 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('WindowingUseCases03',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
 {filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases03S',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/term_def_list.xsd"),""}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -349,6 +421,30 @@ environment('auction',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('WindowingUseCases04',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases04S',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/temp_events.xsd"),""}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
@@ -358,6 +454,30 @@ environment('qname',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases05',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('WindowingUseCases05S',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "WindowClause/person_events.xsd"),""}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -397,6 +517,18 @@ environment('map',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('WindowingUseCases06',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "WindowClause/rss.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('array-and-map',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -407,138 +539,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases01',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases01S',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/arrange_rows.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "WindowClause/arrange_rows.xsd"),""}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases02',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases02S',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/head_para.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "WindowClause/head_para.xsd"),""}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases03',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases03S',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/term_def_list.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "WindowClause/term_def_list.xsd"),""}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases04',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases04S',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/temp_events.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "WindowClause/temp_events.xsd"),""}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases05',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases05S',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/person_events.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "WindowClause/person_events.xsd"),""}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('WindowingUseCases06',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "WindowClause/rss.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];

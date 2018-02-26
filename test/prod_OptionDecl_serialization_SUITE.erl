@@ -115,6 +115,18 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('user-defined-types',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -251,18 +263,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('user-defined-types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ].
@@ -939,14 +939,14 @@ environment('user-defined-types',BaseDir) ->
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[ta\\]</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tb\\]</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tc\\]</serialization-matches>", Res]),
-   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[td\\]</serialization-matches>", Res]),
-   case (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[te\\]</serialization-matches>", Res])) of 
+   ct:fail(["CDATA\\[ta\\]", Res]),
+   ct:fail(["CDATA\\[tb\\]", Res]),
+   ct:fail(["CDATA\\[tc\\]", Res]),
+   ct:fail(["CDATA\\[td\\]", Res]),
+   case (   ct:fail(["CDATA\\[te\\]", Res])) of 
       {comment,C6} -> C6; _ -> {comment,ok}
    end,
-   case (   ct:fail(["<serialization-matches xmlns=\"http://www.w3.org/2010/09/qt-fots-catalog\">CDATA\\[tt\\]</serialization-matches>", Res])) of 
+   case (   ct:fail(["CDATA\\[tt\\]", Res])) of 
       {comment,C6} -> C6; _ -> {comment,ok}
    end]) of 
       true -> {comment, "all-of"};

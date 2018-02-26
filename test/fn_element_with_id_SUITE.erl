@@ -35,6 +35,18 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
+environment('id-idref2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "id/id2.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/XQueryTest/ididrefs","ids"}]},
+{resources, []},
+{modules, []}
+];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -183,18 +195,6 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('id-idref2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "id/id2.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/XQueryTest/ididrefs","ids"}]},
 {resources, []},
 {modules, []}
 ].

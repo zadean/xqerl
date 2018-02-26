@@ -1,8 +1,8 @@
-declare option db:chop 'false';
+(: declare option db:chop 'false';
 declare option output:indent "no";
 declare option output:cdata-section-elements "Q{http://www.w3.org/2010/09/qt-fots-catalog}test
                                               Q{http://www.w3.org/2010/09/qt-fots-catalog}result
-                                              Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-string-value";
+                                              Q{http://www.w3.org/2010/09/qt-fots-catalog}assert-string-value"; :)
 
 declare function local:print-result($result)
 {
@@ -126,7 +126,8 @@ declare function local:print-result($result)
     "      {false, F} -> F " ||'&#10;'|| 
     "   end"
   else (: TODO :)
-    ("   ct:fail(["||local:mask-string(fn:serialize($result))||", Res])") (: => trace() :)
+    ("   ct:fail(["||local:mask-string(fn:string($result))||", Res])") (: => trace() :)
+    (: ("   ct:fail(["||local:mask-string(fn:serialize($result))||", Res])") (: => trace() :) :)
 };
 
 declare function local:print-testcase($test-case)
@@ -268,7 +269,8 @@ declare function local:print-testcase($test-case)
     (
       if ($test-case/*:test/@file) then
         resolve-uri($test-case/*:test/@file, base-uri($test-case)) =>
-        file:read-text("utf-8",true()) =>
+        file:read-text("utf-8") =>
+        (: file:read-text("utf-8",true()) => :)
         local:mask-string()
       else
         local:mask-string($test-case/*:test/text())
@@ -555,7 +557,7 @@ declare function local:mask-string($text)
     let $list := 
       replace(
         replace(
-          $text,
+          $text => string-join(),
           '\\','\\\\'),
         """","\\""")
     return """"||$list||""""
@@ -573,7 +575,7 @@ declare function local:mask-string($text)
 (
 let $doc := doc("QT3-test-suite/catalog.xml")
 let $globalEnvs := $doc/*:catalog/*:environment
-for $ts in$doc/*:catalog/*:test-set(: [@name = "prod-AxisStep.abbr"] :)
+for $ts in $doc/*:catalog/*:test-set(: [@name = "app-spec-examples"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 
 let $subdir := substring-before($ts/@file,"/")
 let $case := doc($file)
