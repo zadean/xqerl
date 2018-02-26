@@ -2612,7 +2612,7 @@ handle_node(State, {'function-call', #qname{namespace = undefined} = Name,
 % catch all for all fx's
 handle_node(State, {'function-call', Name, Arity, Args}) ->
    #xqFunction{params = Params, type = Type} = 
-     F = get_static_function(State, {Name, Arity}),
+   F = get_static_function(State, {Name, Arity}),
    StateC = set_in_constructor(State, false),
    SimpArgs = handle_list(StateC, Args),
    CheckArgs = check_fun_arg_types(State, SimpArgs, Params),

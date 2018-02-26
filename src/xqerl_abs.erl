@@ -1160,7 +1160,7 @@ expr_do(Ctx, {LU, Val}) when LU =:= array_lookup;
 expr_do(Ctx, {postfix, Base, Preds}) when is_list(Preds) ->
    Source = expr_do(Ctx, Base),
    lists:foldl(fun(Val, Abs) ->
-                     ?dbg("Val",Val),
+                     %?dbg("Val",Val),
                      handle_predicate({Ctx, Val}, Abs)
                end, Source, Preds);
 

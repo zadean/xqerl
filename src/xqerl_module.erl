@@ -199,7 +199,13 @@ get_module_name(ModNamespace) ->
    
 
 get_static_signatures() ->
-   Mods = [xqerl_fn,xqerl_math,xqerl_map,xqerl_array,xqerl_xs,xqerl_error],
+   Mods = [xqerl_fn,
+           xqerl_math,
+           xqerl_map,
+           xqerl_array,
+           xqerl_xs,
+           xqerl_expath_file,
+           xqerl_error],
    Query = fun(Mod,{PFunsAcc,PVarsAcc,_}) ->
                  Atts = Mod:module_info(attributes),
                  Vars = proplists:get_value(variables, Atts, []),

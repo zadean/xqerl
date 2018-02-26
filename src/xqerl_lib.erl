@@ -303,7 +303,7 @@ resolve_against_base_uri("xqerl_main",RelPath) ->
 resolve_against_base_uri(Base,RelPath0) ->
    ok = check_bad_percent(RelPath0),
    RelPath = ensure_schema(RelPath0),
-   ?dbg("RelPath",RelPath),
+   %?dbg("RelPath",RelPath),
    Opts = [{scheme_defaults,
             [{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
    case http_uri:parse(RelPath,Opts) of
@@ -315,8 +315,8 @@ resolve_against_base_uri(Base,RelPath0) ->
             NonHeir ->
                RelPath;
             true ->
-               ?dbg("Base",Base),
-               ?dbg("RelPath",RelPath),
+               %?dbg("Base",Base),
+               %?dbg("RelPath",RelPath),
                % leading slash on relative does not mean root
                RelPath1 = if hd(RelPath) == $/ ->
                                 tl(RelPath);
@@ -325,15 +325,15 @@ resolve_against_base_uri(Base,RelPath0) ->
                           end,
                % fragments allowed on base
                {ok, Parsed} = http_uri:parse(Base,Opts), 
-               ?dbg("RelPath1",RelPath1),
-               ?dbg("Parsed",Parsed),
+               %?dbg("RelPath1",RelPath1),
+               %?dbg("Parsed",Parsed),
                parsed_to_path(RelPath1,Parsed)
          end;
       {ok,{_,_,_,_,"/",_,[]}} ->
-         ?dbg("RelPath",RelPath),
+         %?dbg("RelPath",RelPath),
          RelPath;
       {ok,{_,_,_,_,_,Q,[]} = P} ->
-         ?dbg("P",P),
+         %?dbg("P",P),
          parsed_to_path([],P) ++ Q;
       _ ->
          % relative with fragment
@@ -342,7 +342,7 @@ resolve_against_base_uri(Base,RelPath0) ->
 
 parsed_to_path([],{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
    Safe = simplify_path(tl(Path)),
-   ?dbg("Safe",Safe),
+   %?dbg("Safe",Safe),
    Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
    if Dir ->
          atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ "/";
@@ -357,9 +357,9 @@ parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, []}) ->
                 false -> filename:dirname(tl(Path))
              end,
    Joined = simplify_path(uri_join(PathDir,RelPath)),
-   ?dbg("PathDir",PathDir),
-   ?dbg("RelPath",RelPath),
-   ?dbg("Joined",Joined),
+   %?dbg("PathDir",PathDir),
+   %?dbg("RelPath",RelPath),
+   %?dbg("Joined",Joined),
    Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
    RelDir = RelPath =/= "/" andalso lists:last(RelPath) =:= $/,
    if Joined == [] andalso Dir ->

@@ -766,6 +766,7 @@ static_namespaces() ->
      {"math", "http://www.w3.org/2005/xpath-functions/math"},
      {"map",  "http://www.w3.org/2005/xpath-functions/map"},
      {"array","http://www.w3.org/2005/xpath-functions/array"},
+     {"file", "http://expath.org/ns/file"},
      {"err",  "http://www.w3.org/2005/xqt-errors"}].
 
 static_collations() ->

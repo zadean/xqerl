@@ -164,9 +164,10 @@ read_files(FileList) ->
    lists:foreach(Wt, Lnkd).
 
 read_file(Pid, File) ->
+   Uri = xqerl_lib:resolve_against_base_uri("file:///", File),
    {ok, Xml} = file:read_file(File),
-   Doc = read_stream(Xml, File),
-   _ = store_doc(File, Doc),
+   Doc = read_stream(Xml, Uri),
+   _ = store_doc(Uri, Doc),
    Pid ! {self(),ok}.
 
 read_file(Pid, File, Uri) ->
@@ -200,7 +201,7 @@ read_stream(Xml, Name, State) ->
                read_stream(R, Name, State1)
          end;
       {fatal_error,_Line, Reason, _EndTags, State2} -> % trailing content in a document
-         ?dbg("Reason",Reason),
+         %?dbg("Reason",Reason),
          case ets:info(State2#state.nodes,size) of
          %case maps:size(State2#state.nodes) of
             1 -> % invalid document
@@ -226,7 +227,7 @@ handle_event(startDocument, _Ln, #state{counter = C,
                                         inscope_ns = IsNs, 
                                         filename = FileName} = State) -> 
    if C == 1 ->
-   ?dbg("startDocument",_Ln),
+   %?dbg("startDocument",_Ln),
          Record = #nodes{id = C, tp = document},
          NewIsNs = IsNs#{[] => 1,
                          "xml" => 2},
@@ -250,7 +251,7 @@ handle_event(endDocument, _Ln, #state{element_stack = []} = State) ->
    State; % empty document
 handle_event(endDocument, _Ln, #state{counter = C,
                                       element_stack = [Record|ElemStk]} = State) -> 
-   ?dbg("endDocument",_Ln),
+   %?dbg("endDocument",_Ln),
    NewRec = Record#nodes{sz = C - 2},
    State1 = add_node(State, NewRec),
    State1#state{counter = C, element_stack = ElemStk};
@@ -410,7 +411,7 @@ handle_event(endCDATA, _Ln, State) -> State#state{cdata_flag = false};
 handle_event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value}, _Ln, #state{att_types = AttTypeMap} = State) -> 
    % expecting only local names for attribute types (namespaces in DTDs ?)
    AttTypeMap1 = maps:put({ElementName, AttributeName}, list_to_atom("xs:"++Type), AttTypeMap),
-   ?dbg("AttTypeMap1",AttTypeMap1),
+   %?dbg("AttTypeMap1",AttTypeMap1),
    State#state{att_types = AttTypeMap1};
 
 %% handle_event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;

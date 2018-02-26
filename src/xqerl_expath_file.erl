@@ -354,7 +354,7 @@ size(Ctx,Path) ->
 %%    [file:io-error] is raised if any other error occurs.
 %% NOTE: Params as item to allow map instead of element 
 append(_,?str(File),Items) ->
-   case file:open(File, [append,raw,binary]) of
+   case file:open(File, [append,binary]) of
       {ok,Fd} ->
          case file:write(Fd, erlang:term_to_binary(Items)) of
             ok ->
@@ -392,7 +392,7 @@ append(_,_File,_Items,_Params) ->
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
 append_binary(_,?str(Path),?bin(Value)) ->
-   case file:open(Path, [append,raw,binary]) of
+   case file:open(Path, [append,binary]) of
       {ok,Fd} ->
          case file:write(Fd, Value) of
             ok ->
@@ -437,7 +437,7 @@ append_text(Ctx,Path,Value) ->
 
 append_text(_,?str(Path),?str(Value),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [append,raw,{encoding,Enc}]) of
+   case file:open(Path, [append,{encoding,Enc}]) of
       {ok,Fd} ->
          case file:write(Fd, Value) of
             ok ->
@@ -484,7 +484,7 @@ append_text_lines(Ctx,Path,Values) ->
 
 append_text_lines(_,?str(Path),Values,?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [append,raw,{encoding,Enc}]) of
+   case file:open(Path, [append,{encoding,Enc}]) of
       {ok,Fd} ->
          W = fun(S) ->
                   write_line(Fd,S)
@@ -678,7 +678,7 @@ create_temp_file(_,?str(Prefix),?str(Suffix),?str(Dir)) ->
    FileName = filename:join(Dir,Name),
    try
       ok = filelib:ensure_dir(FileName),
-      {ok,Fd} = file:open(FileName, [write,raw]),
+      {ok,Fd} = file:open(FileName, [write]),
       ok = file:close(Fd),
       ?str(filename:absname(FileName))
    catch
@@ -882,7 +882,7 @@ move(Ctx,Source,Target) ->
 %%       the chosen values would exceed the file bounds.
 %%    [file:io-error] is raised if any other error occurs.
 read_binary(_,?str(File)) ->
-   case file:read_file(File) of
+   case file:read_file(strip_scheme(File)) of
       {ok,Bin} ->
          ?bin(Bin);
       {error,enoent} ->
@@ -899,7 +899,7 @@ read_binary(Ctx,File) ->
 read_binary(_,_,?intv(Offset)) when Offset < 0 ->
    err_out_of_range(Offset);
 read_binary(_,?str(File),?intv(Offset)) ->
-   case file:open(File, [read,binary,raw]) of
+   case file:open(strip_scheme(File), [read,binary]) of
       {ok,Fd} ->
          case do_read_from(Fd,Offset) of
             eof ->
@@ -930,7 +930,7 @@ read_binary(_,_,?intv(Offset),?intv(Length)) when Offset < 0;
                                                   Length < 0 ->
    err_out_of_range(Offset);
 read_binary(_,?str(File),?intv(Offset),?intv(Length)) ->
-   case file:open(File, [read,binary,raw]) of
+   case file:open(strip_scheme(File), [read,binary]) of
       {ok,Fd} ->
          case file:pread(Fd, Offset, Length) of
             eof ->
@@ -976,21 +976,24 @@ read_text(Ctx,File) ->
 
 read_text(_,?str(File),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(File, [read,read_ahead,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [read,read_ahead,{encoding,Enc}]) of
       {ok,Fd} ->
          case do_read_from(Fd, 0) of
             {ok,Str} ->
                _ = file:close(Fd),
                ?str(Str);
-            _ ->
+            X ->
                _ = file:close(Fd),
+               ?dbg("X",X),
                err_io_error(File)
          end;
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
          err_no_dir(File);
-      {error,_} ->
+      {error,E} ->
+         ?dbg("E",E),
+         ?dbg("File",File),
          err_io_error(File)
    end;
 read_text(Ctx,File,Encoding) ->
@@ -1021,7 +1024,7 @@ read_text_lines(Ctx,File) ->
 
 read_text_lines(_,?str(File),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(File, [read,read_ahead,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [read,read_ahead,{encoding,Enc}]) of
       {ok,Fd} ->
          case do_read_lines(Fd) of
             {ok,Strs} ->
@@ -1066,7 +1069,7 @@ read_text_lines(Ctx,File,Encoding) ->
 %%    [file:is-dir] is raised if $file points to a directory.
 %%    [file:io-error] is raised if any other error occurs.
 write(_,?str(File),Items) ->
-   case file:open(File, [write,raw,binary]) of
+   case file:open(File, [write,binary]) of
       {ok,Fd} ->
          case file:write(Fd, erlang:term_to_binary(Items)) of
             ok ->
@@ -1114,7 +1117,7 @@ write_binary(Ctx,File,Value) ->
    write_binary(Ctx,File,Value,?intv(0)).
 
 write_binary(_,?str(File),?bin(Value),?intv(Offset)) ->
-   case file:open(File, [write,raw,binary]) of
+   case file:open(File, [write,binary]) of
       {ok,Fd} ->
          case file:position(Fd, Offset) of
             {ok,_} ->
@@ -1164,13 +1167,14 @@ write_text(Ctx,File,Value) ->
 
 write_text(_,?str(File),?str(Value),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(File, [write,raw,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [write,{encoding,Enc}]) of
       {ok,Fd} ->
-         case file:write(Fd, Value) of
+         case io:fwrite(Fd,"~ts",[Value]) of
             ok ->
                _ = file:close(Fd),
                [];
-            _ ->
+            X ->
+               ?dbg("X",X),
                _ = file:close(Fd),
                err_io_error(File)
          end;
@@ -1178,7 +1182,8 @@ write_text(_,?str(File),?str(Value),?str(Encoding)) ->
          err_is_dir(File);
       {error,enotdir} ->
          err_no_dir(File);
-      {error,_} ->
+      {error,E} ->
+         ?dbg("E",E),
          err_io_error(File)
    end;
 write_text(Ctx,File,Value,Encoding) ->
@@ -1211,7 +1216,7 @@ write_text_lines(Ctx,Path,Values) ->
 
 write_text_lines(_,?str(Path),Values,?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [write,raw,{encoding,Enc}]) of
+   case file:open(Path, [write,{encoding,Enc}]) of
       {ok,Fd} ->
          W = fun(S) ->
                   write_line(Fd,S)
@@ -1507,8 +1512,9 @@ err_out_of_range(Path) ->
                               local_name = "out-of-range"}
                 },
    exit(E).
-err_io_error(_) ->
-   E = #xqError{description = "A generic file system error occurred.",
+err_io_error(File) ->
+   E = #xqError{description = "A generic file system error occurred. ("
+               ++ File ++ ")",
                 name = #qname{namespace = ?NS,prefix = "file",
                               local_name = "io-error"}
                 },

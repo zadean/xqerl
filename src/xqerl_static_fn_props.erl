@@ -16,6 +16,7 @@
 -define(AR, "http://www.w3.org/2005/xpath-functions/array").
 -define(MP, "http://www.w3.org/2005/xpath-functions/map").
 -define(MT, "http://www.w3.org/2005/xpath-functions/math").
+-define(FL, "http://expath.org/ns/file").
 
 %% map returned as 
 %%    #{deterministic      => Deterministic,

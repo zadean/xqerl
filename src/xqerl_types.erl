@@ -539,7 +539,7 @@ promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = TType} = Type) ->
    end;
 promote(At,#xqSeqType{type = TType} = Type) ->
    InType = type(At),
-   ?dbg("InType",{At,InType,TType}),
+   %?dbg("InType",{At,InType,TType}),
    case subtype_of(InType,TType) of
       true when is_list(At) andalso InType =:= function ->
          Tests = fun_to_fun_test(At),
