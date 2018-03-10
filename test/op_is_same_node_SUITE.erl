@@ -42,9 +42,13 @@
 -export(['cbcl-node-same-002'/1]).
 -export(['cbcl-is-same-node-001'/1]).
 -export(['cbcl-is-same-node-002'/1]).
-suite() ->[{timetrap,{seconds,5}}].
+suite() ->
+[{timetrap,{seconds,5}}].
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
+   ok = application:ensure_started(mnesia),
+   ok = application:ensure_started(xqerl_ds),
+   xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "op")

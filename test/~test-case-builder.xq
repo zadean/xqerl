@@ -601,7 +601,8 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
   ,'&#10;')
 ||'&#10;'
 (: suite :)
-||"suite() ->[{timetrap,{seconds,5}}]."
+||"suite() ->
+[{timetrap,{seconds,5}}]."
 ||'&#10;'
 (: end_per_suite(Config) :)
 ||"end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all)."
@@ -609,6 +610,9 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 (: init_per_suite(Config) :)
 ||"init_per_suite(Config) -> "
 ||'&#10;'
+||"   ok = application:ensure_started(mnesia),"||'&#10;'
+||"   ok = application:ensure_started(xqerl_ds),"||'&#10;'
+||"   xqerl_module:one_time_init(), "||'&#10;'
 ||"   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||'&#10;'
 ||"   TD = filename:join(DD, ""QT3-test-suite""),"||'&#10;'
 ||"   BaseDir = filename:join(TD, """||$subdir||""")"||'&#10;'

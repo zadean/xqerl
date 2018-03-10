@@ -1,4 +1,4 @@
--file("c:/erlang/erl9.1/lib/parsetools-2.1.5/include/leexinc.hrl", 0).
+-file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 0).
 %% The source of this file is part of leex distribution, as such it
 %% has the same Copyright as the other files in the leex
 %% distribution. The Copyright is defined in the accompanying file
@@ -12,9 +12,9 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 147).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 147).
 
--file("c:/erlang/erl9.1/lib/parsetools-2.1.5/include/leexinc.hrl", 14).
+-file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 14).
 
 format_error({illegal,S}) -> ["illegal characters ",io_lib:write_string(S)];
 format_error({user,S}) -> S.
@@ -275,6 +275,8 @@ skip_cont(Rest, Line, {skip_token,Push}, Error) ->
 skip_cont(Rest, Line, {error,_S}, Error) ->
     skip_tokens(yystate(), Rest, Line, Rest, 0, Line, Error, reject, 0).
 
+-compile({nowarn_unused_function, [yyrev/1, yyrev/2, yypre/2, yysuf/2]}).
+
 yyrev(List) -> lists:reverse(List).
 yyrev(List, Tail) -> lists:reverse(List, Tail).
 yypre(List, N) -> lists:sublist(List, N).
@@ -284,6 +286,8 @@ yysuf(List, N) -> lists:nthtail(N, List).
 %% Make sure that newlines in Chars are not counted twice.
 %% Line has been updated with respect to newlines in the prefix of
 %% Chars consisting of (TokenLength - AcceptLength) characters.
+
+-compile({nowarn_unused_function, adjust_line/4}).
 
 adjust_line(N, N, _Cs, L) -> L;
 adjust_line(T, A, [$\n|Cs], L) ->
@@ -301,7 +305,7 @@ adjust_line(T, A, [_|Cs], L) ->
 %% return signal either an unrecognised character or end of current
 %% input.
 
--file("/git/zadean/xqerl/src/xq_regex_scanner.erl", 303).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.erl", 307).
 yystate() -> 62.
 
 yystate(65, [125|Ics], Line, Tlen, Action, Alen) ->
@@ -919,168 +923,168 @@ yyaction(32, TokenLen, YYtcs, TokenLine) ->
 yyaction(_, _, _, _) -> error.
 
 -compile({inline,yyaction_0/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 101).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 101).
 yyaction_0(TokenChars, TokenLine) ->
      { token, { 'CatEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_1/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 102).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 102).
 yyaction_1(TokenChars, TokenLine) ->
      { token, { 'CatEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_2/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 103).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 103).
 yyaction_2(TokenChars, TokenLine) ->
      { token, { 'ComplEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_3/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 104).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 104).
 yyaction_3(TokenChars, TokenLine) ->
      { token, { 'ComplEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_4/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 106).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 106).
 yyaction_4(TokenChars, TokenLine) ->
      { token, { 'BackReference', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_5/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 108).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 108).
 yyaction_5(TokenLine) ->
      { token, { sub, TokenLine, sub }, "[" } .
 
 -compile({inline,yyaction_6/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 109).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 109).
 yyaction_6(TokenLine) ->
      { token, { '[', TokenLine, '[' }, "\\-" } .
 
 -compile({inline,yyaction_7/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 110).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 110).
 yyaction_7(TokenLine) ->
      { token, { '[', TokenLine, '[' }, "^\\-" } .
 
 -compile({inline,yyaction_8/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 111).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 111).
 yyaction_8(TokenLine) ->
      { token, { 'NormalChar', TokenLine, "-" }, "-]" } .
 
 -compile({inline,yyaction_9/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 113).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 113).
 yyaction_9(TokenLine) ->
      { token, { '?:', TokenLine, '?:' } } .
 
 -compile({inline,yyaction_10/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 114).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 114).
 yyaction_10(TokenLine) ->
      { token, { '^', TokenLine, '^' } } .
 
 -compile({inline,yyaction_11/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 115).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 115).
 yyaction_11(TokenLine) ->
      { token, { '|', TokenLine, '|' } } .
 
 -compile({inline,yyaction_12/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 116).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 116).
 yyaction_12(TokenLine) ->
      { token, { '-', TokenLine, '-' } } .
 
 -compile({inline,yyaction_13/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 117).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 117).
 yyaction_13(TokenLine) ->
      { token, { '[', TokenLine, '[' } } .
 
 -compile({inline,yyaction_14/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 118).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 118).
 yyaction_14(TokenLine) ->
      { token, { ']', TokenLine, ']' } } .
 
 -compile({inline,yyaction_15/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 119).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 119).
 yyaction_15(TokenLine) ->
      { token, { '(', TokenLine, '(' } } .
 
 -compile({inline,yyaction_16/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 120).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 120).
 yyaction_16(TokenLine) ->
      { token, { ')', TokenLine, ')' } } .
 
 -compile({inline,yyaction_17/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 121).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 121).
 yyaction_17(TokenLine) ->
      { token, { '$', TokenLine, '$' } } .
 
 -compile({inline,yyaction_18/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 123).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 123).
 yyaction_18(TokenLine) ->
      { token, { '?', TokenLine, '?' } } .
 
 -compile({inline,yyaction_19/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 124).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 124).
 yyaction_19(TokenLine) ->
      { token, { '{', TokenLine, '{' } } .
 
 -compile({inline,yyaction_20/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 125).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 125).
 yyaction_20(TokenLine) ->
      { token, { '}', TokenLine, '}' } } .
 
 -compile({inline,yyaction_21/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 126).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 126).
 yyaction_21(TokenLine) ->
      { token, { '+', TokenLine, '+' } } .
 
 -compile({inline,yyaction_22/1}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 127).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 127).
 yyaction_22(TokenLine) ->
      { token, { '*', TokenLine, '*' } } .
 
 -compile({inline,yyaction_23/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 130).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 130).
 yyaction_23(TokenChars, TokenLine) ->
      { token, { 'QuantRange', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_24/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 131).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 131).
 yyaction_24(TokenChars, TokenLine) ->
      { token, { 'QuantMin', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_25/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 132).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 132).
 yyaction_25(TokenChars, TokenLine) ->
      { token, { 'QuantExact', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_26/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 134).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 134).
 yyaction_26(TokenChars, TokenLine) ->
      { token, { 'NormalChar', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_27/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 136).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 136).
 yyaction_27(TokenChars, TokenLine) ->
      { token, { 'WildcardEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_28/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 137).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 137).
 yyaction_28(TokenChars, TokenLine) ->
      { token, { 'SingleCharNoEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_29/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 138).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 138).
 yyaction_29(TokenChars, TokenLine) ->
      { token, { 'SingleCharEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_30/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 140).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 140).
 yyaction_30(TokenChars, TokenLine) ->
      { token, { 'MultiCharEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_31/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 141).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 141).
 yyaction_31(TokenChars, TokenLine) ->
      { token, { 'MultiCharComplEsc', TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_32/2}).
--file("/git/zadean/xqerl/src/xq_regex_scanner.xrl", 143).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/xq_regex_scanner.xrl", 143).
 yyaction_32(TokenChars, TokenLine) ->
      { token, { 'BadCharEsc', TokenLine, TokenChars } } .
 
--file("c:/erlang/erl9.1/lib/parsetools-2.1.5/include/leexinc.hrl", 309).
+-file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 313).

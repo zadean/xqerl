@@ -3,6 +3,7 @@
   {description, "XQuery 3.1 Processor"},
   {vsn, "0.1.0"},
   {registered, []},
+  {included_applications, [xqerl_db]},
   {applications, [
                   kernel,
                   stdlib,

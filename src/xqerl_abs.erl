@@ -30,6 +30,7 @@
 -define(s(E,T), {call,?L,{remote,?L,{atom,?L,xqerl_types},
                           {atom,?L,cast_as_seq}},[E,abs_seq_type(Ctx,T)]}).
 -define(e, erl_syntax).
+-define(FN,"http://www.w3.org/2005/xpath-functions").
 
 -include("xqerl.hrl").
 -compile(inline_list_funcs).
@@ -875,7 +876,7 @@ expr_do(Ctx, {Op,Vars,Test}) when Op =:= every;
 
 % ordering
 expr_do(Ctx, {'function-call', 
-              #qname{namespace = "http://www.w3.org/2005/xpath-functions",
+              #qname{namespace = ?FN,
                      local_name = "unordered"}, 1, Args}) ->
    expr_do(Ctx, {'unordered-expr', Args});
 expr_do(_Ctx, {'unordered-expr', 'empty-expr'}) -> ?err('XPST0003');
@@ -1055,7 +1056,13 @@ expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
    {var,?L,Name};
 
 % paths
+%TODO move path expressions to local functions
+% should take Base as the original context
 expr_do(Ctx, {path_expr,[ Base | Steps ]}) ->
+%%    io:format("~s~n", [erl_prettypr:format(
+%%           compile_path_statement(Ctx,'Root',Steps)
+%%                            )]
+%%    ),
    Src = expr_do(Ctx, {expr, Base}),
    lists:foldl(fun(Exp, SrcAbs) ->
                      step_expr_do(Ctx, Exp, SrcAbs)
@@ -3531,4 +3538,268 @@ handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    end.
 
 
+
+
+-define(P1(F,V),a_remote_call({xqldb_xdm,F,?L},[V])).
+-define(P2(F),  a_remote_call({xqldb_xdm,F,?L},[{var,?L,'Doc'},{var,?L,Source}])).
+-define(P3(F,V),a_remote_call({xqldb_xdm,F,?L},[{var,?L,'Doc'},{var,?L,Source},V])).
+
+
+compile_path_statement(Ctx,Last,Steps) ->
+   {Cnt,Gens} = compile_path_statement(Ctx,Last,Steps,0,[]),
+   VarName = var_name(Cnt),
+   {lc,?L,{var,?L,VarName},Gens}.
+
+compile_path_statement(Ctx,Last,[],Level,Acc) -> %flatten the results to proper list
+   VarName = var_name(Level),
+   Rev = [{generate,?L,{var,?L,VarName}, {var,?L,Last}}|Acc],
+   {Level,lists:reverse(Rev)};
+
+compile_path_statement(Ctx,Last,[#xqAxisStep{direction = forward,
+                                         axis = Axis,
+                                         predicates = Preds,
+                                         node_test = NodeTest}
+                       |Rest],Level,Acc) ->
+   VarName = var_name(Level),
+   Gen = generate(VarName, forward_path(Last, Axis, NodeTest)),
+   compile_path_statement(Ctx,VarName,Rest, Level + 1,[Gen|Acc]);
+compile_path_statement(Ctx,Last,
+                       [{'function-call',
+                         #xqFunction{name = 
+                                       #qname{namespace = ?FN,
+                                              local_name = "position"}}}|Rest],
+                       Level,Acc) ->
+
+   VarName = var_name(Level),
+   Gen = generate(VarName, {cons,?L,?P1(position,{var,?L,Last}),{nil,?L}} ),
+   compile_path_statement(Ctx,VarName,Rest, Level + 1,[Gen|Acc]).
+   
+
+forward_path(Source, attribute, #xqNameTest{name = Q}) -> 
+   ?P3(named_attributes,qname_tuple(Q));
+forward_path(Source, attribute, #xqKindTest{kind = attribute, 
+                                            name = #qname{} = Q}) ->
+   ?P3(named_attributes,qname_tuple(Q));
+forward_path(Source, attribute, #xqKindTest{kind = attribute}) -> 
+   ?P2(attributes);
+%% ----------------------------------------------------------------------------
+forward_path(Source, child, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_children,qname_tuple(Q));
+forward_path(Source, child, #xqKindTest{kind = element, 
+                                        name = #qname{} = Q}) ->
+   ?P3(named_element_children,qname_tuple(Q));
+forward_path(Source, child, #xqKindTest{kind = element}) -> 
+   ?P2(element_children);
+forward_path(Source, child, #xqKindTest{kind = node}) -> 
+   ?P2(children);
+forward_path(Source, child, #xqKindTest{kind = text}) -> 
+   ?P2(text_children);
+forward_path(Source, child, #xqKindTest{kind = comment}) -> 
+   ?P2(comment_children);
+forward_path(Source, child, #xqKindTest{kind = 'processing-instruction', 
+                                        name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_children,{string,?L,Ln});
+forward_path(Source, child, #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_children);
+%% ----------------------------------------------------------------------------
+forward_path(Source, self, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_selfs,qname_tuple(Q));
+forward_path(Source, self, #xqKindTest{kind = element, 
+                                       name = #qname{} = Q}) ->
+   ?P3(named_element_selfs,qname_tuple(Q));
+forward_path(Source, self, #xqKindTest{kind = element}) -> 
+   ?P2(element_selfs);
+forward_path(Source, self, #xqKindTest{kind = node}) -> 
+   ?P2(selfs);
+forward_path(Source, self, #xqKindTest{kind = text}) -> 
+   ?P2(text_selfs);
+forward_path(Source, self, #xqKindTest{kind = comment}) -> 
+   ?P2(comment_selfs);
+forward_path(Source, self, #xqKindTest{kind = 'processing-instruction', 
+                                       name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_selfs,{string,?L,Ln});
+forward_path(Source, self, #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_selfs);
+%% ----------------------------------------------------------------------------
+forward_path(Source, descendant, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_descendants,qname_tuple(Q));
+forward_path(Source, descendant, #xqKindTest{kind = element, 
+                                             name = #qname{} = Q}) ->
+   ?P3(named_element_descendants,qname_tuple(Q));
+forward_path(Source, descendant, #xqKindTest{kind = element}) -> 
+   ?P2(element_descendants);
+forward_path(Source, descendant, #xqKindTest{kind = node}) -> 
+   ?P2(descendants);
+forward_path(Source, descendant, #xqKindTest{kind = text}) -> 
+   ?P2(text_descendants);
+forward_path(Source, descendant, #xqKindTest{kind = comment}) -> 
+   ?P2(comment_descendants);
+forward_path(Source, descendant, 
+             #xqKindTest{kind = 'processing-instruction',
+                         name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_descendants,{string,?L,Ln});
+forward_path(Source, descendant, 
+             #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_descendants);
+%% ----------------------------------------------------------------------------
+forward_path(Source, 'descendant-or-self', #xqNameTest{name = Q}) -> 
+   ?P3(named_element_descendant_or_selfs,qname_tuple(Q));
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = element, 
+                                       name = #qname{} = Q}) ->
+   ?P3(named_element_descendant_or_selfs,qname_tuple(Q));
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = element}) -> 
+   ?P2(element_descendant_or_selfs);
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = node}) -> 
+   ?P2(descendant_or_selfs);
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = document}) -> 
+   ?P2(document_descendant_or_selfs);
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = text}) -> 
+   ?P2(text_descendant_or_selfs);
+forward_path(Source, 'descendant-or-self', #xqKindTest{kind = comment}) -> 
+   ?P2(comment_descendant_or_selfs);
+forward_path(Source, 'descendant-or-self', 
+             #xqKindTest{kind = 'processing-instruction',
+                         name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_descendant_or_selfs,{string,?L,Ln});
+forward_path(Source, 'descendant-or-self', 
+             #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_descendant_or_selfs);
+%% ----------------------------------------------------------------------------
+forward_path(Source, 'following-siblings', #xqNameTest{name = Q}) -> 
+   ?P3(named_element_following_siblings,qname_tuple(Q));
+forward_path(Source, 'following-siblings', #xqKindTest{kind = element, 
+                                                       name = #qname{} = Q}) ->
+   ?P3(named_element_following_siblings,qname_tuple(Q));
+forward_path(Source, 'following-siblings', #xqKindTest{kind = element}) -> 
+   ?P2(element_following_siblings);
+forward_path(Source, 'following-siblings', #xqKindTest{kind = node}) -> 
+   ?P2(following_siblings);
+forward_path(Source, 'following-siblings', #xqKindTest{kind = text}) -> 
+   ?P2(text_following_siblings);
+forward_path(Source, 'following-siblings', #xqKindTest{kind = comment}) -> 
+   ?P2(comment_following_siblings);
+forward_path(Source, 'following-siblings', 
+             #xqKindTest{kind = 'processing-instruction',
+                         name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_following_siblings,{string,?L,Ln});
+forward_path(Source, 'following-siblings', 
+             #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_following_siblings);
+%% ----------------------------------------------------------------------------
+forward_path(Source, following, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_followings,qname_tuple(Q));
+forward_path(Source, following, #xqKindTest{kind = element, 
+                                            name = #qname{} = Q}) ->
+   ?P3(named_element_followings,qname_tuple(Q));
+forward_path(Source, following, #xqKindTest{kind = element}) -> 
+   ?P2(element_followings);
+forward_path(Source, following, #xqKindTest{kind = node}) -> 
+   ?P2(followings);
+forward_path(Source, following, #xqKindTest{kind = text}) -> 
+   ?P2(text_followings);
+forward_path(Source, following, #xqKindTest{kind = comment}) -> 
+   ?P2(comment_followings);
+forward_path(Source, following, #xqKindTest{kind = 'processing-instruction', 
+                                            name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_followings,{string,?L,Ln});
+forward_path(Source, following, #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_followings);
+%% ----------------------------------------------------------------------------
+forward_path(_, Axis, NodeTest) ->
+   ?dbg("Unknown axis",{Axis, NodeTest}),
+   {error,NodeTest}.
+
+reverse_path(Source, parent, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_parents,qname_tuple(Q));
+reverse_path(Source, parent, #xqKindTest{kind = element, 
+                                       name = #qname{} = Q}) ->
+   ?P3(named_element_parents,qname_tuple(Q));
+reverse_path(Source, parent, #xqKindTest{kind = element}) -> 
+   ?P2(element_parents);
+reverse_path(Source, parent, #xqKindTest{kind = node}) -> 
+   ?P2(parents);
+reverse_path(Source, parent, #xqKindTest{kind = document}) -> 
+   ?P2(document_parents);
+reverse_path(Source, parent, _) -> ?P2(other_parents);
+%% ----------------------------------------------------------------------------
+reverse_path(Source, ancestor, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_ancestors,qname_tuple(Q));
+reverse_path(Source, ancestor, #xqKindTest{kind = element, 
+                                           name = #qname{} = Q}) ->
+   ?P3(named_element_ancestors,qname_tuple(Q));
+reverse_path(Source, ancestor, #xqKindTest{kind = element}) -> 
+   ?P2(element_ancestors);
+reverse_path(Source, ancestor, #xqKindTest{kind = node}) -> 
+   ?P2(ancestors);
+reverse_path(Source, ancestor, #xqKindTest{kind = document}) -> 
+   ?P2(document_ancestors);
+reverse_path(Source, ancestor, _) -> ?P2(other_ancestors);
+%% ----------------------------------------------------------------------------
+reverse_path(Source, 'ancestor-or-self', #xqNameTest{name = Q}) -> 
+   ?P3(named_element_ancestor_or_selfs,qname_tuple(Q));
+reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = element, 
+                                                     name = #qname{} = Q}) ->
+   ?P3(named_element_ancestor_or_selfs,qname_tuple(Q));
+reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = element}) -> 
+   ?P2(element_ancestor_or_selfs);
+reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = node}) -> 
+   ?P2(ancestor_or_selfs);
+reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = document}) -> 
+   ?P2(document_ancestor_or_selfs);
+reverse_path(Source, 'ancestor-or-self', _) -> ?P2(other_ancestor_or_selfs);
+%% ----------------------------------------------------------------------------
+reverse_path(Source, 'preceding-sibling', #xqNameTest{name = Q}) -> 
+   ?P3(named_element_preceding_siblings,qname_tuple(Q));
+reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = element, 
+                                                      name = #qname{} = Q}) ->
+   ?P3(named_element_preceding_siblings,qname_tuple(Q));
+reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = element}) -> 
+   ?P2(element_preceding_siblings);
+reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = node}) -> 
+   ?P2(preceding_siblings);
+reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = text}) -> 
+   ?P2(text_preceding_siblings);
+reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = comment}) -> 
+   ?P2(comment_preceding_siblings);
+reverse_path(Source, 'preceding-sibling', 
+             #xqKindTest{kind = 'processing-instruction',
+                         name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_preceding_siblings,{string,?L,Ln});
+reverse_path(Source, 'preceding-sibling', 
+             #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_preceding_siblings);
+%% ----------------------------------------------------------------------------
+reverse_path(Source, preceding, #xqNameTest{name = Q}) -> 
+   ?P3(named_element_precedings,qname_tuple(Q));
+reverse_path(Source, preceding, #xqKindTest{kind = element,
+                                            name = #qname{} = Q}) ->
+   ?P3(named_element_precedings,qname_tuple(Q));
+reverse_path(Source, preceding, #xqKindTest{kind = element}) -> 
+   ?P2(element_precedings);
+reverse_path(Source, preceding, #xqKindTest{kind = node}) -> 
+   ?P2(precedings);
+reverse_path(Source, preceding, #xqKindTest{kind = text}) -> 
+   ?P2(text_precedings);
+reverse_path(Source, preceding, #xqKindTest{kind = comment}) -> 
+   ?P2(comment_precedings);
+reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction', 
+                                            name = #qname{local_name = Ln}}) ->
+   ?P3(named_pi_precedings,{string,?L,Ln});
+reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->  
+   ?P2(pi_precedings);
+%% ----------------------------------------------------------------------------
+reverse_path(_, Axis, NodeTest) ->
+   ?dbg("Unknown axis",{Axis, NodeTest}),
+   {error,NodeTest}.
+
+generate(TargetVar,Source) ->
+   {generate,?L,{var,?L,TargetVar}, Source}.
+
+qname_tuple(#qname{namespace = 'no-namespace', local_name = Ln}) ->
+   {tuple,?L,[{string,?L,""},{string,?L,Ln}]};
+qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
+   {tuple,?L,[{string,?L,Ns},{string,?L,Ln}]}.
+
+var_name(Level) ->
+   list_to_atom("A"++integer_to_list(Level)).
 
