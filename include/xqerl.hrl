@@ -15,7 +15,7 @@
 -define(get(Key),xqerl_lib:lget(Key)).
 
 
--define(dbg(M,P), io:format("~s ~p ~p: ~p~n", [?MODULE,?LINE, M,P])).
+-define(dbg(A,B),io:format("~p:~p(~p): ~p ~p~n",[?MODULE,?FUNCTION_NAME,?LINE,A,B])).
 -define(seq, xqerl_seq3).
 -define(err(Code),xqerl_error:error(Code)).
 
@@ -211,12 +211,8 @@
          value = undefined :: term() | []
         }).
 -record(xqNode, {
-      node  :: binary(),
-      doc   :: term()
-   }).
--record(xqNodeSeq, {
-      doc   :: term(),
-      nodes :: [binary()]
+      doc   :: pid(),
+      node  :: [integer()] | integer()
    }).
 
 -record(qname, 
@@ -296,7 +292,7 @@
 %%    type              = #xqSeqType{} :: #xqSeqType{}
 %% }).
 -record(xqFunction, {
-   id                = 0 :: integer(),
+   id                = -1 :: integer(),
    annotations       = [] :: [ #annotation{} ],
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
@@ -464,7 +460,8 @@
 
 %% range statement 
 -record(xqRange, {min :: integer(),
-                  max :: integer()
+                  max :: integer(),
+                  cnt :: non_neg_integer()
 }).
 
 %% -record(xqCollection, {

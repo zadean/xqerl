@@ -162,6 +162,15 @@ find1([_|T], Key) ->
    maps:from_list(Lists).
 
 'merge'(_Ctx,[],_) -> #{};
+'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}})
+  when Dup == "use-first";
+       Dup == "use-any" -> 
+   Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
+   maps:from_list(Lists);
+'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}})
+  when Dup == "use-last" -> 
+   Lists = lists:append([maps:to_list(M) || M <- Maps]),
+   maps:from_list(Lists);
 'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
@@ -195,9 +204,6 @@ combine_maps(Map1, Map2, "use-first") ->
    maps:from_list(Lists);
 combine_maps(Map1, Map2, "use-any") ->
    Lists = lists:append([maps:to_list(M) || M <- [Map1,Map2]]),
-   maps:from_list(Lists);
-combine_maps(Map1, Map2, "use-last") ->
-   Lists = lists:append([maps:to_list(M) || M <- [Map2,Map1]]),
    maps:from_list(Lists);
 combine_maps(Map1, Map2, "reject") ->
    case maps:size(maps:with(maps:keys(Map2), Map1)) of

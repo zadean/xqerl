@@ -42,7 +42,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -107,19 +107,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('default-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -132,38 +119,11 @@ environment('atomic-xq',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('simple-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('default-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
 {'static-base-uri', []},
 {params, []},
 {vars, []},
@@ -208,20 +168,6 @@ environment('works-and-staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('simple-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('auction',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
@@ -239,30 +185,6 @@ environment('auction',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('integer-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,"1 to 10"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('atomic-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,"(1, \"hello\", 1e0)"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
@@ -272,18 +194,6 @@ environment('qname',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
-{modules, []}
-];
-environment('default-string-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{query,"(\"goodbye\", \"cruel\", \"world\")"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -335,10 +245,101 @@ environment('array-and-map',BaseDir) ->
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
+];
+environment('default-collection-1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('simple-collection-1',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('default-collection-2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")},
+{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('simple-collection-2',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(BaseDir, "../docs/bib.xml")},
+{src,filename:join(BaseDir, "../docs/reviews.xml")},
+{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('integer-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,BaseDir,"1 to 10"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('atomic-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,BaseDir,"(1, \"hello\", 1e0)"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('default-string-collection',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"",[{query,BaseDir,"(\"goodbye\", \"cruel\", \"world\")"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
 ].
 'fn-collection-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"argument1\",\"argument2\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-1.xq"), Qry1),
@@ -354,6 +355,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"thisfileshouldnotexists\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-2.xq"), Qry1),
@@ -369,6 +371,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"invalidURI%gg\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-3.xq"), Qry1),
@@ -392,6 +395,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -408,6 +412,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-4d'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -424,6 +429,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -440,6 +446,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-5d'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -456,6 +463,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -472,6 +480,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -496,6 +505,7 @@ environment('array-and-map',BaseDir) ->
 'fn-collection-8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -521,6 +531,7 @@ environment('array-and-map',BaseDir) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) order by count($d//title) return
          count($d//title)",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -538,6 +549,7 @@ environment('array-and-map',BaseDir) ->
    BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection($collection-uri) let $c2 := fn:collection($collection-uri) for
          $c at $p in $c1 return $c is exactly-one($c2[$p])",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -555,6 +567,7 @@ environment('array-and-map',BaseDir) ->
    BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection() let $c2 := fn:collection() for $c at $p in $c1 return $c is
          exactly-one($c2[$p])",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -571,6 +584,7 @@ environment('array-and-map',BaseDir) ->
 'K2-SeqCollectionFunc-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http:\\\\invalidURI\\someURI%gg\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqCollectionFunc-1.xq"), Qry1),
@@ -594,6 +608,7 @@ environment('array-and-map',BaseDir) ->
 'K2-SeqCollectionFunc-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\":/\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqCollectionFunc-2.xq"), Qry1),
@@ -617,6 +632,7 @@ environment('array-and-map',BaseDir) ->
 'collection-001'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -649,6 +665,7 @@ environment('array-and-map',BaseDir) ->
 'collection-002'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(())",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -681,6 +698,7 @@ environment('array-and-map',BaseDir) ->
 'collection-003'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection() | collection(())",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -716,6 +734,7 @@ environment('array-and-map',BaseDir) ->
 'collection-005'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -748,6 +767,7 @@ environment('array-and-map',BaseDir) ->
 'collection-006'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"collection1\")",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -781,6 +801,7 @@ environment('array-and-map',BaseDir) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
          collection(\"collection1\")",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -817,6 +838,7 @@ environment('array-and-map',BaseDir) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
          | (for $doc in $c return doc(document-uri($doc)))",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -852,6 +874,7 @@ environment('array-and-map',BaseDir) ->
 'collection-900'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"nonexistent\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-900.xq"), Qry1),
@@ -867,6 +890,7 @@ environment('array-and-map',BaseDir) ->
 'collection-901'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-901.xq"), Qry1),
@@ -882,6 +906,7 @@ environment('array-and-map',BaseDir) ->
 'collection-902'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"##invalid\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-902.xq"), Qry1),
@@ -905,6 +930,7 @@ environment('array-and-map',BaseDir) ->
 'collection-903'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection(())",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-903.xq"), Qry1),
@@ -920,6 +946,7 @@ environment('array-and-map',BaseDir) ->
 'cbcl-collection-001'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('%gg')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-collection-001.xq"), Qry1),
@@ -943,6 +970,7 @@ environment('array-and-map',BaseDir) ->
 'cbcl-collection-002'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -967,6 +995,7 @@ environment('array-and-map',BaseDir) ->
 'cbcl-collection-003'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -991,6 +1020,7 @@ environment('array-and-map',BaseDir) ->
 'cbcl-collection-004'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection()",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

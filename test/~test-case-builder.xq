@@ -276,6 +276,13 @@ declare function local:print-testcase($test-case)
         local:mask-string($test-case/*:test/text())
    )
     ||","||'&#10;'||
+    (: clear the default collection for fn:collection tests :)
+    (
+      if ($test-case/../@name = ("fn-collection","misc-CombinedErrorCodes")) then
+        "   _ = xqldb_docstore:delete_collection([]),"||'&#10;'
+      else
+        ""
+    )||
     (
       if ($test-case/*:environment[@name or @ref]) then
         "   {Env,Opts} = xqerl_test:handle_environment(environment('"||$env||"',BaseDir)),"||'&#10;'||
@@ -373,7 +380,7 @@ declare function local:print-environment($env,$case)
       "{src,filename:join(BaseDir, ""../"||string($s/@file)||""")}" ,
       for $s in $res/*:query
       return
-      "{query,"||local:mask-string($s)||"}"
+      "{query,BaseDir,"||local:mask-string($s)||"}"
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -500,7 +507,7 @@ declare function local:print-local-environment($env as item()*) as item()*
       "filename:join(BaseDir, """||string($s/@file)||""")",
       for $s in $res/*:query
       return
-      "{query,"||local:mask-string($s)||"}"
+      "{query,BaseDir,"||local:mask-string($s)||"}"
     ) => string-join(","||'&#10;')
     ||"]}"
   ) => string-join(","||'&#10;')
@@ -582,6 +589,8 @@ let $case := doc($file)
 let $name := $ts/@name
 let $usname := replace(replace($name,'-','_'),'\.','_')
 
+let $tcs := $case/*:test-set/*:test-case
+
 (: write each XQuery to file in the DATA directory of the SUITE :)
 let $SUITE := $usname||"_SUITE"
 let $DATA  := $usname||"_SUITE_data"
@@ -594,7 +603,7 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 (: exports :)
 || string-join(
   (
-    for $tc in $case/*:test-set/*:test-case
+    for $tc in $tcs
     return
     "-export(['"||$tc/@name||"'/1])."
   )
@@ -611,18 +620,18 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 ||"init_per_suite(Config) -> "
 ||'&#10;'
 ||"   ok = application:ensure_started(mnesia),"||'&#10;'
-||"   ok = application:ensure_started(xqerl_ds),"||'&#10;'
+||"   ok = application:ensure_started(xqerl_db),"||'&#10;'
 ||"   xqerl_module:one_time_init(), "||'&#10;'
 ||"   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||'&#10;'
 ||"   TD = filename:join(DD, ""QT3-test-suite""),"||'&#10;'
 ||"   BaseDir = filename:join(TD, """||$subdir||""")"||'&#10;'
 
-||( for $res in $case//*:module
+(: ||( for $res in $case//*:module
     return
     ", try  xqerl_module:compile(filename:join(BaseDir, """||string($res/@file)||""")) catch _:_ -> ok end" 
   ) => 
   distinct-values() => 
-  string-join('&#10;')
+  string-join('&#10;') :)
 ||'&#10;'||",[{base_dir, BaseDir}|Config]."
 ||'&#10;'
 (: all :)
@@ -630,7 +639,7 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 ||'&#10;'
 || string-join(
   (
-    for $tc in $case/*:test-set/*:test-case
+    for $tc in $tcs
     return
     "   '"||$tc/@name||"'"
   )
@@ -646,7 +655,7 @@ let $mod := "-module('"||$SUITE||"')."||'&#10;'
 ||'&#10;'
 (: test cases :)
 || string-join(
-  for $tc in $case/*:test-set/*:test-case
+  for $tc in $tcs
   return local:print-testcase($tc)
   ,"."||'&#10;')
 ||"."

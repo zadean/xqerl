@@ -1026,7 +1026,7 @@ read_text_lines(_,?str(File),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [read,read_ahead,{encoding,Enc}]) of
       {ok,Fd} ->
-         case do_read_lines(Fd) of
+         case catch do_read_lines(Fd) of
             {ok,Strs} ->
                _ = file:close(Fd),
                [?str(Str) || Str <- Strs];

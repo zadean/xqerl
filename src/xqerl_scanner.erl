@@ -246,9 +246,9 @@ scan_dc_token([H|T], _Acc, Depth) -> %when not ?whitespace(H) ->
    end.
 
 scan_dir_attr_list(Str = "/>" ++ _T, Acc) ->
-   {Acc, Str};
+   {reorder_dir_attr_list(Acc,[],[]), Str};
 scan_dir_attr_list(Str = ">" ++ _T, Acc) ->
-   {Acc, Str};
+   {reorder_dir_attr_list(Acc,[],[]), Str};
 scan_dir_attr_list(T, Acc) ->
    %io:format("Got: ~p~n", [T]),
    case scan_dir_attr(T) of
@@ -257,6 +257,19 @@ scan_dir_attr_list(T, Acc) ->
       {Att, T1} ->
          scan_dir_attr_list(T1, Acc ++ Att)
    end.
+
+reorder_dir_attr_list([],N,A) -> 
+   %?dbg("Acc",N ++ A),
+   N ++ A;
+reorder_dir_attr_list([{'S',_,_} = S,{_,_,"xmlns"} = X ,{'=',_,_} = E,V|T],N,A) -> 
+   reorder_dir_attr_list(T,[S,X,E,V|N],A);
+reorder_dir_attr_list([{'S',_,_} = S,[{_,_,"xmlns"},_,_] = X ,{'=',_,_} = E,V|T],N,A) -> 
+   reorder_dir_attr_list(T,[S,X,E,V|N],A);
+reorder_dir_attr_list([{'S',_,_} = S, X ,{'=',_,_} = E,V|T],N,A) -> 
+   reorder_dir_attr_list(T,N,[S,X,E,V|A]);
+reorder_dir_attr_list([{'S',_,_}|T],N,A) -> 
+   reorder_dir_attr_list(T,N,A).
+
 
 scan_dir_attr([H|T]) when ?whitespace(H) ->
    S = {'S',1,'S'},
@@ -331,7 +344,8 @@ scan_dir_attr_apos_value([H|T], Acc) ->
                %% in an attribute and got an expression
                % scan ahead to the end of the enclosed statement
                {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
-               Encl = tokens_encl(Expr, [{'{', 98, '{'}]),
+               SExpr = remove_all_comments(Expr),
+               Encl = tokens_encl(SExpr, [{'{', 98, '{'}]),
                scan_dir_attr_apos_value(T1, [Encl | Acc])
          end
    end.
@@ -381,7 +395,8 @@ scan_dir_attr_quot_value([H|T], Acc) ->
                % scan ahead to the end of the enclosed statement
                {Expr, T1} = scan_enclosed_expr(T, [], 1, 0, 0),
                %?dbg("scan_dir_attr_quot_value Expr",Expr),
-               Encl = tokens_encl(Expr, [{'{', ?L, '{'}]),
+               SExpr = remove_all_comments(Expr),
+               Encl = tokens_encl(SExpr, [{'{', ?L, '{'}]),
                %?dbg("scan_dir_attr_quot_value Encl",Encl),
                %?dbg("scan_dir_attr_quot_value T1",T1),
                scan_dir_attr_quot_value(T1, [Encl | Acc])
@@ -406,15 +421,15 @@ is_content_char(C) ->
 
 
 % NumberLiteral
-scan_token([H | T], A) when H >= $0, H =< $9 ->  
+scan_token([H | T], _A) when H >= $0, H =< $9 ->  
    case scan_number([H | T]) of
-      {{integer, L, 0}, T1} ->
-         case lookback(A) of
-            '-' ->
-               {{'DoubleLiteral', L, 0.0}, T1};
-            _ ->
-               {{'IntegerLiteral', L, 0}, T1}
-         end;
+%%       {{integer, L, 0}, T1} ->
+%%          case lookback(A) of
+%%             '-' ->
+%%                {{'DoubleLiteral', L, 0.0}, T1};
+%%             _ ->
+%%                {{'IntegerLiteral', L, 0}, T1}
+%%          end;
       {{integer, L, Num}, T1} ->
          {{'IntegerLiteral', L, Num}, T1};
       {{decimal, L, Num}, T1} ->
@@ -1644,7 +1659,7 @@ scan_token(">=" ++ T, _A) ->  {{'>=', ?L, '>='}, T};
 scan_token(">>" ++ T, _A) ->  {{'>>', ?L, '>>'}, T};
 scan_token("-" ++ T, _A) ->  {{'-', ?L, '-'}, T};
 scan_token("$" ++ T, _A) ->  
-   {QName, T2} = scan_QName(T),
+   {QName, T2} = scan_QName(strip_ws(T)),
    {[{'$', ?L, '$'}, QName], T2};
 scan_token("(" ++ T, _A) ->  {{'(', ?L, '('}, T};
 scan_token(")" ++ T, _A) ->  {{')', ?L, ')'}, T};
@@ -1722,7 +1737,8 @@ scan_token("/" ++ T, A) ->
                end
          end
    end;
-scan_token(":)" ++ _T, _A) -> % unbalanced comment
+scan_token(":)" ++ _T, A) -> % unbalanced comment
+   ?dbg("A",A),
    ?dbg(?LINE,'XPST0003'),
    xqerl_error:error('XPST0003');
 scan_token([H,$:,$=|T], _A) when ?whitespace(H) ->
@@ -1902,7 +1918,10 @@ scan_name([H|T]) when H == $* ->
 scan_name([$_|T]) ->
    scan_prefix(T, [$_]);
 scan_name([H|T]) ->
-   case xmerl_lib:is_letter(H) of
+   case xmerl_lib:is_letter(H) 
+      orelse H == 895 
+      orelse H == 383 
+   of
       true ->
           scan_prefix(T, [H]);
       false ->
@@ -2293,7 +2312,19 @@ scan_entity_ref([H|T], Acc) ->
   scan_entity_ref(T, [H|Acc]).
 
 
+remove_inline_comment("(:" ++ T, D) ->
+   remove_inline_comment(T, D + 1);
+remove_inline_comment(":)" ++ T,1) ->
+   T;
+remove_inline_comment(":)" ++ T, D) ->
+   remove_inline_comment(T, D - 1);
+remove_inline_comment([_|T], D) ->
+   remove_inline_comment(T, D).
 
+
+scan_enclosed_expr("(:" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
+   T1 = remove_inline_comment(T,1),   
+   scan_enclosed_expr(T1, Acc, CurlyDepth, AposDepth, QuotDepth);
 scan_enclosed_expr("''" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ->
    scan_enclosed_expr(T, "''"++Acc, CurlyDepth, AposDepth, QuotDepth);
 scan_enclosed_expr("'" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) when AposDepth > 0 ->
@@ -2313,7 +2344,7 @@ scan_enclosed_expr("{" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
    scan_enclosed_expr(T, "{"++Acc, CurlyDepth +1, AposDepth, QuotDepth);
 
 scan_enclosed_expr("}" ++ T, Acc, 1, _AposDepth, _QuotDepth) ->
-   %?dbg("done",?LINE),
+   %?dbg("done",Acc),
    { lists:flatten(lists:reverse([$}|Acc])), T};
 scan_enclosed_expr("}" ++ T, Acc, CurlyDepth, AposDepth, QuotDepth) ->
    %?dbg("not done",CurlyDepth),

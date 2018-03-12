@@ -48,12 +48,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
-, try  xqerl_module:compile(filename:join(BaseDir, "Serialization/serialization1-lib.xq")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'Serialization-001',
@@ -116,18 +116,6 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
-{modules, []}
-];
-environment('user-defined-types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -267,6 +255,18 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('user-defined-types',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

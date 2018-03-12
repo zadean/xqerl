@@ -144,7 +144,97 @@ double(#xsDecimal{int = Int, scf = Scf} = D) ->
    catch 
       _:_ ->
          D
+   end;
+double(String) ->
+   Val = case string:trim(String) of
+            [$.|T] ->
+               [$0,$.|T];
+            V ->
+               V
+         end,
+   case string:find(Val, "--") of
+      nomatch ->
+         ok;
+      _ ->
+         ?err('FORG0001')
+   end,
+   if Val == "-0"  -> neg_zero;
+      Val == "NaN"  -> nan;
+      Val == "-INF" -> neg_infinity;
+      %Val == "+INF" -> infinity; % schema 1.1 
+      Val == "INF"  -> infinity;
+      true ->
+         case catch list_to_float(Val) of
+            Flt when is_float(Flt) ->
+               if Flt == 0 andalso hd(Val) == $- ->
+                     neg_zero;
+                  true ->
+                     Flt
+               end;
+            _ ->
+               case catch list_to_integer(Val) of
+                  Int when is_integer(Int) ->
+                     erlang:float(Int);
+                  _ ->
+                     try
+                        Bin = list_to_binary(Val),
+                        {Sign, Rest} = case Bin of
+                                          <<"-",R/binary>> ->
+                                             {'-', R};
+                                          <<"+",R/binary>> ->
+                                             {'+', R};
+                                          R ->
+                                             {'+', R}
+                                       end,
+                        Rest1 = case binary:first(Rest) == $.  of
+                                   true -> <<$0,Rest/binary>>;
+                                   _ -> Rest
+                                end,
+                        {Man, Exp} = case binary:split(Rest1, 
+                                                       [<<"e">>,<<"E">>]) of
+                                        [M,E] ->
+                                           {M,binary_to_integer(E)};
+                                        [M] ->
+                                           {M,0}
+                                     end,
+                        Num = case binary:match(Man, <<".">>) of
+                                       nomatch ->
+                                          erlang:float(binary_to_integer(Man));
+                                       _ ->
+                                          case binary:last(Man) of
+                                             $. ->
+                                                Bin1 = binary:part(Man,{0, byte_size(Man) -1}),
+                                                erlang:float(binary_to_integer(Bin1));
+                                             _ ->
+                                                binary_to_float(Man)
+                                          end
+                                    end,
+                        NNum = if Sign == '-' -> - Num;
+                                  true -> Num
+                               end,
+                        try
+                           Str = float_to_list(NNum, [{decimals,18}]) ++ 
+                                   "e" ++ integer_to_list(Exp),
+                           ENum = list_to_float(Str),
+                           if ENum == 0 andalso hd(Val) == $- ->
+                                 neg_zero;
+                              true ->
+                                 ENum
+                           end
+                        catch
+                           _:_ -> 
+                              case Sign of
+                                 '-' -> neg_infinity;
+                                 _ -> infinity
+                              end
+                        end
+                     catch
+                        _:_ -> ?err('FORG0001')
+                     end
+               end
+         end
    end.
+
 
 float(Float) when is_float(Float) ->
    % take the float from 64 to 32 bit
@@ -258,6 +348,8 @@ divide(A, #xsDecimal{} = B) when is_float(A) ->
 divide(A,B) ->
    A / B.
 
+equal(A, B) when is_integer(A), is_integer(B) ->
+   A =:= B;
 equal(#xsDecimal{int = IntA, scf = ScfA}, 
       #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),

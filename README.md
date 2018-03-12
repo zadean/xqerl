@@ -3,7 +3,7 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing 99% its ~29k test cases. 2.1k cases are skipped. The failing tests are mainly from features that have not been fully implemented.
+It is passing 99.3% its ~29k test cases. 2.1k cases are skipped. The failing tests are mainly from features that have not been fully implemented.
 
 
 ### Features it has:
@@ -33,8 +33,7 @@ To see what it would look like as XML or text, the debugging function `xqerl_nod
 <s>The test suites use absolute paths for files. To run the tests locally, you can rebuild them using the XQuery script test/~test-case-builder.xq.</s> 
 
 ### Building
-The normal way :) but there are .xrl for leex and .yrl for yecc to build.
-I am using eclipse, so there is currently no makefile or rebar config (coming soon).
+The normal way :)
 
 ### Contributing
 Yes, please. I've been doing it alone, so any help is much appreciated.

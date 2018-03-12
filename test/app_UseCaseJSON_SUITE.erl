@@ -22,7 +22,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -55,18 +55,6 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('mildred.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]},
-{modules, []}
-];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -79,30 +67,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('employees.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]},
-{modules, []}
-];
-environment('bookinfo.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -113,32 +77,6 @@ environment('atomic-xq',BaseDir) ->
 {vars, []},
 {namespaces, []},
 {resources, []},
-{modules, []}
-];
-environment('users.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]},
-{modules, []}
-];
-environment('sales.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"},
-{filename:join(BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"},
-{filename:join(BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}]},
 {modules, []}
 ];
 environment('works-mod',BaseDir) ->
@@ -177,18 +115,6 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('satellites.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]},
-{modules, []}
-];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
@@ -200,30 +126,6 @@ environment('works-and-staff',BaseDir) ->
 {vars, []},
 {namespaces, []},
 {resources, []},
-{modules, []}
-];
-environment('colors.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]},
-{modules, []}
-];
-environment('incoming.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]},
 {modules, []}
 ];
 environment('auction',BaseDir) ->
@@ -240,30 +142,6 @@ environment('auction',BaseDir) ->
 {"http://www.example.com/auctioneers#eachbay","eachbay"},
 {"http://www.example.com/auctioneers#yabadoo","yabadoo"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
-{modules, []}
-];
-environment('table.json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://xqerl.org"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]},
-{modules, []}
-];
-environment('Wikipedia-Origami.xml',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "UseCaseJSON/Wikipedia-Origami.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]},
-{params, []},
-{vars, [{"uri","xs:string","'Wikipedia-Origami.xml'"}]},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -325,6 +203,128 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('mildred.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]},
+{modules, []}
+];
+environment('employees.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]},
+{modules, []}
+];
+environment('bookinfo.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]},
+{modules, []}
+];
+environment('users.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]},
+{modules, []}
+];
+environment('sales.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"},
+{filename:join(BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"},
+{filename:join(BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}]},
+{modules, []}
+];
+environment('satellites.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]},
+{modules, []}
+];
+environment('colors.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]},
+{modules, []}
+];
+environment('incoming.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]},
+{modules, []}
+];
+environment('table.json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://xqerl.org"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]},
+{modules, []}
+];
+environment('Wikipedia-Origami.xml',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "UseCaseJSON/Wikipedia-Origami.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/"}]},
+{params, []},
+{vars, [{"uri","xs:string","'Wikipedia-Origami.xml'"}]},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

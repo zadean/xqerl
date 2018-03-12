@@ -13,7 +13,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -46,31 +46,6 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
-{modules, []}
-];
-environment('string',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/string.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('string-and-company-data',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/string.xml"), "$string",""},
-{filename:join(BaseDir, "../docs/company-data.xml"), "$company-data",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -210,6 +185,31 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('string',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/string.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('string-and-company-data',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/string.xml"), "$string",""},
+{filename:join(BaseDir, "../docs/company-data.xml"), "$company-data",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

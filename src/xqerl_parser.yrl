@@ -894,7 +894,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'SequenceTypeUnion'      -> 'SequenceType' '|' 'SequenceTypeUnion' : ['$1'|'$3']. 
 'SequenceTypeUnion'      -> 'SequenceType' : ['$1'].
 % [77]
-'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : {'if-then-else', '$3', '$6', '$8'}.
+'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : {'if-then-else', '$3', {next_id(),'$6'}, {next_id(),'$8'}}.
 % [78]
 'TryCatchExpr'           -> 'TryClause' 'CatchClauses' : {'try', next_id(), '$1', {'catch', '$2'}}.
 % [79]
@@ -1025,7 +1025,13 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [106]    PragmaContents    ::=      (Char* - (Char* '#)' Char*))
 %% done in scanner  
 % [107]    SimpleMapExpr     ::=      PathExpr ("!" PathExpr)*
-'SimpleMapExpr'          -> 'PathExpr' '!' 'SimpleMapExpr' : {'simple-map', '$1', '$3'}.
+'SimpleMapExpr'          -> 'PathExpr' '!' 'SimpleMapExpr' : 
+case '$3' of
+   {'simple-map', P, S} ->
+      {'simple-map', {'simple-map', '$1', P}, S};
+   _ ->
+      {'simple-map', '$1', '$3'}
+end.
 'SimpleMapExpr'          -> 'PathExpr' : '$1'.
 
 % [108]    PathExpr    ::=      ("/" RelativePathExpr?)| ("//" RelativePathExpr)| RelativePathExpr   /* xgc: leading-lone-slash */
@@ -1053,7 +1059,11 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 %% 'RelativePathExpr'      -> '//' 'RelativePathExpr' : {step, #xqAxisStep{axis = 'descendant-or-self'},'$2'}.
 %% 'RelativePathExpr'       -> 'StepExpr' 'RelativePathExpr' : {step, '$1', '$2'}.
 'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
-'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'].
+'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : case '$1' of #xqAxisStep{} ->
+                                                                  case '$3' of 
+                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} , '$3'];
+                                                                    _ -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'] end;
+                                                                   _ -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'] end.
 'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
 %% case '$1' of 
 %%                                              #xqAxisStep{} ->
@@ -1119,6 +1129,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'AbbrevForwardStep'      -> 'NodeTest'     : case ('$1') of
                                                 #xqKindTest{kind = 'attribute'} ->
                                                   {'attribute', '$1'};
+                                                #xqKindTest{kind = 'namespace'} ->
+                                                  xqerl_error:error('XQST0134'); % no abbrev namespace allowed
                                                 _ ->
                                                   {'child', '$1'}
                                              end.
@@ -1248,41 +1260,41 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'DirectConstructor'      -> 'DirPIConstructor'      : '$1'.
 % [142]    DirElemConstructor      ::=      "<" QName DirAttributeList ("/>" | (">" DirElemContent* "</" QName S? ">"))   /* ws: explicit */
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '/>' 
-                              : #xqElementNode{attributes = '$3', name = qname(other,'$2')}.
+                              : #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')}.
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' '>' 
                               : if '$2' == '$7' ->
-                                 #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
+                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> ?err('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$7' ->
-                                 #xqElementNode{attributes = '$3', name = qname(other,'$2'), expr = '$5'};
+                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2'), expr = '$5'};
                                  true -> ?err('XQST0118')
                                 end. 
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' '>' 
                               : if '$2' == '$6' ->
-                                 #xqElementNode{attributes = '$3', name = qname(other,'$2')};
+                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')};
                                  true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' 'DirAttributeList' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$6' ->
-                                 #xqElementNode{attributes = '$3', name = qname(other,'$2')};
+                                 #xqElementNode{identity = next_id(), attributes = '$3', name = qname(other,'$2')};
                                  true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' '/>' 
-                              : #xqElementNode{name = qname(other,'$2')}.
+                              : #xqElementNode{identity = next_id(), name = qname(other,'$2')}.
 'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' '>' 
-                              : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
+                              : #xqElementNode{identity = next_id(), name = qname(other,'$2'), expr = '$4'}. 
 'DirElemConstructor'     -> '<' 'EQName' '>' 'DirElemContents' '</' 'EQName' 'S' '>' 
-                              : #xqElementNode{name = qname(other,'$2'), expr = '$4'}. 
+                              : #xqElementNode{identity = next_id(), name = qname(other,'$2'), expr = '$4'}. 
 'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' '>' 
                               : if '$2' == '$5' ->
-                                 #xqElementNode{name = qname(other,'$2')};
+                                 #xqElementNode{identity = next_id(), name = qname(other,'$2')};
                                  true -> ?err('XQST0118')
                                 end.  
 'DirElemConstructor'     -> '<' 'EQName' '>' '</' 'EQName' 'S' '>' 
                               : if '$2' == '$5' ->
-                                 #xqElementNode{name = qname(other,'$2')};
+                                 #xqElementNode{identity = next_id(), name = qname(other,'$2')};
                                  true -> ?err('XQST0118')
                                 end.  
 % [143]    DirAttributeList     ::=      (S (QName S? "=" S? DirAttributeValue)?)* /* ws: explicit */
@@ -1346,21 +1358,21 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
 'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
-'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{expr = '$2'}.
+'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{identity = next_id(), expr = '$2'}.
 % [150]    DirCommentContents      ::=      ((Char - '-') | ('-' (Char - '-')))*
 %% done in scanner
 'DirCommentContents'     -> 'comment-text' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
 % [151]    DirPIConstructor     ::=      "<?" PITarget (S DirPIContents)? "?>"  /* ws: explicit */
-'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : #xqProcessingInstructionNode{name = qname(pi,value_of('$2'))}.
-'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : #xqProcessingInstructionNode{name = qname(pi,value_of('$2')), 
+'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2'))}.
+'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2')), 
                                                                                                 expr = #xqAtomicValue{type = 'xs:string', value = value_of('$3')}}.
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
 'CDataSection'           -> '<![CDATA[' 'CDataSectionContents' ']]>' : if '$2' == [] ->
-                                                                              #xqTextNode{cdata = true, expr = []};
+                                                                              #xqTextNode{identity = next_id(), cdata = true, expr = []};
                                                                            true ->
-                                                                              #xqTextNode{cdata = true, 
+                                                                              #xqTextNode{identity = next_id(), cdata = true, 
                                                                                           expr = #xqAtomicValue{type = 'xs:string', value = '$2'}}
                                                                         end.
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
@@ -1376,18 +1388,18 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'ComputedConstructor'    -> 'CompCommentConstructor' : '$1'.
 'ComputedConstructor'    -> 'CompPIConstructor' : '$1'.
 % [156]    CompDocConstructor      ::=      "document" EnclosedExpr 
-'CompDocConstructor'     -> 'document' 'EnclosedExpr' : #xqDocumentNode{expr = {content_expr, '$2'}}.
+'CompDocConstructor'     -> 'document' 'EnclosedExpr' : #xqDocumentNode{identity = next_id(), expr = {content_expr, '$2'}}.
 % [157]    CompElemConstructor     ::=      "element" (EQName | ("{" Expr "}")) EnclosedContentExpr  
-'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{name = qname(other,'$2'), expr = '$3'}. 
-'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : #xqElementNode{name = '$3', expr = '$5'}.
+'CompElemConstructor'    -> 'element'    'EQName'    'EnclosedContentExpr' : #xqElementNode{identity = next_id(), name = qname(other,'$2'), expr = '$3'}. 
+'CompElemConstructor'    -> 'element' '{' 'Expr' '}' 'EnclosedContentExpr' : #xqElementNode{identity = next_id(), name = '$3', expr = '$5'}.
 % [158]    EnclosedContentExpr     ::=      EnclosedExpr
 'EnclosedContentExpr'    -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [159]    CompAttrConstructor     ::=      "attribute" (EQName | ("{" Expr "}")) EnclosedExpr 
-'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{name = qname(other,'$2'), expr = {content_expr, '$3'}}.
-'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{name = '$3', expr = {content_expr, '$5'}}.
+'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{identity = next_id(), name = qname(other,'$2'), expr = {content_expr, '$3'}}.
+'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{identity = next_id(), name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
-'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = value_of('$2'), local_name = []}}.
-'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
+'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = value_of('$2'), local_name = []}}.
+'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
 % [161]    Prefix      ::=      NCName
 % block due to conflict with LocalPart 'Prefix'                 -> 'NCName' : value_of('$1').
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
@@ -1397,12 +1409,12 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'EnclosedURIExpr'        -> 'EnclosedExpr' : {expr, '$1'}.
 %'EnclosedURIExpr'        -> 'EnclosedExpr' : {uri_expr, '$1'}.
 % [164]    CompTextConstructor     ::=      "text" EnclosedExpr  
-'CompTextConstructor'    -> 'text' 'EnclosedExpr' : #xqTextNode{expr = {content_expr, '$2'}}.
+'CompTextConstructor'    -> 'text' 'EnclosedExpr' : #xqTextNode{identity = next_id(), expr = {content_expr, '$2'}}.
 % [165]    CompCommentConstructor     ::=      "comment" EnclosedExpr  
-'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : #xqCommentNode{expr = {content_expr, '$2'}}.
+'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : #xqCommentNode{identity = next_id(), expr = {content_expr, '$2'}}.
 % [166]    CompPIConstructor    ::=      "processing-instruction" (NCName | ("{" Expr "}")) EnclosedExpr   
-'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = qname(pi,value_of('$2')), expr = {content_expr, '$3'}}.
-'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_node_id(), name = '$3',                     expr = {content_expr, '$5'}}.
+'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2')), expr = {content_expr, '$3'}}.
+'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_id(), name = '$3',                     expr = {content_expr, '$5'}}.
 % [167]    FunctionItemExpr     ::=      NamedFunctionRef | InlineFunctionExpr
 'FunctionItemExpr'       -> 'NamedFunctionRef' : '$1'.
 'FunctionItemExpr'       -> 'InlineFunctionExpr' : '$1'.
@@ -1605,7 +1617,9 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 %'LocalPart'              -> 'Prefix' : '$1'.
 
 
-'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : #'qname'{namespace = '$1', local_name = value_of('$2')}.
+'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == "http://www.w3.org/2000/xmlns/" -> ?err('XQST0070');
+                                                             true -> #'qname'{namespace = '$1', local_name = value_of('$2')}
+                                                          end.
 'BracedURILiteral'       -> 'Q' '{' 'URILiteral' '}'    : '$3'.
 'BracedURILiteral'       -> 'Q' '{' '}'    : 'no-namespace'.
 
@@ -1687,6 +1701,8 @@ qname(func, {qname,default,_,"typeswitch"}) -> ?err('XPST0003');
 % default
 qname(func, {qname,default,_Px,Ln}) ->
    {qname,xqerl_context:get_default_function_namespace(parser),"",Ln};
+qname(func, {qname,[],Px,Ln}) ->
+   {qname,'no-namespace',Px,Ln};
 qname(func, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -1709,6 +1725,9 @@ qname(pi, Ln) ->
    % allow "xml" here
    {qname,'no-namespace',[],Str};
 qname(type, Q) -> Q;
+
+qname(var, {qname,[],_,Ln}) ->
+   qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,default,default,Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,default,"",Ln}) ->
@@ -1756,6 +1775,9 @@ qname(wildcard, {qname,default,_Px,Ln}) ->
    {qname,'no-namespace',[],Ln};
 qname(wildcard, {qname,undefined,"*",Ln}) ->
    {qname,"*","*",Ln};
+qname(wildcard, {qname,undefined,Px,Ln}) ->
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, Px),
+   {qname,Ns,Px,Ln};
 qname(wildcard, {qname,Ns,default,Ln}) ->
    {qname,Ns,"*",Ln};
 qname(wildcard, {qname,Ns,Px,Ln}) ->
@@ -1811,16 +1833,6 @@ next_id() ->
          1;
       Id ->
          erlang:put(var_id, Id + 1),
-         Id
-   end.
-
-next_node_id() ->
-   case erlang:get(node_id) of
-      undefined ->
-         erlang:put(node_id, 1),
-         0;
-      Id ->
-         erlang:put(node_id, Id + 1),
          Id
    end.
 
@@ -1889,15 +1901,18 @@ as_list(L) ->
 
 dir_att(QName, Value) ->
    if QName#qname.prefix == "xmlns"  ->
+         xqerl_context:add_statically_known_namespace(parser,ns_value(Value),QName#qname.local_name),
          #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
                                         prefix = QName#qname.local_name, 
                                         local_name = []}};
       QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
          case at_value(Value) of 
-            "" -> 
+            "" ->
+               xqerl_context:add_statically_known_namespace(parser,'no-namespace',[]),
                #xqNamespaceNode{name = #qname{namespace = 'no-namespace', 
                                               prefix = [], local_name = []}};
             _ -> 
+               xqerl_context:add_statically_known_namespace(parser,ns_value(Value),[]),
                #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
                                               prefix = [], local_name = []}} 
          end;

@@ -114,6 +114,8 @@
 
 -include("xqerl.hrl").
 
+lookup(Ctx,Sing,#xqRange{} = R) ->
+   lookup(Ctx,Sing,xqerl_seq3:expand(R));
 lookup(Ctx,Sing,[Value]) ->
    lookup(Ctx,Sing,Value);
 lookup(Ctx,[Sing],Value) ->
@@ -121,22 +123,27 @@ lookup(Ctx,[Sing],Value) ->
 lookup(_Ctx,Map,all) when is_map(Map) ->
    xqerl_map:values(Map);
 lookup(_Ctx,Map,Values) when is_map(Map), is_list(Values) ->
-   xqerl_map:get_matched(Map, Values);
+   V1 = xqerl_seq3:expand(Values), 
+   xqerl_map:get_matched(Map, V1);
 lookup(Ctx,Map,Value) when is_map(Map) ->
    xqerl_map:get(Ctx, Map, Value);
 lookup(_Ctx,{array,_} = Array,all) ->
    xqerl_array:values(Array);
 lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
-   xqerl_array:get_matched(Array, Values);
+   V1 = xqerl_seq3:expand(Values), 
+   xqerl_array:get_matched(Array, V1);
 lookup(Ctx,{array,_} = Array,#xqAtomicValue{type = T} = Value) 
    when ?integer(T) ->
    xqerl_array:get(Ctx, Array, Value);
 lookup(Ctx,{array,_} = A,#xqNode{} = V) ->
    lookup(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
 lookup(Ctx,List,Value) when is_list(List) ->
+   V1 = xqerl_seq3:expand(Value), 
    lists:map(fun(I) ->
-                   lookup(Ctx,I,Value)
+                   lookup(Ctx,I,V1)
              end, List);
+%% lookup(Ctx,Fun,Value) when is_function(Fun, 2) ->
+%%    Fun(Ctx,Value);
 lookup(_Ctx,_List,_Value) ->
    ?err('XPTY0004').
 
@@ -158,13 +165,13 @@ add([], _) -> [];
 add(#array{data = [Arg1]}, Arg2) -> add(Arg1, Arg2);
 add(Arg1, #array{data = [Arg2]}) -> add(Arg1, Arg2);
 add(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    add(Arg1,Ns);
 add(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    add(Ns, Arg2);
 add(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    add(Arg1,Ns);
 add(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    add(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -233,10 +240,10 @@ subtract(#array{data = [Arg1]}, Arg2) -> subtract(Arg1, Arg2);
 subtract(Arg1, #array{data = [Arg2]}) -> subtract(Arg1, Arg2);
 
 subtract(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    subtract(Ns, Arg2);
 subtract(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    subtract(Arg1,Ns);
 subtract(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    subtract(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -306,10 +313,10 @@ multiply(#array{data = [Arg1]}, Arg2) -> multiply(Arg1, Arg2);
 multiply(Arg1, #array{data = [Arg2]}) -> multiply(Arg1, Arg2);
 
 multiply(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    multiply(Ns, Arg2);
 multiply(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    multiply(Arg1,Ns);
 multiply(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    multiply(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -341,10 +348,10 @@ divide(#array{data = [Arg1]}, Arg2) -> divide(Arg1, Arg2);
 divide(Arg1, #array{data = [Arg2]}) -> divide(Arg1, Arg2);
 
 divide(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    divide(Ns, Arg2);
 divide(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    divide(Arg1,Ns);
 divide(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    divide(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -375,10 +382,10 @@ idivide([], _) -> [];
 idivide(#array{data = [Arg1]}, Arg2) -> idivide(Arg1, Arg2);
 idivide(Arg1, #array{data = [Arg2]}) -> idivide(Arg1, Arg2);
 idivide(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    idivide(Ns, Arg2);
 idivide(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    idivide(Arg1,Ns);
 idivide(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    idivide(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -396,10 +403,10 @@ modulo([], _) -> [];
 modulo(#array{data = [Arg1]}, Arg2) -> modulo(Arg1, Arg2);
 modulo(Arg1, #array{data = [Arg2]}) -> modulo(Arg1, Arg2);
 modulo(#xqNode{} = Arg1, Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg1),
+   Ns = xqerl_types:atomize(Arg1),
    modulo(Ns, Arg2);
 modulo(Arg1, #xqNode{} = Arg2) ->
-   Ns = xqerl_node:atomize_nodes(Arg2),
+   Ns = xqerl_types:atomize(Arg2),
    modulo(Arg1,Ns);
 modulo(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    modulo(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
@@ -419,7 +426,7 @@ equal(Arg1, [Arg2], Collation) ->
    equal(Arg1, Arg2, Collation);
 equal(#xqAtomicValue{type = T2, value = Val2}, 
       #xqAtomicValue{type = T1, value = Val1}, Collation) 
-   when not is_function(Collation) ->
+  when is_tuple(Collation) ->
    Coll = xqerl_coll:parse(xqerl_types:string_value(Collation)),
    equal(#xqAtomicValue{type = T2, value = Val2},
          #xqAtomicValue{type = T1, value = Val1}, Coll);
@@ -454,10 +461,10 @@ equal([], []) -> [];
 equal([], _) -> [];
 equal(_, []) -> [];
 equal(#xqNode{} = Arg1, Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg1]),
+   At = xqerl_types:atomize([Arg1]),
    equal(At, Arg2);
 equal(Arg1, #xqNode{} = Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg2]),
+   At = xqerl_types:atomize([Arg2]),
    equal(Arg1, At);
 equal(#array{data = Arg1}, Arg2) ->
    equal(Arg1, Arg2);
@@ -622,10 +629,10 @@ greater_than(Arg1, Arg2) when is_map(Arg1);
 greater_than([], _) -> [];
 greater_than(_, []) -> [];
 greater_than(#xqNode{} = Arg1, Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg1]),
+   At = xqerl_types:atomize([Arg1]),
    greater_than(At, Arg2);
 greater_than(Arg1, #xqNode{} = Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg2]),
+   At = xqerl_types:atomize([Arg2]),
    greater_than(Arg1, At);
 greater_than(#array{data = Arg1}, Arg2) ->
    greater_than(Arg1, Arg2);
@@ -702,10 +709,10 @@ less_than(Arg1, Arg2) when is_map(Arg1);
 less_than([], _) -> [];
 less_than(_, []) -> [];
 less_than(#xqNode{} = Arg1, Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg1]),
+   At = xqerl_types:atomize([Arg1]),
    less_than(At, Arg2);
 less_than(Arg1, #xqNode{} = Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg2]),
+   At = xqerl_types:atomize([Arg2]),
    less_than(Arg1, At);
 less_than(#array{data = Arg1}, Arg2) ->
    less_than(Arg1, Arg2);
@@ -774,10 +781,10 @@ greater_than_eq(Arg1, Arg2) when is_map(Arg1);
 greater_than_eq([], _) -> [];
 greater_than_eq(_, []) -> [];
 greater_than_eq(#xqNode{} = Arg1, Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg1]),
+   At = xqerl_types:atomize([Arg1]),
    greater_than_eq(At, Arg2);
 greater_than_eq(Arg1, #xqNode{} = Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg2]),
+   At = xqerl_types:atomize([Arg2]),
    greater_than_eq(Arg1, At);
 greater_than_eq(#array{data = Arg1}, Arg2) ->
    greater_than_eq(Arg1, Arg2);
@@ -837,10 +844,10 @@ less_than_eq(Arg1, Arg2) when is_map(Arg1);
 less_than_eq([], _) -> [];
 less_than_eq(_, []) -> [];
 less_than_eq(#xqNode{} = Arg1, Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg1]),
+   At = xqerl_types:atomize([Arg1]),
    less_than_eq(At, Arg2);
 less_than_eq(Arg1, #xqNode{} = Arg2) ->
-   At = xqerl_node:atomize_nodes([Arg2]),
+   At = xqerl_types:atomize([Arg2]),
    less_than_eq(Arg1, At);
 less_than_eq(#array{data = Arg1}, Arg2) ->
    less_than_eq(Arg1, Arg2);
@@ -930,15 +937,7 @@ node_before(_,[]) ->
    [];
 node_before(#xqNode{doc = Doc1, node = Node1}, 
             #xqNode{doc = Doc2, node = Node2}) ->
-   U1 = xqerl_xdm:uri(Doc1),
-   U2 = xqerl_xdm:uri(Doc2),
-   if U1 < U2 ->
-         ?bool(true);
-      U1 > U2 ->
-         ?bool(false);
-      true ->
-         ?bool(xqerl_xdm:uid(Node1) < xqerl_xdm:uid(Node2))
-   end;
+   ?bool(Doc1 < Doc2 orelse (Doc1 == Doc2 andalso Node1 < Node2));
 node_before([Seq1],[Seq2]) ->
    node_before(Seq1,Seq2);
 node_before([Seq1],#xqNode{} = N2) ->
@@ -955,15 +954,7 @@ node_after(_,[]) ->
    [];
 node_after(#xqNode{doc = Doc1, node = Node1}, 
            #xqNode{doc = Doc2, node = Node2}) ->
-   U1 = xqerl_xdm:uri(Doc1),
-   U2 = xqerl_xdm:uri(Doc2),
-   if U1 > U2 ->
-         ?bool(true);
-      U1 < U2 ->
-         ?bool(false);
-      true ->
-         ?bool(xqerl_xdm:uid(Node1) > xqerl_xdm:uid(Node2))
-   end;
+   ?bool(Doc1 > Doc2 orelse (Doc1 == Doc2 andalso Node1 > Node2));
 node_after([Seq1],[Seq2]) ->
    node_after(Seq1,Seq2);
 node_after([Seq1],#xqNode{} = N2) ->
@@ -979,13 +970,7 @@ node_is(_, []) -> [];
 node_is(#xqNode{} = A, #xqNode{} = A) -> ?bool(true);
 node_is(#xqNode{doc = Doc1, node = Node1}, 
         #xqNode{doc = Doc2, node = Node2}) ->
-   U1 = xqerl_xdm:uri(Doc1),
-   U2 = xqerl_xdm:uri(Doc2),
-   if U1 == U2 ->
-         ?bool(xqerl_xdm:uid(Node1) == xqerl_xdm:uid(Node2));
-      true ->
-         ?bool(false)
-   end;
+   ?bool(Doc1 == Doc2 andalso Node1 == Node2);
 node_is([Seq1],[Seq2]) ->
    node_is(Seq1,Seq2);
 node_is([Seq1],#xqNode{} = N2) ->
@@ -1094,17 +1079,17 @@ value_compare(Op,Val1,Val2) ->
    end.
 
 atomize_list(#array{data = List}) ->
-   atomize_list(List);
+   lists:flatten(atomize_list(List));
 atomize_list(Seq) when is_list(Seq) ->
-   ?seq:val_map(fun(#xqFunction{}) ->
-                      ?err('FOTY0013');
-                   (#array{data = List}) ->
-                      atomize_list(List);
-                   (#xqAtomicValue{} = V) ->
-                      V;
-                   (#xqNode{} = N) ->
-                      ?seq:singleton_value(xqerl_node:atomize_nodes(N))
-                end, Seq);
+   lists:map(fun(#xqFunction{}) ->
+                   ?err('FOTY0013');
+                (#array{data = List}) ->
+                   atomize_list(List);
+                (#xqAtomicValue{} = V) ->
+                   V;
+                (#xqNode{} = N) ->
+                   ?seq:singleton_value(xqerl_types:atomize(N))
+             end, xqerl_seq3:expand(Seq));
 atomize_list(Seq) ->
    atomize_list([Seq]).
 
@@ -1118,7 +1103,9 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
    when ?numeric(TypeA),?numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == infinity, ?is_numeric(ValB) ->
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA + ValB;
+             ValA == infinity, ?is_numeric(ValB) ->
                 infinity;
              ValB == infinity, ?is_numeric(ValA) ->
                 infinity;
@@ -1167,7 +1154,9 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
    when ?numeric(TypeA),?numeric(TypeB) ->
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == infinity, ?is_numeric(ValB) ->
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA - ValB;
+             ValA == infinity, ?is_numeric(ValB) ->
                 infinity;
              ValB == infinity, ?is_numeric(ValA) ->
                 neg_infinity;
@@ -1215,7 +1204,9 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
    when ?numeric(TypeA),?numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = ?numtype(Prec),
-   ValC = if ValA == infinity andalso ?is_numeric(ValB) andalso ValB > 0 ->
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA * ValB;
+             ValA == infinity andalso ?is_numeric(ValB) andalso ValB > 0 ->
                 infinity;
              ValA == infinity andalso ?is_numeric(ValB) andalso ValB < 0 ->
                 neg_infinity;
@@ -1329,7 +1320,11 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                        #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
    Prec = max(?num(TypeA), ?num(TypeB)),
-   ValC = if ValB == infinity, ValA =/= infinity ->
+   ValC = if is_integer(ValA) andalso ValB == 0 ->
+                ?err('FOAR0001');
+             is_integer(ValA) andalso is_integer(ValB) ->
+                ValA div ValB;
+             ValB == infinity, ValA =/= infinity ->
                 0;
              ValB == neg_infinity, ValA =/= infinity ->
                 0;
@@ -1347,8 +1342,6 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                 ?err('FOAR0002');
              ValA == neg_infinity ->
                 ?err('FOAR0002');
-             is_integer(ValA) andalso is_integer(ValB) ->
-                ValA div ValB;
              Prec == 15 -> % float could be overflowed
                 case trunc(float(ValA) / float(ValB)) of
                    X when X > ?MAXFLOAT ->
@@ -1356,7 +1349,7 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                    X when X < ?MINFLOAT ->
                       ?err('FOAR0002');
                    X ->
-                      float(X)
+                      X
                 end;
              true ->
                 case xqerl_numeric:equal(ValB, 0) of
@@ -1409,7 +1402,9 @@ numeric_mod(_,_) ->
 numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
               #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if (ValA == nan) andalso (ValB == nan) ->
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA =:= ValB;
+             (ValA == nan) andalso (ValB == nan) ->
                 false;
              (ValA == nan) orelse (ValB == nan) ->
                 false;
@@ -1453,7 +1448,9 @@ numeric_equal(_,_) ->
 numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
                   #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if ValA == nan;
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA < ValB;
+             ValA == nan;
              ValB == nan ->
                 false;
              ValA == infinity ->
@@ -1485,7 +1482,9 @@ numeric_less_than(_,_) ->
 numeric_greater_than(#xqAtomicValue{type = TypeA, value = ValA},
                      #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if ValA == nan;
+   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+                ValA > ValB;
+             ValA == nan;
              ValB == nan ->
                 false;
              ValA == infinity ->
@@ -2464,7 +2463,6 @@ unary_sign(_) -> 1.
 reverse_sign('-') -> '+';
 reverse_sign(_) -> '-'.
 
-negate([Seq]) -> negate(Seq);
 negate(#xqAtomicValue{type = 'xs:boolean', value = Bool}) ->
    ?bool(not Bool).
 
@@ -2546,9 +2544,9 @@ add_duration_to_dateTime(#xqAtomicValue{type = 'xs:dateTime',
          end,  
    #xqAtomicValue{type = 'xs:dateTime',
                    value = #xsDateTime{sign = SnC,
-                                   year = OutYear1,
+                                   year = abs(OutYear1),
                                    month = OutMonth1,
-                                   day = OutDay1, 
+                                   day = abs(OutDay1), 
                                    hour = OutHrs,
                                    minute = OutMin, 
                                    second = OutSec,
@@ -2588,7 +2586,7 @@ key_val(#xqAtomicValue{type = Type, value = V})
 key_val([Val]) ->
    key_val(Val);
 key_val(#xqNode{} = Val) ->
-   key_val(xqerl_node:atomize_nodes(Val));
+   key_val(xqerl_types:atomize(Val));
 key_val(#xqAtomicValue{type = 'xs:integer', value = V}) ->
    {number,decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:decimal', value = V}) ->
@@ -2680,5 +2678,6 @@ eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0 ->
 eff_bool_val(#xqAtomicValue{} = A) ->
    ?dbg("boolean", {?LINE,A}),
    ?err('FORG0006');
-eff_bool_val(_Seq) ->
+eff_bool_val(Seq) ->
+   ?dbg("boolean", Seq),
    ?err('FORG0006').

@@ -154,7 +154,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -307,10 +307,10 @@ all() -> [
    'function-call-reserved-function-names-044',
    'function-call-reserved-function-names-045',
    'function-call-reserved-function-names-046'].
-environment('empty',BaseDir) ->
+environment('ListUnionTypes',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -319,10 +319,10 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('ListUnionTypes',BaseDir) ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{schemas, []},
 {collections, []},
 {'static-base-uri', []},
 {params, []},

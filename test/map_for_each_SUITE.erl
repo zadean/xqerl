@@ -26,7 +26,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -508,7 +508,32 @@ environment('array-and-map',BaseDir) ->
    end.
 'map-for-each-014'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," Huge Range "}.
+   Qry = "map:for-each(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), function($k,$v){$k})",
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-for-each-014.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"$result = 1") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert(Res,"$result = 500000") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_count(Res, "500000") of 
+      true -> {comment, "Count correct"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'map-for-each-015'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "map:for-each(map{\"a\":1, \"b\":2}, function($k,$v){$k||$v})",

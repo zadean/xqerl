@@ -13,12 +13,13 @@ Definitions.
 RESERVED = [\'\/\?\:\@\&\=\+\$\,\[\]]
 UNRESERVED = [\-\_\.\!\~\*\'\(\)]|[0-9A-Za-z]
 ESCAPED = [%][0-9A-Fa-f][0-9A-Fa-f]
+BADESCAPED = [%]
 
 BIG = &#[0-9]+;
 % excluded characters
 CONTROL = [\x00-\x1F\x7F]
 SPACE = [\s]
-DELIMS = [\<\>\#\%\"\;]
+DELIMS = [\<\>\#\"\;]
 UNWISE = [\{\}\|\\\^\`]
 
 SCHEME = (file|http|https|ftp|ssh|sftp|tftp)://
@@ -31,6 +32,7 @@ Rules.
 {SPACE} : {token,{unreserved,TokenLine,TokenChars}}.
 {UNRESERVED} : {token,{unreserved,TokenLine,TokenChars}}.
 {ESCAPED} : {token,{escaped,TokenLine,TokenChars}}.
+{BADESCAPED} : {token,{excluded,TokenLine,TokenChars}}.
 {BIG} : {token,{escaped,TokenLine,TokenChars}}.
 {SCHEME} : {token,{scheme,TokenLine,TokenChars}}.
 Erlang code.

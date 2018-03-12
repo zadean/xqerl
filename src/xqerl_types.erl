@@ -100,8 +100,17 @@ is_date_type(_Type) -> false.
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
-atomize(#xqNode{} = N) -> 
-   ?seq:singleton_value(xqerl_node:atomize_nodes(N));
+%% atomize(#xqNode{doc = D, node = N}) when is_pid(D), D == self() ->
+%%    [Val] = xqldb_xdm:atomize(D, N),
+%%    ?dbg("Val",Val),
+%%    ?seq:singleton_value(Val);
+atomize(#xqNode{doc = D, node = N}) when is_pid(D) ->
+   F = fun(Doc) -> xqldb_xdm:atomize(Doc, N) end,
+   Val = xqldb_doc:run(D, F),             
+   %?dbg("Val",Val),
+   ?seq:singleton_value(Val);
+%% atomize(#xqNode{} = N) -> 
+%%    ?seq:singleton_value(xqerl_node:atomize_nodes(N));
 atomize(L) when is_list(L) -> 
    lists:map(fun atomize/1, L);
 atomize(_) -> 
@@ -109,24 +118,21 @@ atomize(_) ->
 
 
 return_value([]) -> ?seq:empty();
-% document from a doc store.
-return_value(#xqNode{doc = {doc,File}, node = Node}) ->
-   Doc = ?get({doc,File}),
-   %{NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-   #xqNode{doc = Doc, node = Node};
-   %#xqNode{doc = NewDoc, node = NewNode};
-return_value(#xqNode{doc = Doc, node = Node}) ->
-   {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-   #xqNode{doc = NewDoc, node = NewNode};
+% blocked for now
+%% return_value(#xqNode{doc = Doc, node = Node}) when is_pid(Doc) ->
+%%    {ok,Bin} = xqldb_doc:export(Doc),
+%%    {Bin,Node};
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
-return_value(#xqFunction{body = Fun} = F) when is_function(Fun) -> F;
+return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
+return_value(#xqFunction{} = F) -> F;
+%return_value(#xqFunction{}) -> ?err('XPTY0004');
 return_value(Fun) when is_function(Fun) -> Fun;
 return_value(Map) when is_map(Map) -> Map;
 return_value([Other]) ->
    return_value(Other);
 return_value(List) when is_list(List) ->
-   lists:flatten(
+   ?seq:flatten(
      lists:map(fun(I) ->
                      return_value(I)
                end, List));
@@ -136,10 +142,12 @@ return_value(Other) ->
 string_value([]) -> [];
 string_value([H|T]) when is_integer(H) -> [H|T];
 string_value(#xqError{} = E) -> E;
+string_value(#xqRange{} = R) -> 
+   string_value(xqerl_seq3:expand(R));
 string_value(#array{data = L}) -> string_value(L);
 string_value([V]) when not is_integer(V) -> string_value(V);
 string_value({Doc,Node}) when is_map(Doc), is_binary(Node) ->
-   xqerl_xdm:dm_string_value(Doc, Node);
+   xqldb_doc:string_value(Doc, Node);
 string_value({Error,_}) ->
    {Error};
 %% string_value([At]) ->
@@ -175,7 +183,7 @@ string_value(Seq) ->
                    [" "++ string_value(Av) || Av <- tl(Seq) ] ]).
 
 value(#xqNode{} = N) ->
-   value(xqerl_node:atomize_nodes(N));
+   value(atomize(N));
 value(#xqFunction{body = V}) -> V;
 value([#xqFunction{body = V}]) -> V;
 value(#xqAtomicValue{value = V}) -> V;
@@ -346,18 +354,36 @@ name_match(#qname{namespace = Ns1,local_name = Ln1},
 
 kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
                                               name = Name1,
-                                              type = Type1}} = Kt1,
+                                              type = Type1},
+                           occur = O1} = Kt1,
                 #xqSeqType{type = #xqKindTest{kind = Kind2,
                                               name = Name2,
-                                              type = Type2}} = Kt2) ->
+                                              type = Type2},
+                           occur = O2} = Kt2) ->
+   OM = if O2 == zero_or_many, O1 == zero_or_one ->
+              false;
+           O2 == zero_or_many, O1 == one ->
+              false;
+           O2 == one_or_many, O1 == zero_or_one ->
+              false;
+           O2 == one_or_many, O1 == one ->
+              false;
+           true ->
+              true
+        end,
    case seq_type_val_match(Kt1,Kt2) of
+      _ when not OM ->
+         false;
       false ->
          false;
       nocast ->
+         ?dbg("nocast",nocast),
          true;
       _ -> % maybe, so check name and type
-         if Kind1 == Kind2 ->
-               NameMatch = name_match(Name1, Name2),
+         ST = subtype_of(Kt2#xqSeqType.type, Kt1#xqSeqType.type),         
+         ?dbg("ST",ST),
+         if Kind1 == Kind2 orelse ST ->
+               NameMatch = name_match(Name2, Name1),
                if NameMatch ->
                      ?dbg("Type match",{Type1,Type2}),
                      if Type2 == undefined ->
@@ -505,8 +531,16 @@ promote(At,#xqSeqType{type = item}) ->
    At;
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    At;
-promote(#xqNode{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
+promote(#xqNode{} = N,#xqSeqType{type = T}) when T == 'xs:anyAtomicType';
+                                                 ?string(T) ->
    atomize(N);
+promote(#xqNode{} = N,#xqSeqType{} = T) ->
+   case instance_of(N, T) of
+      ?true ->
+         N;
+      _ ->
+         ?err('XPTY0004')
+   end;
 promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    atomize(N);
 promote(List,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List) ->
@@ -733,7 +767,7 @@ subtype_of( _AT, _ET ) ->
    false.
 
 castable(#xqNode{} = Seq, TargetSeqType) ->
-   castable(xqerl_node:atomize_nodes(Seq), TargetSeqType);
+   castable(atomize(Seq), TargetSeqType);
 castable(#xqAtomicValue{} = Seq, TargetSeqType) ->
    castable([Seq], TargetSeqType);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
@@ -813,6 +847,14 @@ try_cast(Av, Type, Namespaces) ->
       _:E -> throw(E)            
    end.
 
+instance_of(#xqRange{cnt = C}, #xqSeqType{type = Type,
+                                          occur = TOccur})
+   when C =:= 1, ?integer(Type), TOccur == one;
+        C =:= 1, ?integer(Type), TOccur == zero_or_one;
+        C =:= 0, ?integer(Type), TOccur == zero_or_one; 
+        C > 0, ?integer(Type), TOccur == one_or_many; 
+        ?integer(Type), TOccur == zero_or_many ->
+      ?true;
 instance_of([], #xqSeqType{occur = TOccur}) 
    when TOccur == none;
         TOccur == zero;
@@ -901,15 +943,20 @@ check_param_types(Params, Params) -> true;
 check_param_types(Params, TargetParams) ->
    try
       Zipped = lists:zip(Params, TargetParams),
+      ?dbg("Zipped",Zipped),
       lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
                      #xqSeqType{type = #xqKindTest{}} = T}) ->
                       kind_test_match(P, T);
+                   ({#xqSeqType{type = #xqKindTest{}},
+                     #xqSeqType{type = item}}) ->
+                      false;
                    ({#xqSeqType{type = #xqFunTest{}} = P,
                      #xqSeqType{type = #xqFunTest{}} = T}) ->
                       fun_test_match(P, T);
                    ({#xqSeqType{type = P},
                      #xqSeqType{type = T}}) ->
                       P == T orelse subtype_of(T, P)
+                      %P == T orelse subtype_of(P, T)
                 end, Zipped)
    catch
       _:_ ->
@@ -922,24 +969,27 @@ check_annotations(_Annos, _TargetAnnos) -> true.
 
 %TODO - do something
 check_return_type(_Type, any) -> true;
-check_return_type(_Type, _ReturnType) -> true.
+check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
+   ?dbg("{Type, ReturnType}",{Type, ReturnType}),
+   subtype_of(Type,ReturnType).
 
-instance_of1(#xqNode{node = Node, doc = {doc,File}}, Any) ->
-   Doc = ?get({doc,File}),
-   instance_of1(#xqNode{doc = Doc, node = Node},Any);
+fix_ns([]) -> 'no-namespace';
+fix_ns(X) -> X.
 
 instance_of1(#xqNode{}, #xqKindTest{kind = node}) ->
    true;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = 'document-node', 
                          test = #xqKindTest{kind = element, 
                                             name = #qname{} = Q1}}) ->
-   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
+   case catch xqldb_doc:node_kind(Doc, Node) of
       'document' ->
-         case xqerl_xdm:dm_children(Doc, Node) of
+         case xqldb_doc:children(Doc, Node) of
             [Element] ->
-               {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Element),
-               Q2 = #qname{namespace = Ns, local_name = Ln},
+               {Ns,_,Ln} = xqldb_doc:node_name(Doc, Element),
+               Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
+               ?dbg("Q1",Q1),
+               ?dbg("Q2",Q2),
                has_name(Q2, Q1);
             _ ->
                false
@@ -947,33 +997,33 @@ instance_of1(#xqNode{node = Node, doc = Doc},
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = 'document-node'}) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqldb_doc:node_kind(Doc, Node) of
       document ->
          true;
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = 'namespace'}) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqldb_doc:node_kind(Doc, Node) of
       namespace ->
          true;
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = element, 
                          name = #qname{} = Q1, 
                          type = #xqSeqType{type = Type}}) ->
-   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
+   case catch xqldb_doc:node_kind(Doc, Node) of
       element ->
-         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
-         Q2 = #qname{namespace = Ns, local_name = Ln},
+         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
          case has_name(Q2, Q1) of
             true ->
-               EType = xqerl_xdm:dm_type_name(Doc, Node),
+               EType = xqldb_doc:type_name(Doc, Node),
                EType == Type orelse (Type == 'xs:anyType');
             _ ->
                false
@@ -981,35 +1031,35 @@ instance_of1(#xqNode{node = Node, doc = Doc},
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = element, name = #qname{} = Q1}) ->
-   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
+   case catch xqldb_doc:node_kind(Doc, Node) of
       element ->
-         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
-         Q2 = #qname{namespace = Ns, local_name = Ln},
+         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
          has_name(Q2, Q1);
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = element}) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqldb_doc:node_kind(Doc, Node) of
       element ->
          true;
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = attribute, 
                          name = #qname{} = Q1, 
                          type = #xqSeqType{type = Type}}) ->
-   case catch xqerl_xdm:dm_node_kind(Doc, Node) of
+   case catch xqldb_doc:node_kind(Doc, Node) of
       attribute ->
-         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
-         Q2 = #qname{namespace = Ns, local_name = Ln},
+         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
          case has_name(Q2, Q1) of
             true ->
-               EType = xqerl_xdm:dm_type_name(Doc, Node),
+               EType = xqldb_doc:type_name(Doc, Node),
                EType == Type orelse (Type == 'xs:anyType');
             _ ->
                false
@@ -1017,21 +1067,40 @@ instance_of1(#xqNode{node = Node, doc = Doc},
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = attribute, 
                          name = #qname{} = Q1}) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqldb_doc:node_kind(Doc, Node) of
       attribute ->
-         {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
-         Q2 = #qname{namespace = Ns, local_name = Ln},
+         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
          has_name(Q2, Q1);
       _ ->
          false
    end;
-instance_of1(#xqNode{node = Node, doc = Doc}, 
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
              #xqKindTest{kind = attribute}) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
+   case xqldb_doc:node_kind(Doc, Node) of
       attribute ->
+         true;
+      _ ->
+         false
+   end;
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
+             #xqKindTest{kind = 'processing-instruction', 
+                         name = #qname{} = Q1}) ->
+   case catch xqldb_doc:node_kind(Doc, Node) of
+      'processing-instruction' ->
+         {_,_,Ln} = xqldb_doc:node_name(Doc, Node),
+         Q2 = #qname{namespace = [], local_name = Ln},
+         has_name(Q2, Q1);
+      _ ->
+         false
+   end;
+instance_of1(#xqNode{node = [Node], doc = Doc}, 
+             #xqKindTest{kind = 'processing-instruction'}) ->
+   case xqldb_doc:node_kind(Doc, Node) of
+      'processing-instruction' ->
          true;
       _ ->
          false
@@ -1039,7 +1108,6 @@ instance_of1(#xqNode{node = Node, doc = Doc},
 
 %% #xqKindTest{kind = 'schema-element',   name = WQName}.
 %% #xqKindTest{kind = 'schema-attribute', name = WQName}.
-%% #xqKindTest{kind = 'processing-instruction', name = undefined | QName}.
 %% #xqKindTest{kind = 'comment'}.
 %% #xqKindTest{kind = 'text'}.
 %% #xqKindTest{kind = 'namespace'}.
@@ -1053,7 +1121,8 @@ instance_of1(Fun, #xqFunTest{kind = function,
                              annotations = _AnnoList, 
                              params = any, 
                              type = any}) 
-   when is_function(Fun) ->
+   when is_function(Fun);
+        is_map(Fun) ->
    true;
 
 instance_of1(#xqFunction{annotations = Annos, 
@@ -1132,7 +1201,12 @@ get_type(#xqFunTest{kind = Type}) ->
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
 get_item_type(#xqNode{} = Node) ->
-   xqerl_node:get_node_type(Node);
+   case xqerl_node:get_node_type(Node) of
+      [T] ->
+         T;
+      T ->
+         T
+   end;
 get_item_type(Fun) when is_function(Fun) ->
    function;
 get_item_type(Map) when is_map(Map) ->
@@ -1193,9 +1267,9 @@ construct_as(At,#xqSeqType{type = 'xs:error'}) ->
 construct_as(At,#xqSeqType{type = _Type}) ->
    At.
 
-type_check(#xqSeqType{}, undefined) -> true;
+% dialyzer % type_check(#xqSeqType{}, undefined) -> true;
+% dialyzer % type_check(undefined, #xqSeqType{}) -> true;
 type_check(#xqSeqType{}, any) -> true;
-type_check(undefined, #xqSeqType{}) -> true;
 type_check(any, #xqSeqType{}) -> true;
 type_check(#xqSeqType{type = Type} = T1, #xqSeqType{type = TargetType} = T2) ->
    case seq_type_val_match(T1, T2) of
@@ -1241,11 +1315,9 @@ cast_as( At, [] ) -> At;
 cast_as( At, #xqSeqType{type = item}) -> At;
 cast_as( At, 'item' ) -> At;
 cast_as( #xqNode{} = N, #xqSeqType{type = 'xs:anyAtomicType'} ) -> 
-   [A] = xqerl_node:atomize_nodes(N),
-   A;
+   atomize(N);
 cast_as( #xqNode{} = N, 'xs:anyAtomicType' ) -> 
-   [A] = xqerl_node:atomize_nodes(N),
-   A;
+   atomize(N);
 cast_as( [], 'empty-sequence' ) -> [];
 cast_as( _, 'empty-sequence' ) -> ?err('XPTY0004');
 cast_as( [], #xqSeqType{occur = zero_or_one} ) -> [];
@@ -1268,7 +1340,7 @@ cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) ->
 cast_as( #xqNode{} = At, #xqKindTest{kind = node} ) -> 
    At;
 cast_as( #xqNode{} = At, TT ) ->
-   Atomized = xqerl_node:atomize_nodes(At),
+   Atomized = atomize(At),
    cast_as(Atomized, TT);
 cast_as( [], 'xs:anyURI') -> [];
 cast_as( [], 'xs:NCName') -> [];
@@ -1301,9 +1373,9 @@ cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:string' ) ->
 cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic',"");
 cast_as( ?xav('xs:anyURI', Val), 'xs:string' ) -> 
-   ?xav('xs:string', decode_html_entities(Val));
+   ?xav('xs:string', xqerl_lib:decode_string(Val));
 cast_as( ?xav('xs:anyURI', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', decode_html_entities(Val));
+   ?xav('xs:untypedAtomic', xqerl_lib:decode_string(Val));
 cast_as( ?xav('xs:base64Binary', Val), 'xs:hexBinary' ) -> 
    ?xav('xs:hexBinary', b64bin_to_hexbin(Val));
 cast_as( ?xav('xs:base64Binary', Val), 'xs:string' ) -> 
@@ -1539,7 +1611,7 @@ cast_as( ?xav('xs:double', Val), 'xs:string' ) ->
 cast_as( ?xav('xs:double', Val), 'xs:untypedAtomic' ) -> 
    SVal = if Val == infinity -> "INF";
              Val == neg_infinity -> "-INF";
-             Val == neg_zero -> "0";
+             Val == neg_zero -> "-0";
              Val == nan -> "NaN";
              true -> xqerl_numeric:string(Val)
           end,
@@ -1691,7 +1763,7 @@ cast_as( ?xav('xs:string', Val), 'xs:anyURI' ) -> % MAYBE castable
          case ietf_rfc2396_scanner:string(EncBig) of
             {ok,L,_} ->
                Head = hd(L),
-               
+               %?dbg("Bad",L),
                Bad = element(3, Head) == ":" orelse 
                        lists:keyfind(excluded, 1, L),
                if Bad == false ->
@@ -2476,7 +2548,7 @@ cast_as([Seq],T,N) ->
 cast_as(Seq,#xqSeqType{type = T},N) -> 
    cast_as(Seq,T,N);
 cast_as( #xqNode{} = N, TT, Namespaces ) ->
-   String = xqerl_node:atomize_nodes(N),
+   String = atomize(N),
    cast_as(String, TT, Namespaces);
 cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _) ->
    Q;

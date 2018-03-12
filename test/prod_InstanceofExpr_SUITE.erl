@@ -318,7 +318,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -659,30 +659,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('ListUnionTypes',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('union-List-defined-Types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -819,6 +795,30 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('ListUnionTypes',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('union-List-defined-Types',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/unionListDefined.xsd"),"http://www.w3.org/XQueryTest/unionListDefined"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

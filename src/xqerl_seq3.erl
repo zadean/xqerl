@@ -26,6 +26,10 @@
 -compile(inline_list_funcs).
 
 -export([sequence/1]).
+-export([path_map/2,
+         rangemap/2,
+         expand/1,
+         do_call/3]).
 
 -export([empty/0]).
 -export([size/1]).
@@ -59,7 +63,8 @@
 
 -export([to_list/1]).
 -export([from_list/1]).
--export([flatten/1]).
+-export([flatten/1,
+         group_node_seq/1]).
 
 -export([all_node/1]).
 -export([all_not_node/1]).
@@ -84,13 +89,76 @@
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
 
-% used?
+sequence([#xqNode{}|_] = L) ->
+   O = lists:foldl(fun(#xqNode{doc = D,node = N},A) ->
+                         orddict:append(D, N, A);
+                      (Other, A) ->
+                         orddict:append(other, Other, A)
+                   end, orddict:new(), L),
+   Ol = orddict:to_list(O),
+   [case Li of
+       {other,Os} ->
+          Os;
+       {D,N} ->
+          #xqNode{doc = D, node = ?MODULE:flatten(N)}
+    end
+  || Li <- Ol]
+   ;
 sequence(L) when is_list(L) ->
    L;
 sequence(L) ->
    [L].
 
+group_node_seq([#xqNode{}|_] = L) ->
+   O = lists:foldl(fun(#xqNode{doc = D,node = [N]},A) ->
+                         orddict:append(D, N, A);
+                      (_,_) ->
+                         ?err('XPTY0004')
+                   end, orddict:new(), L),
+   orddict:to_list(O);
+group_node_seq([_|_]) -> ?err('XPTY0004');
+group_node_seq([]) -> [].
+
+check(List,node) ->
+   Fun = fun(#xqNode{}) -> ok;
+            (_) -> ?err('XPTY0018')
+         end,
+   lists:foreach(Fun, List),
+   List;
+check(List,nonnode) ->
+   Fun = fun(#xqNode{}) -> ?err('XPTY0018');
+            (_) -> ok
+         end,
+   lists:foreach(Fun, List),
+   List.
+
+
+path_map(Fun,[]) when is_function(Fun,3) -> [];
+path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
+   Size = length(List),
+   Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
+   %?dbg("Mapped",Mapped),
+   case Mapped of
+      [#xqNode{}|_] ->
+         U = lists:usort(Mapped),
+         check(U,node);
+      _ ->
+         check(Mapped,nonnode)
+   end;
+path_map(Fun,List) when is_function(Fun,3) ->
+   path_map(Fun,[List]);
+path_map(#xqFunction{body = Fun},List) ->
+   path_map(Fun,List).
+
+do_path_map(_,[],_,_) -> [];
+do_path_map(F,[H|T],P,S) ->
+   %?dbg("H,P,S",{H,P,S}),
+   [F(H,P,S)|do_path_map(F,T,P + 1,S)].
+
+   
+   
 ensure_one([A]) -> A;
+ensure_one([]) -> ?err('XPTY0004');
 ensure_one([_|_]) -> ?err('XPTY0004');
 ensure_one(A) -> A.
 
@@ -106,8 +174,11 @@ ensure_zero_or_one(A) -> A.
 ensure_zero_or_more(A) -> A.
 
 
-size(List) when is_list(List) ->
-   length(List);
+size(#xqRange{cnt = Size}) ->
+   Size;
+size([]) -> 0;
+size([H|T]) ->
+   ?MODULE:size(H) + ?MODULE:size(T);
 size(_) ->
    1.
 
@@ -118,10 +189,13 @@ is_empty(_) -> false.
 is_sequence(L) -> is_list(L).
 
 head([]) -> [];
+head(#xqRange{min = Min}) -> int_rec(Min);
 head([H|_]) -> H;
 head(H) -> H.
 
 tail([]) -> [];
+tail(#xqRange{min = Min,max = Max}) ->
+   range(Min + 1, Max);
 tail([_|T]) -> T;
 tail(_) -> [].
 
@@ -165,6 +239,7 @@ set_fun1(List1, List2, Fun) ->
          U1 = ?set:from_list(List1),
          U2 = ?set:from_list(List2),
          U3 = ?set:Fun(U1, U2),
+         %?dbg("{U1,U2,U3}",{U1,U2,U3}),
          ?set:to_list(U3);
       _ ->
          ?err('XPTY0004')
@@ -206,9 +281,10 @@ insert(Seq1,Seq2,Pos) when is_list(Seq1), is_list(Seq2) ->
              true ->
                 Pos
           end,
-   Head = subsequence(Seq1, 1, Pos1 - 1),
-   Tail = subsequence(Seq1, Pos1, length(Seq1)),
-   Head ++ Seq2 ++ Tail;
+   SeqH = expand(Seq1),
+   Head = subsequence(SeqH, 1, Pos1 - 1),
+   Tail = subsequence(SeqH, Pos1, length(SeqH)),
+   Head ++ expand(Seq2) ++ Tail;
 insert(Seq1,Seq2,Pos) when is_list(Seq1) ->
    insert(Seq1,[Seq2],Pos);
 insert(Seq1,Seq2,Pos) when is_list(Seq2) ->
@@ -225,7 +301,7 @@ zip_with(Ctx, Fun,Seq1,Seq2)
    when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
    Size = erlang:min(?MODULE:size(Seq1),?MODULE:size(Seq2)),
    NewCtx = xqerl_context:set_context_size(Ctx, int_rec(Size)),
-   reverse(zip_with1(NewCtx,Fun,{Seq1,Seq2},1,[]));
+   reverse(zip_with1(NewCtx,Fun,{expand(Seq1),expand(Seq2)},1,[]));
 
 zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1) ->
    zip_with(Ctx, Fun,Seq1,[Seq2]);
@@ -269,7 +345,7 @@ for_each(_Ctx, Map, Seq) when is_map(Map) ->
    xqerl_map:get_matched(Map, Seq);
 for_each(Ctx, Fun, Seq) when is_function(Fun) ->
    Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(?MODULE:size(Seq))),
-   for_each1(Ctx1, Fun, Seq, 1);
+   for_each1(Ctx1, Fun, expand(Seq), 1);
 for_each(Ctx, Fun,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
@@ -298,18 +374,33 @@ for_each1(Ctx, Fun, [H|T], Pos) ->
          ?err('XPTY0004')
    end.
 
-val_map(_Fun,[]) -> [];
+val_map(Fun,[]) -> Fun([]);
 val_map(Fun,H) when not is_list(H) ->
    val_map(Fun,[H]);
+val_map(Fun,[[H]|T]) -> val_map(Fun,[H|T]);
 val_map(Fun,[H|T]) ->
    Val = try Fun(H) 
          catch _:#xqError{} = E -> throw(E);
-               _:_ -> ?err('XPTY0004') end,
-   if is_list(Val) ->
-         Val ++ val_map(Fun, T);
+               _:Err ->
+                  ?dbg("Err",Err),
+                  ?err('XPTY0004') end,
+   if T == [] ->
+         Val;
       true ->
-         [Val | val_map(Fun, T)]
+         if is_list(Val) ->
+               Val ++ val_map(Fun, T);
+            true ->
+               [Val | val_map(Fun, T)]
+         end
    end.
+
+rangemap(_,[]) -> [];
+rangemap(F,[#xqRange{} = R|T]) -> 
+   rangemap(F,R) ++ rangemap(F,T);
+rangemap(F,#xqRange{min = Min, max = Max}) when Min =< Max, is_function(F, 1) ->
+   [F(int_rec(Min))|rangemap(F,#xqRange{min = Min + 1, max = Max})];
+rangemap(_,#xqRange{}) -> [].
+
 
 map(Ctx, Fun, Seq) when not is_list(Seq) ->
    map(Ctx, Fun, [Seq]);
@@ -326,6 +417,8 @@ map(Ctx, Fun,Seq) ->
    end.
 
 map1(_Ctx, _Fun, [], _Pos) -> [];
+map1(Ctx, Fun, [#xqRange{} = H|T], Pos) ->
+   map1(Ctx, Fun, to_list(H) ++ T, Pos);
 map1(Ctx, Fun, [H|T], Pos) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
@@ -339,7 +432,8 @@ map1(Ctx, Fun, [H|T], Pos) ->
       _:#xqError{} = E ->
          ?dbg("error",erlang:get_stacktrace()),
          throw(E);
-      _:_ ->
+      _:E ->
+         ?dbg("E",E),
          ?dbg("error",erlang:get_stacktrace()),
          ?err('XPTY0004')
    end.
@@ -347,6 +441,7 @@ map1(Ctx, Fun, [H|T], Pos) ->
 node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
    node_map(Ctx, Fun, [Seq]);
 node_map(Ctx, Fun, Seq) ->
+   ?dbg("Seq",Seq),
    case all_node(Seq) of
       true ->
          Nodes = map(Ctx, Fun, Seq),
@@ -368,7 +463,7 @@ node_map(Ctx, Fun, Seq) ->
    end.
 
 foldl(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
-   foldl1(Ctx,Fun,Acc,Seq);
+   foldl1(Ctx,Fun,Acc,expand(Seq));
 foldl(Ctx,Fun,Acc,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
@@ -383,7 +478,7 @@ foldl1(Ctx,Fun,Acc,[H|T]) ->
    foldl1(Ctx,Fun,Fun(Ctx,Acc,H),T).
 
 foldr(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
-   foldr1(Ctx,Fun,Acc,Seq);
+   foldr1(Ctx,Fun,Acc,expand(Seq));
 foldr(Ctx,Fun,Acc,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
@@ -399,11 +494,45 @@ foldr1(Ctx,Fun,Acc,[H|T]) ->
 
 empty() -> [].
 
+to_list(#xqRange{min = Min, max = Max}) ->
+   range_2(Min,Max);
 to_list(#array{} = A) -> xqerl_array:flatten([], A);
-to_list(List) when is_list(List) -> List;
+to_list([]) -> [];
+to_list([H|T]) -> 
+   to_list(H) ++ to_list(T);
 to_list(A) -> [A].
 
-flatten([H|T]) when is_list(H) -> flatten(H) ++ flatten(T);
+expand(#xqRange{min = Min, max = Max}) ->
+   range_2(Min,Max);
+expand([]) -> [];
+expand([#xqRange{min = Min, max = Max}|T]) -> 
+   range_2(Min,Max) ++ expand(T);
+expand([H|T]) -> 
+   [H | expand(T)];
+expand(A) -> A.
+
+flatten([[]|T]) -> 
+   flatten(T);
+flatten([[H]|T]) -> 
+   flatten([H|T]);
+flatten([[H1,H2]|T]) -> 
+   flatten([H1,H2|T]);
+flatten([[H1,H2,H3]|T]) -> 
+   flatten([H1,H2,H3|T]);
+flatten([H|T]) when is_list(H) -> 
+   flatten(H) ++ flatten(T);
+flatten([H1,H2,H3,H4|T]) when not is_list(H1),
+                              not is_list(H2),
+                              not is_list(H3),
+                              not is_list(H4)
+   -> [H1,H2,H3,H4| flatten(T)];
+flatten([H1,H2,H3|T]) when not is_list(H1),
+                           not is_list(H2),
+                           not is_list(H3)
+   -> [H1,H2,H3| flatten(T)];
+flatten([H1,H2|T]) when not is_list(H1),
+                        not is_list(H2)
+   -> [H1,H2| flatten(T)];
 flatten([H|T]) -> [H | flatten(T)];
 flatten([]) -> [];
 flatten(E) -> [E].
@@ -413,8 +542,15 @@ from_list(List) ->
 
 range(_, []) -> empty();
 range([], _) -> empty();
+range(#xqAtomicValue{value = A}, #xqAtomicValue{value = A}) 
+   when is_integer(A) ->
+   int_rec(A);
 range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) 
    when is_integer(From),is_integer(To) ->
+   range1(From,To);
+range(A, A) when is_integer(A) ->
+   int_rec(A);
+range(From, To) when is_integer(From),is_integer(To) ->
    range1(From,To);
 range(From, To) ->
    case (xqerl_types:type(From) == node orelse 
@@ -436,9 +572,14 @@ range(From, To) ->
          ?err('XPTY0004')
    end.
 
-range1(Curr,Max) when Curr =< Max ->
-   [int_rec(Curr) | range1(Curr + 1, Max)];
+range1(Min,Max) when Min =< Max ->
+   #xqRange{min = Min, max = Max, cnt = Max - Min + 1};
 range1(_Curr,_Max) ->
+   [].
+
+range_2(Curr,Max) when Curr =< Max ->
+   [int_rec(Curr) | range_2(Curr + 1, Max)];
+range_2(_Curr,_Max) ->
    [].
 
 % thing to append to end is first arg
@@ -451,7 +592,7 @@ append(Seq1, Seq2) ->
    concat_seqs(Seq2,Seq1).
 
 get_unique_values(Seq) when is_list(Seq) ->
-   Vals = get_unique_values1(lists:flatten(Seq)),
+   Vals = get_unique_values1(?MODULE:flatten(Seq)),
    lists:usort(Vals);
 get_unique_values(Seq) ->
    get_unique_values1([Seq]).
@@ -459,10 +600,19 @@ get_unique_values(Seq) ->
 get_unique_values1([]) -> [];
 get_unique_values1([#xqAtomicValue{value = {xsDecimal,H,0}}|T]) ->
    [H|get_unique_values1(T)];
+get_unique_values1([#xqAtomicValue{value = {xsDecimal,_,_}}|T]) ->
+   get_unique_values1(T);
+get_unique_values1([#xqAtomicValue{value = F}|T]) when is_float(F) ->
+   if trunc(F) == F ->
+         [trunc(F)|get_unique_values1(T)];
+      true ->
+         get_unique_values1(T)
+   end;
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
-position_filter(Ctx, Fun, Seq) when is_list(Seq), is_function(Fun) ->
+position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
+   Seq = expand(Seq0),
    Size = length(Seq),
    {Positions,_} =
      lists:mapfoldl(fun(Item,Pos) ->
@@ -473,12 +623,16 @@ position_filter(Ctx, Fun, Seq) when is_list(Seq), is_function(Fun) ->
                   end, 1, Seq),
    position_filter(Ctx, Positions, Seq);
 
-position_filter(_Ctx, Positions, Seq) when is_list(Seq), is_list(Positions) ->
+position_filter(_Ctx, Positions, Seq0) when is_list(Seq0), is_list(Positions) ->
+   Seq = expand(Seq0),
    UniquePos = get_unique_values(lists:usort(Positions)),
    position_filter1(UniquePos, 1, Seq);
-position_filter(_Ctx, Positions, Seq) when is_list(Seq) ->
-   UniquePos = get_unique_values(Positions),
-   position_filter1(UniquePos, 1, Seq);
+position_filter(_Ctx, Positions, Seq0) when is_list(Seq0) ->
+   Seq = expand(Seq0),
+   case get_unique_values(Positions) of
+      [] -> [];
+      [N] -> nth(N, Seq)
+   end;
 
 position_filter(Ctx, Positions, Seq) ->
    position_filter(Ctx, Positions, [Seq]).
@@ -496,6 +650,10 @@ position_filter1([Pos|Rest], CurrPos, [H|T]) ->
          position_filter1(Rest,CurrPos, [H|T])
    end.
 
+filter(Ctx, Fun, [#xqRange{} = Range]) ->
+   filter(Ctx, Fun, to_list(Range));
+filter(Ctx, Fun, #xqRange{} = Range) ->
+   filter(Ctx, Fun, to_list(Range));
 filter(Ctx, #xqAtomicValue{} = Pos,Seq) ->
    position_filter(Ctx, [Pos], Seq);
 filter(Ctx, [#xqAtomicValue{}] = Pos,Seq) ->
@@ -634,3 +792,93 @@ get_item_type(#xqNode{} = Node) ->
 
 int_rec(Val) ->
    #xqAtomicValue{type = 'xs:integer', value = Val}.
+
+
+nth(_, []) -> [];
+nth(1, [H|_]) -> H;
+nth(2, [_,H|_]) -> H;
+nth(3, [_,_,H|_]) -> H;
+nth(4, [_,_,_,H|_]) -> H;
+nth(N, [_,_,_,_|T]) when N > 4 ->
+    nth(N - 4, T);
+nth(_, _) -> [].
+
+nthtail(_, []) -> [];
+nthtail(1, [_|T]) -> T;
+nthtail(2, [_,_|T]) -> T;
+nthtail(3, [_,_,_|T]) -> T;
+nthtail(4, [_,_,_,_|T]) -> T;
+nthtail(N, [_|T]) when N > 4 ->
+    nthtail(N - 4, T);
+nthtail(0, L) when is_list(L) -> L.
+
+do_call(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
+   build_call(Ctx,MapArrayOrFun,Args);
+do_call(Ctx,#xqFunction{arity = A,
+                        body = F} ,Args) when A == erlang:size(Args) ->
+   case F == fun xqerl_fn:concat/2 of
+      true ->
+         build_call(Ctx,F,{tuple_to_list(Args)});
+      false ->
+         build_call(Ctx,F,Args)
+   end;
+do_call(_,#xqFunction{},_) ->
+   ?err('XPTY0004');
+do_call(Ctx,MapArray,{Arg}) ->
+   xqerl_operators:lookup(Ctx, MapArray, Arg);
+do_call(_,_,_) ->
+   ?err('XPTY0004').
+
+
+
+build_call(C,F,{}) -> F(C);
+build_call(C,F,{P1}) -> F(C,P1);
+build_call(C,F,{P1,P2}) -> F(C,P1,P2);
+build_call(C,F,{P1,P2,P3}) -> F(C,P1,P2,P3);
+build_call(C,F,{P1,P2,P3,P4}) -> F(C,P1,P2,P3,P4);
+build_call(C,F,{P1,P2,P3,P4,P5}) -> F(C,P1,P2,P3,P4,P5);
+build_call(C,F,{P1,P2,P3,P4,P5,P6}) -> F(C,P1,P2,P3,P4,P5,P6);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7}) -> F(C,P1,P2,P3,P4,P5,P6,P7);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48,P49}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48,P49);
+build_call(C,F,{P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48,P49,P50}) -> F(C,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18,P19,P20,P21,P22,P23,P24,P25,P26,P27,P28,P29,P30,P31,P32,P33,P34,P35,P36,P37,P38,P39,P40,P41,P42,P43,P44,P45,P46,P47,P48,P49,P50).

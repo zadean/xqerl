@@ -728,7 +728,6 @@
       <created by="Nick Jones" on="2008-06-16"/>   
       <modified by="Michael Kay" on="2015-01-03" change="See bug 27719"/>       
       <dependency type="spec" value="XQ10+ XP30+"/>
-      <dependency type="problem" value="HUGE RANGE"/>
       <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)</test>
       <result>
          <any-of>

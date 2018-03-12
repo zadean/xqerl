@@ -97,10 +97,11 @@ to_string(#xsDateTime{sign     = Sign,
                       second   = SS,
                       offset   = OS},
           'xs:dateTime') ->
-   SN = sign_str(Sign),
    Offset = offset_str(OS),
-   flat_form("~s~s-~2..0b-~2..0bT~2..0b:~2..0b:~s~s",
-             [SN,year_str(Y),M,D,HH,MI,sec_str(SS),Offset]);
+   SecStr = sec_str(SS),
+   F = [sign_fmt(Sign),year_fmt(Y),{c,$-},{b2,M},{c,$-},{b2,D},
+        {c,$T},{b2,HH},{c,$:},{b2,MI},{c,$:},{s,SecStr},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign     = _,
                       day      = 0,
@@ -115,10 +116,11 @@ to_string(#xsDateTime{sign     = Sign,
                       minute   = MI,
                       second   = SS},
           'xs:dayTimeDuration') ->
-   SN = sign_str(Sign),
-   DT = date_dur_str(0,0,D),
-   TM = time_dur_str(HH,MI,SS),
-   lists:append([SN, DT, TM]);
+   SN = sign_fmt(Sign),
+   DT = date_dur_fmt(0,0,D),
+   TM = time_dur_fmt(HH,MI,sec_dur_str(SS)),
+   F = [SN|DT] ++ TM,
+   build_string_from_format(F);
 
 to_string(#off_set{sign = _,
                    hour = 0,
@@ -129,9 +131,8 @@ to_string(#off_set{sign = Sign,
                    hour = HH,
                    min  = MI},
           'xs:dayTimeDuration') ->
-   SN = sign_str(Sign),
-   TM = time_dur_str(HH,MI,0),
-   lists:append([SN, "P", TM]);
+   F = [sign_fmt(Sign),{c,$P}|time_dur_fmt(HH,MI,sec_dur_str(0))],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign     = _,
                       year     = 0,
@@ -142,9 +143,8 @@ to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
                       month    = M},
           'xs:yearMonthDuration') ->
-   SN = sign_str(Sign),
-   DT = date_dur_str(Y,M,0),
-   lists:append([SN, DT]);
+   F = [sign_fmt(Sign)|date_dur_fmt(Y,M,0)],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign     = _,
                       year     = 0,
@@ -163,10 +163,11 @@ to_string(#xsDateTime{sign     = Sign,
                       minute   = MI,
                       second   = SS},
           'xs:duration') ->
-   SN = sign_str(Sign),
-   DT = date_dur_str(Y,M,D),
-   TM = time_dur_str(HH,MI,SS),
-   lists:append([SN, DT, TM]);
+   SN = sign_fmt(Sign),
+   DT = date_dur_fmt(Y,M,D),
+   TM = time_dur_fmt(HH,MI,sec_dur_str(SS)),
+   F = [SN|DT] ++ TM,
+   build_string_from_format(F);
 
 to_string(#xsDateTime{hour     = Hour,
                       minute   = Min,
@@ -174,7 +175,9 @@ to_string(#xsDateTime{hour     = Hour,
                       offset   = OS},
           'xs:time') ->
    Offset = offset_str(OS),
-   flat_form( "~2..0b:~2..0b:~s~s",[Hour,Min,sec_str(Sec),Offset]);
+   SecStr = sec_str(Sec),
+   F = [{b2,Hour},{c,$:},{b2,Min},{c,$:},{s,SecStr},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign     = Sign,
                       year     = Y,
@@ -183,27 +186,30 @@ to_string(#xsDateTime{sign     = Sign,
                       offset   = OS},
           'xs:date') ->
    Offset = offset_str(OS),
-   flat_form("~s~s-~2..0b-~2..0b~s", [sign_str(Sign),year_str(Y),M,D,Offset]);
+   F = [sign_fmt(Sign),year_fmt(Y),{c,$-},{b2,M},{c,$-},{b2,D},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{day      = D,
                       offset   = OS},
           'xs:gDay') ->
    Offset = offset_str(OS),
-   flat_form("---~2..0b~s", [D,Offset]);
+   F = [{c,$-},{c,$-},{c,$-},{b2,D},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{month    = M,
                       offset   = OS},
           'xs:gMonth') ->
    Offset = offset_str(OS),
-   flat_form("--~2..0b~s", [M,Offset]);
+   F = [{c,$-},{c,$-},{b2,M},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign   = Sign,
                       year   = Y,
                       offset = OS},
           'xs:gYear') ->
    Offset = offset_str(OS),
-   SN = sign_str(Sign),
-   flat_form("~s~s~s", [SN,year_str(Y),Offset]);
+   F = [sign_fmt(Sign),year_fmt(Y),{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{sign   = Sign,
                       year   = Y,
@@ -211,16 +217,16 @@ to_string(#xsDateTime{sign   = Sign,
                       offset = OS},
           'xs:gYearMonth') ->
    Offset = offset_str(OS),
-   SN = sign_str(Sign),
-   flat_form("~s~s-~2..0b~s", [SN,year_str(Y),M,Offset]);
+   F = [sign_fmt(Sign),year_fmt(Y),{c,$-},{b2,M},{s,Offset}],
+   build_string_from_format(F);
 
 to_string(#xsDateTime{day      = D,
                       month    = M,
                       offset   = OS},
           'xs:gMonthDay') ->
    Offset = offset_str(OS),
-   flat_form("--~2..0b-~2..0b~s", [M,D,Offset]).
-
+   F = [{c,$-},{c,$-},{b2,M},{c,$-},{b2,D},{s,Offset}],
+   build_string_from_format(F).
 
 ymd_is_valid(Y,M,D) ->
    try
@@ -293,19 +299,14 @@ sec_str(Secs) ->
          Str
    end.
 
-year_str(Year) when abs(Year) > 9999 ->
-   io_lib:format("~b",[Year]);
-year_str(Year) ->
-   io_lib:format("~4..0b",[abs(Year)]).
 
-sign_str($+) ->
-  "";
-sign_str($-) ->
-  "-";
-sign_str('+') ->
-  "";
-sign_str('-') ->
-  "-".
+year_fmt(Year) when abs(Year) > 9999 -> {b,Year};
+year_fmt(Year) -> {b4,Year}.
+
+sign_fmt('+') -> i;
+sign_fmt('-') -> {c,$-};
+sign_fmt($+) -> i;
+sign_fmt($-) -> {c,$-}.
 
 offset_str([]) ->
    "";
@@ -316,48 +317,102 @@ offset_str(#off_set{sign = OS, hour = OH, min = OM}) ->
    if (OH * 60 + OM) > 840 ->
          ?err('FODT0003');
       true ->
-         flat_form("~s~2..0b:~2..0b",[atom_to_list(OS), OH,OM])
+         F = offset_fmt(OS,OH,OM),
+         build_string_from_format(F)
    end;
 offset_str(#xqAtomicValue{type = 'xs:dayTimeDuration',
                           value = #xsDateTime{sign = OS, 
                                               hour = OH, 
                                               minute = OM}}) ->
-   flat_form("~s~2..0b:~2..0b", [atom_to_list(OS), OH,OM]).
+   F = offset_fmt(OS,OH,OM),
+   build_string_from_format(F).
 
-time_dur_str(H,M,S) ->
-   SStr = case sec_str(S) of
-             [$0|R] ->
-                R;
-             R ->
-                R
-          end,
-   if H =:= 0 andalso M =:= 0 andalso SStr == "0" -> "";
-      true -> 
-         Hf = if H > 0 -> "~bH";
-                 true -> "~i"
-              end,
-         Mf = if M > 0 -> "~bM";
-                 true -> "~i"
-              end,
-         Sf = if SStr == "0" -> "";
-                 true -> SStr ++ "S"
-              end,
-         F = lists:append(["T", Hf, Mf, Sf]),
-         flat_form(F, [H,M])
+sec_dur_str(S) ->
+   case sec_str(S) of
+      [$0|R] -> R;
+      R -> R
    end.
 
-date_dur_str(Y,M,D) ->
-   Yf = if Y > 0 -> "~bY";
-           true -> "~i"
-        end,
-   Mf = if M > 0 -> "~bM";
-           true -> "~i"
-        end,
-   Df = if D > 0 -> "~bD";
-           true -> "~i"
-        end, 
-   F = lists:append(["P", Yf, Mf, Df]),
-   flat_form(F, [Y,M,D]).
+offset_fmt(_,  0,0) -> [{c,$Z}];
+offset_fmt('-',H,M) -> [{c,$-},{b2,H},{c,$:},{b2,M}];
+offset_fmt('+',H,M) -> [{c,$+},{b2,H},{c,$:},{b2,M}].
+   
 
-flat_form(Format,Things) ->
-   lists:flatten(io_lib:format(Format, Things)).
+time_dur_fmt(0,0,"0") ->
+   [i];
+time_dur_fmt(H,M,Sec) when H > 0, M > 0, Sec =/= "0" ->
+   [{c,$T},{b,H},{c,$H},{b,M},{c,$M},{s,Sec},{c,$S}];
+time_dur_fmt(H,M,_) when H > 0, M > 0 ->
+   [{c,$T},{b,H},{c,$H},{b,M},{c,$M}];
+time_dur_fmt(H,_,Sec) when H > 0, Sec =/= "0" ->
+   [{c,$T},{b,H},{c,$H},{s,Sec},{c,$S}];
+time_dur_fmt(_,M,Sec) when M > 0, Sec =/= "0" ->
+   [{c,$T},{b,M},{c,$M},{s,Sec},{c,$S}];
+time_dur_fmt(H,_,_) when H > 0 ->
+   [{c,$T},{b,H},{c,$H}];
+time_dur_fmt(_,M,_) when M > 0 ->
+   [{c,$T},{b,M},{c,$M}];
+time_dur_fmt(_,_,Sec) when Sec =/= "0" ->
+   [{c,$T},{s,Sec},{c,$S}];
+time_dur_fmt(_,_,_) ->
+   [{c,$T}].  
+
+date_dur_fmt(Y,M,D) when Y > 0, M > 0, D > 0 ->
+   [{c,$P},{b,Y},{c,$Y},{b,M},{c,$M},{b,D},{c,$D}];
+date_dur_fmt(Y,M,_) when Y > 0, M > 0 ->
+   [{c,$P},{b,Y},{c,$Y},{b,M},{c,$M}];
+date_dur_fmt(Y,_,D) when Y > 0, D > 0 ->
+   [{c,$P},{b,Y},{c,$Y},{b,D},{c,$D}];
+date_dur_fmt(_,M,D) when M > 0, D > 0 ->
+   [{c,$P},{b,M},{c,$M},{b,D},{c,$D}];
+date_dur_fmt(Y,_,_) when Y > 0 ->
+   [{c,$P},{b,Y},{c,$Y}];
+date_dur_fmt(_,M,_) when M > 0 ->
+   [{c,$P},{b,M},{c,$M}];
+date_dur_fmt(_,_,D) when D > 0 ->
+   [{c,$P},{b,D},{c,$D}];
+date_dur_fmt(_,_,_) ->
+   [{c,$P}].
+
+%% flat_form(Format,Things) ->
+%%    L = io_lib:format(Format, Things),
+%%    lists:flatten(L).
+
+%%    i,
+%%    {c,Char},
+%%    {b,Int},
+%%    {b2,Int},
+%%    {b4,Int},
+%%    {s,Str},
+
+build_string_from_format(F) ->
+   case xqerl_lib:lget({build_string_from_format,F}) of
+      [] ->
+         V1 = build_string_from_format_1(F),
+         xqerl_lib:lput({build_string_from_format,F}, V1),
+         V1;
+      V ->
+         V
+   end.
+
+build_string_from_format_1([]) -> [];
+build_string_from_format_1([i|Rest]) ->
+   build_string_from_format_1(Rest);
+build_string_from_format_1([{c,C}|Rest]) ->
+   [C|build_string_from_format_1(Rest)];
+build_string_from_format_1([{b,Int}|Rest]) -> 
+   integer_to_list(Int) ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b2,Int}|Rest]) when Int < 10 -> 
+   [$0|integer_to_list(Int)] ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b2,Int}|Rest]) when Int < 100 -> 
+   integer_to_list(Int) ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b4,Int}|Rest]) when Int < 10 -> 
+   [$0,$0,$0|integer_to_list(Int)] ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b4,Int}|Rest]) when Int < 100 -> 
+   [$0,$0|integer_to_list(Int)] ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b4,Int}|Rest]) when Int < 1000 -> 
+   [$0|integer_to_list(Int)] ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{b4,Int}|Rest]) when Int < 10000 -> 
+   integer_to_list(Int) ++ build_string_from_format_1(Rest);
+build_string_from_format_1([{s,Str}|Rest]) -> 
+   Str ++ build_string_from_format_1(Rest).

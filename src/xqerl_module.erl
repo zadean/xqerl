@@ -108,8 +108,11 @@
 -export([get_signatures/1]).
 -export([get_module_name/1]).
 -export([get_static_signatures/0]).
--export([compile/1]).
--export([compile/2]).
+
+-export([compile/1,
+         compile/2,
+         compile/3]).
+
 -export([load/1]).
 -export([unload/1]).
 
@@ -151,6 +154,11 @@ one_time_init() ->
 %% ====================================================================
 
 
+-define(NOT_FOUND(V), _:#xqError{name = 
+                                   #xqAtomicValue{value = #qname{prefix = "err",
+                                                 local_name = "XQST0059"}},
+                 value = V}).
+
 
 %% ====================================================================
 %% Internal functions
@@ -165,7 +173,9 @@ get_signatures(ModNamespace) ->
               %?dbg("ModNameAtom",ModNameAtom0),
               ModNameAtom = if ModNameAtom0 == [] ->
                                   ?dbg("Unknown ModNamespace",ModNamespace),
-                                  ?err('XQST0059');
+                                  xqerl_error:error('XQST0059', 
+                                                    "Unknown ModNamespace", 
+                                                    ModNamespace);
                                true ->
                                   hd(ModNameAtom0)
                             end,
@@ -177,7 +187,7 @@ get_signatures(ModNamespace) ->
                                  module_name_atom = {ModNameAtom,'_'},  
                                  _ = '_'},
               Vars = mnesia:select(xq_variable, [{Var, [], ['$1']}]),
-              {Funs,Vars}
+              {Funs,lists:sort(Vars)}
         end,
    mnesia:transaction(Q).
 
@@ -229,6 +239,19 @@ compile(FileName) ->
    compile(FileName, Str).
 
 compile(FileName, Str) ->
+   compile(FileName, Str, []).
+
+compile(FileName, [], Hints) ->
+   ?dbg("compile",FileName),
+   {ok, Bin} = file:read_file(FileName),
+   Str = binary_to_list(Bin),
+   if Str == [] ->
+         [];
+      true ->
+         compile(FileName, Str,Hints)
+   end;
+   
+compile(FileName, Str, Hints) ->
    try
       Str2 = xqerl_scanner:remove_all_comments(Str),
       Toks = scan_tokens(Str2),
@@ -242,13 +265,18 @@ compile(FileName, Str) ->
                  xqerl_lib:resolve_against_base_uri("file:///", FileName)),
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
-      %?dbg("Ret",Ret),
+%?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
-      {ok,M,B} = compile:forms(Ret, [debug_info,verbose,return_errors,
+%?dbg("here",erts_debug:flat_size(Ret)),
+   
+      {ok,M,B} = 
+      %merl:compile(Ret, 
+      compile:forms(Ret, 
+                      [debug_info,verbose,return_errors,
                                      no_auto_import,nowarn_unused_vars]),
       _Erl = print_erl(B),
       ok = check_cycle(M,ImportedMods),
-      %?dbg("Erl",Erl),
+%?dbg("Erl",Erl),
       {
        #xq_module{target_namespace = ModNs,
                   type = ModType,
@@ -266,19 +294,44 @@ compile(FileName, Str) ->
        }
    of
       {Rec,FS,VS,MN} ->
+         save_module(Rec,FS,VS,MN)
+   catch 
+      ?NOT_FOUND(V) = Error ->
+         "Q{"++KN = V,
+         KN1 = lists:droplast(KN),
+         case lists:keyfind(KN1, 2, Hints) of
+            false ->
+               Error;
+            {F1,_} = G ->
+               ?dbg("V, Hints",{F1, KN1, Hints}),
+               case compile(F1, [], Hints -- [G]) of
+                  #xqError{} = Ex ->
+                     Ex;
+                  _ ->
+                     compile(FileName, Str, Hints)
+               end
+         end;
+      _:Error ->
+         ?dbg("Error",Error),
+         ?dbg("Error",erlang:get_stacktrace()),
+         % TODO save the error
+         Error
+   end.   
+
+save_module(ModuleRecord,Functions,Variables,ModuleName) ->
          MFun = fun() ->
-                      Key = Rec#xq_module.target_namespace,
+                      Key = ModuleRecord#xq_module.target_namespace,
                       OldRec = mnesia:read({xq_module,Key}),
                       NewFirst = if OldRec == [] ->
-                                       Rec#xq_module.last_compile_time;
+                                       ModuleRecord#xq_module.last_compile_time;
                                     true ->
                                        (hd(OldRec))#xq_module.first_compile_time
                                  end,
-                      delete_functions(MN),
-                      Rec1 = Rec#xq_module{first_compile_time = NewFirst},
+                      delete_functions(ModuleName),
+                      Rec1 = ModuleRecord#xq_module{first_compile_time = NewFirst},
                       mnesia:write(Rec1),
-                      Funs = build_fun_recs(MN, FS),
-                      Vars = build_var_recs(MN, VS),
+                      Funs = build_fun_recs(ModuleName, Functions),
+                      Vars = build_var_recs(ModuleName, Variables),
                       lists:foreach(fun(F) ->
                                           mnesia:write(F)
                                     end, Funs),
@@ -289,14 +342,8 @@ compile(FileName, Str) ->
                       ok
                 end,
          {atomic, ok} = mnesia:transaction(MFun),
-         MN
-   catch 
-      _:Error ->
-         ?dbg("Error",Error),
-         ?dbg("Error",erlang:get_stacktrace()),
-         % TODO save the error
-         Error
-   end.   
+         ModuleName.
+
 
 test_compile(FileName, Str) ->
    try
@@ -317,7 +364,9 @@ test_compile(FileName, Str) ->
       ?dbg("Step","7"),
       xqerl_context:destroy(Static),
       ?dbg("Step","8"),
-      compile:forms(Ret, [debug_info,verbose,return_errors,
+      merl:compile(Ret, 
+      %compile:forms(Ret, 
+                    [debug_info,verbose,return_errors,
                           no_auto_import,nowarn_unused_vars])
    of
       {ok,M,B} ->
@@ -418,9 +467,9 @@ build_fun_recs(ModName,FunSigs) ->
    lists:map(Fx, FunSigs).
 
 build_var_recs(ModName,VarSigs) ->
-   Priv = fun({annotation,{#qname{namespace="http://www.w3.org/2012/xquery",
-                                  local_name="private"},_}}) ->
-                true;
+   Priv = fun%({annotation,{#qname{namespace="http://www.w3.org/2012/xquery",
+             %                     local_name="private"},_}}) ->
+             %   true;
              (_) ->
                 false
           end,
@@ -475,13 +524,16 @@ parse_tokens(Tokens) ->
 % returns Abstract
 scan_tree(Tree) ->
    try 
-      xqerl_abs:scan_mod(Tree) 
+      Ret = xqerl_abs:scan_mod(Tree),
+?dbg("here",ok),      
+      Ret
    catch
       _:#xqError{} = E ->
          ?dbg("scan_tree",E),
          throw(E);
-      _:_ ->
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+      _:E ->
+         ?dbg("scan_tree",E),
+         %?dbg("scan_tree",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
 
@@ -489,11 +541,17 @@ scan_tree_static(Tree, BaseUri) ->
    try 
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
+      ?NOT_FOUND(V) = E ->
+         ?dbg("scan_tree_static",V),
+         ?dbg("scan_tree_static",E),
+         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+         throw(E);
       _:#xqError{} = E ->
          ?dbg("scan_tree_static",E),
          ?dbg("scan_tree_static",erlang:get_stacktrace()),
          throw(E);
-      _:_ ->
+      _:E ->
+         ?dbg("scan_tree_static",E),
          ?dbg("scan_tree_static",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
@@ -507,7 +565,7 @@ print_erl(B) ->
                                         {encoding, utf8}])),
    Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
    %?dbg("",Flat),
-   %io:fwrite("~ts~n", [PP]),
+   io:fwrite("~ts~n", [PP]),
    Flat.   
 
 

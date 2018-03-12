@@ -90,7 +90,6 @@
          </source>
       </environment> 
       <dependency type="spec" value="XQ10+"/>
-      <dependency type="problem" value="CRASH"/>
       <test file="Demos/currencysvg.xq"/>
       <result>
          <assert-xml file="Demos/currencysvg-result.xml"/>
@@ -139,8 +138,8 @@
       </environment>
       <module uri="http://www.xqsharp.com/raytracer" file="Demos/raytracer.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/scene" file="Demos/scene.xq"/>
-      <module uri="http://www.xqsharp.com/raytracer/vector" file="Demos/vector.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/shapes" file="Demos/shapes.xq"/>
+      <module uri="http://www.xqsharp.com/raytracer/vector" file="Demos/vector.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/materials" file="Demos/materials.xq"/>
       <module uri="http://www.xqsharp.com/raytracer/math" file="Demos/math.xq"/>
       <dependency type="spec" value="XQ10+"/> 

@@ -93,14 +93,14 @@ run(Str, Options) ->
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Tokens),
 %      ?dbg("Tree",Tree),
-      Static = scan_tree_static(Tree, "xqerl_main"),
+      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname("xqerl_main.xq"))),
 %      ?dbg("Static",maps:get(body, Static)),
-      {_ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
+      {ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
 %      ?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
       B = compile_abstract(Ret),
-%      print_erl(B),
-      Res = xqerl_main:main(Options),
+      print_erl(B),
+      Res = (xqerl_static:string_atom(ModNs)):main(Options),
       erlang:erase(),
       Res
    catch
@@ -113,6 +113,7 @@ run(Str, Options) ->
          ?dbg("run",erlang:get_stacktrace()),
          {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
          E1
+         %E
    end.
 
 % returns Stripped
@@ -170,7 +171,8 @@ scan_tree(Tree) ->
          ?dbg("scan_tree",E),
          ?dbg("scan_tree",erlang:get_stacktrace()),
          throw(E);
-      _:_ ->
+      _:E ->
+         ?dbg("scan_tree",E),
          ?dbg("scan_tree",erlang:get_stacktrace()),
          xqerl_error:error('XPST0003')
    end.
@@ -195,7 +197,8 @@ compile_abstract(Abstract) ->
    %{ok, Mod2, _} = erl_scan:string("-export([main/1])."),
    %{ok, PMod1} = erl_parse:parse_form(Mod1),
    %{ok, PMod2} = erl_parse:parse_form(Mod2),
-   try compile:forms(Abstract, 
+   try merl:compile(Abstract, 
+   %try compile:forms(Abstract, 
                       [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
       {ok,M,B} ->
          code:load_binary(M, M, B),
@@ -209,6 +212,7 @@ compile_abstract(Abstract) ->
          throw(E);
       _:E ->
          ?dbg("compile_abstract",E),
+         ?dbg("compile_abstract",erlang:get_stacktrace()),
          xqerl_error:error('XPST0008')
    end.
 

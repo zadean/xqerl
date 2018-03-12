@@ -63,12 +63,13 @@
 
 string(String, Options) ->
    State = parse_options(#state{},Options),
-   try
-      {_,Tks,_} = json_scanner:string(String),
-      {ok,Obj} = json_parser:parse(Tks),
-      Obj
+   try 
+      xqldb_res:string_to_json(String) 
    of
+      {error,invalid_json} ->
+         ?err('FOJS0001');
       Term ->
+         ?dbg("Term",Term),
          json_to_map(State, Term)
    catch
       _:_ ->
@@ -82,12 +83,13 @@ xml_to_string(Node, Options) ->
 string_to_xml(String, Options) ->
    State = parse_options(#state{duplicates = retain,
                                 escape = false},Options),
-   try
-      {_,Tks,_} = json_scanner:string(String),
-      {ok,Obj} = json_parser:parse(Tks),
-      Obj
+   try 
+      xqldb_res:string_to_json(String) 
    of
+      {error,invalid_json} ->
+         ?err('FOJS0001');
       Term ->
+         ?dbg("Term",Term),
          Frag = json_to_xml(State, [], Term),
          Doc = #xqDocumentNode{expr = Frag},
          Opt = #{namespaces => [],
@@ -356,7 +358,10 @@ json_to_xml(State, Key, null) ->
                   inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
                   type = 'xs:untyped',
                   attributes = att_key(Key, State#state.escape)};
-json_to_xml(State, Key, Val) when is_float(Val) ->
+json_to_xml(State, Key, Val) when is_float(Val);
+                                  Val =:= neg_zero;
+                                  Val =:= infinity;
+                                  Val =:= neg_infinity ->
    #xqElementNode{name = ?qn("number"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
@@ -411,7 +416,10 @@ json_to_map(_State, true) ->
 json_to_map(_State, false) -> 
    #xqAtomicValue{type = 'xs:boolean', value = false};
 json_to_map(_State, null) -> [];
-json_to_map(_State, Val) when is_float(Val) ->
+json_to_map(_State, Val) when is_float(Val);
+                              Val =:= neg_zero;
+                              Val =:= infinity;
+                              Val =:= neg_infinity ->
    #xqAtomicValue{type = 'xs:double', value = Val};
 json_to_map(State, Val) ->
    Norm = normalize_string(State, Val),

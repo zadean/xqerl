@@ -54,7 +54,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -119,18 +119,6 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('works-mod-uri',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -140,20 +128,6 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
-{modules, []}
-];
-environment('works-and-staff-uri',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "","http://www.w3.org/fots/docs/works.xml"},
-{filename:join(BaseDir, "../docs/staff.xml"), "","http://www.w3.org/fots/docs/staff.xml"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"works","xs:string","'http://www.w3.org/fots/docs/works.xml'"},
-{"staff","xs:string","'http://www.w3.org/fots/docs/staff.xml'"}]},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -293,6 +267,32 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('works-mod-uri',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".","http://www.w3.org/fots/docs/works-mod.xml"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"uri","xs:string","'http://www.w3.org/fots/docs/works-mod.xml'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('works-and-staff-uri',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../docs/works.xml"), "","http://www.w3.org/fots/docs/works.xml"},
+{filename:join(BaseDir, "../docs/staff.xml"), "","http://www.w3.org/fots/docs/staff.xml"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"works","xs:string","'http://www.w3.org/fots/docs/works.xml'"},
+{"staff","xs:string","'http://www.w3.org/fots/docs/staff.xml'"}]},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

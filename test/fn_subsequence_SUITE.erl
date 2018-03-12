@@ -114,7 +114,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -1721,19 +1721,119 @@ environment('array-and-map',BaseDir) ->
    end.
 'cbcl-subsequence-010'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "count(subsequence(1 to 3000000000, -2147483648, 2147483647))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-subsequence-010.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_eq(Res,"0") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-subsequence-011'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "count(subsequence(1 to 3000000000, -2147483649))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-subsequence-011.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"3000000000") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-subsequence-012'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "count(subsequence(1 to 3000000000, 2147483648))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-subsequence-012.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"852516353") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-subsequence-013'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "count(subsequence(1 to 3000000000, 2147483647))",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-subsequence-013.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_eq(Res,"852516354") of 
+      true -> {comment, "Equal"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-subsequence-014'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "subsequence(1 to 3000000000, 2147483647, 5)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-subsequence-014.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_string_value(Res, "2147483647 2147483648 2147483649 2147483650 2147483651") of 
+      true -> {comment, "String correct"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-subsequence-015'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "subsequence(for $x in (1 to 100) return -$x, 3, 5)",

@@ -63,12 +63,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
-, try  xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-idref-1',
@@ -137,18 +137,6 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('id-idref-dtd',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "id/iddtd.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -158,18 +146,6 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
-{modules, []}
-];
-environment('id-idref',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "id/id.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -185,33 +161,9 @@ environment('atomic-xq',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('id-idref3',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "id/id2.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('functx_book',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../app/FunctxFn/functx_book.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -333,6 +285,54 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('id-idref-dtd',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "id/iddtd.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('id-idref',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "id/id.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('id-idref3',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "id/id2.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "id/id.xsd"),"http://www.w3.org/XQueryTest/ididrefs"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('functx_book',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../app/FunctxFn/functx_book.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

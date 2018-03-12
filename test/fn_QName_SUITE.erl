@@ -43,7 +43,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -85,9 +85,9 @@ all() -> [
    'K-ExpandedQNameConstructFunc-10',
    'K2-ExpandedQNameConstructFunc-1',
    'cbcl-qname-001'].
-environment('empty',BaseDir) ->
+environment('fsx',BaseDir) ->
 [{'decimal-formats', []},
-{sources, []},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},
@@ -97,9 +97,9 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('fsx',BaseDir) ->
+environment('empty',BaseDir) ->
 [{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
+{sources, []},
 {schemas, []},
 {collections, []},
 {'static-base-uri', []},

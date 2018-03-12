@@ -34,7 +34,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -91,30 +91,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('employees',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "UseCaseR31/employees.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('gnt',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "UseCaseR31/gnt.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -125,25 +101,6 @@ environment('atomic-xq',BaseDir) ->
 {vars, []},
 {namespaces, []},
 {resources, []},
-{modules, []}
-];
-environment('json-docs',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "UseCaseR31/Wikipedia-Origami.xml"), "","http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://www.w3.org/qt3/app/"}]},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"},
-{filename:join(BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"},
-{filename:join(BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"},
-{filename:join(BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"},
-{filename:join(BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"},
-{filename:join(BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"},
-{filename:join(BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"},
-{filename:join(BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}]},
 {modules, []}
 ];
 environment('works-mod',BaseDir) ->
@@ -212,30 +169,6 @@ environment('auction',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('users-json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,"unparsed-text-lines(\"UseCaseR31/users.json\") ! parse-json(.)"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('sales-json',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,"unparsed-text-lines(\"UseCaseR31/sales.json\") ! parse-json(.)"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
@@ -294,6 +227,73 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('employees',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "UseCaseR31/employees.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('gnt',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "UseCaseR31/gnt.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('json-docs',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "UseCaseR31/Wikipedia-Origami.xml"), "","http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/qt3/app/"}]},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"},
+{filename:join(BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"},
+{filename:join(BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"},
+{filename:join(BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"},
+{filename:join(BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"},
+{filename:join(BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"},
+{filename:join(BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"},
+{filename:join(BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}]},
+{modules, []}
+];
+environment('users-json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,BaseDir,"unparsed-text-lines(\"UseCaseR31/users.json\") ! parse-json(.)"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('sales-json',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,BaseDir,"unparsed-text-lines(\"UseCaseR31/sales.json\") ! parse-json(.)"}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

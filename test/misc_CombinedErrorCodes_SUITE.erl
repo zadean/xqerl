@@ -268,28 +268,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "misc")
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/moduleDefs-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/test1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib1.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib2.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib3.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib4.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib5.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib6.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0036_lib7.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0046_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0047_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0048_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0059_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0070_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0088_lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0093_lib1.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "CombinedErrorCodes/XQST0093_lib2.xq")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'combined-errors-1',
@@ -575,34 +559,10 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('orderdata',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('namespace-sensitive',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xsd"),"http://www.xqsharp.com/test/namespace-sensitive"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -623,34 +583,10 @@ environment('works-mod',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('xqst0036',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQST0036.xsd"),"http://www.example.org/2007/schema/XQST0036"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('foty0012',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/FOTY0012.xsd"),"http://www.example.org/2007/schema/FOTY0012"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -671,35 +607,11 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('xqdy0027',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0027.xsd"),"http://www.example.org/2007/schema/XQDY0027"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
 {filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('xqdy0084',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0084.xsd"),"http://www.example.org/2007/schema/XQDY0084"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -785,10 +697,83 @@ environment('array-and-map',BaseDir) ->
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
 {modules, []}
+];
+environment('orderdata',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../prod/OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('namespace-sensitive',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/namespace-sensitive.xsd"),"http://www.xqsharp.com/test/namespace-sensitive"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('xqst0036',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQST0036.xsd"),"http://www.example.org/2007/schema/XQST0036"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('foty0012',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/FOTY0012.xsd"),"http://www.example.org/2007/schema/FOTY0012"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('xqdy0027',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0027.xsd"),"http://www.example.org/2007/schema/XQDY0027"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('xqdy0084',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "CombinedErrorCodes/XQDY0084.xsd"),"http://www.example.org/2007/schema/XQDY0084"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
 ].
 'combined-errors-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace defs=\"http://www.w3.org/TestModules/defs\"; \"ABC\"",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -831,6 +816,7 @@ environment('array-and-map',BaseDir) ->
 'combined-errors-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "/works[1]/employee[2]/preceding::employee",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -859,6 +845,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-1.xq"), Qry1),
@@ -882,6 +869,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-2.xq"), Qry1),
@@ -905,6 +893,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-3.xq"), Qry1),
@@ -928,6 +917,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2\", \"http://example.com/3\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-4.xq"), Qry1),
@@ -951,6 +941,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace prefix = \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-5.xq"), Qry1),
@@ -974,6 +965,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema default element namespace \"http://example.com/NSNOTRECOGNIZED\" at \"http://example.com/DOESNOTEXIST\", \"http://example.com/2DOESNOTEXIST\", \"http://example.com/3DOESNOTEXIST\"; 1 eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-6.xq"), Qry1),
@@ -997,6 +989,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace NCName := \"http://example.com/Dummy\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-7.xq"), Qry1),
@@ -1012,6 +1005,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate { 1 }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-9.xq"), Qry1),
@@ -1035,6 +1029,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-10'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate { () }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-10.xq"), Qry1),
@@ -1058,6 +1053,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-11'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate lax { 1 }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-11.xq"), Qry1),
@@ -1081,6 +1077,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-12'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate strict { 1 }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-12.xq"), Qry1),
@@ -1104,6 +1101,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-13'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate lax { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-13.xq"), Qry1),
@@ -1127,6 +1125,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-14'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate strict { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-14.xq"), Qry1),
@@ -1150,6 +1149,7 @@ environment('array-and-map',BaseDir) ->
 'K-CombinedErrorCodes-15'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "validate { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-CombinedErrorCodes-15.xq"), Qry1),
@@ -1173,6 +1173,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1.0 div 0.0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_1.xq"), Qry1),
@@ -1188,6 +1189,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1 div 0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_2.xq"), Qry1),
@@ -1203,6 +1205,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1.0e0 idiv 0.0e0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_3.xq"), Qry1),
@@ -1218,6 +1221,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:float(1.0e0) idiv xs:float(0.0e0)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_4.xq"), Qry1),
@@ -1233,6 +1237,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1.0 idiv 0.0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_5.xq"), Qry1),
@@ -1248,6 +1253,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1 div 0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_6.xq"), Qry1),
@@ -1263,6 +1269,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1 mod 0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_7.xq"), Qry1),
@@ -1278,6 +1285,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1.0 mod 0.0",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_8.xq"), Qry1),
@@ -1293,6 +1301,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0001_9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P1Y2M') div xs:yearMonthDuration('P0Y0M')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0001_9.xq"), Qry1),
@@ -1308,6 +1317,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0002_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "2e308",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_1.xq"), Qry1),
@@ -1331,6 +1341,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0002_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "(0 div 0E0) idiv xs:integer(2)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_3.xq"), Qry1),
@@ -1346,6 +1357,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0002_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:double('INF') idiv xs:integer(2)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002_4.xq"), Qry1),
@@ -1361,6 +1373,7 @@ environment('array-and-map',BaseDir) ->
 'FOAR0002-5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div xs:dayTimeDuration('P0DT00H00M0.000001S')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOAR0002-5.xq"), Qry1),
@@ -1384,6 +1397,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0001_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:decimal(1e308)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0001_1.xq"), Qry1),
@@ -1419,6 +1433,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:float('INF') cast as xs:integer",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_1.xq"), Qry1),
@@ -1434,6 +1449,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_2.xq"), Qry1),
@@ -1449,6 +1465,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"prefix:localName\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_3.xq"), Qry1),
@@ -1464,6 +1481,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"1prefix:localName\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_4.xq"), Qry1),
@@ -1479,6 +1497,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"http://www.w3.org/\", \"prefix:2localName\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_5.xq"), Qry1),
@@ -1494,6 +1513,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "QName(\"\", \"2localName\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_6.xq"), Qry1),
@@ -1509,6 +1529,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_7.xq"), Qry1),
@@ -1524,6 +1545,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"1prefix:localName\", <localName />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_8.xq"), Qry1),
@@ -1539,6 +1561,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0002_9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName(\"2localName\", <localName />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0002_9.xq"), Qry1),
@@ -1554,6 +1577,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0003_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer(xs:double(1e308))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0003_1.xq"), Qry1),
@@ -1589,6 +1613,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0005_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_1.xq"), Qry1),
@@ -1604,6 +1629,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0005_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_2.xq"), Qry1),
@@ -1619,6 +1645,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0005_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_3.xq"), Qry1),
@@ -1634,6 +1661,7 @@ environment('array-and-map',BaseDir) ->
 'FOCA0005_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCA0005_4.xq"), Qry1),
@@ -1649,6 +1677,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0001'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "codepoints-to-string(0)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0001.xq"), Qry1),
@@ -1664,6 +1693,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "compare('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_1.xq"), Qry1),
@@ -1679,6 +1709,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_10'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "substring-before('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_10.xq"), Qry1),
@@ -1694,6 +1725,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_2.xq"), Qry1),
@@ -1709,6 +1741,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_3.xq"), Qry1),
@@ -1724,6 +1757,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "ends-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_4.xq"), Qry1),
@@ -1739,6 +1773,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "index-of('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_5.xq"), Qry1),
@@ -1754,6 +1789,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "max(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_6.xq"), Qry1),
@@ -1769,6 +1805,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "min(('a', 'b'), 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_7.xq"), Qry1),
@@ -1784,6 +1821,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "starts-with('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_8.xq"), Qry1),
@@ -1799,6 +1837,7 @@ environment('array-and-map',BaseDir) ->
 'FOCH0002_9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "substring-after('a', 'b', 'http://www.cbcl.co.u,/collation')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOCH0002_9.xq"), Qry1),
@@ -1814,6 +1853,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0001_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:id('id', <a />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0001_1.xq"), Qry1),
@@ -1829,6 +1869,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0001_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a />/fn:idref('id')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0001_2.xq"), Qry1),
@@ -1844,6 +1885,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0002_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_1.xq"), Qry1),
@@ -1859,6 +1901,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0002_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_2.xq"), Qry1),
@@ -1874,6 +1917,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0002_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "doc('http://www.example.org/notFound.xml')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_3.xq"), Qry1),
@@ -1889,6 +1933,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0002_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0002_4.xq"), Qry1),
@@ -1904,6 +1949,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0004'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "collection('%gg')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0004.xq"), Qry1),
@@ -1927,6 +1973,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0005-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "doc('%gg')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0005-1.xq"), Qry1),
@@ -1950,6 +1997,7 @@ environment('array-and-map',BaseDir) ->
 'FODC0005-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "doc-available('%gg')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODC0005-2.xq"), Qry1),
@@ -1973,6 +2021,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "adjust-dateTime-to-timezone( xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-1.xq"), Qry1),
@@ -1988,6 +2037,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-10'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-10.xq"), Qry1),
@@ -2003,6 +2053,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-11'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:date(\"-25252734927766555-07-28-14:00\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-11.xq"), Qry1),
@@ -2018,6 +2069,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-12'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dateTime(\"-25252734927766555-07-28T23:59:59-14:00\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-12.xq"), Qry1),
@@ -2033,6 +2085,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"25252734927766555-07-28-14:00\"), xs:dayTimeDuration(\"PT14H\"))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-2.xq"), Qry1),
@@ -2048,6 +2101,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:dayTimeDuration(\"PT14H\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-3.xq"), Qry1),
@@ -2063,6 +2117,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:dayTimeDuration(\"PT24H\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-4.xq"), Qry1),
@@ -2078,6 +2133,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:dayTimeDuration(\"-PT14H\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-5.xq"), Qry1),
@@ -2093,6 +2149,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") - xs:dayTimeDuration(\"-PT24H\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-6.xq"), Qry1),
@@ -2108,6 +2165,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-7.xq"), Qry1),
@@ -2123,6 +2181,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(\"25252734927766555-07-28-14:00\") + xs:yearMonthDuration(\"P1Y0M\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-8.xq"), Qry1),
@@ -2138,6 +2197,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0001-9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dateTime(\"25252734927766555-07-28T23:59:59-14:00\") - xs:yearMonthDuration(\"-P1Y0M\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0001-9.xq"), Qry1),
@@ -2153,6 +2213,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') + xs:dayTimeDuration('P4999999999999999999DT00H00M01S')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-1.xq"), Qry1),
@@ -2168,6 +2229,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') * 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-2.xq"), Qry1),
@@ -2183,6 +2245,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div 0.5",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-3.xq"), Qry1),
@@ -2198,6 +2261,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:dayTimeDuration('P5999999999999999999DT00H00M01S') - xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-4.xq"), Qry1),
@@ -2213,6 +2277,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-6'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') + xs:yearMonthDuration('P768614336404564650Y1M')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-6.xq"), Qry1),
@@ -2228,6 +2293,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-7'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') * 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-7.xq"), Qry1),
@@ -2243,6 +2309,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-8'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') div 0.5",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-8.xq"), Qry1),
@@ -2258,6 +2325,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0002-9'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:yearMonthDuration('P768614336404564650Y0M') - xs:yearMonthDuration('-P768614336404564650Y0M')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0002-9.xq"), Qry1),
@@ -2273,6 +2341,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0003-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"PT15H\"))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0003-1.xq"), Qry1),
@@ -2288,6 +2357,7 @@ environment('array-and-map',BaseDir) ->
 'FODT0003-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "adjust-date-to-timezone( xs:date(\"2001-07-28-14:00\"), xs:dayTimeDuration(\"-PT15H\"))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FODT0003-2.xq"), Qry1),
@@ -2303,6 +2373,7 @@ environment('array-and-map',BaseDir) ->
 'FOER0000'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "error()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FOER0000.xq"), Qry1),
@@ -2318,6 +2389,7 @@ environment('array-and-map',BaseDir) ->
 'FONS0004-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "resolve-QName('prefix:localName', <element />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FONS0004-1.xq"), Qry1),
@@ -2333,6 +2405,7 @@ environment('array-and-map',BaseDir) ->
 'FONS0004-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:QName('prefix:localName')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FONS0004-2.xq"), Qry1),
@@ -2348,6 +2421,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0001'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:integer('INF')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0001.xq"), Qry1),
@@ -2363,6 +2437,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0002'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.w3.org/\"; resolve-uri(\"%gg\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0002.xq"), Qry1),
@@ -2378,6 +2453,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0003'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "zero-or-one( (1, 2, 3) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0003.xq"), Qry1),
@@ -2393,6 +2469,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0004'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "one-or-more( () )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0004.xq"), Qry1),
@@ -2408,6 +2485,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0005'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "exactly-one( () )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0005.xq"), Qry1),
@@ -2423,6 +2501,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0006_01'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean( xs:date('2007-01-01') )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_01.xq"), Qry1),
@@ -2446,6 +2525,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0006_02'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:avg( (xs:yearMonthDuration('P1Y0M'), 1) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_02.xq"), Qry1),
@@ -2461,6 +2541,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0006_03'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:min( (xs:yearMonthDuration('P1Y0M'), 1) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_03.xq"), Qry1),
@@ -2476,6 +2557,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0006_04'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:max( (xs:yearMonthDuration('P1Y0M'), 1) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_04.xq"), Qry1),
@@ -2491,6 +2573,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0006_05'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:sum( (xs:yearMonthDuration('P1Y0M'), 1) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0006_05.xq"), Qry1),
@@ -2506,6 +2589,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0008'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "dateTime(xs:date('2001-01-01-14:00'), xs:time('01:01:01+14:00'))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0008.xq"), Qry1),
@@ -2521,6 +2605,7 @@ environment('array-and-map',BaseDir) ->
 'FORG0009'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "resolve-uri('../../', '../../')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "FORG0009.xq"), Qry1),
@@ -2539,6 +2624,7 @@ environment('array-and-map',BaseDir) ->
 'XPDY0002_01'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = ".",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0002_01.xq"), Qry1),
@@ -2554,6 +2640,7 @@ environment('array-and-map',BaseDir) ->
 'XPDY0002_02'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $variable external; $variable",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0002_02.xq"), Qry1),
@@ -2569,6 +2656,7 @@ environment('array-and-map',BaseDir) ->
 'XPDY0050'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1 treat as node()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPDY0050.xq"), Qry1),
@@ -2584,6 +2672,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_01'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "attribute { 1 } { 1 }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_01.xq"), Qry1),
@@ -2599,6 +2688,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0018'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "(<a/>, <b/>)/(if (position() mod 2 = 1) then position() else .)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0018.xq"), Qry1),
@@ -2614,6 +2704,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0019_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/1/node()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_1.xq"), Qry1),
@@ -2629,6 +2720,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0019_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_2.xq"), Qry1),
@@ -2644,6 +2736,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0019_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0019_3.xq"), Qry1),
@@ -2659,6 +2752,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_02'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "element { 1 } { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_02.xq"), Qry1),
@@ -2674,6 +2768,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_03'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "() cast as xs:integer",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_03.xq"), Qry1),
@@ -2689,6 +2784,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_04'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) cast as xs:integer",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_04.xq"), Qry1),
@@ -2704,6 +2800,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_05'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "let $x as node() := 1 return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_05.xq"), Qry1),
@@ -2719,6 +2816,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_06'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x as node() in (1, 2, 3) return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_06.xq"), Qry1),
@@ -2734,6 +2832,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_07'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "document { attribute {'foo'} {} }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_07.xq"), Qry1),
@@ -2749,6 +2848,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_08'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_08.xq"), Qry1),
@@ -2764,6 +2864,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_09'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (1, 'hello', xs:date('2007-11-28')) order by $x return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_09.xq"), Qry1),
@@ -2779,6 +2880,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_10'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:upper-case(1)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_10.xq"), Qry1),
@@ -2794,6 +2896,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_11'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:tokenize('foo', () )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_11.xq"), Qry1),
@@ -2812,6 +2915,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_12a'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:error( () )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_12a.xq"), Qry1),
@@ -2827,6 +2931,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_13'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" eq 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_13.xq"), Qry1),
@@ -2842,6 +2947,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_14'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ne 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_14.xq"), Qry1),
@@ -2857,6 +2963,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_15'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" le 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_15.xq"), Qry1),
@@ -2872,6 +2979,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_16'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" gt 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_16.xq"), Qry1),
@@ -2887,6 +2995,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_17'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ge 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_17.xq"), Qry1),
@@ -2902,6 +3011,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_18'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" ne 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_18.xq"), Qry1),
@@ -2917,6 +3027,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_19'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" << 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_19.xq"), Qry1),
@@ -2932,6 +3043,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_20'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" >> 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_20.xq"), Qry1),
@@ -2947,6 +3059,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_21'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" is 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_21.xq"), Qry1),
@@ -2962,6 +3075,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_22'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" div 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_22.xq"), Qry1),
@@ -2977,6 +3091,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_23'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" idiv 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_23.xq"), Qry1),
@@ -2992,6 +3107,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_24'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" * 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_24.xq"), Qry1),
@@ -3007,6 +3123,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_25'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" mod 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_25.xq"), Qry1),
@@ -3022,6 +3139,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_26'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" - 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_26.xq"), Qry1),
@@ -3037,6 +3155,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_27'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "\"string\" + 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_27.xq"), Qry1),
@@ -3052,6 +3171,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_28'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_28.xq"), Qry1),
@@ -3067,6 +3187,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_29'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_29.xq"), Qry1),
@@ -3082,6 +3203,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_30'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_30.xq"), Qry1),
@@ -3097,6 +3219,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_31'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_31.xq"), Qry1),
@@ -3112,6 +3235,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_32'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_32.xq"), Qry1),
@@ -3127,6 +3251,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_33'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_33.xq"), Qry1),
@@ -3142,6 +3267,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_34'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_34.xq"), Qry1),
@@ -3157,6 +3283,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_35'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_35.xq"), Qry1),
@@ -3172,6 +3299,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_37'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "-xs:date('2007-11-29')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_37.xq"), Qry1),
@@ -3187,6 +3315,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_38'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_38.xq"), Qry1),
@@ -3202,6 +3331,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_39'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"http://www.example.org\"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_39.xq"), Qry1),
@@ -3217,6 +3347,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_40'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "+xs:date('2007-11-29')",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_40.xq"), Qry1),
@@ -3232,6 +3363,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_41'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:boolean( (1, 2) )",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_41.xq"), Qry1),
@@ -3255,6 +3387,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_42'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:string-length(xs:date('2007-11-29'))",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_42.xq"), Qry1),
@@ -3270,6 +3403,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_43'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xs:date(1)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_43.xq"), Qry1),
@@ -3285,6 +3419,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_44'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "1 cast as xs:date",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_44.xq"), Qry1),
@@ -3303,6 +3438,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_46'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "(1, 2) + 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_46.xq"), Qry1),
@@ -3318,6 +3454,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_47'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $a := <e><a/><b/><a/></e>; <a>{$a/a eq 1}</a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_47.xq"), Qry1),
@@ -3333,6 +3470,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0004_48'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "let $i := (1, 3, 2) order by $i return $i",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0004_48.xq"), Qry1),
@@ -3356,6 +3494,7 @@ environment('array-and-map',BaseDir) ->
 'XPTY0020'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a/>/20[text()]",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XPTY0020.xq"), Qry1),
@@ -3371,6 +3510,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0025_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_1.xq"), Qry1),
@@ -3386,6 +3526,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0025_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <a>{$attr1, $attr2 }</a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_2.xq"), Qry1),
@@ -3401,6 +3542,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0025_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_3.xq"), Qry1),
@@ -3416,6 +3558,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0025_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www/w3.org/\"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0025_4.xq"), Qry1),
@@ -3431,6 +3574,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0026'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "processing-instruction target { '?>' }",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0026.xq"), Qry1),
@@ -3449,6 +3593,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0041'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { '1BadName' } { 'content' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0041.xq"), Qry1),
@@ -3464,6 +3609,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0044_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { 'xmlns' } { 'http://www.w3.org/' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0044_1.xq"), Qry1),
@@ -3482,6 +3628,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0064'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { processing-instruction { 'xml' } { 'content' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0064.xq"), Qry1),
@@ -3497,6 +3644,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0072'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { comment { ' -- ' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0072.xq"), Qry1),
@@ -3512,6 +3660,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0074_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { element { 'prefix:localName' } { } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_1.xq"), Qry1),
@@ -3527,6 +3676,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0074_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { 'prefix:localName' } { } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_2.xq"), Qry1),
@@ -3542,6 +3692,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0074_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { element { '1localName' } { } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_3.xq"), Qry1),
@@ -3557,6 +3708,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0074_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { attribute { '1localName' } { } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0074_4.xq"), Qry1),
@@ -3575,6 +3727,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0091'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<e xml:id=\" ab c d \"/>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0091.xq"), Qry1),
@@ -3598,6 +3751,7 @@ environment('array-and-map',BaseDir) ->
 'XQDY0092'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a xml:space=\"space\"/>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQDY0092.xq"), Qry1),
@@ -3621,6 +3775,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0022_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns=\"{1}\" />",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0022_1.xq"), Qry1),
@@ -3636,6 +3791,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0022_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns:prefix=\"{1}\" />",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0022_2.xq"), Qry1),
@@ -3651,6 +3807,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0031'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '2.0'; 1+2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0031.xq"), Qry1),
@@ -3666,6 +3823,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0032'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"http://www.example.org/A\"; declare base-uri \"http://www.example.org/B\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0032.xq"), Qry1),
@@ -3681,6 +3839,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0033'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar = 'http://www.example.org/cheddar'; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0033.xq"), Qry1),
@@ -3696,6 +3855,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0034'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.example.org/\"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0034.xq"), Qry1),
@@ -3732,6 +3892,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0038_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; declare default collation \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0038_1.xq"), Qry1),
@@ -3747,6 +3908,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0038_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"http://www.example.org/\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0038_3.xq"), Qry1),
@@ -3762,6 +3924,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0039'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; declare function prefix:foo($arg, $arg) { 1 }; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0039.xq"), Qry1),
@@ -3777,6 +3940,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0040'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a attr=\"a\" attr=\"a\" />",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0040.xq"), Qry1),
@@ -3792,6 +3956,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0045-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare function foo() { 1 }; foo()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-1.xq"), Qry1),
@@ -3807,6 +3972,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0045-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare function xml:foo() { 1 }; xml:foo()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-2.xq"), Qry1),
@@ -3822,6 +3988,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0045-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare function xs:foo() { 1 }; xs:foo()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-3.xq"), Qry1),
@@ -3837,6 +4004,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0045-4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare function xsi:foo() { 1 }; xsi:foo()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0045-4.xq"), Qry1),
@@ -3852,6 +4020,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_01'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "base-uri(<a xml:base=\"%gg\" />)",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_01.xq"), Qry1),
@@ -3879,6 +4048,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_02'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; true()",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -3914,6 +4084,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_03'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace foo = \"%gg\"; true()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_03.xq"), Qry1),
@@ -3937,6 +4108,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_04'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"%gg\"; true()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_04.xq"), Qry1),
@@ -3960,6 +4132,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_05'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"%gg\"; fn:true()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_05.xq"), Qry1),
@@ -3983,6 +4156,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_06'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default collation \"%gg\"; fn:true()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_06.xq"), Qry1),
@@ -4010,6 +4184,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_07'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare base-uri \"%gg\"; true()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_07.xq"), Qry1),
@@ -4033,6 +4208,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_09'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema \"http://www.w3.org/\" at \"%gg\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4068,6 +4244,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_10'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module \"%gg\"; true()",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4103,6 +4280,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_11'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.w3.org/\" at \"%gg\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4138,6 +4316,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0046_12'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x in (\"a\", \"a\", \"a\") order by $x collation \"%gg\" return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0046_12.xq"), Qry1),
@@ -4165,6 +4344,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0047'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/foo\"; import module \"http://www.example.org/foo\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4192,6 +4372,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0048'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/foo\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4219,6 +4400,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0049'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare variable $foo external; declare variable $foo external; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0049.xq"), Qry1),
@@ -4237,6 +4419,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0055'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0055.xq"), Qry1),
@@ -4252,6 +4435,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0057'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace foo = \"\" at \"http://www.w3.org/\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0057.xq"), Qry1),
@@ -4273,6 +4457,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0059_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\" at \"DoesNotExist.xq\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4303,6 +4488,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0059_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.w3.org/\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0059_4.xq"), Qry1),
@@ -4318,6 +4504,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0059_5'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace foo = \"http://www.example.org/\"; foo:bar()",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4348,6 +4535,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0060'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"\"; declare function foo() { 1 }; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0060.xq"), Qry1),
@@ -4363,6 +4551,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0065'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare ordering unordered; declare ordering ordered; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0065.xq"), Qry1),
@@ -4378,6 +4567,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0066_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default element namespace \"http://www.w3.org/a\"; declare default element namespace \"http://www.w3.org/b\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0066_1.xq"), Qry1),
@@ -4393,6 +4583,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0066_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default function namespace \"http://www.example.org/\"; declare default function namespace \"http://www.w3.org/2005/xpath-functions/collation/codepoint\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0066_3.xq"), Qry1),
@@ -4408,6 +4599,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0067'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare construction strip; declare construction preserve; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0067.xq"), Qry1),
@@ -4423,6 +4615,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0068'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare boundary-space strip; declare boundary-space preserve; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0068.xq"), Qry1),
@@ -4438,6 +4631,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0069'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare default order empty least; declare default order empty greatest; 1",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0069.xq"), Qry1),
@@ -4453,6 +4647,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0070_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import schema namespace xml = \"http://www.example.org/\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_1.xq"), Qry1),
@@ -4468,6 +4663,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0070_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = \"http://www.example.org/\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_2.xq"), Qry1),
@@ -4483,6 +4679,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0070_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace xml = 'http://www.example.org/'; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4510,6 +4707,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0070_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace xml = \"http://www.example.org/\"; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0070_4.xq"), Qry1),
@@ -4525,6 +4723,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0071_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns:prefix=\"http://www.w3.org/\" xmlns:prefix=\"http://www.w3.org/\" />",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0071_1.xq"), Qry1),
@@ -4540,6 +4739,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0071_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a xmlns=\"http://www.w3.org/\" xmlns=\"http://www.w3.org/\" />",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0071_2.xq"), Qry1),
@@ -4555,6 +4755,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0076'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x in ('a', 'b', 'c') order by $x collation 'http://www.w3.org/' return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0076.xq"), Qry1),
@@ -4573,6 +4774,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0085'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<element xmlns:foo=\"http://www.w3.org/\"> <element xmlns:foo=\"\" /> </element>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0085.xq"), Qry1),
@@ -4594,6 +4796,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0087'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "xquery version '1.0' encoding '_utf'; 1+2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0087.xq"), Qry1),
@@ -4609,6 +4812,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0088_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module namespace cheese = ''; 1 + 2",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0088_1.xq"), Qry1),
@@ -4624,6 +4828,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0088_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "import module \"http://www.example.org/test\"; 1",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4651,6 +4856,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0089'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "for $x at $x in (1, 2, 3) return $x",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0089.xq"), Qry1),
@@ -4666,6 +4872,7 @@ environment('array-and-map',BaseDir) ->
 'XQST0090'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<bad-character-reference>&#xa999999999999999a;</bad-character-reference>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0090.xq"), Qry1),
@@ -4687,6 +4894,7 @@ environment('array-and-map',BaseDir) ->
       	import module namespace foo=\"http://www.example.org/foo\"; 
       	$foo:variable2
       ",
+   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
@@ -4715,6 +4923,7 @@ environment('array-and-map',BaseDir) ->
 'XQTY0024_1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute prefix:foo { 'bar' } } </prefix:a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_1.xq"), Qry1),
@@ -4730,6 +4939,7 @@ environment('array-and-map',BaseDir) ->
 'XQTY0024_2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <prefix:a> { <b />, attribute foo { 'bar' } } </prefix:a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_2.xq"), Qry1),
@@ -4745,6 +4955,7 @@ environment('array-and-map',BaseDir) ->
 'XQTY0024_3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace prefix = \"http://www.w3.org/\"; <a> { <b />, attribute prefix:foo { 'bar' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_3.xq"), Qry1),
@@ -4760,6 +4971,7 @@ environment('array-and-map',BaseDir) ->
 'XQTY0024_4'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "<a> { <b />, attribute foo { 'bar' } } </a>",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQTY0024_4.xq"), Qry1),
@@ -4791,6 +5003,7 @@ environment('array-and-map',BaseDir) ->
                           { $arg + 1 }
         return $f(1)
       ",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0125_1.xq"), Qry1),
@@ -4810,6 +5023,7 @@ environment('array-and-map',BaseDir) ->
                            { $arg + 1 }
         return $f(1)
       ",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "XQST0125_2.xq"), Qry1),

@@ -91,44 +91,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "fn")
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/invalid-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-var-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/context-item-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/dynamic-error-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/valid-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/functions-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/functions2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-vars-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-func-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/module1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/module2-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/external-vars2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/middle-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-vars3-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-self-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/test1c1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "../prod/ModuleImport/test2c1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/load-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/load-self-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/decimal-format-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/empty-least-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/empty-greatest-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/boundary-space1-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/boundary-space2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-hats-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-abf-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/import-schema-abf2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/context-item2-module.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "load-xquery-module/main-module.xqm")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'fn-load-xquery-module-001',
@@ -234,30 +202,6 @@ environment('atomic',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
-{modules, []}
-];
-environment('hats',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('abf',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -397,6 +341,30 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('hats',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('abf',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

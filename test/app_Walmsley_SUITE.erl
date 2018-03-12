@@ -231,13 +231,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "app")
-, try  xqerl_module:compile(filename:join(BaseDir, "Walmsley/strings.xqm")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "Walmsley/lib2.xqm")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'd1e11215',
@@ -474,20 +473,6 @@ environment('empty',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('all',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "Walmsley/catalog.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
-{filename:join(BaseDir, "Walmsley/render.xsl"), "","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/"}]},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, [{filename:join(BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
-{modules, []}
-];
 environment('atomic',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -637,6 +622,20 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
+{modules, []}
+];
+environment('all',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "Walmsley/catalog.xml"), ".","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"},
+{filename:join(BaseDir, "Walmsley/render.xsl"), "","http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/"}]},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+{"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, [{filename:join(BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]},
 {modules, []}
 ].
 'd1e11215'(Config) ->

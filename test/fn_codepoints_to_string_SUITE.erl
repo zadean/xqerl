@@ -88,7 +88,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -1420,7 +1420,27 @@ environment('array-and-map',BaseDir) ->
    end.
 'cbcl-codepoints-to-string-021'(Config) ->
    BaseDir = ?config(base_dir, Config),
-   {skip," HUGE RANGE "}.
+   Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)",
+   Qry1 = Qry,
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-codepoints-to-string-021.xq"), Qry1),
+             xqerl:run(Mod) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_error(Res,"FOCH0001") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_error(Res,"XPDY0130") of 
+      true -> {comment, "Correct error"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end.
 'cbcl-codepoints-to-string-022'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)",

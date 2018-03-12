@@ -33,8 +33,8 @@
 
 -define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
--export([windowclause/2]).
--export([windowclause/4]).
+-export([windowclause/3]).
+-export([windowclause/5]).
 -export([orderbyclause/2]).
 -export([groupbyclause/1]).
 
@@ -43,8 +43,6 @@
 % internal use
 %% -export([int_order_1/2]).
    
-add_position(List) when is_list(List) ->
-   add_position(List, 1, []);
 add_position(List) ->
    List1 = ?seq:to_list(List),
    add_position(List1, 1, []).
@@ -61,7 +59,7 @@ add_position(H, Cnt, Acc) ->
 do_atomize([],_) -> {<<>>, []};
 do_atomize([V],C) -> do_atomize(V,C);
 do_atomize(#xqNode{} = N,Coll) ->
-   A = ?seq:singleton_value(xqerl_node:atomize_nodes(N)),
+   A = ?seq:singleton_value(xqerl_types:atomize(N)),
    #xqAtomicValue{value = Val} = A,
    {xqerl_coll:sort_key(Val, Coll), A};
 do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
@@ -117,7 +115,7 @@ groupbyclause(KeyVals) ->
 %% takes single list from expression and the start function and returns 
 %% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% can only be tumbling with no end function
-windowclause(L, StartFun) ->
+windowclause(L, StartFun, WType) ->
    case add_position(L) of
       [] -> [];
       L1 ->
@@ -125,7 +123,13 @@ windowclause(L, StartFun) ->
          %?dbg("BW",Bw),
          Bw2 = lists:map(fun(B) ->
                                L2 = element(9, B),
-                               setelement(9, B, ?seq:from_list(L2))
+                               S = ?seq:from_list(L2),
+                               case xqerl_types:instance_of(S, WType) of
+                                  #xqAtomicValue{value = true} ->
+                                     setelement(9, B, S);
+                                  _ ->
+                                     ?err('XPTY0004')
+                               end
                          end, Bw),
          lists:reverse(Bw2)
    end.
@@ -133,16 +137,26 @@ windowclause(L, StartFun) ->
 %% takes single list from expression and the start/end functions and returns 
 %% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% Type is tumbling or sliding
-windowclause(L, StartFun, EndFun, {Type, Only}) ->
+windowclause(L, StartFun, EndFun, {Type, Only}, WType) ->
    case add_position(L) of
       [] -> [];
       L1 ->
          Bw = winstart([[]|L1], StartFun, EndFun, Type, Only),
          %?dbg("BW",Bw),
-         lists:reverse(Bw)
+         Bw2 = lists:map(fun(B) ->
+                               L2 = element(9, B),
+                               S = ?seq:from_list(L2),
+                               case xqerl_types:instance_of(S, WType) of
+                                  #xqAtomicValue{value = true} ->
+                                     setelement(9, B, S);
+                                  _ ->
+                                     ?err('XPTY0004')
+                               end
+                         end, Bw),
+         lists:reverse(Bw2)
    end;
-windowclause(L, StartFun, EndFun, Type) ->
-   windowclause(L, StartFun, EndFun, {Type, false}).
+windowclause(L, StartFun, EndFun, Type, WType) ->
+   windowclause(L, StartFun, EndFun, {Type, false}, WType).
 
 
 % tumbling window with no end function, means window as of each 'true'

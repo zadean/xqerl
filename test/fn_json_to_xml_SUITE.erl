@@ -103,7 +103,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -229,20 +229,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('json-files',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
-{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
-{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
-{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -252,18 +238,6 @@ environment('atomic-xq',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('json-ns',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {resources, []},
 {modules, []}
 ];
@@ -391,6 +365,32 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('json-files',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
+{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
+{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
+{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
+{modules, []}
+];
+environment('json-ns',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {resources, []},
 {modules, []}
 ].

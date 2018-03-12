@@ -158,7 +158,6 @@
     <test-case name="map-for-each-014">
         <description>Keys for a large map</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
-        <dependency type="problem" value="Huge Range"/>
         <environment ref="map"/>
         <test>map:for-each(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), function($k,$v){$k})</test>
         <result>

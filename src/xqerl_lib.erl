@@ -51,6 +51,7 @@
 -export([resolve_against_base_uri/2]).
 
 -export([next_comp_prefix/1]).
+-export([pmap/3]).
 
 -define(space, 32).
 -define(cr,    13).
@@ -296,49 +297,52 @@ check_bad_percent([_|T]) ->
    check_bad_percent(T);
 check_bad_percent([]) -> ok.
 
-resolve_against_base_uri(Base,[]) -> 
-   Base;
-resolve_against_base_uri("xqerl_main",RelPath) ->
-   resolve_against_base_uri("file:///",RelPath);
-resolve_against_base_uri(Base,RelPath0) ->
-   ok = check_bad_percent(RelPath0),
-   RelPath = ensure_schema(RelPath0),
-   %?dbg("RelPath",RelPath),
-   Opts = [{scheme_defaults,
-            [{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
-   case http_uri:parse(RelPath,Opts) of
-      % not absolute
-      {error,_} ->
-         NonHeir = lists:member($:, RelPath),
-         if NonHeir , RelPath == ":" ->
-               {error,malformed};
-            NonHeir ->
-               RelPath;
-            true ->
-               %?dbg("Base",Base),
-               %?dbg("RelPath",RelPath),
-               % leading slash on relative does not mean root
-               RelPath1 = if hd(RelPath) == $/ ->
-                                tl(RelPath);
-                             true ->
-                                RelPath
-                          end,
-               % fragments allowed on base
-               {ok, Parsed} = http_uri:parse(Base,Opts), 
-               %?dbg("RelPath1",RelPath1),
-               %?dbg("Parsed",Parsed),
-               parsed_to_path(RelPath1,Parsed)
-         end;
-      {ok,{_,_,_,_,"/",_,[]}} ->
-         %?dbg("RelPath",RelPath),
-         RelPath;
-      {ok,{_,_,_,_,_,Q,[]} = P} ->
-         %?dbg("P",P),
-         parsed_to_path([],P) ++ Q;
-      _ ->
-         % relative with fragment
-         ?err('FORG0002')
-   end.
+resolve_against_base_uri(BaseUri, RefUri) ->
+   xqldb_lib:join_uris(BaseUri, RefUri).
+
+%% resolve_against_base_uri(Base,[]) -> 
+%%    Base;
+%% resolve_against_base_uri("xqerl_main",RelPath) ->
+%%    resolve_against_base_uri("file:///",RelPath);
+%% resolve_against_base_uri(Base,RelPath0) ->
+%%    ok = check_bad_percent(RelPath0),
+%%    RelPath = ensure_schema(RelPath0),
+%%    %?dbg("RelPath",RelPath),
+%%    Opts = [{scheme_defaults,
+%%             [{file,1},{urn,2}|http_uri:scheme_defaults()]},{fragment,true}],
+%%    case http_uri:parse(RelPath,Opts) of
+%%       % not absolute
+%%       {error,_} ->
+%%          NonHeir = lists:member($:, RelPath),
+%%          if NonHeir , RelPath == ":" ->
+%%                {error,malformed};
+%%             NonHeir ->
+%%                RelPath;
+%%             true ->
+%%                %?dbg("Base",Base),
+%%                %?dbg("RelPath",RelPath),
+%%                % leading slash on relative does not mean root
+%%                RelPath1 = if hd(RelPath) == $/ ->
+%%                                 tl(RelPath);
+%%                              true ->
+%%                                 RelPath
+%%                           end,
+%%                % fragments allowed on base
+%%                {ok, Parsed} = http_uri:parse(Base,Opts), 
+%%                %?dbg("RelPath1",RelPath1),
+%%                %?dbg("Parsed",Parsed),
+%%                parsed_to_path(RelPath1,Parsed)
+%%          end;
+%%       {ok,{_,_,_,_,"/",_,[]}} ->
+%%          %?dbg("RelPath",RelPath),
+%%          RelPath;
+%%       {ok,{_,_,_,_,_,Q,[]} = P} ->
+%%          %?dbg("P",P),
+%%          parsed_to_path([],P) ++ Q;
+%%       _ ->
+%%          % relative with fragment
+%%          ?err('FORG0002')
+%%    end.
 
 parsed_to_path([],{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
    Safe = simplify_path(tl(Path)),
@@ -455,3 +459,55 @@ next_comp_prefix(Namespaces) ->
    Last = lists:foldl(F, 0, Pxs),
    "ns_" ++ integer_to_list(Last + 1).
 
+
+% use a queue to map a function to a list in parallel with limited processes
+pmap(Fun,List,MaxProc) ->
+   padd(queue:new(),Fun,List,MaxProc,queue:new()).
+
+padd(Qin,F,[],M,Qout) ->
+   case queue:out(Qin) of
+      {empty,Qin} -> 
+         queue:to_list(Qout);
+      {{value,K},Q2} ->
+         Val = yield(K),
+         padd(Q2,F,[],M,queue:in(Val, Qout))
+   end;
+padd(Qin,Fun,[H|T],MaxProc,Qout) ->
+   case MaxProc > queue:len(Qin) of
+      true ->
+         Pid = async_single_call(Fun, H),
+         Q1 = queue:in(Pid, Qin),
+         padd(Q1,Fun,T,MaxProc,Qout);
+      false ->
+         case queue:out(Qin) of
+            {empty,Qin} -> ok;
+            {{value,K},Q2} ->
+               Val = yield(K),
+               padd(Q2,Fun,[H|T],MaxProc,queue:in(Val, Qout))
+         end
+   end.
+
+-spec yield(Key) -> Res when
+      Key :: pid(),
+      Res :: term().
+
+yield(Key) when is_pid(Key) ->
+    {value,R} = do_yield(Key, 1000),
+    R.
+
+-spec do_yield(pid(), timeout()) -> {'value', _} | 'timeout'.
+
+do_yield(Key, Timeout) ->
+    receive
+        {Key,{reply,R}} ->
+            {value,R}
+        after Timeout ->
+            timeout
+    end.
+
+async_single_call(Fun, Arg) when is_function(Fun,1) ->
+    ReplyTo = self(),
+    spawn(fun() -> 
+                R = (catch Fun(Arg)),
+                ReplyTo ! {self(), {reply, R}}
+          end).

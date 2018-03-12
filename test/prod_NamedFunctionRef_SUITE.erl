@@ -565,7 +565,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -1153,19 +1153,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('function-lookup',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../fn/function-lookup/function-lookup.xml"), ".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../fn/function-lookup/collection-1.xml")},
-{src,filename:join(BaseDir, "../fn/function-lookup/collection-2.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, [{filename:join(BaseDir, "../fn/unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -1303,6 +1290,19 @@ environment('array-and-map',BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {resources, []},
+{modules, []}
+];
+environment('function-lookup',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../fn/function-lookup/function-lookup.xml"), ".","http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"}]},
+{schemas, []},
+{collections, [{"",[{src,filename:join(BaseDir, "../fn/function-lookup/collection-1.xml")},
+{src,filename:join(BaseDir, "../fn/function-lookup/collection-2.xml")}]}]},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, [{filename:join(BaseDir, "../fn/unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]},
 {modules, []}
 ].
 'function-literal-001'(Config) ->

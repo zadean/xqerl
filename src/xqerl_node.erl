@@ -57,16 +57,17 @@
 % nodes -> array of record tuples for each known node
 
 new_context(Ctx) ->
-   Ctx#{next_node_id => 0,
+   Ctx#{%'base-uri' => [],
+        next_node_id => 0,
         frag_id => next_frag_id(),
         nodes => #{}}.
 
-new_fragment(#xqNode{doc = Doc } = Node) -> 
-   Node#xqNode{doc = Doc#{file := next_frag_id()}}.
+new_fragment(#xqNode{} = Node) -> 
+   Node.
 
 % return document 
-new_fragment(Ctx0, Content) when is_list(Content) ->
-   %?dbg("Content",Content),
+new_fragment(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
+%?dbg("Content",Content),
    DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns 
                <- maps:get(namespaces, Ctx0,
                            [#xqNamespace{namespace = 'no-namespace', 
@@ -84,10 +85,22 @@ new_fragment(Ctx0, Content) when is_list(Content) ->
          Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
          FragId = get_frag_id(Ctx5),
          ?dbg("FragId",FragId),
-         build_xqnode(Ctx0, FragId, get_nodes(Ctx5))
+         %?dbg("get_nodes(Ctx5)",get_nodes(Ctx5)),
+         {B,L} = build_sax(Ctx0, get_nodes(Ctx5)),
+         %?dbg("L",L),
+         NewDoc = xqldb_parse:read_list(B,L),
+         {ok,DocPid} = xqldb_doc:start_link(NewDoc),
+         [Roots] = xqldb_doc:roots(DocPid),
+         #xqNode{doc = DocPid, node = Roots}
    end;
-new_fragment(Ctx0, Content) ->
-   new_fragment(Ctx0, [Content]).
+new_fragment(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
+   new_fragment(Ctx0, [Content]);
+new_fragment(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
+   new_fragment(new_context(#{'base-uri' => [],
+                              'copy-namespaces' => {preserve, 'no-inherit'}}), Content);
+new_fragment(Ctx0, Content) when not is_map(Ctx0), not is_list(Content) ->
+   new_fragment(new_context(#{'base-uri' => [],
+                              'copy-namespaces' => {preserve, 'no-inherit'}}), [Content]).
 
 can_follow([],_Curr) -> true;
 can_follow(element,attribute) -> false;
@@ -99,8 +112,8 @@ can_follow(namespace,attribute) -> true;
 can_follow(attribute,namespace) -> true;
 can_follow(_,_) -> true.
 
-get_node_type(#xqNode{doc = Doc, node = Node}) ->
-   xqerl_xdm:dm_node_kind(Doc, Node);
+get_node_type(#xqNode{doc = Doc, node = [Node]}) -> 
+   xqldb_doc:node_kind(Doc, Node);
 get_node_type(#xqDocumentNode{}) -> document;
 get_node_type(#xqElementNode{}) -> element;
 get_node_type(#xqNamespaceNode{}) -> namespace;
@@ -312,6 +325,7 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
                   C ->
                      [C]
                end,
+%?dbg("Content1",Content1),
    Fun = fun(Node, {Children, Sz1, Ctx1, LastType, _UsedAttNames}) ->
                Type = get_node_type(Node),
                case can_follow(LastType,Type) of
@@ -378,18 +392,21 @@ handle_content(#{'base-uri' := BU,
                                       attributes = Atts, 
                                       expr = Content} = N, 
                InScopeNs0, Sz) ->
+%?dbg("N",N),
    % direct constructors have their namespaces in attributes, 
    % constructed are in expr
    
    % merge static namespaces into the inscope
    InScopeNs = merge_inscope_namespaces(ElemNs,InScopeNs0),
+   %?dbg("ElemNs,InScopeNs0",{ElemNs,InScopeNs0}),
+%?dbg("QName",QName),
    {Id,Ctx1} = next_id(Ctx),
    
    Atts1    = ensure_content(Atts),
    Content0 = ensure_content(Content),
-
+%?dbg("Content0",Content0),  
    Content1 = expand_nodes(Content0,CopyNsPreserve,InScopeNs),
-  
+%?dbg("Content1",Content1),  
    DirectNamespaces = [X || X <- Atts1, is_record(X, xqNamespaceNode)],
    ComputNamespaces = [X || X <- Content1, is_record(X, xqNamespaceNode)],
    % computed namespaces can have expressions for QNames
@@ -397,6 +414,8 @@ handle_content(#{'base-uri' := BU,
                                      NewQ = ensure_qname(Q, InScopeNs),
                                      NsN#xqNamespaceNode{name = NewQ}
                                end, ComputNamespaces),
+%?dbg("ComputNamespaces",ComputNamespaces),  
+%?dbg("ComputNamespaces1",ComputNamespaces1),  
    ok = check_direct_namespaces(DirectNamespaces),
    ok = check_computed_namespaces(ComputNamespaces1),
    
@@ -409,11 +428,16 @@ handle_content(#{'base-uri' := BU,
                                   augment_inscope_namespaces(NsN, Is)
                             end, InScopeNs, NamespaceNodes),
 
+%?dbg("DirectNamespaces",DirectNamespaces),
+%?dbg("InScopeNs",InScopeNs),
+%?dbg("InScopeNs1",InScopeNs1),
    ElemQName = ensure_qname(QName, InScopeNs1),
+   %?dbg("ElemQName",ElemQName),
    
    InScopeNs2 = augment_inscope_namespaces(N#xqElementNode{name = ElemQName}, 
                                            InScopeNs1),
 
+%?dbg("InScopeNs2",InScopeNs2),
    %this will copy in any nodes
    Content2 = merge_content(Ctx, RestNodes, InScopeNs2),
    
@@ -426,6 +450,7 @@ handle_content(#{'base-uri' := BU,
           end,
    {Content3,InScopeNs3} = lists:mapfoldl(Fld1, InScopeNs2, Content2),
 
+%?dbg("InScopeNs3",InScopeNs3),
    AttributeNodes2 = [X || X <- Content3, is_record(X, xqAttributeNode)],
    ok = check_attribute_names(AttributeNodes2),
    
@@ -441,6 +466,7 @@ handle_content(#{'base-uri' := BU,
                 not lists:keymember(P1, #xqNamespace.prefix, InScopeNs0)
           end,
    NewNss = lists:filter(Fil1, InScopeNs3),
+%?dbg("NewNss",NewNss),
    Flm1 = fun(#xqNamespace{namespace = ImNs, prefix = ImPx}) ->
                 A1 = fun(#xqNamespaceNode{name = 
                                             #qname{namespace = InnerNs,
@@ -467,6 +493,7 @@ handle_content(#{'base-uri' := BU,
                 end
           end,
    ImplNamespaces = lists:filtermap(Flm1, NewNss),
+%?dbg("ImplNamespaces",ImplNamespaces),
    ok = check_computed_default_override(ElemQName, ComputNamespaces1),
    
    ok = check_element_name(ElemQName),
@@ -481,12 +508,17 @@ handle_content(#{'base-uri' := BU,
    BU1 = if NewBase == [] ->
                BU;
             true ->
-               Path = xqerl_lib:resolve_against_base_uri(
+               try
+                  Path = xqerl_lib:resolve_against_base_uri(
                         xqerl_types:value(BU),
                         xqerl_types:value(hd(NewBase))),
-               #xqAtomicValue{type = 'xs:anyURI', value = Path}
+                  %?dbg("Path",Path),
+                  #xqAtomicValue{type = 'xs:anyURI', value = Path}
+               catch _:_ -> BU
+               end
          end,
    ElemQName1 = resolve_namespace(ElemQName, InScopeNs3),
+   %?dbg("ElemQName1",ElemQName1),
    Node = N#xqElementNode{identity = Id, 
                           parent_node = Parent, 
                           name = ElemQName1, 
@@ -495,6 +527,7 @@ handle_content(#{'base-uri' := BU,
                           attributes = undefined, 
                           inscope_ns = InScopeNs3},
    Ctx2 = (add_node(Ctx1, Id, Node)),
+%?dbg("Content2",Content2),  
    {Children, Sz1, Ctx3} = 
      handle_contents(Ctx2#{'base-uri' := BU1}, 
                      Id, ImplNamespaces ++ NamespaceNodes ++ Content3, 
@@ -506,6 +539,7 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
    {Id,Ctx1} = next_id(Ctx),
    Content1 = [Content],
    Content2 = merge_content(Ctx, Content1, INs),
+   %?dbg("Content1",Content1),
    % no attributes on documents
    _ = lists:foreach(fun(#xqAttributeNode{}) ->
                            ?err('XPTY0004');
@@ -518,7 +552,8 @@ handle_content(Ctx, _Parent, #xqDocumentNode{expr = Content} = N, INs, Sz) ->
    Ctx4 = set_node_children(Ctx3, Id, Children, Sz1),
    {Id, Sz1 + Sz + 1,Ctx4};
 
-handle_content(Ctx, Parent, #xqAttributeNode{name = QName, expr = Content} = N, 
+handle_content(Ctx, Parent, 
+               #xqAttributeNode{name = QName, expr = Content} = N, 
                InScopeNs, Sz) ->
    {Id,Ctx1} = next_id(Ctx),
    Content2 = merge_text_content(Content),
@@ -567,6 +602,8 @@ handle_content(Ctx, Parent, #xqNamespaceNode{name = QName} = N,
    % check if there is an inscope namespace with the same URI, use it's prefix
    {Id,Ctx1} = next_id(Ctx),
    NsName = ensure_qname(QName, InScopeNamespaces),
+%?dbg("N",N),
+%?dbg("NsName",NsName),
    _ = check_computed_namespaces([N]),
    Node = N#xqNamespaceNode{identity = Id, 
                             parent_node = Parent, 
@@ -674,14 +711,19 @@ handle_content(Ctx, Parent, #xqTextNode{expr = Content,
 
 % internal fragment to merge
 handle_content(Ctx, Parent, #xqNode{} = Node, INs, Sz) ->
+?dbg("Line",?LINE),
    Contents = node_to_content(Node),
+?dbg("Line",?LINE),
    {_,Inherit} = maps:get('copy-namespaces', Ctx),
+?dbg("Line",?LINE),
    INs1 = if Inherit == 'no-inherit' ->
                 [];
              true ->
                 INs
           end,
+?dbg("Line",Contents),
    {Children, Sz1, Ctx3} = handle_contents(Ctx, Parent, Contents, INs1, Sz),
+?dbg("Line",?LINE),
    {Children, Sz1, Ctx3};
 
 handle_content(Ctx, Parent, Seq, INs, Sz)  ->
@@ -748,6 +790,8 @@ resolve_namespace(#qname{namespace = Ns,
 
 merge_content(_,[],_) ->
    [];
+%% merge_content(Ctx,F,Is) when is_function(F) ->
+%%    merge_content(Ctx,F(Ctx),Is);
 merge_content(Ctx, Content, InscopeNamespaces) when is_list(Content) ->
    {CopyNsPreserve,_} = maps:get('copy-namespaces', Ctx),
    L = expand_nodes(Content,CopyNsPreserve,InscopeNamespaces),
@@ -778,13 +822,20 @@ strip_unused_namespaces([H|T]) ->
 strip_unused_namespaces([]) ->
    [].
 
+expand_nodes([[#xqNode{} = Node]|T],Preserve,Namespaces) ->
+   expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces);
+expand_nodes([[#xqNode{} = Node|T]],Preserve,Namespaces) ->
+   expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces);
 expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces) ->
+%   ?dbg("Node",Node),
    Content = node_to_content(Node),
+%   ?dbg("Content",Content),
    Content1 = if Preserve == 'no-preserve' ->
                     strip_unused_namespaces(Content);
                  true ->
                     Content
               end,
+%   ?dbg("Content1",Content1),
    Content1 ++ expand_nodes(T,Preserve,Namespaces);
 expand_nodes([#array{data = H}|T],Preserve,Namespaces) ->
    expand_nodes(H++T,Preserve,Namespaces);
@@ -1069,9 +1120,6 @@ merge_text_content([H|T], Acc) ->
    end.
 
 % a unique hash value for this node
-get_node_hash(#xqNode{doc = {doc,File}} = Node) ->
-   Doc = ?get({doc,File}),
-   get_node_hash(Node#xqNode{doc = Doc});
 get_node_hash(#xqNode{} = Node) ->
    erlang:phash(Node, 4294967296);
 get_node_hash(_NonNode) ->
@@ -1088,12 +1136,9 @@ atomize_nodes(List) ->
 atomize_node([]) -> ?str([]);
 atomize_node(#xqAtomicValue{} = Av) ->
    Av;
-atomize_node(#xqNode{doc = {doc,File}, node = Node}) ->
-   Doc = ?get({doc,File}),
-   atomize_node(#xqNode{doc = Doc, node = Node});
 atomize_node(#xqNode{doc = Doc, node = Node}) ->
-   String = xqerl_xdm:dm_string_value(Doc, Node),
-   Type = xqerl_xdm:dm_node_kind(Doc, Node),
+   String = xqldb_doc:string_value(Doc, Node),
+   Type = xqldb_doc:node_kind(Doc, Node),
    if Type == namespace;
       Type == comment ->
          ?str(String);
@@ -1111,11 +1156,16 @@ atomize_node(#xqProcessingInstructionNode{expr = S}) ->
 atomize_node(#xqCommentNode{expr = S}) -> ?str(xqerl_types:string_value(S));
 atomize_node(#xqTextNode{expr = S}) -> ?untyp(xqerl_types:string_value(S)).
 
+names_equal({N1,_,L1},{N1,_,L1}) -> true;
+names_equal(_,_) -> false.
+
 %% Tests if 2 nodes are logically deep-equal 
+nodes_equal(Doc1, [Node1],Doc2, [Node2],Collation) ->
+   nodes_equal(Doc1, Node1,Doc2, Node2,Collation);
 nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
-   Type1 = xqerl_xdm:dm_node_kind(Doc1, Node1),
-   Type2 = xqerl_xdm:dm_node_kind(Doc2, Node2),
-   %?dbg("{Type1,Type2}",{Type1,Type2}),
+   Type1 = xqldb_doc:node_kind(Doc1, Node1),
+   Type2 = xqldb_doc:node_kind(Doc2, Node2),
+%?dbg("{Type1,Type2}",{Type1,Type2}),
    if Type1 == document andalso Type2 == document ->
          Nodes1 = get_comparable_child_nodes(Doc1, Node1),
          Nodes2 = get_comparable_child_nodes(Doc2, Node2),
@@ -1124,17 +1174,33 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
          lists:all(fun({Ci1,Ci2}) ->
                          nodes_equal(Doc1,Ci1,Doc2,Ci2,Collation)
                    end, lists:zip(Nodes1, Nodes2));
-      Type1 == element andalso Type2 == element ->
-         Name1 = xqerl_xdm:dm_node_name(Doc1, Node1),
-         Name2 = xqerl_xdm:dm_node_name(Doc2, Node2),
-         Name1 == Name2
-            andalso
-         attributes_equal(Doc1, xqerl_xdm:dm_attributes(Doc1, Node1),
-                          Doc2, xqerl_xdm:dm_attributes(Doc2, Node2), Collation)
+      Type1 == fragment andalso Type2 == fragment ->
+         attributes_equal(Doc1, xqldb_doc:attributes(Doc1, Node1),
+                          Doc2, xqldb_doc:attributes(Doc2, Node2), Collation)
             andalso
          begin
             Nodes1 = get_comparable_child_nodes(Doc1, Node1),
             Nodes2 = get_comparable_child_nodes(Doc2, Node2),
+%?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
+            length(Nodes1) == length(Nodes2)
+               andalso
+            lists:all(fun({Ci1,Ci2}) ->
+                            nodes_equal(Doc1,Ci1,Doc2,Ci2,Collation)
+                      end, lists:zip(Nodes1, Nodes2))
+         end;
+      Type1 == element andalso Type2 == element ->
+         Name1 = xqldb_doc:node_name(Doc1, Node1),
+         Name2 = xqldb_doc:node_name(Doc2, Node2),
+%?dbg("{Name1,Name2}",{Name1,Name2}),
+         names_equal(Name1,Name2)
+            andalso
+         attributes_equal(Doc1, xqldb_doc:attributes(Doc1, Node1),
+                          Doc2, xqldb_doc:attributes(Doc2, Node2), Collation)
+            andalso
+         begin
+            Nodes1 = get_comparable_child_nodes(Doc1, Node1),
+            Nodes2 = get_comparable_child_nodes(Doc2, Node2),
+%?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
             length(Nodes1) == length(Nodes2)
                andalso
             lists:all(fun({Ci1,Ci2}) ->
@@ -1142,44 +1208,42 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
                       end, lists:zip(Nodes1, Nodes2))
          end;
       Type1 == attribute andalso Type2 == attribute ->
-         Name1 = xqerl_xdm:dm_node_name(Doc1, Node1),
-         Name2 = xqerl_xdm:dm_node_name(Doc2, Node2),
-         %?dbg("Name1",Name1),
-         %?dbg("Name2",Name2),
-         Name1 == Name2
+         Name1 = xqldb_doc:node_name(Doc1, Node1),
+         Name2 = xqldb_doc:node_name(Doc2, Node2),
+%?dbg("{Name1,Name2}",{Name1,Name2}),
+         names_equal(Name1,Name2)
             andalso
          begin
             Val1 = xqerl_lib:decode_string(
-                     xqerl_xdm:dm_string_value(Doc1, Node1)),
+                     xqldb_doc:string_value(Doc1, Node1)),
             Val2 = xqerl_lib:decode_string(
-                     xqerl_xdm:dm_string_value(Doc2, Node2)),
-            %?dbg("Val1",Val1),
-            %?dbg("Val2",Val2),
+                     xqldb_doc:string_value(Doc2, Node2)),
+%?dbg("{Val1,Val2}",{Val1,Val2}),
             xqerl_operators:equal(?str(Val1),
                                   ?str(Val2),Collation) == ?bool(true)
          end;
       Type1 == text andalso Type2 == text ->
-         Val1 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc1, Node1)),
-         Val2 = xqerl_lib:decode_string(xqerl_xdm:dm_string_value(Doc2, Node2)),
+         Val1 = xqerl_lib:decode_string(xqldb_doc:string_value(Doc1, Node1)),
+         Val2 = xqerl_lib:decode_string(xqldb_doc:string_value(Doc2, Node2)),
          xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
       Type1 == comment andalso Type2 == comment ->
-         Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),
-         Val2 = xqerl_xdm:dm_string_value(Doc2, Node2),
+         Val1 = xqldb_doc:string_value(Doc1, Node1),
+         Val2 = xqldb_doc:string_value(Doc2, Node2),
          xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
       Type1 == 'processing-instruction' andalso 
         Type2 == 'processing-instruction' ->
-         Name1 = xqerl_xdm:dm_node_name(Doc1, Node1),
-         Name2 = xqerl_xdm:dm_node_name(Doc2, Node2),
-         Name1 == Name2
+         Name1 = xqldb_doc:node_name(Doc1, Node1),
+         Name2 = xqldb_doc:node_name(Doc2, Node2),
+         names_equal(Name1,Name2)
             andalso
          begin
-            Val1 = xqerl_xdm:dm_string_value(Doc1, Node1),
-            Val2 = xqerl_xdm:dm_string_value(Doc2, Node2),
+            Val1 = xqldb_doc:string_value(Doc1, Node1),
+            Val2 = xqldb_doc:string_value(Doc2, Node2),
             xqerl_operators:equal(?str(Val1),?str(Val2)) == ?bool(true)
          end;
       Type1 == namespace andalso Type2 == namespace ->
-         Name1 = xqerl_xdm:dm_node_name(Doc1, Node1),
-         Name2 = xqerl_xdm:dm_node_name(Doc2, Node2),
+         Name1 = xqldb_doc:node_name(Doc1, Node1),
+         Name2 = xqldb_doc:node_name(Doc2, Node2),
          Name1 == Name2;
       true ->
          false
@@ -1187,12 +1251,6 @@ nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
 
 nodes_equal(#xqNode{} = N1,#xqNode{} = N1,_) ->
    ?bool(true);
-nodes_equal(#xqNode{doc = {doc,File}} = N1,#xqNode{} = N2,C) ->
-   Doc = ?get({doc,File}),
-   nodes_equal(N1#xqNode{doc = Doc},N2,C);
-nodes_equal(#xqNode{} = N2,#xqNode{doc = {doc,File}} = N1,C) ->
-   Doc = ?get({doc,File}),
-   nodes_equal(N2,N1#xqNode{doc = Doc},C);
 nodes_equal(#xqNode{doc = Doc1,node = Node1},
             #xqNode{doc = Doc2,node = Node2},Collation) ->
    Eq = nodes_equal(Doc1,Node1,Doc2,Node2,Collation),
@@ -1202,6 +1260,7 @@ nodes_equal(#xqNode{doc = Doc1,node = Node1},
 attributes_equal(_,[],_,[], _) -> 
    true;
 attributes_equal(Doc1,Atts1,Doc2,Atts2, Collation) ->
+%?dbg("{Atts1,Atts2}",{Atts1,Atts2}),
    length(Atts1) == length(Atts2) 
    andalso
    lists:all(
@@ -1213,10 +1272,10 @@ attributes_equal(Doc1,Atts1,Doc2,Atts2, Collation) ->
        end, Atts1).
 
 get_comparable_child_nodes(Doc,Node) ->
-   Children = xqerl_xdm:dm_children(Doc, Node),
+   Children = xqldb_doc:children(Doc, Node),
    [C ||
     C <- Children,
-    T <- [xqerl_xdm:dm_node_kind(Doc,C)],
+    T <- [xqldb_doc:node_kind(Doc,C)],
     T =/= comment,
     T =/= 'processing-instruction'].
 
@@ -1225,32 +1284,47 @@ to_xml(#xqError{} = E) ->
 to_xml(N) when is_list(N) ->
    M = combine_atomics(N,[]),
    lists:flatmap(fun to_xml/1,M);
-to_xml(#xqNode{doc = {doc,File}, node = Node}) ->
-   Doc = ?get({doc,File}),
-   to_xml(#xqNode{doc = Doc, node = Node});
 to_xml(#xqNode{doc = Doc, node = Node}) ->
-   {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-   to_xml(NewNode, NewDoc);
+   to_xml(Node, Doc);
+%% to_xml(#xqNode{doc = Doc, node = Node}) ->
+%%    {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
+%%    to_xml(NewNode, NewDoc);
 to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
 
+to_xml([Node], Doc) -> to_xml(Node, Doc);
 to_xml(Node, Doc) ->
-   NodeKind = xqerl_xdm:dm_node_kind(Doc, Node),
-   to_xml(NodeKind, Node, Doc).
+   NodeKind = xqldb_doc:node_kind(Doc, Node),
+   if NodeKind == element ->
+         to_xml(int_element, Node, Doc);
+      true ->
+         to_xml(NodeKind, Node, Doc)
+   end.
 
+%% to_xml(fragment, _, Doc) ->
+%%    Children = xqldb_doc:roots(Doc),
+%%    lists:flatmap(fun(Child) ->
+%%                        to_xml(Child, Doc)
+%%                  end, Children);
 to_xml(document, Node, Doc) ->
-   Children = xqerl_xdm:dm_children(Doc, Node),
+   Children = xqldb_doc:children(Doc, Node),
    lists:flatmap(fun(Child) ->
                        to_xml(Child, Doc)
                  end, Children);
-to_xml(element, Node, Doc) ->
-   {ElemNs,ElemLn} = xqerl_xdm:dm_node_name(Doc, Node),
-   Prefix  = xqerl_xdm:prefix(Doc, Node),
+to_xml(Element, Node, Doc) when Element == element;
+                                Element == int_element ->
+   {ElemNs,Prefix,ElemLn} = xqldb_doc:node_name(Doc, Node),
+   %?dbg("{ElemNs,Prefix,ElemLn}",{ElemNs,Prefix,ElemLn}),
    QName = #qname{namespace = ElemNs, prefix = Prefix, local_name = ElemLn},
 
-   Namespaces = xqerl_xdm:dm_namespace_nodes(Doc, Node),
-   Attributes = xqerl_xdm:dm_attributes(Doc, Node),
+   Namespaces = if Element == element ->
+                      xqldb_doc:namespace_nodes(Doc, Node);
+                   true ->
+                      xqldb_doc:inscope_namespace_nodes(Doc, Node)
+                end,
+   %?dbg("Namespaces",Namespaces),
+   Attributes = xqldb_doc:attributes(Doc, Node),
    
-   Children = xqerl_xdm:dm_children(Doc, Node),
+   Children = xqldb_doc:children(Doc, Node),
 
    NspStr = lists:flatmap(fun(Ns) ->
                                 %?dbg("Ns",Ns),
@@ -1261,7 +1335,7 @@ to_xml(element, Node, Doc) ->
                                 to_xml(attribute, Att, Doc)
                           end, Attributes),
    ChldStr = lists:flatmap(fun(C) ->
-                                 NodeKind = xqerl_xdm:dm_node_kind(Doc, C),
+                                 NodeKind = xqldb_doc:node_kind(Doc, C),
                                  to_xml(NodeKind,C,Doc)
                            end, Children),
    if ChldStr == [] ->
@@ -1271,14 +1345,13 @@ to_xml(element, Node, Doc) ->
            ChldStr ++ "</" ++ ser_qname(QName) ++ ">" 
    end;
 to_xml(attribute,Node, Doc) ->
-   StrV = xqerl_xdm:dm_string_value(Doc, Node),
-   {Ns,Ln} = xqerl_xdm:dm_node_name(Doc, Node),
-   Px = xqerl_xdm:prefix(Doc, Node),
+   StrV = xqldb_doc:string_value(Doc, Node),
+   {Ns,Px,Ln} = xqldb_doc:node_name(Doc, Node),
    QName = #qname{namespace = Ns, prefix = Px, local_name = Ln},
    " " ++ ser_qname(QName) ++ "=\"" ++ encode_att_text(StrV) ++ "\"";
 to_xml('processing-instruction',Node, Doc) ->
-   {_, Local} = xqerl_xdm:dm_node_name(Doc, Node),
-   Txt = encode_text(xqerl_xdm:dm_string_value(Doc, Node)),
+   {_,_,Local} = xqldb_doc:node_name(Doc, Node),
+   Txt = encode_text(xqldb_doc:string_value(Doc, Node)),
    if Txt == "" ->
          "<?" ++ Local ++ " ?>";
       true ->
@@ -1290,8 +1363,12 @@ to_xml(namespace,
        _Doc) ->
    if Px == "xml" ->
          "";
+      %Px == "", Ns == []; % this is a reset
+      Px == "", Ns == 'no-namespace' ->
+         "";
       true ->
-         Ns1 = if Ns == 'undefined';
+         Ns1 = if Ns == [];
+                  Ns == 'undefined';
                   Ns == 'no-namespace' ->
                      "";
                   true ->
@@ -1305,19 +1382,18 @@ to_xml(namespace,
          end ++ "=\"" ++ Ns1 ++ "\""
    end;
 to_xml(namespace,Node, Doc) ->
-   Ns = xqerl_xdm:dm_string_value(Doc, Node),
-   Px = case xqerl_xdm:dm_node_name(Doc, Node) of
-           {_,Px1} ->
-              Px1;
-           [] ->
-              []
-        end,
+   {Ns,_,Ln} = case xqldb_doc:name(Doc, Node) of
+                  {Ns1,_,Ln1} ->
+                     {Ns1,[],Ln1};
+                  [] ->
+                     {[],[],[]}
+               end,
    to_xml(namespace,#xqNamespaceNode{name = #qname{namespace = Ns, 
-                                                   prefix = Px}}, Doc);
+                                                   prefix = Ln}}, Doc);
 to_xml(comment, Node, Doc) ->
-   "<!--" ++ xqerl_xdm:dm_string_value(Doc, Node) ++ "-->";
+   "<!--" ++ xqldb_doc:string_value(Doc, Node) ++ "-->";
 to_xml(text,Node, Doc) ->
-   encode_text(xqerl_xdm:dm_string_value(Doc, Node)).
+   encode_text(xqldb_doc:string_value(Doc, Node)).
 
 combine_atomics([], Acc) ->
    lists:reverse(Acc);
@@ -1342,6 +1418,7 @@ encode_text([H|Tail]) when H >= 255 ->
 encode_text([H|Tail]) ->
    [H|encode_text(Tail)].
 
+encode_att_text({_,T}) -> encode_att_text(T);
 encode_att_text([]) ->
    [];
 encode_att_text([H|Tail]) when H >= 255;
@@ -1385,6 +1462,8 @@ check_computed_namespaces(NameSpaceNodes) ->
    if length(Unique) =/= length(Prefixes) ->
          ?err('XQDY0102');
       true ->
+         %?dbg("NameSpaceNodes",NameSpaceNodes),
+         %?dbg("Namespaces",Namespaces),
          F = fun({"xml",Ns}) 
                    when Ns =/= "http://www.w3.org/XML/1998/namespace" ->
                    ?err('XQDY0101');
@@ -1395,6 +1474,8 @@ check_computed_namespaces(NameSpaceNodes) ->
                    ?err('XQDY0101');
                 ({_,"http://www.w3.org/2000/xmlns/"}) ->
                    ?err('XQDY0101');
+                ({"",""}) ->
+                   ok;
                 ({_,""}) ->
                    ?err('XQDY0101');
                 (_) ->
@@ -1441,251 +1522,441 @@ check_computed_default_override(#qname{namespace = 'no-namespace'},
    end;
 check_computed_default_override(_, _) -> ok.
 
-% return a list
-node_to_content(#xqNode{doc = {doc,File}, node = Node}) ->
-   Doc = ?get({doc,File}),
-   node_to_content(#xqNode{doc = Doc, node = Node});
-node_to_content(#xqNode{doc = Doc, node = Node}) ->
-   {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-   Content = node_to_content(NewDoc,NewNode),
+node_to_content(#xqNode{doc = DocPid, node = N}) when is_pid(DocPid) ->
+   F = fun(Doc) ->
+             fun O([]) -> [];
+                 O(Node) when not is_list(Node) -> O([Node]);
+                 O(Node) ->
+      case xqldb_xdm:node_kind(Doc, Node) of
+        [fragment] ->
+           Namespaces = lists:map(O, xqldb_xdm:namespaces(Doc, hd(Node))),
+           Attributes = lists:map(O, xqldb_xdm:attributes(Doc, hd(Node))),
+           Children   = lists:map(O, xqldb_xdm:children(Doc, hd(Node))),
+           Namespaces ++ Attributes ++ Children;
+        [document] ->
+           lists:map(O, xqldb_xdm:children(Doc, hd(Node)));
+        [element] ->
+           Namespaces = lists:map(O, xqldb_xdm:namespaces(Doc, hd(Node))),
+           Attributes = lists:map(O, xqldb_xdm:attributes(Doc, hd(Node))),
+           Children   = lists:map(O, xqldb_xdm:children(Doc, hd(Node))),
+           [{Namespace,Prefix,LocalName}] = xqldb_xdm:node_name(Doc, Node),
+           #xqElementNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
+                                        prefix = Prefix, 
+                                        local_name = LocalName},
+                          attributes = Namespaces, 
+                          children = [], 
+                          expr = Attributes ++ Children};
+        [namespace] ->
+           [{Uri,_,Prefix}] = xqldb_xdm:name(Doc, Node),
+           #xqNamespaceNode{name = #qname{namespace = Uri, prefix = Prefix}};
+        [attribute] ->
+           [{Namespace,Prefix,LocalName}] = xqldb_xdm:node_name(Doc, Node),
+           [Value] = xqldb_xdm:string_value(Doc, Node),
+           #xqAttributeNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
+                                          prefix = Prefix, 
+                                          local_name = LocalName},
+                            expr = ?untyp(Value)};
+        [comment] ->
+           [Value] = xqldb_xdm:string_value(Doc, Node),
+           #xqCommentNode{expr = ?str(Value)};
+        [text] ->
+           [Value] = xqldb_xdm:string_value(Doc, Node),
+           #xqTextNode{expr = ?untyp(Value)};
+        ['processing-instruction'] ->
+           [{Namespace,_,LocalName}] = xqldb_xdm:node_name(Doc, Node),
+           [Value] = xqldb_xdm:string_value(Doc, Node),
+           #xqProcessingInstructionNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
+                                                      local_name = LocalName},
+                                        expr = ?str(Value)}
+     end
+             end(N)
+       end,
+   Content = xqldb_doc:run(DocPid, F),
    if is_list(Content) ->
          Content;
       true ->
          [Content]
    end.
 
-%TODO split to funs
-node_to_content(Doc,Node) ->
-   case xqerl_xdm:dm_node_kind(Doc, Node) of
-     document ->
-      Fun = fun(N) ->
-                  node_to_content(Doc, N)
-            end,
-        lists:map(Fun, xqerl_xdm:dm_children(Doc, Node));
-     element ->
-      Fun = fun(N) ->
-                  node_to_content(Doc, N)
-            end,
-        Namespaces = lists:map(Fun, xqerl_xdm:dm_namespace_nodes(Doc, Node)),
-        Attributes = lists:map(Fun, xqerl_xdm:dm_attributes(Doc, Node)),
-        Children   = lists:map(Fun, xqerl_xdm:dm_children(Doc, Node)),
-        {Namespace,LocalName} = xqerl_xdm:dm_node_name(Doc, Node),
-        Prefix = xqerl_xdm:prefix(Doc, Node),
-        #xqElementNode{name = #qname{namespace = Namespace, 
-                                     prefix = Prefix, 
-                                     local_name = LocalName},
-                       attributes = Namespaces, 
-                       children = [], 
-                       expr = Attributes ++ Children};
-     namespace ->
-        Prefix = case xqerl_xdm:dm_node_name(Doc, Node) of
-                    [] ->
-                       [];
-                    {_,Pr} ->
-                       Pr
-                 end,
-        Uri        = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqNamespaceNode{name = #qname{namespace = Uri, prefix = Prefix}};
-     attribute ->
-        {Namespace,LocalName} = xqerl_xdm:dm_node_name(Doc, Node),
-        Prefix = if Namespace == 'no-namespace' ->
-                       [];
-                    true ->
-                       xqerl_xdm:prefix(Doc, Node)
-                 end,
-        Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqAttributeNode{name = #qname{namespace = Namespace, 
-                                       prefix = Prefix, 
-                                       local_name = LocalName},
-                         expr = ?untyp(Value)};
-     comment ->
-        Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqCommentNode{expr = ?str(Value)};
-     text ->
-        Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqTextNode{expr = ?untyp(Value)};
-     'processing-instruction' ->
-        {Namespace,LocalName} = xqerl_xdm:dm_node_name(Doc, Node),
-        Value = xqerl_xdm:dm_string_value(Doc, Node),
-        #xqProcessingInstructionNode{name = #qname{namespace = Namespace, 
-                                                   local_name = LocalName},
-                                     expr = ?str(Value)}
-  end.
+maybe_ns_to_atom("") -> 'no-namespace';
+maybe_ns_to_atom(O) -> O.
+  
+
+%% node_to_content(Doc,Node) ->
+%%    case xqldb_doc:node_kind(Doc, Node) of
+%%      document ->
+%%       Fun = fun(N) ->
+%%                   node_to_content(Doc, N)
+%%             end,
+%%         lists:map(Fun, xqldb_doc:children(Doc, Node));
+%%      element ->
+%%       Fun = fun(N) ->
+%%                   node_to_content(Doc, N)
+%%             end,
+%%         Namespaces = lists:map(Fun, xqldb_doc:namespace_nodes(Doc, Node)),
+%%         Attributes = lists:map(Fun, xqldb_doc:attributes(Doc, Node)),
+%%         Children   = lists:map(Fun, xqldb_doc:children(Doc, Node)),
+%%         {Namespace,LocalName} = xqldb_doc:node_name(Doc, Node),
+%%         Prefix = xqerl_xdm:prefix(Doc, Node),
+%%         #xqElementNode{name = #qname{namespace = Namespace, 
+%%                                      prefix = Prefix, 
+%%                                      local_name = LocalName},
+%%                        attributes = Namespaces, 
+%%                        children = [], 
+%%                        expr = Attributes ++ Children};
+%%      namespace ->
+%%         Prefix = case xqldb_doc:node_name(Doc, Node) of
+%%                     [] ->
+%%                        [];
+%%                     {_,Pr} ->
+%%                        Pr
+%%                  end,
+%%         Uri        = xqldb_doc:string_value(Doc, Node),
+%%         #xqNamespaceNode{name = #qname{namespace = Uri, prefix = Prefix}};
+%%      attribute ->
+%%         {Namespace,LocalName} = xqldb_doc:node_name(Doc, Node),
+%%         Prefix = if Namespace == 'no-namespace' ->
+%%                        [];
+%%                     true ->
+%%                        xqerl_xdm:prefix(Doc, Node)
+%%                  end,
+%%         Value = xqldb_doc:string_value(Doc, Node),
+%%         #xqAttributeNode{name = #qname{namespace = Namespace, 
+%%                                        prefix = Prefix, 
+%%                                        local_name = LocalName},
+%%                          expr = ?untyp(Value)};
+%%      comment ->
+%%         Value = xqldb_doc:string_value(Doc, Node),
+%%         #xqCommentNode{expr = ?str(Value)};
+%%      text ->
+%%         Value = xqldb_doc:string_value(Doc, Node),
+%%         #xqTextNode{expr = ?untyp(Value)};
+%%      'processing-instruction' ->
+%%         {Namespace,LocalName} = xqldb_doc:node_name(Doc, Node),
+%%         Value = xqldb_doc:string_value(Doc, Node),
+%%         #xqProcessingInstructionNode{name = #qname{namespace = Namespace, 
+%%                                                    local_name = LocalName},
+%%                                      expr = ?str(Value)}
+%%   end.
 
 
-%% XML doc is a map: #{file  => DocumentUri,- URI from the document during loading, doc-store lookup key
-%%                     base  => BaseUri,    - Base URI for the document. can be different than Doc URI, e.g. set in query, also overridden by xml:base
-%%                     names => NCNames,    - map of string() to integer(), key is the NCName, value is NAME ID below
-%%                     namsp => Namespaces, - map of string() to integer(), key is the URI, value is NSP ID below
-%%                     texts => TextValues, - map of integer() to string(), key is the 'Text Reference' ID below, value is the text
-%%                     nodes => NodeBinary  - positional binary of 16 bytes with the following layout
-%%                    }
+%% %% XML doc is a map: #{file  => DocumentUri,- URI from the document during loading, doc-store lookup key
+%% %%                     base  => BaseUri,    - Base URI for the document. can be different than Doc URI, e.g. set in query, also overridden by xml:base
+%% %%                     names => NCNames,    - map of string() to integer(), key is the NCName, value is NAME ID below
+%% %%                     namsp => Namespaces, - map of string() to integer(), key is the URI, value is NSP ID below
+%% %%                     texts => TextValues, - map of integer() to string(), key is the 'Text Reference' ID below, value is the text
+%% %%                     nodes => NodeBinary  - positional binary of 16 bytes with the following layout
+%% %%                    }
+%% 
+%% % return #xqNode{}
+%% build_xqnode(#{'base-uri' := BaseUri}, FragId, Nodes) ->
+%%    State = #{file => FragId,
+%%              base => xqerl_types:value(BaseUri),
+%%              names => #{},
+%%              namsp => #{},
+%%              texts => #{},
+%%              nodes => #{} % map first then binary
+%%             },
+%%    Size = maps:size(Nodes) -1,
+%%    NodeList = lists:map(fun(I) ->
+%%                               maps:get(I, Nodes)
+%%                         end, lists:seq(1, Size)),
+%%    build_xqnode(State, NodeList).
+%% 
+%% build_xqnode(#{nodes := Nodes} = State, []) ->
+%%    NewNodes = map_to_bin(Nodes),
+%%    Doc1 = add_text_lookup(State),
+%%    Doc2 = Doc1#{nodes := NewNodes},
+%%    #xqNode{doc = Doc2, node = xqerl_xdm:root(Doc2)};
+%% build_xqnode(State, [#xqDocumentNode{identity = Id, 
+%%                                      desc_count = Size}|List]) ->
+%%    Bin = xqerl_xdm:document_node(Size, Id),
+%%    State1 = add_node_to_map(State, Id, Bin),
+%%    build_xqnode(State1, List);
+%% % TODO need att/ns count
+%% build_xqnode(State, [#xqElementNode{identity = Id, 
+%%                                     desc_count = Size, 
+%%                                     parent_node = Par, 
+%%                                     name = #qname{namespace = Ns, 
+%%                                                   local_name = Ln}}|List]) ->
+%%    AtNsSize = 31,
+%%    {NsId,State1} = get_namespace_id(State, Ns),
+%%    {LnId,State2} = get_local_name_id(State1, Ln),
+%%    Offset = Id - Par,
+%%    Bin = xqerl_xdm:element_node(AtNsSize, NsId, LnId, Offset, Size, Id),
+%%    State3 = add_node_to_map(State2, Id, Bin),
+%%    build_xqnode(State3, List);
+%% build_xqnode(State, [#xqNamespaceNode{identity = Id, 
+%%                                       parent_node = Par, 
+%%                                       name = #qname{namespace = Ns, 
+%%                                                     prefix = Ln}}|List]) ->
+%%    {NsId,State1} = get_namespace_id(State, Ns),
+%%    {LnId,State2} = get_local_name_id(State1, Ln),
+%%    Offset = Id - Par,
+%%    Bin = xqerl_xdm:namespace_node(NsId, LnId, Offset, Id),
+%%    State3 = add_node_to_map(State2, Id, Bin),
+%%    build_xqnode(State3, List);
+%% % special case of stand-alone attribute with namespace
+%% build_xqnode(State, [#xqAttributeNode{identity = 1, 
+%%                                       name = #qname{namespace = Ns, 
+%%                                                     prefix = Px, 
+%%                                                     local_name = Ln}, 
+%%                                       expr = Val}|List]) 
+%%    when Ns =/= 'no-namespace' ->
+%%    Value = xqerl_types:string_value(Val),
+%%    {TId,State1} = get_text_id(State, Value),
+%%    {NsId,State2} = get_namespace_id(State1, Ns),
+%%    {LnId,State3} = get_local_name_id(State2, Ln),
+%%    {PxId,State4} = get_local_name_id(State3, Px),
+%%    Offset = 0,
+%%    Bin1 = xqerl_xdm:namespace_node(NsId, PxId, 0, 1),
+%%    IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
+%%                Ln == "id" -> 1;
+%%              true -> 0
+%%           end,
+%%    Bin2 = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, 2),
+%%    State5 = add_node_to_map(State4, 1, Bin1),
+%%    State6 = add_node_to_map(State5, 2, Bin2),
+%%    build_xqnode(State6, List);
+%% build_xqnode(State, [#xqAttributeNode{identity = Id, 
+%%                                       parent_node = Par, 
+%%                                       name = #qname{namespace = Ns, 
+%%                                                     local_name = Ln}, 
+%%                                       expr = Val}|List]) ->
+%%    Value = xqerl_types:string_value(Val),
+%%    {TId,State1} = get_text_id(State, Value),
+%%    {NsId,State2} = get_namespace_id(State1, Ns),
+%%    {LnId,State3} = get_local_name_id(State2, Ln),
+%%    Offset = Id - Par,
+%%    IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
+%%                Ln == "id" -> 1;
+%%              true -> 0
+%%           end,
+%%    Bin = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, Id),
+%%    State4 = add_node_to_map(State3, Id, Bin),
+%%    build_xqnode(State4, List);
+%% build_xqnode(State, [#xqTextNode{identity = Id, 
+%%                                  parent_node = Par, 
+%%                                  expr = Val}|List]) ->
+%%    Value = xqerl_types:string_value(Val),
+%%    {TId,State1} = get_text_id(State, Value),
+%%    Offset = Id - Par,
+%%    Bin = xqerl_xdm:text_node(TId, Offset, Id),
+%%    State2 = add_node_to_map(State1, Id, Bin),
+%%    build_xqnode(State2, List);
+%% build_xqnode(State, [#xqCommentNode{identity = Id, 
+%%                                     parent_node = Par, 
+%%                                     expr = Val}|List]) ->
+%%    Value = xqerl_types:string_value(Val),
+%%    {TId,State1} = get_text_id(State, Value),
+%%    Offset = Id - Par,
+%%    Bin = xqerl_xdm:comment_node(TId, Offset, Id),
+%%    State2 = add_node_to_map(State1, Id, Bin),
+%%    build_xqnode(State2, List);
+%% build_xqnode(State, [#xqProcessingInstructionNode{identity = Id, 
+%%                                                   parent_node = Par, 
+%%                                                   name = 
+%%                                                     #qname{local_name = Ln}, 
+%%                                                   expr = Val}|List]) ->
+%%    Value = xqerl_types:string_value(Val),
+%%    {TId,State1} = get_text_id(State, Value),
+%%    {LnId,State2} = get_local_name_id(State1, Ln),
+%%    {NsId,State3} = get_namespace_id(State2, 'no-namespace'),
+%%    Offset = Id - Par,
+%%    Bin = xqerl_xdm:pi_node(NsId,LnId, TId, Offset, Id),
+%%    State4 = add_node_to_map(State3, Id, Bin),
+%%    build_xqnode(State4, List).  
+%% 
+%% %% from xqerl_doc
+%% 
+%% get_local_name_id(#{names := Names} = State, Val) ->
+%%    case maps:find(Val, Names) of
+%%       {ok, Id} ->
+%%          {Id,State};
+%%       error ->
+%%          Cnt = maps:size(Names) + 1,
+%%          NewNames = maps:put(Val, Cnt, Names),
+%%          {Cnt, State#{names := NewNames}}
+%%    end.
+%% 
+%% get_namespace_id(#{namsp := Names} = State, Val) ->
+%%    case maps:find(Val, Names) of
+%%       {ok, Id} ->
+%%          {Id,State};
+%%       error ->
+%%          Cnt = maps:size(Names) + 1,
+%%          NewNames = maps:put(Val, Cnt, Names),
+%%          {Cnt, State#{namsp := NewNames}}
+%%    end.
+%% 
+%% get_text_id(#{texts := Names} = State, Val) ->
+%%    case maps:find(Val, Names) of
+%%       {ok, Id} ->
+%%          {Id,State};
+%%       error ->
+%%          Cnt = maps:size(Names) + 1,
+%%          NewNames = maps:put(Val, Cnt, Names),
+%%          {Cnt, State#{texts := NewNames}}
+%%    end.
+%% 
+%% %% map with position => node
+%% map_to_bin(Map) ->
+%%    SKeys = lists:seq(1,maps:size(Map)),
+%%    List = lists:map(fun(Key) ->
+%%                         maps:get(Key, Map)
+%%                     end, SKeys),
+%%    erlang:iolist_to_binary(List).
+%% 
+%% add_text_lookup(#{texts := Texts} = Doc) ->
+%%    F = fun(K,V,AccIn) -> AccIn#{V => K} end,
+%%    TextLu = maps:fold(F,#{},Texts),
+%%    Doc#{texts := TextLu}.
+%% 
+%% add_node_to_map(#{nodes := Nodes} = State, Id, Bin) ->
+%%    Nodes2 = maps:put(Id, Bin, Nodes),
+%%    State#{nodes := Nodes2}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+split_1(Ids,NodeMap) ->
+   split_1(Ids,NodeMap,{[],[],[]}).
+
+split_1([],_,{Ns,At,Ch}) ->
+   {Ns,At,Ch};
+split_1([H|T],NodeMap,{Ns,At,Ch}) ->
+   case maps:get(H, NodeMap) of
+      #xqNamespaceNode{name = #qname{prefix = "xml"}} ->
+         split_1(T,NodeMap,{Ns,At,Ch});
+      #xqNamespaceNode{} = N ->
+         split_1(T,NodeMap,{[N|Ns],At,Ch});
+      #xqAttributeNode{} = N ->
+         split_1(T,NodeMap,{Ns,[N|At],Ch});
+      _ ->
+         {Ns,At,[H|T]}
+   end.
+     
+
+
 
 % return #xqNode{}
-build_xqnode(#{'base-uri' := BaseUri}, FragId, Nodes) ->
-   State = #{file => FragId,
-             base => xqerl_types:value(BaseUri),
-             names => #{},
-             namsp => #{},
-             texts => #{},
-             nodes => #{} % map first then binary
-            },
-   Size = maps:size(Nodes) -1,
-   NodeList = lists:map(fun(I) ->
-                              maps:get(I, Nodes)
-                        end, lists:seq(1, Size)),
-   build_xqnode(State, NodeList).
+build_sax(#{'base-uri' := BaseUri}, % add base-uri as xml:base on document
+          #{0 := #xqXmlFragment{children = Roots}} = Nodes) ->
+   %?dbg("BaseUri",BaseUri),
+   DeepList = lists:map(fun(C) ->
+                              build_sax(C,Nodes,[])
+                        end, Roots),
+   %?dbg("Roots",maps:get(hd(Roots),Nodes)),
+   FlatList = case maps:get(hd(Roots),Nodes) of
+                 #xqDocumentNode{} ->
+                    lists:flatten([base_uri_att(BaseUri)|DeepList]);
+                 #xqTextNode{} -> % no base uri
+                    lists:flatten([startFragment,DeepList,endFragment]);
+                 #xqNamespaceNode{} -> % no base uri
+                    lists:flatten([startFragment,DeepList,endFragment]);
+                 #xqProcessingInstructionNode{} -> % no base uri
+                    lists:flatten([startFragment,DeepList,endFragment]);
+                 #xqCommentNode{} -> % no base uri
+                    lists:flatten([startFragment,DeepList,endFragment]);
+                 #xqAttributeNode{name = #qname{prefix = Px, 
+                                                local_name = Ln}}
+                    when Px =/= "xml" andalso Ln =/= "base" -> % no base uri
+                    lists:flatten([startFragment,DeepList,endFragment]);
+                 _ ->
+                    lists:flatten([startFragment,base_uri_att(BaseUri),
+                                   DeepList,endFragment])
+              end,
+   %?dbg("FlatList",FlatList),
+   {[],FlatList}.
+   %{xqerl_types:string_value(BaseUri),FlatList}.
 
-build_xqnode(#{nodes := Nodes} = State, []) ->
-   NewNodes = map_to_bin(Nodes),
-   Doc1 = add_text_lookup(State),
-   Doc2 = Doc1#{nodes := NewNodes},
-   #xqNode{doc = Doc2, node = xqerl_xdm:root(Doc2)};
-build_xqnode(State, [#xqDocumentNode{identity = Id, 
-                                     desc_count = Size}|List]) ->
-   Bin = xqerl_xdm:document_node(Size, Id),
-   State1 = add_node_to_map(State, Id, Bin),
-   build_xqnode(State1, List);
-% TODO need att/ns count
-build_xqnode(State, [#xqElementNode{identity = Id, 
-                                    desc_count = Size, 
-                                    parent_node = Par, 
-                                    name = #qname{namespace = Ns, 
-                                                  local_name = Ln}}|List]) ->
-   AtNsSize = 31,
-   {NsId,State1} = get_namespace_id(State, Ns),
-   {LnId,State2} = get_local_name_id(State1, Ln),
-   Offset = Id - Par,
-   Bin = xqerl_xdm:element_node(AtNsSize, NsId, LnId, Offset, Size, Id),
-   State3 = add_node_to_map(State2, Id, Bin),
-   build_xqnode(State3, List);
-build_xqnode(State, [#xqNamespaceNode{identity = Id, 
-                                      parent_node = Par, 
-                                      name = #qname{namespace = Ns, 
-                                                    prefix = Ln}}|List]) ->
-   {NsId,State1} = get_namespace_id(State, Ns),
-   {LnId,State2} = get_local_name_id(State1, Ln),
-   Offset = Id - Par,
-   Bin = xqerl_xdm:namespace_node(NsId, LnId, Offset, Id),
-   State3 = add_node_to_map(State2, Id, Bin),
-   build_xqnode(State3, List);
-% special case of stand-alone attribute with namespace
-build_xqnode(State, [#xqAttributeNode{identity = 1, 
-                                      name = #qname{namespace = Ns, 
-                                                    prefix = Px, 
-                                                    local_name = Ln}, 
-                                      expr = Val}|List]) 
-   when Ns =/= 'no-namespace' ->
-   Value = xqerl_types:string_value(Val),
-   {TId,State1} = get_text_id(State, Value),
-   {NsId,State2} = get_namespace_id(State1, Ns),
-   {LnId,State3} = get_local_name_id(State2, Ln),
-   {PxId,State4} = get_local_name_id(State3, Px),
-   Offset = 0,
-   Bin1 = xqerl_xdm:namespace_node(NsId, PxId, 0, 1),
-   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
-               Ln == "Id" -> 1;
-             true -> 0
-          end,
-   Bin2 = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, 2),
-   State5 = add_node_to_map(State4, 1, Bin1),
-   State6 = add_node_to_map(State5, 2, Bin2),
-   build_xqnode(State6, List);
-build_xqnode(State, [#xqAttributeNode{identity = Id, 
-                                      parent_node = Par, 
-                                      name = #qname{namespace = Ns, 
-                                                    local_name = Ln}, 
-                                      expr = Val}|List]) ->
-   Value = xqerl_types:string_value(Val),
-   {TId,State1} = get_text_id(State, Value),
-   {NsId,State2} = get_namespace_id(State1, Ns),
-   {LnId,State3} = get_local_name_id(State2, Ln),
-   Offset = Id - Par,
-   IsId = if Ns == "http://www.w3.org/XML/1998/namespace" andalso 
-               Ln == "Id" -> 1;
-             true -> 0
-          end,
-   Bin = xqerl_xdm:attribute_node(NsId, LnId, TId, IsId, Offset, Id),
-   State4 = add_node_to_map(State3, Id, Bin),
-   build_xqnode(State4, List);
-build_xqnode(State, [#xqTextNode{identity = Id, 
-                                 parent_node = Par, 
-                                 expr = Val}|List]) ->
-   Value = xqerl_types:string_value(Val),
-   {TId,State1} = get_text_id(State, Value),
-   Offset = Id - Par,
-   Bin = xqerl_xdm:text_node(TId, Offset, Id),
-   State2 = add_node_to_map(State1, Id, Bin),
-   build_xqnode(State2, List);
-build_xqnode(State, [#xqCommentNode{identity = Id, 
-                                    parent_node = Par, 
-                                    expr = Val}|List]) ->
-   Value = xqerl_types:string_value(Val),
-   {TId,State1} = get_text_id(State, Value),
-   Offset = Id - Par,
-   Bin = xqerl_xdm:comment_node(TId, Offset, Id),
-   State2 = add_node_to_map(State1, Id, Bin),
-   build_xqnode(State2, List);
-build_xqnode(State, [#xqProcessingInstructionNode{identity = Id, 
-                                                  parent_node = Par, 
-                                                  name = 
-                                                    #qname{local_name = Ln}, 
-                                                  expr = Val}|List]) ->
-   Value = xqerl_types:string_value(Val),
-   {TId,State1} = get_text_id(State, Value),
-   {LnId,State2} = get_local_name_id(State1, Ln),
-   {NsId,State3} = get_namespace_id(State2, 'no-namespace'),
-   Offset = Id - Par,
-   Bin = xqerl_xdm:pi_node(NsId,LnId, TId, Offset, Id),
-   State4 = add_node_to_map(State3, Id, Bin),
-   build_xqnode(State4, List).  
-
-%% from xqerl_doc
-
-get_local_name_id(#{names := Names} = State, Val) ->
-   case maps:find(Val, Names) of
-      {ok, Id} ->
-         {Id,State};
-      error ->
-         Cnt = maps:size(Names) + 1,
-         NewNames = maps:put(Val, Cnt, Names),
-         {Cnt, State#{names := NewNames}}
+build_sax(Num, NodeMap,NsInUse) ->
+   case maps:get(Num, NodeMap) of
+      %
+      #xqAttributeNode{} = At ->
+         [A] = attribute_list([At]),
+         [{attribute,A}];
+      #xqNamespaceNode{} = Ns ->
+         {[{startPrefixMapping, P, U}],_} = namespace_mappings([Ns]),
+         [{namespace, P, U}];
+      #xqDocumentNode{children = Ch} ->
+         CF = fun(C) -> build_sax(C, NodeMap,NsInUse) end,
+         [startDocument,
+          lists:map(CF, Ch),
+          endDocument];
+      #xqProcessingInstructionNode{name = #qname{local_name = Ln},
+                                   expr = Val} ->
+         Value = xqerl_types:string_value(Val),
+         {processingInstruction, Ln, Value};
+      #xqCommentNode{expr = Val} ->
+         Value = xqerl_types:string_value(Val),
+         {comment, Value};
+      #xqTextNode{expr = Val} ->
+         Value = xqerl_types:string_value(Val),
+         {characters, Value};
+      #xqElementNode{name = #qname{namespace = ENs,
+                                   prefix = Px,
+                                   local_name = ELn},
+                     %inscope_ns = Is,
+                     children = AllCh} ->
+         {Ns,At,Ch} = split_1(AllCh,NodeMap),
+         {NsStart,NsEnd} = namespace_mappings(Ns),
+         AttList = attribute_list(At),
+         % check for new namespace by declaration, any unused in-scope if to be copied
+         CF = fun(C) -> build_sax(C, NodeMap,NsInUse) end,
+         [NsStart,
+          {startElement, fix_ns(ENs), ELn, {Px,ELn}, AttList},
+          lists:map(CF, Ch),
+          {endElement, fix_ns(ENs), ELn, {Px,ELn}},
+          NsEnd]
    end.
+%% %{startElement, Uri, LocalName, QualifiedName, Attributes}
+%% %[{Uri, Prefix, AttributeName, Value}]
+%% %{endElement, Uri, LocalName, QualifiedName}
 
-get_namespace_id(#{namsp := Names} = State, Val) ->
-   case maps:find(Val, Names) of
-      {ok, Id} ->
-         {Id,State};
-      error ->
-         Cnt = maps:size(Names) + 1,
-         NewNames = maps:put(Val, Cnt, Names),
-         {Cnt, State#{namsp := NewNames}}
-   end.
 
-get_text_id(#{texts := Names} = State, Val) ->
-   case maps:find(Val, Names) of
-      {ok, Id} ->
-         {Id,State};
-      error ->
-         Cnt = maps:size(Names) + 1,
-         NewNames = maps:put(Val, Cnt, Names),
-         {Cnt, State#{texts := NewNames}}
-   end.
+%% %{startPrefixMapping, Prefix, Uri}
+%% %{endPrefixMapping, Prefix}
+namespace_mappings(List) ->
+   S = lists:map(fun(#xqNamespaceNode{name = #qname{namespace = Ns,
+                                                    prefix = Ln}}) ->
+                       {startPrefixMapping, Ln, fix_ns(Ns)};
+                    (#xqNamespace{namespace = Ns, prefix = Ln}) ->
+                       {startPrefixMapping, Ln, fix_ns(Ns)}
+                 end, List),
+   E = lists:map(fun(#xqNamespaceNode{name = #qname{prefix = Ln}}) ->
+                       {endPrefixMapping, Ln};
+                    (#xqNamespace{prefix = Ln}) ->
+                       {endPrefixMapping, Ln}
+                 end, List),
+   {lists:usort(S),
+    lists:usort(E)}.
 
-%% map with position => node
-map_to_bin(Map) ->
-   SKeys = lists:seq(1,maps:size(Map)),
-   List = lists:map(fun(Key) ->
-                        maps:get(Key, Map)
-                    end, SKeys),
-   erlang:iolist_to_binary(List).
+%% [{Uri, Prefix, AttributeName, Value}]
+attribute_list(List) ->
+   lists:map(fun(#xqAttributeNode{name = #qname{namespace = Ns,
+                                                prefix = Px, 
+                                                local_name = Ln},
+                                  expr = Val}) ->
+                   Value = xqerl_types:string_value(Val),
+                   {fix_ns(Ns), Px, Ln, Value}
+             end, List).
 
-add_text_lookup(#{texts := Texts} = Doc) ->
-   F = fun(K,V,AccIn) -> AccIn#{V => K} end,
-   TextLu = maps:fold(F,#{},Texts),
-   Doc#{texts := TextLu}.
+base_uri_att(#xqAtomicValue{value = []}) ->
+   [];
+base_uri_att(#xqAtomicValue{value = Uri}) ->
+   {attribute,{"http://www.w3.org/XML/1998/namespace", 
+    "xml", "base", Uri}}.
 
-add_node_to_map(#{nodes := Nodes} = State, Id, Bin) ->
-   Nodes2 = maps:put(Id, Bin, Nodes),
-   State#{nodes := Nodes2}.
-
+fix_ns('no-namespace') -> "";
+fix_ns(Other) -> Other.
+  

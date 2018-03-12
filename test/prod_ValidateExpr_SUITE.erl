@@ -94,7 +94,7 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
@@ -211,46 +211,10 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('orderData',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "OrderByClause/orderData.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
 {schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('ListUnionTypes',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('simplexsd',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -271,34 +235,10 @@ environment('works-mod',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('xq-e18xsd',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/xq-e18.xsd"),"http://www.example.com/ns/test/xq-e18"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
 {schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('constraints',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/constraints.xsd"),"http://www.w3.org/constraints"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -319,47 +259,11 @@ environment('staff',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('complexSimple',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/simpleContent.xsd"),"http://www.w3.org/query-test/complexSimple"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works-and-staff',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
 {filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
 {schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('hats',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('complexData',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -385,18 +289,6 @@ environment('auction',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('validate',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('qname',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
@@ -406,30 +298,6 @@ environment('qname',BaseDir) ->
 {params, []},
 {vars, []},
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
-{modules, []}
-];
-environment('user-defined-types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('abstract',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "ValidateExpr/AbstractType/obj.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "ValidateExpr/AbstractType/schema.xsd"),"http://myns"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
 {resources, []},
 {modules, []}
 ];
@@ -479,6 +347,138 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('orderData',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "OrderByClause/orderData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "OrderByClause/orderData.xsd"),"http://www.w3.org/XQueryTestOrderBy"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('ListUnionTypes',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/listunion.xsd"),"http://www.w3.org/XQueryTest/ListUnionTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('simplexsd',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('xq-e18xsd',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/xq-e18.xsd"),"http://www.example.com/ns/test/xq-e18"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('constraints',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/constraints.xsd"),"http://www.w3.org/constraints"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('complexSimple',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/simpleContent.xsd"),"http://www.w3.org/query-test/complexSimple"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('hats',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('complexData',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('validate',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../fn/nilled/validate.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/nilled/validate.xsd"),"http://www.w3.org/XQueryTest/testcases"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('user-defined-types',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('abstract',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "ValidateExpr/AbstractType/obj.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "ValidateExpr/AbstractType/schema.xsd"),"http://myns"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

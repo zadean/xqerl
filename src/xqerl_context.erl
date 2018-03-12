@@ -420,9 +420,9 @@ set_copy_namespaces_mode(Tab,Value) ->
    set(Tab, 'copy-namespaces-mode', Value).
 
 get_static_base_uri(Tab) ->
-   get(Tab, 'static-base-uri').
+   get(Tab, 'base-uri').
 set_static_base_uri(Tab, Value) ->
-   set(Tab, 'static-base-uri', Value).
+   set(Tab, 'base-uri', Value).
 
 get_statically_known_decimal_formats(Tab) ->
    get(Tab,'statically-known-decimal-formats').
@@ -811,22 +811,48 @@ add_default_static_values(Tab, RawCdt) ->
    Tab.
 
 %TODO annotations (private)
-get_module_exports(Imports) ->
+get_module_exports(Imports) when is_list(Imports) ->
    Acc = xqerl_module:get_static_signatures(),
-   try
-      lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
-                        {atomic,{Funs,Vars}} = xqerl_module:get_signatures(Ns),
-                        {atomic,Name} = xqerl_module:get_module_name(Ns),
-                        Props = Name:static_props(),
-                        %?dbg("{Funs,Vars}",{Funs,Vars}),
-                        FunsAcc1 = Funs ++ FunsAcc, 
-                        VarsAcc1 = Vars ++ VarsAcc,
-                        PropsAcc1 = Props ++ PropsAcc,
-                        {FunsAcc1,VarsAcc1,PropsAcc1}
-                  end, Acc, Imports)
-   catch
-      _:_ ->
-         ?err('XQST0059')
+   lists:foldl(fun({Ns,_Px}, {FunsAcc, VarsAcc, PropsAcc}) ->
+                     case xqerl_module:get_signatures(Ns) of
+                        {atomic,{Funs,Vars}} ->
+                           {atomic,Name} = xqerl_module:get_module_name(Ns),
+                           try
+                              Name:static_props()
+                           of 
+                              Props ->
+                                 %?dbg("{Funs,Vars}",{Funs,Vars}),
+                                 FunsAcc1 = Funs ++ FunsAcc, 
+                                 VarsAcc1 = Vars ++ VarsAcc,
+                                 PropsAcc1 = Props ++ PropsAcc,
+                                 {FunsAcc1,VarsAcc1,PropsAcc1}
+                           catch 
+                              _:_ ->
+                                 xqerl_error:error('XQST0059', 
+                                                 "Unknown ModNamespace", 
+                                                 Ns)
+                           end;
+                        {aborted,Error} ->
+                           {[],[],[Error]}
+                     end
+               end, Acc, Imports);
+get_module_exports({Ns,_Px}) ->
+   case xqerl_module:get_signatures(Ns) of
+      {atomic,{Funs,Vars}} ->
+         {atomic,Name} = xqerl_module:get_module_name(Ns),
+         try
+            Name:static_props()
+         of 
+            Props ->
+               {Funs,Vars,Props}
+         catch 
+            _:_ ->
+               xqerl_error:error('XQST0059', 
+                               "Unknown ModNamespace", 
+                               Ns)
+         end;
+      {aborted,Error} ->
+         {[],[],Error}
    end.
 
 import_functions(Functions,Tab) ->

@@ -72,7 +72,8 @@ sort_key([], _) ->
    <<>>;
 sort_key(Atom, _) when is_atom(Atom) ->
    Atom;
-
+sort_key(Str, codepoint) ->
+   as_bin_list(Str,codepoint);
 sort_key(Str, Fun) ->
    try
       Fun(Str)
@@ -81,11 +82,15 @@ sort_key(Str, Fun) ->
          ?err('FOCH0002')
    end.
 
+as_list(Str,codepoint) ->
+   [{C,<<C/utf8>>} || C <- Str];
 as_list(Str,Fun) ->
    [{C,Fun([C])} || C <- Str].
 
+as_bin_list(Str,codepoint) ->
+   << <<C/utf8>> || C <- Str >>;
 as_bin_list(Str,Fun) ->
-   << B || {_,B} <- as_list(Str,Fun) >>.
+   list_to_binary([Fun([C]) || C <- Str]).
 
 split(String,SearchPattern,Fun) ->
    Pattern = [B || {_,B} <- as_list(SearchPattern, Fun), B =/= <<>>],
@@ -131,7 +136,8 @@ split_query(Qry) ->
 key_fun({uca,Opts}) ->
    xq_uca:uca(Opts);
 key_fun(codepoint) ->
-   fun unicode:characters_to_binary/1;
+   codepoint;
+   %fun unicode:characters_to_binary/1;
 key_fun(ascii) ->
    fun(Str) ->
          unicode:characters_to_binary(

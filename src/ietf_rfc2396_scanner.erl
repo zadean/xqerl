@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 36).
+-file("../src/ietf_rfc2396_scanner.xrl", 38).
 
 -file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 14).
 
@@ -305,13 +305,13 @@ adjust_line(T, A, [_|Cs], L) ->
 %% return signal either an unrecognised character or end of current
 %% input.
 
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.erl", 307).
+-file("../src/ietf_rfc2396_scanner.erl", 307).
 yystate() -> 13.
 
 yystate(28, Ics, Line, Tlen, _, _) ->
     {2,Tlen,Ics,Line};
 yystate(27, Ics, Line, Tlen, _, _) ->
-    {7,Tlen,Ics,Line};
+    {8,Tlen,Ics,Line};
 yystate(26, [101|Ics], Line, Tlen, Action, Alen) ->
     yystate(20, Ics, Line, Tlen+1, Action, Alen);
 yystate(26, Ics, Line, Tlen, Action, Alen) ->
@@ -327,7 +327,7 @@ yystate(24, [35|Ics], Line, Tlen, _, _) ->
 yystate(24, Ics, Line, Tlen, _, _) ->
     {2,Tlen,Ics,Line,24};
 yystate(23, Ics, Line, Tlen, _, _) ->
-    {6,Tlen,Ics,Line};
+    {7,Tlen,Ics,Line};
 yystate(22, Ics, Line, Tlen, _, _) ->
     {1,Tlen,Ics,Line};
 yystate(21, Ics, Line, Tlen, _, _) ->
@@ -337,13 +337,13 @@ yystate(20, [58|Ics], Line, Tlen, Action, Alen) ->
 yystate(20, Ics, Line, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,20};
 yystate(19, [C|Ics], Line, Tlen, _, _) when C >= 48, C =< 57 ->
-    yystate(3, Ics, Line, Tlen+1, 1, Tlen);
+    yystate(3, Ics, Line, Tlen+1, 6, Tlen);
 yystate(19, [C|Ics], Line, Tlen, _, _) when C >= 65, C =< 70 ->
-    yystate(3, Ics, Line, Tlen+1, 1, Tlen);
+    yystate(3, Ics, Line, Tlen+1, 6, Tlen);
 yystate(19, [C|Ics], Line, Tlen, _, _) when C >= 97, C =< 102 ->
-    yystate(3, Ics, Line, Tlen+1, 1, Tlen);
+    yystate(3, Ics, Line, Tlen+1, 6, Tlen);
 yystate(19, Ics, Line, Tlen, _, _) ->
-    {1,Tlen,Ics,Line,19};
+    {6,Tlen,Ics,Line,19};
 yystate(18, [116|Ics], Line, Tlen, _, _) ->
     yystate(6, Ics, Line, Tlen+1, 4, Tlen);
 yystate(18, Ics, Line, Tlen, _, _) ->
@@ -539,46 +539,54 @@ yyaction(6, TokenLen, YYtcs, TokenLine) ->
 yyaction(7, TokenLen, YYtcs, TokenLine) ->
     TokenChars = yypre(YYtcs, TokenLen),
     yyaction_7(TokenChars, TokenLine);
+yyaction(8, TokenLen, YYtcs, TokenLine) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_8(TokenChars, TokenLine);
 yyaction(_, _, _, _) -> error.
 
 -compile({inline,yyaction_0/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 26).
+-file("../src/ietf_rfc2396_scanner.xrl", 27).
 yyaction_0(TokenChars, TokenLine) ->
      { token, { excluded, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_1/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 27).
+-file("../src/ietf_rfc2396_scanner.xrl", 28).
 yyaction_1(TokenChars, TokenLine) ->
      { token, { delimiter, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_2/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 28).
+-file("../src/ietf_rfc2396_scanner.xrl", 29).
 yyaction_2(TokenChars, TokenLine) ->
      { token, { reserved, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_3/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 29).
+-file("../src/ietf_rfc2396_scanner.xrl", 30).
 yyaction_3(TokenChars, TokenLine) ->
      { token, { unreserved, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_4/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 30).
+-file("../src/ietf_rfc2396_scanner.xrl", 31).
 yyaction_4(TokenChars, TokenLine) ->
      { token, { unreserved, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_5/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 31).
+-file("../src/ietf_rfc2396_scanner.xrl", 32).
 yyaction_5(TokenChars, TokenLine) ->
      { token, { escaped, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_6/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 32).
+-file("../src/ietf_rfc2396_scanner.xrl", 33).
 yyaction_6(TokenChars, TokenLine) ->
-     { token, { escaped, TokenLine, TokenChars } } .
+     { token, { excluded, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_7/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_rfc2396_scanner.xrl", 33).
+-file("../src/ietf_rfc2396_scanner.xrl", 34).
 yyaction_7(TokenChars, TokenLine) ->
+     { token, { escaped, TokenLine, TokenChars } } .
+
+-compile({inline,yyaction_8/2}).
+-file("../src/ietf_rfc2396_scanner.xrl", 35).
+yyaction_8(TokenChars, TokenLine) ->
      { token, { scheme, TokenLine, TokenChars } } .
 
 -file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 313).

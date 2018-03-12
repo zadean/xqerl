@@ -131,68 +131,12 @@ suite() ->
 end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
-   ok = application:ensure_started(xqerl_ds),
+   ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
    BaseDir = filename:join(TD, "prod")
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris2-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-urisi1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris3-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris4-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris5-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris6-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris7-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris8-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris9-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris10-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris11-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris12-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris13-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris14-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris15-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris16-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris17-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris18-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris19-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris20-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-uris21-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1collide1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1collide2-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/emptyns-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test1c1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test2c1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/moduleDefs-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/test2-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modulesdiffns-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module1-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module2-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module3-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module4-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modules-recursive1.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/modules-recursive2.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module1.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module2.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module4.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module5.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module6.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata6-module7.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module1a.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module1b.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module2a.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module2b.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module3a.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/errata8-module3b.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv3.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/module-pub-priv2.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/schemalib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/baseuri-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/variabledeclaration-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/variablereference-lib.xq")) catch _:_ -> ok end
-, try  xqerl_module:compile(filename:join(BaseDir, "ModuleImport/contextitem-lib.xq")) catch _:_ -> ok end
+
 ,[{base_dir, BaseDir}|Config].
 all() -> [
    'K2-ModuleProlog-1',
@@ -341,30 +285,6 @@ environment('atomic',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('simple-schema',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ModuleImport/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('attribute-schema',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "ModuleImport/attribute.xsd"),"http://www.w3.org/XQueryTest/sample"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('atomic-xq',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
@@ -377,34 +297,10 @@ environment('atomic-xq',BaseDir) ->
 {resources, []},
 {modules, []}
 ];
-environment('complexData',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('works-mod',BaseDir) ->
 [{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
 {schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
-environment('user-defined-types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
 {collections, []},
 {'static-base-uri', []},
 {params, []},
@@ -525,6 +421,54 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('simple-schema',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ModuleImport/simple.xsd"),"http://www.w3.org/XQueryTest/simple"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('attribute-schema',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "ModuleImport/attribute.xsd"),"http://www.w3.org/XQueryTest/sample"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('complexData',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../fn/data/complexData.xml"), ".",""}]},
+{schemas, [{filename:join(BaseDir, "../fn/data/complexData.xsd"),"http://www.cbcl.co.uk/XQueryTest/complexData"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
+{resources, []},
+{modules, []}
+];
+environment('user-defined-types',BaseDir) ->
+[{'decimal-formats', []},
+{sources, []},
+{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

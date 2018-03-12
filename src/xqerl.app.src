@@ -8,7 +8,7 @@
                   kernel,
                   stdlib,
                   mnesia,
-                  xqerl_ds
+                  xqerl_db
                  ]},
   {mod, { xqerl_app, []}},
   {env, []}
