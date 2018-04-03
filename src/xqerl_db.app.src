@@ -1,0 +1,12 @@
+{application, xqerl_db,
+ [
+  {description, "XML Database for xqerl XQuery processor"},
+  {vsn, "0.1.0"},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  mnesia
+                 ]},
+  {mod, { xqldb_app, []}},
+  {env, []}
+ ]}.
