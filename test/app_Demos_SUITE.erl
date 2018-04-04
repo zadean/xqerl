@@ -429,7 +429,12 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         	string-join( for $channel in raytracer:plot-pixel($scene, $x-recentered, $y-recentered) 
         			     return string(floor($channel * 255)), \" \") ), \"&#xA;\" )
       ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/raytracer.xq")) catch _:_ -> ok end, 
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/scene.xq")) catch _:_ -> ok end, 
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/shapes.xq")) catch _:_ -> ok end, 
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/vector.xq")) catch _:_ -> ok end, 
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/materials.xq")) catch _:_ -> ok end, 
+   try xqerl_module:compile(filename:join(BaseDir, "Demos/math.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, [{filename:join(BaseDir, "Demos/scene.xml"),".",[]}]},
 {schemas, []},
 {collections, []},

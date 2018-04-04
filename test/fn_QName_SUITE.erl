@@ -85,18 +85,6 @@ all() -> [
    'K-ExpandedQNameConstructFunc-10',
    'K2-ExpandedQNameConstructFunc-1',
    'cbcl-qname-001'].
-environment('fsx',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, []},
-{resources, []},
-{modules, []}
-];
 environment('empty',BaseDir) ->
 [{'decimal-formats', []},
 {sources, []},
@@ -257,6 +245,18 @@ environment('array-and-map',BaseDir) ->
 {vars, []},
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
+{resources, []},
+{modules, []}
+];
+environment('fsx',BaseDir) ->
+[{'decimal-formats', []},
+{sources, [{filename:join(BaseDir, "../prod/ForClause/fsx.xml"), ".",""}]},
+{schemas, []},
+{collections, []},
+{'static-base-uri', []},
+{params, []},
+{vars, []},
+{namespaces, []},
 {resources, []},
 {modules, []}
 ].

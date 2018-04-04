@@ -197,6 +197,7 @@ environment('array-and-map',BaseDir) ->
 'fn-uri-collection-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:uri-collection(\"argument1\",\"argument2\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-uri-collection-1.xq"), Qry1),
@@ -212,6 +213,7 @@ environment('array-and-map',BaseDir) ->
 'fn-uri-collection-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:uri-collection(\"thisfileshouldnotexists\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-uri-collection-2.xq"), Qry1),
@@ -227,6 +229,7 @@ environment('array-and-map',BaseDir) ->
 'fn-uri-collection-3'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "fn:uri-collection(\"invalidURI%gg\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-uri-collection-3.xq"), Qry1),
@@ -250,6 +253,7 @@ environment('array-and-map',BaseDir) ->
 'K2-SeqUriCollectionFunc-1'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "uri-collection(\"http:\\\\invalidURI\\someURI%gg\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqUriCollectionFunc-1.xq"), Qry1),
@@ -273,6 +277,7 @@ environment('array-and-map',BaseDir) ->
 'K2-SeqUriCollectionFunc-2'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "uri-collection(\":/\")",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqUriCollectionFunc-2.xq"), Qry1),
@@ -296,6 +301,7 @@ environment('array-and-map',BaseDir) ->
 'uri-collection-901'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "uri-collection()",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "uri-collection-901.xq"), Qry1),
@@ -311,6 +317,7 @@ environment('array-and-map',BaseDir) ->
 'uri-collection-903'(Config) ->
    BaseDir = ?config(base_dir, Config),
    Qry = "uri-collection(())",
+   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "uri-collection-903.xq"), Qry1),

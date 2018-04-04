@@ -466,7 +466,7 @@ environment('collection',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-014.xq"), Qry1),
@@ -485,7 +485,7 @@ environment('collection',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy((//@*)[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-015.xq"), Qry1),
@@ -504,7 +504,7 @@ environment('collection',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         generate-id(copy:copy(/*)) eq generate-id(/*)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-016.xq"), Qry1),
@@ -523,7 +523,7 @@ environment('collection',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generate-id-017.xq"), Qry1),

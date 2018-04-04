@@ -318,19 +318,7 @@ environment('user-defined-types',BaseDir) ->
          import module namespace test=\"http://www.w3.org/TestModules/test\";
          <result>{test:ok()}</result>
       ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, [{filename:join(BaseDir, "Serialization/serialization1-lib.xq"),"http://www.w3.org/TestModules/test"}]}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   try xqerl_module:compile(filename:join(BaseDir, "Serialization/serialization1-lib.xq")) catch _:_ -> ok end,   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Serialization-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,

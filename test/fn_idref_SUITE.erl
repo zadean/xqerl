@@ -388,7 +388,7 @@ environment('functx_book',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:idref(\"argument1\", $var)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-idref-4.xq"), Qry1),

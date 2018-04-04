@@ -378,7 +378,12 @@ val_map(Fun,[]) -> Fun([]);
 val_map(Fun,H) when not is_list(H) ->
    val_map(Fun,[H]);
 val_map(Fun,[[H]|T]) -> val_map(Fun,[H|T]);
+val_map(Fun,[#xqRange{} = H|T]) ->
+   val_map(Fun,expand(H) ++ T);
 val_map(Fun,[H|T]) ->
+   ?dbg("Fun",Fun),
+   ?dbg("H",H),
+   ?dbg("T",T),
    Val = try Fun(H) 
          catch _:#xqError{} = E -> throw(E);
                _:Err ->

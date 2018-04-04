@@ -1601,6 +1601,8 @@ pct_encode3([H|T]) ->
 
 %% Returns those items from the sequence $seq for which the supplied 
 %% function $f returns true. 
+'filter'(Ctx,Seq,F) when not is_list(Seq) ->
+   'filter'(Ctx,[Seq],F);
 'filter'(Ctx,Seq,#xqFunction{body = F}) ->
    'filter'(Ctx,Seq,F);
 'filter'(Ctx,Seq,MA) when is_record(MA, array);
@@ -3061,6 +3063,7 @@ pre_loc_from_str(Str) ->
    Permute = #xqFunction{params = [#xqSeqType{type = item, 
                                               occur = zero_or_many}], 
                          type = #xqSeqType{type = item, occur = zero_or_many},
+                         arity = 1,
                          body = FunBod},
    NextFun = fun(_) -> 
                    'random-number-generator'(Ctx,

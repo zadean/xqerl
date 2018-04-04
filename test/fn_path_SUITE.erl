@@ -479,7 +479,7 @@ environment('pathdata',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         fn:path(copy:copy((//employee)[1])/pnum)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "path014.xq"), Qry1),

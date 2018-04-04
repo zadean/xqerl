@@ -820,7 +820,7 @@ environment('array-and-map',BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
         . gt xs:date('1900-01-01')
       ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-2.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
@@ -850,7 +850,7 @@ environment('array-and-map',BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule1\"; 
       	. = 17
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-1.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "contextDecl-048.xq"), Qry1),
@@ -870,7 +870,7 @@ environment('array-and-map',BaseDir) ->
         declare context item as xs:date := current-date();
         . gt xs:date('1900-01-01')
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-2.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "contextDecl-049.xq"), Qry1),
@@ -890,7 +890,7 @@ environment('array-and-map',BaseDir) ->
         declare context item as xs:integer := 23;
         . eq 23
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-2.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "contextDecl-050.xq"), Qry1),
@@ -910,7 +910,7 @@ environment('array-and-map',BaseDir) ->
         declare context item as node() external;
         . instance of element()
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-2.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "contextDecl-051.xq"), Qry1),
@@ -929,7 +929,7 @@ environment('array-and-map',BaseDir) ->
         import module namespace m=\"http://www.w3.org/TestModules/libmodule3\"; 
         . eq 23
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-3.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "contextDecl-052.xq"), Qry1),
@@ -977,7 +977,7 @@ environment('array-and-map',BaseDir) ->
       	import module namespace m=\"http://www.w3.org/TestModules/libmodule2\"; 
         xs:date(.) gt xs:date('1900-01-01')
       ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-2.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},
@@ -1035,7 +1035,7 @@ environment('array-and-map',BaseDir) ->
       declare context item as array(xs:string) external;
       $m:v eq 'green'
     ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
+   try xqerl_module:compile(filename:join(BaseDir, "ContextItemDecl/libmodule-5.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
 {sources, []},
 {schemas, []},
 {collections, []},

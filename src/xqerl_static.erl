@@ -3192,8 +3192,8 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
          x(G, M1, Parent, D),
          M1
    end;
-%% x(_, _, _, #xqVarRef{name = #qname{namespace = undefined}}) ->
-%%    ?err('XPST0081'); % unknown prefix/namespace for variable
+x(_, _, _, #xqVarRef{name = #qname{namespace = undefined}}) ->
+   ?err('XPST0081'); % unknown prefix/namespace for variable
 x(G, Map, Parent, #xqVarRef{name = Nm0}) ->
    Nm = sim_name(Nm0),
    case catch maps:get(Nm, Map) of

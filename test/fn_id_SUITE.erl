@@ -410,7 +410,7 @@ environment('auction-xq',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         let $var := copy:copy(/*) return fn:id(\"argument1\", $var)
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-id-4.xq"), Qry1),
@@ -831,7 +831,7 @@ environment('auction-xq',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//comment())[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-4.xq"), Qry1),
@@ -850,7 +850,7 @@ environment('auction-xq',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy((//processing-instruction())[1]))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-5.xq"), Qry1),
@@ -869,7 +869,7 @@ environment('auction-xq',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", copy:copy(/*))
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-6.xq"), Qry1),
@@ -888,7 +888,7 @@ environment('auction-xq',BaseDir) ->
         import module namespace copy=\"http://www.w3.org/QT3/copy\";
         id(\"id\", (copy:copy(/*)//*:NegativeComments)[last()])
       ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
+   try xqerl_module:compile(filename:join(BaseDir, "id/copy.xq")) catch _:_ -> ok end,   {Env,Opts} = xqerl_test:handle_environment(environment('auction-xq',BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqIDFunc-7.xq"), Qry1),

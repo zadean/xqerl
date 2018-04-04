@@ -543,7 +543,8 @@ promote(#xqNode{} = N,#xqSeqType{} = T) ->
    end;
 promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    atomize(N);
-promote(List,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List) ->
+promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
+   List = xqerl_seq3:expand(List0),
    Fun = fun(#xqAtomicValue{} = A) ->
                A;
             (#xqNode{} = N) ->
@@ -564,6 +565,17 @@ promote(Map,#xqSeqType{type = #xqFunTest{kind = map}}) when is_map(Map) ->
    Map;
 promote({array,_} = A,#xqSeqType{type = #xqFunTest{kind = array}}) ->
    A;
+promote(#xqFunction{} = A,#xqSeqType{type = #xqFunTest{kind = function,
+                                                       params = P,
+                                                       type = T} = B}) ->
+   % function coercion
+   [FA] = fun_to_fun_test([A]),
+   case subtype_of(B, FA) of
+      true ->
+         A#xqFunction{params = P, type = T};
+      _ ->
+         ?err('XPTY0004')
+   end;
 promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = TType} = Type) ->
    case subtype_of(AType,TType) of
       true ->
@@ -571,7 +583,8 @@ promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = TType} = Type) ->
       _ ->
          ?err('XPTY0004')
    end;
-promote(At,#xqSeqType{type = TType} = Type) ->
+promote(At0,#xqSeqType{type = TType} = Type) ->
+   At = xqerl_seq3:expand(At0),
    InType = type(At),
    %?dbg("InType",{At,InType,TType}),
    case subtype_of(InType,TType) of
@@ -1060,7 +1073,8 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
          case has_name(Q2, Q1) of
             true ->
                EType = xqldb_doc:type_name(Doc, Node),
-               EType == Type orelse (Type == 'xs:anyType');
+               EType == Type orelse 
+                 subtype_of(EType, Type);
             _ ->
                false
          end;

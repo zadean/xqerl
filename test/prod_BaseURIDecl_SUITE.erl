@@ -953,19 +953,7 @@ environment('array-and-map',BaseDir) ->
           import module namespace m =\"http://www.w3.org/TestModules/module-001\";
           static-base-uri() eq m:static-base-uri()
     ",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, []},
-{namespaces, []},
-{resources, []},
-{modules, [{filename:join(BaseDir, "BaseURIDecl/module-001.xq"),"http://www.w3.org/TestModules/module-001"}]}
-]),
-   Qry1 = lists:flatten(Env ++ Qry),
+   try xqerl_module:compile(filename:join(BaseDir, "BaseURIDecl/module-001.xq")) catch _:_ -> ok end,   Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "base-URI-modules-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,

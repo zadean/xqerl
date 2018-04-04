@@ -278,8 +278,18 @@ declare function local:print-testcase($test-case)
     ||","||'&#10;'||
     (: clear the default collection for fn:collection tests :)
     (
-      if ($test-case/../@name = ("fn-collection","misc-CombinedErrorCodes")) then
+      if ($test-case/../@name = ("fn-uri-collection","fn-collection","misc-CombinedErrorCodes")) then
         "   _ = xqldb_docstore:delete_collection([]),"||'&#10;'
+      else
+        ""
+    )||
+    (
+      if ($test-case/*:module) then
+        ((for $m in $test-case/*:module
+          return
+          "   try xqerl_module:compile(filename:join(BaseDir, """||
+            string($m/@file)||""")) catch _:_ -> ok end") => string-join(', &#10;')) 
+        || ', &#10;'
       else
         ""
     )||
@@ -287,7 +297,7 @@ declare function local:print-testcase($test-case)
       if ($test-case/*:environment[@name or @ref]) then
         "   {Env,Opts} = xqerl_test:handle_environment(environment('"||$env||"',BaseDir)),"||'&#10;'||
         "   Qry1 = lists:flatten(Env ++ Qry),"||'&#10;'
-      else if ($test-case/*:environment | $test-case/*:module) then
+      else if ($test-case/*:environment) then
         "   {Env,Opts} = xqerl_test:handle_environment("||
         string-join(local:print-local-environment($test-case))
         ||"),"||'&#10;'||
@@ -582,7 +592,7 @@ declare function local:mask-string($text)
 (
 let $doc := doc("QT3-test-suite/catalog.xml")
 let $globalEnvs := $doc/*:catalog/*:environment
-for $ts in $doc/*:catalog/*:test-set(: [@name = "app-spec-examples"] :)
+for $ts in $doc/*:catalog/*:test-set(: [@name = "app-Demos"] :)
 let $file := resolve-uri($ts/@file, base-uri($ts)) 
 let $subdir := substring-before($ts/@file,"/")
 let $case := doc($file)
