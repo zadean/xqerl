@@ -730,7 +730,7 @@
 
 'analyze-string'(Ctx,Input,Pattern0,Flags) ->
    Pattern = xqerl_types:string_value(Pattern0),
-   {_,MP} = xqerl_regex:regex_comp(Pattern,Flags),
+   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags),
    Input1 = string_value(Input),
    Content = case re:run(Input1, MP, [global]) of
                 nomatch ->
@@ -2244,8 +2244,8 @@ check_json_to_xml_opts(_) ->
 %% Returns true if the supplied string matches a given regular expression. 
 'matches'(_Ctx,String,Pattern) ->
    'matches'(_Ctx,String,Pattern,[]).
-'matches'(_Ctx,String,Pattern,Flags) ->
-   {_,MP} = xqerl_regex:regex_comp(xqerl_types:value(Pattern),Flags),
+'matches'(Ctx,String,Pattern,Flags) ->
+   {_,MP} = xqerl_regex:regex_comp(Ctx,xqerl_types:value(Pattern),Flags),
    Input1 = xqerl_types:value(String),
    case re:run(Input1, MP, [global]) of
       nomatch ->
@@ -3099,9 +3099,9 @@ remove1([H|T],Position,Current) ->
 %% that match a given regular expression with a supplied replacement string. 
 'replace'(_Ctx,Input,Pattern,Replacement) -> 
    'replace'(_Ctx,Input,Pattern,Replacement,[]).
-'replace'(_Ctx,Input,Pattern,Replacement,Flags) ->
+'replace'(Ctx,Input,Pattern,Replacement,Flags) ->
    Pattern1 = xqerl_types:value(Pattern),
-   {Zero,MP} = xqerl_regex:regex_comp(Pattern1,Flags),
+   {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags),
    if Zero ->
          ?err('FORX0003');
       true ->
@@ -3679,10 +3679,10 @@ sum1([H|T], Sum) ->
    
 'tokenize'(_Ctx,Input,Pattern) ->
    'tokenize'(_Ctx,Input,Pattern,[]).
-'tokenize'(_Ctx,Input,Pattern0,Flags0) -> 
+'tokenize'(Ctx,Input,Pattern0,Flags0) -> 
    Pattern = string_value(Pattern0),
    Flags = string_value(Flags0),
-   {Zero,MP} = xqerl_regex:regex_comp(Pattern,Flags),
+   {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags),
    if Zero ->
          ?err('FORX0003');
       true ->

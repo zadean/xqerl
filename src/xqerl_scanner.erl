@@ -1767,12 +1767,12 @@ scan_token(Str = "<" ++ T, A) ->
       _ ->
          case scan_name(string:trim(T)) of
             {invalid_name, _} ->
-               ?dbg("T",T),
+               %?dbg("T",T),
                {{'<', ?L, '<'}, T};
             _ -> 
                case scan_name(T) of
                   {invalid_name, _} ->
-                     ?dbg("T",T),
+                     %?dbg("T",T),
                      {{'<', ?L, '<'}, T};
                   _ -> 
                      {direct, Str, 0}
@@ -1925,7 +1925,7 @@ scan_name([H|T]) ->
       true ->
           scan_prefix(T, [H]);
       false ->
-         ?dbg("Line",[H]),
+         %?dbg("Line",[H]),
           {invalid_name, [H|T]}
    end;
 scan_name(Str) ->

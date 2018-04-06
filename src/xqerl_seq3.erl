@@ -136,6 +136,7 @@ check(List,nonnode) ->
 path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = length(List),
+   %?dbg("List",Size),
    Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
    %?dbg("Mapped",Mapped),
    case Mapped of

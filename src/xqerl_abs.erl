@@ -913,7 +913,7 @@ expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
 % paths
 %TODO move path expressions to local functions
 % should take Base as the original context
-expr_do(_,{path_expr,['empty-sequence'|_]}) ->
+expr_do(_,{path_expr,_,['empty-sequence'|_]}) ->
    {nil,?L};
 
 %% Split path into simple and complex parts: 
@@ -922,15 +922,16 @@ expr_do(_,{path_expr,['empty-sequence'|_]}) ->
 %% Complex are joins and complex predicates  
 %%  they call the document process per function 
 
-expr_do(Ctx, {path_expr,[ {'any-root'} | Steps ]}) ->
+expr_do(Ctx, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
+                                                 R == {'root'} ->
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxItem = ?P("xqerl_context:get_context_item(_@CurrCtxVar)"),
    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
    NextCtxVar = next_ctx_var_name(),
    NextCtxVVar = {var,?L,NextCtxVar},
-   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
+   case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
       {[],Rest} -> % nothing simple, only complex
-         ?dbg("{P,Rest}",{[],Rest}),
+%?dbg("{P,Rest}",{[],Rest}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
          ?P(["fun() ->",
              " _@@Comp",
@@ -951,7 +952,7 @@ expr_do(Ctx, {path_expr,[ {'any-root'} | Steps ]}) ->
              "end()"
             ]);
       {P,Rest} -> % simple and complex
-         ?dbg("{P,Rest}",{P,Rest}),
+%?dbg("{P,Rest}",{P,Rest}),
          NextVar = {var,?L,next_var_name()},
          PosVar = {var,?L,next_var_name()},
          SizVar = {var,?L,next_var_name()},
@@ -978,7 +979,7 @@ expr_do(Ctx, {path_expr,[ {'any-root'} | Steps ]}) ->
    end;
          
 
-expr_do(Ctx, {path_expr,[ {variable,Var} | Steps ]}) ->
+expr_do(Ctx, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
 %?dbg("Steps",Steps),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxSeq = a_var(Var,CurrCtxVar),
@@ -1048,7 +1049,7 @@ expr_do(Ctx, {path_expr,[ {variable,Var} | Steps ]}) ->
 
 
 
-expr_do(Ctx, {path_expr,[ Base | Steps ]}) ->
+expr_do(Ctx, {path_expr,_Id,[ Base | Steps ]}) ->
 %?dbg("[ Base | Steps ]",[ Base | Steps ]),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextCtxVar = next_ctx_var_name(),
@@ -1115,8 +1116,8 @@ expr_do(Ctx, {path_expr,[ Base | Steps ]}) ->
 %%             ])
    end;
 
-expr_do(Ctx, {atomize, {path_expr,Steps}}) ->
-   expr_do(Ctx, {path_expr,Steps ++ [atomize]});
+expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
+   expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
 
 expr_do(Ctx, {root}) ->
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
@@ -1324,7 +1325,7 @@ expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
    N = {var,?L,Name},
    ?P("_@N");
 
-expr_do(Ctx, {postfix, {'function-ref',Q,V}, [{arguments,Args}]}) ->
+expr_do(Ctx, {postfix,_Id, {'function-ref',Q,V}, [{arguments,Args}]}) ->
    PhF = fun('?') ->
                VarName = next_var_name(),
                [{var,?L,VarName}];
@@ -1355,20 +1356,20 @@ expr_do(Ctx, {postfix, {'function-ref',Q,V}, [{arguments,Args}]}) ->
    end;
 
 % map/array unary lookups
-expr_do(Ctx, {postfix, Map, [{LU, {sequence,_} = Val}]}) 
+expr_do(Ctx, {postfix,_Id, Map, [{LU, {sequence,_} = Val}]}) 
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    MapExpr = expr_do(Ctx, Map),
    ValExp =  expr_do(Ctx, Val),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,_@ValExp)");
-expr_do(Ctx, {postfix, Map, [{LU, wildcard}]})
+expr_do(Ctx, {postfix,_Id, Map, [{LU, wildcard}]})
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    MapExpr = expr_do(Ctx, Map),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,all)");
-expr_do(Ctx, {postfix, Map, [{LU, Val}]})
+expr_do(Ctx, {postfix,_Id, Map, [{LU, Val}]})
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
@@ -1395,7 +1396,7 @@ expr_do(Ctx, {LU, Val})
    ValExp = expr_do(Ctx, Val),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,_@ValExp)");
 
-expr_do(Ctx, {postfix, Base, Preds}) when is_list(Preds) ->
+expr_do(Ctx, {postfix,_Id, Base, Preds}) when is_list(Preds) ->
    Source = expr_do(Ctx, Base),
    lists:foldl(fun(Val, Abs) ->
                      handle_predicate({Ctx, Val}, Abs)
@@ -2167,7 +2168,7 @@ flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId,
          FunAbs ++ Global,NextTupleVar,false);
 
 % where
-flwor(Ctx, [{where,{Id,_}} = W|T], RetId, Return, Internal, 
+flwor(Ctx, [{where,Id,_} = W|T], RetId, Return, Internal, 
       Global,TupleVar,_Inline) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
@@ -2207,7 +2208,7 @@ flwor(Ctx, [{group_by,Id,_} = F|T], RetId, Return, Internal,
          FunAbs ++ Global,NextTupleVar,false);
 
 % order
-flwor(Ctx, [{order_by,Exprs}|T], RetId, Return, Internal, 
+flwor(Ctx, [{order_by,_Id,Exprs}|T], RetId, Return, Internal, 
       Global,TupleVar,_Inline) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    VarTup = get_variable_tuple(Ctx),
@@ -2240,7 +2241,7 @@ return_part(Ctx,{Id, Expr}) ->
    %{Ctx,[InLine, R]}.
    {Ctx,[R]}.
 
-where_part(Ctx,{'where',{Id, Expr}},_NextFunAtom) ->
+where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
    FunctionName = glob_fun_name({where, Id}),
    OldVariableTupleMatch = get_variable_tuple(Ctx),
    %InLine = attribute(compile, {inline,{FunctionName,2}}),
@@ -2604,6 +2605,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
              true ->
                 ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
           end,
+   %HasNext = NextFunAtom =/= [] ,
    Ens = ensure_type(Ctx,VarName1,Type),
    ForFun = 
      ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -2620,8 +2622,8 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
          "         xqerl_seq3:rangemap(fun(_@VarName1) -> _@Ens,_@Next end, List);",
          "      erlang:is_list(List) andalso erlang:is_record(erlang:hd(List),xqRange) -> ",
          "         xqerl_seq3:rangemap(fun(_@VarName1) -> _@Ens,_@Next end, List);",
-         "      erlang:is_list(List) andalso erlang:length(List) > 16 -> ",
-         "         xqldb_lib:pmap(List,16,fun(_@VarName1) -> _@Ens,_@Next end);",
+         %"      erlang:is_list(List) andalso _@HasNext@ andalso erlang:length(List) > 16 -> ", % can be dangerous
+         %"         xqldb_lib:pmap(List,16,fun(_@VarName1) -> _@Ens,_@Next end);",
          "      erlang:is_list(List) -> ",
          "         lists:map(fun(_@VarName1) -> _@Ens,_@Next end, List);",
          "      true -> ",

@@ -635,8 +635,16 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}.
-'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = '$2'}.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' :
+   case '$3' of 
+      %#xqFlwor{loop = L, return = R} -> #xqFlwor{id = next_id(),loop = '$1'++'$2'++L, return = R};
+      _ -> #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}
+   end.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : 
+   case '$2' of 
+      %#xqFlwor{loop = L, return = R} -> #xqFlwor{id = next_id(),loop = '$1'++L, return = R};
+      _ -> #xqFlwor{id = next_id(),loop = '$1', return = '$2'}
+   end.
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -653,8 +661,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [44]
 'ForClause'              -> 'for' 'ForBindingList' : '$2'.
 % [45]
-'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{'for', '$1'}] ++ '$3' .
-'ForBindingList'         -> 'ForBinding' : [{'for', '$1'}] .
+'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : let_from_for('$1') ++ '$3' .
+'ForBindingList'         -> 'ForBinding' : let_from_for('$1').
 
 'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7'}.
 'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6'}.
@@ -793,7 +801,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [59]
 'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3')}}].
 % [60]
-'WhereClause'            -> 'where' 'ExprSingle' : [{'where', {next_id(),'$2'}}].
+'WhereClause'            -> 'where' 'ExprSingle' : [{'where', next_id(),'$2'}].
 % [61]
 'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : sort_grouping('$3', next_id()).
 % [62]
@@ -816,8 +824,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [64]
 'GroupingVariable'       ->  '$' 'VarName' : '$2'.
 % [65]
-'OrderByClause'          -> 'order' 'by' 'OrderSpecList'          : [{order_by, '$3'}].
-'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : [{order_by, '$4'}]. % always stable
+'OrderByClause'          -> 'order' 'by' 'OrderSpecList'          : [{order_by, next_id(), '$3'}].
+'OrderByClause'          -> 'stable' 'order' 'by' 'OrderSpecList' : [{order_by, next_id(), '$4'}]. % always stable
 % [66]
 'OrderSpecList'          -> 'OrderSpec' ',' 'OrderSpecList' : '$1' ++ '$3'.
 'OrderSpecList'          -> 'OrderSpec' : '$1'.
@@ -965,7 +973,7 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                                                                                           #qname{} ->
                                                                                              {'function-call','$3',length(['$1'|'$4']),['$1'|'$4']};
                                                                                           _ ->
-                                                                                             {'postfix', '$3',[{arguments,['$1'|'$4']}] }
+                                                                                             {'postfix', next_id(), '$3',[{arguments,['$1'|'$4']}] }
                                                                                        end.
 'ArrowExpr'              -> 'UnaryExpr' : '$1'.
 
@@ -1038,13 +1046,13 @@ end.
 %% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : ?dbg("1017",'$2'),{step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash'           : {step, {'root'}}.              %/* xgs: leading-lone-slash */
 %'PathExpr'               -> '/'                    : {step, {'root'}}.              %/* xgs: leading-lone-slash */
-'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, ['root' | '$2']}.            %/* xgs: leading-lone-slash */
+'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, next_id(), ['root' | '$2']}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : {step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
-'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, ['any-root',#xqAxisStep{axis = 'descendant-or-self'}|'$2']}.
+'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{axis = 'descendant-or-self'}|'$2']}.
 %% 'PathExpr'               -> '//' 'RelativePathExpr' : {step, {'any-root', 
 %%                                                              {step, #xqAxisStep{axis = 'descendant-or-self'},
 %%                                                                     '$2'}}}.
-'PathExpr'               -> 'RelativePathExpr'     : case '$1' of [V] -> V; V -> {path_expr, V} end.
+'PathExpr'               -> 'RelativePathExpr'     : case '$1' of [V] -> V; V -> {path_expr, next_id(), V} end.
 %% 
 %% 'PathExpr'               -> 'lone-slash' '/'  'RelativePathExpr' : ?dbg("1021",{step, {'root', '$3'}}),{step, {'root', '$3'}}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' '//' 'RelativePathExpr' : ?dbg("1022",'$3'),{step, {'root', 
@@ -1161,9 +1169,9 @@ end.
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
 'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : case is_partial_impl('$2') of
                                                             true ->
-                                                               {partial_postfix, '$1', '$2'};
+                                                               {partial_postfix, next_id(), '$1', '$2'};
                                                             _ ->
-                                                               {postfix, '$1', '$2'}
+                                                               {postfix, next_id(), '$1', '$2'}
                                                          end.
 'PostfixExpr'            -> 'PrimaryExpr'              : '$1'.
 'PostFixes'              -> 'Predicate'    : [{'predicate', '$1'}].
@@ -1958,3 +1966,10 @@ sort_grouping(Groups, Id) ->
    Lets = [E || E <- Groups, element(1, E) == 'let'],
    Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
    Lets ++ [{group_by, Id, Vars}].
+
+let_from_for(#xqVar{id = I,
+                    name = #qname{local_name = LN} = Name, 
+                    expr = Expr} = For) ->
+   NewLoc = "___" ++ LN ++ "_" ++ integer_to_list(I),
+   [{'let', #xqVar{id = next_id(), 'name' = Name#qname{local_name = NewLoc}, expr = Expr}},
+    {'for', For#xqVar{expr = #xqVarRef{name = Name#qname{local_name = NewLoc}}}}].

@@ -606,6 +606,8 @@ promote(At0,#xqSeqType{type = TType} = Type) ->
          At;
       true ->
          #xqAtomicValue{type = TType, value = value(At)};
+      _ when is_map(At) ->
+         ?err('XPTY0004');
       _ when is_record(TType, xqFunTest) ->
          ?err('XPTY0004');
       _ when InType =:= 'xs:untypedAtomic' ->

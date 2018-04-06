@@ -33,7 +33,9 @@
 %% ====================================================================
 -export([lnew/0,
          lget/1,
-         lput/2]).
+         lget/2,
+         lput/2,
+         lput/3]).
 
 -export([is_xsname_start_char/1]).
 -export([is_xsname_char/1]).
@@ -431,16 +433,22 @@ lget(Key) ->
       Val ->
          Val
    end.
-%%    case ets:lookup(local_data, Key) of
-%%       [{_,Val}] ->
-%%          Val;
-%%       _ ->
-%%          []
-%%    end.
+
+lget(Tab,Key) ->
+   case ets:lookup(Tab, Key) of
+      [{_,Val}] ->
+         Val;
+      _ ->
+         []
+   end.
 
 lput(Key,Val) ->
    %ets:insert(local_data, {Key, Val}),
    _ = erlang:put(Key, Val),
+   ok.
+
+lput(Tab,Key,Val) ->
+   ets:insert(Tab, {Key, Val}),
    ok.
 
 %% creates a new namespace prefix

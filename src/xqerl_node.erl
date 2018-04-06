@@ -84,7 +84,7 @@ new_fragment(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
       true ->
          Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
          FragId = get_frag_id(Ctx5),
-         ?dbg("FragId",FragId),
+         %?dbg("FragId",FragId),
          %?dbg("get_nodes(Ctx5)",get_nodes(Ctx5)),
          {B,L} = build_sax(Ctx0, get_nodes(Ctx5)),
          %?dbg("L",L),

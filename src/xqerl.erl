@@ -99,7 +99,7 @@ run(Str, Options) ->
 %      ?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
       B = compile_abstract(Ret),
-      print_erl(B),
+%      print_erl(B),
       Res = (xqerl_static:string_atom(ModNs)):main(Options),
       erlang:erase(),
       Res

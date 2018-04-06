@@ -546,7 +546,8 @@ run(fn) ->
    run_suite(fn_local_name_from_QName_SUITE),
    run_suite(fn_lower_case_SUITE),
    run_suite(fn_max_SUITE),
-   run_suite(fn_matches_SUITE),
+   run_suite(fn_matches_SUITE);
+run(fn2) ->
    run_suite(fn_matches_re_SUITE),
    run_suite(fn_min_SUITE),
    run_suite(fn_minutes_from_dateTime_SUITE),
@@ -594,8 +595,7 @@ run(fn) ->
    run_suite(fn_string_SUITE),
    run_suite(fn_string_join_SUITE),
    run_suite(fn_string_length_SUITE),
-   run_suite(fn_string_to_codepoints_SUITE);
-run(fn2) ->
+   run_suite(fn_string_to_codepoints_SUITE),
    run_suite(fn_subsequence_SUITE),
    run_suite(fn_substring_SUITE),
    run_suite(fn_substring_after_SUITE),
@@ -849,7 +849,7 @@ handle_environment(List) ->
             case xqldb_docstore:exists(Uri2) of
                true ->
                   %?dbg("exists",Uri2),
-                  {ok,_} = xqldb_docstore:select(Uri2),
+                  _ = xqldb_docstore:select(Uri2),
                   ok;
                _ ->
                   try

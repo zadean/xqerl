@@ -34,7 +34,7 @@
 -export([esc_esc/1]).
 
 %-export([regex_flags/1]).
--export([regex_comp/2]).
+-export([regex_comp/3]).
 
 -export([translate/1]).
 
@@ -408,8 +408,8 @@ chop_to(Int,_Max,Acc) ->
 % http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML 
 % shorthand)
 % returns {MatchesZeroLengthString, MP}
-regex_comp(Expr0,Flags) ->
-   case ?get({regex,Expr0,Flags}) of 
+regex_comp(#{tab := Tab},Expr0,Flags) ->
+   case ?get(Tab,{regex,Expr0,Flags}) of 
       [] ->
          try
             FlagList1 = regex_flags(Flags),
@@ -435,7 +435,7 @@ regex_comp(Expr0,Flags) ->
                _ ->
                   {false,MP}
             end,
-            ?put({regex,Expr0,Flags},Out),
+            ?put(Tab,{regex,Expr0,Flags},Out),
             Out
          catch 
             _:#xqError{} = E -> 

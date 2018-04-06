@@ -12,7 +12,10 @@
 %% - err:additional - further implementation-defined information about the error
 
 -define(put(Key,Val),xqerl_lib:lput(Key,Val)).
+-define(put(Tab,Key,Val),xqerl_lib:lput(Tab,Key,Val)).
+
 -define(get(Key),xqerl_lib:lget(Key)).
+-define(get(Tab,Key),xqerl_lib:lget(Tab,Key)).
 
 
 -define(dbg(A,B),io:format("~p:~p(~p): ~p ~p~n",[?MODULE,?FUNCTION_NAME,?LINE,A,B])).
