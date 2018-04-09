@@ -326,11 +326,8 @@ check_back_refs([H|T],Acc) ->
 %% Old functions
 %% ====================================================================
 
-string_value(At) -> xqerl_types:string_value(At).
-
 regex_flags([]) -> [dollar_endonly];
 regex_flags(Flags) ->
-   Flags1 = string_value(Flags),
    Fun = fun(Char, Map) ->
                case Char of
                   $s -> maps:put(s, [dollar_endonly,dotall], Map);
@@ -343,7 +340,7 @@ regex_flags(Flags) ->
                      xqerl_error:error('FORX0001')
                end
          end,        
-   M = lists:foldl(Fun, #{}, Flags1),
+   M = lists:foldl(Fun, #{}, Flags),
    lists:flatten(maps:values(M)).
 
 esc_esc([]) -> [];

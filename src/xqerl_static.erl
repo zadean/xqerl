@@ -603,7 +603,7 @@ handle_node(State,#xqVar{id = Id,
                              expr = VarStmt},
    set_statement_and_type(State1, NewStatement, VarType);
 
-handle_node(State, #xqFunction{name = FName, type = FType, 
+handle_node(State, #xqFunction{name = FName, type = FType0, 
                                annotations = Annotations,
                                params = Params, body = Expr} = Node) -> 
    if FName == undefined ->
@@ -633,6 +633,12 @@ handle_node(State, #xqFunction{name = FName, type = FType,
                                       params = ParamTypes,
                                       type = Sty}, occur = one},
    SC = get_static_count(S1),
+   ?dbg("{Sty,FType0}",{Sty,FType0}),
+   FType = if FType0 == undefined ->
+                 Sty;
+              true ->
+                 FType0
+           end,   
    FType1 = #xqSeqType{type = #xqFunTest{kind = function,
                                          params = ParamTypes,
                                          type = FType}, occur = one},

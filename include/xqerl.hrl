@@ -300,7 +300,7 @@
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
    params            = [],
-   type              = #xqSeqType{} :: any | #xqSeqType{},
+   type              = undefined :: undefined | any | #xqSeqType{},
    body              = undefined :: term()%,
    %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
 }).

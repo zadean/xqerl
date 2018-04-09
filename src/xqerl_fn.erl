@@ -730,7 +730,8 @@
 
 'analyze-string'(Ctx,Input,Pattern0,Flags) ->
    Pattern = xqerl_types:string_value(Pattern0),
-   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags),
+   Flags1 = xqerl_types:string_value(Flags),
+   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags1),
    Input1 = string_value(Input),
    Content = case re:run(Input1, MP, [global]) of
                 nomatch ->
@@ -2245,7 +2246,9 @@ check_json_to_xml_opts(_) ->
 'matches'(_Ctx,String,Pattern) ->
    'matches'(_Ctx,String,Pattern,[]).
 'matches'(Ctx,String,Pattern,Flags) ->
-   {_,MP} = xqerl_regex:regex_comp(Ctx,xqerl_types:value(Pattern),Flags),
+   Pattern1 = xqerl_types:value(Pattern),
+   Flags1 = xqerl_types:string_value(Flags),
+   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags1),
    Input1 = xqerl_types:value(String),
    case re:run(Input1, MP, [global]) of
       nomatch ->
@@ -3100,8 +3103,9 @@ remove1([H|T],Position,Current) ->
 'replace'(_Ctx,Input,Pattern,Replacement) -> 
    'replace'(_Ctx,Input,Pattern,Replacement,[]).
 'replace'(Ctx,Input,Pattern,Replacement,Flags) ->
+   Flags1 = xqerl_types:string_value(Flags),
    Pattern1 = xqerl_types:value(Pattern),
-   {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags),
+   {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags1),
    if Zero ->
          ?err('FORX0003');
       true ->

@@ -23,8 +23,8 @@ compile_path_statement(Ctx,Last,Steps) ->
          Body = {lc,?LINE,{var,?LINE,VarName},Gens},
          {Body,[]};
       {Cnt,Gens,Rest} ->
-         ?dbg("Steps",Steps),
-         ?dbg("Rest",Rest),
+        %?dbg("Steps",Steps),
+        %?dbg("Rest",Rest),
          VarName = var_name(Cnt),
          LVarName = {var,?LINE,var_name(Cnt - 1)},
          Body = {lc,?LINE,{var,?LINE,VarName},Gens++[generate(VarName, p2(nodify,LVarName))]},
@@ -135,7 +135,7 @@ compile_path_statement(Ctx,_,[{variable,Var} = S|Rest],Level,Acc) ->
 compile_path_statement(Ctx,Last,[#xqAxisStep{} = Step|Rest],Level,Acc) ->
    case do_gen(Ctx,Last, Step, Level) of
       nope ->
-         ?dbg("{Level,Acc}",{Level,Acc}),
+        %?dbg("{Level,Acc}",{Level,Acc}),
          {Level,lists:reverse(Acc),[Step|Rest]};
       {VarName,Level1,Gen} ->
          %?dbg("{VarName,Level1,Gen}",{VarName,Level1,Gen}),
@@ -151,7 +151,7 @@ compile_path_statement(Ctx,Last,[Root|Rest],Level,Acc) when Root == {'any-root'}
                                                             Root == {'root'} ->
    case do_gen(Ctx,Last, root, Level) of
       nope ->
-         ?dbg("{Level,Acc}",{Level,Acc}),
+        %?dbg("{Level,Acc}",{Level,Acc}),
          {Level,lists:reverse(Acc),[Root|Rest]};
       {VarName,Level1,Gen} ->
          %?dbg("{Level1,Level}",{Level1,Level}),
@@ -174,7 +174,7 @@ compile_path_statement(_,Source,[{sequence,[{union,_,{Cons,_}}]} = S|Rest],Level
    {Level,lists:reverse(Rev),[S|Rest]};
 
 compile_path_statement(Ctx,Last,[{sequence,[{union,A,B}]} = C|Rest],Level,Acc) ->
-   ?dbg("{union,A,B}",{union,A,B}),
+  %?dbg("{union,A,B}",{union,A,B}),
    try
       VarName = var_name(Level),
       {CntA,NonGenA} = compile_path_statement(Ctx,Last, [A],Level+1,[]),
@@ -199,7 +199,7 @@ compile_path_statement(Ctx,Last,[{sequence,[{except,A,{Cons,_}}]}|Rest],Level,Ac
    compile_path_statement(Ctx,Last,[A|Rest],Level,Acc);
    
 compile_path_statement(Ctx,Last,[{sequence,[{except,A,B}]} = C|Rest],Level,Acc) ->
-   ?dbg("{except,A,B}",{except,A,B}),
+  %?dbg("{except,A,B}",{except,A,B}),
    try
       VarName = var_name(Level),
       {CntA,NonGenA} = compile_path_statement(Ctx,Last, [A],Level+1,[]),
@@ -230,7 +230,7 @@ compile_path_statement(Ctx,_Last,[{sequence,[{intersect,_,{Cons,_}}]}|Rest],Leve
    compile_path_statement(Ctx,VarName,Rest, Level + 1,[Gen|Acc]);
    
 compile_path_statement(Ctx,Last,[{sequence,[{intersect,A,B}]} = C|Rest],Level,Acc) ->
-   ?dbg("{intersect,A,B}",{intersect,A,B}),
+  %?dbg("{intersect,A,B}",{intersect,A,B}),
    try
       VarName = var_name(Level),
       {CntA,NonGenA} = compile_path_statement(Ctx,Last, [A],Level+1,[]),
@@ -265,7 +265,7 @@ compile_path_statement(_Ctx,Last,[#xqAtomicValue{} = S],Level,Acc) ->
 
 
 compile_path_statement(_Ctx,Last,Rest,Level,Acc) ->
-%   ?dbg("Last,[Unknown |Rest],Level,Acc",{Last,Rest,Level,Acc}),
+%  %?dbg("Last,[Unknown |Rest],Level,Acc",{Last,Rest,Level,Acc}),
    {Level,lists:reverse(Acc),Rest}.
 
 
@@ -291,7 +291,7 @@ do_gen(Ctx,Last,#xqAxisStep{direction = Direction,
          VarName1 = var_name(Level1),
          case generate_preds(Ctx,{var,?LINE,VarName},Preds) of
             nope ->
-               ?dbg("nope",S),
+              %?dbg("nope",S),
                nope;
             P ->
                {VarName1,Level1,[generate(VarName1, P),Src]}
@@ -456,7 +456,7 @@ forward_path(_, _, #xqKindTest{kind = 'document-node'}) -> {nil,?LINE};
 forward_path(_, _, #xqKindTest{kind = attribute}) -> {nil,?LINE};
 
 forward_path(_, Axis, NodeTest) ->
-   ?dbg("Unknown axis",{Axis, NodeTest}),
+  %?dbg("Unknown axis",{Axis, NodeTest}),
    {error,NodeTest}.
 
 reverse_path(Source, parent, #xqNameTest{name = Q}) -> 
@@ -542,7 +542,7 @@ reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->
    p2(pi_precedings,Source);
 %% ----------------------------------------------------------------------------
 reverse_path(_, Axis, NodeTest) ->
-   ?dbg("Unknown axis",{Axis, NodeTest}),
+  %?dbg("Unknown axis",{Axis, NodeTest}),
    {error,NodeTest}.
 
 
@@ -569,16 +569,16 @@ var_name(Level) ->
 % Level current depth in statement 
 generate_preds(_,Source,[]) -> Source;
 generate_preds(Ctx,Source,[{positional_predicate,?FN_MATCH("last")}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    Filt = pos_pred(Source, {atom,?LINE,last}),
    generate_preds(Ctx,Filt,Preds);
 generate_preds(Ctx,Source,[{positional_predicate,{variable,VarAtom}}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    V = merl:var(VarAtom),
    Filt = pos_pred(Source, ?P("{eq,xqerl_types:value(_@V)}")),
    generate_preds(Ctx,Filt,Preds);
 generate_preds(Ctx,Source,[{positional_predicate,#xqAtomicValue{value = Val}}|Preds]) when is_integer(Val) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    Filt = pos_pred(Source, ?P("{eq,_@Val@}")),
    generate_preds(Ctx,Filt,Preds);
 
@@ -600,7 +600,7 @@ generate_preds(Ctx,Source,[{predicate,#xqAtomicValue{value = false}}]) ->
 % path value = < > something?
 generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {path_expr,Path}}}|Preds]) ->
    try
-      ?dbg("Preds left",Preds),
+     %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
       {Cnt,Gens} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,[A,atomize],100,[]),
       {Cnt1,Gens1} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,Path++[atomize],100,[]),
@@ -656,7 +656,7 @@ generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {variable,V}}}|Pred
 % does the path predicate exist?
 generate_preds(Ctx,Source,[{predicate,{path_expr,Path}}|Preds]) ->
    try
-      ?dbg("Preds left",Preds),
+     %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
       {Cnt,Gens} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,Path,100,[]),
       NewVarName = var_name(Cnt),
@@ -671,7 +671,7 @@ generate_preds(Ctx,Source,[{predicate,{path_expr,Path}}|Preds]) ->
 
 generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds]) ->
    try
-      ?dbg("Preds left",Preds),
+     %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
       {Cnt,Gens} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,Path,100,[]),
       NewVarName = var_name(Cnt),
@@ -685,7 +685,7 @@ generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds]) ->
    end;
 
 generate_preds(Ctx,Source,[{predicate,?FN_MATCH("lang")}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    [Arg] = __Params,
    Body = has_lang(Arg,PathVar),
@@ -697,13 +697,13 @@ generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH("position"),
                                        #xqAtomicValue{value = Val}}}|Preds]) 
    when Op =/= 'and',
         Op =/= 'or' ->
-   ?dbg("Preds left",Preds),
-   ?dbg("Preds left",Op),
+  %?dbg("Preds left",Preds),
+  %?dbg("Preds left",Op),
    Filt = pos_pred(Source, ?P("{'@Op@',_@Val@}")),
    generate_preds(Ctx,Filt,Preds);
 
 generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH("node-name"),#xqAtomicValue{} = NodeName}}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Body = has_node_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
    BoolFun = ?P("fun(_@PathVar) -> xqerl_operators:eff_bool_val(_@Body) end"),
@@ -711,7 +711,7 @@ generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH("node-name"),#xqAtomicValue
    generate_preds(Ctx,Filt,Preds);
 
 generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH("node-name"),#xqAtomicValue{} = NodeName}}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Body = has_node_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
    BoolFun = ?P("fun(_@PathVar) -> xqerl_operators:eff_bool_val(_@Body) end"),
@@ -719,7 +719,7 @@ generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH("node-name"),#xqAtomicValu
    generate_preds(Ctx,Filt,Preds);
 
 generate_preds(Ctx,Source,[{predicate,{'or',A,B}}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Bool1 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,A}]),
    Bool2 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,B}]),
@@ -733,11 +733,11 @@ generate_preds(Ctx,Source,[{predicate,{'or',A,B}}|Preds]) ->
    end;
 
 generate_preds(Ctx,Source,[{predicate,{'and',A,B}}|Preds]) ->
-   ?dbg("Preds left",Preds),
+  %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Bool1 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,A}]),
    Bool2 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,B}]),
-   ?dbg("Preds left",{Bool1,Bool2}),
+  %?dbg("Preds left",{Bool1,Bool2}),
    if Bool1 == nope orelse Bool2 == nope ->
          nope;
       true ->
