@@ -34,8 +34,7 @@
 
 -spec join_uris(BaseUri :: string(),
                 RefUri  :: string()) -> 
-         AbsoluteTargetUri when 
-         AbsoluteTargetUri :: string().
+         string() | {error,_}.
 
 join_uris(_, "urn:" ++ _ = Uri) -> Uri;   % known non-heir. scheme
 join_uris(_, "mailto:" ++ _ = Uri) -> Uri;% known non-heir. scheme
@@ -43,6 +42,7 @@ join_uris(_, "news:" ++ _ = Uri) -> Uri;% known non-heir. scheme
 join_uris(_, "rss:" ++ _ = Uri) -> Uri;% known non-heir. scheme
 join_uris(_, "tel:" ++ _ = Uri) -> Uri;% known non-heir. scheme
 join_uris(_, ":" ++ _) -> {error,invalid_uri};% no scheme garbage
+join_uris([], Uri) -> recompose(parse_ref_uri(Uri));
 join_uris(_, "http:" ++ _ = Uri) -> simple_parse(Uri);
 join_uris(_, "https:" ++ _ = Uri) -> simple_parse(Uri);
 join_uris(_, "HTTP:" ++ _ = Uri) -> simple_parse(Uri);
