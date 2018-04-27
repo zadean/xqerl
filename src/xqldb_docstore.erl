@@ -58,7 +58,7 @@
 
 print(Uri) ->
    {ok,Pid} = select(Uri),
-   xqldb_doc:query(Pid, []).
+   xqldb_doc:export(Pid).
 
 init() ->
    ets:new(?TAB1, [public,named_table]),
