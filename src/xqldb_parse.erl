@@ -85,12 +85,16 @@ load_dir(Dir) ->
 load_files(FileList) ->
    pmap32({xqldb_docstore,select}, [], FileList).
 
-read_bin(Cwd,Bin) when is_binary(Bin) ->
+read_bin({Cwd,BaseUri},Bin) when is_binary(Bin) ->
    {#st{attab = A2} = State,_} = 
      resolve_qname(#st{},{"http://www.w3.org/XML/1998/namespace","xml",[]}),
    try
       State_0 = event(startFragment, 0, State#st{source = file}),
-      State_1 = read_bin(Cwd,Bin,State_0),
+      State_0a = event({attribute,{"http://www.w3.org/XML/1998/namespace",
+                                   "xml",
+                                   "base",
+                                   BaseUri}},0,State_0),
+      State_1 = read_bin(Cwd,Bin,State_0a),
       %State_2 = event(endFragment, 0, State_1),
       #st{names  = Names,
           namesp = Namesp,
@@ -102,7 +106,7 @@ read_bin(Cwd,Bin) when is_binary(Bin) ->
           attab  = Atts} = State_1,
       A = tab_to_array(Atts),
       {ok,
-       {Cwd,
+       {[], %Cwd,
         flip_map(Names),
         flip_map(Namesp),
         Nodes,
@@ -121,10 +125,11 @@ read_bin(Cwd,Bin) when is_binary(Bin) ->
    end.
 
 read_bin(Cwd,Bin,State) when is_binary(Bin) ->
+   ?dbg("Bin",Bin),
    CF = case State#st.source of
            rest -> [{continuation_fun,fun(S) -> {<<>>,S} end}];
            _ -> []
-        end,        
+        end,
    Opts = [{current_location, Cwd},
            {event_fun, fun event/3},
            {event_state, State}|CF],
@@ -136,12 +141,39 @@ read_bin(Cwd,Bin,State) when is_binary(Bin) ->
             {_,<<>>} ->
                %?dbg("State1",State1),
                event(endFragment, 0, State1#st{source = ok});
-            Trim ->
-               ?dbg("Trim",Trim),
-               read_bin(Cwd,R, State1#st{source = rest})
+            {Trim1,Trim2} ->
+               ?dbg("Trim2",Trim2),
+               case Trim1 of
+                  <<>> ->
+                     read_bin(Cwd,Trim2, State1#st{source = rest});
+                  _ ->
+                     State2 = event({characters, Trim1}, 0, State1),
+                     read_bin(Cwd,Trim2, State2#st{source = rest})
+               end
          end;
-      {fatal_error,_Line, "No more bytes", _, #st{source = rest} = State2} -> 
+      {fatal_error,_Line, "No more bytes", _, #st{source = rest} = State2} ->
+         ?dbg("Bin",Bin),
          State2;
+      {fatal_error,_Line, "expecting < or whitespace", EndTags, 
+       #st{source = Src} = State2} when Src =/= rest ->
+         [Txt|Rest] = binary:split(Bin, <<"<">>),
+         ?dbg("{Txt,Rest}",{Txt,Rest,EndTags}),
+         State3 = event({characters, Txt}, 0, State2),
+         case Rest of
+            [] ->
+               event(endFragment, 0, State3#st{source = ok});
+            [R] ->
+               read_bin(Cwd, <<"<",R/binary>>, State3#st{source = rest})
+         end;
+      {fatal_error,_Line, "Continuation function undefined", _, State2} ->
+         ?dbg("Bin",Bin),
+         case binary:match(Bin, <<"<">>) of
+            nomatch ->
+               State3 = event({characters, Bin}, 0, State2),
+               event(endFragment, 0, State3#st{source = ok});
+            _ ->
+               throw({error,invalid_xml})
+         end;
       {fatal_error,_Line, Reason, _EndTags, State2} -> 
          ?dbg("{error,Name}",{error,Cwd}),
          ?dbg("{error,Reason}",{error,Reason,State2}),
@@ -266,9 +298,9 @@ read_list_1([], State) -> State;
 read_list_1([H|T], State) ->
    read_list_1(T,event(H,0,State)).
 
-event_dummy(Event, _Ln, State) -> 
-   ?dbg("Event",Event),
-   State.
+%% event_dummy(Event, _Ln, State) -> 
+%%    ?dbg("Event",Event),
+%%    State.
 
 event(startFragment, _Ln, #st{nd_pos = C,
                               pc = ParChld} = State) -> 
@@ -356,6 +388,8 @@ event({startPrefixMapping, Prefix, Uri}, _Ln, #st{temp = Temp} = State) ->
    State1#st{temp = [Rec|Temp]};
 event({endPrefixMapping, _}, _Ln, #st{} = State) -> State;
 
+event({startElement, [], _, {Prefix,_}, _}, _,_) when Prefix =/= [] ->
+   {error,no_namespace};
 event({startElement, Uri, LocalName, {Prefix,_}, Attributes}, _Ln,
       #st{temp = Temp,
           nd_pos = NodPos,

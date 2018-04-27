@@ -7,4 +7,9 @@ erl_crash.dump
 ebin/*.beam
 rel/example_project
 .concrete/DEV_MODE
+.settings
+.project
 .rebar
+/ebin/
+/src/json_parser.erl
+/data/
