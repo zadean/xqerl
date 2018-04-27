@@ -1,9 +1,10 @@
 -module('fn_load_xquery_module_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['fn-load-xquery-module-001'/1]).
 -export(['fn-load-xquery-module-002'/1]).
 -export(['fn-load-xquery-module-003'/1]).
@@ -86,531 +87,532 @@
 -export(['fn-load-xquery-module-913'/1]).
 -export(['fn-load-xquery-module-914'/1]).
 -export(['fn-load-xquery-module-915'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'fn-load-xquery-module-001',
-   'fn-load-xquery-module-002',
-   'fn-load-xquery-module-003',
-   'fn-load-xquery-module-004',
-   'fn-load-xquery-module-005',
-   'fn-load-xquery-module-006',
-   'fn-load-xquery-module-007',
-   'fn-load-xquery-module-008',
-   'fn-load-xquery-module-009',
-   'fn-load-xquery-module-010',
-   'fn-load-xquery-module-011',
-   'fn-load-xquery-module-012',
-   'fn-load-xquery-module-013',
-   'fn-load-xquery-module-014',
-   'fn-load-xquery-module-015',
-   'fn-load-xquery-module-016',
-   'fn-load-xquery-module-017',
-   'fn-load-xquery-module-018',
-   'fn-load-xquery-module-019',
-   'fn-load-xquery-module-020',
-   'fn-load-xquery-module-021',
-   'fn-load-xquery-module-022',
-   'fn-load-xquery-module-023',
-   'fn-load-xquery-module-024',
-   'fn-load-xquery-module-025',
-   'fn-load-xquery-module-026',
-   'fn-load-xquery-module-027',
-   'fn-load-xquery-module-028',
-   'fn-load-xquery-module-029',
-   'fn-load-xquery-module-030',
-   'fn-load-xquery-module-031',
-   'fn-load-xquery-module-032',
-   'fn-load-xquery-module-033',
-   'fn-load-xquery-module-034',
-   'fn-load-xquery-module-035',
-   'fn-load-xquery-module-036',
-   'fn-load-xquery-module-037',
-   'fn-load-xquery-module-038',
-   'fn-load-xquery-module-040',
-   'fn-load-xquery-module-041',
-   'fn-load-xquery-module-042',
-   'fn-load-xquery-module-043',
-   'fn-load-xquery-module-044',
-   'fn-load-xquery-module-045',
-   'fn-load-xquery-module-046',
-   'fn-load-xquery-module-050',
-   'fn-load-xquery-module-051',
-   'fn-load-xquery-module-052',
-   'fn-load-xquery-module-053',
-   'fn-load-xquery-module-054',
-   'fn-load-xquery-module-055',
-   'fn-load-xquery-module-056',
-   'fn-load-xquery-module-057',
-   'fn-load-xquery-module-060',
-   'fn-load-xquery-module-061',
-   'fn-load-xquery-module-062',
-   'fn-load-xquery-module-063',
-   'fn-load-xquery-module-064',
-   'fn-load-xquery-module-065',
-   'fn-load-xquery-module-066',
-   'fn-load-xquery-module-067',
-   'fn-load-xquery-module-068',
-   'fn-load-xquery-module-069',
-   'fn-load-xquery-module-070',
-   'fn-load-xquery-module-071',
-   'fn-load-xquery-module-072',
-   'fn-load-xquery-module-073',
-   'fn-load-xquery-module-901',
-   'fn-load-xquery-module-902',
-   'fn-load-xquery-module-903',
-   'fn-load-xquery-module-904',
-   'fn-load-xquery-module-905',
-   'fn-load-xquery-module-906',
-   'fn-load-xquery-module-907',
-   'fn-load-xquery-module-908',
-   'fn-load-xquery-module-909',
-   'fn-load-xquery-module-910',
-   'fn-load-xquery-module-911',
-   'fn-load-xquery-module-912',
-   'fn-load-xquery-module-913',
-   'fn-load-xquery-module-914',
-   'fn-load-xquery-module-915'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'fn-load-xquery-module-001', 
+'fn-load-xquery-module-002', 
+'fn-load-xquery-module-003', 
+'fn-load-xquery-module-004', 
+'fn-load-xquery-module-005', 
+'fn-load-xquery-module-006', 
+'fn-load-xquery-module-007', 
+'fn-load-xquery-module-008', 
+'fn-load-xquery-module-009', 
+'fn-load-xquery-module-010', 
+'fn-load-xquery-module-011', 
+'fn-load-xquery-module-012', 
+'fn-load-xquery-module-013', 
+'fn-load-xquery-module-014', 
+'fn-load-xquery-module-015', 
+'fn-load-xquery-module-016', 
+'fn-load-xquery-module-017', 
+'fn-load-xquery-module-018', 
+'fn-load-xquery-module-019', 
+'fn-load-xquery-module-020', 
+'fn-load-xquery-module-021', 
+'fn-load-xquery-module-022', 
+'fn-load-xquery-module-023', 
+'fn-load-xquery-module-024', 
+'fn-load-xquery-module-025', 
+'fn-load-xquery-module-026', 
+'fn-load-xquery-module-027', 
+'fn-load-xquery-module-028', 
+'fn-load-xquery-module-029', 
+'fn-load-xquery-module-030', 
+'fn-load-xquery-module-031', 
+'fn-load-xquery-module-032', 
+'fn-load-xquery-module-033', 
+'fn-load-xquery-module-034', 
+'fn-load-xquery-module-035', 
+'fn-load-xquery-module-036', 
+'fn-load-xquery-module-037', 
+'fn-load-xquery-module-038', 
+'fn-load-xquery-module-040', 
+'fn-load-xquery-module-041', 
+'fn-load-xquery-module-042', 
+'fn-load-xquery-module-043', 
+'fn-load-xquery-module-044', 
+'fn-load-xquery-module-045', 
+'fn-load-xquery-module-046', 
+'fn-load-xquery-module-050', 
+'fn-load-xquery-module-051', 
+'fn-load-xquery-module-052', 
+'fn-load-xquery-module-053', 
+'fn-load-xquery-module-054', 
+'fn-load-xquery-module-055', 
+'fn-load-xquery-module-056', 
+'fn-load-xquery-module-057', 
+'fn-load-xquery-module-060', 
+'fn-load-xquery-module-061', 
+'fn-load-xquery-module-062', 
+'fn-load-xquery-module-063', 
+'fn-load-xquery-module-064', 
+'fn-load-xquery-module-065', 
+'fn-load-xquery-module-066', 
+'fn-load-xquery-module-067', 
+'fn-load-xquery-module-068', 
+'fn-load-xquery-module-069', 
+'fn-load-xquery-module-070', 
+'fn-load-xquery-module-071', 
+'fn-load-xquery-module-072', 
+'fn-load-xquery-module-073', 
+'fn-load-xquery-module-901', 
+'fn-load-xquery-module-902', 
+'fn-load-xquery-module-903', 
+'fn-load-xquery-module-904', 
+'fn-load-xquery-module-905', 
+'fn-load-xquery-module-906', 
+'fn-load-xquery-module-907', 
+'fn-load-xquery-module-908', 
+'fn-load-xquery-module-909', 
+'fn-load-xquery-module-910', 
+'fn-load-xquery-module-911', 
+'fn-load-xquery-module-912', 
+'fn-load-xquery-module-913', 
+'fn-load-xquery-module-914', 
+'fn-load-xquery-module-915'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('hats',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('hats',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../prod/SchemaImport/hats.xsd"),"http://www.w3.org/XQueryTest/hats"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('abf',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../prod/SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('abf',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../prod/SchemaImport/abf.xsd"),"http://www.w3.org/XQueryTest/abf"}]}, 
+{resources, []}, 
 {modules, []}
 ].
 'fn-load-xquery-module-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-025'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-026'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-027'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-028'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-029'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-030'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-031'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-032'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-033'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-034'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-035'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-036'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-037'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-038'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-040'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-041'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-042'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-043'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-044'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-045'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-046'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-050'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-051'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-052'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-053'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-054'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-055'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-056'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-057'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-060'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-061'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-062'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-063'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-064'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-065'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-066'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-067'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-068'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-069'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-070'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-071'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-072'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-073'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-901'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-902'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-903'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-904'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-905'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-906'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-907'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-908'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-909'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-910'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-911'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-912'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-913'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-914'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}. 
 'fn-load-xquery-module-915'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"load-xquery-module"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"fn-load-xquery-module"}.

@@ -1,9 +1,10 @@
 -module('prod_DirAttributeList_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['Constr-attr-syntax-1'/1]).
 -export(['Constr-attr-syntax-2'/1]).
 -export(['Constr-attr-syntax-3'/1]).
@@ -138,322 +139,323 @@
 -export(['K2-DirectConElemAttr-76'/1]).
 -export(['DirectConElemAttr-1'/1]).
 -export(['DirectConElemAttr-2'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "prod")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "prod"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'Constr-attr-syntax-1',
-   'Constr-attr-syntax-2',
-   'Constr-attr-syntax-3',
-   'Constr-attr-syntax-4',
-   'Constr-attr-syntax-5',
-   'Constr-attr-syntax-6',
-   'Constr-attr-syntax-7',
-   'Constr-attr-syntax-8',
-   'Constr-attr-syntax-9',
-   'Constr-attr-syntax-10',
-   'Constr-attr-parent-1',
-   'Constr-attr-nsdecl-1',
-   'Constr-attr-nsdecl-2',
-   'Constr-attr-nspre-1',
-   'Constr-attr-nspre-2',
-   'Constr-attr-nsprein-1',
-   'Constr-attr-nsprein-2',
-   'Constr-attr-nsprein-3',
-   'Constr-attr-nsprein-4',
-   'Constr-attr-distnames-1',
-   'Constr-attr-distnames-2',
-   'Constr-attr-distnames-3',
-   'Constr-attr-distnames-4',
-   'Constr-attr-content-1',
-   'Constr-attr-content-2',
-   'Constr-attr-content-3',
-   'Constr-attr-content-4',
-   'Constr-attr-content-5',
-   'Constr-attr-ws-1',
-   'Constr-attr-ws-2',
-   'Constr-attr-ws-3',
-   'Constr-attr-ws-4',
-   'Constr-attr-ws-5',
-   'Constr-attr-entref-1',
-   'Constr-attr-entref-2',
-   'Constr-attr-charref-1',
-   'Constr-attr-enclexpr-1',
-   'Constr-attr-enclexpr-2',
-   'Constr-attr-enclexpr-3',
-   'Constr-attr-enclexpr-4',
-   'Constr-attr-enclexpr-5',
-   'Constr-attr-enclexpr-6',
-   'Constr-attr-enclexpr-7',
-   'Constr-attr-enclexpr-8',
-   'Constr-attr-enclexpr-9',
-   'Constr-attr-enclexpr-10',
-   'Constr-attr-enclexpr-11',
-   'Constr-attr-enclexpr-12',
-   'Constr-attr-enclexpr-13',
-   'Constr-attr-enclexpr-14',
-   'Constr-attr-enclexpr-15',
-   'Constr-attr-enclexpr-16',
-   'Constr-attr-id-1',
-   'Constr-attr-id-2',
-   'K2-DirectConElemAttr-1',
-   'K2-DirectConElemAttr-2',
-   'K2-DirectConElemAttr-3',
-   'K2-DirectConElemAttr-4',
-   'K2-DirectConElemAttr-4a',
-   'K2-DirectConElemAttr-5',
-   'K2-DirectConElemAttr-6',
-   'K2-DirectConElemAttr-6a',
-   'K2-DirectConElemAttr-7',
-   'K2-DirectConElemAttr-8',
-   'K2-DirectConElemAttr-9',
-   'K2-DirectConElemAttr-10',
-   'K2-DirectConElemAttr-11',
-   'K2-DirectConElemAttr-12',
-   'K2-DirectConElemAttr-13',
-   'K2-DirectConElemAttr-14',
-   'K2-DirectConElemAttr-15',
-   'K2-DirectConElemAttr-16',
-   'K2-DirectConElemAttr-17',
-   'K2-DirectConElemAttr-18',
-   'K2-DirectConElemAttr-19',
-   'K2-DirectConElemAttr-20',
-   'K2-DirectConElemAttr-21',
-   'K2-DirectConElemAttr-22',
-   'K2-DirectConElemAttr-23',
-   'K2-DirectConElemAttr-24',
-   'K2-DirectConElemAttr-25',
-   'K2-DirectConElemAttr-26',
-   'K2-DirectConElemAttr-27',
-   'K2-DirectConElemAttr-28',
-   'K2-DirectConElemAttr-29',
-   'K2-DirectConElemAttr-30',
-   'K2-DirectConElemAttr-31',
-   'K2-DirectConElemAttr-32',
-   'K2-DirectConElemAttr-33',
-   'K2-DirectConElemAttr-34',
-   'K2-DirectConElemAttr-35',
-   'K2-DirectConElemAttr-36',
-   'K2-DirectConElemAttr-37',
-   'K2-DirectConElemAttr-38',
-   'K2-DirectConElemAttr-39',
-   'K2-DirectConElemAttr-40',
-   'K2-DirectConElemAttr-41',
-   'K2-DirectConElemAttr-42',
-   'K2-DirectConElemAttr-43',
-   'K2-DirectConElemAttr-44',
-   'K2-DirectConElemAttr-45',
-   'K2-DirectConElemAttr-46',
-   'K2-DirectConElemAttr-47',
-   'K2-DirectConElemAttr-48',
-   'K2-DirectConElemAttr-49',
-   'K2-DirectConElemAttr-50',
-   'K2-DirectConElemAttr-51',
-   'K2-DirectConElemAttr-52',
-   'K2-DirectConElemAttr-53',
-   'K2-DirectConElemAttr-54',
-   'K2-DirectConElemAttr-55',
-   'K2-DirectConElemAttr-56',
-   'K2-DirectConElemAttr-57',
-   'K2-DirectConElemAttr-58',
-   'K2-DirectConElemAttr-59',
-   'K2-DirectConElemAttr-60',
-   'K2-DirectConElemAttr-61',
-   'K2-DirectConElemAttr-62',
-   'K2-DirectConElemAttr-63',
-   'K2-DirectConElemAttr-64',
-   'K2-DirectConElemAttr-65',
-   'K2-DirectConElemAttr-66',
-   'K2-DirectConElemAttr-67',
-   'K2-DirectConElemAttr-68',
-   'K2-DirectConElemAttr-69',
-   'K2-DirectConElemAttr-70',
-   'K2-DirectConElemAttr-71',
-   'K2-DirectConElemAttr-72',
-   'K2-DirectConElemAttr-73',
-   'K2-DirectConElemAttr-74',
-   'K2-DirectConElemAttr-75',
-   'K2-DirectConElemAttr-76',
-   'DirectConElemAttr-1',
-   'DirectConElemAttr-2'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'Constr-attr-syntax-1', 
+'Constr-attr-syntax-2', 
+'Constr-attr-syntax-3', 
+'Constr-attr-syntax-4', 
+'Constr-attr-syntax-5', 
+'Constr-attr-syntax-6', 
+'Constr-attr-syntax-7', 
+'Constr-attr-syntax-8', 
+'Constr-attr-syntax-9', 
+'Constr-attr-syntax-10', 
+'Constr-attr-parent-1', 
+'Constr-attr-nsdecl-1', 
+'Constr-attr-nsdecl-2', 
+'Constr-attr-nspre-1', 
+'Constr-attr-nspre-2', 
+'Constr-attr-nsprein-1', 
+'Constr-attr-nsprein-2', 
+'Constr-attr-nsprein-3', 
+'Constr-attr-nsprein-4', 
+'Constr-attr-distnames-1', 
+'Constr-attr-distnames-2', 
+'Constr-attr-distnames-3', 
+'Constr-attr-distnames-4', 
+'Constr-attr-content-1', 
+'Constr-attr-content-2', 
+'Constr-attr-content-3', 
+'Constr-attr-content-4', 
+'Constr-attr-content-5', 
+'Constr-attr-ws-1', 
+'Constr-attr-ws-2', 
+'Constr-attr-ws-3', 
+'Constr-attr-ws-4', 
+'Constr-attr-ws-5', 
+'Constr-attr-entref-1', 
+'Constr-attr-entref-2', 
+'Constr-attr-charref-1', 
+'Constr-attr-enclexpr-1', 
+'Constr-attr-enclexpr-2', 
+'Constr-attr-enclexpr-3', 
+'Constr-attr-enclexpr-4', 
+'Constr-attr-enclexpr-5', 
+'Constr-attr-enclexpr-6', 
+'Constr-attr-enclexpr-7', 
+'Constr-attr-enclexpr-8', 
+'Constr-attr-enclexpr-9', 
+'Constr-attr-enclexpr-10', 
+'Constr-attr-enclexpr-11', 
+'Constr-attr-enclexpr-12', 
+'Constr-attr-enclexpr-13', 
+'Constr-attr-enclexpr-14', 
+'Constr-attr-enclexpr-15', 
+'Constr-attr-enclexpr-16', 
+'Constr-attr-id-1', 
+'Constr-attr-id-2', 
+'K2-DirectConElemAttr-1', 
+'K2-DirectConElemAttr-2', 
+'K2-DirectConElemAttr-3', 
+'K2-DirectConElemAttr-4', 
+'K2-DirectConElemAttr-4a', 
+'K2-DirectConElemAttr-5', 
+'K2-DirectConElemAttr-6', 
+'K2-DirectConElemAttr-6a', 
+'K2-DirectConElemAttr-7', 
+'K2-DirectConElemAttr-8', 
+'K2-DirectConElemAttr-9', 
+'K2-DirectConElemAttr-10', 
+'K2-DirectConElemAttr-11', 
+'K2-DirectConElemAttr-12', 
+'K2-DirectConElemAttr-13', 
+'K2-DirectConElemAttr-14', 
+'K2-DirectConElemAttr-15', 
+'K2-DirectConElemAttr-16', 
+'K2-DirectConElemAttr-17', 
+'K2-DirectConElemAttr-18', 
+'K2-DirectConElemAttr-19', 
+'K2-DirectConElemAttr-20', 
+'K2-DirectConElemAttr-21', 
+'K2-DirectConElemAttr-22', 
+'K2-DirectConElemAttr-23', 
+'K2-DirectConElemAttr-24', 
+'K2-DirectConElemAttr-25', 
+'K2-DirectConElemAttr-26', 
+'K2-DirectConElemAttr-27', 
+'K2-DirectConElemAttr-28', 
+'K2-DirectConElemAttr-29', 
+'K2-DirectConElemAttr-30', 
+'K2-DirectConElemAttr-31', 
+'K2-DirectConElemAttr-32', 
+'K2-DirectConElemAttr-33', 
+'K2-DirectConElemAttr-34', 
+'K2-DirectConElemAttr-35', 
+'K2-DirectConElemAttr-36', 
+'K2-DirectConElemAttr-37', 
+'K2-DirectConElemAttr-38', 
+'K2-DirectConElemAttr-39', 
+'K2-DirectConElemAttr-40', 
+'K2-DirectConElemAttr-41', 
+'K2-DirectConElemAttr-42', 
+'K2-DirectConElemAttr-43', 
+'K2-DirectConElemAttr-44', 
+'K2-DirectConElemAttr-45', 
+'K2-DirectConElemAttr-46', 
+'K2-DirectConElemAttr-47', 
+'K2-DirectConElemAttr-48', 
+'K2-DirectConElemAttr-49', 
+'K2-DirectConElemAttr-50', 
+'K2-DirectConElemAttr-51', 
+'K2-DirectConElemAttr-52', 
+'K2-DirectConElemAttr-53', 
+'K2-DirectConElemAttr-54', 
+'K2-DirectConElemAttr-55', 
+'K2-DirectConElemAttr-56', 
+'K2-DirectConElemAttr-57', 
+'K2-DirectConElemAttr-58', 
+'K2-DirectConElemAttr-59', 
+'K2-DirectConElemAttr-60', 
+'K2-DirectConElemAttr-61', 
+'K2-DirectConElemAttr-62', 
+'K2-DirectConElemAttr-63', 
+'K2-DirectConElemAttr-64', 
+'K2-DirectConElemAttr-65', 
+'K2-DirectConElemAttr-66', 
+'K2-DirectConElemAttr-67', 
+'K2-DirectConElemAttr-68', 
+'K2-DirectConElemAttr-69', 
+'K2-DirectConElemAttr-70', 
+'K2-DirectConElemAttr-71', 
+'K2-DirectConElemAttr-72', 
+'K2-DirectConElemAttr-73', 
+'K2-DirectConElemAttr-74', 
+'K2-DirectConElemAttr-75', 
+'K2-DirectConElemAttr-76', 
+'DirectConElemAttr-1', 
+'DirectConElemAttr-2'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'Constr-attr-syntax-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"value\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"value\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -462,13 +464,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr1=\"val1\" attr2=\"val2\" attr3=\"val3\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr1=\"val1\" attr2=\"val2\" attr3=\"val3\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"val1\" attr2=\"val2\" attr3=\"val3\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -477,13 +479,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr='value'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr='value'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -492,13 +494,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=''''/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=''''/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"'\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -507,13 +509,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"\"\"\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"\"\"\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&quot;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -522,13 +524,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr='value\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr='value\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -537,13 +539,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"value'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"value'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -552,13 +554,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr1=\"val1\" attr2=\"val2\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr1=\"val1\" attr2=\"val2\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"val1\" attr2=\"val2\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -567,13 +569,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr = \"value\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr = \"value\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -582,13 +584,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-syntax-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"value\" />",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"value\" />", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-syntax-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-syntax-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -597,28 +599,28 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-parent-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $x in <elem attr=\"value\"/> return $x is $x/@attr/..",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $x in <elem attr=\"value\"/> return $x is $x/@attr/..", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-parent-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-parent-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsdecl-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count((<elem xmlns:foo=\"http://ns.example.com/uri\"/>)/@*)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count((<elem xmlns:foo=\"http://ns.example.com/uri\"/>)/@*)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsdecl-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsdecl-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -627,13 +629,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsdecl-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count((<elem xmlns=\"http://ns.example.com/uri\"/>)/@*)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count((<elem xmlns=\"http://ns.example.com/uri\"/>)/@*)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsdecl-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsdecl-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -642,13 +644,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nspre-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace foo=\"http://www.w3.org/XQueryTest/Construct\"; <elem foo:attr=\"value\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare namespace foo=\"http://www.w3.org/XQueryTest/Construct\"; <elem foo:attr=\"value\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nspre-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nspre-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -657,13 +659,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nspre-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"><child foo:attr=\"value\"/></elem>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"><child foo:attr=\"value\"/></elem>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nspre-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nspre-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"><child foo:attr=\"value\"/></elem>") of 
       true -> {comment, "XML Deep equal"};
@@ -672,13 +674,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsprein-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsprein-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -687,13 +689,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsprein-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem foo:attr=\"value\" xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem foo:attr=\"value\" xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsprein-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"value\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -702,13 +704,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsprein-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem att=\"{<p:e/>/namespace-uri()}\" xmlns:p=\"http://ns.example.com/uri\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem att=\"{<p:e/>/namespace-uri()}\" xmlns:p=\"http://ns.example.com/uri\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsprein-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem att=\"http://ns.example.com/uri\" xmlns:p=\"http://ns.example.com/uri\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -717,14 +719,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-nsprein-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "<elem att=\"{<e2 a2=\"{<e3 a3=\"{<p:e/>/namespace-uri()}\"></e3>/@a3}\"></e2>/@a2}\" 
-                                     xmlns:p=\"http://ns.example.com/uri\"/>",
+                                     xmlns:p=\"http://ns.example.com/uri\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-nsprein-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-nsprein-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem att=\"http://ns.example.com/uri\" xmlns:p=\"http://ns.example.com/uri\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -733,13 +735,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-distnames-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"val1\" attr=\"val2\" attr2=\"val3\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"val1\" attr=\"val2\" attr2=\"val3\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-distnames-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
@@ -748,13 +750,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-distnames-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"val1\" attr2=\"val2\" attr=\"val3\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"val1\" attr2=\"val2\" attr=\"val3\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-distnames-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
@@ -763,13 +765,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-distnames-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr1=\"val1\" attr=\"val2\" attr2=\"val3\" attr=\"val4\" attr3=\"val5\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr1=\"val1\" attr=\"val2\" attr2=\"val3\" attr=\"val4\" attr3=\"val5\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-distnames-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
@@ -778,13 +780,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-distnames-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"val1\" bar:attr=\"val2\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem xmlns:foo=\"http://www.w3.org/XQueryTest/Construct\" xmlns:bar=\"http://www.w3.org/XQueryTest/Construct\" foo:attr=\"val1\" bar:attr=\"val2\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-distnames-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-distnames-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0040") of 
       true -> {comment, "Correct error"};
@@ -793,13 +795,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-content-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"abxxyz123890!@#$%^*()[]\\|?/>:;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"abxxyz123890!@#$%^*()[]\\|?/>:;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-content-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<elem attr=\"abxxyz123890!@#$%^*()[]\\|?/&gt;:;\"/>") of 
@@ -816,13 +818,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-content-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-content-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -831,13 +833,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-content-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-content-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -846,13 +848,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-content-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"<\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"<\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-content-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -861,13 +863,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-content-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-content-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-content-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -876,13 +878,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-ws-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\" \"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\" \"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-ws-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\" \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -891,13 +893,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-ws-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\" \"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\" \"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-ws-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\" \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -906,13 +908,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-ws-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&#xd;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&#xd;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-ws-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#xD;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -921,13 +923,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-ws-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&#xa;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&#xa;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-ws-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#xA;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -936,13 +938,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-ws-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&#x9;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&#x9;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-ws-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-ws-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&#x9;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -951,13 +953,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-entref-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&amp;&lt;&gt;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&amp;&lt;&gt;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-entref-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-entref-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"&amp;&lt;&gt;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -966,13 +968,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-entref-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-length(string((<elem attr=\"&amp;&lt;&gt;\"/>)/@attr))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-length(string((<elem attr=\"&amp;&lt;&gt;\"/>)/@attr))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-entref-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-entref-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -981,13 +983,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-charref-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"&#x30;&#x31;&#x32;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"&#x30;&#x31;&#x32;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-charref-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-charref-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"012\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -996,13 +998,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1 string 3.14 0.012345 2002-04-02T12:00:00-01:00\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1011,13 +1013,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123 456 789\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1026,13 +1028,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{1,'',2}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{1,'',2}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1  2\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1041,13 +1043,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{1,<a/>,2}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{1,<a/>,2}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1  2\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1056,13 +1058,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"123{456}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"123{456}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123456\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1071,13 +1073,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{123}456\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{123}456\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"123456\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1086,13 +1088,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"1{2,3}{4,5}6{<a>7</a>}{<a>8</a>}9\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"1{2,3}{4,5}6{<a>7</a>}{<a>8</a>}9\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"12 34 56789\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1101,13 +1103,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"{(1,2)}{3}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"{(1,2)}{3}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"1 23\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1116,16 +1118,16 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10 XQ30"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XQ10+"}. 
 'Constr-attr-enclexpr-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"z{}z\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"z{}z\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1134,13 +1136,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"z{ }z\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"z{ }z\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1149,13 +1151,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"z{ (:comment:) }z\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"z{ (:comment:) }z\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr=\"zz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1164,13 +1166,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"abc{ 23 (:\":) }xyz\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"abc{ 23 (:\":) }xyz\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1179,13 +1181,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"abc{ 23 (:{:) }xyz\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"abc{ 23 (:{:) }xyz\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1194,13 +1196,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"abc{ 23 (:}:) }xyz\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"abc{ 23 (:}:) }xyz\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"abc23xyz\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1209,13 +1211,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-enclexpr-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"abc{ (# }xyz\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"abc{ (# }xyz\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-enclexpr-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-enclexpr-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1224,13 +1226,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-id-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem xml:id=\"ncname\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem xml:id=\"ncname\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-id-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-id-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem xml:id=\"ncname\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1239,13 +1241,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'Constr-attr-id-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem xml:id=\" a{'b c d',' '}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem xml:id=\" a{'b c d',' '}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "Constr-attr-id-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Constr-attr-id-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<elem xml:id=\"ab c d\"/>") of 
@@ -1262,13 +1264,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<ncname (:a misplaced comment:)/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<ncname (:a misplaced comment:)/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1277,13 +1279,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<(:a misplaced comment:)ncname/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<(:a misplaced comment:)ncname/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1292,13 +1294,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<ncname></ ncname>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<ncname></ ncname>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1307,16 +1309,16 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XQ10+"}. 
 'K2-DirectConElemAttr-4a'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<ncname></ncname (:a misplaced comment:)>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<ncname></ncname (:a misplaced comment:)>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-4a.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-4a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPST0003") of 
@@ -1333,31 +1335,31 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<ncname>content</ncname > = 'content'",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<ncname>content</ncname > = 'content'", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XQ10+"}. 
 'K2-DirectConElemAttr-6a'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<ncname></ncnameNOTBALANCED>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<ncname></ncnameNOTBALANCED>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-6a.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-6a.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0118") of 
       true -> {comment, "Correct error"};
@@ -1366,13 +1368,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<![CDATA[a string]]>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<![CDATA[a string]]>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1381,13 +1383,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"\"\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"\"\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1396,13 +1398,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr='''/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr='''/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1411,13 +1413,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"content<content\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"content<content\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1426,13 +1428,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"content}content\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"content}content\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1441,13 +1443,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"content{1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"content{1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1456,13 +1458,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{{{\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{{{\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1471,13 +1473,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1486,13 +1488,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1501,13 +1503,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"content}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"content}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1516,13 +1518,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1531,13 +1533,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"<foo/>\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"<foo/>\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1546,13 +1548,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"<?target content?>\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"<?target content?>\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1561,13 +1563,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"<!-- a comment-->\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"<!-- a comment-->\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1576,13 +1578,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"<![CDATA[content]]>\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"<![CDATA[content]]>\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1591,13 +1593,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1606,13 +1608,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr=\"content'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr=\"content'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1621,13 +1623,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr='content\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr='content\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1636,13 +1638,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo (:comment :)/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo (:comment :)/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1651,13 +1653,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=(:comment:)\"value\" />",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=(:comment:)\"value\" />", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1666,13 +1668,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr(:comment:)=\"value\" />",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr(:comment:)=\"value\" />", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1681,13 +1683,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"value\" (:comment:) attr2=\"value\" />",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"value\" (:comment:) attr2=\"value\" />", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-28.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1696,13 +1698,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<foo attr=\"\"\"\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<foo attr=\"\"\"\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-29.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"") of 
       true -> {comment, "String correct"};
@@ -1711,13 +1713,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<foo attr='\"\"'/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<foo attr='\"\"'/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-30.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "\"\"") of 
       true -> {comment, "String correct"};
@@ -1726,13 +1728,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<foo attr=\"''\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<foo attr=\"''\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-31.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "''") of 
       true -> {comment, "String correct"};
@@ -1741,13 +1743,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<foo attr=''''/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<foo attr=''''/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-32.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "'") of 
       true -> {comment, "String correct"};
@@ -1756,13 +1758,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"x{<e>a</e>, <e>b</e>, <e>c</e>, 1, 2, 3}y\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"x{<e>a</e>, <e>b</e>, <e>c</e>, 1, 2, 3}y\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-33.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"xa b c 1 2 3y\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1771,13 +1773,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-34'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<elem attr=\"{comment {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<elem attr=\"{comment {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-34.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " content ") of 
       true -> {comment, "String correct"};
@@ -1786,13 +1788,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-35'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "local-name(<elem attr=\"{comment {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "local-name(<elem attr=\"{comment {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-35.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
@@ -1801,13 +1803,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-36'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-36.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "content ") of 
       true -> {comment, "String correct"};
@@ -1816,13 +1818,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-37'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "local-name(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "local-name(<elem attr=\"{processing-instruction name {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-37.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
@@ -1831,13 +1833,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-38'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "local-name(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "local-name(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-38.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "attr") of 
       true -> {comment, "String correct"};
@@ -1846,13 +1848,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-39'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(<elem attr=\"{attribute name {\" content \"}}\"/>/@attr)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-39.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, " content ") of 
       true -> {comment, "String correct"};
@@ -1861,13 +1863,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-40'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<elem attr1=\"\"\"\" attr2='''' attr3=\"''\" attr4='\"\"' attr5=\"'\" attr6='\"'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<elem attr1=\"\"\"\" attr2='''' attr3=\"''\" attr4='\"\"' attr5=\"'\" attr6='\"'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-40.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem attr1=\"&quot;\" attr2=\"'\" attr3=\"''\" attr4=\"&quot;&quot;\" attr5=\"'\" attr6=\"&quot;\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1876,13 +1878,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-41'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{<foo attr=\"foo\"/>}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{<foo attr=\"foo\"/>}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-41.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\"\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1891,13 +1893,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-42'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{<!-- comment -->}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{<!-- comment -->}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-42.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\" comment \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1906,13 +1908,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-43'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<foo attr=\"{<?target dat a ?>}\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<foo attr=\"{<?target dat a ?>}\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-43.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<foo attr=\"dat a \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1921,13 +1923,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-44'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"../\">{ static-base-uri()}</e>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"../\">{ static-base-uri()}</e>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-44.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:base=\"../\">http://example.com/level/file.ext</e>") of 
       true -> {comment, "XML Deep equal"};
@@ -1936,13 +1938,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-45'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"http://example.com/2/2\">{ static-base-uri()}</e>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare base-uri \"http://example.com/level/file.ext\"; <e xml:base=\"http://example.com/2/2\">{ static-base-uri()}</e>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-45.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-45.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e xml:base=\"http://example.com/2/2\">http://example.com/level/file.ext</e>") of 
       true -> {comment, "XML Deep equal"};
@@ -1951,13 +1953,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-46'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e> { <b attr=\"fo\" a=\"bo\"/>/@* } </e>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e> { <b attr=\"fo\" a=\"bo\"/>/@* } </e>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-46.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"fo\" a=\"bo\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1966,28 +1968,28 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-47'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "data(<e foo=\"content\"/>/@*) instance of xs:untypedAtomic",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "data(<e foo=\"content\"/>/@*) instance of xs:untypedAtomic", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-47.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-47.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-48'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a foo=\"1\"fb=\"1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a foo=\"1\"fb=\"1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-48.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-48.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1996,13 +1998,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-49'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b=\"1\" c=\"1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b=\"1\" c=\"1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-49.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-49.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2011,13 +2013,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-50'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b=\"1\" c=\"1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b=\"1\" c=\"1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-50.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-50.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2026,13 +2028,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-51'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a foo='1'fb='1'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a foo='1'fb='1'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-51.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-51.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2041,13 +2043,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-52'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b='1' c='1'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b='1' c='1'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-52.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-52.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a b=\"1\" c=\"1\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2056,13 +2058,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-53'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b=\"1\"/a=\"1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b=\"1\"/a=\"1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-53.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-53.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2071,13 +2073,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-54'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b='1'/a='1'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b='1'/a='1'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-54.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-54.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2086,13 +2088,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-55'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b=\"1\">a=\"1\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b=\"1\">a=\"1\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-55.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-55.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2101,13 +2103,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-56'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b='1'>a='1'/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b='1'>a='1'/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-56.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-56.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2116,13 +2118,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-57'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr=\"content\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr=\"content\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-57.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-57.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2131,13 +2133,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-58'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr='content'",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr='content'", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-58.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-58.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2146,13 +2148,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-59'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr=\"content\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr=\"content\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-59.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-59.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2161,13 +2163,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-60'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr='content'",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr='content'", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-60.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-60.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2176,13 +2178,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-61'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr='con",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr='con", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-61.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-61.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2191,13 +2193,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-62'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr=\"con",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr=\"con", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-62.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-62.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2206,13 +2208,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-63'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr=",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr=", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-63.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-63.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2221,13 +2223,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-64'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr=",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr=", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-64.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-64.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2236,13 +2238,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-65'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a attr",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a attr", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-65.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-65.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2251,13 +2253,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-66'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b='1'/",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b='1'/", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-66.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-66.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2266,13 +2268,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-67'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a b='1'/",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a b='1'/", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-67.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-67.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2281,13 +2283,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-68'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e xmlns=\"\" xmlns=\"\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e xmlns=\"\" xmlns=\"\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-68.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-68.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
@@ -2296,13 +2298,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-69'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e xmlns:xml=\"http://www.w3.org/XML/1998/namespace\" xmlns:xml=\"http://www.w3.org/XML/1998/namespace\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-69.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-69.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0071") of 
       true -> {comment, "Correct error"};
@@ -2311,73 +2313,73 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-70'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e attr=\"foo\"/>/@attr))) eq \"\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e attr=\"foo\"/>/@attr))) eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-70.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-70.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-71'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e>{attribute attr {()} }/</e>/@attr))) eq \"\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare default element namespace \"http://typedecl\"; namespace-uri-from-QName(node-name(exactly-one(<e>{attribute attr {()} }/</e>/@attr))) eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-71.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-71.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-72'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "namespace-uri-from-QName(node-name(exactly-one(<e xmlns=\"http://example.com/\">{attribute attr {()} }/</e>/@attr))) eq \"\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "namespace-uri-from-QName(node-name(exactly-one(<e xmlns=\"http://example.com/\">{attribute attr {()} }/</e>/@attr))) eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-72.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-72.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-73'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare default element namespace \"http://example.com/\"; namespace-uri-from-QName(node-name(attribute e {()})) eq \"\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare default element namespace \"http://example.com/\"; namespace-uri-from-QName(node-name(attribute e {()})) eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-73.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-73.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-74'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e attr=\"{1}&#86;{1}&#86;\"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e attr=\"{1}&#86;{1}&#86;\"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-74.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-74.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e attr=\"1V1V\"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2386,9 +2388,9 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-75'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "(:*******************************************************:)
 (: Test: K2-DirectConElemAttr-75                         :)
 (: Written by: Frans Englich                             :)
@@ -2568,29 +2570,29 @@ text {\"a text node\"}
 }
 
 }
-</e>",
+</e>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-75.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-75.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "DirAttributeList/K2-DirectConElemAttr-75.out")}) of 
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "DirAttributeList/K2-DirectConElemAttr-75.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-DirectConElemAttr-76'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare function local:t() { text{\"\"}, text{\"[\"}, text{\"3\"}, text{\"]\"}, text{\"\"} }; 
         declare variable $var := (text{\"\"}, text{\"[\"}, text{\"3\"}, text{\"]\"}, text{\"\"}); 
         <out fromFunction=\"{local:t()}\" fromVariable=\"{$var}\"/>
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-DirectConElemAttr-76.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-DirectConElemAttr-76.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<out fromFunction=\" [ 3 ] \" fromVariable=\" [ 3 ] \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2599,13 +2601,13 @@ text {\"a text node\"}
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'DirectConElemAttr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<shoe name=\" \"\"\"\" \"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<shoe name=\" \"\"\"\" \"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "DirectConElemAttr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "DirectConElemAttr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<shoe name=\" &#34;&#34; \"/>") of 
       true -> {comment, "XML Deep equal"};
@@ -2614,13 +2616,13 @@ text {\"a text node\"}
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'DirectConElemAttr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<shoe name=\" '''''''' \"/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<shoe name=\" '''''''' \"/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "DirectConElemAttr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "DirectConElemAttr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<shoe name=\" '''''''' \"/>") of 
       true -> {comment, "XML Deep equal"};

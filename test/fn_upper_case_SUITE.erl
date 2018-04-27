@@ -1,9 +1,10 @@
 -module('fn_upper_case_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['fn-upper-case1args-1'/1]).
 -export(['fn-upper-case1args-2'/1]).
 -export(['fn-upper-case1args-3'/1]).
@@ -33,217 +34,218 @@
 -export(['K-UpperCaseFunc-2'/1]).
 -export(['K-UpperCaseFunc-3'/1]).
 -export(['K-UpperCaseFunc-4'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'fn-upper-case1args-1',
-   'fn-upper-case1args-2',
-   'fn-upper-case1args-3',
-   'fn-upper-case-1',
-   'fn-upper-case-2',
-   'fn-upper-case-3',
-   'fn-upper-case-4',
-   'fn-upper-case-5',
-   'fn-upper-case-6',
-   'fn-upper-case-7',
-   'fn-upper-case-8',
-   'fn-upper-case-9',
-   'fn-upper-case-10',
-   'fn-upper-case-11',
-   'fn-upper-case-12',
-   'fn-upper-case-13',
-   'fn-upper-case-14',
-   'fn-upper-case-15',
-   'fn-upper-case-16',
-   'fn-upper-case-17',
-   'fn-upper-case-18',
-   'fn-upper-case-19',
-   'fn-upper-case-20',
-   'fn-upper-case-21',
-   'fn-upper-case-22',
-   'K-UpperCaseFunc-1',
-   'K-UpperCaseFunc-2',
-   'K-UpperCaseFunc-3',
-   'K-UpperCaseFunc-4'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'fn-upper-case1args-1', 
+'fn-upper-case1args-2', 
+'fn-upper-case1args-3', 
+'fn-upper-case-1', 
+'fn-upper-case-2', 
+'fn-upper-case-3', 
+'fn-upper-case-4', 
+'fn-upper-case-5', 
+'fn-upper-case-6', 
+'fn-upper-case-7', 
+'fn-upper-case-8', 
+'fn-upper-case-9', 
+'fn-upper-case-10', 
+'fn-upper-case-11', 
+'fn-upper-case-12', 
+'fn-upper-case-13', 
+'fn-upper-case-14', 
+'fn-upper-case-15', 
+'fn-upper-case-16', 
+'fn-upper-case-17', 
+'fn-upper-case-18', 
+'fn-upper-case-19', 
+'fn-upper-case-20', 
+'fn-upper-case-21', 
+'fn-upper-case-22', 
+'K-UpperCaseFunc-1', 
+'K-UpperCaseFunc-2', 
+'K-UpperCaseFunc-3', 
+'K-UpperCaseFunc-4'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'fn-upper-case1args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(xs:string(\"This is a characte\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case1args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case1args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "THIS IS A CHARACTE") of 
       true -> {comment, "String correct"};
@@ -252,13 +254,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case1args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(xs:string(\"This is a characte\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case1args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case1args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "THIS IS A CHARACTE") of 
       true -> {comment, "String correct"};
@@ -267,13 +269,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case1args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(xs:string(\"This is a characte\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(xs:string(\"This is a characte\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case1args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case1args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "THIS IS A CHARACTE") of 
       true -> {comment, "String correct"};
@@ -282,13 +284,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"ABc!D\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"ABc!D\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABC!D") of 
       true -> {comment, "String correct"};
@@ -297,13 +299,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count(fn:upper-case(()))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count(fn:upper-case(()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -312,13 +314,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"12345\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"12345\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345") of 
       true -> {comment, "String correct"};
@@ -327,13 +329,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"12345abcd\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"12345abcd\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12345ABCD") of 
       true -> {comment, "String correct"};
@@ -342,13 +344,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"ABCD\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"ABCD\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABCD") of 
       true -> {comment, "String correct"};
@@ -357,13 +359,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"abcde\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"abcde\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABCDE") of 
       true -> {comment, "String correct"};
@@ -372,13 +374,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"ABCDEabcde\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"ABCDEabcde\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABCDEABCDE") of 
       true -> {comment, "String correct"};
@@ -387,13 +389,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count(fn:upper-case(\"\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count(fn:upper-case(\"\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -402,13 +404,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(lower-case(\"AbcDH\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(lower-case(\"AbcDH\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABCDH") of 
       true -> {comment, "String correct"};
@@ -417,13 +419,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"*****\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"*****\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "*****") of 
       true -> {comment, "String correct"};
@@ -432,13 +434,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(upper-case(\"zzzzz\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(upper-case(\"zzzzz\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ZZZZZ") of 
       true -> {comment, "String correct"};
@@ -447,28 +449,28 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:boolean(fn:upper-case(\"abcde\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:boolean(fn:upper-case(\"abcde\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:concat(fn:upper-case(\"abcde\"), fn:upper-case(\"fghi\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:concat(fn:upper-case(\"abcde\"), fn:upper-case(\"fghi\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "ABCDEFGHI") of 
       true -> {comment, "String correct"};
@@ -477,28 +479,28 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:not(fn:upper-case(\"abcde\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:not(fn:upper-case(\"abcde\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"%$#@!\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"%$#@!\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "%$#@!") of 
       true -> {comment, "String correct"};
@@ -507,13 +509,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"upper-case\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"upper-case\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "UPPER-CASE") of 
       true -> {comment, "String correct"};
@@ -522,28 +524,28 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:upper-case(\"abc\") and fn:upper-case(\"abc\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:upper-case(\"abc\") and fn:upper-case(\"abc\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(160 to 256)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(160 to 256)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"
             160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 
@@ -558,13 +560,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(880 to 1023)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(880 to 1023)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"
             880, 880, 882, 882, 884, 885, 886, 886, 888, 889, 890, 1021, 1022, 1023, 894, 895, 
@@ -582,13 +584,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(459)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(459)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"458") of 
       true -> {comment, "Equal"};
@@ -597,13 +599,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(223)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(223)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"83, 83") of 
       true -> {comment, "Deep equal"};
@@ -612,13 +614,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-upper-case-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(64279)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:string-to-codepoints(fn:upper-case(fn:codepoints-to-string(64279)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-upper-case-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-upper-case-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"1348, 1341") of 
       true -> {comment, "Deep equal"};
@@ -627,13 +629,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-UpperCaseFunc-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "upper-case()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "upper-case()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-UpperCaseFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-UpperCaseFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -642,13 +644,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-UpperCaseFunc-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "upper-case(\"string\", \"wrong param\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "upper-case(\"string\", \"wrong param\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-UpperCaseFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-UpperCaseFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -657,31 +659,31 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-UpperCaseFunc-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "upper-case(()) eq \"\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "upper-case(()) eq \"\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-UpperCaseFunc-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-UpperCaseFunc-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-UpperCaseFunc-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "lower-case(\"ABc!D\") eq \"abc!d\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "lower-case(\"ABc!D\") eq \"abc!d\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-UpperCaseFunc-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-UpperCaseFunc-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

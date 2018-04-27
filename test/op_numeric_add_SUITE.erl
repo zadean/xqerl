@@ -1,9 +1,10 @@
 -module('op_numeric_add_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['op-numeric-addint2args-1'/1]).
 -export(['op-numeric-addint2args-2'/1]).
 -export(['op-numeric-addint2args-3'/1]).
@@ -159,355 +160,356 @@
 -export(['op-numeric-add-14'/1]).
 -export(['op-numeric-add-15'/1]).
 -export(['op-numeric-add-16'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "op")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "op"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'op-numeric-addint2args-1',
-   'op-numeric-addint2args-2',
-   'op-numeric-addint2args-3',
-   'op-numeric-addint2args-4',
-   'op-numeric-addintg2args-1',
-   'op-numeric-addintg2args-2',
-   'op-numeric-addintg2args-3',
-   'op-numeric-addintg2args-4',
-   'op-numeric-adddec2args-1',
-   'op-numeric-adddec2args-2',
-   'op-numeric-adddec2args-3',
-   'op-numeric-adddec2args-4',
-   'op-numeric-adddbl2args-1',
-   'op-numeric-adddbl2args-2',
-   'op-numeric-adddbl2args-3',
-   'op-numeric-adddbl2args-4',
-   'op-numeric-addflt2args-1',
-   'op-numeric-addflt2args-2',
-   'op-numeric-addflt2args-3',
-   'op-numeric-addflt2args-4',
-   'op-numeric-addlng2args-1',
-   'op-numeric-addlng2args-2',
-   'op-numeric-addlng2args-3',
-   'op-numeric-addlng2args-4',
-   'op-numeric-addusht2args-1',
-   'op-numeric-addusht2args-2',
-   'op-numeric-addusht2args-3',
-   'op-numeric-addusht2args-4',
-   'op-numeric-addusht2args-5',
-   'op-numeric-addnint2args-1',
-   'op-numeric-addnint2args-2',
-   'op-numeric-addnint2args-3',
-   'op-numeric-addnint2args-4',
-   'op-numeric-addpint2args-1',
-   'op-numeric-addpint2args-2',
-   'op-numeric-addpint2args-3',
-   'op-numeric-addpint2args-4',
-   'op-numeric-addpint2args-5',
-   'op-numeric-addulng2args-1',
-   'op-numeric-addulng2args-2',
-   'op-numeric-addulng2args-3',
-   'op-numeric-addulng2args-4',
-   'op-numeric-addulng2args-5',
-   'op-numeric-addnpi2args-1',
-   'op-numeric-addnpi2args-2',
-   'op-numeric-addnpi2args-3',
-   'op-numeric-addnpi2args-4',
-   'op-numeric-addnni2args-1',
-   'op-numeric-addnni2args-2',
-   'op-numeric-addnni2args-3',
-   'op-numeric-addnni2args-4',
-   'op-numeric-addnni2args-5',
-   'op-numeric-addsht2args-1',
-   'op-numeric-addsht2args-2',
-   'op-numeric-addsht2args-3',
-   'op-numeric-addsht2args-4',
-   'op-numeric-addmix2args-1',
-   'op-numeric-addmix2args-2',
-   'op-numeric-addmix2args-3',
-   'op-numeric-addmix2args-4',
-   'op-numeric-addmix2args-5',
-   'op-numeric-addmix2args-6',
-   'op-numeric-addmix2args-7',
-   'op-numeric-addmix2args-8',
-   'op-numeric-addmix2args-9',
-   'op-numeric-add-derived-1',
-   'op-numeric-add-derived-2',
-   'op-numeric-add-derived-3',
-   'op-numeric-add-derived-4',
-   'op-numeric-add-derived-5',
-   'K-NumericAdd-1',
-   'K-NumericAdd-2',
-   'K-NumericAdd-3',
-   'K-NumericAdd-4',
-   'K-NumericAdd-5',
-   'K-NumericAdd-6',
-   'K-NumericAdd-7',
-   'K-NumericAdd-8',
-   'K-NumericAdd-9',
-   'K-NumericAdd-10',
-   'K-NumericAdd-11',
-   'K-NumericAdd-12',
-   'K-NumericAdd-13',
-   'K-NumericAdd-14',
-   'K-NumericAdd-15',
-   'K-NumericAdd-16',
-   'K-NumericAdd-17',
-   'K-NumericAdd-18',
-   'K-NumericAdd-19',
-   'K-NumericAdd-20',
-   'K-NumericAdd-21',
-   'K-NumericAdd-22',
-   'K-NumericAdd-23',
-   'K-NumericAdd-24',
-   'K-NumericAdd-25',
-   'K-NumericAdd-26',
-   'K-NumericAdd-27',
-   'K-NumericAdd-28',
-   'K-NumericAdd-29',
-   'K-NumericAdd-30',
-   'K-NumericAdd-31',
-   'K-NumericAdd-32',
-   'K-NumericAdd-33',
-   'K-NumericAdd-34',
-   'K-NumericAdd-35',
-   'K-NumericAdd-36',
-   'K-NumericAdd-37',
-   'K-NumericAdd-38',
-   'K-NumericAdd-39',
-   'K-NumericAdd-40',
-   'K-NumericAdd-41',
-   'K-NumericAdd-42',
-   'K-NumericAdd-43',
-   'K-NumericAdd-44',
-   'K-NumericAdd-45',
-   'K-NumericAdd-46',
-   'K-NumericAdd-47',
-   'K-NumericAdd-48',
-   'K-NumericAdd-49',
-   'K-NumericAdd-50',
-   'K-NumericAdd-51',
-   'K-NumericAdd-52',
-   'K-NumericAdd-53',
-   'K-NumericAdd-54',
-   'K-NumericAdd-55',
-   'K-NumericAdd-56',
-   'K-NumericAdd-57',
-   'K-NumericAdd-58',
-   'K-NumericAdd-59',
-   'K-NumericAdd-60',
-   'K-NumericAdd-61',
-   'K-NumericAdd-62',
-   'K-NumericAdd-63',
-   'K-NumericAdd-64',
-   'K-NumericAdd-65',
-   'K-NumericAdd-66',
-   'K2-NumericAdd-1',
-   'K2-NumericAdd-2',
-   'K2-NumericAdd-3',
-   'op-numeric-add-1',
-   'op-numeric-add-2',
-   'op-numeric-add-3',
-   'op-numeric-add-4',
-   'op-numeric-add-5',
-   'op-numeric-add-6',
-   'op-numeric-add-7',
-   'op-numeric-add-8',
-   'op-numeric-add-9',
-   'op-numeric-add-10',
-   'op-numeric-add-11',
-   'op-numeric-add-12',
-   'op-numeric-add-13',
-   'op-numeric-add-14',
-   'op-numeric-add-15',
-   'op-numeric-add-16'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'op-numeric-addint2args-1', 
+'op-numeric-addint2args-2', 
+'op-numeric-addint2args-3', 
+'op-numeric-addint2args-4', 
+'op-numeric-addintg2args-1', 
+'op-numeric-addintg2args-2', 
+'op-numeric-addintg2args-3', 
+'op-numeric-addintg2args-4', 
+'op-numeric-adddec2args-1', 
+'op-numeric-adddec2args-2', 
+'op-numeric-adddec2args-3', 
+'op-numeric-adddec2args-4', 
+'op-numeric-adddbl2args-1', 
+'op-numeric-adddbl2args-2', 
+'op-numeric-adddbl2args-3', 
+'op-numeric-adddbl2args-4', 
+'op-numeric-addflt2args-1', 
+'op-numeric-addflt2args-2', 
+'op-numeric-addflt2args-3', 
+'op-numeric-addflt2args-4', 
+'op-numeric-addlng2args-1', 
+'op-numeric-addlng2args-2', 
+'op-numeric-addlng2args-3', 
+'op-numeric-addlng2args-4', 
+'op-numeric-addusht2args-1', 
+'op-numeric-addusht2args-2', 
+'op-numeric-addusht2args-3', 
+'op-numeric-addusht2args-4', 
+'op-numeric-addusht2args-5', 
+'op-numeric-addnint2args-1', 
+'op-numeric-addnint2args-2', 
+'op-numeric-addnint2args-3', 
+'op-numeric-addnint2args-4', 
+'op-numeric-addpint2args-1', 
+'op-numeric-addpint2args-2', 
+'op-numeric-addpint2args-3', 
+'op-numeric-addpint2args-4', 
+'op-numeric-addpint2args-5', 
+'op-numeric-addulng2args-1', 
+'op-numeric-addulng2args-2', 
+'op-numeric-addulng2args-3', 
+'op-numeric-addulng2args-4', 
+'op-numeric-addulng2args-5', 
+'op-numeric-addnpi2args-1', 
+'op-numeric-addnpi2args-2', 
+'op-numeric-addnpi2args-3', 
+'op-numeric-addnpi2args-4', 
+'op-numeric-addnni2args-1', 
+'op-numeric-addnni2args-2', 
+'op-numeric-addnni2args-3', 
+'op-numeric-addnni2args-4', 
+'op-numeric-addnni2args-5', 
+'op-numeric-addsht2args-1', 
+'op-numeric-addsht2args-2', 
+'op-numeric-addsht2args-3', 
+'op-numeric-addsht2args-4', 
+'op-numeric-addmix2args-1', 
+'op-numeric-addmix2args-2', 
+'op-numeric-addmix2args-3', 
+'op-numeric-addmix2args-4', 
+'op-numeric-addmix2args-5', 
+'op-numeric-addmix2args-6', 
+'op-numeric-addmix2args-7', 
+'op-numeric-addmix2args-8', 
+'op-numeric-addmix2args-9', 
+'op-numeric-add-derived-1', 
+'op-numeric-add-derived-2', 
+'op-numeric-add-derived-3', 
+'op-numeric-add-derived-4', 
+'op-numeric-add-derived-5', 
+'K-NumericAdd-1', 
+'K-NumericAdd-2', 
+'K-NumericAdd-3', 
+'K-NumericAdd-4', 
+'K-NumericAdd-5', 
+'K-NumericAdd-6', 
+'K-NumericAdd-7', 
+'K-NumericAdd-8', 
+'K-NumericAdd-9', 
+'K-NumericAdd-10', 
+'K-NumericAdd-11', 
+'K-NumericAdd-12', 
+'K-NumericAdd-13', 
+'K-NumericAdd-14', 
+'K-NumericAdd-15', 
+'K-NumericAdd-16', 
+'K-NumericAdd-17', 
+'K-NumericAdd-18', 
+'K-NumericAdd-19', 
+'K-NumericAdd-20', 
+'K-NumericAdd-21', 
+'K-NumericAdd-22', 
+'K-NumericAdd-23', 
+'K-NumericAdd-24', 
+'K-NumericAdd-25', 
+'K-NumericAdd-26', 
+'K-NumericAdd-27', 
+'K-NumericAdd-28', 
+'K-NumericAdd-29', 
+'K-NumericAdd-30', 
+'K-NumericAdd-31', 
+'K-NumericAdd-32', 
+'K-NumericAdd-33', 
+'K-NumericAdd-34', 
+'K-NumericAdd-35', 
+'K-NumericAdd-36', 
+'K-NumericAdd-37', 
+'K-NumericAdd-38', 
+'K-NumericAdd-39', 
+'K-NumericAdd-40', 
+'K-NumericAdd-41', 
+'K-NumericAdd-42', 
+'K-NumericAdd-43', 
+'K-NumericAdd-44', 
+'K-NumericAdd-45', 
+'K-NumericAdd-46', 
+'K-NumericAdd-47', 
+'K-NumericAdd-48', 
+'K-NumericAdd-49', 
+'K-NumericAdd-50', 
+'K-NumericAdd-51', 
+'K-NumericAdd-52', 
+'K-NumericAdd-53', 
+'K-NumericAdd-54', 
+'K-NumericAdd-55', 
+'K-NumericAdd-56', 
+'K-NumericAdd-57', 
+'K-NumericAdd-58', 
+'K-NumericAdd-59', 
+'K-NumericAdd-60', 
+'K-NumericAdd-61', 
+'K-NumericAdd-62', 
+'K-NumericAdd-63', 
+'K-NumericAdd-64', 
+'K-NumericAdd-65', 
+'K-NumericAdd-66', 
+'K2-NumericAdd-1', 
+'K2-NumericAdd-2', 
+'K2-NumericAdd-3', 
+'op-numeric-add-1', 
+'op-numeric-add-2', 
+'op-numeric-add-3', 
+'op-numeric-add-4', 
+'op-numeric-add-5', 
+'op-numeric-add-6', 
+'op-numeric-add-7', 
+'op-numeric-add-8', 
+'op-numeric-add-9', 
+'op-numeric-add-10', 
+'op-numeric-add-11', 
+'op-numeric-add-12', 
+'op-numeric-add-13', 
+'op-numeric-add-14', 
+'op-numeric-add-15', 
+'op-numeric-add-16'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('user-defined-types',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, [{filename:join(BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('user-defined-types',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/userdefined.xsd"),"http://www.w3.org/XQueryTest/userDefinedTypes"}]}, 
+{resources, []}, 
 {modules, []}
 ].
 'op-numeric-addint2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:int(\"-1873914410\") + xs:int(\"-273569238\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:int(\"-1873914410\") + xs:int(\"-273569238\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
@@ -516,13 +518,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addint2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:int(\"2147483647\") + xs:int(\"-2147483648\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:int(\"2147483647\") + xs:int(\"-2147483648\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -531,13 +533,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addint2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:int(\"-273569238\") + xs:int(\"-1873914410\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:int(\"-273569238\") + xs:int(\"-1873914410\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-2147483648") of 
       true -> {comment, "Equal"};
@@ -546,13 +548,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addint2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:int(\"-2147483648\") + xs:int(\"2147483647\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:int(\"-2147483648\") + xs:int(\"2147483647\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -561,13 +563,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addintg2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:integer(\"830993497117024304\") + xs:integer(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:integer(\"830993497117024304\") + xs:integer(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addintg2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addintg2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-169006502882975695") of 
       true -> {comment, "Equal"};
@@ -576,13 +578,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addintg2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:integer(\"999999999999999999\") + xs:integer(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:integer(\"999999999999999999\") + xs:integer(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addintg2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addintg2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -591,13 +593,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addintg2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"830993497117024304\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"830993497117024304\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addintg2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addintg2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-169006502882975695") of 
       true -> {comment, "Equal"};
@@ -606,13 +608,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addintg2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:integer(\"-999999999999999999\") + xs:integer(\"999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addintg2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addintg2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -621,13 +623,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddec2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(\"617375191608514839\") + xs:decimal(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(\"617375191608514839\") + xs:decimal(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddec2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddec2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-382624808391485160") of 
       true -> {comment, "Equal"};
@@ -636,13 +638,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddec2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(\"999999999999999999\") + xs:decimal(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(\"999999999999999999\") + xs:decimal(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddec2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddec2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -651,13 +653,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddec2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"617375191608514839\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"617375191608514839\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddec2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddec2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-382624808391485160") of 
       true -> {comment, "Equal"};
@@ -666,13 +668,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddec2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(\"-999999999999999999\") + xs:decimal(\"999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddec2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddec2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -681,13 +683,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddbl2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(\"0\") + xs:double(\"-1.7976931348623157E308\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(\"0\") + xs:double(\"-1.7976931348623157E308\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddbl2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddbl2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -696,13 +698,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddbl2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(\"1.7976931348623157E308\") + xs:double(\"-1.7976931348623157E308\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(\"1.7976931348623157E308\") + xs:double(\"-1.7976931348623157E308\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddbl2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddbl2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -711,13 +713,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddbl2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddbl2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddbl2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1.7976931348623157E308") of 
       true -> {comment, "Equal"};
@@ -726,13 +728,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-adddbl2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"1.7976931348623157E308\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(\"-1.7976931348623157E308\") + xs:double(\"1.7976931348623157E308\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-adddbl2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-adddbl2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -741,13 +743,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addflt2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(\"0\") + xs:float(\"-3.4028235E38\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(\"0\") + xs:float(\"-3.4028235E38\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addflt2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addflt2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(-3.4028235E38)") of 
       true -> {comment, "Equal"};
@@ -756,13 +758,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addflt2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(\"3.4028235E38\") + xs:float(\"-3.4028235E38\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(\"3.4028235E38\") + xs:float(\"-3.4028235E38\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addflt2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addflt2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -771,13 +773,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addflt2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addflt2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addflt2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"xs:float(-3.4028235E38)") of 
       true -> {comment, "Equal"};
@@ -786,13 +788,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addflt2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"3.4028235E38\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(\"-3.4028235E38\") + xs:float(\"3.4028235E38\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addflt2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addflt2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -801,13 +803,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addlng2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:long(\"-47175562203048468\") + xs:long(\"-45058158165499290\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:long(\"-47175562203048468\") + xs:long(\"-45058158165499290\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addlng2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addlng2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
@@ -816,13 +818,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addlng2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:long(\"92233720368547758\") + xs:long(\"-92233720368547758\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:long(\"92233720368547758\") + xs:long(\"-92233720368547758\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addlng2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addlng2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -831,13 +833,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addlng2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:long(\"-45058158165499290\") + xs:long(\"-47175562203048468\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:long(\"-45058158165499290\") + xs:long(\"-47175562203048468\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addlng2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addlng2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547758") of 
       true -> {comment, "Equal"};
@@ -846,13 +848,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addlng2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:long(\"-92233720368547758\") + xs:long(\"92233720368547758\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:long(\"-92233720368547758\") + xs:long(\"92233720368547758\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addlng2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addlng2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -861,13 +863,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addusht2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addusht2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addusht2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -876,13 +878,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addusht2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedShort(\"44633\") + xs:unsignedShort(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedShort(\"44633\") + xs:unsignedShort(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addusht2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addusht2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
@@ -891,13 +893,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addusht2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedShort(\"65535\") + xs:unsignedShort(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedShort(\"65535\") + xs:unsignedShort(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addusht2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addusht2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
@@ -906,13 +908,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addusht2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"44633\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"44633\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addusht2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addusht2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
@@ -921,13 +923,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addusht2args-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"65535\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedShort(\"0\") + xs:unsignedShort(\"65535\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addusht2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addusht2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
@@ -936,13 +938,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnint2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:negativeInteger(\"-297014075999096793\") + xs:negativeInteger(\"-702985924000903206\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:negativeInteger(\"-297014075999096793\") + xs:negativeInteger(\"-702985924000903206\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -951,13 +953,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnint2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:negativeInteger(\"-1\") + xs:negativeInteger(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:negativeInteger(\"-1\") + xs:negativeInteger(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1000000000000000000") of 
       true -> {comment, "Equal"};
@@ -966,13 +968,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnint2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:negativeInteger(\"-702985924000903206\") + xs:negativeInteger(\"-297014075999096793\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:negativeInteger(\"-702985924000903206\") + xs:negativeInteger(\"-297014075999096793\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -981,13 +983,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnint2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:negativeInteger(\"-999999999999999999\") + xs:negativeInteger(\"-1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:negativeInteger(\"-999999999999999999\") + xs:negativeInteger(\"-1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1000000000000000000") of 
       true -> {comment, "Equal"};
@@ -996,13 +998,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addpint2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addpint2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addpint2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1011,13 +1013,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addpint2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(\"52704602390610033\") + xs:positiveInteger(\"1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(\"52704602390610033\") + xs:positiveInteger(\"1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addpint2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addpint2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610034") of 
       true -> {comment, "Equal"};
@@ -1026,13 +1028,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addpint2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(\"999999999999999998\") + xs:positiveInteger(\"1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(\"999999999999999998\") + xs:positiveInteger(\"1\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addpint2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addpint2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1041,13 +1043,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addpint2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"52704602390610033\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"52704602390610033\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addpint2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addpint2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"52704602390610034") of 
       true -> {comment, "Equal"};
@@ -1056,13 +1058,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addpint2args-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"999999999999999998\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(\"1\") + xs:positiveInteger(\"999999999999999998\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addpint2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addpint2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1071,13 +1073,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addulng2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addulng2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addulng2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1086,13 +1088,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addulng2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedLong(\"130747108607674654\") + xs:unsignedLong(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedLong(\"130747108607674654\") + xs:unsignedLong(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addulng2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addulng2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
@@ -1101,13 +1103,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addulng2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedLong(\"184467440737095516\") + xs:unsignedLong(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedLong(\"184467440737095516\") + xs:unsignedLong(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addulng2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addulng2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
@@ -1116,13 +1118,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addulng2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"130747108607674654\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"130747108607674654\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addulng2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addulng2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
@@ -1131,13 +1133,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addulng2args-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"184467440737095516\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:unsignedLong(\"0\") + xs:unsignedLong(\"184467440737095516\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addulng2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addulng2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
@@ -1146,13 +1148,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnpi2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonPositiveInteger(\"-475688437271870490\") + xs:nonPositiveInteger(\"-524311562728129509\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonPositiveInteger(\"-475688437271870490\") + xs:nonPositiveInteger(\"-524311562728129509\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnpi2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnpi2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1161,13 +1163,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnpi2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonPositiveInteger(\"0\") + xs:nonPositiveInteger(\"-999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonPositiveInteger(\"0\") + xs:nonPositiveInteger(\"-999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnpi2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnpi2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1176,13 +1178,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnpi2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonPositiveInteger(\"-524311562728129509\") + xs:nonPositiveInteger(\"-475688437271870490\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonPositiveInteger(\"-524311562728129509\") + xs:nonPositiveInteger(\"-475688437271870490\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnpi2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnpi2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1191,13 +1193,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnpi2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonPositiveInteger(\"-999999999999999999\") + xs:nonPositiveInteger(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonPositiveInteger(\"-999999999999999999\") + xs:nonPositiveInteger(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnpi2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnpi2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1206,13 +1208,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnni2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnni2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnni2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -1221,13 +1223,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnni2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(\"303884545991464527\") + xs:nonNegativeInteger(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(\"303884545991464527\") + xs:nonNegativeInteger(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnni2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnni2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
@@ -1236,13 +1238,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnni2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(\"999999999999999999\") + xs:nonNegativeInteger(\"0\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(\"999999999999999999\") + xs:nonNegativeInteger(\"0\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnni2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnni2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1251,13 +1253,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnni2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"303884545991464527\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"303884545991464527\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnni2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnni2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
@@ -1266,13 +1268,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addnni2args-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"999999999999999999\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(\"0\") + xs:nonNegativeInteger(\"999999999999999999\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addnni2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addnni2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
@@ -1281,13 +1283,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addsht2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:short(\"-5324\") + xs:short(\"-27444\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:short(\"-5324\") + xs:short(\"-27444\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addsht2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addsht2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
@@ -1296,13 +1298,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addsht2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:short(\"32767\") + xs:short(\"-32768\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:short(\"32767\") + xs:short(\"-32768\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addsht2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addsht2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1311,13 +1313,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addsht2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:short(\"-27444\") + xs:short(\"-5324\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:short(\"-27444\") + xs:short(\"-5324\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addsht2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addsht2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-32768") of 
       true -> {comment, "Equal"};
@@ -1326,13 +1328,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addsht2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:short(\"-32768\") + xs:short(\"32767\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:short(\"-32768\") + xs:short(\"32767\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addsht2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addsht2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-1") of 
       true -> {comment, "Equal"};
@@ -1341,13 +1343,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_empty(Res) of 
@@ -1364,13 +1366,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + '1'",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + '1'", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1379,13 +1381,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + xs:integer('1')",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + xs:integer('1')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1394,13 +1396,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + <a> 2 </a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + <a> 2 </a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -1409,13 +1411,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1+<a> <b> 2 </b> </a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1+<a> <b> 2 </b> </a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -1424,13 +1426,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + <a> <b> 2</b> <c> 2</c> </a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + <a> <b> 2</b> <c> 2</c> </a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -1439,13 +1441,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a> 1 </a> + <b> 2 </b>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a> 1 </a> + <b> 2 </b>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -1454,13 +1456,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + <a> x </a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + <a> x </a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -1469,13 +1471,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-addmix2args-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + <a/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + <a/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-addmix2args-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-addmix2args-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FORG0001") of 
       true -> {comment, "Correct error"};
@@ -1484,13 +1486,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-derived-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:long(10) + xs:unsignedLong(35)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:long(10) + xs:unsignedLong(35)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-derived-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-derived-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"45") of 
       true -> {comment, "Equal"};
@@ -1499,13 +1501,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-derived-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(10) + xs:nonPositiveInteger(-15)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(10) + xs:nonPositiveInteger(-15)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-derived-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-derived-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-5") of 
       true -> {comment, "Equal"};
@@ -1514,13 +1516,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-derived-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:nonNegativeInteger(10) + xs:short(15)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:nonNegativeInteger(10) + xs:short(15)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-derived-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-derived-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"25") of 
       true -> {comment, "Equal"};
@@ -1529,13 +1531,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-derived-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:short(10) + xs:long(145)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:short(10) + xs:long(145)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-derived-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-derived-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"155") of 
       true -> {comment, "Equal"};
@@ -1544,13 +1546,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-derived-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:positiveInteger(10) + xs:negativeInteger(-5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:positiveInteger(10) + xs:negativeInteger(-5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-derived-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-derived-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -1559,463 +1561,463 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(6) + xs:double(2) eq 8",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(6) + xs:double(2) eq 8", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(6) + xs:decimal(2) eq 8",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(6) + xs:decimal(2) eq 8", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:decimal(6.1) + xs:decimal(2.1) eq 8.2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:decimal(6.1) + xs:decimal(2.1) eq 8.2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1.1 + 2.2 eq 3.3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1.1 + 2.2 eq 3.3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:double(1.1) + xs:double(2.2) ne 3.3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:double(1.1) + xs:double(2.2) ne 3.3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(1.1) + xs:float(2.2) ne 3.3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(1.1) + xs:float(2.2) ne 3.3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:integer(6) + xs:integer(2) eq 8",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:integer(6) + xs:integer(2) eq 8", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:float(6) + xs:float(2) eq 8",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:float(6) + xs:float(2) eq 8", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(xs:float(\"NaN\") + 3) eq \"NaN\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(xs:float(\"NaN\") + 3) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(xs:double(\"NaN\") + 3) eq \"NaN\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(xs:double(\"NaN\") + 3) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(3 + xs:float(\"NaN\")) eq \"NaN\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(3 + xs:float(\"NaN\")) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "string(3 + xs:double(\"NaN\")) eq \"NaN\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "string(3 + xs:double(\"NaN\")) eq \"NaN\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:decimal(6) + xs:integer(2)) instance of xs:decimal",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:decimal(6) + xs:integer(2)) instance of xs:decimal", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(6) + xs:decimal(2)) instance of xs:decimal",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(6) + xs:decimal(2)) instance of xs:decimal", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(6) + xs:integer(2)) instance of xs:integer",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(6) + xs:integer(2)) instance of xs:integer", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:decimal(6) + xs:decimal(2)) instance of xs:decimal",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:decimal(6) + xs:decimal(2)) instance of xs:decimal", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:decimal(6) + xs:float(2)) instance of xs:float",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:decimal(6) + xs:float(2)) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:float(6) + xs:decimal(2)) instance of xs:float",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:float(6) + xs:decimal(2)) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:float(6) + xs:integer(2)) instance of xs:float",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:float(6) + xs:integer(2)) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(6) + xs:float(2)) instance of xs:float",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(6) + xs:float(2)) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:float(6) + xs:float(2)) instance of xs:float",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:float(6) + xs:float(2)) instance of xs:float", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:decimal(6) + xs:double(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:decimal(6) + xs:double(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:double(6) + xs:decimal(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:double(6) + xs:decimal(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:double(6) + xs:float(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:double(6) + xs:float(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:float(6) + xs:double(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:float(6) + xs:double(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:double(6) + xs:integer(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:double(6) + xs:integer(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(6) + xs:double(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(6) + xs:double(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:double(6) + xs:double(2)) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:double(6) + xs:double(2)) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-28.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1+1 eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1+1 eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-29.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 eq 1+1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 eq 1+1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-30.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 + error()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 + error()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-31.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2024,13 +2026,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "error() + 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "error() + 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-32.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2039,13 +2041,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 + (error(), 4)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 + (error(), 4)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-33.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2054,13 +2056,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-34'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(4, error()) + 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(4, error()) + 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-34.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOER0000") of 
@@ -2077,13 +2079,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-35'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 + (4, error())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 + (4, error())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-35.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOER0000") of 
@@ -2100,13 +2102,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-36'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(error(), 4) + 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(error(), 4) + 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-36.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2115,13 +2117,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-37'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1, 2) + 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1, 2) + 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-37.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2130,17 +2132,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-38'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty((1, 2) + ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty((1, 2) + ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-38.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2153,13 +2155,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-39'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + (1, 2)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + (1, 2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-39.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2176,17 +2178,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-40'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(() + (1, 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(() + (1, 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-40.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2203,13 +2205,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-41'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "error() + 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "error() + 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-41.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOER0000") of 
@@ -2226,13 +2228,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-42'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 + error()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 + error()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-42.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-42.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOER0000") of 
       true -> {comment, "Correct error"};
@@ -2241,13 +2243,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-43'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "\"3\" + \"3\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "\"3\" + \"3\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-43.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-43.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2256,13 +2258,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-44'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "\"3\" + xs:untypedAtomic(\"3\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "\"3\" + xs:untypedAtomic(\"3\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-44.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-44.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2271,92 +2273,92 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-45'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(3 + xs:untypedAtomic(\"3\")) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(3 + xs:untypedAtomic(\"3\")) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-45.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-45.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-46'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:untypedAtomic(\"3\") + 3.0) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:untypedAtomic(\"3\") + 3.0) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-46.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-46.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-47'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(2 + 4) * 5 eq 30",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(2 + 4) * 5 eq 30", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-47.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-47.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-48'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 + 4 * 5 eq 22",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 + 4 * 5 eq 22", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-48.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-48.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-49'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + 2 * 4 + (1 + 2 + 3 * 4) eq 24",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + 2 * 4 + (1 + 2 + 3 * 4) eq 24", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-49.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-49.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-50'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(() + ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(() + ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-50.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-50.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPST0005") of 
@@ -2369,17 +2371,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-51'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((1, \"two\"), 2) + 1) eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((1, \"two\"), 2) + 1) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-51.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-51.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2392,17 +2394,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-52'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 eq (1 + remove((1, \"two\"), 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 eq (1 + remove((1, \"two\"), 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-52.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-52.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2415,17 +2417,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-53'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-53.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-53.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2438,17 +2440,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-54'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-54.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-54.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2461,17 +2463,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-55'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((xs:untypedAtomic(\"1\"), \"two\"), 2) + 1) eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((xs:untypedAtomic(\"1\"), \"two\"), 2) + 1) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-55.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-55.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2484,17 +2486,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-56'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 eq (1 + remove((xs:untypedAtomic(\"1\"), \"two\"), 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 eq (1 + remove((xs:untypedAtomic(\"1\"), \"two\"), 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-56.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-56.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2507,17 +2509,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-57'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((1, \"two\"), 2) + xs:untypedAtomic(\"1\")) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-57.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-57.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2530,17 +2532,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-58'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "2 eq (xs:untypedAtomic(\"1\") + remove((1, \"two\"), 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-58.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-58.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2553,47 +2555,47 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-59'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:untypedAtomic(\"3\") + 3 eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:untypedAtomic(\"3\") + 3 eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-59.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-59.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-60'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:untypedAtomic(\"3\") + 3) instance of xs:double",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:untypedAtomic(\"3\") + 3) instance of xs:double", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-60.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-60.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-61'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((5, 1e0), 2) + 1) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((5, 1e0), 2) + 1) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-61.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-61.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2606,17 +2608,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-62'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 + remove((5, 1e0), 2)) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 + remove((5, 1e0), 2)) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-62.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-62.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -2629,13 +2631,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-63'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + subsequence(\"a string\", 1, 1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + subsequence(\"a string\", 1, 1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-63.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-63.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2644,13 +2646,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-64'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(\"a string\", 1, 1) + 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(\"a string\", 1, 1) + 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-64.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-64.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2659,13 +2661,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-65'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "\"foo\" + 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "\"foo\" + 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-65.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-65.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2674,13 +2676,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NumericAdd-66'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + \"foo\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + \"foo\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NumericAdd-66.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NumericAdd-66.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2689,13 +2691,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NumericAdd-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1, 2) + (1, 2)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1, 2) + (1, 2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NumericAdd-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NumericAdd-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2704,13 +2706,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NumericAdd-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>1</a> + <b>2</b>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>1</a> + <b>2</b>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NumericAdd-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NumericAdd-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -2719,13 +2721,13 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NumericAdd-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a foo=\"1\"/>/@foo + <b foo=\"2\"/>/@foo",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a foo=\"1\"/>/@foo + <b foo=\"2\"/>/@foo", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NumericAdd-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NumericAdd-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -2734,17 +2736,17 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          for $x in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5)) 
          for $y in (1, xs:decimal(2), xs:float(3), xs:double(4), xs:untypedAtomic(5))
          return ($x + $y)
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "op-numeric-add-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "op-numeric-add-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[1] instance of xs:integer") of 
@@ -2853,49 +2855,49 @@ environment('user-defined-types',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'op-numeric-add-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"Validation Environment"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"Validation Environment"}. 
 'op-numeric-add-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'op-numeric-add-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'op-numeric-add-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'op-numeric-add-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.

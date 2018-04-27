@@ -1,9 +1,10 @@
 -module('op_is_same_node_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['nodeexpression1'/1]).
 -export(['nodeexpression2'/1]).
 -export(['nodeexpression3'/1]).
@@ -42,226 +43,227 @@
 -export(['cbcl-node-same-002'/1]).
 -export(['cbcl-is-same-node-001'/1]).
 -export(['cbcl-is-same-node-002'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "op")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "op"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'nodeexpression1',
-   'nodeexpression2',
-   'nodeexpression3',
-   'nodeexpression4',
-   'nodeexpression5',
-   'nodeexpression6',
-   'nodeexpression7',
-   'nodeexpression8',
-   'nodeexpression9',
-   'nodeexpression10',
-   'nodeexpression11',
-   'nodeexpression12',
-   'nodeexpression13',
-   'nodeexpression14',
-   'nodeexpression15',
-   'nodeexpression16',
-   'nodeexpressionhc1',
-   'nodeexpressionhc2',
-   'nodeexpressionhc3',
-   'nodeexpressionhc4',
-   'nodeexpressionhc5',
-   'nodecomparisonerr-1',
-   'K-NodeSame-1',
-   'K-NodeSame-2',
-   'K-NodeSame-3',
-   'K-NodeSame-4',
-   'K-NodeSame-5',
-   'K-NodeSame-6',
-   'K2-NodeSame-1',
-   'K2-NodeSame-2',
-   'K2-NodeSame-3',
-   'K2-NodeSame-4',
-   'K2-NodeSame-5',
-   'K2-NodeSame-6',
-   'cbcl-node-same-001',
-   'cbcl-node-same-002',
-   'cbcl-is-same-node-001',
-   'cbcl-is-same-node-002'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'nodeexpression1', 
+'nodeexpression2', 
+'nodeexpression3', 
+'nodeexpression4', 
+'nodeexpression5', 
+'nodeexpression6', 
+'nodeexpression7', 
+'nodeexpression8', 
+'nodeexpression9', 
+'nodeexpression10', 
+'nodeexpression11', 
+'nodeexpression12', 
+'nodeexpression13', 
+'nodeexpression14', 
+'nodeexpression15', 
+'nodeexpression16', 
+'nodeexpressionhc1', 
+'nodeexpressionhc2', 
+'nodeexpressionhc3', 
+'nodeexpressionhc4', 
+'nodeexpressionhc5', 
+'nodecomparisonerr-1', 
+'K-NodeSame-1', 
+'K-NodeSame-2', 
+'K-NodeSame-3', 
+'K-NodeSame-4', 
+'K-NodeSame-5', 
+'K-NodeSame-6', 
+'K2-NodeSame-1', 
+'K2-NodeSame-2', 
+'K2-NodeSame-3', 
+'K2-NodeSame-4', 
+'K2-NodeSame-5', 
+'K2-NodeSame-6', 
+'cbcl-node-same-001', 
+'cbcl-node-same-002', 
+'cbcl-is-same-node-001', 
+'cbcl-is-same-node-002'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'nodeexpression1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(() is ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(() is ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -278,13 +280,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(() is <a>50000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(() is <a>50000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -301,14 +303,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(() is /works[1]/employee[1]/empnum[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(() is /works[1]/employee[1]/empnum[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -325,14 +327,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(() is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(() is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -349,13 +351,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(<a>50000</a> is ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(<a>50000</a> is ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -372,61 +374,61 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>50000</a> is <a>50000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>50000</a> is <a>50000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>50000</a> is /works[1]/employee[1]/empnum[1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>50000</a> is /works[1]/employee[1]/empnum[1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>50000</a> is (/staff[1]/employee[1]/empnum[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>50000</a> is (/staff[1]/employee[1]/empnum[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(/works[1]/employee[1]/empnum[1] is ())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(/works[1]/employee[1]/empnum[1] is ())", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -443,63 +445,63 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/works[1]/employee[1]/empnum[1] is <a>50000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/works[1]/employee[1]/empnum[1] is <a>50000</a>", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/works[1]/employee[1]/empnum[1] is /works[1]/employee[1]/empnum[1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/works[1]/employee[1]/empnum[1] is /works[1]/employee[1]/empnum[1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
-         $works/works[1]/employee[1]/empnum[1] is $staff/staff[1]/employee[1]/empnum[1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+         $works/works[1]/employee[1]/empnum[1] is $staff/staff[1]/employee[1]/empnum[1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count((/staff[1]/employee[1]/empnum[1]) is ())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count((/staff[1]/employee[1]/empnum[1]) is ())", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -516,142 +518,142 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/staff[1]/employee[1]/empnum[1]) is <a>50000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/staff[1]/employee[1]/empnum[1]) is <a>50000</a>", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
-          ($staff/staff[1]/employee[1]/empnum[1]) is $works/works[1]/employee[1]/empnum[1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+          ($staff/staff[1]/employee[1]/empnum[1]) is $works/works[1]/employee[1]/empnum[1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpression16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpression16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpression16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpressionhc1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:not((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:not((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpressionhc1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpressionhc1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpressionhc2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) lt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) lt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpressionhc2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpressionhc2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpressionhc3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) ge ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) ge ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpressionhc3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpressionhc3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpressionhc4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) gt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) gt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpressionhc4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpressionhc4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodeexpressionhc5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) le ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) le ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodeexpressionhc5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodeexpressionhc5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'nodecomparisonerr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count(() is 100)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count(() is 100)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "nodecomparisonerr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "nodecomparisonerr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"0") of 
@@ -672,17 +674,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(1 is ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(1 is ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -699,17 +701,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(() is 1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(() is 1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -726,13 +728,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 is 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 is 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -741,17 +743,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(() is ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(() is ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPST0005") of 
@@ -764,13 +766,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() is",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() is", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -779,13 +781,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-NodeSame-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "is ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "is ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-NodeSame-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-NodeSame-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -794,58 +796,58 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $var := <elem/>; <a>{$var}</a>/elem[1] is $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $var := <elem/>; <a>{$var}</a>/elem[1] is $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $var := <elem/>; $var is $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $var := <elem/>; $var is $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $var := <elem/>; not($var is <elem/>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $var := <elem/>; not($var is <elem/>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $e := attribute name {()}; $e is $e, <is/> is <is/>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $e := attribute name {()}; $e is $e, <is/> is <is/>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true false") of 
       true -> {comment, "String correct"};
@@ -854,17 +856,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(exactly-one(<e/>/*) is exactly-one(<e/>/*))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(exactly-one(<e/>/*) is exactly-one(<e/>/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"FORG0005") of 
@@ -877,83 +879,83 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-NodeSame-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(zero-or-one(<e/>/*) is zero-or-one(<e/>/*))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(zero-or-one(<e/>/*) is zero-or-one(<e/>/*))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-NodeSame-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-NodeSame-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-node-same-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(exactly-one($node/b[1]) is exactly-one($node/c[1]))
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-node-same-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-node-same-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-node-same-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
       	let $node := <a> <b/> <c/> </a> 
       	return not(not(exactly-one($node/b[1]) is exactly-one($node/c[1])))
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-node-same-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-node-same-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-is-same-node-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
       	declare function local:f() as node() { <a/> }; 
       	local:f() is local:f()
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-is-same-node-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-is-same-node-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-is-same-node-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-is-same-node-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-is-same-node-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};

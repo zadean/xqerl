@@ -1,9 +1,10 @@
 -module('prod_AxisStep_unabbr_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['unabbreviatedSyntax-1'/1]).
 -export(['unabbreviatedSyntax-2'/1]).
 -export(['unabbreviatedSyntax-3'/1]).
@@ -30,215 +31,216 @@
 -export(['unabbreviatedSyntax-31'/1]).
 -export(['unabbreviatedSyntax-32'/1]).
 -export(['unabbreviatedSyntax-33'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "prod")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "prod"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'unabbreviatedSyntax-1',
-   'unabbreviatedSyntax-2',
-   'unabbreviatedSyntax-3',
-   'unabbreviatedSyntax-4',
-   'unabbreviatedSyntax-5',
-   'unabbreviatedSyntax-8',
-   'unabbreviatedSyntax-9',
-   'unabbreviatedSyntax-12',
-   'unabbreviatedSyntax-13',
-   'unabbreviatedSyntax-14',
-   'unabbreviatedSyntax-15',
-   'unabbreviatedSyntax-16',
-   'unabbreviatedSyntax-18',
-   'unabbreviatedSyntax-19',
-   'unabbreviatedSyntax-20',
-   'unabbreviatedSyntax-21',
-   'unabbreviatedSyntax-22',
-   'unabbreviatedSyntax-23',
-   'unabbreviatedSyntax-26',
-   'unabbreviatedSyntax-27',
-   'unabbreviatedSyntax-28',
-   'unabbreviatedSyntax-29',
-   'unabbreviatedSyntax-30',
-   'unabbreviatedSyntax-31',
-   'unabbreviatedSyntax-32',
-   'unabbreviatedSyntax-33'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'unabbreviatedSyntax-1', 
+'unabbreviatedSyntax-2', 
+'unabbreviatedSyntax-3', 
+'unabbreviatedSyntax-4', 
+'unabbreviatedSyntax-5', 
+'unabbreviatedSyntax-8', 
+'unabbreviatedSyntax-9', 
+'unabbreviatedSyntax-12', 
+'unabbreviatedSyntax-13', 
+'unabbreviatedSyntax-14', 
+'unabbreviatedSyntax-15', 
+'unabbreviatedSyntax-16', 
+'unabbreviatedSyntax-18', 
+'unabbreviatedSyntax-19', 
+'unabbreviatedSyntax-20', 
+'unabbreviatedSyntax-21', 
+'unabbreviatedSyntax-22', 
+'unabbreviatedSyntax-23', 
+'unabbreviatedSyntax-26', 
+'unabbreviatedSyntax-27', 
+'unabbreviatedSyntax-28', 
+'unabbreviatedSyntax-29', 
+'unabbreviatedSyntax-30', 
+'unabbreviatedSyntax-31', 
+'unabbreviatedSyntax-32', 
+'unabbreviatedSyntax-33'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'unabbreviatedSyntax-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee) return $h/child::empnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee) return $h/child::empnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -247,14 +249,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[1]) return $h/child::*",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[1]) return $h/child::*", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><pnum>P1</pnum><hours>40</hours>") of 
       true -> {comment, "XML Deep equal"};
@@ -263,14 +265,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works[1]/employee[2]) return $h/child::text()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works[1]/employee[2]) return $h/child::text()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_norm_string_value(Res, "Text data from Employee[2]") of 
       true -> {comment, "String correct"};
@@ -279,14 +281,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[1]) return $h/child::node()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[1]) return $h/child::node()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[self::empnum] eq 'E1'") of 
@@ -307,14 +309,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[2]) return $h/child::node()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[2]) return $h/child::node()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result[self::empnum] eq 'E1'") of 
@@ -343,14 +345,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[1]/hours) return $h/parent::node()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[1]/hours) return $h/parent::node()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -363,14 +365,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee) return $h/descendant::empnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee) return $h/descendant::empnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -379,14 +381,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[1]) return $h/descendant-or-self::employee",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[1]) return $h/descendant-or-self::employee", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -399,14 +401,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[1]) return $h/self::employee",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[1]) return $h/self::employee", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -419,14 +421,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works[1]/employee[1]) return fn:count(($h/self::employee[1000]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works[1]/employee[1]) return fn:count(($h/self::employee[1000]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
@@ -435,14 +437,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee/descendant::empnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee/descendant::empnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -451,14 +453,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::*/child::pnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::*/child::pnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -467,14 +469,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/descendant::pnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/descendant::pnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -483,14 +485,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/descendant::employee/child::pnum",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/descendant::employee/child::pnum", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -499,14 +501,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[fn:position() = 1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[fn:position() = 1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 1\" gender=\"female\">
    <empnum>E1</empnum>
@@ -519,14 +521,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 13\" gender=\"female\" type=\"FT\">
    <empnum>E4</empnum>
@@ -540,14 +542,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()-1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[fn:position() = fn:last()-1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-22.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"John Doe 12\" gender=\"male\">
    <empnum>E4</empnum>
@@ -564,14 +566,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee) return $h/child::hours[fn:position() > 1]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee) return $h/child::hours[fn:position() > 1]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-23.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>20</hours><hours>40</hours><hours>30</hours>") of 
       true -> {comment, "XML Deep equal"};
@@ -580,14 +582,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/descendant::employee[fn:position() = 12]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/descendant::employee[fn:position() = 12]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-26.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"John Doe 12\" gender=\"male\">
    <empnum>E4</empnum>
@@ -604,14 +606,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-27.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<hours>30</hours>") of 
       true -> {comment, "XML Deep equal"};
@@ -620,14 +622,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[attribute::name eq \"Jane Doe 11\"]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[attribute::name eq \"Jane Doe 11\"]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-28.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-28.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 11\" gender=\"female\">
    <empnum>E4</empnum>
@@ -640,14 +642,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[attribute::gender eq 'female'][fn:position() = 5]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[attribute::gender eq 'female'][fn:position() = 5]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-29.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-29.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 9\" gender=\"female\">
    <empnum>E3</empnum>
@@ -660,14 +662,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[child::empnum = 'E3']",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[child::empnum = 'E3']", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-30.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-30.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 9\" gender=\"female\">
    <empnum>E3</empnum>
@@ -684,14 +686,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works) return $h/child::employee[child::status]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works) return $h/child::employee[child::status]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-31.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-31.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<employee name=\"Jane Doe 13\" gender=\"female\" type=\"FT\">
    <empnum>E4</empnum>
@@ -705,14 +707,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[7]) return $h/child::*[self::pnum or self::empnum]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[7]) return $h/child::*[self::pnum or self::empnum]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-32.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-32.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<empnum>E2</empnum><pnum>P1</pnum>") of 
       true -> {comment, "XML Deep equal"};
@@ -721,14 +723,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'unabbreviatedSyntax-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $h in (/works/employee[6]) return $h/child::*[self::empnum or self::pnum][fn:position() = fn:last()]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $h in (/works/employee[6]) return $h/child::*[self::empnum or self::pnum][fn:position() = fn:last()]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "unabbreviatedSyntax-33.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "unabbreviatedSyntax-33.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<pnum>P6</pnum>") of 
       true -> {comment, "XML Deep equal"};

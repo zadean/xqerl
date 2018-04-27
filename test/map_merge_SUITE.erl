@@ -1,9 +1,10 @@
 -module('map_merge_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['map-merge-001'/1]).
 -export(['map-merge-002'/1]).
 -export(['map-merge-003-hof'/1]).
@@ -33,218 +34,219 @@
 -export(['map-merge-023'/1]).
 -export(['map-merge-024-hof'/1]).
 -export(['map-merge-024'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "map")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "map"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'map-merge-001',
-   'map-merge-002',
-   'map-merge-003-hof',
-   'map-merge-003',
-   'map-merge-004',
-   'map-merge-005',
-   'map-merge-006',
-   'map-merge-006b',
-   'map-merge-006c',
-   'map-merge-006d',
-   'map-merge-006e',
-   'map-merge-006f',
-   'map-merge-007',
-   'map-merge-008',
-   'map-merge-009',
-   'map-merge-010',
-   'map-merge-011',
-   'map-merge-012',
-   'map-merge-013',
-   'map-merge-016',
-   'map-merge-017',
-   'map-merge-018',
-   'map-merge-019',
-   'map-merge-020',
-   'map-merge-021',
-   'map-merge-022',
-   'map-merge-023',
-   'map-merge-024-hof',
-   'map-merge-024'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'map-merge-001', 
+'map-merge-002', 
+'map-merge-003-hof', 
+'map-merge-003', 
+'map-merge-004', 
+'map-merge-005', 
+'map-merge-006', 
+'map-merge-006b', 
+'map-merge-006c', 
+'map-merge-006d', 
+'map-merge-006e', 
+'map-merge-006f', 
+'map-merge-007', 
+'map-merge-008', 
+'map-merge-009', 
+'map-merge-010', 
+'map-merge-011', 
+'map-merge-012', 
+'map-merge-013', 
+'map-merge-016', 
+'map-merge-017', 
+'map-merge-018', 
+'map-merge-019', 
+'map-merge-020', 
+'map-merge-021', 
+'map-merge-022', 
+'map-merge-023', 
+'map-merge-024-hof', 
+'map-merge-024'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'map-merge-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -253,14 +255,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(())", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -281,14 +283,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-003-hof'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(map:entry(\"foo\", 1 to 5))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-003-hof.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-003-hof.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -313,14 +315,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(map:entry(\"foo\", 1 to 5))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -341,14 +343,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 1 to 5), map:entry(\"bar\", 6 to 10)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 1 to 5), map:entry(\"bar\", 6 to 10)))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -373,14 +375,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(for $i in 1 to 20 return map:entry($i, $i*$i))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(for $i in 1 to 20 return map:entry($i, $i*$i))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -409,14 +411,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-last\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-last\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -445,14 +447,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006b'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-first\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-first\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006b.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006b.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -481,14 +483,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006c'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"combine\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"combine\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006c.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006c.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -517,14 +519,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006d'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-any\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"use-any\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006d.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"deep-equal(map:get($result, \"foo\"), 3)") of 
@@ -541,14 +543,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006e'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006e.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006e.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"deep-equal(map:get($result, \"foo\"), 3)") of 
@@ -565,14 +567,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-006f'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"reject\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge((map:entry(\"foo\", 3), map:entry(\"foo\", 4)), map{\"duplicates\": \"reject\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-006f.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-006f.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -581,15 +583,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:entry(\"foo\", 3), $bar := map:entry(\"foo\", 4), $foobar := map:merge(($foo, $bar))
-              return ($foobar, $bar, $foo)[3]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+              return ($foobar, $bar, $foo)[3]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -618,15 +620,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
-              return ($foobar, $bar, $foo)[3]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+              return ($foobar, $bar, $foo)[3]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-008.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -655,15 +657,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
-              return ($foobar, $bar, $foo)[2]",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+              return ($foobar, $bar, $foo)[2]", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -692,15 +694,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:merge(()), $foobar := map:merge(($foo, $bar))
-              return $foobar",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+              return $foobar", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-010.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -729,15 +731,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "map:merge((map:entry(3, \"three\"), map:entry(3.0e0, \"threeD\"), map:entry(xs:float('3.0'), \"threeF\")),
-            map{\"duplicates\" : \"use-last\"})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+            map{\"duplicates\" : \"use-last\"})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -766,15 +768,15 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "map:merge(for $n in distinct-values(//*/node-name()) 
-                      return map:entry($n, //*[node-name() eq $n]))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('auction',BaseDir)),
+                      return map:entry($n, //*[node-name() eq $n]))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('auction',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-012.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -795,14 +797,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(for $n in 1 to 20 return map:entry($n, map{$n :string($n), $n+1:string($n+1), $n+2:string($n+2)}))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(for $n in 1 to 20 return map:entry($n, map{$n :string($n), $n+1:string($n+1), $n+2:string($n+2)}))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-013.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"map(xs:integer, map(xs:integer, xs:string))") of 
@@ -819,147 +821,147 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal(map{}, map:merge(()))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal(map{}, map:merge(()))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-016.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal(map{\"a\":1}, map:entry(\"a\", 1))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal(map{\"a\":1}, map:entry(\"a\", 1))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-017.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal(map{\"a\":1,\"b\":2,\"c\":(3,4,5)}, map{\"c\":(3,4,5),\"a\":1,\"b\":2})",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal(map{\"a\":1,\"b\":2,\"c\":(3,4,5)}, map{\"c\":(3,4,5),\"a\":1,\"b\":2})", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-018.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal(map{\"a\":1}, map:merge(()))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal(map{\"a\":1}, map:merge(()))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-019.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
-                         map:merge(for $i in 2 to 1001 return map:entry($i, $i+1)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+                         map:merge(for $i in 2 to 1001 return map:entry($i, $i+1)))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-020.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(((for $i in 1 to 1000 return map:entry($i, $i+1)), map:entry(400, 402)),
-                         map{\"duplicates\":\"use-last\"}))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+                         map{\"duplicates\":\"use-last\"}))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-021.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
-                         map:merge(for $i in 0 to 1000 return map:entry($i, $i+1)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+                         map:merge(for $i in 0 to 1000 return map:entry($i, $i+1)))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-022.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
-                         map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+                         map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-023.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-024-hof'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(map:entry(\"foo\", 1 to 5))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-024-hof.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-024-hof.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -984,14 +986,14 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'map-merge-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "map:merge(map:entry(\"foo\", 1 to 5))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('map',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "map:merge(map:entry(\"foo\", 1 to 5))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('map',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "map-merge-024.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "map-merge-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 

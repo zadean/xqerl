@@ -1,9 +1,10 @@
 -module('prod_LetClause_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['letexprwith-1'/1]).
 -export(['letexprwith-2'/1]).
 -export(['letexprwith-3'/1]).
@@ -93,289 +94,290 @@
 -export(['xquery31keywords3'/1]).
 -export(['xquery31keywords4'/1]).
 -export(['xquery31keywords5'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "prod")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "prod"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'letexprwith-1',
-   'letexprwith-2',
-   'letexprwith-3',
-   'letexprwith-4',
-   'letexprwith-5',
-   'letexprwith-6',
-   'letexprwith-7',
-   'letexprwith-8',
-   'letexprwith-9',
-   'letexprwith-10',
-   'letexprwith-11',
-   'letexprwith-12',
-   'letexprwith-13',
-   'letexprwith-14',
-   'letexprwith-15',
-   'letexprwith-16',
-   'letexprwith-17',
-   'letexprwith-18',
-   'letexprwith-19',
-   'letexprwith-20',
-   'letexprwith-21',
-   'letexprwith-22',
-   'letexprwith-23',
-   'letexprwith-24',
-   'LetExpr001',
-   'LetExpr002',
-   'LetExpr003',
-   'LetExpr004',
-   'LetExpr005',
-   'LetExpr006',
-   'LetExpr007',
-   'LetExpr008',
-   'LetExpr009',
-   'LetExpr010',
-   'LetExpr011',
-   'LetExpr012',
-   'LetExpr013',
-   'LetExpr014',
-   'LetExpr015',
-   'LetExpr016',
-   'LetExpr017',
-   'LetExpr018',
-   'LetExpr019',
-   'LetExpr020',
-   'LetExpr020a',
-   'LetExpr021',
-   'K-LetExprWithout-1',
-   'K-LetExprWithout-2',
-   'K-LetExprWithout-3',
-   'K-LetExprWithout-4',
-   'K2-LetExprWithout-1',
-   'K2-LetExprWithout-2',
-   'K2-LetExprWithout-3',
-   'K2-LetExprWithout-4',
-   'K2-LetExprWithout-5',
-   'K2-LetExprWithout-6',
-   'K2-LetExprWithout-7',
-   'K2-LetExprWithout-8',
-   'K2-LetExprWithout-9',
-   'K2-LetExprWithout-10',
-   'K2-LetExprWithout-11',
-   'K2-LetExprWithout-12',
-   'K2-LetExprWithout-13',
-   'K2-LetExprWithout-14',
-   'K2-LetExprWithout-15',
-   'K2-LetExprWithout-16',
-   'K2-LetExprWithout-17',
-   'K2-LetExprWithout-18',
-   'K2-LetExprWithout-19',
-   'K2-LetExprWithout-20',
-   'K2-LetExprWithout-21',
-   'K2-LetExprWithout-22',
-   'K2-LetExprWithout-23',
-   'K2-LetExprWithout-24',
-   'K2-LetExprWithout-25',
-   'K2-LetExprWithout-26',
-   'xquery10keywords',
-   'xquery10keywords2',
-   'xquery10keywords3',
-   'xquery30keywords',
-   'xquery30keywords2',
-   'xquery30keywords3',
-   'xquery30keywords4',
-   'xquery30keywords5',
-   'xquery31keywords1',
-   'xquery31keywords2',
-   'xquery31keywords3',
-   'xquery31keywords4',
-   'xquery31keywords5'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'letexprwith-1', 
+'letexprwith-2', 
+'letexprwith-3', 
+'letexprwith-4', 
+'letexprwith-5', 
+'letexprwith-6', 
+'letexprwith-7', 
+'letexprwith-8', 
+'letexprwith-9', 
+'letexprwith-10', 
+'letexprwith-11', 
+'letexprwith-12', 
+'letexprwith-13', 
+'letexprwith-14', 
+'letexprwith-15', 
+'letexprwith-16', 
+'letexprwith-17', 
+'letexprwith-18', 
+'letexprwith-19', 
+'letexprwith-20', 
+'letexprwith-21', 
+'letexprwith-22', 
+'letexprwith-23', 
+'letexprwith-24', 
+'LetExpr001', 
+'LetExpr002', 
+'LetExpr003', 
+'LetExpr004', 
+'LetExpr005', 
+'LetExpr006', 
+'LetExpr007', 
+'LetExpr008', 
+'LetExpr009', 
+'LetExpr010', 
+'LetExpr011', 
+'LetExpr012', 
+'LetExpr013', 
+'LetExpr014', 
+'LetExpr015', 
+'LetExpr016', 
+'LetExpr017', 
+'LetExpr018', 
+'LetExpr019', 
+'LetExpr020', 
+'LetExpr020a', 
+'LetExpr021', 
+'K-LetExprWithout-1', 
+'K-LetExprWithout-2', 
+'K-LetExprWithout-3', 
+'K-LetExprWithout-4', 
+'K2-LetExprWithout-1', 
+'K2-LetExprWithout-2', 
+'K2-LetExprWithout-3', 
+'K2-LetExprWithout-4', 
+'K2-LetExprWithout-5', 
+'K2-LetExprWithout-6', 
+'K2-LetExprWithout-7', 
+'K2-LetExprWithout-8', 
+'K2-LetExprWithout-9', 
+'K2-LetExprWithout-10', 
+'K2-LetExprWithout-11', 
+'K2-LetExprWithout-12', 
+'K2-LetExprWithout-13', 
+'K2-LetExprWithout-14', 
+'K2-LetExprWithout-15', 
+'K2-LetExprWithout-16', 
+'K2-LetExprWithout-17', 
+'K2-LetExprWithout-18', 
+'K2-LetExprWithout-19', 
+'K2-LetExprWithout-20', 
+'K2-LetExprWithout-21', 
+'K2-LetExprWithout-22', 
+'K2-LetExprWithout-23', 
+'K2-LetExprWithout-24', 
+'K2-LetExprWithout-25', 
+'K2-LetExprWithout-26', 
+'xquery10keywords', 
+'xquery10keywords2', 
+'xquery10keywords3', 
+'xquery30keywords', 
+'xquery30keywords2', 
+'xquery30keywords3', 
+'xquery30keywords4', 
+'xquery30keywords5', 
+'xquery31keywords1', 
+'xquery31keywords2', 
+'xquery31keywords3', 
+'xquery31keywords4', 
+'xquery31keywords5'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('acme_corp',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../op/union/acme_corp.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('acme_corp',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../op/union/acme_corp.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'letexprwith-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $salary as xs:decimal := \"cat\" return $salary * 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $salary as xs:decimal := \"cat\" return $salary * 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -384,13 +386,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:decimal := 100 return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:decimal := 100 return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
@@ -399,13 +401,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:integer := 100 return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:integer := 100 return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
@@ -414,13 +416,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:double := 100E1 return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:double := 100E1 return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1000") of 
       true -> {comment, "Equal"};
@@ -429,13 +431,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := \"A String\" return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := \"A String\" return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "A String") of 
       true -> {comment, "String correct"};
@@ -444,43 +446,43 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := fn:true() return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := fn:true() return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := fn:false() return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := fn:false() return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:date := xs:date(\"1999-05-31Z\") return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:date := xs:date(\"1999-05-31Z\") return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1999-05-31Z") of 
       true -> {comment, "String correct"};
@@ -489,13 +491,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:time := xs:time(\"21:23:00Z\") return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:time := xs:time(\"21:23:00Z\") return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "21:23:00Z") of 
       true -> {comment, "String correct"};
@@ -504,13 +506,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:dateTime := xs:dateTime(\"1999-05-31T13:20:00Z\") return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:dateTime := xs:dateTime(\"1999-05-31T13:20:00Z\") return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1999-05-31T13:20:00Z") of 
       true -> {comment, "String correct"};
@@ -519,13 +521,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:float := xs:float(100) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:float := xs:float(100) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"100") of 
       true -> {comment, "Equal"};
@@ -534,13 +536,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:integer := 100+200 return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:integer := 100+200 return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"300") of 
       true -> {comment, "Equal"};
@@ -549,13 +551,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:integer := fn:count((100,200)) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:integer := fn:count((100,200)) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -564,58 +566,58 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := fn:not(fn:true()) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := fn:not(fn:true()) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := fn:true() and fn:true() return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:integer := fn:string-length(\"A String\") return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:integer := fn:string-length(\"A String\") return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"8") of 
       true -> {comment, "Equal"};
@@ -624,13 +626,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := xs:string((xs:integer(100))) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := xs:string((xs:integer(100))) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
@@ -639,13 +641,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := xs:string((xs:decimal(100))) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := xs:string((xs:decimal(100))) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "100") of 
       true -> {comment, "String correct"};
@@ -654,13 +656,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := xs:string((xs:double(100E2))) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := xs:string((xs:double(100E2))) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10000") of 
       true -> {comment, "String correct"};
@@ -669,13 +671,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := xs:string(fn:true()) return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := xs:string(fn:true()) return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
@@ -684,13 +686,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:integer := 100 return $var + 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:integer := 100 return $var + 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"101") of 
       true -> {comment, "Equal"};
@@ -699,28 +701,28 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:boolean := if (fn:true()) then fn:true() else fn:false() return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:boolean := if (fn:true()) then fn:true() else fn:false() return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'letexprwith-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $var as xs:string := typeswitch(fn:true()) case $i as xs:boolean return \"Test Passed\" default return \"Test failed\" return $var",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $var as xs:string := typeswitch(fn:true()) case $i as xs:boolean return \"Test Passed\" default return \"Test failed\" return $var", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "letexprwith-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "letexprwith-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "Test Passed") of 
       true -> {comment, "String correct"};
@@ -729,13 +731,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := \"92233720368547758\" return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := \"92233720368547758\" return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "92233720368547758") of 
       true -> {comment, "String correct"};
@@ -744,13 +746,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := 92233720368547758 return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := 92233720368547758 return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -759,13 +761,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := 92233720368547758+1 return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := 92233720368547758+1 return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547759") of 
       true -> {comment, "Equal"};
@@ -774,13 +776,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := xs:long(\"92233720368547758\") return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := xs:long(\"92233720368547758\") return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
@@ -789,13 +791,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := xs:long(\"-92233720368547758\")+1 return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := xs:long(\"-92233720368547758\")+1 return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"-92233720368547757") of 
       true -> {comment, "Equal"};
@@ -804,13 +806,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := xs:double(\"1.7976931348623157E308\") return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := xs:double(\"1.7976931348623157E308\") return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1.7976931348623157E308") of 
       true -> {comment, "String correct"};
@@ -819,13 +821,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x:=<a>{1+1}</a> return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x:=<a>{1+1}</a> return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -834,13 +836,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x:=1, $y:=$x+1 return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x:=1, $y:=$x+1 return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr008.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -849,13 +851,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x:=1, $y:=<a>{$x+1}</a> return $y",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x:=1, $y:=<a>{$x+1}</a> return $y", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a>2</a>") of 
       true -> {comment, "XML Deep equal"};
@@ -864,13 +866,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x:=(1,2,3), $y:=$x+1 return $y",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x:=(1,2,3), $y:=$x+1 return $y", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr010.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -879,13 +881,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x :=(1 to 100)[. mod 5 eq 0] return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x :=(1 to 100)[. mod 5 eq 0] return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr011.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100") of 
       true -> {comment, "String correct"};
@@ -894,13 +896,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x :=(1 to 100)[. mod 5 eq 0], $y := $x[. mod 10 eq 0] return $y",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x :=(1 to 100)[. mod 5 eq 0], $y := $x[. mod 10 eq 0] return $y", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr012.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr012.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 20 30 40 50 60 70 80 90 100") of 
       true -> {comment, "String correct"};
@@ -909,13 +911,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x:=\"hello\", $y:=concat($x,\" there\") return $y",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x:=\"hello\", $y:=concat($x,\" there\") return $y", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr013.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr013.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "hello there") of 
       true -> {comment, "String correct"};
@@ -924,13 +926,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := \"1\", $y := $x+1 return $y",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := \"1\", $y := $x+1 return $y", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr014.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr014.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -939,13 +941,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true()) return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true()) return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr015.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr015.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0 0.01 2 a cat  true") of 
       true -> {comment, "String correct"};
@@ -954,13 +956,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $a := (<elem1/>, <elem2/>, <elem3 att=\"test\"/>) return <root>{$a}</root>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $a := (<elem1/>, <elem2/>, <elem3 att=\"test\"/>) return <root>{$a}</root>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr016.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr016.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<root><elem1/><elem2/><elem3 att=\"test\"/></root>") of 
       true -> {comment, "XML Deep equal"};
@@ -969,13 +971,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := (<a> <b> <c> 123 </c> </b> </a>) return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := (<a> <b> <c> 123 </c> </b> </a>) return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr017.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr017.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<a><b><c> 123 </c></b></a>") of 
       true -> {comment, "XML Deep equal"};
@@ -984,13 +986,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true(), ('<a> <b> <c> 123 </c> </b> </a>')/a/b) return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $x := (0,0.1e-1,2.0,'a',\"cat\",'',true(), ('<a> <b> <c> 123 </c> </b> </a>')/a/b) return $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr018.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr018.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0019") of 
       true -> {comment, "Correct error"};
@@ -999,13 +1001,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $a := <elem/> let $b := <elem2/> return ($a,$b)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $a := <elem/> let $b := <elem2/> return ($a,$b)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr019.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr019.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<elem/><elem2/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1014,13 +1016,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $a := 1 let $b := $a let $c := $a+$b return ($c)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $a := 1 let $b := $a let $c := $a+$b return ($c)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr020.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr020.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1029,16 +1031,16 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'LetExpr020a'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'LetExpr021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $a := $b return ($a)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $a := $b return ($a)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "LetExpr021.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "LetExpr021.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
@@ -1047,13 +1049,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-LetExprWithout-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i := 5, $j := 20 * $i return $i, $j",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i := 5, $j := 20 * $i return $i, $j", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-LetExprWithout-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0008") of 
       true -> {comment, "Correct error"};
@@ -1062,13 +1064,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-LetExprWithout-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i = 5 return 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i = 5 return 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-LetExprWithout-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1077,13 +1079,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-LetExprWithout-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i in 5 return 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i in 5 return 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-LetExprWithout-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1092,61 +1094,61 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-LetExprWithout-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $i := false(); 
         declare variable $t := false(); 
-        deep-equal((let $i := true(), $t := true() return ($i, $t)), (true(), true()))",
+        deep-equal((let $i := true(), $t := true() return ($i, $t)), (true(), true()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-LetExprWithout-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-LetExprWithout-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2))/.)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2))/.)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((<b/>, <b/>, <b/>, <b/>), (for $v1 in (1, 2, 3, 4) let $v2 := <b/> return ($v2)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:myFunc() { let $v := . return $v }; local:myFunc()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:myFunc() { let $v := . return $v }; local:myFunc()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1155,13 +1157,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:myFunc($arg as node()) { let $v := . return $arg/$v }; local:myFunc(<e/>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:myFunc($arg as node()) { let $v := . return $arg/$v }; local:myFunc(<e/>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1170,13 +1172,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; local:myFunc(<e/>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; local:myFunc(<e/>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1185,13 +1187,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:myFunc($arg as node()) { let $v := aNameTest return $arg/$v }; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -1208,13 +1210,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:integer := xs:untypedAtomic(\"1\") return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:integer := xs:untypedAtomic(\"1\") return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1223,13 +1225,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "return 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "return 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1238,13 +1240,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:float := 1.1 return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:float := 1.1 return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1253,13 +1255,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:double := 1.1 return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:double := 1.1 return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1268,13 +1270,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:float := 1 return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:float := 1 return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1283,13 +1285,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:double := 1 return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:double := 1 return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1298,13 +1300,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:double := xs:float(3) return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:double := xs:float(3) return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1313,13 +1315,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:string := xs:untypedAtomic(\"a string\") return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:string := xs:untypedAtomic(\"a string\") return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1328,13 +1330,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $i as xs:string := xs:anyURI(\"http://www.example.com/\") return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $i as xs:string := xs:anyURI(\"http://www.example.com/\") return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1343,13 +1345,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $e := <e/>; for $i in (<a/>, $e, <c/>) return $i is $e",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $e := <e/>; for $i in (<a/>, $e, <c/>) return $i is $e", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false true false") of 
       true -> {comment, "String correct"};
@@ -1358,17 +1360,17 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:function() { let $b := (i/a) return () }; empty(local:function())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:function() { let $b := (i/a) return () }; empty(local:function())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPDY0002") of 
@@ -1385,13 +1387,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:foo($a as xs:integer) { if($a = 3) then $a else let $a := $a return local:foo($a + 1) }; local:foo(1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:foo($a as xs:integer) { if($a = 3) then $a else let $a := $a return local:foo($a + 1) }; local:foo(1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -1400,14 +1402,14 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $v := . return 1",
-   {Env,Opts} = xqerl_test:handle_environment(environment('empty',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $v := . return 1", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('empty',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -1424,19 +1426,19 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         let $emps := //employee[location = \"Denver\"] 
         for $d in distinct-values($emps/deptno) 
         let $e := $emps[deptno = $d] 
         return <dept> <deptno>{$d}</deptno> <headcount> {count($e)} </headcount> <payroll> {sum($e/salary)} </payroll> </dept>
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('acme_corp',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>") of 
       true -> {comment, "XML Deep equal"};
@@ -1445,13 +1447,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e/>/(for $b in 1, $i in self::node() return $i)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e/>/(for $b in 1, $i in self::node() return $i)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1460,13 +1462,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<e/>/(for $i in self::node() return $i)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<e/>/(for $i in self::node() return $i)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<e/>") of 
       true -> {comment, "XML Deep equal"};
@@ -1475,13 +1477,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(<e/>/(let $i := . return (string($i), data($i))))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(<e/>/(let $i := . return (string($i), data($i))))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1490,13 +1492,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare function local:function() { let $b := (i/a) return 1 }; local:function()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare function local:function() { let $b := (i/a) return 1 }; local:function()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -1513,9 +1515,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $a := 1 return 
                 for $b in 1 return 
                     if ($b) then 1 
@@ -1543,10 +1545,10 @@ environment('acme_corp',BaseDir) ->
                             else if ($b) then 1 
                             else if ($b) then 1 
                             else if ($b) then 1 
-                            else ()",
+                            else ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1555,13 +1557,13 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-LetExprWithout-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $e := <element/>, $outer as element() := $e/element() return $outer",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $e := <element/>, $outer as element() := $e/element() return $outer", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-LetExprWithout-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-LetExprWithout-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1570,9 +1572,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery10keywords'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $ancestor-or-self := 1 
       let $ancestor := 1 
       let $and := 1 
@@ -1617,10 +1619,10 @@ environment('acme_corp',BaseDir) ->
       let $self := 1 let $some := 1 let $stable := 1 let $strict := 1 let $strip := 1 
       let $text := 1 let $then := 1 let $to := 1 let $treat := 1 let $typeswitch := 1 
       let $union := 1 let $unordered := 1 let $validate := 1 let $variable := 1 let $version := 1 
-      let $where := 1 let $xquery := 1 return 2",
+      let $where := 1 let $xquery := 1 return 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery10keywords.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1629,9 +1631,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery10keywords2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
       let $x := (/) 
       return $x /ancestor-or-self /ancestor /and /as /ascending /at /attribute 
@@ -1653,11 +1655,11 @@ environment('acme_corp',BaseDir) ->
        /union /unordered 
        /validate /variable /version 
        /where
-       /xquery",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+       /xquery", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery10keywords2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1666,9 +1668,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery10keywords3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
       <keywords> <ancestor-or-self/> <ancestor/> <and/> <as/> <ascending/> <at/> <attribute/> 
       <base-uri/> <boundary-space/> <by/> 
@@ -1689,10 +1691,10 @@ environment('acme_corp',BaseDir) ->
       <union/> <unordered/> 
       <validate/> <variable/> <version/> 
       <where/> 
-      <xquery/> </keywords>/name()",
+      <xquery/> </keywords>/name()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery10keywords3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery10keywords3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
@@ -1701,9 +1703,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery30keywords'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         let $NaN := 1
         let $allowing := 1
@@ -1831,10 +1833,10 @@ environment('acme_corp',BaseDir) ->
         let $xquery := 1
         let $zero-digit := 1
         return 2
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery30keywords.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1843,9 +1845,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery30keywords2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x
@@ -1974,11 +1976,11 @@ environment('acme_corp',BaseDir) ->
         /window
         /xquery
         /zero-digit
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery30keywords2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1987,9 +1989,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery30keywords3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         <keywords>
            <NaN/>
@@ -2118,10 +2120,10 @@ environment('acme_corp',BaseDir) ->
            <xquery/>
            <zero-digit/>
         </keywords>/name()
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery30keywords3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
@@ -2130,9 +2132,9 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery30keywords4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:NaN () {1};
          declare function local:allowing () {2};
@@ -2386,21 +2388,21 @@ environment('acme_corp',BaseDir) ->
          local:xquery() +
          local:zero-digit()
          eq (125 * (125 + 1)) div 2
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery30keywords4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery30keywords5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          
@@ -2624,29 +2626,29 @@ environment('acme_corp',BaseDir) ->
          xquery() +
          zero-digit()
          eq (109 * (109 + 1)) div 2
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery30keywords5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery30keywords5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery31keywords1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         let $exponent-separator := 1
         return 2
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery31keywords1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -2655,17 +2657,17 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery31keywords2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         let $x := (/)
         return $x/exponent-separator
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery31keywords2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -2674,17 +2676,17 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery31keywords3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         <keywords>
            <exponent-separator/>
         </keywords>/name()
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery31keywords3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "keywords") of 
       true -> {comment, "String correct"};
@@ -2693,40 +2695,40 @@ environment('acme_corp',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery31keywords4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          declare function local:exponent-separator () {126};
          local:exponent-separator()
          eq 126
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery31keywords4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'xquery31keywords5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          declare default function namespace \"http://www.w3.org/2005/xquery-local-functions\";
          declare function exponent-separator () {110};
          exponent-separator()
          eq 110
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "xquery31keywords5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "xquery31keywords5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

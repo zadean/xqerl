@@ -1,9 +1,10 @@
 -module('method_json_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['Serialization-json-1'/1]).
 -export(['Serialization-json-2'/1]).
 -export(['Serialization-json-3'/1]).
@@ -78,475 +79,476 @@
 -export(['Serialization-json-72'/1]).
 -export(['Serialization-json-73'/1]).
 -export(['Serialization-json-74'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "ser")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "ser"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'Serialization-json-1',
-   'Serialization-json-2',
-   'Serialization-json-3',
-   'Serialization-json-4',
-   'Serialization-json-5',
-   'Serialization-json-6',
-   'Serialization-json-7',
-   'Serialization-json-8',
-   'Serialization-json-9',
-   'Serialization-json-10',
-   'Serialization-json-11',
-   'Serialization-json-12',
-   'Serialization-json-13',
-   'Serialization-json-14',
-   'Serialization-json-15',
-   'Serialization-json-16',
-   'Serialization-json-17',
-   'Serialization-json-18',
-   'Serialization-json-19',
-   'Serialization-json-20',
-   'Serialization-json-21',
-   'Serialization-json-22',
-   'Serialization-json-23',
-   'Serialization-json-24',
-   'Serialization-json-25',
-   'Serialization-json-26',
-   'Serialization-json-27',
-   'Serialization-json-28',
-   'Serialization-json-29',
-   'Serialization-json-30',
-   'Serialization-json-31',
-   'Serialization-json-32',
-   'Serialization-json-33',
-   'Serialization-json-34',
-   'Serialization-json-35',
-   'Serialization-json-36',
-   'Serialization-json-37',
-   'Serialization-json-38',
-   'Serialization-json-39',
-   'Serialization-json-40',
-   'Serialization-json-41',
-   'Serialization-json-42',
-   'Serialization-json-43',
-   'Serialization-json-44',
-   'Serialization-json-45',
-   'Serialization-json-46',
-   'Serialization-json-47',
-   'Serialization-json-48',
-   'Serialization-json-49',
-   'Serialization-json-50',
-   'Serialization-json-51',
-   'Serialization-json-52',
-   'Serialization-json-53',
-   'Serialization-json-54',
-   'Serialization-json-55',
-   'Serialization-json-56',
-   'Serialization-json-57',
-   'Serialization-json-58',
-   'Serialization-json-59',
-   'Serialization-json-60',
-   'Serialization-json-61',
-   'Serialization-json-62',
-   'Serialization-json-63',
-   'Serialization-json-64',
-   'Serialization-json-65',
-   'Serialization-json-66',
-   'Serialization-json-67',
-   'Serialization-json-68',
-   'Serialization-json-69',
-   'Serialization-json-70',
-   'Serialization-json-71',
-   'Serialization-json-72',
-   'Serialization-json-73',
-   'Serialization-json-74'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'Serialization-json-1', 
+'Serialization-json-2', 
+'Serialization-json-3', 
+'Serialization-json-4', 
+'Serialization-json-5', 
+'Serialization-json-6', 
+'Serialization-json-7', 
+'Serialization-json-8', 
+'Serialization-json-9', 
+'Serialization-json-10', 
+'Serialization-json-11', 
+'Serialization-json-12', 
+'Serialization-json-13', 
+'Serialization-json-14', 
+'Serialization-json-15', 
+'Serialization-json-16', 
+'Serialization-json-17', 
+'Serialization-json-18', 
+'Serialization-json-19', 
+'Serialization-json-20', 
+'Serialization-json-21', 
+'Serialization-json-22', 
+'Serialization-json-23', 
+'Serialization-json-24', 
+'Serialization-json-25', 
+'Serialization-json-26', 
+'Serialization-json-27', 
+'Serialization-json-28', 
+'Serialization-json-29', 
+'Serialization-json-30', 
+'Serialization-json-31', 
+'Serialization-json-32', 
+'Serialization-json-33', 
+'Serialization-json-34', 
+'Serialization-json-35', 
+'Serialization-json-36', 
+'Serialization-json-37', 
+'Serialization-json-38', 
+'Serialization-json-39', 
+'Serialization-json-40', 
+'Serialization-json-41', 
+'Serialization-json-42', 
+'Serialization-json-43', 
+'Serialization-json-44', 
+'Serialization-json-45', 
+'Serialization-json-46', 
+'Serialization-json-47', 
+'Serialization-json-48', 
+'Serialization-json-49', 
+'Serialization-json-50', 
+'Serialization-json-51', 
+'Serialization-json-52', 
+'Serialization-json-53', 
+'Serialization-json-54', 
+'Serialization-json-55', 
+'Serialization-json-56', 
+'Serialization-json-57', 
+'Serialization-json-58', 
+'Serialization-json-59', 
+'Serialization-json-60', 
+'Serialization-json-61', 
+'Serialization-json-62', 
+'Serialization-json-63', 
+'Serialization-json-64', 
+'Serialization-json-65', 
+'Serialization-json-66', 
+'Serialization-json-67', 
+'Serialization-json-68', 
+'Serialization-json-69', 
+'Serialization-json-70', 
+'Serialization-json-71', 
+'Serialization-json-72', 
+'Serialization-json-73', 
+'Serialization-json-74'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'Serialization-json-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-34'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-35'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-36'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-37'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-38'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-39'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-40'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-41'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-42'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-43'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-44'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-45'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-46'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-47'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-48'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-49'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-50'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-51'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-52'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-53'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-54'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-55'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-56'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-57'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-58'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-59'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-60'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-61'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-62'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-63'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-64'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-65'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-66'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-67'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-68'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-69'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-70'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-71'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-72'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-73'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}. 
 'Serialization-json-74'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"serialization"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"serialization feature"}.

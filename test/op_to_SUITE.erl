@@ -1,9 +1,10 @@
 -module('op_to_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['rangeExpr-1'/1]).
 -export(['rangeExpr-2'/1]).
 -export(['rangeExpr-3'/1]).
@@ -85,269 +86,270 @@
 -export(['K2-RangeExpr-2'/1]).
 -export(['K2-RangeExpr-3'/1]).
 -export(['K2-RangeExpr-4'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "op")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "op"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'rangeExpr-1',
-   'rangeExpr-2',
-   'rangeExpr-3',
-   'rangeExpr-4',
-   'rangeExpr-5',
-   'rangeExpr-6',
-   'rangeExpr-7',
-   'rangeExpr-8',
-   'rangeExpr-9',
-   'rangeExpr-10',
-   'rangeExpr-11',
-   'rangeExpr-12',
-   'rangeExpr-13',
-   'rangeExpr-14',
-   'rangeExpr-15',
-   'rangeExpr-16',
-   'rangeExpr-17',
-   'rangeExpr-18',
-   'rangeExpr-19',
-   'rangeExpr-20',
-   'rangeExpr-21',
-   'rangeExpr-22',
-   'rangeExpr-23',
-   'rangeExpr-24',
-   'rangeExpr-25',
-   'rangeExpr-26',
-   'rangeExpr-27',
-   'rangeExpr-28',
-   'rangeExpr-29',
-   'rangeExpr-30',
-   'rangeExpr-31',
-   'rangeExpr-32',
-   'rangeExpr-33',
-   'rangeExpr-34',
-   'rangeExpr-35',
-   'rangeExpr-36',
-   'rangeExpr-37',
-   'rangeExpr-38',
-   'rangeExpr-39',
-   'rangeExpr-40',
-   'rangeExpr-41',
-   'K-RangeExpr-1',
-   'K-RangeExpr-2',
-   'K-RangeExpr-3',
-   'K-RangeExpr-4',
-   'K-RangeExpr-5',
-   'K-RangeExpr-6',
-   'K-RangeExpr-7',
-   'K-RangeExpr-8',
-   'K-RangeExpr-9',
-   'K-RangeExpr-10',
-   'K-RangeExpr-11',
-   'K-RangeExpr-12',
-   'K-RangeExpr-13',
-   'K-RangeExpr-14',
-   'K-RangeExpr-15',
-   'K-RangeExpr-16',
-   'K-RangeExpr-17',
-   'K-RangeExpr-18',
-   'K-RangeExpr-19',
-   'K-RangeExpr-20',
-   'K-RangeExpr-21',
-   'K-RangeExpr-22',
-   'K-RangeExpr-23',
-   'K-RangeExpr-24',
-   'K-RangeExpr-25',
-   'K-RangeExpr-26',
-   'K-RangeExpr-27',
-   'K-RangeExpr-28',
-   'K-RangeExpr-29',
-   'K-RangeExpr-30',
-   'K-RangeExpr-31',
-   'K-RangeExpr-32',
-   'K-RangeExpr-33',
-   'K-RangeExpr-34',
-   'K-RangeExpr-35',
-   'K-RangeExpr-36',
-   'K2-RangeExpr-1',
-   'K2-RangeExpr-2',
-   'K2-RangeExpr-3',
-   'K2-RangeExpr-4'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'rangeExpr-1', 
+'rangeExpr-2', 
+'rangeExpr-3', 
+'rangeExpr-4', 
+'rangeExpr-5', 
+'rangeExpr-6', 
+'rangeExpr-7', 
+'rangeExpr-8', 
+'rangeExpr-9', 
+'rangeExpr-10', 
+'rangeExpr-11', 
+'rangeExpr-12', 
+'rangeExpr-13', 
+'rangeExpr-14', 
+'rangeExpr-15', 
+'rangeExpr-16', 
+'rangeExpr-17', 
+'rangeExpr-18', 
+'rangeExpr-19', 
+'rangeExpr-20', 
+'rangeExpr-21', 
+'rangeExpr-22', 
+'rangeExpr-23', 
+'rangeExpr-24', 
+'rangeExpr-25', 
+'rangeExpr-26', 
+'rangeExpr-27', 
+'rangeExpr-28', 
+'rangeExpr-29', 
+'rangeExpr-30', 
+'rangeExpr-31', 
+'rangeExpr-32', 
+'rangeExpr-33', 
+'rangeExpr-34', 
+'rangeExpr-35', 
+'rangeExpr-36', 
+'rangeExpr-37', 
+'rangeExpr-38', 
+'rangeExpr-39', 
+'rangeExpr-40', 
+'rangeExpr-41', 
+'K-RangeExpr-1', 
+'K-RangeExpr-2', 
+'K-RangeExpr-3', 
+'K-RangeExpr-4', 
+'K-RangeExpr-5', 
+'K-RangeExpr-6', 
+'K-RangeExpr-7', 
+'K-RangeExpr-8', 
+'K-RangeExpr-9', 
+'K-RangeExpr-10', 
+'K-RangeExpr-11', 
+'K-RangeExpr-12', 
+'K-RangeExpr-13', 
+'K-RangeExpr-14', 
+'K-RangeExpr-15', 
+'K-RangeExpr-16', 
+'K-RangeExpr-17', 
+'K-RangeExpr-18', 
+'K-RangeExpr-19', 
+'K-RangeExpr-20', 
+'K-RangeExpr-21', 
+'K-RangeExpr-22', 
+'K-RangeExpr-23', 
+'K-RangeExpr-24', 
+'K-RangeExpr-25', 
+'K-RangeExpr-26', 
+'K-RangeExpr-27', 
+'K-RangeExpr-28', 
+'K-RangeExpr-29', 
+'K-RangeExpr-30', 
+'K-RangeExpr-31', 
+'K-RangeExpr-32', 
+'K-RangeExpr-33', 
+'K-RangeExpr-34', 
+'K-RangeExpr-35', 
+'K-RangeExpr-36', 
+'K2-RangeExpr-1', 
+'K2-RangeExpr-2', 
+'K2-RangeExpr-3', 
+'K2-RangeExpr-4'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'rangeExpr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10, 1 to 4)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10, 1 to 4)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10 1 2 3 4") of 
       true -> {comment, "String correct"};
@@ -356,13 +358,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10 to 10",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10 to 10", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "10") of 
       true -> {comment, "String correct"};
@@ -371,13 +373,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count(15 to 10)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count(15 to 10)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "0") of 
       true -> {comment, "String correct"};
@@ -386,13 +388,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:reverse(10 to 15)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:reverse(10 to 15)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "15 14 13 12 11 10") of 
       true -> {comment, "String correct"};
@@ -401,13 +403,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count((1, 2 to ()))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count((1, 2 to ()))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1") of 
@@ -424,13 +426,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((1+2) to (2+2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((1+2) to (2+2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 4") of 
       true -> {comment, "String correct"};
@@ -439,13 +441,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(-4,-3 to 2)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(-4,-3 to 2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-4 -3 -2 -1 0 1 2") of 
       true -> {comment, "String correct"};
@@ -454,13 +456,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(-4, -3 to -1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(-4, -3 to -1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "-4 -3 -2 -1") of 
       true -> {comment, "String correct"};
@@ -469,13 +471,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(1) to 5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(1) to 5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -484,13 +486,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 to xs:integer(5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to xs:integer(5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -499,13 +501,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:integer(1) to xs:integer(5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:integer(1) to xs:integer(5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -514,13 +516,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(fn:min((1,2)) to 5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(fn:min((1,2)) to 5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -529,13 +531,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(fn:max((1,2)) to 5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(fn:max((1,2)) to 5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -544,13 +546,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(fn:min((1,2)) to fn:max((6,7)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(fn:min((1,2)) to fn:max((6,7)))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6 7") of 
       true -> {comment, "String correct"};
@@ -559,13 +561,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:min((1 to 5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:min((1 to 5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -574,13 +576,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:max((1 to 5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:max((1 to 5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5") of 
       true -> {comment, "String correct"};
@@ -589,13 +591,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:avg((1 to 5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:avg((1 to 5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3") of 
       true -> {comment, "String correct"};
@@ -604,13 +606,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:count((1 to 5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:count((1 to 5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "5") of 
       true -> {comment, "String correct"};
@@ -619,13 +621,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((3*2) to 10)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((3*2) to 10)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "6 7 8 9 10") of 
       true -> {comment, "String correct"};
@@ -634,13 +636,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 to (3*2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to (3*2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6") of 
       true -> {comment, "String correct"};
@@ -649,13 +651,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((1*2) to (3*2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((1*2) to (3*2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2 3 4 5 6") of 
       true -> {comment, "String correct"};
@@ -664,13 +666,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((3 - 2) to 10)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((3 - 2) to 10)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6 7 8 9 10") of 
       true -> {comment, "String correct"};
@@ -679,13 +681,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 to (3 - 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to (3 - 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
@@ -694,13 +696,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((2 - 1) to (7 - 1))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((2 - 1) to (7 - 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 6") of 
       true -> {comment, "String correct"};
@@ -709,13 +711,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((6 idiv 2) to 10)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((6 idiv 2) to 10)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 4 5 6 7 8 9 10") of 
       true -> {comment, "String correct"};
@@ -724,13 +726,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 to (10 idiv 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to (10 idiv 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
       true -> {comment, "String correct"};
@@ -739,13 +741,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((5 idiv 5) to (8 idiv 2))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((5 idiv 5) to (8 idiv 2))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4") of 
       true -> {comment, "String correct"};
@@ -754,13 +756,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "18446744073709551616 to 18446744073709551620",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "18446744073709551616 to 18446744073709551620", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-28.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "18446744073709551616 18446744073709551617 18446744073709551618 18446744073709551619 18446744073709551620") of 
@@ -777,13 +779,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(18446744073709551616 to 18446744073709551620)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(18446744073709551616 to 18446744073709551620)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-29.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"5") of 
@@ -800,13 +802,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(28446744073709551616 to 28446744073709551620)!position()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(28446744073709551616 to 28446744073709551620)!position()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-30.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1 2 3 4 5") of 
@@ -823,13 +825,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "((28446744073709551616 to 28446744073709551620)!last())[1]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "((28446744073709551616 to 28446744073709551620)!last())[1]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-31.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"5") of 
@@ -846,13 +848,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "reverse(28446744073709551616 to 28446744073709551620)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "reverse(28446744073709551616 to 28446744073709551620)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-32.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "28446744073709551620 28446744073709551619 28446744073709551618 28446744073709551617 28446744073709551616") of 
@@ -869,13 +871,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "11 to 11 to 12",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "11 to 11 to 12", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-33.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -884,13 +886,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-34'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "\"it is \" || 10 to 1 || \"already\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "\"it is \" || 10 to 1 || \"already\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-34.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"\"it is already\"") of 
       true -> {comment, "Equal"};
@@ -899,13 +901,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-35'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3+1 to 4+1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3+1 to 4+1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-35.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"4, 5") of 
       true -> {comment, "Deep equal"};
@@ -914,88 +916,88 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-36'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "year-from-date(current-date()) = 1 to 5000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "year-from-date(current-date()) = 1 to 5000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-36.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-37'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "year-from-date(current-date()) = 5000 to 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "year-from-date(current-date()) = 5000 to 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-37.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-37.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-38'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "year-from-date(current-date()) to 4000 = 1500 to 2500",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "year-from-date(current-date()) to 4000 = 1500 to 2500", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-38.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-38.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-39'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1000 = 1 to year-from-date(current-date())[. gt 3000]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1000 = 1 to year-from-date(current-date())[. gt 3000]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-39.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-39.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-40'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 to 5000 = year-from-date(current-date())[. gt 3000]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 to 5000 = year-from-date(current-date())[. gt 3000]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-40.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-40.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'rangeExpr-41'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1 to 5000)[position() = 2001 to 2020]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1 to 5000)[position() = 2001 to 2020]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "rangeExpr-41.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "rangeExpr-41.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"2001 to 2020") of 
       true -> {comment, "Deep equal"};
@@ -1004,17 +1006,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 to 1 eq 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 to 1 eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -1027,47 +1029,47 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(30 to 3)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(30 to 3)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(0 to -3)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(0 to -3)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(1 to ())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(1 to ())", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPST0005") of 
@@ -1080,17 +1082,17 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(() to 1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(() to 1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"XPST0005") of 
@@ -1103,388 +1105,388 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(-1 to -3)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(-1 to -3)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(1 to 4) eq 4",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(1 to 4) eq 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(0 to 4) eq 5",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(0 to 4) eq 5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(-5 to -0) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(-5 to -0) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count((10, 1 to 4)) eq 5",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count((10, 1 to 4)) eq 5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(-3 to -1, 1, 1) eq -3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(-3 to -1, 1, 1) eq -3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(-3 to -1, 3, 1) eq -1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(-3 to -1, 3, 1) eq -1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(reverse(4 to 1))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(reverse(4 to 1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(reverse(1 to 3), 1, 1) eq 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(reverse(1 to 3), 1, 1) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(reverse(1 to 3), 3, 1) eq 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(reverse(1 to 3), 3, 1) eq 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(reverse(1 to 4), 2, 1) eq 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(reverse(1 to 4), 2, 1) eq 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(reverse(1 to 4), 3, 1) eq 2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(reverse(1 to 4), 3, 1) eq 2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "subsequence(reverse(-4 to -1), 2, 1) eq -2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "subsequence(reverse(-4 to -1), 2, 1) eq -2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal((-1, -2, -3, -4), reverse(-4 to -1))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((-1, -2, -3, -4), reverse(-4 to -1))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal((), reverse(0 to -5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((), reverse(0 to -5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal((0, -1, -2, -3, -4, -5), reverse(-5 to 0))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal((0, -1, -2, -3, -4, -5), reverse(-5 to 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-21.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(reverse(-5 to -2)) eq 4",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(reverse(-5 to -2)) eq 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-22.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(reverse(-5 to -0)) eq 6",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(reverse(-5 to -0)) eq 6", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(reverse(1 to 4)) eq 4",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(reverse(1 to 4)) eq 4", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(1 to 0)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(1 to 0)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(0 to -5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(0 to -5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(-4 to -5)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(-4 to -5)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-28'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(reverse(1 to 0))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(reverse(1 to 0))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-28.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-28.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-29'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(reverse(0 to -5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(reverse(0 to -5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-29.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-29.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-30'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "empty(reverse(-4 to -5))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "empty(reverse(-4 to -5))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-30.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-30.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-31'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(remove((2.e0, 4), 1) treat as xs:integer to 4)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(remove((2.e0, 4), 1) treat as xs:integer to 4)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-31.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-31.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
@@ -1493,13 +1495,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-32'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(4 to remove((2e0, 4), 1) treat as xs:integer)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(4 to remove((2e0, 4), 1) treat as xs:integer)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-32.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-32.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "4") of 
       true -> {comment, "String correct"};
@@ -1508,13 +1510,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-33'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1.1 to 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1.1 to 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-33.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-33.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1523,13 +1525,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-34'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 to 1.1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 to 1.1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-34.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-34.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1538,13 +1540,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-35'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1.1 to 3.3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1.1 to 3.3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-35.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-35.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1553,13 +1555,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-RangeExpr-36'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 + 1.1 to 5",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 + 1.1 to 5", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-RangeExpr-36.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-RangeExpr-36.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1568,13 +1570,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-RangeExpr-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1e3 to 3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1e3 to 3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RangeExpr-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-RangeExpr-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1583,13 +1585,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-RangeExpr-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "3 to 1e3",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "3 to 1e3", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RangeExpr-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-RangeExpr-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1598,13 +1600,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-RangeExpr-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $i in 1 to 3 return $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $i in 1 to 3 return $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RangeExpr-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-RangeExpr-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3") of 
       true -> {comment, "String correct"};
@@ -1613,13 +1615,13 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-RangeExpr-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 to <value>5</value>, 5 to <value>5</value>, <value>1</value> to 5, <value>1</value> to <value>5</value>, let $i := <e>5</e> return $i to $i, count(5 to 10), count(1000 to 2000), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(4294967295 to 4294967298)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 to <value>5</value>, 5 to <value>5</value>, <value>1</value> to 5, <value>1</value> to <value>5</value>, let $i := <e>5</e> return $i to $i, count(5 to 10), count(1000 to 2000), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(<e>5</e> to 10), count(3 to <e>10</e>), count(<e>3</e> to <e>10</e>), count(4294967295 to 4294967298)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-RangeExpr-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-RangeExpr-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 2 3 4 5 5 1 2 3 4 5 1 2 3 4 5 5 6 1001 6 8 8 6 8 8 4") of 
       true -> {comment, "String correct"};

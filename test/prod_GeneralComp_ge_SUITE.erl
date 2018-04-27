@@ -1,9 +1,10 @@
 -module('prod_GeneralComp_ge_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['generalexpression496'/1]).
 -export(['generalexpression497'/1]).
 -export(['generalexpression498'/1]).
@@ -114,1894 +115,1895 @@
 -export(['K-GenCompGTEQ-8'/1]).
 -export(['K-GenCompGTEQ-9'/1]).
 -export(['K-GenCompGTEQ-10'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "prod")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "prod"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'generalexpression496',
-   'generalexpression497',
-   'generalexpression498',
-   'generalexpression499',
-   'generalexpression500',
-   'generalexpression501',
-   'generalexpression502',
-   'generalexpression503',
-   'generalexpression504',
-   'generalexpression505',
-   'generalexpression506',
-   'generalexpression507',
-   'generalexpression508',
-   'generalexpression509',
-   'generalexpression510',
-   'generalexpression511',
-   'generalexpression512',
-   'generalexpression513',
-   'generalexpression514',
-   'generalexpression515',
-   'generalexpression516',
-   'generalexpression517',
-   'generalexpression518',
-   'generalexpression519',
-   'generalexpression520',
-   'generalexpression521',
-   'generalexpression522',
-   'generalexpression523',
-   'generalexpression524',
-   'generalexpression525',
-   'generalexpression526',
-   'generalexpression527',
-   'generalexpression528',
-   'generalexpression529',
-   'generalexpression530',
-   'generalexpression531',
-   'generalexpression532',
-   'generalexpression533',
-   'generalexpression534',
-   'generalexpression535',
-   'generalexpression536',
-   'generalexpression537',
-   'generalexpression538',
-   'generalexpression539',
-   'generalexpression540',
-   'generalexpression541',
-   'generalexpression542',
-   'generalexpression543',
-   'generalexpression544',
-   'generalexpression545',
-   'generalexpression546',
-   'generalexpression547',
-   'generalexpression548',
-   'generalexpression549',
-   'generalexpression550',
-   'generalexpression551',
-   'generalexpression552',
-   'generalexpression553',
-   'generalexpression554',
-   'generalexpression555',
-   'generalexpression556',
-   'generalexpression557',
-   'generalexpression558',
-   'generalexpression559',
-   'generalexpression560',
-   'generalexpression561',
-   'generalexpression562',
-   'generalexpression563',
-   'generalexpression564',
-   'generalexpression565',
-   'generalexpression566',
-   'generalexpression567',
-   'generalexpression568',
-   'generalexpression569',
-   'generalexpression570',
-   'generalexpression571',
-   'generalexpression572',
-   'generalexpression573',
-   'generalexpression574',
-   'generalexpression575',
-   'generalexpression576',
-   'generalexpression577',
-   'generalexpression578',
-   'generalexpression579',
-   'generalexpression580',
-   'generalexpression581',
-   'generalexpression582',
-   'generalexpression583',
-   'generalexpression584',
-   'generalexpression585',
-   'generalexpression586',
-   'generalexpression587',
-   'generalexpression588',
-   'generalexpression589',
-   'generalexpression590',
-   'generalexpression591',
-   'generalexpression592',
-   'generalexpression593',
-   'generalexpression594',
-   'greaterthaneqonanyuri-1',
-   'K-GenCompGTEQ-1',
-   'K-GenCompGTEQ-2',
-   'K-GenCompGTEQ-3',
-   'K-GenCompGTEQ-4',
-   'K-GenCompGTEQ-5',
-   'K-GenCompGTEQ-6',
-   'K-GenCompGTEQ-7',
-   'K-GenCompGTEQ-8',
-   'K-GenCompGTEQ-9',
-   'K-GenCompGTEQ-10'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'generalexpression496', 
+'generalexpression497', 
+'generalexpression498', 
+'generalexpression499', 
+'generalexpression500', 
+'generalexpression501', 
+'generalexpression502', 
+'generalexpression503', 
+'generalexpression504', 
+'generalexpression505', 
+'generalexpression506', 
+'generalexpression507', 
+'generalexpression508', 
+'generalexpression509', 
+'generalexpression510', 
+'generalexpression511', 
+'generalexpression512', 
+'generalexpression513', 
+'generalexpression514', 
+'generalexpression515', 
+'generalexpression516', 
+'generalexpression517', 
+'generalexpression518', 
+'generalexpression519', 
+'generalexpression520', 
+'generalexpression521', 
+'generalexpression522', 
+'generalexpression523', 
+'generalexpression524', 
+'generalexpression525', 
+'generalexpression526', 
+'generalexpression527', 
+'generalexpression528', 
+'generalexpression529', 
+'generalexpression530', 
+'generalexpression531', 
+'generalexpression532', 
+'generalexpression533', 
+'generalexpression534', 
+'generalexpression535', 
+'generalexpression536', 
+'generalexpression537', 
+'generalexpression538', 
+'generalexpression539', 
+'generalexpression540', 
+'generalexpression541', 
+'generalexpression542', 
+'generalexpression543', 
+'generalexpression544', 
+'generalexpression545', 
+'generalexpression546', 
+'generalexpression547', 
+'generalexpression548', 
+'generalexpression549', 
+'generalexpression550', 
+'generalexpression551', 
+'generalexpression552', 
+'generalexpression553', 
+'generalexpression554', 
+'generalexpression555', 
+'generalexpression556', 
+'generalexpression557', 
+'generalexpression558', 
+'generalexpression559', 
+'generalexpression560', 
+'generalexpression561', 
+'generalexpression562', 
+'generalexpression563', 
+'generalexpression564', 
+'generalexpression565', 
+'generalexpression566', 
+'generalexpression567', 
+'generalexpression568', 
+'generalexpression569', 
+'generalexpression570', 
+'generalexpression571', 
+'generalexpression572', 
+'generalexpression573', 
+'generalexpression574', 
+'generalexpression575', 
+'generalexpression576', 
+'generalexpression577', 
+'generalexpression578', 
+'generalexpression579', 
+'generalexpression580', 
+'generalexpression581', 
+'generalexpression582', 
+'generalexpression583', 
+'generalexpression584', 
+'generalexpression585', 
+'generalexpression586', 
+'generalexpression587', 
+'generalexpression588', 
+'generalexpression589', 
+'generalexpression590', 
+'generalexpression591', 
+'generalexpression592', 
+'generalexpression593', 
+'generalexpression594', 
+'greaterthaneqonanyuri-1', 
+'K-GenCompGTEQ-1', 
+'K-GenCompGTEQ-2', 
+'K-GenCompGTEQ-3', 
+'K-GenCompGTEQ-4', 
+'K-GenCompGTEQ-5', 
+'K-GenCompGTEQ-6', 
+'K-GenCompGTEQ-7', 
+'K-GenCompGTEQ-8', 
+'K-GenCompGTEQ-9', 
+'K-GenCompGTEQ-10'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'generalexpression496'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression496.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression496.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression497'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression497.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression497.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression498'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression498.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression498.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression499'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression499.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression499.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression500'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression500.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression500.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression501'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression501.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression501.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression502'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression502.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression502.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression503'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression503.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression503.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression504'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression504.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression504.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression505'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "() >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "() >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression505.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression505.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression506'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression506.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression506.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression507'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression507.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression507.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression508'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression508.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression508.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression509'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression509.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression509.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression510'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression510.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression510.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression511'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression511.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression511.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression512'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression512.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression512.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression513'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression513.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression513.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression514'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "10000 >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "10000 >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression514.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression514.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression515'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression515.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression515.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression516'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression516.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression516.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression517'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression517.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression517.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression518'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression518.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression518.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression519'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression519.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression519.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression520'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression520.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression520.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression521'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression521.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression521.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression522'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression522.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression522.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression523'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression523.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression523.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression524'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(50000) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(50000) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression524.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression524.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression525'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression525.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression525.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression526'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression526.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression526.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression527'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression527.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression527.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression528'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression528.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression528.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression529'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression529.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression529.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression530'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression530.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression530.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression531'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression531.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression531.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression532'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression532.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression532.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression533'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression533.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression533.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression534'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(10000,50000) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(10000,50000) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression534.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression534.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression535'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression535.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression535.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression536'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression536.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression536.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression537'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression537.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression537.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression538'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression538.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression538.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression539'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression539.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression539.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression540'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression540.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression540.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression541'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression541.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression541.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression542'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression542.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression542.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression543'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression543.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression543.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression544'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "<a>10000</a> >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "<a>10000</a> >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression544.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression544.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression545'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression545.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression545.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression546'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression546.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression546.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression547'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression547.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression547.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression548'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression548.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression548.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression549'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression549.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression549.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression550'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression550.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression550.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression551'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression551.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression551.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression552'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression552.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression552.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression553'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression553.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression553.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression554'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression554.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression554.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression555'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= ()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= ()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression555.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression555.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression556'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= 10000",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= 10000", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression556.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression556.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression557'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression557.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression557.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression558'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (10000,50000)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (10000,50000)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression558.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression558.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression559'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= <a>10000</a>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= <a>10000</a>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression559.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression559.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression560'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (<a>10000</a>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (<a>10000</a>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression560.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression560.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression561'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (<a>10000</a>,<b>50000</b>)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (<a>10000</a>,<b>50000</b>)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression561.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression561.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression562'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression562.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression562.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression563'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression563.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression563.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression564'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(<a>10000</a>,<b>50000</b>) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(<a>10000</a>,<b>50000</b>) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression564.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression564.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression565'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= ()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression565.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression565.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression566'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= 10000", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression566.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression566.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression567'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression567.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression567.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression568'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (10000,50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression568.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression568.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression569'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= <a>10000</a>", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression569.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression569.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression570'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (<a>10000</a>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression570.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression570.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression571'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (<a>10000</a>,<b>50000</b>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression571.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression571.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression572'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression572.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression572.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression573'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1]) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1]) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression573.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression573.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression574'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression574.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression574.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression575'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= ()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression575.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression575.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression576'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= 10000", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression576.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression576.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression577'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression577.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression577.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression578'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (10000,50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression578.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression578.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression579'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= <a>10000</a>", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression579.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression579.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression580'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (<a>10000</a>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression580.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression580.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression581'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (<a>10000</a>,<b>50000</b>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression581.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression581.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression582'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression582.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression582.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression583'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(/works/employee[1]/hours[1],/works/employee[6]/hours[1]) >= (/works/employee[1]/hours[1],/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression583.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression583.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression584'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression584.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression584.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression585'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression585.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression585.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression586'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= 10000",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= 10000", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression586.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression586.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression587'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression587.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression587.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression588'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (10000,50000)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (10000,50000)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression588.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression588.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression589'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= <a>10000</a>",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= <a>10000</a>", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression589.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression589.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression590'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (<a>10000</a>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (<a>10000</a>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression590.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression590.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression591'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (<a>10000</a>,<b>50000</b>)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= (<a>10000</a>,<b>50000</b>)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression591.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression591.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression592'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression592.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression592.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression593'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$works/works/employee[6]/hours[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression593.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression593.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'generalexpression594'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "($works/works/employee[1]/hours[1],$staff/staff/employee[6]/hours[1]) >= ($works/works/employee[1]/hours[1],$staff/staff/employee[6]/grade[1])", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-and-staff',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "generalexpression594.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "generalexpression594.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'greaterthaneqonanyuri-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(xs:anyURI(\"http://www.example/com\")) >= (xs:anyURI(\"http://www.example/com\"))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(xs:anyURI(\"http://www.example/com\")) >= (xs:anyURI(\"http://www.example/com\"))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "greaterthaneqonanyuri-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "greaterthaneqonanyuri-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "not(() >= () )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "not(() >= () )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "not(1 >= () )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "not(1 >= () )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "not(() >= 1 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "not(() >= 1 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 =>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 =>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2010,91 +2012,91 @@ environment('array-and-map',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count((0, timezone-from-time(current-time()))) >= 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count((0, timezone-from-time(current-time()))) >= 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:untypedAtomic(\"false\") >= false()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:untypedAtomic(\"false\") >= false()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "true() >= xs:untypedAtomic(\"false\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "true() >= xs:untypedAtomic(\"false\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "false() >= xs:untypedAtomic(\"false\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "false() >= xs:untypedAtomic(\"false\")", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "xs:untypedAtomic(\"false\") >= false()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "xs:untypedAtomic(\"false\") >= false()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K-GenCompGTEQ-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "1 <= count((1, 2, 3, timezone-from-time(current-time()), 4))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "1 <= count((1, 2, 3, timezone-from-time(current-time()), 4))", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K-GenCompGTEQ-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K-GenCompGTEQ-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of

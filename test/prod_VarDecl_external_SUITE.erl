@@ -1,9 +1,10 @@
 -module('prod_VarDecl_external_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['extvardeclwithouttype-1'/1]).
 -export(['extvardeclwithouttype-2'/1]).
 -export(['extvardeclwithouttype-3'/1]).
@@ -103,323 +104,324 @@
 -export(['K2-ExternalVariablesWith-25'/1]).
 -export(['K2-ExternalVariablesWith-26'/1]).
 -export(['K2-ExternalVariablesWith-27'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "prod")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "prod"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'extvardeclwithouttype-1',
-   'extvardeclwithouttype-2',
-   'extvardeclwithouttype-3',
-   'extvardeclwithouttype-4',
-   'extvardeclwithouttype-5',
-   'extvardeclwithouttype-6',
-   'extvardeclwithouttype-7',
-   'extvardeclwithouttype-8',
-   'extvardeclwithouttype-9',
-   'extvardeclwithouttype-10',
-   'extvardeclwithouttype-11',
-   'extvardeclwithouttype-12',
-   'extvardeclwithouttype-13',
-   'extvardeclwithouttype-14',
-   'extvardeclwithouttype-15',
-   'extvardeclwithouttype-16',
-   'extvardeclwithouttype-17',
-   'extvardeclwithouttype-18',
-   'extvardeclwithouttype-19',
-   'extvardeclwithouttype-20',
-   'extvardeclwithouttype-21',
-   'extvardeclwithouttype-22',
-   'extvardeclwithouttype-23',
-   'extvardeclwithouttype-24',
-   'K2-ExternalVariablesWithout-1',
-   'K2-ExternalVariablesWithout-2',
-   'K2-ExternalVariablesWithout-3',
-   'K2-ExternalVariablesWithout-4',
-   'K2-ExternalVariablesWithout-5',
-   'K2-ExternalVariablesWithout-6',
-   'K2-ExternalVariablesWithout-7',
-   'K2-ExternalVariablesWithout-8',
-   'K2-ExternalVariablesWithout-9',
-   'K2-ExternalVariablesWithout-10',
-   'K2-ExternalVariablesWithout-11',
-   'K2-ExternalVariablesWithout-12',
-   'K2-ExternalVariablesWithout-13',
-   'K2-ExternalVariablesWithout-14',
-   'K2-ExternalVariablesWithout-15',
-   'K2-ExternalVariablesWithout-16',
-   'K2-ExternalVariablesWithout-17',
-   'K2-ExternalVariablesWithout-18',
-   'K2-ExternalVariablesWithout-18b',
-   'K2-ExternalVariablesWithout-19',
-   'K2-ExternalVariablesWithout-20',
-   'K2-ExternalVariablesWithout-21',
-   'K2-ExternalVariablesWithout-22',
-   'extvardeclwithtype-1',
-   'extvardeclwithtype-2',
-   'extvardeclwithtype-3',
-   'extvardeclwithtype-4',
-   'extvardeclwithtype-5',
-   'extvardeclwithtype-6',
-   'extvardeclwithtype-7',
-   'extvardeclwithtype-8',
-   'extvardeclwithtype-9',
-   'extvardeclwithtype-10',
-   'extvardeclwithtype-11',
-   'extvardeclwithtype-12',
-   'extvardeclwithtype-13',
-   'extvardeclwithtype-14',
-   'extvardeclwithtype-15',
-   'extvardeclwithtype-16',
-   'extvardeclwithtype-17',
-   'extvardeclwithtype-18',
-   'extvardeclwithtype-19',
-   'extvardeclwithtype-20',
-   'extvardeclwithtype-21',
-   'extvardeclwithtype-22',
-   'extvardeclwithtype-23',
-   'extvardeclwithtype-24',
-   'K2-ExternalVariablesWith-1',
-   'K2-ExternalVariablesWith-2',
-   'K2-ExternalVariablesWith-3',
-   'K2-ExternalVariablesWith-4',
-   'K2-ExternalVariablesWith-5',
-   'K2-ExternalVariablesWith-6',
-   'K2-ExternalVariablesWith-7',
-   'K2-ExternalVariablesWith-8',
-   'K2-ExternalVariablesWith-9',
-   'K2-ExternalVariablesWith-10',
-   'K2-ExternalVariablesWith-11',
-   'K2-ExternalVariablesWith-12',
-   'K2-ExternalVariablesWith-13',
-   'K2-ExternalVariablesWith-14',
-   'K2-ExternalVariablesWith-15',
-   'K2-ExternalVariablesWith-16',
-   'K2-ExternalVariablesWith-17',
-   'K2-ExternalVariablesWith-18',
-   'K2-ExternalVariablesWith-19',
-   'K2-ExternalVariablesWith-20',
-   'K2-ExternalVariablesWith-21',
-   'K2-ExternalVariablesWith-22',
-   'K2-ExternalVariablesWith-22a',
-   'K2-ExternalVariablesWith-23',
-   'K2-ExternalVariablesWith-24',
-   'K2-ExternalVariablesWith-25',
-   'K2-ExternalVariablesWith-26',
-   'K2-ExternalVariablesWith-27'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'extvardeclwithouttype-1', 
+'extvardeclwithouttype-2', 
+'extvardeclwithouttype-3', 
+'extvardeclwithouttype-4', 
+'extvardeclwithouttype-5', 
+'extvardeclwithouttype-6', 
+'extvardeclwithouttype-7', 
+'extvardeclwithouttype-8', 
+'extvardeclwithouttype-9', 
+'extvardeclwithouttype-10', 
+'extvardeclwithouttype-11', 
+'extvardeclwithouttype-12', 
+'extvardeclwithouttype-13', 
+'extvardeclwithouttype-14', 
+'extvardeclwithouttype-15', 
+'extvardeclwithouttype-16', 
+'extvardeclwithouttype-17', 
+'extvardeclwithouttype-18', 
+'extvardeclwithouttype-19', 
+'extvardeclwithouttype-20', 
+'extvardeclwithouttype-21', 
+'extvardeclwithouttype-22', 
+'extvardeclwithouttype-23', 
+'extvardeclwithouttype-24', 
+'K2-ExternalVariablesWithout-1', 
+'K2-ExternalVariablesWithout-2', 
+'K2-ExternalVariablesWithout-3', 
+'K2-ExternalVariablesWithout-4', 
+'K2-ExternalVariablesWithout-5', 
+'K2-ExternalVariablesWithout-6', 
+'K2-ExternalVariablesWithout-7', 
+'K2-ExternalVariablesWithout-8', 
+'K2-ExternalVariablesWithout-9', 
+'K2-ExternalVariablesWithout-10', 
+'K2-ExternalVariablesWithout-11', 
+'K2-ExternalVariablesWithout-12', 
+'K2-ExternalVariablesWithout-13', 
+'K2-ExternalVariablesWithout-14', 
+'K2-ExternalVariablesWithout-15', 
+'K2-ExternalVariablesWithout-16', 
+'K2-ExternalVariablesWithout-17', 
+'K2-ExternalVariablesWithout-18', 
+'K2-ExternalVariablesWithout-18b', 
+'K2-ExternalVariablesWithout-19', 
+'K2-ExternalVariablesWithout-20', 
+'K2-ExternalVariablesWithout-21', 
+'K2-ExternalVariablesWithout-22', 
+'extvardeclwithtype-1', 
+'extvardeclwithtype-2', 
+'extvardeclwithtype-3', 
+'extvardeclwithtype-4', 
+'extvardeclwithtype-5', 
+'extvardeclwithtype-6', 
+'extvardeclwithtype-7', 
+'extvardeclwithtype-8', 
+'extvardeclwithtype-9', 
+'extvardeclwithtype-10', 
+'extvardeclwithtype-11', 
+'extvardeclwithtype-12', 
+'extvardeclwithtype-13', 
+'extvardeclwithtype-14', 
+'extvardeclwithtype-15', 
+'extvardeclwithtype-16', 
+'extvardeclwithtype-17', 
+'extvardeclwithtype-18', 
+'extvardeclwithtype-19', 
+'extvardeclwithtype-20', 
+'extvardeclwithtype-21', 
+'extvardeclwithtype-22', 
+'extvardeclwithtype-23', 
+'extvardeclwithtype-24', 
+'K2-ExternalVariablesWith-1', 
+'K2-ExternalVariablesWith-2', 
+'K2-ExternalVariablesWith-3', 
+'K2-ExternalVariablesWith-4', 
+'K2-ExternalVariablesWith-5', 
+'K2-ExternalVariablesWith-6', 
+'K2-ExternalVariablesWith-7', 
+'K2-ExternalVariablesWith-8', 
+'K2-ExternalVariablesWith-9', 
+'K2-ExternalVariablesWith-10', 
+'K2-ExternalVariablesWith-11', 
+'K2-ExternalVariablesWith-12', 
+'K2-ExternalVariablesWith-13', 
+'K2-ExternalVariablesWith-14', 
+'K2-ExternalVariablesWith-15', 
+'K2-ExternalVariablesWith-16', 
+'K2-ExternalVariablesWith-17', 
+'K2-ExternalVariablesWith-18', 
+'K2-ExternalVariablesWith-19', 
+'K2-ExternalVariablesWith-20', 
+'K2-ExternalVariablesWith-21', 
+'K2-ExternalVariablesWith-22', 
+'K2-ExternalVariablesWith-22a', 
+'K2-ExternalVariablesWith-23', 
+'K2-ExternalVariablesWith-24', 
+'K2-ExternalVariablesWith-25', 
+'K2-ExternalVariablesWith-26', 
+'K2-ExternalVariablesWith-27'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('TopMany',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "AxisStep/TopMany.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('TopMany',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "AxisStep/TopMany.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('CPPGlobals',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "AxisStep/CPPGlobals.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('CPPGlobals',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "AxisStep/CPPGlobals.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'extvardeclwithouttype-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; fn:string($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","'abc'"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; fn:string($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","'abc'"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "abc") of 
@@ -436,25 +438,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","'2006-02-07+05:00'"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","'2006-02-07+05:00'"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "2006-02-07+05:00") of 
@@ -471,25 +473,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; xs:integer($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","2"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; xs:integer($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
@@ -506,25 +508,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","1.2E2"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","1.2E2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"120") of 
@@ -541,25 +543,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 1 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 1 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -576,25 +578,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; xs:float($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","12.5E10"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; xs:float($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","12.5E10"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.25E11") of 
@@ -611,25 +613,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","12678967.543233"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","12678967.543233"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "12678967.543233") of 
@@ -646,25 +648,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x + $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","1 + 1"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x + $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","1 + 1"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"4") of 
@@ -681,25 +683,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","1 + 1"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","1 + 1"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
@@ -716,25 +718,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x + $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","1"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x + $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","1"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
@@ -751,25 +753,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x * $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","2 * 2"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x * $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","2 * 2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"16") of 
@@ -786,25 +788,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x - 1",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","4 - 1"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x - 1", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","4 - 1"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
@@ -821,25 +823,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x idiv 2",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","20 idiv 2"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x idiv 2", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","20 idiv 2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"5") of 
@@ -856,25 +858,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x div 10",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","40 div 2"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x div 10", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","40 div 2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"2") of 
@@ -891,25 +893,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x mod 2",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","55 mod 3"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x mod 2", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","55 mod 3"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -926,29 +928,29 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x and fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","true() and true()"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x and fn:false()", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","true() and true()"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -961,29 +963,29 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x or fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","true() or true()"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x or fn:false()", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","true() or true()"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -996,25 +998,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","avg((1,2,4))"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","avg((1,2,4))"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result ge 2.33333333333333") of 
@@ -1031,25 +1033,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; xs:dateTime($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","avg((1,2,4))"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; xs:dateTime($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","avg((1,2,4))"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1058,25 +1060,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; fn:upper-case($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","lower-case('This String should be all in upper case')"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; fn:upper-case($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","lower-case('This String should be all in upper case')"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "THIS STRING SHOULD BE ALL IN UPPER CASE") of 
@@ -1093,25 +1095,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; fn:lower-case($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","upper-case('THIS STRING SHOULD ALL BE IN LOWER CASE')"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; fn:lower-case($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","upper-case('THIS STRING SHOULD ALL BE IN LOWER CASE')"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "this string should all be in lower case") of 
@@ -1128,29 +1130,29 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; fn:not($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","0 + 1"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; fn:not($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","0 + 1"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-22.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end,
    case xqerl_test:assert_error(Res,"FORG0006") of 
@@ -1163,13 +1165,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x external; $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x external; $x", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1178,26 +1180,26 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithouttype-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
-         declare variable $test:x external; $test:x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"test:x","","2"}]},
-{namespaces, []},
-{resources, []},
+         declare variable $test:x external; $test:x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"test:x","","2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithouttype-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithouttype-24.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1206,13 +1208,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context external; declare variable $input-context external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context external; declare variable $input-context external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -1221,13 +1223,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context external; declare variable $input-context external; $input-context",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context external; declare variable $input-context external; $input-context", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -1236,16 +1238,16 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare default element namespace \"\"; 
         declare namespace prefix = \"\"; 
-        declare variable $prefix:input-context external; 1",
+        declare variable $prefix:input-context external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
@@ -1254,15 +1256,15 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         
-        declare variable $exampleComThisVarIsNotRecognized external; $exampleComThisVarIsNotRecognized",
+        declare variable $exampleComThisVarIsNotRecognized external; $exampleComThisVarIsNotRecognized", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1271,16 +1273,16 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare namespace e = \"http://example.com/ANamespace\"; 
         declare variable $e:exampleComThisVarIsNotRecognized external; 
-        $e:exampleComThisVarIsNotRecognized",
+        $e:exampleComThisVarIsNotRecognized", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1289,13 +1291,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $exampleComThisVarIsNotRecognized external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $exampleComThisVarIsNotRecognized external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -1312,13 +1314,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -1335,13 +1337,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $ name := 3; $ name",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $ name := 3; $ name", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -1350,28 +1352,28 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $e := current-time(); let $i := ($e, 1 to 50000, $e) return $i[1] = $i[last()]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $e := current-time(); let $i := ($e, 1 to 50000, $e) return $i[1] = $i[last()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $e := <e> <a/> </e>; declare variable $f := $e; <r> { $e is $e, $f is $e, $e, $f } </r>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $e := <e> <a/> </e>; declare variable $f := $e; <r> { $e is $e, $f is $e, $e, $f } </r>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r>true true<e><a/></e><e><a/></e></r>") of 
       true -> {comment, "XML Deep equal"};
@@ -1380,13 +1382,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); declare variable $b as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); $a/(let $p := position() return . is $b[$p])",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); declare variable $b as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); $a/(let $p := position() return . is $b[$p])", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false") of 
       true -> {comment, "String correct"};
@@ -1395,13 +1397,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); <r> <e> { $a } </e> <e> { $a } </e> </r>",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $a as attribute()* := (attribute name1 {()}, attribute name2 {()}, attribute name3 {()}); <r> <e> { $a } </e> <e> { $a } </e> </r>", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<r><e name1=\"\" name2=\"\" name3=\"\"/><e name1=\"\" name2=\"\" name3=\"\"/></r>") of 
       true -> {comment, "XML Deep equal"};
@@ -1410,13 +1412,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $e := <e>{current-time()}</e>/(string-length(.) > 0); $e, if($e) then \"SUCCESS\" else \"FAILURE\"",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $e := <e>{current-time()}</e>/(string-length(.) > 0); $e, if($e) then \"SUCCESS\" else \"FAILURE\"", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true SUCCESS") of 
       true -> {comment, "String correct"};
@@ -1425,13 +1427,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v ::= 1; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v ::= 1; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1440,13 +1442,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v : = 1; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v : = 1; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -1455,13 +1457,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare ne gt",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare ne gt", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1470,13 +1472,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "variable lt variable",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "variable lt variable", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1485,16 +1487,16 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XQ10"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XQ10+"}. 
 'K2-ExternalVariablesWithout-18b'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $var external := 1; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $var external := 1; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-18b.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-18b.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1503,13 +1505,13 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $global := count(*); <e/>/$global",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $global := count(*); <e/>/$global", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1518,15 +1520,15 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
         declare variable $global := count(*); 
-        <e/>/($global, $global)",
+        <e/>/($global, $global)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-20.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -1535,14 +1537,14 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $global := count(*); $global, <wrongFocus> <e1/> <e2/> </wrongFocus>/$global, $global",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $global := count(*); $global, <wrongFocus> <e1/> <e2/> </wrongFocus>/$global, $global", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "1 1 1") of 
       true -> {comment, "String correct"};
@@ -1551,14 +1553,14 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWithout-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $global := count(*); <wrongFocus> <e1/> <e2/> </wrongFocus>/$global",
-   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $global := count(*); <wrongFocus> <e1/> <e2/> </wrongFocus>/$global", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('works-mod',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWithout-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWithout-22.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1567,25 +1569,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:string external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","(: Name: extvardeclwithtypetobind-1 :) (: Description: Binding a string value for extvardeclwithtype-1.:) \"abc\""}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:string external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","(: Name: extvardeclwithtypetobind-1 :) (: Description: Binding a string value for extvardeclwithtype-1.:) \"abc\""}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-1.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
@@ -1594,25 +1596,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:date external; fn:string($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","(: Name: extvardeclwithtypetobind-2 :) (: Description: Binding a date value for extvardeclwithtype-2.:) xs:date(\"2000-01-01+05:00\")"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:date external; fn:string($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","(: Name: extvardeclwithtypetobind-2 :) (: Description: Binding a date value for extvardeclwithtype-2.:) xs:date(\"2000-01-01+05:00\")"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-2.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "2000-01-01+05:00") of 
       true -> {comment, "String correct"};
@@ -1621,25 +1623,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","(: Name: extvardeclwithtypetobind-3 :) (: Description: Binding an integer value for extvardeclwithtype-3.:) xs:integer(2)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","(: Name: extvardeclwithtypetobind-3 :) (: Description: Binding an integer value for extvardeclwithtype-3.:) xs:integer(2)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-3.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1648,25 +1650,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:double external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","xs:double(1.2E2)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:double external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","xs:double(1.2E2)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"120") of 
       true -> {comment, "Equal"};
@@ -1675,25 +1677,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:boolean external; fn:string($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","true()"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:boolean external; fn:string($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","true()"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
@@ -1702,25 +1704,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:float external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","xs:float(1267.43233E12)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:float external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","xs:float(1267.43233E12)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "1.2674323E15") of 
@@ -1737,25 +1739,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:decimal external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","xs:decimal(12678967.543233)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:decimal external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","xs:decimal(12678967.543233)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "12678967.543233") of 
       true -> {comment, "String correct"};
@@ -1764,25 +1766,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x + $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 1 + 1 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x + $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 1 + 1 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
@@ -1791,25 +1793,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 1 + 1 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 1 + 1 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1818,25 +1820,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x + $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 1 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x + $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 1 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1845,25 +1847,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x * $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 2 * 2 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x * $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 2 * 2 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-11.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"16") of 
       true -> {comment, "Equal"};
@@ -1872,25 +1874,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x - xs:integer(1)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 5 - 2 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x - xs:integer(1)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 5 - 2 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-12.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1899,25 +1901,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x idiv xs:integer(2)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 20 idiv 2 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x idiv xs:integer(2)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 20 idiv 2 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-13.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
@@ -1926,25 +1928,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x div xs:integer(10)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 40 div 2 return xs:integer($var)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x div xs:integer(10)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 40 div 2 return xs:integer($var)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-14.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -1953,25 +1955,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:integer external; $x mod xs:integer(2)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := 55 mod 3 return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:integer external; $x mod xs:integer(2)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := 55 mod 3 return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-15.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -1980,79 +1982,79 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:boolean external; $x and fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := true() and true() return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:boolean external; $x and fn:false()", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := true() and true() return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-16.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:boolean external; $x or fn:false()",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := true() or true() return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:boolean external; $x or fn:false()", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := true() or true() return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-17.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:float external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := avg((1,2,4)) return xs:float($var)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:float external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := avg((1,2,4)) return xs:float($var)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-18.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_string_value(Res, "2.3333333") of 
@@ -2069,25 +2071,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:dateTime external; $x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := avg((1,2,4)) return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:dateTime external; $x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := avg((1,2,4)) return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-19.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2096,25 +2098,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:string external; fn:upper-case($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := lower-case(\"This String should be all in upper case\") return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:string external; fn:upper-case($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := lower-case(\"This String should be all in upper case\") return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "THIS STRING SHOULD BE ALL IN UPPER CASE") of 
       true -> {comment, "String correct"};
@@ -2123,25 +2125,25 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:string external; fn:lower-case($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := upper-case(\"THIS STRING SHOULD ALL BE IN LOWER CASE\") return $var"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:string external; fn:lower-case($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := upper-case(\"THIS STRING SHOULD ALL BE IN LOWER CASE\") return $var"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "this string should all be in lower case") of 
       true -> {comment, "String correct"};
@@ -2150,36 +2152,36 @@ environment('CPPGlobals',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $x as xs:boolean external; fn:not($x)",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"x","","let $var := xs:integer(0) + xs:integer(1) return xs:boolean($var)"}]},
-{namespaces, []},
-{resources, []},
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $x as xs:boolean external; fn:not($x)", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"x","","let $var := xs:integer(0) + xs:integer(1) return xs:boolean($var)"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-22.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-22.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "(: 
     This query opens a C++ GCC-XML output file, and outputs a report describing the use
     of globals variables.
@@ -2275,39 +2277,39 @@ declare function local:report() as element()+
     </body>
 
 </html>
-",
-   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals',BaseDir)),
+", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('CPPGlobals',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-23.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(BaseDir, "VarDecl.external/extvardeclwithtype-23.out")}) of 
+   Out =    case xqerl_test:assert_xml(Res,{file, filename:join(__BaseDir, "VarDecl.external/extvardeclwithtype-23.out")}) of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'extvardeclwithtype-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "declare namespace test = \"http://www.w3.org/fots/example-test-namespace\";
-         declare variable $test:x as xs:integer external; $test:x",
-   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{'context-item', [""]},
-{vars, []},
-{params, [{"test:x","","2"}]},
-{namespaces, []},
-{resources, []},
+         declare variable $test:x as xs:integer external; $test:x", 
+   {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{'context-item', [""]}, 
+{vars, []}, 
+{params, [{"test:x","","2"}]}, 
+{namespaces, []}, 
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ]),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "extvardeclwithtype-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "extvardeclwithtype-24.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -2316,13 +2318,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context as item()* external; declare variable $input-context external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context as item()* external; declare variable $input-context external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2331,13 +2333,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context external; declare variable $input-context as item()* external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context external; declare variable $input-context as item()* external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2346,13 +2348,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2361,13 +2363,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; $input-context",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context as item()* external ; declare variable $input-context as item()*external ; $input-context", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-4.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2376,13 +2378,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context as item()* external; declare variable $input-context as item()*external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context as item()* external; declare variable $input-context as item()*external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-5.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2391,13 +2393,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context as xs:string* external; declare variable $input-context as item()*external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context as xs:string* external; declare variable $input-context as item()*external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-6.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2406,13 +2408,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $exampleComThisVarIsNotRecognized as xs:string *external; $exampleComThisVarIsNotRecognized",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $exampleComThisVarIsNotRecognized as xs:string *external; $exampleComThisVarIsNotRecognized", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-7.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -2421,13 +2423,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as comment() *external; $e:exampleComThisVarIsNotRecognized",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as comment() *external; $e:exampleComThisVarIsNotRecognized", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-8.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
@@ -2436,13 +2438,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $exampleComThisVarIsNotRecognized as processing-instruction()? external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $exampleComThisVarIsNotRecognized as processing-instruction()? external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-9.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -2459,13 +2461,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as element(*) external; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare namespace e = \"http://example.com/ANamespace\"; declare variable $e:exampleComThisVarIsNotRecognized as element(*) external; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-10.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_eq(Res,"1") of 
@@ -2482,13 +2484,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-11'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i := 1, 1; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i := 1, 1; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-11.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-11.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2497,13 +2499,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-12'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:integer := xs:untypedAtomic(\"1\"); $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:integer := xs:untypedAtomic(\"1\"); $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-12.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-12.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2512,13 +2514,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-13'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:float := 1.1 ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:float := 1.1 ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-13.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-13.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2527,13 +2529,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-14'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:double := 1.1 ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:double := 1.1 ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-14.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-14.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2542,13 +2544,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-15'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:float := 1 ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:float := 1 ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-15.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-15.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2557,13 +2559,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-16'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:double := 1 ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:double := 1 ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-16.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-16.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2572,13 +2574,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-17'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:double := xs:float(3) ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:double := xs:float(3) ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-17.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-17.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2587,13 +2589,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-18'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:string := xs:untypedAtomic(\"a string\") ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:string := xs:untypedAtomic(\"a string\") ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-18.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-18.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2602,13 +2604,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-19'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $i as xs:string := xs:anyURI(\"http://www.example.com/\") ; $i",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $i as xs:string := xs:anyURI(\"http://www.example.com/\") ; $i", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-19.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-19.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2617,14 +2619,14 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-20'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-20.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-20.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2633,14 +2635,14 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-21'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1",
-   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $input-context1 external; declare variable $input-context1 := 1; 1", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('TopMany',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-21.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-21.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XQST0049") of 
       true -> {comment, "Correct error"};
@@ -2649,19 +2651,19 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-22'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"typedData"}. 
 'K2-ExternalVariablesWith-22a'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"typedData"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"typedData"}. 
 'K2-ExternalVariablesWith-23'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v as element(elementName, xs:anyType?)+ := <elementName/>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v as element(elementName, xs:anyType?)+ := <elementName/>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-23.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-23.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
@@ -2670,13 +2672,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-24'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v as element(*, xs:untyped+)+ := <e/>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v as element(*, xs:untyped+)+ := <e/>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-24.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-24.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2685,13 +2687,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-25'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v as element(*, xs:untyped*)+ := <e/>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v as element(*, xs:untyped*)+ := <e/>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-25.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-25.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2700,13 +2702,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-26'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v as element(notWildcard, xs:untyped+)+ := <e/>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v as element(notWildcard, xs:untyped+)+ := <e/>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-26.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-26.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
@@ -2715,13 +2717,13 @@ declare function local:report() as element()+
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-ExternalVariablesWith-27'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "declare variable $v as element(notWildcard, xs:untyped*)+ := <e/>; 1",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "declare variable $v as element(notWildcard, xs:untyped*)+ := <e/>; 1", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-ExternalVariablesWith-27.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-ExternalVariablesWith-27.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};

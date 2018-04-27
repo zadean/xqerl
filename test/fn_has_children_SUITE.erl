@@ -1,9 +1,10 @@
 -module('fn_has_children_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['fn-has-children-001'/1]).
 -export(['fn-has-children-002'/1]).
 -export(['fn-has-children-003'/1]).
@@ -41,267 +42,268 @@
 -export(['fn-has-children-035'/1]).
 -export(['fn-has-children-036'/1]).
 -export(['fn-has-children-037'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'fn-has-children-001',
-   'fn-has-children-002',
-   'fn-has-children-003',
-   'fn-has-children-004',
-   'fn-has-children-005',
-   'fn-has-children-006',
-   'fn-has-children-007',
-   'fn-has-children-008',
-   'fn-has-children-009',
-   'fn-has-children-010',
-   'fn-has-children-011',
-   'fn-has-children-012',
-   'fn-has-children-013',
-   'fn-has-children-014',
-   'fn-has-children-015',
-   'fn-has-children-016',
-   'fn-has-children-017',
-   'fn-has-children-018',
-   'fn-has-children-019',
-   'fn-has-children-020',
-   'fn-has-children-021',
-   'fn-has-children-022',
-   'fn-has-children-023',
-   'fn-has-children-024',
-   'fn-has-children-025',
-   'fn-has-children-026',
-   'fn-has-children-027',
-   'fn-has-children-028',
-   'fn-has-children-029',
-   'fn-has-children-030',
-   'fn-has-children-031',
-   'fn-has-children-032',
-   'fn-has-children-033',
-   'fn-has-children-034',
-   'fn-has-children-035',
-   'fn-has-children-036',
-   'fn-has-children-037'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'fn-has-children-001', 
+'fn-has-children-002', 
+'fn-has-children-003', 
+'fn-has-children-004', 
+'fn-has-children-005', 
+'fn-has-children-006', 
+'fn-has-children-007', 
+'fn-has-children-008', 
+'fn-has-children-009', 
+'fn-has-children-010', 
+'fn-has-children-011', 
+'fn-has-children-012', 
+'fn-has-children-013', 
+'fn-has-children-014', 
+'fn-has-children-015', 
+'fn-has-children-016', 
+'fn-has-children-017', 
+'fn-has-children-018', 
+'fn-has-children-019', 
+'fn-has-children-020', 
+'fn-has-children-021', 
+'fn-has-children-022', 
+'fn-has-children-023', 
+'fn-has-children-024', 
+'fn-has-children-025', 
+'fn-has-children-026', 
+'fn-has-children-027', 
+'fn-has-children-028', 
+'fn-has-children-029', 
+'fn-has-children-030', 
+'fn-has-children-031', 
+'fn-has-children-032', 
+'fn-has-children-033', 
+'fn-has-children-034', 
+'fn-has-children-035', 
+'fn-has-children-036', 
+'fn-has-children-037'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('has-children',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "has-children/has-children.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('has-children',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "has-children/has-children.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'fn-has-children-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:exists( fn:has-children#0 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:exists( fn:has-children#0 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:exists( fn:has-children#1 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:exists( fn:has-children#1 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( fn:contains#2, fn:contains#2 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( fn:contains#2, fn:contains#2 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -310,13 +312,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children#2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children#2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -325,13 +327,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPDY0002") of 
@@ -348,13 +350,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children(.)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children(.)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPDY0002") of 
@@ -371,13 +373,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(1)[fn:has-children()]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(1)[fn:has-children()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -390,13 +392,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(fn:concat#2)[fn:has-children()]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(fn:concat#2)[fn:has-children()]", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-008.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-008.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"XPTY0004") of 
@@ -409,13 +411,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children(1)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children(1)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-009.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -424,13 +426,13 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children(fn:concat#2)",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children(fn:concat#2)", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-010.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-010.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -439,14 +441,14 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( (.,.) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( (.,.) )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -455,20 +457,20 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"staticTyping"}. 
 'fn-has-children-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"staticTyping"}. 
 'fn-has-children-014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(., 1) ! fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(., 1) ! fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-014.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -477,14 +479,14 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "(., 1) ! fn:has-children(.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "(., 1) ! fn:has-children(.)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-015.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -493,14 +495,14 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-016.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:boolean") of 
       true -> {comment, "Correct type"};
@@ -509,14 +511,14 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children(.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children(.)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-017.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_type(Res,"xs:boolean") of 
       true -> {comment, "Correct type"};
@@ -525,276 +527,276 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/@attribute/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/@attribute/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-018.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/@attribute )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/@attribute )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-019.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-has-children-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-has-children-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/comment()/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/comment()/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-022.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/comment() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/comment() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-023.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/processing-instruction()/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/processing-instruction()/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-024.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-025'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/processing-instruction() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/processing-instruction() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-025.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-026'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/text()/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/text()/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-026.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-027'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/text() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/text() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-027.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-028'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/empty/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/empty/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-028.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-028.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-029'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/empty )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/empty )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-029.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_false(Res) of 
-      true -> {comment, "False"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-030'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-030.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-031'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-031.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-032'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/non-empty/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/non-empty/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-032.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-033'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( /root/non-empty )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( /root/non-empty )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-033.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-033.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-034'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-034.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-035'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:has-children( / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:has-children( / )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-035.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-035.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-036'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/node()/fn:has-children()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/node()/fn:has-children()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-036.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-036.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false true") of 
       true -> {comment, "String correct"};
@@ -803,14 +805,14 @@ environment('has-children',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-has-children-037'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "/root/node()/fn:has-children(.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "/root/node()/fn:has-children(.)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('has-children',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-has-children-037.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-has-children-037.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "false false false false true") of 
       true -> {comment, "String correct"};

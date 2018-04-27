@@ -1,9 +1,10 @@
 -module('fn_collection_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['fn-collection-1'/1]).
 -export(['fn-collection-2'/1]).
 -export(['fn-collection-3'/1]).
@@ -37,312 +38,313 @@
 -export(['cbcl-collection-002'/1]).
 -export(['cbcl-collection-003'/1]).
 -export(['cbcl-collection-004'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'fn-collection-1',
-   'fn-collection-2',
-   'fn-collection-3',
-   'fn-collection-4',
-   'fn-collection-4d',
-   'fn-collection-5',
-   'fn-collection-5d',
-   'fn-collection-6',
-   'fn-collection-7',
-   'fn-collection-8',
-   'fn-collection-9',
-   'fn-collection-10',
-   'fn-collection-10d',
-   'K2-SeqCollectionFunc-1',
-   'K2-SeqCollectionFunc-2',
-   'collection-001',
-   'collection-002',
-   'collection-003',
-   'collection-004',
-   'collection-005',
-   'collection-006',
-   'collection-007',
-   'collection-008',
-   'collection-009',
-   'collection-010',
-   'collection-900',
-   'collection-901',
-   'collection-902',
-   'collection-903',
-   'cbcl-collection-001',
-   'cbcl-collection-002',
-   'cbcl-collection-003',
-   'cbcl-collection-004'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'fn-collection-1', 
+'fn-collection-2', 
+'fn-collection-3', 
+'fn-collection-4', 
+'fn-collection-4d', 
+'fn-collection-5', 
+'fn-collection-5d', 
+'fn-collection-6', 
+'fn-collection-7', 
+'fn-collection-8', 
+'fn-collection-9', 
+'fn-collection-10', 
+'fn-collection-10d', 
+'K2-SeqCollectionFunc-1', 
+'K2-SeqCollectionFunc-2', 
+'collection-001', 
+'collection-002', 
+'collection-003', 
+'collection-004', 
+'collection-005', 
+'collection-006', 
+'collection-007', 
+'collection-008', 
+'collection-009', 
+'collection-010', 
+'collection-900', 
+'collection-901', 
+'collection-902', 
+'collection-903', 
+'cbcl-collection-001', 
+'cbcl-collection-002', 
+'cbcl-collection-003', 
+'cbcl-collection-004'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('default-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('default-collection-1',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"",[{src,filename:join(__BaseDir, "../docs/bib.xml")}, 
+{src,filename:join(__BaseDir, "../docs/reviews.xml")}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('simple-collection-1',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")}]}]},
-{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]},
+]; 
+environment('simple-collection-1',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection1",[{src,filename:join(__BaseDir, "../docs/bib.xml")}, 
+{src,filename:join(__BaseDir, "../docs/reviews.xml")}]}]}, 
+{'static-base-uri', [{"http://www.w3.org/2010/09/qt-fots-catalog/"}]}, 
+{params, []}, 
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection1'"}]}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('default-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('default-collection-2',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"",[{src,filename:join(__BaseDir, "../docs/bib.xml")}, 
+{src,filename:join(__BaseDir, "../docs/reviews.xml")}, 
+{src,filename:join(__BaseDir, "../docs/books.xml")}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('simple-collection-2',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(BaseDir, "../docs/bib.xml")},
-{src,filename:join(BaseDir, "../docs/reviews.xml")},
-{src,filename:join(BaseDir, "../docs/books.xml")}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]},
+]; 
+environment('simple-collection-2',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/collection2",[{src,filename:join(__BaseDir, "../docs/bib.xml")}, 
+{src,filename:join(__BaseDir, "../docs/reviews.xml")}, 
+{src,filename:join(__BaseDir, "../docs/books.xml")}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, [{"collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/collection2'"}]}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('integer-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,BaseDir,"1 to 10"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('integer-collection',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/integers",[{query,__BaseDir,"1 to 10"}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,BaseDir,"(1, \"hello\", 1e0)"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-collection',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/atomics",[{query,__BaseDir,"(1, \"hello\", 1e0)"}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('default-string-collection',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, [{"",[{query,BaseDir,"(\"goodbye\", \"cruel\", \"world\")"}]}]},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('default-string-collection',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, [{"",[{query,__BaseDir,"(\"goodbye\", \"cruel\", \"world\")"}]}]}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'fn-collection-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection(\"argument1\",\"argument2\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection(\"argument1\",\"argument2\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -351,14 +353,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection(\"thisfileshouldnotexists\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection(\"thisfileshouldnotexists\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -367,14 +369,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-3'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection(\"invalidURI%gg\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection(\"invalidURI%gg\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-3.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-3.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0002") of 
@@ -391,15 +393,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-4'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(fn:collection($collection-uri))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(fn:collection($collection-uri))", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-4.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-4.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -408,15 +410,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-4d'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(fn:collection())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(fn:collection())", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-4d.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-4d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"2") of 
       true -> {comment, "Equal"};
@@ -425,15 +427,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-5'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(fn:collection($collection-uri))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(fn:collection($collection-uri))", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-5.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-5.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -442,15 +444,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-5d'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "count(fn:collection())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "count(fn:collection())", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-5d.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-5d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"3") of 
       true -> {comment, "Equal"};
@@ -459,15 +461,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-6'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-6.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-6.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<title>Advanced Programming in the Unix environment</title><title>Advanced Programming in the Unix environment</title><title>Basic Syntax</title><title>Data Model</title><title>Data on the Web</title><title>Data on the Web</title><title>Syntax For Data Model</title><title>TCP/IP Illustrated</title><title>TCP/IP Illustrated</title><title>The Economics of Technology and Content for Digital TV</title><title>XML</title><title>XML and Semistructured Data</title>") of 
       true -> {comment, "XML Deep equal"};
@@ -476,15 +478,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-7'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-7.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-7.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_permutation(Res,"\"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"") of 
@@ -501,15 +503,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-8'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-8.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-8.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_xml(Res,"<title>TCP/IP Illustrated</title><title>Data on the Web</title>") of 
@@ -526,16 +528,16 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-9'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) order by count($d//title) return
-         count($d//title)",
+         count($d//title)", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-9.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-9.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "3 4 5") of 
       true -> {comment, "String correct"};
@@ -544,16 +546,16 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-10'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection($collection-uri) let $c2 := fn:collection($collection-uri) for
-         $c at $p in $c1 return $c is exactly-one($c2[$p])",
+         $c at $p in $c1 return $c is exactly-one($c2[$p])", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-10.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-10.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true") of 
       true -> {comment, "String correct"};
@@ -562,16 +564,16 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-collection-10d'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection() let $c2 := fn:collection() for $c at $p in $c1 return $c is
-         exactly-one($c2[$p])",
+         exactly-one($c2[$p])", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-collection-10d.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-10d.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_string_value(Res, "true true true") of 
       true -> {comment, "String correct"};
@@ -580,14 +582,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-SeqCollectionFunc-1'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"http:\\\\invalidURI\\someURI%gg\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"http:\\\\invalidURI\\someURI%gg\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqCollectionFunc-1.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqCollectionFunc-1.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0004") of 
@@ -604,14 +606,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'K2-SeqCollectionFunc-2'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\":/\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\":/\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "K2-SeqCollectionFunc-2.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqCollectionFunc-2.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0004") of 
@@ -628,15 +630,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection()", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -661,15 +663,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(())", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -694,15 +696,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection() | collection(())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection() | collection(())", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -727,18 +729,56 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"collection-stability"}.
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection() | collection(())", 
+   _ = xqldb_docstore:delete_collection([]),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-004.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 2") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end,
+   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
 'collection-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -763,15 +803,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"collection1\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"collection1\")", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -796,16 +836,16 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
-         collection(\"collection1\")",
+         collection(\"collection1\")", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -830,19 +870,58 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"collection-stability"}.
-'collection-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
-         | (for $doc in $c return doc(document-uri($doc)))",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
+         collection(\"collection1\")", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-008.xq"), Qry1),
+             xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 2") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end,
+   case lists:all(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert(Res,"count($result) = 4") of 
+      true -> {comment, "Correct results"};
+      {false, F} -> F 
+   end,
+   case xqerl_test:assert_type(Res,"document-node()*") of 
+      true -> {comment, "Correct type"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "all-of"};
+      _ -> false 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
+   end, 
+   case Out of
+      {comment, C} -> {comment, C};
+      Err -> ct:fail(Err)
+   end. 
+'collection-009'(Config) ->
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
+         | (for $doc in $c return doc(document-uri($doc)))", 
+   _ = xqldb_docstore:delete_collection([]),
+   {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
+   Qry1 = lists:flatten(Env ++ Qry),
+   io:format("Qry1: ~p~n",[Qry1]),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
@@ -867,17 +946,17 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"directory-as-collection-uri"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"directory-as-collection-uri"}. 
 'collection-900'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"nonexistent\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"nonexistent\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-900.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-900.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -886,14 +965,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-901'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection()", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-901.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-901.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -902,14 +981,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-902'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(\"##invalid\")",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(\"##invalid\")", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-902.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-902.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0004") of 
@@ -926,14 +1005,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'collection-903'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "collection(())",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "collection(())", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "collection-903.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-903.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
@@ -942,14 +1021,14 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-collection-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection('%gg')",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection('%gg')", 
    _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-collection-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-collection-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FODC0004") of 
@@ -966,15 +1045,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-collection-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-collection-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-collection-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_deep_eq(Res,"(1 to 10)") of 
@@ -991,15 +1070,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-collection-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-collection-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-collection-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:anyAtomicType+") of 
@@ -1016,15 +1095,15 @@ environment('default-string-collection',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'cbcl-collection-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:collection()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:collection()", 
    _ = xqldb_docstore:delete_collection([]),
-   {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection',BaseDir)),
+   {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "cbcl-collection-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-collection-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"xs:string+") of 

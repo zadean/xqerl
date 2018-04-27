@@ -1,9 +1,10 @@
 -module('fn_outermost_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['fn-outermost-001'/1]).
 -export(['fn-outermost-002'/1]).
 -export(['fn-outermost-003'/1]).
@@ -62,260 +63,261 @@
 -export(['fn-outermost-056'/1]).
 -export(['fn-outermost-057'/1]).
 -export(['fn-outermost-058'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'fn-outermost-001',
-   'fn-outermost-002',
-   'fn-outermost-003',
-   'fn-outermost-004',
-   'fn-outermost-005',
-   'fn-outermost-006',
-   'fn-outermost-007',
-   'fn-outermost-008',
-   'fn-outermost-009',
-   'fn-outermost-010',
-   'fn-outermost-011',
-   'fn-outermost-012',
-   'fn-outermost-013',
-   'fn-outermost-014',
-   'fn-outermost-015',
-   'fn-outermost-016',
-   'fn-outermost-017',
-   'fn-outermost-018',
-   'fn-outermost-019',
-   'fn-outermost-020',
-   'fn-outermost-021',
-   'fn-outermost-022',
-   'fn-outermost-023',
-   'fn-outermost-024',
-   'fn-outermost-025',
-   'fn-outermost-026',
-   'fn-outermost-027',
-   'fn-outermost-028',
-   'fn-outermost-029',
-   'fn-outermost-030',
-   'fn-outermost-031',
-   'fn-outermost-032',
-   'fn-outermost-033',
-   'fn-outermost-034',
-   'fn-outermost-035',
-   'fn-outermost-036',
-   'fn-outermost-037',
-   'fn-outermost-038',
-   'fn-outermost-039',
-   'fn-outermost-040',
-   'fn-outermost-041',
-   'fn-outermost-042',
-   'fn-outermost-043',
-   'fn-outermost-044',
-   'fn-outermost-045',
-   'fn-outermost-046',
-   'fn-outermost-047',
-   'fn-outermost-048',
-   'fn-outermost-049',
-   'fn-outermost-050',
-   'fn-outermost-051',
-   'fn-outermost-052',
-   'fn-outermost-053',
-   'fn-outermost-054',
-   'fn-outermost-055',
-   'fn-outermost-056',
-   'fn-outermost-057',
-   'fn-outermost-058'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'fn-outermost-001', 
+'fn-outermost-002', 
+'fn-outermost-003', 
+'fn-outermost-004', 
+'fn-outermost-005', 
+'fn-outermost-006', 
+'fn-outermost-007', 
+'fn-outermost-008', 
+'fn-outermost-009', 
+'fn-outermost-010', 
+'fn-outermost-011', 
+'fn-outermost-012', 
+'fn-outermost-013', 
+'fn-outermost-014', 
+'fn-outermost-015', 
+'fn-outermost-016', 
+'fn-outermost-017', 
+'fn-outermost-018', 
+'fn-outermost-019', 
+'fn-outermost-020', 
+'fn-outermost-021', 
+'fn-outermost-022', 
+'fn-outermost-023', 
+'fn-outermost-024', 
+'fn-outermost-025', 
+'fn-outermost-026', 
+'fn-outermost-027', 
+'fn-outermost-028', 
+'fn-outermost-029', 
+'fn-outermost-030', 
+'fn-outermost-031', 
+'fn-outermost-032', 
+'fn-outermost-033', 
+'fn-outermost-034', 
+'fn-outermost-035', 
+'fn-outermost-036', 
+'fn-outermost-037', 
+'fn-outermost-038', 
+'fn-outermost-039', 
+'fn-outermost-040', 
+'fn-outermost-041', 
+'fn-outermost-042', 
+'fn-outermost-043', 
+'fn-outermost-044', 
+'fn-outermost-045', 
+'fn-outermost-046', 
+'fn-outermost-047', 
+'fn-outermost-048', 
+'fn-outermost-049', 
+'fn-outermost-050', 
+'fn-outermost-051', 
+'fn-outermost-052', 
+'fn-outermost-053', 
+'fn-outermost-054', 
+'fn-outermost-055', 
+'fn-outermost-056', 
+'fn-outermost-057', 
+'fn-outermost-058'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('outermost',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "innermost/innermost.xml"), ".",""},
-{filename:join(BaseDir, "innermost/doc1.xml"), "$doc1",""},
-{filename:join(BaseDir, "innermost/doc2.xml"), "$doc2",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('outermost',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "innermost/innermost.xml"), ".",[]}, 
+{filename:join(__BaseDir, "innermost/doc1.xml"), "$doc1",[]}, 
+{filename:join(__BaseDir, "innermost/doc2.xml"), "$doc2",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'fn-outermost-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost()",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost()", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -324,13 +326,13 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost#0",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost#0", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-002.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -339,13 +341,13 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( (), 1 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( (), 1 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-003.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -354,13 +356,13 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost#2",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost#2", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-004.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPST0017") of 
       true -> {comment, "Correct error"};
@@ -369,28 +371,28 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:exists( fn:outermost#1 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:exists( fn:outermost#1 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-005.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( 1 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( 1 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-006.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -399,13 +401,13 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( fn:dateTime#2 )",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( fn:dateTime#2 )", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-007.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -414,22 +416,22 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"staticTyping"}. 
 'fn-outermost-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else 1 ),
               fn:outermost( if (current-date() eq xs:date('1900-01-01'))
                                  then 1
-                                 else . ) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                                 else . ) )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -438,22 +440,22 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"staticTyping"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"staticTyping"}. 
 'fn-outermost-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "( fn:outermost( if (current-date() eq xs:date('1900-01-01'))
                                  then .
                                  else fn:dateTime#2 ),
               fn:outermost( if (current-date() eq xs:date('1900-01-01'))
                                  then fn:dateTime#2
-                                 else . ) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                                 else . ) )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -462,14 +464,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( / )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-012.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -478,30 +480,30 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:deep-equal(fn:outermost( / ), / )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:deep-equal(fn:outermost( / ), / )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-013.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //*/@* )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //*/@* )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-014.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
@@ -510,14 +512,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //*/@* ) ! string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //*/@* ) ! string()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-015.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0a','00a','000a','01a','010a','02a','020a')") of 
       true -> {comment, "Deep equal"};
@@ -526,48 +528,48 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "deep-equal(fn:outermost( //*/@* ), //*/@*)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "deep-equal(fn:outermost( //*/@* ), //*/@*)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-016.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XP30+"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XP30+"}. 
 'fn-outermost-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //processing-instruction() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //processing-instruction() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-023.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
@@ -576,14 +578,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //processing-instruction() ) ! local-name() ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //processing-instruction() ) ! local-name() ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-024.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('level-0','level-00','level-000','level-01','level-010','level-02','level-020')") of 
       true -> {comment, "Deep equal"};
@@ -592,31 +594,31 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-025'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( //processing-instruction() ), 
-                          //processing-instruction() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                          //processing-instruction() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-025.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-026'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //comment() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //comment() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-026.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "7") of 
       true -> {comment, "Count correct"};
@@ -625,14 +627,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-027'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //comment() ) ! string()",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //comment() ) ! string()", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-027.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-027.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0c','00c','000c','01c','010c','02c','020c')") of 
       true -> {comment, "Deep equal"};
@@ -641,31 +643,31 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-028'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( //comment() ),
-                           //comment() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           //comment() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-028.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-028.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-029'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //text() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //text() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-029.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-029.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "14") of 
       true -> {comment, "Count correct"};
@@ -674,14 +676,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-030'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //text() ) ! string() ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //text() ) ! string() ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-030.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-030.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_deep_eq(Res,"('0t',' ',
                          '00t',' ','000t',' ',
@@ -693,31 +695,31 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-031'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( //text() ),
-                           //text() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           //text() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-031.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-031.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-032'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //* )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //* )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-032.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-032.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -726,14 +728,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-033'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //* ) ! local-name(.)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //* ) ! local-name(.)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-033.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-033.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_eq(Res,"('root')") of 
       true -> {comment, "Equal"};
@@ -742,32 +744,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-034'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( //* ), 
                            let $nodes := //*
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-034.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-034.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-035'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( //node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( //node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-035.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-035.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -776,32 +778,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-036'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( //node() ), 
                            let $nodes := //node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-036.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-036.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-037'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-037.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-037.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "8") of 
       true -> {comment, "Count correct"};
@@ -810,32 +812,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-038'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/node() ), 
                            let $nodes := /root/node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-038.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-038.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-039'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-039.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-039.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "8") of 
       true -> {comment, "Count correct"};
@@ -844,32 +846,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-040'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/descendant::node() ), 
                            let $nodes := /root/descendant::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-040.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-040.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-041'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/level[1]/level[1]/ancestor::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/level[1]/level[1]/ancestor::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-041.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-041.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -878,32 +880,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-042'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/ancestor::node() ), 
                            let $nodes := /root/level[1]/level[1]/ancestor::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-042.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-042.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-043'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-043.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-043.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "5") of 
       true -> {comment, "Count correct"};
@@ -912,32 +914,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-044'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding-sibling::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding-sibling::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-044.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-044.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-045'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/level[1]/level[last()]/preceding::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/level[1]/level[last()]/preceding::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-045.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-045.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "10") of 
       true -> {comment, "Count correct"};
@@ -946,32 +948,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-046'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[last()]/preceding::node() ), 
                            let $nodes := /root/level[1]/level[last()]/preceding::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-046.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-046.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-047'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/level[1]/following-sibling::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/level[1]/following-sibling::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-047.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-047.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
@@ -980,32 +982,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-048'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/level[1]/following-sibling::node() ), 
                            let $nodes := /root/level[1]/following-sibling::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-048.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-048.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-049'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/level[1]/level[1]/following::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/level[1]/level[1]/following::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-049.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-049.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
@@ -1014,32 +1016,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-050'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/level[1]/level[1]/following::node() ), 
                            let $nodes := /root/level[1]/level[1]/following::node()
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-050.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-050.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-051'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( /root/node()/.. )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( /root/node()/.. )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-051.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-051.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
@@ -1048,32 +1050,32 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-052'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( /root/node()/.. ), 
                            let $nodes := /root/node()/..
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-052.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-052.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-053'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:outermost( ($doc1//node(), $doc2//node()) )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:outermost( ($doc1//node(), $doc2//node()) )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-053.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-053.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_count(Res, "2") of 
       true -> {comment, "Count correct"};
@@ -1082,66 +1084,66 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-054'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "fn:deep-equal( fn:outermost( ($doc1//node(), $doc2//node()) ),
                            let $nodes := ($doc1//node(), $doc2//node())
-                           return $nodes except $nodes/descendant::node() )",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+                           return $nodes except $nodes/descendant::node() )", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-054.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-054.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-055'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
-            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-055.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-055.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-056'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "let $in := for $x in //* order by local-name($x) return $x
-            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-056.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-056.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-057'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "outermost(//rubbish)",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "outermost(//rubbish)", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-057.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-057.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1150,14 +1152,14 @@ environment('outermost',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'fn-outermost-058'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "outermost(//*) except //*",
-   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "outermost(//*) except //*", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('outermost',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "fn-outermost-058.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-outermost-058.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};

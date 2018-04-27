@@ -1,9 +1,10 @@
 -module('fn_json_to_xml_SUITE').
 -include_lib("common_test/include/ct.hrl").
--export([all/0]).
--export([suite/0]).
--export([init_per_suite/1]).
--export([end_per_suite/1]).
+-compile({nowarn_unused_function,[environment/2]}).
+-export([all/0,
+         suite/0]).
+-export([init_per_suite/1,
+         end_per_suite/1]).
 -export(['json-to-xml-001'/1]).
 -export(['json-to-xml-002'/1]).
 -export(['json-to-xml-003'/1]).
@@ -98,309 +99,310 @@
 -export(['json-to-xml-error-041'/1]).
 -export(['json-to-xml-error-042'/1]).
 -export(['json-to-xml-error-043'/1]).
-suite() ->
-[{timetrap,{seconds,5}}].
-end_per_suite(_Config) -> ct:timetrap({seconds,60}), xqerl_module:unload(all).
+suite() -> [{timetrap,{seconds,5}}].
+end_per_suite(_Config) -> 
+   ct:timetrap({seconds,60}), 
+   xqerl_module:unload(all).
 init_per_suite(Config) -> 
    ok = application:ensure_started(mnesia),
    ok = application:ensure_started(xqerl_db),
    xqerl_module:one_time_init(), 
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
    TD = filename:join(DD, "QT3-test-suite"),
-   BaseDir = filename:join(TD, "fn")
-
-,[{base_dir, BaseDir}|Config].
+   __BaseDir = filename:join(TD, "fn"),
+   [{base_dir, __BaseDir}|Config].
 all() -> [
-   'json-to-xml-001',
-   'json-to-xml-002',
-   'json-to-xml-003',
-   'json-to-xml-004',
-   'json-to-xml-005',
-   'json-to-xml-006',
-   'json-to-xml-007',
-   'json-to-xml-008',
-   'json-to-xml-009',
-   'json-to-xml-010',
-   'json-to-xml-011',
-   'json-to-xml-012',
-   'json-to-xml-013',
-   'json-to-xml-014',
-   'json-to-xml-015',
-   'json-to-xml-016',
-   'json-to-xml-017',
-   'json-to-xml-017b',
-   'json-to-xml-018',
-   'json-to-xml-019',
-   'json-to-xml-020',
-   'json-to-xml-021',
-   'json-to-xml-022',
-   'json-to-xml-023',
-   'json-to-xml-024',
-   'json-to-xml-025',
-   'json-to-xml-026',
-   'json-to-xml-027',
-   'json-to-xml-028',
-   'json-to-xml-029',
-   'json-to-xml-030',
-   'json-to-xml-031',
-   'json-to-xml-032',
-   'json-to-xml-033',
-   'json-to-xml-034',
-   'json-to-xml-035',
-   'json-to-xml-036',
-   'json-to-xml-037',
-   'json-to-xml-037b',
-   'json-to-xml-038',
-   'json-to-xml-038b',
-   'json-to-xml-039',
-   'json-to-xml-040',
-   'json-to-xml-041',
-   'json-to-xml-042',
-   'json-to-xml-043',
-   'json-to-xml-044',
-   'json-to-xml-045',
-   'json-to-xml-046',
-   'json-to-xml-047',
-   'json-to-xml-048',
-   'json-to-xml-049',
-   'json-to-xml-error-001',
-   'json-to-xml-error-002',
-   'json-to-xml-error-003',
-   'json-to-xml-error-004',
-   'json-to-xml-error-005',
-   'json-to-xml-error-006',
-   'json-to-xml-error-007',
-   'json-to-xml-error-008',
-   'json-to-xml-error-009',
-   'json-to-xml-error-010',
-   'json-to-xml-error-011',
-   'json-to-xml-error-012',
-   'json-to-xml-error-013',
-   'json-to-xml-error-014',
-   'json-to-xml-error-015',
-   'json-to-xml-error-016',
-   'json-to-xml-error-017',
-   'json-to-xml-error-018',
-   'json-to-xml-error-019',
-   'json-to-xml-error-020',
-   'json-to-xml-error-021',
-   'json-to-xml-error-022',
-   'json-to-xml-error-023',
-   'json-to-xml-error-024',
-   'json-to-xml-error-025',
-   'json-to-xml-error-026',
-   'json-to-xml-error-027',
-   'json-to-xml-error-028',
-   'json-to-xml-error-029',
-   'json-to-xml-error-030',
-   'json-to-xml-error-031',
-   'json-to-xml-error-032',
-   'json-to-xml-error-033',
-   'json-to-xml-error-034',
-   'json-to-xml-error-035',
-   'json-to-xml-error-037',
-   'json-to-xml-error-038',
-   'json-to-xml-error-039',
-   'json-to-xml-error-040',
-   'json-to-xml-error-041',
-   'json-to-xml-error-042',
-   'json-to-xml-error-043'].
-environment('empty',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+'json-to-xml-001', 
+'json-to-xml-002', 
+'json-to-xml-003', 
+'json-to-xml-004', 
+'json-to-xml-005', 
+'json-to-xml-006', 
+'json-to-xml-007', 
+'json-to-xml-008', 
+'json-to-xml-009', 
+'json-to-xml-010', 
+'json-to-xml-011', 
+'json-to-xml-012', 
+'json-to-xml-013', 
+'json-to-xml-014', 
+'json-to-xml-015', 
+'json-to-xml-016', 
+'json-to-xml-017', 
+'json-to-xml-017b', 
+'json-to-xml-018', 
+'json-to-xml-019', 
+'json-to-xml-020', 
+'json-to-xml-021', 
+'json-to-xml-022', 
+'json-to-xml-023', 
+'json-to-xml-024', 
+'json-to-xml-025', 
+'json-to-xml-026', 
+'json-to-xml-027', 
+'json-to-xml-028', 
+'json-to-xml-029', 
+'json-to-xml-030', 
+'json-to-xml-031', 
+'json-to-xml-032', 
+'json-to-xml-033', 
+'json-to-xml-034', 
+'json-to-xml-035', 
+'json-to-xml-036', 
+'json-to-xml-037', 
+'json-to-xml-037b', 
+'json-to-xml-038', 
+'json-to-xml-038b', 
+'json-to-xml-039', 
+'json-to-xml-040', 
+'json-to-xml-041', 
+'json-to-xml-042', 
+'json-to-xml-043', 
+'json-to-xml-044', 
+'json-to-xml-045', 
+'json-to-xml-046', 
+'json-to-xml-047', 
+'json-to-xml-048', 
+'json-to-xml-049', 
+'json-to-xml-error-001', 
+'json-to-xml-error-002', 
+'json-to-xml-error-003', 
+'json-to-xml-error-004', 
+'json-to-xml-error-005', 
+'json-to-xml-error-006', 
+'json-to-xml-error-007', 
+'json-to-xml-error-008', 
+'json-to-xml-error-009', 
+'json-to-xml-error-010', 
+'json-to-xml-error-011', 
+'json-to-xml-error-012', 
+'json-to-xml-error-013', 
+'json-to-xml-error-014', 
+'json-to-xml-error-015', 
+'json-to-xml-error-016', 
+'json-to-xml-error-017', 
+'json-to-xml-error-018', 
+'json-to-xml-error-019', 
+'json-to-xml-error-020', 
+'json-to-xml-error-021', 
+'json-to-xml-error-022', 
+'json-to-xml-error-023', 
+'json-to-xml-error-024', 
+'json-to-xml-error-025', 
+'json-to-xml-error-026', 
+'json-to-xml-error-027', 
+'json-to-xml-error-028', 
+'json-to-xml-error-029', 
+'json-to-xml-error-030', 
+'json-to-xml-error-031', 
+'json-to-xml-error-032', 
+'json-to-xml-error-033', 
+'json-to-xml-error-034', 
+'json-to-xml-error-035', 
+'json-to-xml-error-037', 
+'json-to-xml-error-038', 
+'json-to-xml-error-039', 
+'json-to-xml-error-040', 
+'json-to-xml-error-041', 
+'json-to-xml-error-042', 
+'json-to-xml-error-043'
+].
+environment('empty',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('atomic-xq',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]},
-{schemas, [{filename:join(BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('atomic-xq',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-mod',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works-mod.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-mod',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/staff.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('works-and-staff',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/works.xml"), "$works",""},
-{filename:join(BaseDir, "../docs/staff.xml"), "$staff",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('works-and-staff',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
+{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, []},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('auction',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/auction.xml"), ".",""}]},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"},
-{"http://www.w3.org/1999/xlink","xlink"},
-{"http://www.example.com/auctioneers#anyzone","anyzone"},
-{"http://www.example.com/auctioneers#eachbay","eachbay"},
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"},
+]; 
+environment('auction',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
+{"http://www.w3.org/1999/xlink","xlink"}, 
+{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
+{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
+{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('qname',BaseDir) ->
-[{'decimal-formats', []},
-{sources, [{filename:join(BaseDir, "../docs/QName-source.xml"), ".",""}]},
-{schemas, [{filename:join(BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('qname',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{resources, []},
+{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
+{resources, []}, 
 {modules, []}
-];
-environment('math',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('math',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('array',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('array-and-map',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"},
+]; 
+environment('array-and-map',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
+{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
-];
-environment('json-files',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('json-files',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
-{resources, [{filename:join(BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"},
-{filename:join(BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"},
-{filename:join(BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}]},
+{schemas, []}, 
+{resources, [{filename:join(__BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}, 
+{filename:join(__BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"}, 
+{filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]}, 
 {modules, []}
-];
-environment('json-ns',BaseDir) ->
-[{'decimal-formats', []},
-{sources, []},
-{schemas, []},
-{collections, []},
-{'static-base-uri', []},
-{params, []},
-{vars, []},
+]; 
+environment('json-ns',__BaseDir) ->
+[{'decimal-formats', []}, 
+{sources, []}, 
+{collections, []}, 
+{'static-base-uri', []}, 
+{params, []}, 
+{vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
-{resources, []},
+{schemas, []}, 
+{resources, []}, 
 {modules, []}
 ].
 'json-to-xml-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('{}')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('{}')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-001.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -421,14 +423,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -449,14 +451,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[1]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[1]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -489,14 +491,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[\"a\"]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[\"a\"]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -529,14 +531,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[true]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[true]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -569,14 +571,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[false]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[false]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -609,14 +611,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml('[null]')",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml('[null]')", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -649,14 +651,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-008.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_count(Res, "1") of 
@@ -685,14 +687,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}string[@key='header'][.='SVG Viewer']") of 
@@ -709,14 +711,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-010.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"><string key=\"key\">Data with \" within it</string></map>") of 
       true -> {comment, "XML Deep equal"};
@@ -725,14 +727,14 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//Q{http://www.w3.org/2005/xpath-functions}string", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\" key=\"key\">Data with \" within it</string>") of 
       true -> {comment, "XML Deep equal"};
@@ -741,16 +743,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//Q{http://www.w3.org/2005/xpath-functions}string
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-files',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-012.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
@@ -775,16 +777,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"Data with \\\" within it\"]')//Q{http://www.w3.org/2005/xpath-functions}string
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-013.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
@@ -801,16 +803,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"Key \\\" with quote\":\"Data with \\\" within it\"}')//Q{http://www.w3.org/2005/xpath-functions}string
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-014.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
@@ -828,16 +830,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(codepoints-to-string(65279)||'[1]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-015.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<array 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number>1</number></array>
@@ -848,25 +850,25 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-017b'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-018.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
@@ -878,16 +880,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':true()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-019.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\\\\\" escaped-key=\"true\"
@@ -899,16 +901,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\\\\\":3, \"b\\\\\":4}', map{'escape':false()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-020.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
       xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\\\"
@@ -919,16 +921,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':true()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-021.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
@@ -941,16 +943,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', map{'escape':false()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-022.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
@@ -962,15 +964,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', map{'escape':false()})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-023.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-023.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
@@ -981,15 +983,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', map{'escape':true()})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-024.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-024.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<Q{http://www.w3.org/2005/xpath-functions}map 
          xmlns:j=\"http://www.w3.org/2005/xpath-functions\"
@@ -1000,17 +1002,17 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-025'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\u000C\", \"\\u0007\":\"bell\"}', 
               map{'escape':false(), 'fallback':function($s){'??'}})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-025.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
@@ -1022,16 +1024,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-026'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', 
              map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-026.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-026.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"
@@ -1042,16 +1044,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-027'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":\"\\uDA00\", \"\\uDD00\":\"bell\"}', 
             map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-027.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-027.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
@@ -1060,16 +1062,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-028'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml((), 
             map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-028.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-028.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1078,15 +1080,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-029'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('23', map{})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-029.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">23</number>") of 
@@ -1096,15 +1098,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-030'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('23E0', map{})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-030.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">23E0</number>") of 
@@ -1114,15 +1116,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-031'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('0.23e+02')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-031.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">0.23e+02</number>") of 
@@ -1132,15 +1134,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-032'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('0')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-032.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">0</number>") of 
@@ -1150,15 +1152,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-033'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-0')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-033.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<number 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">-0</number>") of 
@@ -1168,15 +1170,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-034'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"\":\"\", \"0\":\"0\"}')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-034.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-034.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><string key=\"\"/><string key=\"0\">0</string></map>") of 
@@ -1186,15 +1188,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-035'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(())
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-035.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
@@ -1203,16 +1205,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-036'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}', map{\"duplicates\":\"use-first\"})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-036.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-036.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
@@ -1224,27 +1226,27 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-037'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-037b'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-038'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-038b'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-039'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\uDEAD\"', map{'fallback':function($s){substring($s, 3)}})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-039.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-039.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">oh dear DEAD</string>
@@ -1255,16 +1257,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-040'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5, \"c\":5}', map{'duplicates':'use-first'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-040.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-040.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<map 
          xmlns=\"http://www.w3.org/2005/xpath-functions\"><number key=\"a\"
@@ -1276,33 +1278,33 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-041'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          static-base-uri() eq base-uri(fn:json-to-xml('true'))
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-041.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_true(Res) of 
-      true -> {comment, "True"};
+      true -> {comment, "Empty"};
       {false, F} -> F 
    end, 
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-042'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"\\n\":1, \"\\u000A\":2}', map{'escape':true(), 'duplicates':'reject'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-042.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-042.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -1311,15 +1313,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-043'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"\\u005c\"')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-043.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-043.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string 
          xmlns=\"http://www.w3.org/2005/xpath-functions\">\\</string>
@@ -1330,25 +1332,25 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-044'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-045'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-046'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-047'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-048'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"')",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"')", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-048.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-048.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\">\\/\"&#13;&#009;&#032;</string>") of 
       true -> {comment, "XML Deep equal"};
@@ -1357,13 +1359,13 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-049'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"', map {'escape':true()})",
+   __BaseDir = ?config(base_dir, Config),
+   Qry = "json-to-xml('\"\\\\\\/\\\"\\r\\t\\u0020\"', map {'escape':true()})", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-049.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-049.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\" escaped=\"true\">\\\\/\"\\r\\t </string>") of 
       true -> {comment, "XML Deep equal"};
@@ -1372,15 +1374,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-001'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-001.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-001.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1389,16 +1391,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-002'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{error}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-002.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-002.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1407,16 +1409,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-003'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{terriblyWrong}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-003.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-003.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1425,16 +1427,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-004'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml(\"{}extra token\")
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-004.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-004.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1443,16 +1445,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-005'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{1:1}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-005.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-005.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1461,16 +1463,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-006'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{true:1}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-006.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-006.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1479,16 +1481,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-007'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\" 1}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-007.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-007.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1497,16 +1499,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-008'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\" :1 2}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-008.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-008.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1515,16 +1517,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-009'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[+1]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-009.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-009.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1533,16 +1535,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-010'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[01]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-010.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-010.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1551,16 +1553,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-011'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[1234A]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-011.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-011.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1569,16 +1571,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-012'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"123\\\"]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-012.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-012.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1587,16 +1589,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-013'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"123\\u234\"]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-013.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-013.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1605,16 +1607,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-014'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\":123,}')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-014.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-014.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1623,16 +1625,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-015'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"key\":123 ,}', map{\"liberal\":false()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-015.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-015.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1641,16 +1643,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-016'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"key\":123,]')
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-016.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-016.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1659,16 +1661,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-017'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"key\":123 ,]', map{'liberal':true()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-017.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-017.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1677,16 +1679,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-018'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\",]', map{'liberal':()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-018.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-018.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert_error(Res,"FOJS0005") of 
@@ -1703,16 +1705,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-019'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'liberal':'something'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-019.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-019.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1721,16 +1723,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-020'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-020.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-020.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1739,16 +1741,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-021'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':(true(),true())})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-021.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-021.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1757,16 +1759,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-022'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'validate':'EMCA-262'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-022.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-022.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1775,16 +1777,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-023'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':()})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-023.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1793,16 +1795,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-024'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':(true(),true())})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-024.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-024.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1811,16 +1813,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-025'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'escape':'EMCA-262'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-025.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-025.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1829,16 +1831,16 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-026'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('[\"String\"]', map{'fallback':'dummy'})
-      ",
-   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',BaseDir)),
+      ", 
+   {Env,Opts} = xqerl_test:handle_environment(environment('json-ns',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-026.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-026.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -1847,21 +1849,21 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-027'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"XML 1.1"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"XML version 1.1"}. 
 'json-to-xml-error-028'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-error-029'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-00')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-029.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-029.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1870,15 +1872,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-030'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('+10')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-030.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-030.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1887,15 +1889,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-031'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('.1')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-031.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-031.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1904,15 +1906,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-032'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('1.')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-032.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-032.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1921,15 +1923,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-033'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('1.e2')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-033.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-033.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1938,15 +1940,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-034'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('-.01')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-034.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-034.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1955,15 +1957,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-035'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"a\":5}', map{\"duplicates\":\"reject\"})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-035.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0003") of 
       true -> {comment, "Correct error"};
@@ -1972,15 +1974,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-037'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\\"')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-037.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-037.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -1989,15 +1991,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-038'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\uAAA\"')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-038.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-038.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -2006,15 +2008,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-039'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"oh dear \\xAA\"')
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-039.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-039.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
@@ -2023,15 +2025,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-040'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('{\"a\":3, \"b\":4, \"c\":5}', map{\"duplicates\":\"use-last\"})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-040.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-040.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
@@ -2040,15 +2042,15 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-041'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    Qry = "
          fn:json-to-xml('\"\\uFFFF\"', map{'fallback':concat#2})
-      ",
+      ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
-   Res = try Mod = xqerl_module:compile(filename:join(BaseDir, "json-to-xml-error-041.xq"), Qry1),
+   Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "json-to-xml-error-041.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
@@ -2057,10 +2059,10 @@ environment('json-ns',BaseDir) ->
    case Out of
       {comment, C} -> {comment, C};
       Err -> ct:fail(Err)
-   end.
+   end. 
 'json-to-xml-error-042'(Config) ->
-   BaseDir = ?config(base_dir, Config),
-   {skip,"schemaImport"}.
+   __BaseDir = ?config(base_dir, Config),
+   {skip,"schemaImport"}. 
 'json-to-xml-error-043'(Config) ->
-   BaseDir = ?config(base_dir, Config),
+   __BaseDir = ?config(base_dir, Config),
    {skip,"schemaImport"}.
