@@ -164,10 +164,12 @@ validate1([{?OUTPUT("suppress-indentation"),_Value}|T],State) ->
    validate1(T,State);
 validate1([{?OUTPUT("undeclare-prefixes"),Value}|T],State) -> 
    validate1(T,maps:put('undeclare-prefixes', true_false(Value), State));
-validate1([{?OUTPUT("use-character-maps"),_Value}|T],State) -> 
-   validate1(T,State);
+validate1([{?OUTPUT("use-character-maps"),_Value}|_],_) -> 
+   ?err('XQST0109'); % not allowed in prolog, only param doc
 validate1([{?OUTPUT("version"),_Value}|T],State) -> 
    validate1(T,State);
+validate1([{?OUTPUT(_),_Value}|_],_) -> 
+   ?err('XQST0109');
 validate1([{#qname{} = Q,Value}|T],State) ->
    ?dbg("Unknown option",{Q,Value}),
    validate1(T,State).

@@ -100,17 +100,15 @@ is_date_type(_Type) -> false.
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
-%% atomize(#xqNode{doc = D, node = N}) when is_pid(D), D == self() ->
-%%    [Val] = xqldb_xdm:atomize(D, N),
-%%    ?dbg("Val",Val),
-%%    ?seq:singleton_value(Val);
 atomize(#xqNode{doc = D, node = N}) when is_pid(D) ->
-   F = fun(Doc) -> xqldb_xdm:atomize(Doc, N) end,
-   Val = xqldb_doc:run(D, F),             
-   %?dbg("Val",Val),
-   ?seq:singleton_value(Val);
-%% atomize(#xqNode{} = N) -> 
-%%    ?seq:singleton_value(xqerl_node:atomize_nodes(N));
+   case xqerl_lib:lget({atomize,D,N}) of
+      [] ->
+         F = fun(Doc) -> xqldb_xdm:atomize(Doc, N) end,
+         [Val] = xqldb_doc:run(D, F),
+         xqerl_lib:lput({atomize,D,N}, Val),
+         Val;
+      V -> V
+   end;
 atomize(L) when is_list(L) -> 
    lists:map(fun atomize/1, L);
 atomize(_) -> 
@@ -146,8 +144,8 @@ string_value(#xqRange{} = R) ->
    string_value(xqerl_seq3:expand(R));
 string_value(#array{data = L}) -> string_value(L);
 string_value([V]) when not is_integer(V) -> string_value(V);
-string_value({Doc,Node}) when is_map(Doc), is_binary(Node) ->
-   xqldb_doc:string_value(Doc, Node);
+%% string_value({Doc,Node}) when is_map(Doc), is_binary(Node) ->
+%%    xqldb_doc:string_value(Doc, Node);
 string_value({Error,_}) ->
    {Error};
 %% string_value([At]) ->
@@ -198,10 +196,12 @@ type({not_implemented,L}) ->
    {not_implemented,L};
 type([]) ->
    [];
+type(#xqRange{}) ->
+   'xs:integer';
 type(#xqAtomicValue{type = T}) ->
    T;
 type(Seq) ->
-   #xqSeqType{type = T, occur = _One} = ?seq:get_seq_type(Seq),
+   #xqSeqType{type = T, occur = _One} = xqerl_seq3:get_seq_type(Seq),
    T.
 
 % this function is for promoting/checking sequences for their types
@@ -529,6 +529,13 @@ promote(List,#xqSeqType{occur = Occ})
    ?err('XPTY0004');
 promote(At,#xqSeqType{type = item}) ->
    At;
+promote(#xqRange{} = R, #xqSeqType{} = T) ->
+   case instance_of(R, T) of
+      ?true ->
+         R;
+      _ ->
+         ?err('XPTY0004')
+   end;
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    At;
 promote(#xqNode{} = N,#xqSeqType{type = T}) when T == 'xs:anyAtomicType';
@@ -544,6 +551,7 @@ promote(#xqNode{} = N,#xqSeqType{} = T) ->
 promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    atomize(N);
 promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
+   %?dbg("List0",List0),
    List = xqerl_seq3:expand(List0),
    Fun = fun(#xqAtomicValue{} = A) ->
                A;
@@ -555,7 +563,23 @@ promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
    lists:map(Fun, List);
 promote(#xqAtomicValue{type = Num1} = At,#xqSeqType{type = Num2}) 
    when ?numeric(Num1) andalso ?numeric(Num2) ->
-   cast_as_seq(At,Num2);
+   %?dbg("{Num1,Num2}",{Num1,Num2}),
+   case subtype_of(Num1,Num2) of
+      true ->
+         At;
+      _ ->
+         V2 = cast_as_seq(At,Num2),
+         case subtype_of(Num2,Num1) of
+            true -> % possible precision loss
+               Eq = xqerl_operators:equal(At, V2),
+               case Eq of
+                  ?true -> V2;
+                  _ -> ?err('XPTY0004')
+               end;
+            _ ->
+               V2
+         end                     
+   end;
 promote(#xqAtomicValue{type = 'xs:untypedAtomic'} = At,Type) ->
    cast_as_seq(At,Type);
 promote(#xqAtomicValue{type = 'xs:anyURI'} = At,
@@ -570,9 +594,19 @@ promote(#xqFunction{} = A,#xqSeqType{type = #xqFunTest{kind = function,
                                                        type = T} = B}) ->
    % function coercion
    [FA] = fun_to_fun_test([A]),
-   case subtype_of(B, FA) of
+   case subtype_of(FA,B) of
+   %case subtype_of(B, FA) of
       true ->
          A#xqFunction{params = P, type = T};
+      _ ->
+         ?dbg("XPTY0004",{FA,B}),
+         ?err('XPTY0004')
+   end;
+% cannot cast to duration
+promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = 'xs:duration'}) ->
+   case subtype_of(AType,'xs:duration') of
+      true ->
+         At;
       _ ->
          ?err('XPTY0004')
    end;
@@ -583,8 +617,7 @@ promote(#xqAtomicValue{type = AType} = At, #xqSeqType{type = TType} = Type) ->
       _ ->
          ?err('XPTY0004')
    end;
-promote(At0,#xqSeqType{type = TType} = Type) ->
-   At = xqerl_seq3:expand(At0),
+promote(At,#xqSeqType{type = TType} = Type) ->
    InType = type(At),
    %?dbg("InType",{At,InType,TType}),
    case subtype_of(InType,TType) of
@@ -622,7 +655,8 @@ promote(At0,#xqSeqType{type = TType} = Type) ->
 fun_to_fun_test([]) -> [];
 fun_to_fun_test([#xqFunction{annotations = An, params = P, type = Ty }|T]) ->
    [#xqFunTest{kind = function, 
-               annotations = An, 
+               annotations = if An == undefined -> [];
+                                true -> An end, 
                params = P, 
                type = Ty}|fun_to_fun_test(T)].
 
@@ -862,14 +896,20 @@ try_cast(Av, Type, Namespaces) ->
       _:E -> throw(E)            
    end.
 
+instance_of(_, #xqSeqType{type = item, occur = zero_or_many}) ->
+   ?true;
 instance_of(#xqRange{cnt = C}, #xqSeqType{type = Type,
                                           occur = TOccur})
-   when C =:= 1, ?integer(Type), TOccur == one;
-        C =:= 1, ?integer(Type), TOccur == zero_or_one;
-        C =:= 0, ?integer(Type), TOccur == zero_or_one; 
-        C > 0, ?integer(Type), TOccur == one_or_many; 
-        ?integer(Type), TOccur == zero_or_many ->
-      ?true;
+   when C =:= 1, ?integer(Type) orelse Type == item, TOccur == one;
+        C =:= 1, ?integer(Type) orelse Type == item, TOccur == zero_or_one;
+        C =:= 0, ?integer(Type) orelse Type == item, TOccur == zero_or_one; 
+        C > 0, ?integer(Type) orelse Type == item, TOccur == one_or_many; 
+        ?integer(Type) orelse Type == item, TOccur == zero_or_many ->
+   ?dbg("range",true),
+   ?true;
+instance_of(#xqRange{}, _) ->
+   ?dbg("range",false),
+   ?false;
 instance_of([], #xqSeqType{occur = TOccur}) 
    when TOccur == none;
         TOccur == zero;
@@ -991,6 +1031,9 @@ check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
 fix_ns([]) -> 'no-namespace';
 fix_ns(X) -> X.
 
+instance_of1(#xqAtomicValue{}, 'xs:anyAtomicType') -> true;
+instance_of1(#xqRange{}, 'xs:anyAtomicType') -> true;
+instance_of1(#xqRange{}, T) when ?integer(T) -> true;
 instance_of1(#xqNode{}, #xqKindTest{kind = node}) ->
    true;
 instance_of1(#xqNode{node = [Node], doc = Doc}, 
@@ -1288,12 +1331,11 @@ construct_as(At,#xqSeqType{type = _Type}) ->
 type_check(#xqSeqType{}, any) -> true;
 type_check(any, #xqSeqType{}) -> true;
 type_check(#xqSeqType{type = Type} = T1, #xqSeqType{type = TargetType} = T2) ->
-   case seq_type_val_match(T1, T2) of
+   case seq_type_val_match(T2, T1) of
       nocast -> true;
-      true ->
-         subtype_of(TargetType, Type);
       _ ->
-         false
+         %?dbg("subtype_of(TargetType, Type)",{TargetType, Type}),
+         subtype_of(Type,TargetType) orelse subtype_of(TargetType,Type) 
    end;
 type_check(_, _) ->
    false.
@@ -1312,12 +1354,13 @@ fun_check(#xqFunTest{kind = function, name = Name1,
           #xqFunTest{kind = function, name = Name2, 
                      type = RetType2, 
                      params = Params2}) ->
+   % this should only fail if the 1st function cannot take the types of the 2nd
    NameCheck = has_name(Name2,Name1),
    ?dbg(?LINE, {NameCheck, Name1, Name2}),
    TypeCheck = type_check(RetType1, RetType2),
-   ?dbg(?LINE, {TypeCheck, RetType2, RetType1}),
+   ?dbg(?LINE, {TypeCheck, RetType1, RetType2}),
    ParamCheck = param_check(Params1,Params2),
-   ?dbg(?LINE, {ParamCheck, Params2, Params1}),
+   ?dbg(?LINE, {ParamCheck, Params1, Params2}),
    NameCheck andalso TypeCheck andalso ParamCheck;
 fun_check(#xqFunTest{},#xqFunTest{}) ->
    false.
@@ -1389,8 +1432,10 @@ cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:string' ) ->
 cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic',"");
 cast_as( ?xav('xs:anyURI', Val), 'xs:string' ) -> 
+   %?xav('xs:string', Val);
    ?xav('xs:string', xqerl_lib:decode_string(Val));
 cast_as( ?xav('xs:anyURI', Val), 'xs:untypedAtomic' ) -> 
+   %?xav('xs:untypedAtomic', Val);
    ?xav('xs:untypedAtomic', xqerl_lib:decode_string(Val));
 cast_as( ?xav('xs:base64Binary', Val), 'xs:hexBinary' ) -> 
    ?xav('xs:hexBinary', b64bin_to_hexbin(Val));
@@ -1920,94 +1965,8 @@ cast_as( ?xav('xs:string', Val1), 'xs:decimal' ) -> % MAYBE castable
 cast_as( ?xav('xs:string', Val), 'xs:numeric' ) -> % MAYBE castable
    cast_as( ?xav('xs:string', Val), 'xs:double' );
 cast_as( ?xav('xs:string', Val1), 'xs:double' ) -> % MAYBE castable
-   Val = case string:trim(Val1) of
-            [$.|T] ->
-               [$0,$.|T];
-            V ->
-               V
-         end,
-   case string:find(Val, "--") of
-      nomatch ->
-         ok;
-      _ ->
-         ?err('FORG0001')
-   end,
-   if Val == "-0"  -> ?xav('xs:double', neg_zero);
-      Val == "NaN"  -> ?xav('xs:double', nan);
-      Val == "-INF" -> ?xav('xs:double', neg_infinity);
-      %Val == "+INF" -> ?xav('xs:double', infinity); % schema 1.1 
-      Val == "INF"  -> ?xav('xs:double', infinity);
-      true ->
-         case catch list_to_float(Val) of
-            Flt when is_float(Flt) ->
-               if Flt == 0 andalso hd(Val) == $- ->
-                     ?xav('xs:double', neg_zero);
-                  true ->
-                     ?xav('xs:double', Flt)
-               end;
-            _ ->
-               case catch list_to_integer(Val) of
-                  Int when is_integer(Int) ->
-                     ?xav('xs:double', float(Int));
-                  _ ->
-                     try
-                        Bin = list_to_binary(Val),
-                        {Sign, Rest} = case Bin of
-                                          <<"-",R/binary>> ->
-                                             {'-', R};
-                                          <<"+",R/binary>> ->
-                                             {'+', R};
-                                          R ->
-                                             {'+', R}
-                                       end,
-                        Rest1 = case binary:first(Rest) == $.  of
-                                   true -> <<$0,Rest/binary>>;
-                                   _ -> Rest
-                                end,
-                        {Man, Exp} = case binary:split(Rest1, 
-                                                       [<<"e">>,<<"E">>]) of
-                                        [M,E] ->
-                                           {M,binary_to_integer(E)};
-                                        [M] ->
-                                           {M,0}
-                                     end,
-                        Num = case binary:match(Man, <<".">>) of
-                                       nomatch ->
-                                          float(binary_to_integer(Man));
-                                       _ ->
-                                          case binary:last(Man) of
-                                             $. ->
-                                                Bin1 = binary:part(Man,{0, byte_size(Man) -1}),
-                                                float(binary_to_integer(Bin1));
-                                             _ ->
-                                                binary_to_float(Man)
-                                          end
-                                    end,
-                        NNum = if Sign == '-' -> - Num;
-                                  true -> Num
-                               end,
-                        try
-                           Str = float_to_list(NNum, [{decimals,18}]) ++ 
-                                   "e" ++ integer_to_list(Exp),
-                           ENum = list_to_float(Str),
-                           if ENum == 0 andalso hd(Val) == $- ->
-                                 ?xav('xs:double', neg_zero);
-                              true ->
-                                 ?xav('xs:double', ENum)
-                           end
-                        catch
-                           _:_ -> 
-                              ?xav('xs:double', case Sign of
-                                                   '-' -> neg_infinity;
-                                                   _ -> infinity
-                                                end)
-                        end
-                     catch
-                        _:_ -> ?err('FORG0001')
-                     end
-               end
-         end
-   end;
+   V = xqerl_numeric:double(Val1),
+   ?xav('xs:double', V);
 %% In casting to a duration value, if the value is too large or too small to be represented 
 %% by the implementation, a dynamic error [err:FODT0002] is raised.
 cast_as( ?xav('xs:string', Val), 'xs:duration' ) -> % MAYBE castable
@@ -2933,19 +2892,6 @@ b64bin_to_hexbin(Bin) -> Bin. %str_to_hexbin(b64bin_to_str(Bin)).
 %% hex_to_b64(Str) -> str_to_b64(hex_to_str(Str)).
 %% b64_to_hex(Str) -> bin_to_hex(b64_to_bin(Str)).
 %% str_to_b64(Str) -> base64:encode_to_string(Str).
-
-decode_html_entities([]) ->
-   [];
-decode_html_entities("&gt;" ++ T) ->
-   ">" ++ decode_html_entities(T);
-decode_html_entities("&lt;" ++ T) ->
-   "<" ++ decode_html_entities(T);
-decode_html_entities("&amp;" ++ T) ->
-   "&" ++ decode_html_entities(T);
-decode_html_entities("&quot;" ++ T) ->
-   "\"" ++ decode_html_entities(T);
-decode_html_entities([H|T]) ->
-   [H|decode_html_entities(T)].
 
 is_ns_sensitive(#xqSeqType{type = Type}) ->
   Type == 'xs:QName' orelse Type == 'xs:NOTATION';

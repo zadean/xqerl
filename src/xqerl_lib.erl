@@ -294,11 +294,9 @@ scan_hex_char_ref([H|T], Acc) when H == $; ->
    Hex = lists:reverse(Acc),
    {list_to_integer(Hex, 16),T}.
 
-check_bad_percent([$%,$%|_T]) -> ?err('XQST0046');
-check_bad_percent([_|T]) -> 
-   check_bad_percent(T);
-check_bad_percent([]) -> ok.
-
+-spec resolve_against_base_uri(string(),
+                               string()) ->
+         nonempty_string() | {error,_}.
 resolve_against_base_uri(BaseUri, RefUri) ->
    xqldb_lib:join_uris(BaseUri, RefUri).
 
@@ -346,80 +344,6 @@ resolve_against_base_uri(BaseUri, RefUri) ->
 %%          ?err('FORG0002')
 %%    end.
 
-parsed_to_path([],{Scheme, _UserInfo, Host, _Port, Path, _Query, Frag}) ->
-   Safe = simplify_path(tl(Path)),
-   %?dbg("Safe",Safe),
-   Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
-   if Dir ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ "/";
-      Safe == [] ->
-         atom_to_list(Scheme) ++ "://" ++ Host;
-      true ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Safe ++ Frag
-   end;
-parsed_to_path(RelPath,{Scheme, _UserInfo, Host, _Port, Path, _Query, []}) ->
-   PathDir = case lists:last(Path) =:= $/ of
-                true -> tl(Path);
-                false -> filename:dirname(tl(Path))
-             end,
-   Joined = simplify_path(uri_join(PathDir,RelPath)),
-   %?dbg("PathDir",PathDir),
-   %?dbg("RelPath",RelPath),
-   %?dbg("Joined",Joined),
-   Dir = Path =/= "/" andalso lists:last(Path) =:= $/,
-   RelDir = RelPath =/= "/" andalso lists:last(RelPath) =:= $/,
-   if Joined == [] andalso Dir ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/";
-      Joined == [] ->
-         atom_to_list(Scheme) ++ "://" ++ Host;
-      RelDir ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined ++ "/";
-      true ->
-         atom_to_list(Scheme) ++ "://" ++ Host ++ "/" ++ Joined% ++ Frag
-   end;
-parsed_to_path(_,_) ->
-   ?err('FORG0002').
-
-uri_join([],Path) ->
-   Path;
-uri_join(Base,Path) ->
-   filename:join(Base,Path).
-
-simplify_path(Path) ->
-   Split = filename:split(Path),
-   Fun = fun(".",Acc) ->
-               Acc;
-            ("..",Acc) ->
-               tl(Acc);
-            (S,Acc) ->
-               [S|Acc]
-         end,
-   Sim = lists:foldl(Fun, [], Split),
-   build_path(lists:reverse(Sim)).
-
-build_path([]) -> [];
-build_path([H]) ->
-   H;
-build_path([[C,$:,$/] = H|T]) when C >= $A, C =< $Z; C >= $a, C =< $z ->
-   H ++ build_path(T);
-build_path([[C,$:,$\\] = H|T]) when C >= $A, C =< $Z; C >= $a, C =< $z ->
-   H ++ build_path(T);
-build_path([H|T]) ->
-   H ++ "/" ++ build_path(T).
-
-ensure_schema("file:///" ++ _ = Path) -> Path;
-ensure_schema("file://" ++ _) -> ?err('FORG0002');
-ensure_schema("file:/" ++ _ = Path) -> Path;
-ensure_schema("file:" ++ _) -> ?err('FORG0002');
-ensure_schema("//" ++ _) -> ?err('FORG0002');
-ensure_schema(":" ++ _) -> ?err('FORG0002');
-ensure_schema([C, $:, $/ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
-    "file:///" ++ Path;
-ensure_schema([C, $:, $\ | _]=Path) when C >= $A, C =< $Z; C >= $a, C =< $z ->
-    "file:///" ++ Path;
-%ensure_schema("/" ++ _ = Path) -> 
-%   "file://" ++ Path;
-ensure_schema(Path) -> Path.  
 
 lnew() ->
 %%    catch ets:delete(local_data),

@@ -765,7 +765,7 @@ has_lang(Arg,Source) ->
 
 has_node_name(Arg,Source) ->
    V = case Source of
-          {variable,Vr} -> merl:var(Vr);
+          %{variable,Vr} -> merl:var(Vr);
           _ -> Source
        end,
    ?P("begin 

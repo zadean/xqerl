@@ -27,6 +27,13 @@
 
 -export([sequence/1]).
 -export([path_map/2,
+         %
+         pmap/3,
+         pmap/2,
+         formap/2,
+         pformap/2,
+         forposmap/3,
+         %
          rangemap/2,
          expand/1,
          do_call/3]).
@@ -403,9 +410,117 @@ val_map(Fun,[H|T]) ->
 rangemap(_,[]) -> [];
 rangemap(F,[#xqRange{} = R|T]) -> 
    rangemap(F,R) ++ rangemap(F,T);
-rangemap(F,#xqRange{min = Min, max = Max}) when Min =< Max, is_function(F, 1) ->
-   [F(int_rec(Min))|rangemap(F,#xqRange{min = Min + 1, max = Max})];
+rangemap(F,#xqRange{min = Min, max = Max} = R) when Min =< Max, is_function(F, 1) ->
+   [F(int_rec(Min))|rangemap(F,R#xqRange{min = Min + 1})];
 rangemap(_,#xqRange{}) -> [].
+
+formap(_,[]) -> [];
+formap(F,[#xqRange{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 1) ->
+   [F(int_rec(Min))|formap(F,[R#xqRange{min = Min + 1}|T])];
+formap(F,[#xqRange{}|T]) -> formap(F,T);
+formap(F,[H|T]) when is_function(F, 1) ->
+   [F(H)|formap(F,T)];
+formap(F,L) when not is_list(L) -> formap(F,[L]).
+
+
+pformap(Fun,List) -> 
+   pformap(self(),List,Fun,400,400,[],[]),
+   receive
+      {done,Acc2} ->
+         lists:reverse(Acc2)
+   after 15000 -> error
+   end.
+
+pformap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
+   receive
+      {P,{'EXIT',Ex}} ->
+         throw(Ex);
+      {P,X} -> 
+         pformap(From,[],Fun,Limit,Left + 1,Ps, [X|Acc])
+   after 10000 -> error
+   end;
+pformap(From,[],_Fun,_Limit,_Left,[],Acc) ->
+   From ! {done,Acc};
+pformap(From,List,Fun,Limit,0,[P|Ps],Acc) ->
+   receive
+      {P,X} ->
+         pformap(From,List,Fun,Limit,1,Ps,[X|Acc])
+   after 10000 -> error
+   end;
+pformap(From,[#xqRange{min = Min, max = Max} = R|T],Fun,Limit,Left,Pids,Acc)
+   when Min =< Max, is_function(Fun, 1) ->
+   Self = self(),
+   Pid = erlang:spawn_link(
+           fun() -> 
+                 Self ! {self(), catch Fun(int_rec(Min))} 
+           end),
+   pformap(From,[R#xqRange{min = Min + 1}|T],
+           Fun,Limit,Left - 1,Pids ++ [Pid], Acc);
+pformap(From,[#xqRange{}|T],Fun,Limit,Left,Pids,Acc) ->
+   pformap(From,T,Fun,Limit,Left,Pids,Acc);
+pformap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
+   Self = self(),
+   Pid = erlang:spawn_link(
+           fun() -> 
+                 Self ! {self(), catch Fun(H)} 
+           end),
+   pformap(From,T,Fun,Limit,Left - 1,Pids ++ [Pid], Acc);
+pformap(From,NL,Fun,Limit,Left,Pids,Acc) when not is_list(NL) ->
+   pformap(From,[NL],Fun,Limit,Left,Pids,Acc).
+
+
+
+pmap(Fun,List) ->
+   pmap(Fun,List,400).
+
+pmap(Fun,List,Limit) -> 
+   pmap(self(),List,Fun,Limit,Limit,[],[]),
+   receive
+      {done,Acc2} ->
+         lists:reverse(Acc2)
+   after 20000 -> error
+   end.
+
+pmap(From,[],Fun,Limit,Left,Ps,Acc) when Left < Limit ->
+   receive
+      {_,{'EXIT',Ex}} ->
+         throw(Ex);
+      {Py,X} ->
+         NewPs = lists:delete(Py, Ps),
+         pmap(From,[],Fun,Limit,Left + 1,NewPs, [X|Acc])
+   after 10000 -> error
+   end;
+pmap(From,[],_Fun,_Limit,_Left,[],Acc) ->
+   From ! {done,Acc};
+pmap(From,List,Fun,Limit,0,Ps,Acc) ->
+   receive
+      {Py,X} ->
+         NewPs = lists:delete(Py, Ps),
+         pmap(From,List,Fun,Limit,1,NewPs,[X|Acc])
+   after 10000 -> error
+   end;
+pmap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
+   Self = self(),
+   Pid = erlang:spawn(
+   %Pid = erlang:spawn_link(
+           fun() -> 
+                 Self ! {self(), catch Fun(H)} 
+           end),
+   pmap(From,T,Fun,Limit,Left - 1,[Pid|Pids], Acc).
+
+
+
+
+
+
+
+forposmap(_,[],_) -> [];
+forposmap(F,[#xqRange{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 2) ->
+   [F(int_rec(Min),P)|forposmap(F,[R#xqRange{min = Min + 1}|T],P + 1)];
+forposmap(F,[#xqRange{}|T],P) -> forposmap(F,T,P);
+forposmap(F,[H|T],P) when is_function(F, 2) ->
+   [F(H,P)|forposmap(F,T,P + 1)];
+forposmap(F,L,P) when not is_list(L) -> forposmap(F,[L],P).
 
 
 map(Ctx, Fun, Seq) when not is_list(Seq) ->
@@ -508,14 +623,32 @@ to_list([H|T]) ->
    to_list(H) ++ to_list(T);
 to_list(A) -> [A].
 
-expand(#xqRange{min = Min, max = Max}) ->
+
+expand(#xqRange{} = R) ->
+   expand1(R);
+expand([#xqRange{} = R]) ->
+   expand1(R);
+expand(L) when is_list(L) ->
+   Any = lists:any(fun(#xqRange{}) ->
+                         true;
+                      (_) ->
+                         false
+                   end, L),
+   if Any ->
+         expand1(L);
+      true ->
+         L
+   end;
+expand(L) ->
+   [L].
+
+expand1(#xqRange{min = Min, max = Max}) ->
    range_2(Min,Max);
-expand([]) -> [];
-expand([#xqRange{min = Min, max = Max}|T]) -> 
-   range_2(Min,Max) ++ expand(T);
-expand([H|T]) -> 
-   [H | expand(T)];
-expand(A) -> A.
+expand1([]) -> [];
+expand1([#xqRange{min = Min, max = Max}|T]) -> 
+   range_2(Min,Max) ++ expand1(T);
+expand1([H|T]) -> 
+   [H | expand1(T)].
 
 flatten([[]|T]) -> 
    flatten(T);
@@ -617,9 +750,14 @@ get_unique_values1([#xqAtomicValue{value = F}|T]) when is_float(F) ->
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
-position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
+position_filter(_Ctx, #xqAtomicValue{type = 'xs:integer',
+                                     value = I}, Seq0) when is_list(Seq0) ->
    Seq = expand(Seq0),
-   Size = length(Seq),
+   nth(I, Seq);
+position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
+   Size = ?MODULE:size(Seq0),
+   %?dbg("Seq0",Seq0),
+   Seq = expand(Seq0),
    {Positions,_} =
      lists:mapfoldl(fun(Item,Pos) ->
                         Ctx1 = xqerl_context:set_context_item(Ctx, Item, 
@@ -630,11 +768,12 @@ position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    position_filter(Ctx, Positions, Seq);
 
 position_filter(_Ctx, Positions, Seq0) when is_list(Seq0), is_list(Positions) ->
+   %?dbg("Seq0",Seq0),
    Seq = expand(Seq0),
    UniquePos = get_unique_values(lists:usort(Positions)),
    position_filter1(UniquePos, 1, Seq);
-position_filter(_Ctx, Positions, Seq0) when is_list(Seq0) ->
-   Seq = expand(Seq0),
+position_filter(_Ctx, Positions, Seq) when is_list(Seq) ->
+   %Seq = expand(Seq0),
    case get_unique_values(Positions) of
       [] -> [];
       [N] -> nth(N, Seq)
@@ -737,6 +876,8 @@ all_not_node(Seq) ->
    lists:all(IsNode, Seq).
 
 get_seq_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
+get_seq_type(#xqRange{}) ->
+   #xqSeqType{type = 'xs:integer', occur = one_or_many};
 get_seq_type(List) when is_list(List) ->
    Hd = hd(List),
    HType = get_item_type(Hd),
@@ -809,14 +950,14 @@ nth(N, [_,_,_,_|T]) when N > 4 ->
     nth(N - 4, T);
 nth(_, _) -> [].
 
-nthtail(_, []) -> [];
-nthtail(1, [_|T]) -> T;
-nthtail(2, [_,_|T]) -> T;
-nthtail(3, [_,_,_|T]) -> T;
-nthtail(4, [_,_,_,_|T]) -> T;
-nthtail(N, [_|T]) when N > 4 ->
-    nthtail(N - 4, T);
-nthtail(0, L) when is_list(L) -> L.
+%% nthtail(_, []) -> [];
+%% nthtail(1, [_|T]) -> T;
+%% nthtail(2, [_,_|T]) -> T;
+%% nthtail(3, [_,_,_|T]) -> T;
+%% nthtail(4, [_,_,_,_|T]) -> T;
+%% nthtail(N, [_|T]) when N > 4 ->
+%%     nthtail(N - 4, T);
+%% nthtail(0, L) when is_list(L) -> L.
 
 do_call(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
    build_call(Ctx,MapArrayOrFun,Args);

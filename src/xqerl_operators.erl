@@ -987,11 +987,23 @@ general_compare(_Op,[],_) -> ?bool(false);
 general_compare(_Op,_,[]) -> ?bool(false);
 general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
    ?bool(xqerl_types:value(value_compare(Op,List1,List2)));
+general_compare(Op,#xqAtomicValue{} = V1,#xqRange{} = List2) ->
+   AList2 = xqerl_seq3:expand(List2),
+   Bool = lists:any(fun(V2) ->
+                          xqerl_types:value(value_compare(Op,V1,V2))
+                    end, AList2),
+   ?bool(Bool);
 general_compare(Op,#xqAtomicValue{} = V1,List2) ->
    AList2 = atomize_list(List2),
    Bool = lists:any(fun(V2) ->
                           xqerl_types:value(value_compare(Op,V1,V2))
                     end, AList2),
+   ?bool(Bool);
+general_compare(Op,#xqRange{} = List1,#xqAtomicValue{} = V2) ->
+   AList1 = xqerl_seq3:expand(List1),
+   Bool = lists:any(fun(V1) ->
+                          xqerl_types:value(value_compare(Op,V1,V2))
+                    end, AList1),
    ?bool(Bool);
 general_compare(Op,List1,#xqAtomicValue{} = V2) ->
    AList1 = atomize_list(List1),
@@ -1078,18 +1090,27 @@ value_compare(Op,Val1,Val2) ->
          greater_than_eq(Val1, Val2)
    end.
 
+atomize_list(#xqAtomicValue{} = V) ->
+   [V];
+atomize_list(#xqNode{} = N) ->
+   [xqerl_types:atomize(N)];
 atomize_list(#array{data = List}) ->
    lists:flatten(atomize_list(List));
 atomize_list(Seq) when is_list(Seq) ->
-   lists:map(fun(#xqFunction{}) ->
+   lists:flatten(
+     lists:flatmap(fun(#xqFunction{}) ->
                    ?err('FOTY0013');
                 (#array{data = List}) ->
                    atomize_list(List);
                 (#xqAtomicValue{} = V) ->
-                   V;
+                   [V];
+                (L) when is_list(L) ->
+                   atomize_list(L);
                 (#xqNode{} = N) ->
-                   ?seq:singleton_value(xqerl_types:atomize(N))
-             end, xqerl_seq3:expand(Seq));
+                   [xqerl_types:atomize(N)];
+                (#xqRange{} = R) ->
+                   xqerl_seq3:expand(R)
+             end, Seq));
 atomize_list(Seq) ->
    atomize_list([Seq]).
 
@@ -2040,8 +2061,8 @@ time_equal(#xqAtomicValue{type = 'xs:time'} = A,
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
                                                value = "1972-12-31"}),
    equal(
-     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, A),
+     xqerl_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:boolean
@@ -2263,8 +2284,8 @@ subtract_times(#xqAtomicValue{type = 'xs:time'} = A,
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
                                                value = "1972-12-31"}),
    subtract(
-     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(A)),
-     xqerl_fn:dateTime(#{}, RefDt, ?seq:singleton(B))
+     xqerl_fn:dateTime(#{}, RefDt, A),
+     xqerl_fn:dateTime(#{}, RefDt, B)
    ).
 
 % returns: xs:dateTime

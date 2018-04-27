@@ -444,7 +444,7 @@ subarray1(List,Start,Length) ->
 'tail'(_,_) -> ?err('FORG0006').
 
 
-from_list([List]) -> #array{data = [xqerl_seq3:expand(List)]};
+from_list([#xqRange{} = List]) -> #array{data = [xqerl_seq3:expand(List)]};
 from_list(List) ->
    #array{data = xqerl_seq3:expand(List)}.
 

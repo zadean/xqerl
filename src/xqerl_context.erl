@@ -171,12 +171,12 @@
 -export([get_implicit_timezone/0]).
 -export([get_implicit_timezone/1]).
 -export([set_implicit_timezone/2]).
--export([get_available_documents/1]).
--export([get_available_document/1]).
--export([add_available_document/2]).
+%% -export([get_available_documents/1]).
+%% -export([get_available_document/1]).
+%% -export([add_available_document/2]).
 %% -export([get_available_text_resources/1]).
 %% -export([get_available_text_resource/2]).
--export([add_available_text_resource/2]).
+%% -export([add_available_text_resource/2]).
 -export([get_available_collections/1]).
 -export([get_available_collection/2]).
 -export([set_available_collections/2]).
@@ -196,7 +196,7 @@
 
 merge(#{namespaces := INs} = InitialContext, OuterContext) ->
    % ns is {xqNamespace, Uri, Prefix}
-   Merged = maps:merge(InitialContext, OuterContext),
+   Merged = maps:merge(InitialContext, check_base_uri(OuterContext)),
    NsToMerge = maps:get(namespaces, OuterContext, []),
    F = fun({Prefix,Namespace},Acc) ->
              lists:keystore(Prefix, 3, Acc, 
@@ -206,15 +206,24 @@ merge(#{namespaces := INs} = InitialContext, OuterContext) ->
    NewNs = lists:foldl(F, INs, NsToMerge),
    Merged#{namespaces => NewNs};
 merge(InitialContext, OuterContext) ->
-   maps:merge(InitialContext, OuterContext).
+   maps:merge(InitialContext, check_base_uri(OuterContext)).
 
+% remove invalid base uri and use empty 
+check_base_uri(#{'base-uri' := #xqAtomicValue{value = Uri}} = C) ->
+   case xqerl_lib:resolve_against_base_uri(Uri,"") of
+      {error,_} ->
+         C#{'base-uri' := #xqAtomicValue{value = ""}};
+      _ ->
+         C
+   end;
+check_base_uri(C) -> C.
 
 init() -> init(self()).
 
 init(parser) ->
    add_default_static_values(parser);
 init(_) ->
-   Tab = ets:new(?MODULE, []),
+   Tab = ets:new(?MODULE, [public, {read_concurrency,true}]),
    %?dbg("Tab",Tab),
    Now = erlang:timestamp(),
    add_default_static_values(Tab, Now).
@@ -650,22 +659,22 @@ set_context_size(Ctx, Value) when is_integer(Value)->
 set_context_size(Ctx, Value) ->
    maps:put('context-item-count', Value, Ctx).
 
-get_available_documents(Tab) ->
-   get(Tab, 'available-documents').
-get_available_document(Id) ->
-   {ok,Doc} = xqerl_ds:lookup_doc(Id),
-   Doc.
+%% get_available_documents(Tab) ->
+%%    get(Tab, 'available-documents').
+%% get_available_document(Id) ->
+%%    {ok,Doc} = xqerl_ds:lookup_doc(Id),
+%%    Doc.
 
-add_available_document(Id, Tree) ->
-   xqerl_ds:insert_doc(Id, Tree).
+%% add_available_document(Id, Tree) ->
+%%    xqerl_ds:insert_doc(Id, Tree).
 
 %% get_available_text_resources() ->
 %%    erlang:get('available-text-resources').
 %% get_available_text_resource(Uri) ->
 %%    All = get_available_text_resources(),
 %%    gb_trees:get(Uri, All).
-add_available_text_resource(Uri, Tree) ->
-   xqerl_ds:insert_res(Uri, Tree).
+%% add_available_text_resource(Uri, Tree) ->
+%%    xqerl_ds:insert_res(Uri, Tree).
 
 %% get_variable_values() ->
 %%    erlang:get('variable-values').

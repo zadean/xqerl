@@ -197,6 +197,7 @@ scan_dc_token("<" ++ [H|T], _A, Depth) when ?notws(H) ->
                     true ->
                        scan_name([H|T])
                  end,
+   
    {Atts, T4} = scan_dir_attr_list(T1, []),
    {[{'<', ?L, '<'},QName, Atts  ], strip_ws(T4), Depth +1};
 
@@ -1906,7 +1907,8 @@ scan_QName("Q{" ++ T) ->
 scan_QName(Str) ->
    scan_name(Str).
 
-scan_name([H1, H2 | T]) when H1 == $: ; H1 == $_ ->
+%scan_name([H1, H2 | T]) when H1 == $: ; H1 == $_ ->
+scan_name([H1, H2 | T]) when H1 == $: ->
     if ?whitespace(H2) ->
           ?dbg("Line",?LINE),
           {invalid_name, [H1,H2|T]};
@@ -1948,7 +1950,10 @@ scan_prefix(":" ++ T, Acc) ->
        {'NCName',_, []} ->
           {{'NCName',?L, lists:reverse(Acc)}, ":" ++ T1};
        {'NCName',_, [H2|_] = L1} ->
-          case xmerl_lib:is_letter(H2) orelse H2 =:= $_ of
+          case xmerl_lib:is_letter(H2) 
+             orelse H2 =:= $_ 
+             orelse H2 == 895
+             orelse H2 == 383 of
              true ->
                 %?dbg("LocalPart",LocalPart),
                 Prefix = {'NCName',?L, lists:reverse(Acc)},
@@ -1968,7 +1973,9 @@ scan_prefix("*:" ++ T, _Acc) when T =/= [] ->
 scan_prefix("*" ++ T, []) ->
     {{'*',?L, '*'}, T};
 scan_prefix(Str = [H|T], Acc) ->
-    case xmerl_lib:is_namechar(H) of
+    case xmerl_lib:is_namechar(H)
+       orelse H == 895
+       orelse H == 383 of
    true ->
        scan_prefix(T, [H|Acc]);
    false ->
@@ -1984,7 +1991,9 @@ scan_local_part(Str = [H|_], Acc) when ?whitespace(H) ->
 scan_local_part(Str = [H|_], Acc) when H == $: ->
    {{'NCName',?L, lists:reverse(Acc)}, Str};
 scan_local_part(Str = [H|T], Acc) ->
-   case xmerl_lib:is_namechar(H) of
+   case xmerl_lib:is_namechar(H)
+       orelse H == 895
+       orelse H == 383 of
       true ->
          scan_local_part(T, [H|Acc]);
       false ->

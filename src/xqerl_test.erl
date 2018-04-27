@@ -130,6 +130,7 @@ assert_xml(Result, QueryString) ->
             if StrVal == "true" ->
                   true;
                true ->
+                  ?dbg("StrVal",StrVal),
                   {false, {assert_xml,ResXml,QueryString}}
             end
          catch 
@@ -897,7 +898,7 @@ handle_environment(List) ->
    end,
    _ = lists:foreach(fun({File,_Uri}) ->
                            catch xqerl_module:compile(File,[],Modules)
-             end, lists:reverse(Modules)),
+             end, Modules),
    
    DecFormats1 = lists:map(
                    fun({"",Values}) ->

@@ -9,7 +9,7 @@ MONTHNAME = ([Jj][Aa][Nn])|([Ff][Ee][Bb])|([Mm][Aa][Rr])|([Aa][Pp][Rr])|([Mm][Aa
 
 Rules.
 
-({S})?\(({S})?({TZNAME})({S})?\) : skip_token.
+{S}\( : {skip_token, "("}. % trim leading whitespace of bracketed timezone
 
 [\,]         : {token,{',',TokenLine,','}}. %skip_token.
 [\(]         : {token,{'(',TokenLine,'('}}.

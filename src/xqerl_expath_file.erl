@@ -374,6 +374,8 @@ append(_,?str(File),Items) ->
 append(Ctx,File,Items) ->
    append(Ctx,xqerl_types:cast_as(File, 'xs:string'),Items).
 
+-spec append(_,_,_,_) ->
+   xq_types:xs_error().
 append(_,_File,_Items,_Params) ->
    % serialization
    not_implemented().
@@ -1089,6 +1091,8 @@ write(_,?str(File),Items) ->
 write(Ctx,File,Items) ->
    write(Ctx,xqerl_types:cast_as(File, 'xs:string'),Items).
 
+-spec write(_,_,_,_) ->
+   xq_types:xs_error().
 write(_,_File,_Items,_Params) ->
    % serialization
    not_implemented().
@@ -1169,15 +1173,9 @@ write_text(_,?str(File),?str(Value),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
    case file:open(strip_scheme(File), [write,{encoding,Enc}]) of
       {ok,Fd} ->
-         case io:fwrite(Fd,"~ts",[Value]) of
-            ok ->
-               _ = file:close(Fd),
-               [];
-            X ->
-               ?dbg("X",X),
-               _ = file:close(Fd),
-               err_io_error(File)
-         end;
+         ok = io:fwrite(Fd,"~ts",[Value]),
+         _ = file:close(Fd),
+         [];
       {error,eisdir} ->
          err_is_dir(File);
       {error,enotdir} ->
@@ -1682,6 +1680,8 @@ ensure_dir(Dir) ->
          X
    end.
 
+-spec not_implemented() ->
+   xq_types:xs_error().
 not_implemented() ->
   exit({error,not_implemented}).
 

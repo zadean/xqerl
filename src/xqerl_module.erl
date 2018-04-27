@@ -238,6 +238,7 @@ compile(FileName) ->
    Str = binary_to_list(Bin),
    compile(FileName, Str).
 
+compile(_, []) -> ?err('XPST0003'); % empty query
 compile(FileName, Str) ->
    compile(FileName, Str, []).
 
@@ -258,6 +259,7 @@ compile(FileName, Str, Hints) ->
       erlang:erase(),
       % init the parse
       erlang:put(xquery_id, xqerl_context:init(parser)),
+%?dbg("Toks",Toks),
       Tree = parse_tokens(Toks),
 %?dbg("Tree",Tree),
       Static = scan_tree_static(
@@ -274,7 +276,7 @@ compile(FileName, Str, Hints) ->
       compile:forms(Ret, 
                       [debug_info,verbose,return_errors,
                                      no_auto_import,nowarn_unused_vars]),
-      _Erl = print_erl(B),
+      %_Erl = print_erl(M,B),
       ok = check_cycle(M,ImportedMods),
 %?dbg("Erl",Erl),
       {
@@ -558,14 +560,20 @@ scan_tree_static(Tree, BaseUri) ->
 
 % see what comes out
 %print_erl(_) -> wait;
-print_erl(B) ->
+print_erl(M,B) ->
    {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
    FL = erl_syntax:form_list(AC),
    PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, 
                                         {encoding, utf8}])),
    Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
    %?dbg("",Flat),
-   io:fwrite("~ts~n", [PP]),
+   Filename = filename:absname(atom_to_list(M)),
+   ?dbg("Filename",Filename),
+   {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
+   %?dbg("PP",PP),
+   io:put_chars(FP, PP),
+   file:close(FP),
+   %ok = file:write_file(Filename, list_to_binary(PP)),
    Flat.   
 
 

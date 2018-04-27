@@ -50,7 +50,17 @@ analyze(Body, Functions, Variables) ->
    Body1 = l(Body),
    % analyze
    _ = x(G, M2, Body1 ++ Functions1 ++ Variables, []),
+   %print(G),
    G.
+
+%% print(G) ->
+%%    Paths = [P || {_,{'no-namespace',_}} = P <- digraph:vertices(G)],
+%%    Fun = fun(P) ->
+%%                ?dbg("reaching",{P,digraph_utils:reaching([P], G)}),
+%%                ?dbg("reachable",{P,digraph_utils:reachable([P], G)})
+%%          end,
+%%    lists:foreach(Fun, Paths),
+%%    ok.
 
 
 % scan everything, when new Var found, add edge and make parent, 
@@ -58,10 +68,11 @@ analyze(Body, Functions, Variables) ->
 
 % path expressions
 %% x(G, Map, Parent,{path_expr,Id,Expr} ) ->
-%%    ?dbg("{Id,path_exp}",{Id,path_expr}),
-%%    add_vertex(G, {Id,path_expr}),
-%%    add_edge(G,{Id,path_expr},Parent),
-%%    x(G, Map, {Id,path_expr}, Expr),
+%%    K = {Id,path_expr},
+%%    ?dbg("{K,Parent}",{K,Parent}),
+%%    add_vertex(G, K),
+%%    add_edge(G,K,Parent),
+%%    x(G, Map, K, Expr),
 %%    Map;
 
 x(G, Map, Parent,{where,Id,Expr} ) ->
@@ -93,6 +104,11 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    case Pos of
       #xqPosVar{id = Id1, name = Nm1} ->
+         if Nm0 == Nm1 ->
+               ?err('XQST0089');
+            true ->
+               ok
+         end,
          add_vertex(G, {Id1,sim_name(Nm1)}),
          add_edge(G, {Id1,sim_name(Nm1)}, Parent),
          M2 = maps:put(sim_name(Nm1), Id1, M1),
@@ -104,6 +120,42 @@ x(G, Map, Parent, #xqVar{id = Id, name = Nm0, expr = D, position = Pos}) ->
          x(G, Map, {Id,Nm}, D),
          M1
    end;
+
+x(G, Map, Parent,
+  #xqWindow{win_variable = #xqVar{id = Id, name = Nm0, expr = Ex},
+            s          = S1,
+            spos       = S2,
+            sprev      = S3,
+            snext      = S4,
+            e          = E1,
+            epos       = E2,
+            eprev      = E3,
+            enext      = E4,
+            start_expr = Se,
+            end_expr   = Ee}) ->
+   Nm = sim_name(Nm0),
+   add_vertex(G, {Id,Nm}),
+   add_edge(G, {Id,Nm}, Parent),
+   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   x(G, Map, {Id,Nm}, Ex),
+   Fold = fun(undefined,M) ->
+                M;
+             (#xqVar{id = Id2, name = Nm3},M) ->
+                Nm2 = sim_name(Nm3),
+                add_vertex(G, {Id2,Nm2}),
+                add_edge(G, {Id2,Nm2}, {Id2,Nm2}),
+                add_variable_to_scope(Nm2, Id2, M, G);
+             (#xqPosVar{id = Id2, name = Nm3},M) ->
+                Nm2 = sim_name(Nm3),
+                add_vertex(G, {Id2,Nm2}),
+                add_edge(G, {Id2,Nm2}, {Id2,Nm2}),
+                add_variable_to_scope(Nm2, Id2, M, G)
+          end,
+   M2 = lists:foldl(Fold, M1, [S1,S2,S3,S4]),
+   x(G, M2, {Id,Nm}, Se),
+   M3 = lists:foldl(Fold, M2, [E1,E2,E3,E4]),
+   x(G, M3, {Id,Nm}, Ee),
+   M3;
 
 x(G, Map, Parent, [{'case-var',_,#xqVar{id = Id, name = Nm0, expr = D}}|T]) ->
    Nm = sim_name(Nm0),
@@ -294,6 +346,7 @@ x(_, Map, _, _) ->
    Map.
 
 xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
+   %?dbg("Loop",Loop),
    %?dbg("{Parent,{Id,flwor}}",{Parent,{Id,flwor}}),
    add_vertex(G, {Id,flwor}),
    %add_edge(G,Parent,{Id,flwor}),
@@ -310,23 +363,23 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
                            l(E)
                       end, Loop),
    LM = lists:foldl(fun(E,M) ->
-                        %x(G, M, Parent, E)
-                        x(G, M, {Id,flwor}, E)
+                        x(G, M, Parent, E)
+                        %x(G, M, {Id,flwor}, E)
                     end, Map, Le),
    %?dbg("Le",Le),
    %x(G, LM, Parent, Ret).
-   Verts = digraph_utils:reaching([{Id,flwor}], G),
+   %Verts = digraph_utils:reaching([{Id,flwor}], G),
    %?dbg("Verts",Verts),
-   Sub = digraph_utils:subgraph(G, Verts),
-   Sort = better_topsort(Sub,Le),
+   %Sub = digraph_utils:subgraph(G, Verts),
+   %Sort = better_topsort(Sub,Le),
    %?dbg("Sort",Sort),
    
-   digraph:delete(Sub),
+   %digraph:delete(Sub),
    % put in process dict for static phase to reorder
-   erlang:put({Id,flwor}, Sort),
+   %erlang:put({Id,flwor}, Sort),
 
-   x(G, LM, Parent, Ret).
-   %x(G, LM, {Id,flwor}, Ret).
+   %x(G, LM, Parent, Ret).
+   x(G, LM, {Id,flwor}, Ret).
 
 better_topsort(G,O) ->
    Orig = [ case T of
@@ -354,6 +407,8 @@ better_topsort(G,O) ->
                                 {I,N} <- digraph_utils:reaching([V], G), 
                                 is_integer(I),
                                 not is_atom(N) ],
+                          %?dbg("V",V),
+                          %?dbg("Rg",Rg),
                           Rg == [V] andalso not lists:member(V, Cons)
                     end, TS),
    L = F ++ (TS -- F),
@@ -475,15 +530,15 @@ constuctor_let(Expr) ->
    F(Expr).
 
 % add variable to the map, also if shadowing name, add edge
-add_variable_to_scope(Nm, Id, Map, G) ->
+add_variable_to_scope(Nm, Id, Map, _G) ->
    case maps:find(Nm, Map) of
       error ->
          maps:put(Nm, Id, Map);
-      {ok,V} ->
-         K = {Id,Nm},
+      {ok,_V} ->
+         %K = {Id,Nm},
          %?dbg("K",K),
          %?dbg("V",V),
-         add_edge(G, {V,Nm}, K),
+         %add_edge(G, {V,Nm}, K),
          maps:put(Nm, Id, Map)
    end.
   

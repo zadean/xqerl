@@ -549,9 +549,14 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                              {namespace, {'$5', value_of('$3')}}.
 
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' 
-                           : xqerl_context:add_statically_known_namespace(parser,'$5', ""),
-                             xqerl_context:set_default_element_type_namespace(parser,'$5'),
-                             {'element-namespace', '$5'}.
+                           : 
+case '$5' of
+   "" -> {'element-namespace', 'no-namespace'};
+   _ ->
+      xqerl_context:add_statically_known_namespace(parser,'$5', ""),
+      xqerl_context:set_default_element_type_namespace(parser,'$5'),
+      {'element-namespace', '$5'}
+end.
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
                            : xqerl_context:set_default_function_namespace(parser,'$5'), 
                              {'function-namespace', '$5'}.
@@ -569,8 +574,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'LiteralList'            -> 'Literal' ',' 'LiteralList' : ['$1' | '$3'].
 'LiteralList'            -> 'Literal' : ['$1'].
 
-'Annotation'             -> '%' 'EQName' '(' 'LiteralList' ')' : {annotation, {qname(anno, '$2'), '$4'}}.
-'Annotation'             -> '%' 'EQName'                       : {annotation, {qname(anno, '$2'), []}}.
+'Annotation'             -> '%' 'EQName' '(' 'LiteralList' ')' : #annotation{name = qname(anno, '$2'), values = '$4'}.
+'Annotation'             -> '%' 'EQName'                       : #annotation{name = qname(anno, '$2'), values = []}.
 
 %% 
 'VarDecl'                -> 'variable' '$' 'VarName' 'TypeDeclaration' 'external' ':=' 'VarDefaultValue'  : #xqVar{id = next_id(), 'name' = qname(var,'$3'), 'type' = '$4', 'external' = true, 'expr' = '$7'}.
@@ -661,8 +666,8 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [44]
 'ForClause'              -> 'for' 'ForBindingList' : '$2'.
 % [45]
-'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : let_from_for('$1') ++ '$3' .
-'ForBindingList'         -> 'ForBinding' : let_from_for('$1').
+'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{for,'$1'} | '$3'] .
+'ForBindingList'         -> 'ForBinding' : [{for,'$1'}].
 
 'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7'}.
 'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6'}.
@@ -799,9 +804,9 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 % [58]
 'NextItem'               -> 'EQName' : #xqVar{id = next_id(), 'name' = qname(var, '$1')}.
 % [59]
-'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3')}}].
+'CountClause'            -> 'count' '$' 'VarName' : [{'count', #xqVar{id = next_id(), 'name' = qname(var, '$3'), type = #xqSeqType{type = 'xs:integer', occur = one}}}].
 % [60]
-'WhereClause'            -> 'where' 'ExprSingle' : [{'where', next_id(),'$2'}].
+'WhereClause'            -> 'where' 'ExprSingle' : split_where_statement('$2').
 % [61]
 'GroupByClause'          ->  'group' 'by' 'GroupingSpecList' : sort_grouping('$3', next_id()).
 % [62]
@@ -1023,10 +1028,10 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'ExtensionExpr'          -> 'Pragmas' '{' 'Expr' '}' : {pragma, '$1', '$3'}.
 'ExtensionExpr'          -> 'Pragmas' '{' '}' : {pragma, '$1', []}.
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
-'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' : {'$3', '$5'}.
-'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : {'$2', '$4'}.
-'Pragma'                 -> '(#' 'S' 'EQName' '#)' : {'$3', []}.
-'Pragma'                 -> '(#'     'EQName' '#)' : {'$2', []}.
+'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$3'), value_of('$5')}.
+'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$2'), value_of('$4')}.
+'Pragma'                 -> '(#' 'S' 'EQName' '#)' : {qname(var,'$3'), []}.
+'Pragma'                 -> '(#'     'EQName' '#)' : {qname(var,'$2'), []}.
 
 'Pragmas'                -> 'Pragma' 'Pragmas' : ['$1'|'$2'].
 'Pragmas'                -> 'Pragma' : ['$1'].
@@ -1544,7 +1549,7 @@ end.
 'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ')' : #xqKindTest{kind = 'attribute', name = '$3'}.
 'AttributeTest'          -> 'attribute' '(' ')' : #xqKindTest{kind = 'attribute'}.
 % [196]    AttribNameOrWildcard    ::=      AttributeName | "*"  
-'AttribNameOrWildcard'   -> 'AttributeName' : qname(wildcard,'$1').
+'AttribNameOrWildcard'   -> 'AttributeName' : qname(attwildcard,'$1').
 'AttribNameOrWildcard'   -> '*' : {qname,"*","*","*"}.
 % [197]    SchemaAttributeTest     ::=      "schema-attribute" "(" AttributeDeclaration ")" 
 'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = qname(wildcard,'$3')}.
@@ -1742,6 +1747,17 @@ qname(var, {qname,default,"",Ln}) ->
    qname(var, {qname,'no-namespace',"",Ln});
 qname(var, {qname,_,"err",Ln}) ->
    {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
+qname(var, {qname,undefined,Px,Ln}) when Px =/= [] -> % may be known in static namespaces
+   try
+      xqerl_context:get_statically_known_namespace_from_prefix(parser,Px)
+   of
+      [] ->
+         ?err('XPST0081');
+      Ns ->
+         {qname,Ns,Px,Ln}
+   catch _:_ ->
+      {qname,undefined,Px,Ln}
+   end;
 qname(var, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
    try
       Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
@@ -1777,8 +1793,15 @@ qname(opt, {qname,default,_,Ln}) ->
 qname(opt, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
+qname(attwildcard, {qname,default,default,Ln}) ->
+   Ns = 'no-namespace',
+   {qname,Ns,[],Ln};
+qname(attwildcard, Q) ->
+   qname(wildcard, Q);
+
 qname(wildcard, {qname,default,default,Ln}) ->
-   {qname,'no-namespace',[],Ln};
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, []),
+   {qname,Ns,[],Ln};
 qname(wildcard, {qname,default,_Px,Ln}) ->
    {qname,'no-namespace',[],Ln};
 qname(wildcard, {qname,undefined,"*",Ln}) ->
@@ -1876,7 +1899,8 @@ ns_value([]) ->
    [];
 ns_value([#xqAtomicValue{} = At]) ->
    %?dbg("1705",At),
-   xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
+   string:trim(xqerl_lib:shrink_spaces(element(3,At)));
+   %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
    ?err('XQST0022');
@@ -1892,7 +1916,8 @@ ns_value(A) when is_list(A) ->
                         ({char_ref,E}) ->
                             E
                      end, A),
-      xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
+      string:trim(xqerl_lib:shrink_spaces(L))
+      %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
       ?dbg("XQST0022",A),
       ?err('XQST0022')
@@ -1967,9 +1992,7 @@ sort_grouping(Groups, Id) ->
    Vars = [E || E <- Groups, element(1, E) == 'xqGroupBy'],
    Lets ++ [{group_by, Id, Vars}].
 
-let_from_for(#xqVar{id = I,
-                    name = #qname{local_name = LN} = Name, 
-                    expr = Expr} = For) ->
-   NewLoc = "___" ++ LN ++ "_" ++ integer_to_list(I),
-   [{'let', #xqVar{id = next_id(), 'name' = Name#qname{local_name = NewLoc}, expr = Expr}},
-    {'for', For#xqVar{expr = #xqVarRef{name = Name#qname{local_name = NewLoc}}}}].
+split_where_statement({'and',A,B}) ->
+   split_where_statement(A) ++ split_where_statement(B);
+split_where_statement(A) ->
+   [{'where', next_id(),A}].

@@ -86,8 +86,8 @@ rec_list_dir([Path|Paths], FilesOnly, Acc) ->
                 SubPaths = [filename:join(Path, Name) || Name <- Listing],
                 rec_list_dir(SubPaths, FilesOnly,
                     case FilesOnly of
-                        true -> Acc;
-                        _ -> [Path | Acc]
+                        true -> Acc%;
+                        %_ -> [Path | Acc]
                     end)
         end).
 

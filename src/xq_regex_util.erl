@@ -22,9 +22,7 @@
 
 %% @doc  Module for unicode range lookup and combination.
 
--module(xq_unicode).
-
--include("xqerl.hrl").
+-module(xq_regex_util).
 
 %% ====================================================================
 %% API functions
@@ -48,7 +46,7 @@ range_to_list({value,Val}) ->
 range_to_set(Range) ->
    % pmap-ed due to huge lists
    Nums = lists:append(
-            rpc:pmap({?MODULE,range_to_list}, [], Range)
+            xqerl_seq3:pmap(fun range_to_list/1, Range, 16)
             ),
    sets:from_list(Nums).
 

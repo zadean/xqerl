@@ -48,6 +48,57 @@ translate(String) ->
          O
    end.
 
+% http://www.unicode.org/reports/tr18/ "The values for these properties must 
+% follow the Unicode definitions, and include the property and property value 
+% aliases from the UCD. Matching of Binary, Enumerated, Catalog, and Name 
+% values, must follow the Matching Rules from [UAX44] with one exception: 
+% implementations are not required to ignore an initial prefix string of "is" 
+% in property values."
+% http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML 
+% shorthand)
+% returns {MatchesZeroLengthString, MP}
+regex_comp(#{tab := Tab},Expr0,Flags) ->
+   case ?get(Tab,{regex,Expr0,Flags}) of 
+      [] ->
+         try
+            FlagList1 = regex_flags(Flags),
+            X = lists:member(extended, FlagList1),
+            FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, 
+                                     no_start_optimize],
+            Opts = FlagList -- [do_qe],
+            Q = [F || F <- FlagList, F == do_qe],
+            Expr = if X ->
+                         strip_esc_ws(Expr0);
+                      true ->
+                         Expr0
+                   end,
+            Expr1 = if Q == [] -> translate(Expr);
+                       true -> "\\Q" ++ Expr ++ "\\E"
+                    end,
+            {ok, MP} = re:compile(Expr1, Opts),
+            Out = case catch re:run("",MP) of
+               nomatch ->
+                  {false,MP};
+               {match,_} ->
+                  {true,MP};
+               _ ->
+                  {false,MP}
+            end,
+            ?put(Tab,{regex,Expr0,Flags},Out),
+            Out
+         catch 
+            _:#xqError{} = E -> 
+               ?dbg("E",erlang:get_stacktrace()),
+               throw(E);
+            _:E -> 
+               ?dbg("E",E),
+               ?dbg("E",erlang:get_stacktrace()),
+               ?err('FORX0002')
+         end;
+      O ->
+         O
+   end.
+
 -type regex()  :: list(branch()).
 -type branch() :: list({branch,piece()}).
 -type piece()  :: {piece, re_atom(), one | quantifier()}.
@@ -96,11 +147,11 @@ translate_1({back_ref,Int}) ->
 translate_1({char,C}) when is_list(C) -> C;
 translate_1({char,C}) -> [C];
 translate_1({char_class,Cc}) -> 
-   Range = xq_unicode:range(Cc),
-   "(?-i:[" ++ xq_unicode:range_to_regex(Range) ++ "])";
+   Range = xq_regex_util:range(Cc),
+   "(?-i:[" ++ xq_regex_util:range_to_regex(Range) ++ "])";
 translate_1({neg_char_class,Cc}) -> 
-   Range = xq_unicode:range(Cc),
-   "(?-i:[^" ++ xq_unicode:range_to_regex(Range) ++ "])";
+   Range = xq_regex_util:range(Cc),
+   "(?-i:[^" ++ xq_regex_util:range_to_regex(Range) ++ "])";
 translate_1({paren,RegEx}) ->
    "("++ translate_1(RegEx) ++")";
 translate_1({nc_paren,RegEx} ) ->
@@ -162,26 +213,26 @@ translate_group({neg_group, G}) ->
 translate_group({subtract,{group,_} = G1,{neg_group,_} = G2}) ->
    S1 = translate_group_as_set(G1),
    S2 = translate_group_as_set(G2),
-   S3 = xq_unicode:intersection(S1, S2), % sub neg == intersect
-   R1 = xq_unicode:set_to_range(S3),
-   "[" ++ xq_unicode:range_to_regex(R1) ++ "]";
+   S3 = xq_regex_util:intersection(S1, S2), % sub neg == intersect
+   R1 = xq_regex_util:set_to_range(S3),
+   "[" ++ xq_regex_util:range_to_regex(R1) ++ "]";
 translate_group({subtract,{neg_group,R0} = G1,{group,_} = G2}) ->
    S1 = translate_group_as_set(G1),
    S2 = translate_group_as_set(G2),
-   S3 = xq_unicode:subtract(S1, S2), % sub pos from neg == neg sub
-   R1 = xq_unicode:set_to_range(S3),
-   case xq_unicode:range_to_regex(R1) of
+   S3 = xq_regex_util:subtract(S1, S2), % sub pos from neg == neg sub
+   R1 = xq_regex_util:set_to_range(S3),
+   case xq_regex_util:range_to_regex(R1) of
       [] ->
-         "^[" ++ xq_unicode:range_to_regex(R0) ++ "]";
+         "^[" ++ xq_regex_util:range_to_regex(R0) ++ "]";
       M ->
          "^[" ++ M ++ "]"
    end;
 translate_group({subtract,G1,G2}) ->
    S1 = translate_group_as_set(G1),
    S2 = translate_group_as_set(G2),
-   S3 = xq_unicode:subtract(S1, S2),
-   R1 = xq_unicode:set_to_range(S3),
-   case xq_unicode:range_to_regex(R1) of
+   S3 = xq_regex_util:subtract(S1, S2),
+   R1 = xq_regex_util:set_to_range(S3),
+   case xq_regex_util:range_to_regex(R1) of
       [] ->
          "";
       M ->
@@ -193,10 +244,10 @@ translate_group(_) ->
 combine_group({Type,List}) when Type == group;
                                 Type == neg_group ->
    List1 = lists:map(fun({neg_char_class,C}) ->
-                           G = xq_unicode:range(C),
+                           G = xq_regex_util:range(C),
                            {neg_group, G};
                         ({char_class,C}) ->
-                           G = xq_unicode:range(C),
+                           G = xq_regex_util:range(C),
                            {group, G};
                         (O) ->
                            O
@@ -207,19 +258,19 @@ combine_group({Type,List}) when Type == group;
                 element(1, N) =/= group, 
                 element(1, N) =/= neg_group],
    Pos = lists:foldl(fun({group,R},Acc) ->
-                           S = xq_unicode:range_to_set(R),
-                           xq_unicode:union(Acc, S)
-                     end, xq_unicode:range_to_set(Rest), Positives),
+                           S = xq_regex_util:range_to_set(R),
+                           xq_regex_util:union(Acc, S)
+                     end, xq_regex_util:range_to_set(Rest), Positives),
    if length(Negatives) == 0 ->
-         OutRange = xq_unicode:set_to_range(Pos),
+         OutRange = xq_regex_util:set_to_range(Pos),
          {Type,OutRange};
       true ->
          Neg = lists:foldl(fun({neg_group,R},Acc) ->
-                                 S = xq_unicode:range_to_set(R),
-                                 xq_unicode:union(Acc, S)
-                           end, xq_unicode:range_to_set([]), Negatives),
-         Rest1 = xq_unicode:subtract(Neg, Pos),
-         OutRange1 = xq_unicode:set_to_range(Rest1),
+                                 S = xq_regex_util:range_to_set(R),
+                                 xq_regex_util:union(Acc, S)
+                           end, xq_regex_util:range_to_set([]), Negatives),
+         Rest1 = xq_regex_util:subtract(Neg, Pos),
+         OutRange1 = xq_regex_util:set_to_range(Rest1),
          if Type == group ->
                {neg_group,OutRange1};
             true ->
@@ -228,26 +279,26 @@ combine_group({Type,List}) when Type == group;
    end;
 combine_group(List) ->
    Fun = fun({char_class,Name}) ->
-               xq_unicode:range(Name);
+               xq_regex_util:range(Name);
             ({value,_} = V) ->
                [V];
             ({range,_,_} = R) ->
                [R]
          end,
    Ranges = lists:map(Fun, List),
-   SetHd = xq_unicode:range_to_set(hd(Ranges)),
+   SetHd = xq_regex_util:range_to_set(hd(Ranges)),
    Set = lists:foldl(fun(R,A) ->
-                           S = xq_unicode:range_to_set(R),
-                           xq_unicode:union(A,S)
+                           S = xq_regex_util:range_to_set(R),
+                           xq_regex_util:union(A,S)
                      end, SetHd, tl(Ranges)),
-   xq_unicode:set_to_range(Set).
+   xq_regex_util:set_to_range(Set).
 
 translate_group_as_set({neg_group,_} = G) ->
    {_,R} = combine_group(G),
-   xq_unicode:range_to_set(R);
+   xq_regex_util:range_to_set(R);
 translate_group_as_set({group,_} = G) ->
    {_,R} = combine_group(G),
-   xq_unicode:range_to_set(R).
+   xq_regex_util:range_to_set(R).
 
 is_all_value(G) ->
    All = lists:all(fun({value,_}) ->
@@ -258,7 +309,7 @@ is_all_value(G) ->
                          false
                    end, G),
    if All ->
-         {true, xq_unicode:range_to_regex(G)};
+         {true, xq_regex_util:range_to_regex(G)};
       true ->
          false
    end.
@@ -321,10 +372,6 @@ check_back_refs([{piece,{back_ref,N},one} = H|T], Acc) ->
    end;
 check_back_refs([H|T],Acc) ->
    check_back_refs(T, [H|Acc]).
-
-%% ====================================================================
-%% Old functions
-%% ====================================================================
 
 regex_flags([]) -> [dollar_endonly];
 regex_flags(Flags) ->
@@ -394,57 +441,6 @@ chop_to(Int,Max,Acc) when Int > Max ->
    chop_to(Next,Max,Rem ++ Acc);
 chop_to(Int,_Max,Acc) ->
    {integer_to_list(Int), Acc}.
-
-
-% http://www.unicode.org/reports/tr18/ "The values for these properties must 
-% follow the Unicode definitions, and include the property and property value 
-% aliases from the UCD. Matching of Binary, Enumerated, Catalog, and Name 
-% values, must follow the Matching Rules from [UAX44] with one exception: 
-% implementations are not required to ignore an initial prefix string of "is" 
-% in property values."
-% http://www.regular-expressions.info/shorthand.html - \i \c \I \C (XML 
-% shorthand)
-% returns {MatchesZeroLengthString, MP}
-regex_comp(#{tab := Tab},Expr0,Flags) ->
-   case ?get(Tab,{regex,Expr0,Flags}) of 
-      [] ->
-         try
-            FlagList1 = regex_flags(Flags),
-            X = lists:member(extended, FlagList1),
-            FlagList = FlagList1 ++ [{newline, any}, unicode, ucp, 
-                                     no_start_optimize],
-            Opts = FlagList -- [do_qe],
-            Q = [F || F <- FlagList, F == do_qe],
-            Expr = if X ->
-                         strip_esc_ws(Expr0);
-                      true ->
-                         Expr0
-                   end,
-            Expr1 = if Q == [] -> translate(Expr);
-                       true -> "\\Q" ++ Expr ++ "\\E"
-                    end,
-            {ok, MP} = re:compile(Expr1, Opts),
-            Out = case catch re:run("",MP) of
-               nomatch ->
-                  {false,MP};
-               {match,_} ->
-                  {true,MP};
-               _ ->
-                  {false,MP}
-            end,
-            ?put(Tab,{regex,Expr0,Flags},Out),
-            Out
-         catch 
-            _:#xqError{} = E -> 
-               ?dbg("E",erlang:get_stacktrace()),
-               throw(E);
-            _:_ -> 
-               ?dbg("E",erlang:get_stacktrace()),
-               ?err('FORX0002')
-         end;
-      O ->
-         O
-   end.
 
 strip_esc_ws([]) -> [];
 strip_esc_ws([$[|T]) -> 
