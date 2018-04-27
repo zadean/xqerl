@@ -34,7 +34,6 @@
          %
          deactivate/2,
          %
-         print/1,
          get_pid/1,
          exists/1
          ]).
@@ -45,10 +44,6 @@
 -define(TAB3,list_to_atom(atom_to_list(?MODULE)++"3")).
 -define(TAB4,list_to_atom(atom_to_list(?MODULE)++"4")).
 -define(EXTTAB,xqldb_res).
-
-print(Uri) ->
-   {ok,Pid} = select(Uri),
-   xqldb_res:query(Pid, []).
 
 init() ->
    ets:new(?TAB1, [public,named_table]),
