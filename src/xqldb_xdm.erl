@@ -65,6 +65,9 @@
 
 -export([run/2]).
 
+%internal
+-export([attributes_by_value/2]).
+
 % node constructors
 -export([fragment/4,
          document/2,
@@ -195,7 +198,8 @@
          %
          build_parent_index/1,
          build_lang_index/1,
-         build_base_uri_index/1]).
+         build_base_uri_index/1,
+         build_named_element_children_index/1]).
 
 % internals
 -export([name/2,
@@ -256,6 +260,12 @@ attributes(?DOC,I) ->
   [X] = attributes(?DOC,[I]),
   X.
 
+attributes_by_value(?DOC,Value) ->
+   F = fun(?ATT) ->
+             __AVal == Value
+       end,
+   lists:filter(F, array:to_list(__Attributes)).
+
 named_attributes(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
@@ -268,11 +278,18 @@ named_attributes(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
    end;
 named_attributes(?DOC,Ids,{Ns,Ln}) when is_list(Ids) ->
    F = fun(I) ->
-             case ?node_get(I) of
-                ?ELM = E ->
-                   get_named_attribute(__Attributes,I,E,{Ns,Ln});
-                _ -> 
-                   []
+             case cached(?FUNCTION_NAME, ?DOC, I, {Ns,Ln}) of
+                undefined ->
+                   Res = case ?node_get(I) of
+                      ?ELM = E ->
+                         get_named_attribute(__Attributes,I,E,{Ns,Ln});
+                      _ -> 
+                         []
+                   end,
+                   add_to_cache(?FUNCTION_NAME, ?DOC, I, {Ns,Ln}, Res),
+                   Res;
+                X ->
+                   X
              end
        end,
    lists:map(F,Ids);
@@ -1094,21 +1111,20 @@ named_element_following_siblings(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) 
          []
    end; 
 named_element_following_siblings(?DOC,Ids,{Ns,Ln}) -> 
-   case cached(named_element_following_siblings,?DOC,Ids,{Ns,Ln}) of
-      undefined ->
-         Resp = 
-           begin
-               F = fun(I) ->
-                         [S] = following_siblings(?DOC, [I]),
-                         f_named_element_nodes(?DOC, S, {Ns,Ln})
+   F = fun(I) ->
+      case cached(?FUNCTION_NAME,?DOC,I,{Ns,Ln}) of
+         undefined ->
+            Resp = begin
+                      [S] = following_siblings(?DOC, [I]),
+                      f_named_element_nodes(?DOC, S, {Ns,Ln})
                    end,
-            lists:map(F, Ids)
-           end,
-         add_to_cache(named_element_following_siblings,?DOC,Ids,{Ns,Ln},Resp),
-         Resp;
-      R ->
-         R
-   end.
+            add_to_cache(?FUNCTION_NAME,?DOC,I,{Ns,Ln},Resp),
+            Resp;
+         R ->
+            R
+      end
+   end,
+   lists:map(F, Ids).
 pi_following_siblings(?DOC,Ids) -> 
    F = fun(I) ->
              [S] = following_siblings(?DOC, [I]),
@@ -1454,29 +1470,18 @@ named_element_children(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
          []
    end;
 named_element_children(?DOC,Ids,{Ns,Ln}) when is_list(Ids) ->
-   case cached(named_element_children,?DOC,Ids,{Ns,Ln}) of
-      undefined ->
-         Resp = 
-           begin
-            F = fun(I) ->
-                      case ?node_get(I) of
-                         ?ELM ->
-                            Fst = get_first_child(__Nodes, I, __Dpt),
-                            get_named_element_children(__Nodes,Fst,Ns,Ln);
-                         ?DMT -> 
-                            Fst = get_first_child(__Nodes, I, 0),
-                            get_named_element_children(__Nodes,Fst,Ns,Ln);
-                         _ -> 
-                            []
-                      end
-                end,
-            lists:map(F,Ids)
-           end,
-         add_to_cache(named_element_children,?DOC,Ids,{Ns,Ln},Resp),
-         Resp;
-      R ->
-         R
-   end;
+   Named = maps:get(named_element_children, __Indexes),
+   F = fun(I) ->
+             case maps:find({I,Ns,Ln}, Named) of
+                error ->
+                   %?dbg("{I,Ns,Ln}",{I,Ns,Ln}),
+                   %?dbg("Named",Named),
+                   [];
+                {ok,L} ->
+                   L
+             end
+       end,
+   lists:map(F,Ids);
 named_element_children(?DOC,Id,{Ns,Ln}) ->
    [X] = named_element_children(?DOC,[Id],{Ns,Ln}),
    X.
@@ -1649,20 +1654,6 @@ get_pi_children(__Nodes,I) ->
          []
    end.
 
-get_named_pi_children(_,[],_) -> [];
-get_named_pi_children(__Nodes,I,Ln) ->
-   case ?node_get(I) of
-      ?PIN when Ln == any orelse __Ln =:= Ln,
-                __Nxt > I ->
-         [I|get_named_pi_children(__Nodes,__Nxt,Ln)];
-      ?NOD when __Nxt > I ->
-         get_named_pi_children(__Nodes,__Nxt,Ln);
-      ?PIN when Ln == any orelse __Ln =:= Ln ->
-         [I];
-      _ ->
-         []
-   end.
-
 
 %% ====================================================================
 %% Indexes 
@@ -1725,6 +1716,40 @@ build_parent_index(?DOC = D,Parent) ->
              end
        end,
    lists:flatmap(F, Children).
+
+build_named_element_children_index(?DOC = Doc) ->
+   [Roots] = roots(Doc),
+   Dict = dict:new(),
+   Fun = fun(I,D) -> 
+               get_element_children_ix(Doc,I,D) 
+         end,               
+   Dict1 = lists:foldl(Fun, Dict, Roots),
+   List = dict:to_list(Dict1),
+   {named_element_children, maps:from_list(List)}.
+
+get_element_children_ix(?DOC = Doc,I,D) ->
+   Children = children(Doc, I),
+   Fun = fun(C,Acc) ->
+               get_element_children_ix(Doc,I,C,Acc)
+         end,
+   lists:foldl(Fun, D, Children).
+
+get_element_children_ix(?DOC = Doc,Parent,Child,D) ->
+   case ?node_get(Child) of
+      ?ELM ->
+         K1 = {Parent,__Ns,__Ln},
+         K2 = {Parent,__Ns,any},
+         K3 = {Parent,any,__Ln},
+         K4 = {Parent,any,any},
+         D1 = dict:append(K1, Child, D),
+         D2 = dict:append(K2, Child, D1),
+         D3 = dict:append(K3, Child, D2),
+         D4 = dict:append(K4, Child, D3),
+         get_element_children_ix(Doc,Child,D4);
+      _ ->
+         D
+   end.
+
 
 %% ====================================================================
 %% Helper functions for internal use for joins and common predicates 
@@ -1819,7 +1844,7 @@ inscope_namespace_nodes(?DOC,Ids) when is_list(Ids) ->
                    [P] = path_to_root(?DOC, [I]),
                    A = lists:reverse([I|P]),
                    N = lists:flatten(namespaces(?DOC, A)),
-                   L = augment_ns_nodes(N, #{}),
+                   L = augment_ns_nodes(N, #{__Px => {I,__Px,__Ns}}),
                    Ex = fun({_,Ns}) ->
                               Ns
                         end,
@@ -2024,21 +2049,33 @@ nodify(_,{_,Pid,Ids}) when is_pid(Pid), Pid =/= self() -> % TODO not a good idea
 nodify(_,[]) -> [];
 nodify(_,[[]]) -> [];
 nodify(?DOC,Ids) when is_list(Ids) ->
-   [#xqNode{doc = self(), node = [I]} || I <- Ids, I =/= []];
+   [nodify(?DOC,I) || I <- Ids, I =/= []];
 nodify(?DOC,Id) ->
-   #xqNode{doc = self(), node = [Id]}.
+   Self = self(),
+   #xqNode{doc = Self, 
+           node = [Id]}.
 
 atomize(?DOC,Ids) when is_list(Ids) ->
    F = fun(?ATT) -> 
-             case __AVal of
-                {_,V} ->
-                   ?untyp(V);
-                V ->
-                   ?untyp(V)
-             end;
+       case cached(?FUNCTION_NAME, ?DOC, ?ATT) of
+          undefined ->
+             Res = case __AVal of
+                      {_,V} ->
+                         ?untyp(V);
+                      V ->
+                         ?untyp(V)
+                   end,
+             add_to_cache(?FUNCTION_NAME, ?DOC, ?ATT, Res),
+             Res;
+          RA ->
+             RA
+       end;
           (?NSP) -> 
              ?str(maps:get(__Ns, __Namesp));
           (I) ->
+       case cached(?FUNCTION_NAME, ?DOC, I) of
+          undefined ->
+             Res = 
              case ?node_get(I) of
                 ?ELM when __Nxt > I, <<?nxt(__Nxt)>> =/= <<255,255,255,255>> -> 
                    {Pos,Len} = collect_texts(I,__Nxt - 1,[],[],__Nodes),
@@ -2067,7 +2104,11 @@ atomize(?DOC,Ids) when is_list(Ids) ->
                    ?str(get_text_value(__Pos, __Len, __Comment));
                 ?PIN -> 
                    ?str(string:trim(get_text_value(__Pos, __Len, __Data),leading))
-             end
+             end,
+             add_to_cache(?FUNCTION_NAME, ?DOC, I, Res),
+             Res;
+          R -> R
+       end
        end,
    lists:map(F, Ids);
 atomize(?DOC,Id) ->
@@ -2148,20 +2189,8 @@ maybe_denodify([I|T]) when is_integer(I) -> [I|maybe_denodify(T)].
 
    
 
-cached(named_element_children,?DOC,Ids,{Ns,Ln}) ->
-   case erlang:get(named_element_children) of
-      undefined ->
-         undefined;
-      Idx ->
-         case maps:find({Ns,Ln,Ids},Idx) of
-            error ->
-               undefined;
-            {ok,X} ->
-               X
-         end
-   end;
-cached(named_element_following_siblings,?DOC,Ids,{Ns,Ln}) ->
-   case erlang:get(named_element_following_siblings) of
+cached(Function,?DOC,Ids,{Ns,Ln}) ->
+   case erlang:get(Function) of
       undefined ->
          undefined;
       Idx ->
@@ -2173,18 +2202,32 @@ cached(named_element_following_siblings,?DOC,Ids,{Ns,Ln}) ->
          end
    end.
 
-add_to_cache(named_element_children,?DOC,Ids,{Ns,Ln},Resp) ->
-   case erlang:get(named_element_children) of
+cached(Function,?DOC,Id) ->
+   case erlang:get(Function) of
       undefined ->
-         erlang:put(named_element_children,#{{Ns,Ln,Ids} => Resp});
+         undefined;
       Idx ->
-         erlang:put(named_element_children,Idx#{{Ns,Ln,Ids} => Resp})
-   end;
-add_to_cache(named_element_following_siblings,?DOC,Ids,{Ns,Ln},Resp) ->
-   case erlang:get(named_element_following_siblings) of
+         case maps:find(Id,Idx) of
+            error ->
+               undefined;
+            {ok,X} ->
+               X
+         end
+   end.
+
+add_to_cache(Function,?DOC,Ids,{Ns,Ln},Resp) ->
+   case erlang:get(Function) of
       undefined ->
-         erlang:put(named_element_following_siblings,#{{Ns,Ln,Ids} => Resp});
+         erlang:put(Function,#{{Ns,Ln,Ids} => Resp});
       Idx ->
-         erlang:put(named_element_following_siblings,Idx#{{Ns,Ln,Ids} => Resp})
+         erlang:put(Function,Idx#{{Ns,Ln,Ids} => Resp})
+   end.
+
+add_to_cache(Function,?DOC,Id,Resp) ->
+   case erlang:get(Function) of
+      undefined ->
+         erlang:put(Function,#{Id => Resp});
+      Idx ->
+         erlang:put(Function,Idx#{Id => Resp})
    end.
 

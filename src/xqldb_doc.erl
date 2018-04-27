@@ -199,6 +199,13 @@ delete(Pid) ->
    gen_server:call(Pid, delete, ?TIMEOUT).
 
 % serialize
+atomize(_,[{_,_,_,_,_,AVal}]) ->
+   case AVal of
+      {_,V} ->
+         #xqAtomicValue{type = 'xs:untypedAtomic', value = V};
+      V ->
+         #xqAtomicValue{type = 'xs:untypedAtomic', value = V}
+   end;
 atomize(Pid,Ids) ->
    gen_server:call(Pid, {query, [{atomize,Ids}]}, ?TIMEOUT).
 nodify(Pid,Ids) ->
@@ -909,7 +916,8 @@ handle_cast(build_base_uri_index, State) ->
    State1 = add_index_to_state({K,V}, State),
    {noreply, State1, ?TIMEOUT};
 handle_cast(build_named_element_children, State) ->
-   State1 = add_index_to_state({named_element_children,#{}}, State),
+   {K,V} = xqldb_xdm:build_named_element_children_index(State#state.doc),
+   State1 = add_index_to_state({K,V}, State),
    State2 = add_index_to_state({named_element_following_siblings,#{}}, State1),
    {noreply, State2, ?TIMEOUT};
 
