@@ -7,7 +7,7 @@ It is passing 99.5% of ~29k test cases. 2.1k cases are skipped. The failing test
 
 
 ##### New to Erlang?
-   Check out the Getting Started [section](https://github.com/zadean/xqerl/doc/src/GettingStarted.md)
+   Check out the Getting Started [section](./doc/src/GettingStarted.md)
 
 ### Features it has:
 * Module Feature
