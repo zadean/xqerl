@@ -1182,6 +1182,7 @@ write_text(_,?str(File),?str(Value),?str(Encoding)) ->
          err_no_dir(File);
       {error,E} ->
          ?dbg("E",E),
+         ?dbg("E",strip_scheme(File)),
          err_io_error(File)
    end;
 write_text(Ctx,File,Value,Encoding) ->
@@ -1704,7 +1705,11 @@ get_path_sep() ->
       {_,_} -> ":"
    end.
 
-strip_scheme("file:///" ++ Path) -> Path;
+strip_scheme("file:///" ++ Path) -> 
+   case os:type() of
+      {win32,_} -> Path;
+      {_,_} -> [$/|Path]
+   end;
 strip_scheme("file://" ++ Path) -> Path;
 strip_scheme("file:/" ++ Path) -> Path;
 strip_scheme(Path) -> Path.

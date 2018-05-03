@@ -144,7 +144,7 @@ path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = length(List),
    %?dbg("List",Size),
-   Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
+   Mapped = ?MODULE:flatten(do_path_map(Fun, List,1,Size)),
    %?dbg("Mapped",Mapped),
    case Mapped of
       [#xqNode{}|_] ->
@@ -629,16 +629,17 @@ expand(#xqRange{} = R) ->
 expand([#xqRange{} = R]) ->
    expand1(R);
 expand(L) when is_list(L) ->
-   Any = lists:any(fun(#xqRange{}) ->
-                         true;
-                      (_) ->
-                         false
-                   end, L),
-   if Any ->
-         expand1(L);
-      true ->
-         L
-   end;
+   expand1(L);
+%%    Any = lists:any(fun(#xqRange{}) ->
+%%                          true;
+%%                       (_) ->
+%%                          false
+%%                    end, L),
+%%    if Any ->
+%%          expand1(L);
+%%       true ->
+%%          L
+%%    end;
 expand(L) ->
    [L].
 

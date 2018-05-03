@@ -208,7 +208,9 @@ handle_tree(#xqModule{version = {Version,Encoding},
                    true ->
                      element(1, S)
                 end || S <- OrderedGraph1, 
-                       S == context_item orelse element(1, S) =/= 0],
+                       S == context_item orelse 
+                         (is_tuple(S) andalso 
+                            element(1, S) =/= 0)],
    %?dbg("FunVarOrd",FunVarOrd),
    FunVarSorted = 
      lists:filtermap(
@@ -4474,7 +4476,7 @@ get_list_type([#xqSeqType{type = H}|Types], BType) ->
    if H == 'empty-sequence' ->
          get_list_type(Types, BType);
       true ->
-         ?dbg("H",H),
+         %?dbg("H",H),
          H1 = get_simple_type(H),
          if H1 == 'empty-sequence' ->
                get_list_type(Types, BType);

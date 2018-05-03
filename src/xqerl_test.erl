@@ -280,10 +280,9 @@ string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
-   ok = application:ensure_started(xqerl_ds),
    ct:run_test([{suite, Suite},
-                {dir, "../test"},
-                {logdir, "../test/logs"},
+                {dir, code:lib_dir(xqerl, test)},
+                {logdir, filename:join(code:lib_dir(xqerl, test), "logs")},
                 {logopts,[no_src]}]).
 
 run(all) ->

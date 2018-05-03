@@ -3,8 +3,11 @@ Erlang XQuery 3.1 Processor
 
 This is a currently a draft/proof-of-concept. Please don't try to use it for "real" computing (yet)!
 
-It is passing 99.3% its ~29k test cases. 2.1k cases are skipped. The failing tests are mainly from features that have not been fully implemented.
+It is passing 99.5% of ~29k test cases. 2.1k cases are skipped. The failing tests are mainly from features that have not been fully implemented.
 
+
+##### New to Erlang?
+   Check out the Getting Started [section](https://github.com/zadean/xqerl/doc/src/GettingStarted.md)
 
 ### Features it has:
 * Module Feature
