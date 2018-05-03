@@ -585,10 +585,11 @@ event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value},
                           list_to_atom(Type), AttTypeMap),
    State#st{att_typ = AttTypeMap1};
 
-%% event(startCDATA, _Ln, State) -> State#state{cdata_flag = true};
-%% event(endCDATA, _Ln, State) -> State#state{cdata_flag = false};
-%% event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
-%% event(endDTD, _Ln, State) -> State;
+event(startCDATA, _Ln, State) -> State;
+event(endCDATA, _Ln, State) -> State;
+event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
+event(endDTD, _Ln, State) -> State;
+
 %% event({startEntity, _SysId}, _Ln, State) -> State;
 %% event({endEntity, _SysId}, _Ln, State) -> State;
 %% event({elementDecl, _Name, _Model}, _Ln, State) -> State;
