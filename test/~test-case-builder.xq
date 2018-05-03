@@ -691,9 +691,9 @@ let $standardFuns       :=
   "   ct:timetrap({seconds,60}), "               ||$_:n||
   "   xqerl_module:unload(all)."                 ||$_:n||
   "init_per_suite(Config) -> "                   ||$_:n||
-  "   ok = application:ensure_started(mnesia),"  ||$_:n||
-  "   ok = application:ensure_started(xqerl_db),"||$_:n||
+  "   xqerl_db:install([node()]),"               ||$_:n||
   "   xqerl_module:one_time_init(), "            ||$_:n||
+  "   {ok,_} = application:ensure_all_started(xqerl)," ||$_:n||
   "   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||$_:n||
   "   TD = filename:join(DD, ""QT3-test-suite""),"||$_:n||
   "   __BaseDir = filename:join(TD, """||$testSetDir||"""),"||$_:n||
