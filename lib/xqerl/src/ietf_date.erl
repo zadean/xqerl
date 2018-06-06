@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("./ietf_date.xrl", 30).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 30).
 
 -file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 14).
 
@@ -305,7 +305,7 @@ adjust_line(T, A, [_|Cs], L) ->
 %% return signal either an unrecognised character or end of current
 %% input.
 
--file("./ietf_date.erl", 307).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.erl", 307).
 yystate() -> 5.
 
 yystate(57, [97|Ics], Line, Tlen, Action, Alen) ->
@@ -791,77 +791,77 @@ yyaction(14, _, _, TokenLine) ->
 yyaction(_, _, _, _) -> error.
 
 -compile({inline,yyaction_0/0}).
--file("./ietf_date.xrl", 10).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 10).
 yyaction_0() ->
      { skip_token, "(" } .
 
 -compile({inline,yyaction_1/1}).
--file("./ietf_date.xrl", 12).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 12).
 yyaction_1(TokenLine) ->
      { token, { ',', TokenLine, ',' } } .
 
 -compile({inline,yyaction_2/1}).
--file("./ietf_date.xrl", 13).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 13).
 yyaction_2(TokenLine) ->
      { token, { '(', TokenLine, '(' } } .
 
 -compile({inline,yyaction_3/1}).
--file("./ietf_date.xrl", 14).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 14).
 yyaction_3(TokenLine) ->
      { token, { ')', TokenLine, ')' } } .
 
 -compile({inline,yyaction_4/1}).
--file("./ietf_date.xrl", 15).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 15).
 yyaction_4(TokenLine) ->
      { token, { ':', TokenLine, ':' } } .
 
 -compile({inline,yyaction_5/1}).
--file("./ietf_date.xrl", 16).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 16).
 yyaction_5(TokenLine) ->
      { token, { s, TokenLine, s } } .
 
 -compile({inline,yyaction_6/1}).
--file("./ietf_date.xrl", 17).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 17).
 yyaction_6(TokenLine) ->
      { token, { dot, TokenLine, '.' } } .
 
 -compile({inline,yyaction_7/2}).
--file("./ietf_date.xrl", 18).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 18).
 yyaction_7(TokenChars, TokenLine) ->
      { token, { digit2, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_8/2}).
--file("./ietf_date.xrl", 19).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 19).
 yyaction_8(TokenChars, TokenLine) ->
      { token, { digit, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_9/2}).
--file("./ietf_date.xrl", 20).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 20).
 yyaction_9(TokenChars, TokenLine) ->
      { token, { digits, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_10/2}).
--file("./ietf_date.xrl", 21).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 21).
 yyaction_10(TokenChars, TokenLine) ->
      { token, { plus, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_11/2}).
--file("./ietf_date.xrl", 22).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 22).
 yyaction_11(TokenChars, TokenLine) ->
      { token, { minus, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_12/2}).
--file("./ietf_date.xrl", 23).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 23).
 yyaction_12(TokenChars, TokenLine) ->
      { token, { tzname, TokenLine, string : uppercase (TokenChars) } } .
 
 -compile({inline,yyaction_13/2}).
--file("./ietf_date.xrl", 24).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 24).
 yyaction_13(TokenChars, TokenLine) ->
      { token, { monthname, TokenLine, string : uppercase (TokenChars) } } .
 
 -compile({inline,yyaction_14/1}).
--file("./ietf_date.xrl", 25).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/ietf_date.xrl", 25).
 yyaction_14(TokenLine) ->
      { token, { dayname, TokenLine, ignore } } .
 
