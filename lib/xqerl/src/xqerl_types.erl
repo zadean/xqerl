@@ -1044,8 +1044,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
       'document' ->
          case xqldb_doc:children(Doc, Node) of
             [Element] ->
-               {Ns,_,Ln} = xqldb_doc:node_name(Doc, Element),
-               Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
+               Q2 = node_qname(Node, Doc),
                ?dbg("Q1",Q1),
                ?dbg("Q2",Q2),
                has_name(Q2, Q1);
@@ -1077,8 +1076,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
                          type = #xqSeqType{type = Type}}) ->
    case catch xqldb_doc:node_kind(Doc, Node) of
       element ->
-         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
+         Q2 = node_qname(Node, Doc),
          case has_name(Q2, Q1) of
             true ->
                EType = xqldb_doc:type_name(Doc, Node),
@@ -1093,9 +1091,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
              #xqKindTest{kind = element, name = #qname{} = Q1}) ->
    case catch xqldb_doc:node_kind(Doc, Node) of
       element ->
-         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
-         has_name(Q2, Q1);
+         has_name(node_qname(Node, Doc), Q1);
       _ ->
          false
    end;
@@ -1113,8 +1109,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
                          type = #xqSeqType{type = Type}}) ->
    case catch xqldb_doc:node_kind(Doc, Node) of
       attribute ->
-         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
+         Q2 = node_qname(Node, Doc),
          case has_name(Q2, Q1) of
             true ->
                EType = xqldb_doc:type_name(Doc, Node),
@@ -1131,9 +1126,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
                          name = #qname{} = Q1}) ->
    case xqldb_doc:node_kind(Doc, Node) of
       attribute ->
-         {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = fix_ns(Ns), local_name = Ln},
-         has_name(Q2, Q1);
+         has_name(node_qname(Node, Doc), Q1);
       _ ->
          false
    end;
@@ -1247,6 +1240,10 @@ instance_of1(Seq, Type) ->
    BIType = xqerl_btypes:get_type(IType),
    BTType = xqerl_btypes:get_type(TType),
    xqerl_btypes:can_substitute(BIType, BTType).
+
+node_qname(Node, Doc) ->
+    {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+    #qname{namespace = fix_ns(Ns), local_name = Ln}.
 
 get_type(#xqSeqType{type = Type}) ->
    get_type(Type);
@@ -1464,48 +1461,44 @@ cast_as( ?xav('xs:boolean', Val), 'xs:string' ) ->
 cast_as( ?xav('xs:boolean', Val), 'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', atom_to_list(Val));
 cast_as( ?xav('xs:date', Val), 'xs:dateTime' ) -> 
-   Rec = Val#xsDateTime{hour = 0,
-                        minute = 0,
-                        second = xqerl_numeric:decimal(0)},
+   Rec = zero_time(Val),
    Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-   ?xav('xs:dateTime', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:dateTime', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', Val), 'xs:gDay' ) -> 
    Rec = Val#xsDateTime{sign = '+',
                         year = 0,
                         month = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gDay'),
-   ?xav('xs:gDay', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gDay', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', Val), 'xs:gMonth' ) -> 
    Rec = Val#xsDateTime{sign = '+',
                         year = 0,
                         day = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gMonth'),
-   ?xav('xs:gMonth', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gMonth', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', Val), 'xs:gMonthDay' ) -> 
    Rec = Val#xsDateTime{sign = '+',
                         year = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gMonthDay'),
-   ?xav('xs:gMonthDay', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gMonthDay', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', Val), 'xs:gYear' ) -> 
    Rec = Val#xsDateTime{month = 0,
                         day   = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gYear'),
-   ?xav('xs:gYear', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gYear', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', Val), 'xs:gYearMonth' ) -> 
    Rec = Val#xsDateTime{day   = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
-   ?xav('xs:gYearMonth', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gYearMonth', set_date_string(Rec, Str));
 cast_as( ?xav('xs:date', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
    ?xav('xs:string', Val);
 cast_as( ?xav('xs:date', #xsDateTime{string_value = Val}), 
          'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', Val);
 cast_as( ?xav('xs:dateTime', Val), 'xs:date' ) -> 
-   Rec = Val#xsDateTime{hour = 0,
-                        minute = 0,
-                        second = xqerl_numeric:decimal(0)},
+   Rec = zero_time(Val),
    Str = xqerl_datetime:to_string(Rec,'xs:date'),
-   ?xav('xs:date', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:date', set_date_string(Rec, Str));
 %% cast_as( #xqAtomicValue{type = 'xs:dateTime', value = Val}, 
 %%          'xs:dateTimeStamp' ) -> 
 %%    Off = Val#xsDateTime.offset,
@@ -1523,7 +1516,7 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:gDay' ) ->
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gDay'),
-   ?xav('xs:gDay', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gDay', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', Val), 'xs:gMonth' ) -> 
    Rec = Val#xsDateTime{sign = '+',
                         year = 0,
@@ -1532,7 +1525,7 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:gMonth' ) ->
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gMonth'),
-   ?xav('xs:gMonth', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gMonth', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', Val), 'xs:gMonthDay' ) -> 
    Rec = Val#xsDateTime{sign = '+',
                         year = 0,
@@ -1540,7 +1533,7 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:gMonthDay' ) ->
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gMonthDay'),
-   ?xav('xs:gMonthDay', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gMonthDay', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', Val), 'xs:gYear' ) -> 
    Rec = Val#xsDateTime{month = 0,
                         day   = 0,
@@ -1548,14 +1541,14 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:gYear' ) ->
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gYear'),
-   ?xav('xs:gYear', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gYear', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', Val), 'xs:gYearMonth' ) -> 
    Rec = Val#xsDateTime{day   = 0,
                         hour = 0,
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
    Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
-   ?xav('xs:gYearMonth', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:gYearMonth', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
    ?xav('xs:string', Val);
 cast_as( ?xav('xs:dateTime', Val), 'xs:time' ) ->
@@ -1564,7 +1557,7 @@ cast_as( ?xav('xs:dateTime', Val), 'xs:time' ) ->
                         month = 0,
                         day   = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:time'),
-   ?xav('xs:time', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:time', set_date_string(Rec, Str));
 cast_as( ?xav('xs:dateTime', #xsDateTime{string_value = Val}), 
          'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', Val);
@@ -1591,7 +1584,7 @@ cast_as( ?xav('xs:dateTime', #xsDateTime{string_value = Val}),
 
 cast_as( ?xav('xs:dayTimeDuration', Val), 'xs:duration' ) ->
    Str = xqerl_datetime:to_string(Val,'xs:duration'),
-   ?xav('xs:duration', Val#xsDateTime{string_value = Str});
+   ?xav('xs:duration', set_date_string(Val, Str));
 cast_as( ?xav('xs:dayTimeDuration', #xsDateTime{string_value = Val}), 
          'xs:string' ) -> 
    ?xav('xs:string', Val);
@@ -1606,7 +1599,7 @@ cast_as( ?xav('xs:dayTimeDuration', _Val),
                      hour   = 0,
                      minute = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration'),
-   ?xav('xs:yearMonthDuration', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:yearMonthDuration', set_date_string(Rec, Str));
 
 cast_as( ?xav('xs:decimal', #xsDecimal{int = 0, scf = 0}), 'xs:boolean' ) ->
    ?false;
@@ -1680,7 +1673,7 @@ cast_as( ?xav('xs:double', Val), 'xs:untypedAtomic' ) ->
 cast_as( ?xav('xs:duration', Val), 'xs:dayTimeDuration' ) -> 
    Rec = Val#xsDateTime{year = 0, month = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration'),
-   ?xav('xs:dayTimeDuration', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:dayTimeDuration', set_date_string(Rec, Str));
 cast_as( ?xav('xs:duration', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
    ?xav('xs:string', Val);
 cast_as( ?xav('xs:duration', #xsDateTime{string_value = Val}), 
@@ -1689,7 +1682,7 @@ cast_as( ?xav('xs:duration', #xsDateTime{string_value = Val}),
 cast_as( ?xav('xs:duration', Val), 'xs:yearMonthDuration' ) -> 
    Rec = Val#xsDateTime{day = 0, hour = 0, minute = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration'),
-   ?xav('xs:yearMonthDuration', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:yearMonthDuration', set_date_string(Rec, Str));
 cast_as( ?xav('xs:float', Val), 'xs:boolean' ) ->
    if Val == 0 -> ?false;
       Val == neg_zero -> ?false;
@@ -1860,7 +1853,7 @@ cast_as( ?xav('xs:string', Val), 'xs:date' ) -> % MAYBE castable
                      day = Day, 
                      offset = Offset},
    Str = xqerl_datetime:to_string(Rec,'xs:date'),
-   Dt = ?xav('xs:date', Rec#xsDateTime{string_value = Str}),
+   Dt = ?xav('xs:date', set_date_string(Rec, Str)),
    if Offset == [] ->
          Dt;
       true ->
@@ -1886,7 +1879,7 @@ cast_as( ?xav('xs:string', Val), 'xs:dateTime' ) -> % MAYBE castable
                         second = Sec, 
                         offset = Offset},
       Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-      Dt = ?xav('xs:dateTime', Rec#xsDateTime{string_value = Str}),
+      Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
       SecFlt = double(Sec),
       if Hour   == 24 andalso Min == 0 andalso SecFlt == 0 -> 
             xqerl_operators:add(Dt, cast_as(?xav('xs:string', "PT0S"), 
@@ -1916,7 +1909,7 @@ cast_as( ?xav('xs:string', Val), 'xs:dateTime' ) -> % MAYBE castable
 %%                            second = Sec, 
 %%                            offset = Offset},
 %%          Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-%%          Dt = ?xav('xs:dateTime', Rec#xsDateTime{string_value = Str}),
+%%          Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
 %%          if Hour == 24 -> xqerl_operators:add(Dt, cast_as(?xav('xs:string', "P1D"), 'xs:dayTimeDuration'));
 %%             Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
 %%             Min  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
@@ -1941,7 +1934,7 @@ cast_as( ?xav('xs:string', Val), 'xs:dayTimeDuration' ) -> % MAYBE castable
                         minute = Min,
                         second = Sec},
       Str = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration'),
-      ?xav('xs:dayTimeDuration', Rec#xsDateTime{string_value = Str})   
+      ?xav('xs:dayTimeDuration', set_date_string(Rec, Str))   
    catch
       _:#xqError{} = E -> 
          throw(E);
@@ -1981,7 +1974,7 @@ cast_as( ?xav('xs:string', Val), 'xs:duration' ) -> % MAYBE castable
                         minute = Min,
                         second = Sec},
       Str = xqerl_datetime:to_string(Rec,'xs:duration'),
-      ?xav('xs:duration', Rec#xsDateTime{string_value = Str})
+      ?xav('xs:duration', set_date_string(Rec, Str))
    catch
       _:#xqError{} = E -> 
          throw(E);
@@ -2013,7 +2006,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gDay' ) -> % MAYBE castable
                            second = xqerl_numeric:decimal(0), 
                            offset = Offset},
          Str = xqerl_datetime:to_string(Rec,'xs:gDay'),
-         ?xav('xs:gDay', Rec#xsDateTime{string_value = Str});
+         ?xav('xs:gDay', set_date_string(Rec, Str));
          true ->
             throw({error,bad_date})
       end
@@ -2035,7 +2028,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gMonth' ) -> % MAYBE castable
                            second = xqerl_numeric:decimal(0), 
                            offset = Offset},
          Str = xqerl_datetime:to_string(Rec,'xs:gMonth'),
-         ?xav('xs:gMonth', Rec#xsDateTime{string_value = Str});
+         ?xav('xs:gMonth', set_date_string(Rec, Str));
          true ->
             throw({error,bad_date})
       end
@@ -2059,7 +2052,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gMonthDay' ) -> % MAYBE castable
                               second = xqerl_numeric:decimal(0), 
                               offset = Offset},
             Str = xqerl_datetime:to_string(Rec,'xs:gMonthDay'),
-            ?xav('xs:gMonthDay', Rec#xsDateTime{string_value = Str});
+            ?xav('xs:gMonthDay', set_date_string(Rec, Str));
          _ ->
             throw({error,bad_date})
       end
@@ -2095,7 +2088,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gYear' ) -> % MAYBE castable
             ?err('FODT0001');
          true ->
             Str = xqerl_datetime:to_string(Rec,'xs:gYear'),
-            ?xav('xs:gYear', Rec#xsDateTime{string_value = Str})
+            ?xav('xs:gYear', set_date_string(Rec, Str))
       end
    catch _:#xqError{} = E -> throw(E);
          _:_ -> 
@@ -2126,7 +2119,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gYearMonth' ) -> % MAYBE castable
                               second = xqerl_numeric:decimal(0), 
                               offset = Offset},
             Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
-            ?xav('xs:gYearMonth', Rec#xsDateTime{string_value = Str})
+            ?xav('xs:gYearMonth', set_date_string(Rec, Str))
       end
    catch
       _:_ -> ?err('FORG0001')
@@ -2178,7 +2171,7 @@ cast_as( ?xav('xs:string', Val), 'xs:time' ) -> % MAYBE castable
       SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
       true ->
          Str = xqerl_datetime:to_string(Rec,'xs:time'),
-         ?xav('xs:time', Rec#xsDateTime{string_value = Str})
+         ?xav('xs:time', set_date_string(Rec, Str))
    end;
 cast_as( ?xav('xs:string', Val),'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', Val);
@@ -2274,10 +2267,10 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:NCName' ) ->
          ?err('FORG0001')
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:ID' ) ->
-   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:NCName' )),
+   StrVal = ncname_value(Arg1),
    ?xav('xs:ID', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:IDREF' ) ->
-   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:NCName' )),
+   StrVal = ncname_value(Arg1),
    ?xav('xs:IDREF', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:IDREFS' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
@@ -2293,7 +2286,7 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:IDREFS' ) ->
                    end, Tokens)
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITY' ) ->
-   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:NCName' )),
+   StrVal = ncname_value(Arg1),
    ?xav('xs:ENTITY', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITIES' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
@@ -2329,7 +2322,7 @@ cast_as( ?xav('xs:string', Val), 'xs:yearMonthDuration' ) -> % MAYBE castable
                         minute = 0,
                         second = xqerl_numeric:decimal(0)},
       Str = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration'),
-      ?xav('xs:yearMonthDuration', Rec#xsDateTime{string_value = Str})
+      ?xav('xs:yearMonthDuration', set_date_string(Rec, Str))
    catch
       _:#xqError{} = E -> 
          throw(E);
@@ -2358,10 +2351,10 @@ cast_as( ?xav('xs:yearMonthDuration', _), 'xs:dayTimeDuration' ) ->
                      hour   = 0,
                      minute = 0},
    Str = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration'),
-   ?xav('xs:dayTimeDuration', Rec#xsDateTime{string_value = Str});
+   ?xav('xs:dayTimeDuration', set_date_string(Rec, Str));
 cast_as( ?xav('xs:yearMonthDuration', Val), 'xs:duration' ) ->
    Str = xqerl_datetime:to_string(Val,'xs:duration'),
-   ?xav('xs:duration', Val#xsDateTime{string_value = Str});
+   ?xav('xs:duration', set_date_string(Val, Str));
 cast_as( ?xav('xs:yearMonthDuration', #xsDateTime{string_value = Val}), 
          'xs:string' ) -> 
    ?xav('xs:string', Val);
@@ -2370,114 +2363,114 @@ cast_as( ?xav('xs:yearMonthDuration', #xsDateTime{string_value = Val}),
    ?xav('xs:untypedAtomic', Val);
 %sub types
 cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedShort' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 65535 orelse IntVal < 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:unsignedShort', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:unsignedShort'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 
 cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedLong' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 18446744073709551615 orelse IntVal < 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:unsignedLong', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:unsignedLong'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedInt' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 4294967295 orelse IntVal < 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:unsignedInt', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:unsignedInt'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:unsignedByte' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 255 orelse IntVal < 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:unsignedByte', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:unsignedByte'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:short' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 32767 orelse IntVal < -32768 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:short', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:short'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:positiveInteger' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal < 1 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:positiveInteger', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:positiveInteger'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:nonPositiveInteger' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:nonPositiveInteger', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:nonPositiveInteger'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:nonNegativeInteger' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal < 0 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:nonNegativeInteger', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:nonNegativeInteger'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:negativeInteger' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > -1 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:negativeInteger', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:negativeInteger'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:long' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 9223372036854775807 orelse IntVal < -9223372036854775808 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:long', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:long'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:int' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 2147483647 orelse IntVal < -2147483648 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:int', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:int'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 cast_as( #xqAtomicValue{} = Arg1, 'xs:byte' ) -> 
-   IntVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )),
+   IntVal = to_int_val(Arg1),
    if IntVal > 127 orelse IntVal < -128 ->
          ?err('FORG0001');
       true ->
          ?xav('xs:byte', IntVal)
    end;
 cast_as( #xqAtomicValue{type = 'xs:byte'} = Arg1, TT ) -> 
-   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT );
+   cast_as_int(Arg1, TT);
 % block known types
 cast_as( #xqAtomicValue{type = Intype}, T ) 
    when Intype == 'xs:unsignedInt';    Intype == 'xs:string';
@@ -2747,7 +2740,7 @@ ymdur_bin_to_ym(Bin) ->
                     [R1] ->
                        {0,R1}
                  end,
-   {Mon1, Year1} = {Mon rem 12, Year + Mon div 12},
+   {Mon1, Year1} = shift_units(Mon, Year, 12),
    _ = if Year1 > 9999 -> % over 9999 years
              ?err('FODT0002');
           true ->
@@ -2763,19 +2756,7 @@ daytimedur_bin_to_dhms(Bin) ->
                      <<$P,R/binary>> ->
                         {'+', <<R/binary>>}
                     end,
-   _ = if Bin1 == <<>> ->
-             ?err('FORG0001');
-          true ->
-             ok
-       end,          
-   [DayPart,TimePart] = case binary:split(Bin1,<<"T">>) of
-                           [_D,<<>>] ->
-                              ?err('FORG0001');
-                           [D,T] ->
-                              [D,T];
-                           [D] ->
-                              [D,<<>>]
-                        end,
+   {DayPart,TimePart} = get_day_time_parts(Bin1),
    Day = if DayPart == <<>> -> 0;
             true ->
                [DayNum] = binary:split(DayPart, <<"D">>, [trim]),
@@ -2791,8 +2772,8 @@ daytimedur_bin_to_dhms(Bin) ->
    SecTotal = xqerl_numeric:add(Sec, Min * 60),
    MI1 = xqerl_numeric:truncate(SecTotal) div 60,
    SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
-   {MI2, HH1} = {MI1 rem 60, Hour + MI1 div 60},
-   {HH2, D1}  = {HH1 rem 24, Day  + HH1 div 24},
+   {MI2, HH1} = shift_units(MI1, Hour, 60),
+   {HH2, D1}  = shift_units(HH1, Day, 24),
    {Sign,D1,HH2,MI2,SS1}.
 
 dur_bin_to_ymdhms(Bin) ->
@@ -2803,19 +2784,7 @@ dur_bin_to_ymdhms(Bin) ->
                      <<$P,R/binary>> ->
                         {'+', <<R/binary>>}
                     end,
-   _ = if Bin1 == <<>> ->
-             ?err('FORG0001');
-          true ->
-             ok
-       end,          
-   [DayPart,TimePart] = case binary:split(Bin1,<<"T">>) of
-                           [_D,<<>>] ->
-                              ?err('FORG0001'); % T alone should throw error
-                           [D,T] ->
-                              [D,T];
-                           [D] ->
-                              [D,<<>>]
-                        end,
+   {DayPart,TimePart} = get_day_time_parts(Bin1),
    {Year,Mon,Rest} = if DayPart == <<>> ->
                            {0,0,<<>>};
                         true ->
@@ -2833,13 +2802,13 @@ dur_bin_to_ymdhms(Bin) ->
        end,      
    {Hour,Min,Sec} = timedur_bin_to_hms(TimePart),
    % push values up the ladder
-   {Mon1, Year1} = {Mon rem 12, Year + Mon div 12},
+   {Mon1, Year1} = shift_units(Mon, Year, 12),
    % push values up the ladder
    SecTotal = xqerl_numeric:add(Sec, Min * 60),
    MI1 = xqerl_numeric:truncate(SecTotal) div 60,
    SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
-   {MI2, HH1} = {MI1 rem 60, Hour + MI1 div 60},
-   {HH2, D1}  = {HH1 rem 24, Day  + HH1 div 24},
+   {MI2, HH1} = shift_units(MI1, Hour, 60),
+   {HH2, D1}  = shift_units(HH1, Day, 24),
    {Sign,Year1,Mon1,D1,HH2,MI2,SS1}.
 
 scan_ncname([$_|T]) ->
@@ -2999,3 +2968,35 @@ has_name(#xqAttributeNode{name = Name},
          #qname{namespace = Ns, local_name = Loc}) ->
    (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
    (Loc == "*" orelse Loc == Name#qname.local_name).
+
+to_int_val(Arg1) ->
+   xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )).
+
+cast_as_int(Arg1, TT) ->
+   xqerl_types:cast_as( Arg1#xqAtomicValue{type = 'xs:integer'}, TT ).
+
+set_date_string(Rec, Str) ->
+   Rec#xsDateTime{string_value = Str}.
+
+ncname_value(Arg1) ->
+   xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:NCName' )).
+
+% returns {NewSmall, NewLarge}
+shift_units(Small, Large, Size) ->
+   {Small rem Size, Large + Small div Size}.
+
+get_day_time_parts(<<>>) -> ?err('FORG0001');
+get_day_time_parts(Bin) ->
+   case binary:split(Bin,<<"T">>) of
+      [_D,<<>>] ->
+         ?err('FORG0001');
+      [D,T] ->
+         {D,T};
+      [D] ->
+         {D,<<>>}
+   end.
+
+zero_time(Val) ->
+   Val#xsDateTime{hour = 0,
+                  minute = 0,
+                  second = xqerl_numeric:decimal(0)}.
