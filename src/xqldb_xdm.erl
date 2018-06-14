@@ -1695,14 +1695,16 @@ build_parent_index(?DOC = D,Parent) ->
    lists:flatmap(F, Children).
 
 build_named_element_children_index(?DOC = Doc) ->
-   [Roots] = roots(Doc),
-   Dict = dict:new(),
-   Fun = fun(I,D) -> 
-               get_element_children_ix(Doc,I,D) 
-         end,               
-   Dict1 = lists:foldl(Fun, Dict, Roots),
-   List = dict:to_list(Dict1),
-   {named_element_children, maps:from_list(List)}.
+   ok.
+
+%%    [Roots] = roots(Doc),
+%%    Dict = dict:new(),
+%%    Fun = fun(I,D) -> 
+%%                get_element_children_ix(Doc,I,D) 
+%%          end,               
+%%    Dict1 = lists:foldl(Fun, Dict, Roots),
+%%    List = dict:to_list(Dict1),
+%%    {named_element_children, maps:from_list(List)}.
 
 get_element_children_ix(?DOC = Doc,I,D) ->
    Children = children(Doc, I),

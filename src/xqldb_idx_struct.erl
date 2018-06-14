@@ -239,7 +239,7 @@ index_doc(?ELMM, Attributes, Text, Comment, Data, LastId, Map, State) ->
 %% same (sibling), call with same map as called with (augmented with self)
 %% less (done) return rest and map
 
--define(NEXTDEPTH,<<?tp(_),?dpt(Dpt),_/binary>>).
+-define(NEXTDEPTH,<<_:4,Dpt:12,_/binary>>).
 
 next_depth(<<>>) -> 0;
 next_depth(?NEXTDEPTH) -> Dpt.

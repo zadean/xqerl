@@ -58,6 +58,7 @@
 
 -define(tp(A),A:4/integer).
 -define(dpt(A),A:12/integer).
+-define(dptm(A),A:12).
 -define(nxt(A),A:32/integer).
 %
 -define(ln(A),A:24/integer).
@@ -79,13 +80,13 @@
 -define(CMT,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
 -define(PIN,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len)>>).
 
--define(NODM,<<?tp(_),?dpt(__Dpt),?nxt(__Nxt),?drest(_),Rest/binary>>).
--define(DMTM,<<?tp(?document),?dpt(__Dpt),?nxt(__Nxt),?drest(0),Rest/binary>>).
--define(FRGM,<<?tp(?fragment),?dpt(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms),Rest/binary>>).
--define(ELMM,<<?tp(?element),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms),Rest/binary>>).
--define(TXTM,<<?tp(?text),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
--define(CMTM,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
--define(PINM,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len),Rest/binary>>).
+-define(NODM,<<?tp(_),?dptm(__Dpt),?nxt(__Nxt),?drest(_),Rest/binary>>).
+-define(DMTM,<<?tp(?document),?dptm(__Dpt),?nxt(__Nxt),?drest(0),Rest/binary>>).
+-define(FRGM,<<?tp(?fragment),?dptm(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms),Rest/binary>>).
+-define(ELMM,<<?tp(?element),?dptm(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms),Rest/binary>>).
+-define(TXTM,<<?tp(?text),?dptm(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
+-define(CMTM,<<?tp(?comment),?dptm(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
+-define(PINM,<<?tp(?proc_inst),?dptm(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len),Rest/binary>>).
 
 -define(DOC,{__Filename,__Names,__Namesp,__Nodes,__Attributes,
              __Nss,__Text,__Comment,__Data,__Indexes}).
