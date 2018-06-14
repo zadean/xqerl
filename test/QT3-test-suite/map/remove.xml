@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-remove"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="map-remove">
+    <description>Tests for the map:remove function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-remove"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
+
+    <test-case name="map-remove-001">
+        <description>Remove from empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
+        <test>map:remove(map{}, 1)</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-002">
+        <description>Keys in empty map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge(()), "abcd")</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-003">
+        <description>Remove from singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:remove(map{"a":1}, "a")</test>
+        <result>
+            <assert>map:size($result) eq 0</assert>
+        </result>
+    </test-case>
+    <test-case name="map-remove-005">
+        <description>Remove from singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
+        <test>map:remove(map:entry("a", "1"), "b")</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-006">
+        <description>Remove from two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "b")</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-007">
+        <description>Null remove from two-entry map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "c")</test>
+        <result>
+            <all-of>
+                <assert>map:keys($result) = "a"</assert>
+                <assert>map:keys($result) = "b"</assert>
+                <assert>map:size($result) = 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-008">
+        <description>Remove match of numeric values</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge((map:entry(12, 1), map:entry(13, 2))), 12e0)</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) = 1</assert>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:contains($result, 13)</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-009">
+        <description>Remove match of untypedAtomic</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge((map:entry("a",1), map:entry("b",2))), xs:untypedAtomic("b"))</test>
+        <result>
+            <all-of>
+                <assert>map:size($result) = 1</assert>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:contains($result, "a")</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-010">
+        <description>Type after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:remove(map{"a":1,"b":"xyz"}, "b")</test>
+        <result>
+            <assert-type>map(xs:string, xs:integer)</assert-type>
+        </result>
+    </test-case>
+    <test-case name="map-remove-011">
+        <description>Type after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:remove(map{"a":1,12:"xyz"}, 12)</test>
+        <result>
+            <assert-type>map(xs:string, xs:integer)</assert-type>
+        </result>
+    </test-case>
+    <test-case name="map-remove-012">
+        <description>Remove from a large map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:remove(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)</test>
+        <result>
+            <all-of>
+                <assert>map:contains($result, 1)</assert>
+                <assert>map:contains($result, 500000)</assert>
+                <assert>map:size($result) = 499999</assert>
+                <assert>not(map:contains($result, 123456))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-remove-013">
+        <description>Deep equal after removing an entry</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3)}, "a"), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-remove-014">
+        <description>Remove from map containing dates with and without timezone</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} 
+            => map:remove(current-dateTime()) 
+            => map:get(current-dateTime()=>adjust-dateTime-to-timezone(()))
+        </test>
+        <result>
+            <assert-eq>101</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="map-remove-015">
+        <description>Float and double are (in this case) equal </description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            map{xs:double('1.25'):0}
+            => map:remove(xs:float('1.25')) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="map-remove-016">
+        <description>Edge case with numerics: decimal not promoted to double</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 
+            => map:remove(xs:decimal('1.0000000000100000000001')) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>2</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-remove-017">
+        <description>Remove multiple items from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ("a", "c")), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="map-remove-018">
+        <description>Remove nothing from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>map:size(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ())) = 3</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="map-remove-019">
+        <description>Remove multiple items from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ("a", "c", "d")), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+
+
+</test-set>

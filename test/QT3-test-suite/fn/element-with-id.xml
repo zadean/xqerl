@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-element-with-id">
+   <description>Tests for the element-with-id() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-element-with-id"/>
+   
+   <environment name="id-idref2">
+      <namespace prefix="ids" uri="http://www.w3.org/XQueryTest/ididrefs"/>
+      <source role="." file="id/id2.xml" validation="strict">
+         <description>More data for id and idref related functions (schema-based).</description>
+         <created by="Michael Kay" on="2009-03-06"/>
+      </source>
+      <schema uri="http://www.w3.org/XQueryTest/ididrefs" file="id/id.xsd">
+         <description>A schema for the id/idref functions tests</description>
+         <created by="Michael Kay" on="2009-03-06"/>
+      </schema>
+   </environment>
+
+   <test-case name="fn-element-with-id-1">
+      <description>Contrast behaviour of id() vs element-with-id(). tests Erratum FO.E31 - new element-with-id() function </description>
+      <created by="Michael Kay" on="2009-03-06"/>
+      <environment ref="id-idref2"/>
+      <test>id('alpha beta iota kappa')/local-name(), "|", element-with-id('alpha beta iota kappa')/local-name()</test>
+      <result>
+         <assert-string-value>Element-with-ID-attribute Element-with-ID-attribute id id | Element-with-ID-attribute Element-with-ID-attribute Element-with-ID-child Element-with-ID-child</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-element-with-id-2">
+      <description>Contrast behaviour of id() vs element-with-id(). Element of type derived from xs:ID by restriction </description>
+      <created by="Michael Kay" on="2009-03-06"/>
+      <environment ref="id-idref2"/>
+      <test>id('lambda mu')/local-name(), "|", element-with-id('lambda mu')/local-name()</test>
+      <result>
+         <assert-string-value>id id | Element-with-Restricted-ID-child Element-with-Restricted-ID-child</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-element-with-id-3">
+      <description>Contrast behaviour of id() vs element-with-id(). Element of complex type with simple content type xs:ID </description>
+      <created by="Michael Kay" on="2009-03-06"/>
+      <environment ref="id-idref2"/>
+      <test>id('nu')/local-name(), "|", element-with-id('nu')/local-name()</test>
+      <result>
+         <assert-string-value>id | Element-with-complex-ID-child</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-element-with-id-4">
+      <description>Contrast behaviour of id() vs element-with-id(). Element of with type list of xs:ID - recognized only when the value is a singleton </description>
+      <created by="Michael Kay" on="2009-03-06"/>
+      <environment ref="id-idref2"/>
+      <test>id('xi')/local-name(), "|", element-with-id('xi')/local-name(), "|", count(id('ping')), "|", count(element-with-id('ping'))</test>
+      <result>
+         <assert-string-value>id | Element-with-ID-list-child | 0 | 0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-element-with-id-5">
+      <description>Contrast behaviour of id() vs element-with-id(). Element of with type union of xs:ID </description>
+      <created by="Michael Kay" on="2009-03-06"/>
+      <environment ref="id-idref2"/>
+      <test>id('omicron')/local-name(), "|",  element-with-id('omicron')/local-name(), "|", count(id('853')), "|", count(element-with-id('853'))</test>
+      <result>
+         <assert-string-value>id | Element-with-ID-union-child | 0 | 0</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

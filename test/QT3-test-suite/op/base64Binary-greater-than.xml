@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-base64Binary-greater-than" covers="op-base64Binary-greater-than">
+   <description>Tests for the base64Binary-greater-than() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-base64Binary-greater-than"/>
+   
+   <dependency type="spec" value="XP31+ XQ31+"/>
+   
+   <test-case name="base64Binary-gt-1">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") gt xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-2">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(mid range)                      
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("bnh1YmJkdWNm") gt xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-3">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(upper bound)                    
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("eGF0YW1hYWdy") gt xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-4">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(mid range)                      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") &gt; xs:base64Binary("bnh1YmJkdWNm")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-5">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(upper bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") &gt; xs:base64Binary("eGF0YW1hYWdy")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-6">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") &gt; xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-7">
+      <description>
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(mid range)                      
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("bnh1YmJkdWNm") &gt; xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-8">
+      <description>           
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(upper bound)                    
+$value2 = xs:base64Binary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("eGF0YW1hYWdy") ge  xs:base64Binary("dnR5cWxqZHZj")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-9">
+      <description>           
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(mid range)                      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") ge  xs:base64Binary("bnh1YmJkdWNm")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-10">
+      <description>       
+Purpose: Evaluates The "op:base64Binary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:base64Binary(lower bound)                    
+$value2 = xs:base64Binary(upper bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("dnR5cWxqZHZj") ge  xs:base64Binary("eGF0YW1hYWdy")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-11">
+      <description>Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>(xs:base64Binary("eGF0YW1hYWdy") &gt;= xs:base64Binary("dnR5cWxqZHZj")) and (xs:base64Binary("eGF0YW1hYWdy") gt xs:base64Binary("dnR5cWxqZHZj"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-12">
+      <description>imple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>(xs:base64Binary("eGF0YW1hYWdy") &gt;= xs:base64Binary("dnR5cWxqZHZj")) or (xs:base64Binary("eGF0YW1hYWdy") gt xs:base64Binary("dnR5cWxqZHZj"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-13">
+      <description>Simple Binary hex operation  </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("eGF0YW1hYWdy") &gt;= xs:base64Binary("eGF0YW1hYWdy")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-14">
+      <description>Compare base64Binary values as part of max() function</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>max((xs:base64Binary('qg=='), xs:base64Binary('uw=='), xs:base64Binary('iA==')))</test>
+      <result>
+         <assert-eq>xs:base64Binary('uw==')</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-15">
+      <description>Compare base64Binary values as part of sort operation</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31"/>
+      <test>
+         for $i in (xs:base64Binary('qg=='), xs:base64Binary('uw=='), xs:base64Binary(''), xs:base64Binary('iA=='), xs:base64Binary('u7s='))
+         order by $i descending
+         return string($i)
+      </test>
+      <result>
+         <assert-deep-eq>'u7s=', 'uw==', 'qg==', 'iA==', ''</assert-deep-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="base64Binary-gt-16">
+      <description>Compare two base64Binary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("/w==") gt xs:base64Binary("/w==")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-17">
+      <description>Compare two base64Binary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("/w==") ge  xs:base64Binary("qg==")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-18">
+      <description>Compare two base64Binary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("/w==") gt xs:base64Binary("qg==")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="base64Binary-gt-19">
+      <description>Complex comparison test of wrapped base64Binary/base64Binary constructor functions.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary(xs:base64Binary(xs:base64Binary("Aw=="))) gt xs:base64Binary("Aw==")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-20">
+      <description>Complex comparison test of wrapped base64Binary/base64Binary constructor functions. </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary(xs:base64Binary(xs:base64Binary("AAE="))) ge  xs:base64Binary("AAI=")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-21">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("") gt xs:base64Binary("")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-22">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("") gt xs:base64Binary("AAI=")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-23">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("AA==") gt xs:base64Binary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-24">
+      <description>Comparison involving implicit conversion of untypedAtomic to base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:untypedAtomic("AAE=") &gt; xs:base64Binary("AAI=")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-25">
+      <description>Comparing hexBinary to base64Binary is not allowed</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("00") gt xs:base64Binary("AAI=")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-gt-26">
+      <description>Comparing string to base64Binary is not allowed</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>"" gt xs:base64Binary("AAI=")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-ge-27">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("") ge  xs:base64Binary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-ge-28">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("") ge  xs:base64Binary("AAE=")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64Binary-ge-29">
+      <description>Comparison involving empty base64Binary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("AA==") gt xs:base64Binary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>  
+   
+   <test-case name="base64Binary-gt-30">
+      <description> test equality of xs:base64Binary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/>     
+      <test>
+         declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
+            if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 
+         }; 
+         local:base64Binary-value(true()) gt local:base64Binary-value(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="base64Binary-gt-31">
+      <description> test equality of xs:base64Binary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/> 
+      <test>
+         declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
+            if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 
+         }; 
+         not(local:base64Binary-value(true()) gt local:base64Binary-value(false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="base64Binary-gt-32">
+      <description> test equality of xs:base64Binary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/>     
+      <test>
+         declare function local:base64Binary-value($arg as xs:boolean) as xs:base64Binary { 
+            if ($arg) then xs:base64Binary('aGVsbG8=') else xs:base64Binary('Z29vZGJ5ZQ==') 
+         }; 
+         not(local:base64Binary-value(true()) ge  local:base64Binary-value(false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+</test-set>

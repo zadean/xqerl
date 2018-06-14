@@ -1,0 +1,10 @@
+{
+  "col labels" : ["singular", "plural"],
+  "row labels" : ["1p", "2p", "3p"],
+  "data" :
+     [
+        ["spinne", "spinnen"],
+        ["spinnst", "spinnt"],
+        ["spinnt", "spinnen"]
+     ]
+}

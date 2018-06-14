@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-insert-before"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-insert-before">
+    <description>Tests for the array:insert-before function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-insert-before"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+
+
+    <test-case name="array-insert-before-501">
+        <description>Insert sequence member in array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before(["a", "b", "c", "d"], 3, ("x", "y"))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>["a", "b", ("x", "y"), "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-502">
+        <description>Insert sequence member in array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before(["a", "b", "c", "d"], 5, ("x", "y"))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>["a", "b", "c", "d", ("x", "y")]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-503">
+        <description>Insert array member in array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before(["a", "b", "c", "d"], 3, ["x", "y"])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>["a", "b", ["x", "y"], "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-504">
+        <description>Insert sequence member in array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before(["a", "b", "c", "d"], 1, ([],[]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>[([],[]), "a", "b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-505">
+        <description>Insert empty sequence member in empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before([], 1, ())</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-506">
+        <description>Insert member in array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before([], 2, ())</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    <test-case name="array-insert-before-507">
+        <description>Insert member in array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:insert-before([4,5,[6]], 0, "a")</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+
+    <test-case name="array-insert-before-508">
+        <description>array:insert-before</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <modified by="Debbie Lockett" on="2015-05-01" change="Added XQ31+ spec dependency"/>
+        <modified by="Michael Kay" on="2015-07-13" change="The value of assert-deep-eq must be an XPath expression (not XQuery)"/>
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := <x/>
+        	  let $array := [<e/>, <f/>, <g/>]
+           	  for $i in 1 to array:size($array) + 1
+              return
+        	     array:insert-before($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 4</assert>
+                <assert>deep-equal($result[1]?*!local-name(), ('x', 'e', 'f', 'g'))</assert>
+                <assert>deep-equal($result[2]?*!local-name(), ('e', 'x', 'f', 'g'))</assert>
+                <assert>deep-equal($result[3]?*!local-name(), ('e', 'f', 'x', 'g'))</assert>
+                <assert>deep-equal($result[4]?*!local-name(), ('e', 'f', 'g', 'x'))</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-insert-before-509">
+        <description>array:insert-before</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <modified by="Debbie Lockett" on="2015-05-01" change="Added XQ31+ spec dependency"/>
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := 1
+              let $array := [0,0,0]
+              for $i in 1 to array:size($array) + 1
+              return
+                 array:insert-before($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 4</assert>
+                <assert-deep-eq><![CDATA[ 
+                    [1,0,0,0],
+                    [0,1,0,0],
+                    [0,0,1,0],
+                    [0,0,0,1]
+                ]]></assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-insert-before-510">
+        <description>array:insert-before - node identity</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <modified by="Debbie Lockett" on="2015-05-01" change="Added XQ31+ spec dependency"/>
+        <dependency type="spec" value="XQ31+"/>
+        <environment ref="array"/>
+        <test><![CDATA[   
+              let $x := <c/>
+              let $array := [<a/>, <b/>]
+              let $insert1 := array:insert-before($array, 1, $x)
+              let $insert2 := array:insert-before($array, 2, $x)
+              for $element in (array:flatten($insert1) union array:flatten($insert2))
+              let $name := $element/name()
+              order by $name
+              return $name
+        ]]></test>
+        <result>
+            <assert-deep-eq>("a", "b", "c")</assert-deep-eq>
+        </result>
+    </test-case> 
+    
+    <test-case name="array-insert-before-511">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:insert-before([1], 4294967297, 22)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+</test-set>

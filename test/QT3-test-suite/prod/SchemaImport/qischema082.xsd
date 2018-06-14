@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.w3.org/XQueryTest/qischema082"
+           elementFormDefault="qualified"
+           xmlns:s="http://www.w3.org/XQueryTest/qischema082">
+
+<!-- the purpose of this schema and associated tests is to 
+     see how the query processor handles types derived by extension
+     from a simple type -->
+
+<xs:simpleType name="money">
+  <xs:restriction base="xs:decimal">
+    <xs:fractionDigits value="2"/>
+  </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="globalMoney">
+  <xs:simpleContent>
+    <xs:extension base="s:money">
+      <xs:attribute name="currency">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="GBP"/>
+            <xs:enumeration value="EUR"/>
+            <xs:enumeration value="USD"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+<xs:element name="account">
+  <xs:complexType>
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="s:transaction"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="transaction" type="s:money"/>
+
+<xs:element name="globalTransaction" type="s:globalMoney" substitutionGroup="s:transaction"/>
+
+</xs:schema>

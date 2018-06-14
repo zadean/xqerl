@@ -1,0 +1,10 @@
+<comparables xmlns="http://www.xpathtest.com/test">
+  <comparable>
+    <string>hello</string>
+    <int>1</int>
+  </comparable>
+  <comparable>
+    <string>hello</string>
+    <int>1</int>
+  </comparable>
+</comparables>

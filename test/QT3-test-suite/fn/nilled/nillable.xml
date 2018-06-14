@@ -1,0 +1,14 @@
+<root xmlns="http://www.w3.org/XQueryTest/nillable" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <branch xsi:nil="0">
+    <branch xsi:nil="true"/>
+    <branch xsi:nil="false">
+      <twig xsi:nil="1"/>
+    </branch>
+    <twig>23</twig>
+    <note>Note 1</note>
+    <note>Note <span>2</span></note>
+    <note xsi:nil="1"/>
+    <date xsi:nil="true"/>
+    <size units="psi" xsi:nil="true"/>
+  </branch>
+</root> 

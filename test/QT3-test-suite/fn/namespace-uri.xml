@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-namespace-uri">
+   <description>Tests for the namespace-uri() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-namespace-uri"/>
+
+   <test-case name="fn-namespace-uri-1">
+      <description> Evaluation of the fn:namespace-uri function with an undefined context node and no argument. </description>
+      <created by="Carmelo Montanez" on="2005-09-20"/>
+      <environment ref="empty"/>
+      <test>fn:namespace-uri()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-2">
+      <description> Evaluation of the fn:namespace-uri function with more than one argument. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <test>fn:namespace-uri(/*,"A Second Argument")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-3">
+      <description> Evaluation of the fn:namespace-uri function with the context item not being a node. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <test>(1 to 100)[fn:namespace-uri()]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-4">
+      <description> Evaluation of the fn:namespace-uri function argument set to empty sequence. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <test>fn:namespace-uri(())</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-5">
+      <description> Evaluation of the fn:namespace-uri function argument set to a comment node. Use the fn:count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="auction"/>
+      <test>namespace-uri((//comment())[1])</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-6">
+      <description> Evaluation of the fn:namespace-uri function argument set to a computed comment node. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<!--comment-->)]]></test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-7">
+      <description> Evaluation of the fn:namespace-uri function argument set to a processing instruction node. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="auction"/>
+      <test>namespace-uri((//processing-instruction())[1])</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-8">
+      <description> Evaluation of the fn:namespace-uri function argument set to a constructed processing instruction node. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<?pi data?>)]]></test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-9">
+      <description> Evaluation of the fn:namespace-uri function argument set to a text node. Use the fn:count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="auction"/>
+      <test>namespace-uri((//text())[1])</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-10">
+      <description> Evaluation of the fn:namespace-uri function argument set to an element node with no namespace. Use the fn:count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <test>namespace-uri(/*)</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-11">
+      <description> Evaluation of the fn:namespace-uri function argument set to a computed element node with no namespace. Use the fn:count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:namespace-uri(element elementNode {"with no namespace"})</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-12">
+      <description> Evaluation of the fn:namespace-uri function argument set to an attribute node with no namespace. Use the fn:count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <test>fn:namespace-uri(/works/employee[1]/@name)</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-13">
+      <description> Evaluation of the fn:namespace-uri function argument set to a computed attribute node with no namespace. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:namespace-uri(attribute anAttribute {"Attribute Value No Namespace"})</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-14">
+      <description> Evaluation of the fn:namespace-uri function argument set to an element node with no namespace queried from a file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <test>fn:namespace-uri(/works[1]/employee[1])</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-15">
+      <description> Evaluation of the fn:namespace-uri function argument set to an attribute node with no namespace queried from a file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <test>fn:namespace-uri(/works[1]/employee[1]/@name)</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-16">
+      <description> Evaluation of the fn:namespace-uri function with no argument. Use an element node with no namespace queried from a file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $var := /works/employee[1] return $var/fn:namespace-uri()</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-17">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a direct element node with a namespace attribute. Use the string function </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<anElement xmlns = "http://www.example.com/examples"/>)]]></test>
+      <result>
+         <all-of>
+            <assert-eq>"http://www.example.com/examples"</assert-eq>
+            <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-18">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a computed element node (with prefix) that uses a declared namespace attribute. Use the string function </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare namespace ex = "http://www.example.com/examples"; 
+            fn:string(fn:namespace-uri(element ex:anElement {"An Element Content"}))</test>
+      <result>
+         <assert-string-value>http://www.example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-19">
+      <description>Evaluation of the fn:namespace-uri function with argument set to a computed element node (with no prefix) 
+        that should not use a declared namespace attribute. Use the count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare namespace ex = "http://www.example.com/examples"; 
+            fn:namespace-uri(element anElement {"An Element Content"})</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-20">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a direct element node (with no prefix) 
+        that should not use a declared namespace attribute. Use the count function to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace ex = "http://www.example.com/examples"; 
+              fn:namespace-uri(<anElement>An Element Content</anElement>)]]></test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-21">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a direct element node with prefix that should use a declared namespace attribute. Use the string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace ex = "http://www.example.com/examples"; 
+            fn:namespace-uri(<ex:anElement>An Element Content</ex:anElement>)]]></test>
+      <result>
+         <assert-string-value>http://www.example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-22">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a direct element node with no prefix that should use a declared defaultnamespace attribute. Use the string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/examples"; 
+            fn:string(fn:namespace-uri(<anElement>An Element Content</anElement>))]]></test>
+      <result>
+         <assert-string-value>http://www.example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-23">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a direct element node with prefix that should not used the declared defaultnamespace attribute. Use the string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/examples"; 
+        declare namespace ex = "http://www.example.com/exampleswithPrefix"; 
+        fn:string(fn:namespace-uri(<ex:anElement>An Element Content</ex:anElement>))]]></test>
+      <result>
+         <assert-string-value>http://www.example.com/exampleswithPrefix</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-24">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a computed element node with prefix that should not used the declared defaultnamespace attribute. Use the string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare default element namespace "http://www.example.com/examples"; 
+        declare namespace ex = "http://www.example.com/exampleswithPrefix"; 
+        fn:string(fn:namespace-uri(element ex:anElement {"An Element Content"}))</test>
+      <result>
+         <assert-string-value>http://www.example.com/exampleswithPrefix</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-25">
+      <description> Evaluation of the fn:namespace-uri function with argument set to a computed element node with prefix no that should used the declared default namespace attribute. Use the string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare default element namespace "http://www.example.com/examples"; 
+        declare namespace ex = "http://www.example.com/exampleswithPrefix"; 
+        fn:string(fn:namespace-uri(element anElement {"An Element Content"}))</test>
+      <result>
+         <assert-string-value>http://www.example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-namespace-uri-26">
+      <description> Evaluation of the fn:namespace-uri function with an undefined context node and argument set to ".". </description>
+      <created by="Carmelo Montanez" on="2006-02-08"/>
+      <environment ref="empty"/>
+      <test>fn:namespace-uri(.)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNamespaceURIFunc-1">
+      <description> A test whose essence is: `namespace-uri((), "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>namespace-uri((), "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNamespaceURIFunc-2">
+      <description> A test whose essence is: `if(false()) then namespace-uri() else true()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(false()) then namespace-uri() else true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPDY0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNamespaceURIFunc-3">
+      <description> A test whose essence is: `namespace-uri(()) eq xs:anyURI("")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>namespace-uri(()) eq xs:anyURI("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNamespaceURIFunc-1">
+      <description> Extract the namespace URI from a processing instruction node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<?target data?>) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNamespaceURIFunc-2">
+      <description> Extract the namespace URI from a comment node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[namespace-uri(<!--comment-->) eq ""]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNamespaceURIFunc-3">
+      <description> Extract the namespace URI from a text node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>namespace-uri(text{()}) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+      
+   <test-case name="cbcl-namespace-uri-001">
+      <description> test fn:boolean on fn:namespace-uri </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:boolean(fn:namespace-uri(<element />))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+</test-set>

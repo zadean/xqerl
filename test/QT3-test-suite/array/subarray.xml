@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-subarray"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-subarray">
+    <description>Tests for the array:subarray function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-subarray"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+
+
+    <test-case name="array-subarray-301">
+        <description>Subarray of array, 2 argument function</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 2)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-302">
+        <description>Subarray of array, 2 argument function</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 5)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-303">
+        <description>Subarray of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 2, 3)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-304">
+        <description>Subarray of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 2, 0)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-305">
+        <description>Subarray of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 2, 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>["b"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-306">
+        <description>Subarray of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 2, 2)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>["b", "c"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-307">
+        <description>Subarray of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", "b", "c", "d"], 5, 0)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-308">
+        <description>Subarray of array with various members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray(["a", (1,2,3,4), [(),0], "d", (), ""], 2, 4)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>[(1,2,3,4), [(),0], "d", ()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-309">
+        <description>Subarray of empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:subarray([], 1, 0)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-310">
+        <description>Subarray of array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:subarray([1,2,3], 0)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-311">
+        <description>Subarray of array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:subarray([1,2,3], 2, -1)</test>
+        <result>
+            <error code="FOAY0002"/>
+        </result>
+    </test-case>
+    <test-case name="array-subarray-312">
+        <description>Subarray of empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:subarray([1,2,3], 2, 3)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+
+    <test-case name="array-subarray-313">
+        <description>Subarray of array - skip over nesting</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <environment ref="array"/>
+        <test>array:subarray([[[1]],(2,2),3], 3, 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[3]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-subarray-314">
+        <description>Subarray of array - skip to end</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <environment ref="array"/>
+        <test>array:subarray([1, (2,2), 3], 3, 0)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-subarray-315">
+        <description>Subarray of array - skip over end</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <environment ref="array"/>
+        <test>array:subarray([1, (2,[2]), 3], 4, 1)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+
+    <test-case name="array-subarray-316">
+        <description>Subarray of array - limit over end</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <environment ref="array"/>
+        <test>array:subarray([1, (2,[2]), 3], 2, 20)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-subarray-317">
+        <description>array index out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:subarray([1,2,3,4,5], 4294967297, 2)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-subarray-318">
+        <description>length out of range </description>
+        <created by="Michael Kay after Christian Gruen" on="2017-11-09"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>array:subarray([1,2,3,4,5], 1, 4294967297)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+</test-set>

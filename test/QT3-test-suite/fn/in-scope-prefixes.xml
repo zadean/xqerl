@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-in-scope-prefixes">
+   <description>Tests for the in-scope-prefixes() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-in-scope-prefixes"/>
+   
+   <environment name="NamespaceSuppliedInternally">      
+      <source role="." file="in-scope-prefixes/NamespaceSuppliedInternally.xml">
+         <description>A namespace declared with a namespace declaration, as well as in the internal subset.</description>
+         <created by="Frans Englich" on="2007-12-27"/>
+      </source> 
+   </environment>
+   
+   <environment name="pathdata">
+      <source role="." file="path/pathdata.xml">
+         <description>A file containing data for testing the fn:path() function</description>
+         <created by="Michael Kay" on="2010-12-08"/>
+      </source>
+   </environment>  
+   
+   <environment name="namespaces11">
+      <source role="." file="in-scope-prefixes/namespaces11.xml">
+         <description>A file an XML 1.1 namespace undeclaration</description>
+         <created by="Michael Kay" on="2011-07-05"/>
+      </source>
+   </environment>        
+
+   <test-case name="fn-in-scope-prefixes-1">
+      <description> Evaluation of fn:in-scope-prefixes function with incorrect arity. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:in-scope-prefixes(<a1 xmlns:p1="http://www.exampole.com"></a1>,"Second Argument")]]></test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-2">
+      <description> Evaluation of fn:in-scope-prefixes function with incorrect argument type. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <test>fn:in-scope-prefixes(200)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-3">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element node. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:in-scope-prefixes(<anElement>some content</anElement>)]]></test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-4">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element node with a namespace declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:in-scope-prefixes(<anElement xmlns:p1 = "http://www.example.com">some content</anElement>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>xml p1</assert-string-value>
+            <assert-string-value>p1 xml</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-5">
+      <description> Evaluation of fn:in-scope-prefixes function for a computed constructed element node with no namespace declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:in-scope-prefixes(element anElement {"Some content"})</test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-6">
+      <description> Evaluation of fn:in-scope-prefixes function for a computed constructed element node and a default namesapce declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare default element namespace "http://www.example.com"; let $seq := fn:in-scope-prefixes(element anElement {"Some content"}) return (count($seq),$seq=("xml",""))</test>
+      <result>
+         <assert-string-value>2 true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-7">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element node and a default namesapce declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com"; let $seq := fn:in-scope-prefixes(<anElement>Some content</anElement>) return (count($seq),$seq=("xml",""))]]></test>
+      <result>
+         <assert-string-value>2 true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-8">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element node with xmlns attribute and a prolog namesapce declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p1 = "http://www.example.com"; fn:in-scope-prefixes(<anElement xmlns:p1="http://www.somenamespace.com">Some content</anElement>)]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>xml p1</assert-string-value>
+            <assert-string-value>p1 xml</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-9">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element node without xmlns attribute and a prolog namesapce declaration. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p1 = "http://www.example.com"; fn:in-scope-prefixes(<anElement>Some content</anElement>)]]></test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-10">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:string-length. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:string-length(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-11">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:upper-case. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:upper-case(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])]]></test>
+      <result>
+         <assert-string-value>XML</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-12">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:lower-case. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:lower-case(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])]]></test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-13">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:string-to-codepoints. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:string-to-codepoints(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])]]></test>
+      <result>
+         <assert-string-value>120 109 108</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-14">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to xs:string. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[xs:string(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1])]]></test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-15">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:substring-before. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:substring-before(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],"m")]]></test>
+      <result>
+         <assert-string-value>x</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-16">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:substring-after. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:substring-after(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],"m")]]></test>
+      <result>
+         <assert-string-value>l</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-17">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:concat. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:concat(fn:in-scope-prefixes(<anElement>Some content</anElement>),"m")]]></test>
+      <result>
+         <assert-string-value>xmlm</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-18">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:string-join. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:string-join((fn:in-scope-prefixes(<anElement>Some content</anElement>),"xml"),"")]]></test>
+      <result>
+         <assert-string-value>xmlxml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-19">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:susbtring. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:substring(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],2)]]></test>
+      <result>
+         <assert-string-value>ml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-in-scope-prefixes-20">
+      <description> Evaluation of fn:in-scope-prefixes function for a directly constructed element used as argument to fn:contains. </description>
+      <created by="Carmelo Montanez" on="2005-11-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:contains(fn:in-scope-prefixes(<anElement>Some content</anElement>)[1],"l")]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-21">
+      <description> Evaluation of fn:in-scope-prefixes function for an external document. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="auction"/>
+      <test>in-scope-prefixes(/*)</test>
+      <result>
+         <assert-permutation>"ma", "xlink", "anyzone", "eachbay", "yabadoo", "xml"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-22">
+      <description> Evaluation of fn:in-scope-prefixes function for an external document. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="auction"/>
+      <test>in-scope-prefixes((//*)[19])</test>
+      <result>
+         <assert-permutation>"ma", "xlink", "anyzone", "eachbay", "yabadoo", "xml"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-23">
+      <description> Evaluation of fn:in-scope-prefixes function for an external document. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="auction"/>
+      <test>in-scope-prefixes(/)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-24">
+      <description> Evaluation of fn:in-scope-prefixes function for an external document. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="qname"/>
+      <test>in-scope-prefixes(/*)</test>
+      <result>
+         <assert-permutation>"", "xml", "ns"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-25">
+      <description> Evaluation of fn:in-scope-prefixes function for a document with namespaces declared in the DTD. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="NamespaceSuppliedInternally"/>
+      <test>in-scope-prefixes(/*)</test>
+      <result>
+         <assert-permutation>"", "xml", "xlink"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-26">
+      <description> Evaluation of fn:in-scope-prefixes function for a document that undeclares the default namespace. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="pathdata"/>
+      <test>in-scope-prefixes(/*/p)</test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-27">
+      <description> Evaluation of fn:in-scope-prefixes function for a document that contains an XML 1.1 namespace undeclaration. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="namespaces11"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>in-scope-prefixes(//*:outer)</test>
+      <result>
+         <assert-permutation>"", "xml", "one"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-28">
+      <description> Evaluation of fn:in-scope-prefixes function for a document that contains an XML 1.1 namespace undeclaration. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="namespaces11"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>in-scope-prefixes(//*:inner)</test>
+      <result>
+         <assert-permutation>"", "xml", "one", "two"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-29">
+      <description> Evaluation of fn:in-scope-prefixes function for a document that contains an XML 1.1 namespace undeclaration. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="namespaces11"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>in-scope-prefixes(//*:magpie)</test>
+      <result>
+         <assert-permutation>"", "xml", "two", "three"</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-in-scope-prefixes-30">
+      <description> Evaluation of fn:in-scope-prefixes function for a document that contains an XML 1.1 namespace undeclaration. </description>
+      <created by="Michael Kay" on="2011-07-05"/>
+      <environment ref="namespaces11"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>in-scope-prefixes(//*:magpie)</test>
+      <result>
+         <assert-permutation>"", "xml", "two", "three"</assert-permutation>
+      </result>
+   </test-case>
+
+   <test-case name="K-InScopePrefixesFunc-1">
+      <description> A test whose essence is: `in-scope-prefixes()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>in-scope-prefixes()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-InScopePrefixesFunc-2">
+      <description> A test whose essence is: `in-scope-prefixes("string", "nodetest", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>in-scope-prefixes("string", "nodetest", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-1">
+      <description> For a directly constructed element fn:in-scope-prefixes() returns 'xml' and the zero length string for the default element namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<e/>))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-2">
+      <description> For a computed element fn:in-scope-prefixes() returns 'xml'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element name {7}))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-3">
+      <description> in-scope-prefixes() can't take text nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>in-scope-prefixes(text {"some text"})</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-4">
+      <description> in-scope-prefixes() can't take text nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>in-scope-prefixes(comment {"content"})</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-5">
+      <description> in-scope-prefixes() can't take processing instructions. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[in-scope-prefixes(<?target data?>)]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-6">
+      <description> Ensure the default element namespace is in-scope properly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<a xmlns="http://www.example.com" xmlns:p="http://ns.example.com/asd" xmlns:b="http://ns.example.com/asd"/>))]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-7">
+      <description> Ensure the default namespace is properly handled. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<a xmlns=""/>))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-8">
+      <description> Ensure the in-scope prefixes dealt with correctly for double default namespace declarations of different kinds. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/A"; count(in-scope-prefixes(<anElement xmlns="http://www.example.com/B"/>))]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-9">
+      <description> Check that a prefix declaration is in scope in a sub-node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $i in fn:in-scope-prefixes(<e xmlns:p="http://example.com" xmlns:a="http://example.com"> <b/> </e>/b) order by $i return $i]]></test>
+      <result>
+         <assert-string-value>a p xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-10">
+      <description> Check that a default namespace declaration is picked up. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com"; count(fn:in-scope-prefixes(<e/>))]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-11">
+      <description> Check the in-scope namespaces of different elements, constructed with direct constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         declare default element namespace "http://www.example.com/"; 
+         let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> 
+         return (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"])))
+                )]]></test>
+      <result>
+         <assert-deep-eq>2, 1, 2, 2</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-12">
+      <description> Check the in-scope namespaces of different elements, constructed with computed constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         declare default element namespace "http://www.example.com/"; 
+         let $i := element e { element {QName("", "a")} {}, element {QName("http://www.example.com/", "b")} {}, element {QName("http://www.example.com/Second", "c")} {} } 
+         return (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"])))
+                )</test>
+      <result>
+         <assert-deep-eq>2, 1, 2, 2</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-13">
+      <description> Ensure the in-scope prefixes are correct with computed constructors when combined with a default element namespace declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare default element namespace "http://www.example.com/"; let $i := element e { element b {()} } return (count(in-scope-prefixes($i/b)), count(in-scope-prefixes($i)))</test>
+      <result>
+         <assert-string-value>2 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-14">
+      <description> Check the in-scope namespaces of a single, computed element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element e{()}))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-15">
+      <description> Ensure the in-scope prefixes are correct with computed constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>let $i := element e { element b {()} } return (count(in-scope-prefixes($i/b)), count(in-scope-prefixes($i)))</test>
+      <result>
+         <assert-string-value>1 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-16">
+      <description> Check that a default namespace declaration attribute on a direct element constructor 
+        correctly affect a computed child constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $i := <e xmlns="http://example.com/"> 
+                    {element a {()}} 
+                  </e> 
+        return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*))))]]></test>
+      <result>
+         <assert-string-value>2 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-17">
+      <description> Ensure the namespace used in the name is part of the in-scope prefixes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://example.com/"; count(in-scope-prefixes(<p:e/>)), count(in-scope-prefixes(element p:e {()}))]]></test>
+      <result>
+         <assert-string-value>2 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-18">
+      <description> Ensure prefix namespace declarations are counted as in-scope bindings. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://example.com/"; <e xmlns:p="http://example.com/"> { count(in-scope-prefixes(<e/>)), count(in-scope-prefixes(element e {()})) } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://example.com/" xmlns:p="http://example.com/">3 3</e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-19">
+      <description> Count the in-scope namespaces of a node with name xml:space. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element xml:space {()}))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-20">
+      <description> Count the in-scope namespaces of a node with name fn:space. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element fn:space {()}))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-21">
+      <description> Count the in-scope namespaces of a node with name fn:space. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(in-scope-prefixes(element xs:space {()}))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-22">
+      <description> Count the in-scope namespaces of a node with name fn:space(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<fn:space/>))]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-23">
+      <description> Count the in-scope namespaces of a node with name fn:space(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(in-scope-prefixes(<xs:space/>))]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-24">
+      <description> Ensure a prolog namespace declaration isn't in the in-scope bindings unless it's used. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace p = "http://example.com/"; count(in-scope-prefixes(<element/>))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-25">
+      <description> Check the in-scope namespaces of two nodes. </description>
+      <created by="Frans Englich" on="2008-01-04"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bugs 22334 and 11443"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace a = "http://example.com/1"; 
+        declare namespace b = "http://example.com/2"; 
+        declare namespace unused = "http://example.com/3"; 
+        declare namespace unused2 = "http://example.com/4"; 
+        <unused:e/>[2], 
+        <e a:n1="content" b:n1="content"> <a:n1/> </e>/
+            (for $i in in-scope-prefixes(.) order by $i return $i, 
+             '|', 
+             for $i in a:n1/in-scope-prefixes(.) order by $i return $i)
+      ]]></test>
+      <result>
+         <assert-string-value>a b xml | a xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-26">
+      <description> . </description>
+      <created by="Frans Englich" on="2008-01-04"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         let $i := <e> { attribute {QName("http://example.com/", "prefix:attributeName")} {()} } </e> 
+         return document {$i, for $ps in in-scope-prefixes($i) order by $ps return $ps}]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:prefix="http://example.com/" prefix:attributeName=""/>prefix xml]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-27">
+      <description> Check in scope namespaces. </description>
+      <created by="Frans Englich" on="2008-01-04"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace a = "http://example.com/1"; declare namespace b = "http://example.com/2"; <e a:n1="content" b:n1="content"/>/(for $i in in-scope-prefixes(.) order by $i return $i)]]></test>
+      <result>
+         <assert-string-value>a b xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-28">
+      <description> Check in-scope declaration of a tree fragment overriding and undeclaration the default namespace. </description>
+      <created by="Frans Englich" on="2008-01-09"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         declare default element namespace "http://www.example.com/"; 
+         let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> 
+         return document{
+                (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), 
+                $i)}]]></test>
+      <result>
+         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-29">
+      <description> Use a computed element constructor which undeclares the default namespace, as operand to a path expression. </description>
+      <created by="Frans Englich" on="2008-01-09"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/"; <a2/>/element e { element {QName("", "a")} {} }]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InScopePrefixesFunc-30">
+      <description> Use a computed element constructor which undeclares the default namespace, as operand to a path expression(#2). </description>
+      <created by="Frans Englich" on="2008-01-09"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/"; <a2 xmlns:p="http://ns.example.com/foo"/>/element e { element {QName("http://example.com/2", "p:a")} {} }]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><p:a xmlns:p="http://example.com/2"/></e>]]></assert-xml>
+      </result>
+   </test-case>
+</test-set>

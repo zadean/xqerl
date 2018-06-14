@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-for-each-pair" covers-30="fn-for-each-pair">
+    <description>Tests the fn:for-each-pair() function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/" idref="func-for-each-pair"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions"/>
+
+    <test-case name="for-each-pair-001">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"), deep-equal#2)</test>
+        <result>
+            <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-002">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee", "ff"), ("AA", "BB", "cc", "dd", "EE"), deep-equal#2)</test>
+        <result>
+            <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-003">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE", "ff"), deep-equal#2)</test>
+        <result>
+                <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-004" covers-30="partial-function-application">
+        <description>Apply concat to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"), concat(?, '-', ?))</test>
+        <result>
+                <assert-deep-eq>'aa-AA', 'bb-BB', 'cc-cc', 'dd-dd', 'ee-EE'</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-005">
+        <description>Apply user-defined anonymous function to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(1 to 5, 1 to 5, function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b})</test>
+        <result>
+                <assert-deep-eq>2, 4, 6, 8, 10</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-006">
+        <description>Use a function that has a closure</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test> 
+            let $millenium := year-from-date(current-date()) idiv 1000 
+            return for-each-pair(1 to 5, 2 to 6, function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b + $millenium})</test>
+        <result>
+                <assert-deep-eq>5, 7, 9, 11, 13</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-007">
+        <description>Use a function that has a closure</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test> 
+            let $millenium := year-from-date(current-date()) idiv 1000 
+            return for-each-pair(("a", "ab", "abc", ""), ("", "", "", ""), function($a, $b) as xs:integer* {1 to (string-length($a) + string-length($b))})</test>
+        <result>
+                <assert-deep-eq>1, 1, 2, 1, 2, 3</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-008">
+        <description>for-each-pair function - exercise from XML Prague 2010:
+            form sum of adjacent values in an input sequence</description>
+        <created by="Michael Kay" on="2010-03-14"/>
+        <test> let $in := 1 to 5 return for-each-pair($in, tail($in), function($a, $b){$a+$b}) </test>
+        <result>
+                <assert-deep-eq>3, 5, 7, 9</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-901">
+        <description>for-each-pair function, wrong arity function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <modified by="Michael Kay" on="2011-09-05" change="change expected error code from XQST0031 to XPTY0004"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"), deep-equal#3)</test>
+        <result>
+                <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="for-each-pair-902">
+        <description>for-each-pair function, wrong input to function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>for-each-pair(("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", 12), contains#2)</test>
+        <result>
+                <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+   <test-case name="fn-for-each-pair-001">
+      <description>Attempts to evaluate the "for-each-pair" function with no arguments.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-002">
+      <description>Attempts to reference the "for-each-pair" function with arity zero.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-003">
+      <description>Attempts to evaluate the "for-each-pair" function with one argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( fn:concat#2 )</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-004">
+      <description>Attempts to reference the "for-each-pair" function with arity one.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair#1</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-005">
+      <description>Attempts to evaluate the "for-each-pair" function with two arguments.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), fn:concat#2)</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-006">
+      <description>Attempts to reference the "for-each-pair" function with arity one.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair#2</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-007">
+      <description>Attempts to evaluate the "for-each-pair" function with three arguments.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), fn:concat#2)</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-008">
+      <description>Attempts to reference the "for-each-pair" function with arity three.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:exists( fn:for-each-pair#3 )</test>
+      <result>
+         <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-009">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
+                                 fn:dateTime( fn:current-date(),
+                                              fn:current-time() ))
+                            then fn:concat#2
+                            else () ),
+              fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
+                                fn:dateTime( fn:current-date(),
+                                             fn:current-time() ))
+                            then ()
+                            else fn:concat#2 ) )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-010">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="feature" value="staticTyping"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), if ( fn:current-dateTime() eq
+                          fn:dateTime( fn:current-date(),
+                                       fn:current-time() ))
+                          then fn:concat#2
+                          else () )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-011">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), (fn:concat#2, fn:concat#2) )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-012">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), fn:true() )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-013">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <environment>
+         <source role="." file="for-each-pair/fn-for-each-pair-013.xml">
+            <description/>
+            <created by="Tim Mills" on="2012-05-01"/>
+         </source>
+      </environment>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test> fn:for-each-pair( (), (), /root )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-014">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), fn:boolean#1 )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-015">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), fn:concat#3 )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-016">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), function($a as item(), $b as item()) as item()* { fn:boolean($a), fn:boolean($b) } )</test>
+      <result>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <error code="XPST0005" />
+	      <assert-empty/>
+	    </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-017">
+      <description>Evaluates the "for-each-pair" function with $seq1, $seq2 set to a mix of item types </description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <environment>
+         <source role="." file="for-each-pair/fn-for-each-pair-013.xml">
+            <description/>
+            <created by="Tim Mills" on="2012-05-01"/>
+         </source>
+      </environment>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair((//node(), 1, "string", 3.14, 2.7e0, fn:exists#1),
+                          (//node(), 1, "string", 3.14, 2.7e0, fn:exists#1), function($a, $b)
+                          { if ($a instance of function(*))
+                            then $b instance of function(*)
+                            else if ($b instance of function(*))
+                            then false()
+                            else deep-equal($a, $b)
+                          } )</test>
+      <result>
+	<assert-string-value>true true true true true true true true true true true true true true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-018">
+      <description>Evaluates the "for-each-pair" function with empty $seq1 and error in $seq2 </description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), fn:error(), concat#2)</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="FOER0000" />
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-019">
+      <description>Evaluates the "for-each-pair" function with empty $seq2 and error in $seq1 </description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( fn:error(), (), concat#2)</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="FOER0000" />
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-020">
+      <description>Evaluates the "for-each-pair" function with a function which raises an error, $seq1 and $seq2 empty.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (), (), function($arg, $arg2) { fn:error() })</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="XPST0005" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-021">
+      <description>Evaluates the "for-each-pair" function with a function which raises an error</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( 1 to 10, 1 to 10, function($arg, $arg2) { fn:error() })</test>
+      <result>
+	  <error code="FOER0000" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-022">
+      <description>Evaluates the "for-each-pair" function with a function which returns the empty sequence, $seq1 and $seq2 raise errors</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( fn:error(), fn:error(), function($arg1, $arg2) { () })</test>
+      <result>
+	<any-of>
+	  <assert-empty />
+	  <error code="XPST0005" />
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-023">
+      <description>Evaluates the "for-each-pair" function with a function which returns the empty sequence, $seq1 and $seq2 raise errors</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (1, fn:error()), 1, function($arg1, $arg2) { ($arg1, $arg2) })</test>
+      <result>
+	<any-of>
+	  <assert-string-value>1</assert-string-value>
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-024">
+      <description>Evaluates the "for-each-pair" function with a function which returns the empty sequence, $seq1 and $seq2 raise errors</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( 1, (1, fn:error()), function($arg1, $arg2) { ($arg1, $arg2) })</test>
+      <result>
+	<any-of>
+	  <assert-string-value>1 1</assert-string-value>
+	  <error code="FOER0000" />
+	</any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-025">
+      <description>Evaluates the "for-each-pair" function with a function which returns exactly one item per call</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( 1 to 3, 1 to 3, function($arg1, $arg2) { ($arg1 + $arg2) })</test>
+      <result>
+	<assert-string-value>2 4 6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-026">
+      <description>Evaluates the "for-each-pair" function with a function which returns zero or one item per call</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (true(), false(), true()), 1 to 3, function($arg1, $arg2) { if ($arg1) then $arg2 else () })</test>
+      <result>
+	<assert-string-value>1 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-027">
+      <description>Evaluates the "for-each-pair" function with a function which returns more than one item per call</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( 1 to 3, 1 to 3, function($arg1, $arg2) { ($arg1, $arg2) })</test>
+      <result>
+	<assert-string-value>1 1 2 2 3 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-028">
+      <description>Evaluates the "for-each-pair" function with $f set to a function which expects integers, but is supplied with strings.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( ("1", "2"), (1, 2), function($arg1 as xs:integer, $arg2 as xs:integer) { $arg1 + $arg2 } )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-029">
+      <description>Evaluates the "for-each-pair" function with $f set to a function which expects integers, but is supplied with strings.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( (1, 2), ("1", "2"), function($arg1 as xs:integer, $arg2 as xs:integer) { $arg1 + $arg2 } )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-030">
+      <description>Evaluates the "for-each-pair" function with $f set to a function which expects integers, but is supplied with strings.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( ("1", "2"), ("1", "2"), function($arg1 as xs:integer, $arg2 as xs:integer) { $arg1 + $arg2 } )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-for-each-pair-031">
+      <description>Tests the typ checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:for-each-pair( ("a"), ("b"), if ( fn:current-dateTime() eq
+                                 fn:dateTime( fn:current-date(),
+                                              fn:current-time() ))
+                            then fn:concat#2
+                            else () ),
+              fn:for-each-pair( "a", "b", if ( fn:current-dateTime() eq
+                                fn:dateTime( fn:current-date(),
+                                             fn:current-time() ))
+                            then ()
+                            else fn:concat#2 ) )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-032">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="feature" value="staticTyping"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( "a", "b", if ( fn:current-dateTime() eq
+                          fn:dateTime( fn:current-date(),
+                                       fn:current-time() ))
+                          then fn:concat#2
+                          else () )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-033">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( "a", "b", (fn:concat#2, fn:concat#2) )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-034">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( "a", "b", fn:true() )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-035">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <environment>
+         <source role="." file="for-each-pair/fn-for-each-pair-013.xml">
+            <description/>
+            <created by="Tim Mills" on="2012-05-01"/>
+         </source>
+      </environment>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test> fn:for-each-pair("a", "b",  /root )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-036">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( "a", "b", fn:boolean#1 )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-for-each-pair-037">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:for-each-pair( "a", "b", fn:concat#3 )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+</test-set>

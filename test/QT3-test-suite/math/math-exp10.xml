@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="math-exp10"  covers-30="math-exp10">
+    <description>Tests for the math:exp10 function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-exp10"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    
+    <test-case name="math-exp10-001">
+        <description>Evaluate the function exp10() with the argument set to empty sequence</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(())</test>
+        <result>
+            <assert-empty />
+        </result>
+    </test-case>
+    <test-case name="math-exp10-002">
+        <description>Evaluate the function exp10() with the argument set to 0</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(0)</test>
+        <result>
+            <assert-eq>1.0e0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-exp10-003">
+        <description>Evaluate the function exp10() with the argument set to 1</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(1)</test>
+        <result>
+            <assert-eq>1.0e1</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-exp10-004">
+        <description>Evaluate the function exp10() with the argument set to 0.5</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/> 
+        <modified by="Michael Kay, Saxonica" on="2012-05-29" change="add alternative result, see bug 15233"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(0.5)</test>
+        <result>
+          <any-of>
+            <assert-eq>3.1622776601683795</assert-eq>
+            <assert-eq>3.162277660168379</assert-eq>
+            <!-- Result according to Wolfram Alfa: 
+                       3.16227766016837933199889354443271853371955513932521682... -->
+          </any-of>  
+        </result>
+    </test-case>
+    <test-case name="math-exp10-005">
+        <description>Evaluate the function exp10() with the argument set to -1</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(-1)</test>
+        <result>
+            <assert-eq>1.0e-1</assert-eq>
+        </result>
+    </test-case>
+   
+    <test-case name="math-exp10-006">
+        <description>Evaluate the function exp10() with the argument set to xs:double('NaN')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(xs:double('NaN'))</test>
+        <result>
+            <assert-string-value>NaN</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="math-exp10-007">
+        <description>Evaluate the function exp10() with the argument xs:double('INF')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(xs:double('INF'))</test>
+        <result>
+            <assert-eq>xs:double('INF')</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="math-exp10-008">
+        <description>Evaluate the function exp10() with the argument xs:double('NaN')</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <environment ref="math"/>        
+        <test>math:exp10(xs:double('-INF'))</test>
+        <result>
+            <assert-eq>0.0e0</assert-eq>
+        </result>
+    </test-case>
+</test-set>

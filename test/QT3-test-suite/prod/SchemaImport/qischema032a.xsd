@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="US-ASCII"?> <xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:res="http://schema.highwire.org/Publishing/Resource"
+  targetNamespace="http://schema.highwire.org/Publishing/Resource"
+  elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xs:element name="resource" type="res:resource" abstract="false" />
+
+  <xs:complexType name="resource" final="extension">
+    <xs:attribute name="type" type="xs:QName"  />
+    <xs:anyAttribute namespace="##other" processContents="skip"/> 
+  </xs:complexType>
+</xs:schema>

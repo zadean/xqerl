@@ -1,0 +1,23 @@
+{
+     "firstname": "Mildred",
+     "lastname": "Moore",
+     "age": 32,
+     "address":
+     {
+         "street": "91 High Street",
+         "town": "Biscester",
+         "county": "Oxfordshire",
+         "postcode": "OX6 3PD"
+     },
+     "phone":
+     [
+         {
+           "type": "home",
+           "number": "01869 378073"
+         },
+         {
+           "type": "mobile",
+           "number": "07356 740756"
+         }
+     ]
+}

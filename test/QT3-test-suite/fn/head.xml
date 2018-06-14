@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-head" covers-30="fn-head">
+   <description>Tests for the head() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-head"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+
+   <test-case name="head-001">
+      <description> head() of a simple sequence </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <test>head(3 to 10)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="head-002">
+      <description> head() of a simple sequence </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <test>head(("a", "b", current-dateTime()))</test>
+      <result>
+         <assert-eq>"a"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="head-003">
+      <description> head() of a node sequence </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <environment ref="works-mod"/>
+      <test>let $a := /works return head($a/*)/string(@name)</test>
+      <result>
+         <assert-string-value>Jane Doe 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="head-004">
+      <description> head() of a singleton sequence </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <environment ref="works-mod"/>
+      <test>let $a := /works return name(head($a))</test>
+      <result>
+         <assert-string-value>works</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="head-005">
+      <description> head() of an empty sequence </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <environment ref="works-mod"/>
+      <test>head(/works/cucumber)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="head-006">
+      <description> head() preserves identity </description>
+      <created by="Michael Kay" on="2010-02-18"/>
+      <environment ref="works-mod"/>
+      <test>let $a := /works/* return (head($a) is $a[1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="head-007">
+      <description> dynamic call on head() </description>
+      <created by="Michael Kay" on="2015-02-04"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+        let $f := if (current-date() gt xs:date('1900-01-01')) then head#1 else count#1
+        return $f(5 to 10)</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="head-008">
+      <description> dynamic call on head(), returning empty </description>
+      <created by="Michael Kay" on="2015-02-04"/>
+      <environment ref="works-mod"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+        let $f := if (current-date() gt xs:date('1900-01-01')) then head#1 else (abs#1, abs#1, abs#1, abs#1)
+        return $f[1](/works/cucumber)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-InlineFunctionExpr">
+   <description>Tests for inline functions (especially in XPath, because of poor coverage elsewhere)</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-EQName"/>
+   <link type="spec" document="XQuery" section-number="H.0.0.0.0.0.0.0" idref="__HOF"/>
+   
+   <dependency type="feature" value="higherOrderFunctions"/>       
+
+   <test-case name="inline-fn-001">
+      <description>Basic inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+        let $f := function($x){$x+1} return $f(2)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-002">
+      <description>Zero-arity function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $pi := function(){3.14159} return $pi()</test>
+      <result>
+         <assert-eq>3.14159</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-003">
+      <description>Arity two function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y){$x + $y} return $add(4, 2)</test>
+      <result>
+         <assert-eq>6</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-004">
+      <description>Function accessing local variables</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         sum(for $i in 1 to 6 return
+             let $add := function($x){$x + $i} return $add(4))</test>
+      <result>
+         <assert-eq>45</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-005">
+      <description>Function accessing context item</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         (1 to 4) !
+         (let $add := function($x){$x + .} return $add(4))</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-006">
+      <description>Function with empty body (3.0)</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30 XQ30"/>
+      <test>let $void := function(){} return $void()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-007" covers="empty-enclosed-expr">
+      <description>Function with empty body (3.1)</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $void := function(){} return $void()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-008">
+      <description>Nested inline functions</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $outer := function($x) {
+            let $inner := function($y) {$y + $x}
+            return $inner(5)
+         }
+         return $outer(3)
+      </test>
+      <result>
+         <assert-eq>8</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-009">
+      <description>Nested inline functions accessing a "grandfather" variable</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $bonus := 10,
+             $outer := function($x) {
+                let $inner := function($y) {$y + $x + $bonus}
+                return $inner(5)
+             }
+         return $outer(3)
+      </test>
+      <result>
+         <assert-eq>18</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-010">
+      <description>Function with declared parameter types</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x as xs:integer, $y as xs:integer){$x + $y}
+         return $add(3,4)
+      </test>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-011">
+      <description>Function with declared parameter types, error case</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x as xs:integer, $y as xs:integer){$x + $y}
+         return $add(3,4.2)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-012">
+      <description>Function with declared return type</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y) as xs:integer {$x + $y}
+         return $add(3, 4)
+      </test>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-012a">
+      <description>Function with declared return type, error case</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y) as xs:integer {$x + $y}
+         return $add(3, 4.1)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-013">
+      <description>Function with declared return type, causes type conversion</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y) as xs:double {$x + $y}
+         return $add(3, 4)
+      </test>
+      <result>
+         <all-of>
+            <assert-eq>7</assert-eq>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-014">
+      <description>Function returning a function containing a closure</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $process := function($op, $x, $y) as function(*) {if ($op = "+") then function() {$x + $y} else function() {$x - $y}}
+         return $process("+", 3, 4)()
+      </test>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-015">
+      <description>Annotations are allowed in XQuery</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $add := %Q{http://example.com/speed}fast %Q{http://example.com/origin}author("Mike") function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-016">
+      <description>Annotations are not allowed in XPath</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>
+         let $add := %Q{http://example.com/speed}fast %Q{http://example.com/origin}author("Mike") function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-017">
+      <description>Annotations with parentheses must have parameters</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $add := %Q{http://example.com/speed}fast() %Q{http://example.com/origin}author("Mike") function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-018">
+      <description>Parameters to Annotations must be literals</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $add := %Q{http://example.com/speed}fast(true())  function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-019">
+      <description>Parameters to Annotations must be literals</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $add := % Q{http://example.com/speed}speed (-1)  function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-020">
+      <description>Parameters to Annotations must be literals</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $add := % Q{http://example.com/speed}speed (())  function($x, $y) {$x + $y} return $add(2,2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-021">
+      <description>Name of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y) {$x + $y} return function-name($add)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-022">
+      <description>Arity of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $add := function($x, $y) {$x + $y} return function-arity($add)
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-023" covers="fn-apply">
+      <description>Apply an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         let $add := function($x, $y) {$x + $y} return apply($add, [12, 5])
+      </test>
+      <result>
+         <assert-eq>17</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-024">
+      <description>An inline function is a primary</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($x, $y) {$x + $y} (12, 5)
+      </test>
+      <result>
+         <assert-eq>17</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-025">
+      <description>An inline function is a primary</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($x, $y) {$x + $y} [function-arity(.) = 2] (12, 5)
+      </test>
+      <result>
+         <assert-eq>17</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-026">
+      <description>Pass a function to itself</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $weirdo := function($x, $f) {if ($x=0) then 0 else $f($x - 1, $f)} 
+         return $weirdo(12, $weirdo)
+      </test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-027" covers="map-general">
+      <description>A map containing inline functions</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         let $calc := map{
+            "+" : function($a, $b) {$a + $b},
+            "-" : function($a, $b) {$a - $b},
+            "*" : function($a, $b) {$a * $b},
+            "/" : function($a, $b) {$a div $b}}
+         return $calc("*")(2,3)  
+      </test>
+      <result>
+         <assert-eq>6</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-028">
+      <description>Inline function has no string value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         string(function($a, $b) {$a + $b})
+      </test>
+      <result>
+         <error code="FOTY0014"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-029">
+      <description>deep-equal() comparing inline functions</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         deep-equal(function($a, $b) {$a + $b}, function($a, $b) {$a - $b})
+      </test>
+      <result>
+         <error code="FOTY0015"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-030">
+      <description>Inline function has no typed value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         data(function($a, $b) {$a + $b})
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-031">
+      <description>Inline function has no typed value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $x := function($a, $b) {$a + $b}, 
+             $y := function($a, $b) {$a - $b},
+             $c := function($x, $y) {$x = $y}
+         return $c($x, $y)
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-032">
+      <description>Type of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($a, $b) {$a + $b}
+      </test>
+      <result>
+         <all-of>
+            <assert-type>item()</assert-type>
+            <assert-type>function(*)</assert-type>
+            <assert-type>function(item()*, item()*) as item()*</assert-type>
+            <assert-type>function(xs:integer, xs:integer) as item()*</assert-type>
+            <not>
+               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
+            </not>
+            <not>
+               <assert-type>function(item()*, item()*, item()*) as item()*</assert-type>
+            </not>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-033">
+      <description>Type of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($a as xs:integer, $b as xs:integer) as xs:integer {$a + $b}
+      </test>
+      <result>
+         <all-of>
+            <assert-type>item()</assert-type>
+            <assert-type>function(*)</assert-type>
+            <assert-type>function(xs:integer, xs:integer) as item()*</assert-type>
+            <assert-type>function(xs:long, xs:long) as xs:integer+</assert-type>
+            <not>
+               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
+            </not>
+            <not>
+               <assert-type>function(xs:integer, xs:decimal) as xs:integer</assert-type>
+            </not>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-034">
+      <description>Inline function accessing global variable in XQuery</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment>
+         <param name="p" select="7" declared="true"/>
+      </environment>
+      <test>
+         declare variable $p as xs:integer external;
+         declare variable $f := function($a) {$a + $p};
+         $f(12)
+      </test>
+      <result>
+         <assert-eq>19</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-035">
+      <description>Inline function with closure accessing global variables and functions in XQuery</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment>
+         <param name="p" select="7" declared="true"/>
+      </environment>
+      <test>
+         declare variable $p as xs:integer external;
+         declare function local:negate($x) {-$x};
+         declare variable $f := let $x := $p return function($a) {local:negate($a + $x + $p)};
+         $f(12)
+      </test>
+      <result>
+         <assert-eq>-26</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-036">
+      <description>Body of inline function fails type-checking</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $f := function($x as xs:double) {1 to $x}
+         return $f(3)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   
+</test-set>

@@ -1,0 +1,1589 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CastExpr.derived">
+   <description>Tests for the CastExpr production: cast expressions casting to/from built-in derived types</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CastExpr.derived"/>
+   <link type="spec" document="FuncOps" section-number="17.2"
+         idref="casting-to-derived-types"/>
+         
+   <environment name="derived">
+     <schema uri="http://www.w3.org/XQueryTest/derivedTypes" file="CastExpr/derived.xsd">
+       <description>Some restrictions of built-in derived types</description> 
+       <created by="Tim Mills" on="2008-01-01"/>
+     </schema>
+   </environment>  
+   
+   <environment name="durations">
+     <schema uri="http://www.w3.org/XQueryTest/derivedTypes" file="CastExpr/derived.xsd">
+       <description>Some restrictions of built-in derived types</description> 
+       <created by="Tim Mills" on="2008-01-01"/>
+     </schema>
+     <source role="." file="CastExpr/durations.xml" validation="strict">
+          <description>An instance with some duration values</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+   </environment>     
+         
+   <dependency type="spec" value="XP30+ XQ10+"/>      
+
+   <test-case name="cast-derived-1">
+      <description>Casting from float to decimal. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:decimal</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-2">
+      <description> Casting from float to integer. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:decimal</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-3">
+      <description> Casting from float to nonPositiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(-10.0) return $value cast as xs:nonPositiveInteger</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-4">
+      <description> Casting from float to a long. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:long</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-5">
+      <description> Casting from float to a nonNegativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:nonNegativeInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-6">
+      <description> Casting from float to a negativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(-10.0) return $value cast as xs:negativeInteger</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-7">
+      <description> Casting from float to an int. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:int</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-8">
+      <description> Casting from float to an unsignedLong. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:unsignedLong</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-9">
+      <description> Casting from float to a positiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:positiveInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-10">
+      <description> Casting from float to a short. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:short</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-11">
+      <description> Casting from float to an unsignedInt. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:unsignedInt</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-12">
+      <description> Casting from float to an unsignedShort. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:unsignedShort</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-13">
+      <description> Casting from float to an unsignedByte. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:unsignedByte</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-14">
+      <description> Casting from float to a byte. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:float(10.0) return $value cast as xs:byte</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-15">
+      <description> Casting from double to a decimal. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:decimal</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-16">
+      <description> Casting from double to an integer. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:integer</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-17">
+      <description> Casting from double to an positiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:positiveInteger</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-18">
+      <description> Casting from double to a long. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:long</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-19">
+      <description> Casting from double to an int. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:int</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-20">
+      <description> Casting from double to an unsignedLong. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:unsignedLong</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-derived-21">
+      <description> Casting from double to a short. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:double(10E2) return $value cast as xs:short</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="cast-to-parent-1">
+      <description>Casting from decimal to float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:decimal(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-2">
+      <description> Casting from intger to float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-3">
+      <description> Casting from nonPositiveInteger to float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:nonPositiveInteger(-10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-4">
+      <description> Casting from long to float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-5">
+      <description> Casting from nonNegativeInteger to float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:nonNegativeInteger(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-6">
+      <description> Casting from a negativeInteger to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:negativeInteger(-10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-7">
+      <description> Casting from an int to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:int(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-8">
+      <description> Casting from an unsignedLong to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:unsignedLong(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-9">
+      <description> Casting from a positiveInteger to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:positiveInteger(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-10">
+      <description> Casting from a shortto a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:short(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-11">
+      <description> Casting from an unsignedInt to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:unsignedInt(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-12">
+      <description> Casting from an unsignedShort to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:unsignedShort(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-13">
+      <description> Casting from an unsignedByte to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:unsignedByte(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-14">
+      <description> Casting from a byte to a float. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:byte(10.0) return $value cast as xs:float</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-15">
+      <description> Casting from a decimal to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:decimal(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-16">
+      <description> Casting from an integer to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-17">
+      <description> Casting from a positiveInteger to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:positiveInteger(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-18">
+      <description> Casting from a long to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-19">
+      <description> Casting from an int to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:int(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-20">
+      <description> Casting from an unsignedLong to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:unsignedLong(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-to-parent-21">
+      <description> Casting from a short to a double. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:short(10E2) return $value cast as xs:double</test>
+      <result>
+         <assert-eq>1000</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="cast-within-1">
+      <description>Casting from integer to nonPositiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(-10.0) return $value cast as xs:nonPositiveInteger</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-2">
+      <description> Casting from integer to long. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:long</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-3">
+      <description> Casting from integer to nonNegativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:nonNegativeInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-4">
+      <description> Casting from integer to negativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(-10.0) return $value cast as xs:negativeInteger</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-5">
+      <description> Casting from integer to int. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:int</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-6">
+      <description> Casting from integer to unsignedLong. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:unsignedLong</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-7">
+      <description> Casting from integer to positiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:positiveInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-8">
+      <description> Casting from integer to short. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:short</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-9">
+      <description> Casting from integer to unsignedInt. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:unsignedInt</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-10">
+      <description> Casting from integer to byte. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:byte</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-11">
+      <description> Casting from integer to unsignedShort. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:unsignedShort</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-12">
+      <description> Casting from integer to an unsignedByte. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:integer(10.0) return $value cast as xs:unsignedByte</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-13">
+      <description> Casting from a long to an integer. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10.0) return $value cast as xs:integer</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-14">
+      <description> Casting from long to a nonNegativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10.0) return $value cast as xs:nonNegativeInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-15">
+      <description> Casting from long to a negativeInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(-10) return $value cast as xs:negativeInteger</test>
+      <result>
+         <assert-eq>-10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-16">
+      <description> Casting from long to an int. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:int</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-17">
+      <description> Casting from long to an unsignedLong. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:unsignedLong</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-18">
+      <description> Casting from long to a positiveInteger. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:positiveInteger</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-19">
+      <description> Casting from long to a short. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:short</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-20">
+      <description> Casting from long to unsignedInt. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:unsignedInt</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cast-within-21">
+      <description> Casting from long to a byte. </description>
+      <created by="Carmelo Montanez" on="2006-03-27"/>
+      <test>let $value := xs:long(10) return $value cast as xs:byte</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-cast-derived-001">
+      <description> Test creating values of various derived types </description>
+      <created by="Nick Jones" on="2008-04-25"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace derivedType="http://www.w3.org/XQueryTest/derivedTypes";
+        16 cast as derivedType:integer, 
+        16 cast as derivedType:double, 
+        16 cast as derivedType:decimal, 
+        16 cast as derivedType:float, 
+        "aaaaaaaaaaaa" cast as derivedType:base64Binary, 
+        "aaaaaaaaaa" cast as derivedType:hexBinary, 
+        "http://news.bbc.co.uk/" cast as derivedType:anyURI, 
+        true() cast as derivedType:boolean, 
+        xs:dateTime("2001-01-01T09:00:00") cast as derivedType:dateTime, 
+        xs:time("10:00:00") cast as derivedType:time, 
+        "valid value 1" cast as derivedType:string, 
+        "value1" cast as derivedType:QName, 
+        "derivedType:value1" cast as derivedType:NOTATION,
+         "---01" cast as derivedType:gDay, 
+         "--12-25" cast as derivedType:gMonthDay, 
+         "--12" cast as derivedType:gMonth, 
+         "2004" cast as derivedType:gYear, 
+         "2004-02" cast as derivedType:gYearMonth, 
+         "P1D" cast as derivedType:duration, 
+         "1" cast as derivedType:positiveInteger, 
+         "-1" cast as derivedType:nonPositiveInteger, 
+         "1" cast as derivedType:nonNegativeInteger, 
+         "-1" cast as derivedType:negativeInteger, 
+         "1" cast as derivedType:long, 
+         "1" cast as derivedType:short, 
+         "1" cast as derivedType:unsignedByte, 
+         "1" cast as derivedType:byte, 
+         "1" cast as derivedType:unsignedInt, 
+         "1" cast as derivedType:unsignedLong, 
+         "1" cast as derivedType:unsignedShort
+      </test>
+      <result>
+         <assert-string-value>16 16 16 16 aaaaaaaaaaaa AAAAAAAAAA http://news.bbc.co.uk/ true 2001-01-01T09:00:00 10:00:00 valid value 1 value1 derivedType:value1 ---01 --12-25 --12 2004 2004-02 P1D 1 -1 1 -1 1 1 1 1 1 1 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-byte-001">
+      <description> test cast to xs:byte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:byte(128)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-byte-002">
+      <description> test cast to xs:byte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:byte(-129)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-byte-003">
+      <description> test cast to xs:byte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:byte("128")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-byte-004">
+      <description> test cast to xs:byte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:byte("-129")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-date-001">
+      <description> test cast to xs:date with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"-25252734927766555-06-06" cast as xs:date</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-date-002">
+      <description> test cast to xs:date with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"25252734927766555-07-29" cast as xs:date</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dateTime-001">
+      <description> test cast to xs:dateTime with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"-25252734927766555-06-06T00:00:00Z" cast as xs:dateTime</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dateTime-002">
+      <description> test cast to xs:dateTime with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"25252734927766555-07-29T00:00:00Z" cast as xs:dateTime</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dayTimeDuration-001">
+      <description> test cast to xs:dayTimeDuration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"P11768614336404564651D" cast as xs:dayTimeDuration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dayTimeDuration-002">
+      <description> test cast to xs:dayTimeDuration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"-P11768614336404564651D" cast as xs:duration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-decimal-001">
+      <description> test cast to xs:decimal of large double value </description>
+      <created by="Oliver Hallam" on="2008-05-01"/>
+      <test>1.7976931348623157E+308 cast as xs:decimal</test>
+      <result>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-decimal-002">
+      <description> test cast to xs:decimal of large negative double value </description>
+      <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>-1.7976931348623157E+308 cast as xs:decimal</test>
+      <result>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-decimal-003">
+      <description> test cast to xs:decimal of large float value </description>
+      <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>xs:float('3.402823e38') cast as xs:decimal</test>
+      <result>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-decimal-004">
+      <description> test cast to xs:decimal of large negative float value </description>
+      <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>xs:float('-3.402823e38') cast as xs:decimal</test>
+      <result>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-duration-001">
+      <description> test cast to xs:duration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"-P768614336404564651Y" cast as xs:duration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-duration-002">
+      <description> test cast to xs:duration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"P768614336404564651Y" cast as xs:duration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-entity-001">
+      <description> test cast to xs:ENTITY from a subtype of xs:NCName </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:NCName('entity') cast as xs:ENTITY</test>
+      <result>
+         <assert-string-value>entity</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-entity-002">
+      <description> test cast to xs:ENTITY from a type which will always fail </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>fn:current-time() cast as xs:ENTITY</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-id-001">
+      <description> test cast to xs:ID from a subtype of xs:NCName </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:NCName('id') cast as xs:ID</test>
+      <result>
+         <assert-string-value>id</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-id-002">
+      <description> test cast to xs:ID from a type which will always fail </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>fn:current-time() cast as xs:ID</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-idref-001">
+      <description> test cast to xs:IDREF from a subtype of xs:NCName </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:NCName('idref') cast as xs:IDREF</test>
+      <result>
+         <assert-string-value>idref</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-idref-002">
+      <description> test cast to xs:IDREF from a type which will always fail </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>fn:current-time() cast as xs:IDREF</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-int-001">
+      <description> test cast to xs:int of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:int(2147483648)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-int-002">
+      <description> test cast to xs:int of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:int(-2147483649)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-int-003">
+      <description> test cast to xs:int of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:int("2147483648")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-int-004">
+      <description> test cast to xs:int of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:int("-2147483649")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-integer-001">
+      <description> test cast to xs:integer of large double value </description>
+      <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>1.7976931348623157E+308 cast as xs:integer</test>
+      <result>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-integer-002">
+      <description> test cast to xs:integer of large negative double value </description>
+      <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>-1.7976931348623157E+308 cast as xs:integer</test>
+      <result>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-integer-003">
+      <description> test cast to xs:integer of large float value </description>
+      <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>xs:float('3.402823e38') cast as xs:integer</test>
+      <result>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-integer-004">
+      <description> test cast to xs:integer of large negative float value </description>
+      <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
+      <test>xs:float('-3.402823e38') cast as xs:integer</test>
+      <result>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-language-001">
+      <description> test cast to xs:language </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:language('en-gb') cast as xs:language</test>
+      <result>
+         <assert-string-value>en-gb</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-long-001">
+      <description> test cast to xs:long of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="O'Neil Delpratt" on="2013-05-02" change="Added error code FOAR0002, See bug issue #21733" />
+      <test>xs:long(9223372036854775808)</test>
+      <result>
+          <any-of>
+            <error code="FORG0001"/>
+            <error code="FOAR0002"/>
+          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-long-002">
+      <description> test cast to xs:long of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="O'Neil Delpratt" on="2013-05-02" change="Added error code FOAR0002, See bug issue #21733" />
+      <test>xs:long(-9223372036854775809)</test>
+      <result>
+          <any-of>
+            <error code="FORG0001"/>
+            <error code="FOAR0002"/>
+          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-long-003">
+      <description> test cast to xs:long of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:long("9223372036854775808")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-long-004">
+      <description> test cast to xs:long of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:long("-9223372036854775809")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-name-001">
+      <description> test cast to xs:Name from a subtype of xs:Name </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:NCName('NCName') cast as xs:Name</test>
+      <result>
+         <assert-string-value>NCName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-name-002">
+      <description> test cast to xs:Name from a type which will always fail </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>fn:current-time() cast as xs:Name</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-ncname-001">
+      <description> test cast to xs:NCName from a subtype of xs:NCName </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:ID('id') cast as xs:NCName</test>
+      <result>
+         <assert-string-value>id</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-ncname-002">
+      <description> test cast to xs:NCName from a type which will always fail </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>fn:current-time() cast as xs:NCName</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-negativeInteger-001">
+      <description> test cast to xs:negativeInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:negativeInteger(0)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-negativeInteger-002">
+      <description> test cast to xs:negativeInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:negativeInteger("0")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nmtoken-001">
+      <description> test cast to xs:NMTOKEN </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $string := ("&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nmtoken-001b">
+      <description> test cast to xs:NMTOKEN </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <modified by="O'Neil Delpratt" on="2013-07-24" change="Change spec dependency to XP20+. See bug issue #22792" />
+      <dependency type="spec" value="XP20+"/>
+      <test>for $string in ("&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nmtoken-002">
+      <description> test cast to xs:NMTOKEN from a subtype of xs:NMTOKEN </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <test>xs:NMTOKEN('NMTOKEN') cast as xs:NMTOKEN</test>
+      <result>
+         <assert-string-value>NMTOKEN</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonNegativeInteger-001">
+      <description> test cast to xs:nonNegativeInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:nonNegativeInteger(-1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonNegativeInteger-002">
+      <description> test cast to xs:nonNegativeInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:nonNegativeInteger("-1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonPositiveInteger-001">
+      <description> test cast to xs:nonPositiveInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:nonPositiveInteger(1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonPositiveInteger-002">
+      <description> test cast to xs:nonPositiveInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:nonPositiveInteger("1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-normalizedString-001">
+      <description> test cast to xs:normalizedString </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:normalizedString)
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 13)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-normalizedString-001b">
+      <description> test cast to xs:normalizedString </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <modified by="O'Neil Delpratt" on="2013-07-24" change="Change spec dependency to XP20+. See bug issue #22792" />
+      <dependency type="spec" value="XP20+"/>
+      <test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:normalizedString)
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 13)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-positiveInteger-001">
+      <description> test cast to xs:positiveInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:positiveInteger(0)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-positiveInteger-002">
+      <description> test cast to xs:positiveInteger of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:positiveInteger("0")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-short-001">
+      <description> test cast to xs:short of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:short(32768)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-short-002">
+      <description> test cast to xs:short of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:short(-32769)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-short-003">
+      <description> test cast to xs:short of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:short("32768")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-short-004">
+      <description> test cast to xs:short of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:short("-32769")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-token-001">
+      <description> test cast to xs:token </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 7)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-token-001b">
+      <description> test cast to xs:token </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <modified by="O'Neil Delpratt" on="2013-07-24" change="Change spec dependency to XP20+. See bug issue #22792" />
+      <dependency type="spec" value="XP20+"/>
+      <test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 7)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedByte-001">
+      <description> test cast to xs:unsignedByte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedByte(256)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedByte-002">
+      <description> test cast to xs:unsignedByte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedByte(-1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedByte-003">
+      <description> test cast to xs:unsignedByte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedByte("256")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedByte-004">
+      <description> test cast to xs:unsignedByte of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedByte("-1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedInt-001">
+      <description> test cast to xs:unsignedInt of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedInt(4294967296)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedInt-002">
+      <description> test cast to xs:unsignedInt of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedInt(-1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedInt-003">
+      <description> test cast to xs:unsignedInt of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedInt("4294967296")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedInt-004">
+      <description> test cast to xs:unsignedInt of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedInt("-1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedLong-001">
+      <description> test cast to xs:unsignedLong of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="O'Neil Delpratt" on="2013-05-02" change="Added error code FOAR0002, See bug issue #21733" />
+      <test>xs:unsignedLong(18446744073709551616)</test>
+      <result>
+          <any-of>
+            <error code="FORG0001"/>
+            <error code="FOAR0002"/>
+          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedLong-002">
+      <description> test cast to xs:unsignedLong of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedLong(-1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedLong-003">
+      <description> test cast to xs:unsignedLong of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedLong("18446744073709551616")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedLong-004">
+      <description> test cast to xs:unsignedLong of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedLong("-1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedShort-001">
+      <description> test cast to xs:unsignedShort of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedShort(65536)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedShort-002">
+      <description> test cast to xs:unsignedShort of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedShort(-1)</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedShort-003">
+      <description> test cast to xs:unsignedShort of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedShort("65536")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedShort-004">
+      <description> test cast to xs:unsignedShort of out-of-range value </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>xs:unsignedShort("-1")</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-yearMonthDuration-001">
+      <description> test cast to xs:yearMonthDuration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"-P768614336404564651Y" cast as xs:yearMonthDuration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-yearMonthDuration-002">
+      <description> test cast to xs:yearMonthDuration with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"P768614336404564651Y" cast as xs:yearMonthDuration</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-date-003">
+      <description> test cast to xs:date with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"18446744073709551616-05-15" cast as xs:date</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-date-004">
+      <description> test cast to xs:date with invalid format </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="O'Neil Delpratt" on="2015-11-04" change="Resolution to bug #29199 - Added error code"/>
+      <test>"18446744073709551616-QQ-15" cast as xs:date</test>
+      <result>
+          <any-of>
+            <error code="FORG0001"/>
+            <error code="FODT0001"/>
+          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dateTime-003">
+      <description> test cast to xs:dateTime with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"18446744073709551616-05-15T16:15:00" cast as xs:dateTime</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-dateTime-004">
+      <description> test cast to xs:dateTime with invalid format </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="O'Neil Delpratt" on="2015-11-04" change="Resolution to bug #29199 - Added error code"/>
+      <test>"18446744073709551616-QQ-15T16:15:00" cast as xs:dateTime</test>
+      <result>
+          <any-of>
+            <error code="FORG0001"/>
+            <error code="FODT0001"/>
+          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonNegativeInteger-003">
+      <description> Ensure that "-00" is a valid lexical value for xs:nonNegativeInteger </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:nonNegativeInteger("-00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nonPositiveInteger-003">
+      <description> Ensure that "+00" is a valid lexical value for xs:nonPositiveInteger </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:nonPositiveInteger("+00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedByte-005">
+      <description> Ensure that "-00" is a valid lexical value for xs:unsignedByte </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:unsignedByte("-00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedInt-005">
+      <description> Ensure that "-00" is a valid lexical value for xs:unsignedInt </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:unsignedInt("-00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedLong-005">
+      <description> Ensure that "-00" is a valid lexical value for xs:unsignedLong </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:unsignedLong("-00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-unsignedShort-005">
+      <description> Ensure that "-00" is a valid lexical value for xs:unsignedShort </description>
+      <created by="Oliver Hallam" on="2008-05-20"/>
+      <test>xs:unsignedShort("-00")</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYear-001">
+      <description> test cast to xs:gYear with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"99999999999999999999999999999" cast as xs:gYear</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYearMonth-001">
+      <description> test cast to xs:gYearMonth with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"99999999999999999999999999999-01" cast as xs:gYearMonth</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYearMonth-002">
+      <description> test cast to xs:gYearMonth with overflow </description>
+      <created by="Tim Mills" on="2008-04-25"/>
+      <test>"99999999999999999999999999999-XX" cast as xs:gYearMonth</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYear-002">
+      <description> test casting 0000 to xs:gYear </description>
+      <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="Michael Kay" on="2017-03-17" change="add dependency on XSD 1.0"/> 
+      <dependency type="xsd-version" value="1.0" />
+      <test>"0000" cast as xs:gYear</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYear-003">
+      <description> test casting -0000 to xs:gYear </description>
+      <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="O'Neil Delpratt" on="2016-09-20" change="Bug #29547: XSD dependency is 1.1 changed assertion to true" />
+      <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug #29547: Split test into two according to bug issue" />
+      <dependency type="xsd-version" value="1.0" />
+      <test>"-0000" cast as xs:gYear</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYear-003a">
+      <description> test casting -0000 to xs:gYear (test case taken from cbcl-cast-gYear-003) </description>
+      <created by="O'Neil Delpratt" on="2016-10-24"/>
+      <dependency type="xsd-version" value="1.1" />
+      <test>"-0000" cast as xs:gYear</test>
+      <result>
+         <any-of>
+            <error code="FODT0001"/>
+           <assert-deep-eq>xs:gYear('0000')</assert-deep-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYearMonth-003">
+      <description> test cast year 0000 xs:gYearMonth </description>
+      <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="Michael Kay" on="2017-03-17" change="add dependency on XSD 1.0"/> 
+      <dependency type="xsd-version" value="1.0" />
+      <test>"0000-05" cast as xs:gYearMonth</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYearMonth-004">
+      <description> test cast year 0000 xs:gYearMonth </description>
+      <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="O'Neil Delpratt" on="2016-09-20" change="Bug #29547: Since XSD dependency is 1.1 changed assertion to true" />
+      <modified by="Michael Kay" on="2017-03-20" change="Bug #29547: Since XSD dependency is 1.1 changed assertion (previous change didn't do what it said)" />
+      <dependency type="xsd-version" value="1.1" />
+      <test>"-0000-05" cast as xs:gYearMonth</test>
+      <result>
+         <assert-string-value>0000-05</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-case-anyUri-001">
+      <description> Test a uri with an empty path, but with a valid query </description>
+      <created by="Nick Jones" on="2008-05-23"/>
+      <test>"http://example.com?query=" cast as xs:anyURI</test>
+      <result>
+         <assert-string-value>http://example.com?query=</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,17 @@
+{application, xqerl, [
+   {description, "XQuery 3.1 Processor"},
+   {vsn, "0.0.1"},
+   {applications, [
+      kernel,
+      stdlib,
+      sasl,
+      lager,
+      merge_index,
+      mnesia,
+      xqerl_db
+   ]},
+   {mod, { xqerl_app, []}},
+   {env, [
+      {base_data_dir, "data"}
+   ]}
+ ]}. 

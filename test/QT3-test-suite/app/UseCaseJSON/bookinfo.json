@@ -1,0 +1,22 @@
+{
+    "book": {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            {
+                "last": "Abiteboul",
+                "first": "Serge"
+            },
+            {
+                "last": "Buneman",
+                "first": "Peter"
+            },
+            {
+                "last": "Suciu",
+                "first": "Dan"
+            }
+        ],
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}

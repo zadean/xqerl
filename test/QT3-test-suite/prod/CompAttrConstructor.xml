@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="prod-CompAttrConstructor">
+          
+   <description>Tests for the CompAttrConstructor (computed attribute constructor) production</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CompAttrConstructor"/>
+   <link type="spec" document="XQuery" section-number="3.7.3.2"
+         idref="id-computedAttributes"/>
+         
+   <environment name="DupNode">
+      <source role="." file="CompAttrConstructor/DupNode.xml">
+         <description>Simple document with all node kinds</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment>       
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="Constr-compattr-name-1">
+      <description> NCName for computed attribute constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute attr {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-name-2">
+      <description> QName for computed attribute constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>declare namespace foo="http://www.example.com/foo"; element elem {attribute foo:attr {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/foo" foo:attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-name-3">
+      <description> QName with undeclared prefix for computed attribute constructor </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute foo:attr {'text'}}</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compattr-name-4">
+      <description> Expanded QName with braced URI literal for computed attribute constructor
+        (Bug report from Christian Gruen) </description>
+      <created by="Michael Kay" on="2013-09-19"/>
+      <modified by="O'Neil Delpratt" on="2013-10-31" change="Fix relating to bug issue #23675" />
+      <modified by="Michael Kay" on="2014-01-14" change="Fix assertion to use $result rather than context item" />
+      <dependency type="spec" value="XQ30+" />
+      <test>element x { attribute Q{http://example.com/x}y { } }</test>
+      <result>
+         <assert>exists($result[self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']])</assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-1">
+      <description> empty computed name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {()} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-2">
+      <description> two strings as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {'one', 'two'} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-3">
+      <description> two untypedAtomic values as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:untypedAtomic('one'), xs:untypedAtomic('two')} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-4">
+      <description> content of two nodes as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>element elem {attribute {//a} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-5">
+      <description> two numeric values as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {1,2} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-6">
+      <description> numeric value as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {123} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-7">
+      <description> dataTime value as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:dateTime("1999-05-31T13:20:00")} {'text'}}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-8">
+      <description> NCName as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="atomic"/>
+      <test>element elem {attribute {//*:NCName[1]} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem aNCname="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-9">
+      <description> QName as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:QName('aQname')} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem aQname="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-10">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {'attr'} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-11">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {'attr', ()} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-12">
+      <description> string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {(), 'attr'} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-13">
+      <description> string with prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{element elem {attribute {'foo:attr'} {}}}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/foo"><elem foo:attr=""/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-14">
+      <description> string with undeclared prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {'foo:attr'} {}}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-15">
+      <description> untyped atomic as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:untypedAtomic('attr')} {'text'}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-16">
+      <description> untyped atomic with prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{attribute {xs:untypedAtomic('foo:attr')} {'text'}}</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/foo" foo:attr="text"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-17">
+      <description> untyped atomic with undeclared prefix as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:untypedAtomic('foo:elem')} {'text'}}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-18">
+      <description> non-ncname string as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {'el em'} {'text'}}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-compname-19">
+      <description> non-ncname untyped atomic as name </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute {xs:untypedAtomic('el em')} {'text'}}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-doc-1">
+      <description> strip document nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <environment ref="DupNode"/>
+      <test>element elem {attribute attr {., .}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="texttext texttext"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-parent-1">
+      <description> empty parent </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>count((attribute attr {})/..)</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-string-1">
+      <description> string value of attribute </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:string(attribute attr {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-data-1">
+      <description> typed value of element </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>fn:data(attribute attr {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>a  b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-enclexpr-1">
+      <description> enclosed expression in attribute content - atomic values </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute attr {1,'string',3.14,xs:float('1.2345e-2'),xs:dateTime('2002-04-02T12:00:00-01:00')}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1 string 3.14 0.012345 2002-04-02T12:00:00-01:00"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-enclexpr-2">
+      <description> enclosed expression in attribute content - nodes </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[element elem {attribute attr {<elem>123</elem>, (<elem attr='456'/>)/@attr, (<elem>789</elem>)/text()}}]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="123 456 789"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-enclexpr-3">
+      <description> enclosed expression in attribute content - empty string </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <test>element elem {attribute attr {1,'',2}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1  2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-enclexpr-4">
+      <description> enclosed expression in attribute content - empty node </description>
+      <created by="Andreas Behm" on="2005-05-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[element elem {attribute attr {1,<a/>,2}}]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="1  2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-id-1">
+      <description> attribute xml:id - content is ncname </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test>element elem {attribute xml:id {"ncname"}}</test>
+      <result>
+         <assert-xml><![CDATA[<elem xml:id="ncname"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compattr-id-2">
+      <description> attribute xml:id - content is to be further normalized </description>
+      <created by="Andreas Behm" on="2005-03-05"/>
+      <test>element elem {attribute xml:id {" ab c d "}}</test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<elem xml:id="ab c d"/>]]></assert-xml>
+            <error code="XQDY0091"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="constattrerr-1">
+      <description> Evaluation of constructor function xs:QName for which the argument is not a literal. </description>
+      <created by="Carmelo Montanez" on="2005-11-30"/>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>attribute xmlns {}</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-1">
+      <description> The name can't be specified as a string literal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute "name" {"content"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-2">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> <?target content ?> {attribute name {"content"}} </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-3">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> {"a string", attribute name {"content"}} </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-4">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> {"a string", attribute name {"content"}} </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-5">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem> &lt;![CDATA[]]&gt; {attribute name {"content"}} &lt;/elem></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-6">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem> &lt;![CDATA[content]]&gt; {attribute name {"content"}} &lt;/elem></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-7">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> <!-- content --> {attribute name {"content"}} </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-8">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> <!-- comment --> { "a string", 999, attribute name {"content"}, xs:hexBinary("FF") } </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-9">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<elem> <!-- comment --> { "a string", 999, ("another string", attribute name {"content"}, 383), xs:hexBinary("FF") } </elem>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-10">
+      <description> Ensure XQTY0024 is not issued when appearing nested. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> <?target content?> {<b>{attribute name{"content"}}</b>} </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a><?target content?><b name="content"/></a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-11">
+      <description> Ensure XQTY0024 is not issued when a predicate is used to filter the children. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{(<?target content?>, attribute name{"content"})[2]} </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-12">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> <!-- content --> {attribute name{"content"}} </a>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-13">
+      <description> Ensure XQTY0024 is issued when content appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<foo > <doo/> {attribute name {"content"}} </foo>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-14">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { <a/> }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-15">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { comment {"content"} }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-16">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() as element()+ { <a/> }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-17">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() as item() { <a/> }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-18">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() as item() { <a/> }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-19">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared, recursive function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc($recurse as xs:integer) { <nested> { if ($recurse = 0) then () else local:myFunc($recurse - 1) } </nested> }; <b> {local:myFunc(3)} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-20">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared, recursive function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc($recurse as xs:integer) as item() { <nested> { if ($recurse = 0) then () else local:myFunc($recurse - 1) } </nested> }; <b> {local:myFunc(3)} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-21">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared, recursive function, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { <elem/>, attribute name {"content"} }; <b> {local:myFunc()} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-22">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared variable, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $myVar := (<elem/>, attribute name {"content"}); <b> {$myVar} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-23">
+      <description> Ensure XQTY0024 is not issued when a predicate avoid the condition. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $myVar := (<elem/>, attribute name {"content"}); <b> {$myVar[2]} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-24">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared variable, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $myVar := (attribute name {"content"}, <elem/>); <b> {$myVar[2]} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b><elem/></b>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-25">
+      <description> Add many attributes with a recursive user function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc($recurse as xs:integer) { attribute {concat("name", $recurse)} {"content"} , if ($recurse = 0) then () else local:myFunc($recurse - 1) }; <b> {local:myFunc(2)} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b name2="content" name1="content" name0="content" name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-26">
+      <description> Add many attributes with a recursive user function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { attribute name {"content"}, <elem/> }; <b> {local:myFunc()} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b name="content"><elem/></b>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-27">
+      <description> Add many attributes with a recursive user function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { <elem/>, attribute name {"content"} }; <b> {local:myFunc()[2]} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-28">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared variable, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $local:myVar := <a/>; <b> {$local:myVar} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-29">
+      <description> Ensure XQTY0024 is issued when content, set via a user declared variable, appears before computed attributes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $local:myVar as item() := <a/>; <b> {$local:myVar} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-30">
+      <description> Add an attribute from a variable to an element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $local:myVar := attribute n2 {"content"}; <b> {$local:myVar} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b n2="content" name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-31">
+      <description> Add an attribute from a function to an element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:myFunc() { attribute n2 {"content"} }; <b> {local:myFunc()} {attribute name {"content"}} </b>]]></test>
+      <result>
+         <assert-xml><![CDATA[<b n2="content" name="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-32">
+      <description> Add two computed attributes, where one gets it content from an element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute name {<anElement/>}, attribute name2 {"content"} } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e name="" name2="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-33">
+      <description> Add two computed attributes, where one gets it content from an atomic value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute name {"content"}, attribute name2 {"content"} } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e name="content" name2="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-34">
+      <description> Add two computed attributes, where one gets it content from an atomic value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute name {xs:hexBinary("ff")}, attribute name2 {"content"} } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e name="FF" name2="content"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-35">
+      <description> Empty CDATA sections generate no text nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>&lt;elem>&lt;![CDATA[]]&gt;{attribute name {"content"}}&lt;alem/> &lt;/elem></test>
+      <result>
+         <assert-xml><![CDATA[<elem name="content"><alem/></elem>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-36">
+      <description> Empty CDATA sections generate no text nodes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>count(&lt;elem>&lt;![CDATA[]]&gt;&lt;/elem>/text())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-37">
+      <description> This query yields XPST0081 because the prefix 'xmlns' is unbound. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-02-10" 
+        change="Marked XQ30+. See bug 27736, which claims that XQuery 1.0 is unclear on the matter"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>attribute xmlns:localName {"content"}</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-38">
+      <description> This query yields XPST0081 because the prefix 'xmlns' is unbound(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute {"xmlns:localName"} {"content"}</test>
+      <result>
+         <any-of>
+            <error code="XQDY0044"/>
+            <error code="XQDY0074"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-39">
+      <description> This query yields XPST0081 because the prefix 'aPrefix' is unbound. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute aPrefix:localName {"content"}</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-40">
+      <description> An unbound prefix in a lexical QName yields QDY0074. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute {"aPrefix:localName"} {"content"}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-41">
+      <description> An unbound prefix in a lexical QName yields QDY0074. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute {xs:untypedAtomic("aPrefix::localName")} {"content"}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-42">
+      <description> It's not allowed to bind the xmlns namespace to any prefix with computed attribute constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace prefix = "http://www.w3.org/2000/xmlns/"; 
+        <e>{attribute prefix:localName {"content"}}</e>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-43">
+      <description> It's not allowed to bind the xmlns namespace to any prefix(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace prefix = "http://www.w3.org/2000/xmlns/"; <e>{attribute {"prefix:localName"} {"content"}}</e>]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-44">
+      <description> One cannot create namespace declarations with computed attribute constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute {"xmlns"} {"content"}</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-45">
+      <description> One cannot create namespace declarations with computed attribute constructors(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>attribute xmlns {"content"}</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-46">
+      <description> The default element namespace declaration doesn't affect attribute declarations. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.example.com/"; <e>{attribute xmlns {"content"}}</e>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-47">
+      <description> Ensure the typed value of computed, constructed attributes has the correct type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>data(attribute foo {"content"}) instance of xs:untypedAtomic</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-48">
+      <description> Ensure xml:id is properly normalized, and not done at the serialization stage. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(attribute xml:id {" ab c d "})</test>
+      <result>
+         <any-of>
+            <assert-string-value>ab c d</assert-string-value>
+            <error code="XQDY0091"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-49">
+      <description> Ensure XQDY0025 is issued when triggered by computed constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare namespace a = "http://example.com/A"; declare namespace b = "http://example.com/A"; <e> { attribute a:localName {()}, attribute b:localName {()} } </e>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-50">
+      <description> Duplicate attributes whose names are non-prefixed while non-empty namespace URIs. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute {QName("http://example.com/", "attr")} {()}, attribute {QName("http://example.com/", "attr")} {()} } </e>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-51">
+      <description> 
+         Construct an attribute with no prefix and a non-empty namespace URI. 
+         The specification is currently unclear on this area, http://www.w3.org/Bugs/Public/show_bug.cgi?id=4443 . </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2016-03-15" change="fix bug 27734"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute {QName("http://example.com/", "attr")} {()} } </e>]]></test>
+      <result>
+         <!--<assert-xml>&lt;e xmlns:ns0=&#34;http://example.com/&#34; ns0:attr=&#34;&#34;/&gt;</assert-xml>-->
+         <all-of>
+            <assert-type>element(e)</assert-type>
+            <assert>$result/@*:attr=""</assert>
+            <assert>namespace-uri($result/@*:attr)="http://example.com/"</assert>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-52">
+      <description> Duplicated attributes, but constructed from different kinds of constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://example.com/" p:attr=""> { attribute {QName("http://example.com/", "p:attr")} {()} } </e>]]></test>
+      <result>
+         <error code="XQDY0025"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-53">
+      <description> Serialize an attribute that has a namespace URI but no prefix. The implementation invents a prefix in this case. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2016-03-15" change="fix bug 27734"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute {QName("http://example.com/", "attr")} {()} } </e>]]></test>
+      <result>
+         <!--<assert-xml><![CDATA[<e xmlns:ns0="http://example.com/" ns0:attr=""/>]]></assert-xml>-->
+         <all-of>
+            <assert-type>element(e)</assert-type>
+            <assert>$result/@*:attr=""</assert>
+            <assert>namespace-uri($result/@*:attr)="http://example.com/"</assert>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-54">
+      <description> Ensure that a valid prefix has been constructed for a QName which the implementation is supposed to create a prefix for. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string-length(xs:NCName(prefix-from-QName(node-name(attribute {QName("http://example.com/", "attr")} {()})))) &gt; 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-55" covers-30="reserved-namespaces">
+      <description> Ensure that the 'xml' prefix has been constructed for a QName which has the XML namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>prefix-from-QName(node-name(attribute {QName("http://www.w3.org/XML/1998/namespace", "attr")} {()}))</test>
+      <result>
+         <assert-string-value>xml</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-56" covers-30="reserved-namespaces">
+      <description> Ensure that the 'xml' prefix is used for the XML namespace when no prefix is supplied. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute {QName("http://www.w3.org/XML/1998/namespace", "space")} {"default"} } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xml:space="default"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-57" covers-30="reserved-namespaces">
+      <description> Ensure the xmlns namespace is flagged as invalid even though no prefix is supplied. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { attribute {QName("http://www.w3.org/2000/xmlns/", "space")} {"default"} } </e>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-58">
+      <description> Serialize an attribute that has a namespace URI but no prefix, and whose namespace URI is already in scope. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e xmlns:p="http://example.com/" p:attr1="value"> { attribute {QName("http://example.com/", "attr2")} {()} } </e>]]></test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<e xmlns:p="http://example.com/" xmlns:ns0="http://example.com/" p:attr1="value" ns0:attr2=""/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-59">
+      <description> '1' is an invalid value for xml:id. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> { attribute xml:id {"1"} } </a>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<a xml:id="1"/>]]></assert-xml>
+            <error code="XQDY0091"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-60">
+      <description> 'DEFAULT' is an invalid value for xml:space. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> { attribute xml:space {"DEFAULT"} } </a>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<a xml:space="DEFAULT"/>]]></assert-xml>
+            <error code="XQDY0092"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ComputeConAttr-61">
+      <description> Trigger XQTY0024 in a query with a bit of complexity. </description>
+      <created by="Frans Englich" on="2008-01-23"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $x := ( attribute a { "a" }, element b { "b" }, attribute c { "c" } ) return <foo> { $x } </foo>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-1">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege :) <result>{attribute {"xmlns:error"} {}}</result>]]></test>
+      <result>
+         <any-of>
+            <error code="XQDY0044"/>
+            <error code="XQDY0074"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-2">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if no namespace prefix and local name is 'xmlns' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if no namespace prefix and local name is 'xmlns' Mary Holstege :) <result>{attribute {"xmlns"} {}}</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-3">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) <result>{ attribute { fn:QName("http://www.w3.org/2000/xmlns/","error")} {} }</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-4">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace URI is 'http://www.w3.org/2000/xmlns/' Mary Holstege :) <result>{ attribute { fn:QName("http://www.w3.org/2000/xmlns/","foo:error")} {} }</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-5" covers-30="reserved-namespaces">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xml' and namespace URI is not 'http://www.w3.org/XML/1998/namespace' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xml' and namespace URI is not 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) <result>{ attribute { fn:QName("http://example.com/not-XML-uri","xml:error") } {} }</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-6" covers-30="reserved-namespaces">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is not 'xml' and namespace URI is 'http://www.w3.org/XML/1998/namespace' Mary Holstege </description>
+      <created by="Mary Holstege" on="2009-12-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is not 'xml' and namespace URI is 'http://www.w3.org/XML/1998/namespace' Mary Holstege :) <result>{ attribute { fn:QName("http://www.w3.org/XML/1998/namespace","foo:error")} {} }</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+
+   <test-case name="comp-attr-bad-name-7" covers-30="reserved-namespaces">
+      <description>3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege </description>
+      <created by="Mary Holstege" on="2010-02-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(: 3.7.3.2 Computed Attribute Constructor per XQ.E19 XQDY0044 if namespace prefix is 'xmlns' Mary Holstege :) <result>{attribute {fn:QName("http://example.com/some-uri","xmlns:error")} {}}</result>]]></test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-constr-compattr-001" covers-30="reserved-namespaces">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>for $a in attribute { fn:QName("http://www.w3.org/2000/xmlns/", "namespace:foo") } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-002" covers-30="reserved-namespaces">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>for $a in attribute { fn:QName("http://www.example.com/", "xmlns:foo") } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-003" covers-30="reserved-namespaces">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>     
+      <test>for $a in attribute { "xmlns" } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-005" covers-30="reserved-namespaces">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>
+      	for $a in attribute { fn:QName("http://www.example.com/", "xml:foo") } { "bar" } 
+      	return name($a)
+      </test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-006" covers-30="reserved-namespaces">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>    
+      <test>
+      	for $a in attribute { fn:QName("http://www.w3.org/XML/1998/namespace", "sgml:foo") } { "bar" } 
+      	return name($a)
+      </test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-007">
+      <description> test attribute constructionn </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<element xmlns:sgml="http://www.example.com/other"> { 
+      		for $a in attribute { fn:QName("http://www.example.com/", "sgml:foo") } { } 
+      		return concat(name($a), "=", namespace-uri($a)) } 
+      	</element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;element xmlns:sgml="http://www.example.com/other"&gt;sgml:foo=http://www.example.com/&lt;/element&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-008">
+      <description> test attribute constructionn </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:factorial($arg as xs:integer) as xs:integer { 
+      		if ($arg le 1) then 1 else $arg * local:factorial($arg - 1) 
+      	}; 
+      	<element> { attribute { fn:QName("http://www.example.com/", "sgml:foo") } { local:factorial(5) } } </element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;element xmlns:sgml="http://www.example.com/" sgml:foo="120"/&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-009">
+      <description> test attribute construction with empty content </description>
+      <created by="Tim Mills" on="2008-06-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:even-range($arg as xs:integer) as xs:integer* { (1 to $arg)[. mod 2 = 9] }; 
+      	<element> { attribute { 'attr' } { local:even-range(0) } } </element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;element attr=""/&gt;</assert-xml>
+      </result>
+   </test-case>
+</test-set>

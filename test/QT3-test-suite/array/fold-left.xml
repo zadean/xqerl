@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-fold-left"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-fold-left">
+    <description>Tests for the array:fold-left function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-fold-left"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="higherOrderFunctions"/>
+ 
+    
+    <test-case name="array-fold-left-101">
+        <description>Apply fold-left function to array with integer members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-30"/>
+        <environment ref="array"/>
+        <test>array:fold-left([1,2,3,4,5,6], 0, function($z,$a){$z + $a})</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-deep-eq>21</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-102">
+        <description>Apply fold-left function to array with array members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-30"/>
+        <environment ref="array"/>
+        <test>array:fold-left([[2,3],[],[4,5,6,7],[6,7],[3]], 0, function($z,$a){$z + array:size($a)})</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-deep-eq>9</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-103">
+        <description>Apply fold-left function to array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-30"/>
+        <environment ref="array"/>
+        <test>array:fold-left(["the cat", "sat", "on the mat"], "", function($z,$a){concat($z, " ", $a)})</test>
+        <result>
+            <all-of>
+                <assert-type>item()*</assert-type>
+                <assert-deep-eq>" the cat sat on the mat"</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-104">
+        <description>Apply fold-left function to array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-30"/>
+        <environment ref="array"/>
+        <test>array:fold-left(["+2", "*3"], "10", function($z,$a){concat("(", $z, $a, ")")})</test>
+        <result>
+            <all-of>
+                <assert-type>item()*</assert-type>
+                <assert-deep-eq>"((10+2)*3)"</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-105">
+        <description>Apply fold-left function to array with function members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-30"/>
+        <environment ref="array"/>
+        <test>array:fold-left([function($x){$x+2}, function($x){$x*3}], 10, function($z,$a){$a($z)})</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-deep-eq>36</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-107">
+        <description>Apply fold-left function to array with boolean members (example from spec)</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test>array:fold-left([true(), true(), false()], true(), function($x, $y){$x and $y})</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-108">
+        <description>Apply fold-left function to array with boolean members (example from spec)</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test> array:fold-left([true(), true(), false()], false(), function($x, $y){$x or $y})</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-fold-left-109">
+        <description>Apply fold-left function to array with array members (example from spec)</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test>array:fold-left([1,2,3], [], function($x, $y){[$x, $y]})</test>
+        <result>
+            <assert-deep-eq>[[[[], 1], 2], 3]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    
+    
+ 
+
+</test-set>

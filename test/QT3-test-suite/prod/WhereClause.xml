@@ -1,0 +1,969 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-WhereClause">
+   <description>Tests for the WhereClause production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-WhereClause"/>
+   <link type="spec" document="XQuery" section-number="3.8.2" idref="id-where"/>
+   
+   <environment name="fsx">
+      <source role="." file="ForClause/fsx.xml">
+         <description>Data about a filesystem represented in XML.</description>
+         <created by="Mike Rorke" on="2003-03-25"/>
+      </source>    
+   </environment>
+   
+   <dependency type="spec" value="XQ10+"/>
+
+   <test-case name="WhereExpr001">
+      <description> For+Where+Return - test existence of child elements in Where clause </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[if ( count( for $f in //* where $f/File return $f/File[1] ) = count( //File[1]) ) then <Same/> else <notSame/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<Same />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr002">
+      <description> For+Where+Return - error, variable in 'Where' Expr hasn't been defined </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $folder in //Folder where $folde/@name = "ABC" return <folder/>]]></test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr003">
+      <description> For+Where+Return - using same predicate (as FLWOR003) in 'Where' predicate </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $d in /MyComputer/Drive4 where $d/Folder[@id="128"] return <FolderName>{$d/Folder/@name}</FolderName>]]></test>
+      <result>
+         <assert-xml><![CDATA[<FolderName name="Folder00000000047" />]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr004">
+      <description> For+Where+Return - filters in 'Where' expr and in 'In' expr using predicate </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <test>for $f in /MyComputer/Drive1/Folder[@creator="Mani"]/File where $f/@creation_date="08/06/00" return $f</test>
+      <result>
+         <assert-xml><![CDATA[<File creation_date="08/06/00" creator="Leon" name="File00000000000" type="FileType" idref="1" id="2">
+				<FileName>File00000000000</FileName>
+				<description> abides fullest charms aprons batter perspective brags yesterday honor bluest<bold> wills crimeful calm lobby truer miser perseus take</bold> tapers owe ceas rhyme mindful surly suspect fantasticoes spirits legitimation holofernes portraiture trouts suffocating deed strides ithaca<bold> smiles sunshine loud right disdainfully figs searching</bold> curl reins humble nurture hue doom hidden abridgement seein<bold> invisible authentic shapes quae several reaches howled</bold> merry purpos howl burneth scholars untreasur maidenliest dealing</description>
+				<SecurityObject name="so00000000001">
+					<Denies>
+						<Deny>
+							<security/>
+							<user>system\Changyuan</user>
+						</Deny>
+						<Deny>
+							<security>
+								<right>Read</right>
+							</security>
+							<user>system\Toshiko</user>
+						</Deny>
+					</Denies>
+					<Allows>
+						<Allow>
+							<security>
+								<right>Read</right>
+								<right>Write</right>
+							</security>
+							<user>system\Hyungjeong</user>
+						</Allow>
+					</Allows>
+				</SecurityObject>
+				<Stream binary="false" streamid="1" content-type="text/xml" size="1001.33" name="sample.xml" type="StreamType">
+					<StreamType>StreamType</StreamType>
+					<StreamSize>1001.33</StreamSize>
+					<StreamID>1</StreamID>
+					<Binary>false</Binary>
+					<Summary>This value is constant</Summary>
+				</Stream>
+			</File>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr005">
+      <description> For+Where+Return - use always-false-predicate in 'Where' expr </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<empty> { for $folder in /MyComputer/Drive2//Folder where 1 = 2 return <Folder> { $folder/FolderName/text() } </Folder> } </empty>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<empty/>]]></assert-xml>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr006">
+      <description> For+Where+Return - In the inner For+Where+Return, uses outer variable in 'Where' expr </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $folder in /MyComputer/Drive4//Folder return <Folder>{ $folder/@name }{ for $file in /MyComputer/Drive4//File where $file/@idref = $folder/@id return <File>{ $file/@name }</File> }</Folder>]]></test>
+      <result>
+         <assert-xml><![CDATA[<Folder name="Folder00000000047"/><Folder name="Folder00000000048"><File name="File00000000077"/><File name="File00000000078"/><File name="File00000000079"/><File name="File00000000080"/><File name="File00000000081"/></Folder><Folder name="Folder00000000049"><File name="File00000000082"/><File name="File00000000083"/><File name="File00000000084"/><File name="File00000000085"/><File name="File00000000086"/></Folder><Folder name="Folder00000000050"><File name="File00000000087"/><File name="File00000000088"/></Folder><Folder name="Folder00000000051"><File name="File00000000089"/><File name="File00000000090"/><File name="File00000000091"/><File name="File00000000092"/><File name="File00000000093"/><File name="File00000000094"/></Folder><Folder name="Folder00000000052"><File name="File00000000095"/><File name="File00000000096"/></Folder><Folder name="Folder00000000053"><File name="File00000000097"/><File name="File00000000098"/><File name="File00000000099"/></Folder><Folder name="Folder00000000054"><File name="File00000000100"/></Folder>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr007">
+      <description> For+Where+Return - 2 iterations use 'Where' to build relationship </description>
+      <created by="Jinghao Liu" on="2003-02-10"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<fragment-result>{ for $folder in /MyComputer/Drive3/Folder ,$file in /MyComputer/Drive3/Folder/File where $folder/@id = $file/@idref return <Folder> { $folder/@name, $folder/@id } <file>{ $file/@idref, $file/FileName/text() }</file> </Folder> }</fragment-result>]]></test>
+      <result>
+         <assert-xml><![CDATA[<fragment-result><Folder name="Folder00000000017" id="67"><file idref="67">File00000000047</file></Folder><Folder name="Folder00000000032" id="97"><file idref="97">File00000000062</file></Folder></fragment-result>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr008">
+      <description> Test 'where' expression with the empty sequence literal </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<empty> { for $file in (//Folder)[1]/File where () return $file/FileName } </empty>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<empty/>]]></assert-xml>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr009">
+      <description> Test 'where' expression returning a sequence with one or more nodes </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where $file/SecurityObject/Denies/Deny/security/right return $file/FileName</test>
+      <result>
+         <assert-xml><![CDATA[<FileName>File00000000000</FileName><FileName>File00000000002</FileName><FileName>File00000000004</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000011</FileName><FileName>File00000000014</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000020</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr010">
+      <description> Test 'where' expression returning a sequence with multiple values </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where data( $file/SecurityObject//right ) return $file/FileName</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr013">
+      <description> Test 'where' expression returning a sequence with a single boolean value </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where $file/SecurityObject/Denies/Deny/security/right="Change" return $file/FileName</test>
+      <result>
+         <assert-xml><![CDATA[<FileName>File00000000002</FileName><FileName>File00000000004</FileName><FileName>File00000000008</FileName><FileName>File00000000014</FileName><FileName>File00000000018</FileName><FileName>File00000000020</FileName><FileName>File00000000022</FileName><FileName>File00000000025</FileName><FileName>File00000000030</FileName>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr014">
+      <description> Test 'where' expression returning a sequence with a constant boolean value </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where true() return $file/FileName</test>
+      <result>
+         <assert-xml><![CDATA[<FileName>File00000000000</FileName><FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr015">
+      <description> Test 'where' expression returning a sequence with a constant boolean value </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<empty> { for $file in (//Folder)[1]/File where false() return $file/FileName } </empty>]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<empty/>]]></assert-xml>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr016">
+      <description> Test 'where' clause based on a positional variable </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file at $offset in (//Folder)[1]/File where $offset mod 2 = 1 return $file/FileName</test>
+      <result>
+         <assert-xml><![CDATA[<FileName>File00000000000</FileName><FileName>File00000000002</FileName><FileName>File00000000004</FileName><FileName>File00000000006</FileName><FileName>File00000000008</FileName><FileName>File00000000010</FileName><FileName>File00000000012</FileName><FileName>File00000000014</FileName><FileName>File00000000016</FileName><FileName>File00000000018</FileName><FileName>File00000000020</FileName><FileName>File00000000022</FileName><FileName>File00000000024</FileName><FileName>File00000000026</FileName><FileName>File00000000028</FileName><FileName>File00000000030</FileName>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr017">
+      <description> Attempt to use multiple expressions in a 'where' clause </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where true(), true() return $file/FileName</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr018">
+      <description> Use of undefined variable in 'where' clause </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where $undefined return $file/FileName</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr019">
+      <description> Typo on 'where' clause </description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <environment ref="fsx"/>
+      <test>for $file in (//Folder)[1]/File where_ true() return $file/FileName</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="WhereExpr020">
+      <description> Multiple 'where' clauses (XQuery 1.0)</description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <modified by="Michael Kay" on="2011-07-30" change="add XQuery 1.0 dependency"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>for $file in (//Folder)[1]/File where true() where false() return $file/FileName</test>
+      <result>
+        <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr020a" covers-30="flwor-generalization">
+      <description> Multiple 'where' clauses (XQuery 3,0)</description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <modified by="Michael Kay" on="2011-07-30" change="add XQuery 3.0 dependency"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $file in (//Folder)[1]/File where true() where false() return $file/FileName</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr021">
+      <description> Check that context item is NOT changed when evaluating the where clause</description>
+      <created by="Michael Kay" on="2011-07-30"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>for $file in (//Folder)[1]/File where (. instance of element(File)) return $file/FileName</test>
+      <result>
+        <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr022">
+      <description> Composite where clause depending on multiple variables </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         for $file in //File 
+         let $namelen := string-length($file/FileName)
+         where ($namelen = 15 and $file//Allow/user = 'system\Hyungjeong') 
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr023" covers-30="flwor-generalization">
+      <description> Where clause appearing after a count clause </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File
+         count $c
+         where ($file//Allow/user = 'system\Aladin') 
+         return $c
+      </test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr024" covers-30="flwor-generalization">
+      <description> Multiple where clauses in suboptimal order </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File 
+         let $prefix := substring($file/FileName, 1, 4)
+         where ($prefix = 'File')
+         where ($file//Allow/user = 'system\Hyungjeong')
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr025" covers-30="flwor-generalization">
+      <description> Where clause with no dependencies on FLWOR variables </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File 
+         where current-date() gt xs:date('1900-01-01')
+         let $prefix := substring($file/FileName, 1, 4)
+         where ($prefix = 'File')
+         where ($file//Allow/user = 'system\Hyungjeong')
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr026" covers-30="flwor-generalization">
+      <description> Where clause that depends on position() </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $doc := (/)
+         return (11 to 15)!
+            (for $file in $doc//File
+            count $c
+            where $c = position()
+            return $file/FileName)
+      </test>
+      <result>
+         <assert-string-value>File00000000000 File00000000001 File00000000002 File00000000003 File00000000004</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr027" covers-30="flwor-generalization">
+      <description> Where clause that depends on last() </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $doc := (/)
+         return (11 to 15)!
+            (for $file at $c in $doc//File
+            where $c = last()
+            return string($file/FileName))
+      </test>
+      <result>
+         <assert-string-value>File00000000004 File00000000004 File00000000004 File00000000004 File00000000004</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr028">
+      <description> Where clause with let (and no for) </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         let $x := 1 to 10
+         where $x = 1
+         return $x
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4 5 6 7 8 9 10</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr029">
+      <description> Where clause with let (and no for) </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         let $x := 1 to 10
+         where count($x) = 1
+         return $x
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr030" covers-30="allowing-empty">
+      <description> Where clause with "outer for" </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 10;
+         for $x allowing empty in 1 to $n
+         where $x lt 5
+         return $x
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr031" covers-30="allowing-empty">
+      <description> Where clause with "outer for" </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 0;
+         for $x allowing empty in 1 to $n
+         where not($x = 5)
+         return concat("[", $x, "]")
+      </test>
+      <result>
+         <assert-string-value>[]</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr032" covers-30="allowing-empty">
+      <description> Where clause with "outer for". A trap for systems that rewrite where clauses as predicates. </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $x allowing empty in 1 to 5
+         where $x lt 0
+         return empty($x)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr033" covers-30="default-external-var">
+      <description> Integer-valued where clause. A trap for systems that rewrite where clauses as predicates. </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 0;
+         for $x in -2 to +2
+         where ($n - $x)
+         return $x
+      </test>
+      <result>
+         <assert-string-value>-2 -1 1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-1">
+      <description> use of where clause involving an "or" expression. Use fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := (fn:true()) where $var or fn:true() return $var or fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-2">
+      <description> use of where clause involving an "or" expression. Use fn:false() Use fn:not() </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := (fn:false()) where fn:not($var or fn:false()) return $var or fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-3">
+      <description> use of where clause involving an "or" ("and" operator) expression. Use fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := (fn:true()) where $var and fn:true() return $var and fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-4">
+      <description> use of where clause involving an "or" ("and" operator) expression. Use fn:false() Use fn:not() </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := (fn:false()) where fn:not($var and fn:false()) return $var and fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-5">
+      <description> use of where clause with a typeswitch expression </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := 100 where typeswitch($var) case $i as xs:string return fn:false() case $i as xs:integer return fn:true() default return fn:false() return $var</test>
+      <result>
+         <assert-eq>100</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-6">
+      <description> use of where clause used with a string value and fn:string </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := "String" where fn:string($var) = "String" return $var</test>
+      <result>
+         <assert-string-value>String</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-7">
+      <description> use of where clause used with a string-length function. </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := "String" where fn:string-length($var) = 6 return fn:string-length($var)</test>
+      <result>
+         <assert-eq>6</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-8">
+      <description> use of where clause used with a fn:count() function. </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>let $var := 100 where fn:count(($var)) = 1 return fn:count(($var))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-9">
+      <description> use of where clause used with is comparator. </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $var := <anElement>Some content</anElement> where $var is $var return $var is $var]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-10">
+      <description> use of where clause used with quantified expression (some keyword). </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>
+         let $var := 1 
+         where some $x in (1, 2) satisfies fn:string($var) = "1" 
+         return fn:string($var )</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="whereClause-11">
+      <description> use of where clause used with quantified expression (every keyword). </description>
+      <created by="Carmelo Montanez" on="2005-11-18"/>
+      <test>
+         let $var := 1 
+         where every $x in (1, 1) satisfies fn:string($var) = "1" 
+         return fn:string($var )</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-1">
+      <description> A for/where combination where the cardinality of the return statement is crucially affected by the binding sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(for $fo in (1, 2, 3) where $fo eq 3 return $fo)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-2">
+      <description> Get the string value of the return statement of a for expression after being filtered by a where clause. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(exactly-one((for $fo in (1, 2, 3) where $fo eq 3 return $fo)))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-3">
+      <description> A where clause containing a value which EBV cannot be extracted from. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count((for $fo in (1, 2, 3) where xs:time("08:08:23Z") return $fo)) eq 3</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-4">
+      <description> A for/where expression combined with fn:count(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i in 1 where count(($i, 2, timezone-from-time(current-time()))) return true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-5">
+      <description> A for expression binding to one single value, combined with a positive where clause. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i in 1 where false() return $i)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-6">
+      <description> A for expression binding to one single value, combined with a negative where clause. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(for $i in 1 where true() return $i) eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-7">
+      <description> A for expression binding to one single value, combined with a positive where clause. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i in 1 where (1, current-time())[1] treat as xs:integer eq 0 return $i)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-8">
+      <description> A for expression binding to one single value, combined with a negative where clause. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(for $i in 1 where (1, current-time())[1] treat as xs:integer eq 1 return $i) eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-9">
+      <description> A for/where expression combined with fn:boolean. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i in (1, 2, current-time())[1] where fn:boolean($i treat as xs:integer) return true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-10">
+      <description> A for/where expression combined with fn:boolean and xs:anyURI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $i in (1, 2, current-time())[1] where xs:anyURI("example.com/") return true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-WhereExpr-11">
+      <description> A for/where expression combined with fn:boolean and xs:anyURI. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(for $i in (1, 2, current-time())[1] where xs:anyURI("") return true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-WhereExpr-1">
+      <description> Multiple where clauses is not allowed in XQuery 1.0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2011-09-05" change="Split off XQuery 3.0 expectation (to K2-WhereExpr-1b)"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>for $a in 1 where true() where true() return $a</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-WhereExpr-1b" covers-30="flwor-generalization">
+      <description> Multiple where clauses are allowed in XQuery 3.0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2011-09-05" change="Split off XQuery 3.0 expectation (from K2-WhereExpr-1)"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $a in 1 where true() where true() return $a</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-WhereExpr-2">
+      <description> Multiple where clauses is not allowed(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>for $a in 1 where true(), true() return $a</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-hash-join-1">
+      <description> A query that can be optimized down to a hash join - testing that the implicit cast-operand is emulated correctly </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>
+      <test>for $x in (xs:untypedAtomic("123"), xs:untypedAtomic("234")) for $y in (xs:string("123"), xs:float(123), xs:double(123)) where $x = $y return $x</test>
+      <result>
+         <any-of>
+            <assert-string-value>123 123 123</assert-string-value>
+            <error code="XPST0004"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-2">
+      <description> A query that can be optimized down to a hash join - with integer types. </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <test>for $x in (xs:integer("123"), xs:integer("234")) for $y in (xs:integer("123"), xs:integer("456")) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-3">
+      <description> A query that can be optimized down to a hash join - with date types of varying timezones</description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <modified by="Tim Mills" on="2013-07-04" change="Made timezone-independent.  See Bug 21222." />
+      <test>for $x in (xs:date("2010-10-10"), xs:date("1997-01-01+12:00"), xs:date("1997-01-02+12:00")) for $y in (adjust-date-to-timezone(xs:date("2010-10-10"), implicit-timezone()), xs:date("1997-01-01-12:00")) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>2010-10-10 1997-01-02+12:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-4">
+      <description> A query that can be optimized down to a hash join - with a mixture of untypedAtomics and doubles. </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <test>for $x in (xs:untypedAtomic("2.0"), xs:untypedAtomic("3"), xs:double("3.0")) for $y in (xs:untypedAtomic("2"), xs:untypedAtomic("3"), xs:double("3")) where $x = $y return $x</test>
+      <result>
+         <any-of>
+            <assert-string-value>3 3 3 3</assert-string-value>
+            <error code="XPST0004"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-005">
+      <description> Test tricky hash-join implicit conversion case. </description>
+      <created by="Oliver Hallam" on="2008-06-02"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:durationOrFloat($i as xs:integer) { (xs:float(123), xs:float(234), xs:duration("P1D"))[$i] }; for $x in (xs:untypedAtomic("123"), xs:untypedAtomic("234")) for $y in (for $z in (1,2) return local:durationOrFloat($z)) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>123 234</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-product-001">
+      <description> Test products which return empty sequence </description>
+      <created by="Tim Mills" on="2008-07-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:odds($arg as xs:integer*) as xs:integer* { $arg[. mod 2 eq 1] }; boolean(zero-or-one(for $x in local:odds((2,4,8)),$y in local:odds((2,4,8)) return ($x,$y)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-set-from-optional-item-001">
+      <description> Tests set from optional item returning empty sequence </description>
+      <created by="Tim Mills" on="2008-07-11"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:odds($arg as xs:integer?) as xs:integer? { $arg[. mod 2 eq 1] }; boolean(for $x in local:odds(2) where $x < 3 return $x + 1)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-006">
+      <description> Test a hash join that produces a dynamic type check error </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else ("a", "b", "c") }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-007">
+      <description> Test a hash join that produces a static type check error, but is fine in dynamic mode </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else ("a", "b", "c") }; for $x in local:sequence(2) for $y in local:sequence(2) where $x = $y return ($x, $y)</test>
+      <result>
+         <assert-string-value>1 1 3 3 5 5 7 7 9 9</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-008">
+      <description> Test a hash join that casts untypedAtomic values to multiple types </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9, "cheese") else (xs:untypedAtomic("1"), xs:untypedAtomic("2")) }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)</test>
+      <result>
+         <assert-string-value>1 1</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-009">
+      <description> Test a hash join with type error </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>      
+      <test>for $x in (1,2,3,"cheese") for $y in (1,2,3,"cheese") where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-010">
+      <description> Test hash-join requiring untypedAtomic casting, with a type error. </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>      
+      <test>for $x in (1,2,3, xs:untypedAtomic("1")) for $y in (1,2,3,"cheese") where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-001">
+      <description> Test producing a group-by-key expression </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:get-words() { tokenize("she sells sea shells by the sea shore", "\s+") }; let $words := local:get-words() let $distinct-words := distinct-values($words) for $word in $distinct-words return <word word="{$word}" count="{count($words[. = $word])}" />]]></test>
+      <result>
+         <assert-xml>&lt;word word="she" count="1"/&gt;&lt;word word="sells" count="1"/&gt;&lt;word word="sea" count="2"/&gt;&lt;word word="shells" count="1"/&gt;&lt;word word="by" count="1"/&gt;&lt;word word="the" count="1"/&gt;&lt;word word="shore" count="1"/&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-002">
+      <description> A variant on group-by-key that does not involve a left outer join </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items, $item in $items where $item = $dist return $item</test>
+      <result>
+         <assert-string-value>1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 6 6 6 6 6 7 7 7 7 7 7 7 7 7 7 8 8 8 8 8 8 8 8 8 8 9 9 9 9 9 9 9 9 9 9 0 0 0 0 0 0 0 0 0 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-003">
+      <description> A group-by-key that has to be careful about errors </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( if ($dist = 0) then 0 else for $item in $items where $item = $dist return fn:round(1000 div $item))</test>
+      <result>
+         <assert-string-value>1000 500 333 250 200 167 143 125 111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-004">
+      <description> A group by that has to be careful about errors </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( for $item in $items where $item = $dist return if ($dist = 0) then 0 else fn:round(1000 div $item))</test>
+      <result>
+         <assert-string-value>1000 500 333 250 200 167 143 125 111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-001">
+      <description> A left outer join with some tricky error avoidance </description>
+      <created by="Oliver Hallam" on="2008-07-15"/>      
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := for $y in 1 to (count($items) idiv 10) return $y mod 10 for $dist in $distinct-items return if ($dist = 0) then 0 else min( for $item in $items where $item = $dist return fn:round(1000 div $item))</test>
+      <result>
+         <assert-string-value>1000 500 333 250 200 167 143 125 111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-011">
+      <description> Test a hash join with sequences for keys </description>
+      <created by="Oliver Hallam" on="2008-07-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>1</d><d>2</d><d>3</d></r><r><d>2</d><d>3</d><d>4</d></r></t>/r, $y in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>2</d><d>4</d><d>6</d></r><r><d>3</d><d>2</d><d>1</d></r></t>/r where $x/d/string(.) = $y/d/string(.) return concat($x, '=', $y)]]></test>
+      <result>
+         <assert-string-value>111=111 111=321 123=111 123=246 123=321 234=246 234=321</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-001">
+      <description> Test to hit EvaluateOptional on MapConcatSingle </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; declare function local:g($x) { if ($x) then "true" else "false" }; let $x := local:g(true()) for $y in local:f($x) return ($y, $x)</test>
+      <result>
+         <assert-string-value>true true</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-002">
+      <description> Test to hit Evaluate on MapConcatOptional </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; empty(for $x in local:f(false()), $y in 1 to 10 return ($x, $y))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-003">
+      <description> Test product with optional input </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; for $x in local:f(true()), $y in 1 to 10 return ($x, $y)</test>
+      <result>
+         <assert-string-value>true 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-002">
+      <description> A left outer join that requires tricky predicate hoisting to spot. </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { for $x in 1 to 10 return <a>{for $y in 1 to 10 where $x > 7 and $y = $x return $y}</a> } </e>]]></test>
+      <result>
+         <assert-xml>&lt;e&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-003">
+      <description> A left outer join with multiple predicates </description>
+      <created by="Oliver Hallam" on="2008-07-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { for $x in 1 to 10 where $x > 7 return <a>{for $y in 1 to 10 where $y = $x return $y}</a> } </e>]]></test>
+      <result>
+         <assert-xml>&lt;e&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-left-outer-join-004">
+      <description/>
+      <created by="Nick Jones" on="2010-03-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<tbody> { let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row return for $g in distinct-values($rows/entry[2][string(.)]) order by $g return let $matches := for $row in $rows where $g = string($row/entry[2][string(.)]) return $row/entry[1] return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> } </tbody>]]></test>
+      <result>
+         <assert-xml>&lt;tbody&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide sodium&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcholine chloride&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine sodium&lt;/link&gt;&lt;/entry&gt;&lt;/tbody&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-hash-join-012">
+      <description> Tests hash join between anyAtomicType containing only untypedAtomic and string </description>
+      <created by="Nick Jones" on="2009-04-02"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $strings := ('1','2'); declare variable $untypeds := (<untyped>1</untyped>,<untyped>2</untyped>); for $string in $strings for $untyped in $untypeds where $untyped = $string return $string]]></test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

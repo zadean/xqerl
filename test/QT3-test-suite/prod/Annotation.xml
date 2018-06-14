@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-Annotation" covers-30="annotations">
+   <description>Tests for function and variable annotations</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Annotation"/>
+   <link type="spec" document="XQuery" section-number="5.15"
+         idref="id-annotations"/>
+   <dependency type="spec" value="XQ30+"/>
+
+   <test-case name="annotation-1">
+      <description>A function annotation</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         declare %eg:sequential function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-2">
+      <description>A variable annotation</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         declare %eg:sequential variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-3">
+      <description>An inline function annotation</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         %eg:sequential function () { "bar" } ()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-4">
+      <description>String literal annotation parameter</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace java = "http://example.com";
+
+         declare %java:variable("java.lang.Integer.MAX_VALUE") variable $max := 0;
+
+         declare %java:method("java.lang.Math.sin") function local:sin($arg) { 0 }; 
+
+         local:sin($max)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-5">
+      <description>Integer literal annotation parameter</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:integer(1234) variable $foo := 0;
+
+         declare %eg:integer(1234) function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-6">
+      <description>Decimal literal annotation parameter</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:integer(12.34) variable $foo := 0;
+
+         declare %eg:integer(12.34) function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-7">
+      <description>Double literal annotation parameter</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:integer(12e34) variable $foo := 0;
+
+         declare %eg:integer(12e34) function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-8">
+      <description>Non-literal annotation parameter</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:integer(1+2) function local:foo() { 0 }; 
+
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-9">
+      <description>Multiple annotation parameters</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:many(12e34,"abc",1234) variable $foo := 0;
+
+         declare %eg:many("xyz", 987, 12.3) function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-10">
+      <description>Annotations with expanded QNames</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://example.com}bar variable $foo := 0;
+
+         declare %Q{http://example.com}bar function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-11">
+      <description>Multiple annotations</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:one %eg:two %eg:three variable $foo := 0;
+
+         declare %eg:one %eg:two %eg:three function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-12">
+      <description>Multiple annotations without whitespace ("%" is a delimiting terminal symbol)</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:one%eg:two%eg:three(1)%eg:four variable $foo := 0;
+
+         declare %eg:one%eg:two%eg:three(1)%eg:four function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-13">
+      <description>Multiple annotations with extra whitespace </description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare 
+            %eg:one
+            %eg:two
+            (: Lorem ipsum dolor sit amet. :)
+            %eg:three(1)
+            %Q{http://example.com}four
+            variable $foo := 0;
+
+         declare 
+            %eg:one
+            %eg:two
+            (: Lorem ipsum dolor sit amet. :)
+            %eg:three(1)
+            %Q{http://example.com}four
+            function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-14">
+      <description>Multiple annotations, multiple parameters</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+
+         declare %eg:one(1, 2, 3) %eg:two("a", "b") %eg:three(1.234) variable $foo := 0;
+
+         declare  %eg:one(1, 2, 3) %eg:two("a", "b") %eg:three(1.234) function local:foo($arg) { $arg }; 
+
+         local:foo($foo)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[0]]></assert-xml>
+      </result>
+   </test-case>
+
+
+   <test-case name="annotation-15">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %xml:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-16" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/XML/1998/namespace}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-17" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %xs:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-18" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/2001/XMLSchema}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-19" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %xsi:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-20" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/2001/XMLSchema-instance}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-21" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %fn:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-22" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/2005/xpath-functions}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-23">
+      <description>Annotation in no namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-24" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace math = "http://www.w3.org/2005/xpath-functions/math";
+         declare %math:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-25" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/2005/xpath-functions/math}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-26" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Josh Spiegel" on="2012-10-08" change="Changed reserved namespace (bug 16199)"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace opts = "http://www.w3.org/2012/xquery";
+         declare %opts:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-27" covers-30="reserved-namespaces">
+      <description>Annotation in a reserved namespace</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <modified by="Josh Spiegel" on="2012-10-08" change="Changed reserved namespace (bug 16199)"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %Q{http://www.w3.org/2012/xquery}x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-28">
+      <description>A function annotation (default function namespace does not affect annotations)</description>
+      <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="John Snelson" on="2012-06-19" change="Changed per bug 16199"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare default function namespace "http://example.com";
+         declare %x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-29">
+      <description>A variable annotation (per bug 16199)</description>
+      <created by="John Snelson" on="2012-06-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare %local:x variable $foo := "bar";
+         $foo
+      </test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-30">
+      <description>An inline function annotation with parameters</description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/> 
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         declare namespace eg = "http://example.com";
+         %eg:sequential("abc", 3) function () { "bar" } ()
+      </test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-31">
+      <description>An inline function annotation using an EQName</description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/> 
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         % Q{http://example.com}sequential("abc", 3) function () { "bar" } ()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-32">
+      <description>An inline function with multiple annotations </description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         %eg:sequential("abc", 3) %eg:memo-function function () { "bar" } ()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-33">
+      <description>An inline function using true() as an annotation parameter </description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         %eg:sequential(true())  function () { "bar" } ()
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-34">
+      <description>Function with operator name, with annotation</description>
+      <created by="Debbie Lockett" on="2015-02-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare default function namespace "http://example.com";
+         declare %private function lt() as item()*{
+         ()
+         };
+         ()
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-35" covers="array-general">
+      <description>Annotation in reserved namespace for array functions</description>
+      <created by="Debbie Lockett" on="2015-10-02"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+         declare %array:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-36" covers="map-general">
+      <description>Annotation in a reserved namespace for map functions</description>
+      <created by="Debbie Lockett" on="2015-10-02"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
+         declare %map:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-37" covers="map-general">
+      <description>
+         Two function annotations with the same name and different values. 
+         (Nothing in the spec to prevent this.)</description>
+      <created by="Michael Kay" on="2016-10-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace a = "http://www.example.org/annotation";
+         declare %a:translucent("true") %a:translucent("false") function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-38" covers="map-general">
+      <description>
+         Two variable annotations with the same name and different values. 
+         (Nothing in the spec to prevent this.)</description>
+      <created by="Michael Kay" on="2016-10-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace a = "http://www.example.org/annotation";
+         declare %a:translucent("true") %a:translucent("false") variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-assertion-1" covers-30="annotation-assertions">
+      <description>
+         Tests that a function test with an annotation assertion
+         parses. The behavior of annotation assertions is
+         implementation defined.  Annotation assertions can only
+         further restrict the set of functions matched by a function
+         test.
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-2" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with a string literal parameter.  
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x("foo") function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-3" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with an integer literal parameter.
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x(1234) function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-4" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with a decimal literal parameter.
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x(12.34) function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-5" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with a double literal parameter
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x(12e34) function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-6" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with multiple parameters
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x("abc", 12e34, 567) function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-7" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with an expanded QName
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %Q{http://example.com}x function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-8" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion with an expanded QName.
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %Q{http://example.com}x function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-9" covers-30="annotation-assertions">
+      <description>
+          Multiple annotation assertions.
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x %eg:y%eg:z %eg:w(1) function(*)
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-10" covers-30="annotation-assertions">
+      <description>
+          An annotation assertion on a typed function test.
+          Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x function(xs:integer) as xs:string
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-11" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %xml:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-12" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %Q{http://www.w3.org/XML/1998/namespace}x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-13" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %xs:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-14" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %Q{http://www.w3.org/2001/XMLSchema}x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-15" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %xsi:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-16" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         () instance of %fn:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-17" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace math = "http://www.w3.org/2005/xpath-functions/math";
+         () instance of %math:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+
+   <test-case name="annotation-assertion-18" covers-30="annotation-assertions">
+      <description>An annotation assertion in a reserved namespace.</description>
+      <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Josh Spiegel" on="2012-10-08" change="Changed reserved namespace (bug 16199)"/>
+      <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace opts = "http://www.w3.org/2012/xquery";
+         () instance of %opts:x function(*) 
+      ]]></test>
+      <result><error code="XQST0045"/></result>
+   </test-case>
+   
+   <test-case name="annotation-assertion-19" covers-30="annotation-assertions">
+      <description>
+         Two annotation assertions with the same name
+         Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Michael Kay" on="2016-10-12"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x(1) %eg:x(2) function(xs:integer) as xs:string
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+   
+   <test-case name="annotation-assertion-20" covers-30="annotation-assertions">
+      <description>
+         In a list of function annotation assertions, %public and %private can be mixed. 
+      </description>
+      <created by="Michael Kay" on="2016-10-12"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         declare %public function local:three() as xs:integer {3};
+         local:three#0 instance of %public %private function(xs:integer) as xs:integer
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+</test-set>

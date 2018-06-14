@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-StringConstructor" covers="string-template">
+   <description>Tests for the "string constructor" expression: ``[String with `{$inserted}` expression]``</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-31/"
+         idref="prod-StringConstructor"/>
+ 
+   <dependency type="spec" value="XQ31+"/>      
+
+   <test-case name="string-constructor-001">
+      <description>simple case of string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-002">
+      <description>Trivial string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were 10 green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-003">
+      <description>More complex string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        declare variable $thing as xs:string external := ``[wall]``;
+        ``[There were `{$n}` green bottles hanging on the `{$thing}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles hanging on the wall"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-004">
+      <description>Entity references not recognized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were &lt; `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value>There were &amp;lt; 10 green bottles</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-005">
+      <description>Special characters OK</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``["{}"'[`]'\\<> `{$n}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value><![CDATA["{}"'[`]'\\<> 10]]></assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-006">
+      <description>No fixed part</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[`{$n}``{$n+1}``{$n+2}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value>101112</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-007">
+      <description>Whitespace is retained</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[ `{$n}` `{$n+1}` `{$n+2}` ]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value> 10 11 12 </assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-008">
+      <description>Enclosed expressions are atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-009">
+      <description>Nested string constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        ``[There were `{``[at least `{$n}`]``}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were at least 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-010">
+      <description>String constructor in element constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were `{$n}` green bottles]``}</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>There were 10 green bottles</a>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-011">
+      <description>String constructor in attribute constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a text="{``[There were `{$n}` green bottles]``}"/>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a text="There were 10 green bottles"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-012">
+      <description>String constructor within a conditional</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        if ($n lt 20) then ``[There were `{$n}` green bottles]`` else ``[There were many green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-013">
+      <description>String constructor within a filter expression</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]``[$n lt 20]
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-014">
+      <description>Newlines within a string constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There
+were `{$n}` green
+bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There&#xa;were 10 green&#xa;bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-015">
+      <description>Square array constructor containing string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <modified by="Michael Kay" on="2015-11-26" change="remove HOF dependency"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        [``[There were `{$n}` green bottles]``]?1
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-016">
+      <description>String constructor containing square array constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{[$n]}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-017">
+      <description>String constructor containing curly array constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{array{$n}}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-018">
+      <description>Embedded expression can contain comma operator</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n, ()}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-019">
+      <description>String can contain backtick</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were ``{$n}`` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were `10` green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-020">
+      <description>Escaping</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[``[There were `{"`{"}``{$n}`}` green bottles`{"]``"}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"``[There were `{10}` green bottles]``"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-021">
+      <description>Use in regex</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        matches("""", ``[["']]``)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-022">
+      <description>Empty string constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>``[]``</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-023">
+      <description>Effect of a misplaced space</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>``[` {$n}`]``</test>
+      <result>
+         <assert-eq>"` {$n}`"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-024">
+      <description>Absent enclosed expression</description>
+      <created by="Michael Kay" on="2015-10-21"/>
+      <test>``[` *`{}`* `]``</test>
+      <result>
+         <assert-eq>"` ** `"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-025">
+      <description>Absent enclosed expression</description>
+      <created by="Michael Kay" on="2015-10-21"/>
+      <test>``[` *`{(:Nothing here:)}`* `]``</test>
+      <result>
+         <assert-eq>"` ** `"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-026">
+      <description>Date-valued enclosed expression</description>
+      <created by="Michael Kay" on="2015-10-21"/>
+      <test>``[ *`{xs:date('2012-05-05')}`* ]``</test>
+      <result>
+         <assert-eq>" *2012-05-05* "</assert-eq>
+      </result>
+   </test-case>
+   
+   
+   
+   
+   
+   <test-case name="string-constructor-901">
+      <description>Unterminated string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]`]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-902">
+      <description>Unterminated string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-903">
+      <description>Unterminated string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-904">
+      <description>Unterminated string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n} green ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-905">
+      <description>Unterminated string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-906">
+      <description>Improperly started string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        `[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-907">
+      <description>Improperly started string constructor </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``{There were `{$n}` green bottles}``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-908">
+      <description>Unexpected "}`"</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        unordered{$n}`
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-909">
+      <description>Unexpected "}`"</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        }`nasty!]``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-910">
+      <description>Maps can't be atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := map{'a':10}; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-911">
+      <description>Maps can't be atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := map{'a':10}; 
+        ``[There were `{map{'a':10}}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-912">
+      <description>String constructor containing sequence</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <modified by="Michael Kay" on="2015-10-22" change="spec change, bug 29186"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{1 to $n}` green bottles]``
+      ]]></test>
+      <result>
+         <assert-eq>"There were 1 2 3 4 5 6 7 8 9 10 green bottles"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-913">
+      <description>Not allowed as literal attribute</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        <a b=``[c]``/>
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-914">
+      <description>Not allowed in namespace declaration</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare namespace xsl=``[http://www.w3.org/1999/XSL/Transform]``;
+        <xsl:output/>
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-915">
+      <description>Not allowed in option declaration</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare namespace zzz="http://example.com/options";
+        declare option zzz:synonymous = ``[http://www.w3.org/1999/XSL/Transform]``;
+        <zzz:output/>
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-916">
+      <description>Not allowed in processing-instruction name</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>processing-instruction(``[pi-action]``)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-917">
+      <description>Not allowed in decimal format declaration</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>declare default decimal-format NaN = ``[not-a-number]``; 12</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-918">
+      <description>Not allowed in collation literal</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>for $x in (1 to 10)/string() order by $x collation ``[http://www.w3.org/2005/xpath-functions/collation/codepoint]`` return xs:integer($x)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   
+
+
+</test-set>

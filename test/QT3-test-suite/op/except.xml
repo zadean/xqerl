@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-except">
+   <description>Tests for the except() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-except"/>
+         
+   <environment name="acme_corp">
+      <source role="." file="union/acme_corp.xml">
+         <description>Source document for Function Declaration tests</description>
+         <created by="Ravindranath Chennoju" on="2000-01-01"/>
+      </source>
+   </environment>
+   
+   <environment name="bib2">
+      <source role="." file="union/bib2.xml">
+         <description>Bibliography example with extra comments and PIs.</description>
+         <created by="spec-authors" on="2000-01-01"/>
+      </source>
+   </environment>
+   
+
+   <test-case name="fn-except-node-args-001">
+      <description> arg: node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book[1]/title except /bib/book[1]/title</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-002">
+      <description> arg: incorrect nodes </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book/title except /bib/book[1]/title</test>
+      <result>
+         <assert-xml><![CDATA[<title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-003">
+      <description> arg: node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/bib/book[3] except root(exactly-one(/bib/book[3]/title)))/string(@year)</test>
+      <result>
+         <assert-string-value>2000</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-004">
+      <description> arg: text node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book[3]/title/text() except /bib/book/title/text()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-005">
+      <description> arg: processing-instruction node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/processing-instruction() except /processing-instruction()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-006">
+      <description> arg: processing-instruction node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/processing-instruction() except /processing-instruction(PI1))/name()</test>
+      <result>
+         <assert-string-value>PI2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-007">
+      <description> arg: comment node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/comment() except /comment()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-008">
+      <description> arg: text node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>string-join((for $node in /bib/book/title/text() except /bib/book[3]/title/text() return $node/string()), "|")</test>
+      <result>
+         <assert-string-value>TCP/IP Illustrated|Advanced Programming in the Unix environment|The Economics of Technology and Content for Digital TV</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-009">
+      <description> arg: processing-instruction node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/processing-instruction() except /bib/book[2]/title)/name()</test>
+      <result>
+         <assert-string-value>PI1 PI2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-010">
+      <description> arg: processing-instruction node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>(/processing-instruction(PI1) except /bib/book)/name()</test>
+      <result>
+         <assert-string-value>PI1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-011">
+      <description> arg: comment node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>/bib/book except /bib/book</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-012">
+      <description> arg: node &amp; non existing node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>//author except //nonexisting</test>
+      <result>
+         <assert-xml><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-013">
+      <description> arg: node &amp; empty sequence </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>//author except ()</test>
+      <result>
+         <assert-xml><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-014">
+      <description> arg: empty sequence &amp; empty sequence </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>() except ()</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-015">
+      <description> arg: node and node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:integer) except (/atomic:root/atomic:integer)</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-016">
+      <description> arg: node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:integer) except (/atomic:root/atomic:integer)</test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-017">
+      <description> arg: node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>number( (/atomic:root/atomic:integer) except (/atomic:root/atomic:string))</test>
+      <result>
+         <assert-eq>12678967543233</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-018">
+      <description> arg: text node &amp; text node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:duration/text()) except (/atomic:root/atomic:duration/text())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-019">
+      <description> arg: text node &amp; text node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:date/text()) except (/atomic:root/atomic:date/text())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-020">
+      <description> arg: text node &amp; text node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:base64Binary/text()) except (/atomic:root/atomic:base64Binary/text())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-021">
+      <description> arg: text node &amp; text node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="atomic"/>
+      <test>(/atomic:root/atomic:QName/text()) except (/atomic:root/atomic:QName/text())</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-022">
+      <description> arg: node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>string-join((for $node in ((//price/text()) , (//price/text())) except (//price) return $node)/string(), "|")</test>
+      <result>
+         <assert-string-value> 65.95|65.95| 39.95|129.95</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-except-node-args-023">
+      <description> arg: node &amp; node </description>
+      <created by="Ravindranath Chennoju" on="2005-06-14"/>
+      <environment ref="bib2"/>
+      <test>((//price/text()) , (//price/text())) except (//price/text())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-1">
+      <description> Only nodes are allowed. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(1, 2, 3) except (1, 2, 3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-2">
+      <description> Use a node kind keyword, text, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except text))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-3">
+      <description> Use a node kind keyword, node, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except node))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-4">
+      <description> Use a node kind keyword, element, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except element))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-5">
+      <description> Use a node kind keyword, attribute, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-6">
+      <description> Use a node kind keyword, document-node, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except document-node))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-7">
+      <description> Use a node kind keyword, comment, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except comment))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-8">
+      <description> Use a node kind keyword, processing-instruction, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except processing-instruction))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-9">
+      <description> Use a node kind keyword, item, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except item))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-10">
+      <description> Use a node kind keyword, document, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except document))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-11">
+      <description> Use a node kind keyword, if, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except if))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-12">
+      <description> Use a node kind keyword, then, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except then))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-13">
+      <description> Use a node kind keyword, mod, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except mod))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-14">
+      <description> Use a node kind keyword, div, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except div))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-15">
+      <description> Use a node kind keyword, empty-sequence, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except empty-sequence))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-16">
+      <description> Use a node kind keyword, schema-attribute, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except schema-attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-17">
+      <description> Use a node kind keyword, schema-element, to test query parsing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(author except schema-element))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-18">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except attribute {"name"} {()}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-19">
+      <description> Use a computed attribute constructor as right operand(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except attribute name {()}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-20">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except element {"name"} {()}))]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>0</assert-string-value>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-21">
+      <description> Use a computed attribute constructor as right operand(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except element name {()}))]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>0</assert-string-value>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-22">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except processing-instruction {"name"} {()}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-23">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except processing-instruction name {}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-24">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except comment {()}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-25">
+      <description> Use a computed attribute constructor as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<e/>/(a except text {()}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-26">
+      <description> Use a name test that is the descendant axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except descendant))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-27">
+      <description> Use a name test that is the attribute axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except attribute))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-28">
+      <description> Use a name test that is the self axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-29">
+      <description> Use a name test that is the descendant-or-self axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except descendant-or-self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-30">
+      <description> Use a name test that is the following-sibling axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except following-sibling))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-31">
+      <description> Use a name test that is the following axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except following))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-32">
+      <description> Use a name test that is the preceding-sibling axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except preceding-sibling))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-33">
+      <description> Use a name test that is the preceding axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except preceding))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-34">
+      <description> Use a name test that is the parent axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except parent))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-35">
+      <description> Use a name test that is the ancestor axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except ancestor))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-36">
+      <description> Use a name test that is the ancestor axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except ancestor))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-37">
+      <description> Use a name test that is the ancestor-or-self axis as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except ancestor-or-self))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-38">
+      <description> Use 'declare as right operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(<e/>/(a except declare))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-39">
+      <description> Extract the boolean value from an except expression. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="acme_corp"/>
+      <test>boolean(//employee[location = "Denver"] except //employee[last()])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-40">
+      <description> Explicitly sort the result of an except expression. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="acme_corp"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<r> { //(employee[location = "Denver"] except //employee[last()])/./location } </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r><location>Denver</location><location>Denver</location><location>Denver</location></r>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-41">
+      <description> Compare two nodes from different trees. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a/> except <b/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-SeqExcept-42">
+      <description> Ensure node deduplication is done. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i except ($i, $i)), (($t, $t) except $t)) } </r>]]></test>
+      <result>
+         <assert-xml><![CDATA[<r/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="combiningnodeseqexcepthc1">
+      <description> Simple combination of node sequences involving node types with integer data. Use "except" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>)]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<a>0</a><a>1</a>]]></assert-xml>
+            <assert-xml><![CDATA[<a>1</a><a>0</a>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqexcepthc2">
+      <description> Simple combination of node sequences involving repetition of the same element data. Use "except" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>,<a>0</a>)]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<a>0</a><a>1</a>]]></assert-xml>
+            <assert-xml><![CDATA[<a>1</a><a>0</a>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqexcepthc3">
+      <description> Simple combination of node sequences involving the empty sequence. Use "except" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(() except (<a>3</a>,<a>4</a>,<a>0</a>))]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqexcepthc4">
+      <description> Simple combination of node sequences that evaluates to the empty sequence. Use "except" operator. Use count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $h in ( count((//hours) except (//hours))) order by number($h) return $h</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqexcepthc5">
+      <description> Simple combination of node sequences involving multiple xml data sources and repetition of a sequence. Use "except" operator. Use count to avoid empty file results </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works-and-staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $h in ( count(($works//hours) except ($staff//grade,$works//hours))) order by number($h) return $h</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="combiningnodeseqexcepthc6">
+      <description> Simple combination of node sequences involving multiple xml data sources. Use "except" operator. </description>
+      <created by="Carmelo Montanez" on="2005-02-14"/>
+      <environment ref="works-and-staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>for $h in ( ($works//hours) except ($staff//grade)) order by number($h) return $h</test>
+      <result>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
+      </result>
+   </test-case>
+
+</test-set>

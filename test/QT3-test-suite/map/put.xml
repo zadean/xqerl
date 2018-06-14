@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-put"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="map-put">
+    <description>Tests for the map:put function introduced in XSLT 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-map-put"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
+
+ 
+    <test-case name="map-put-002-hof">
+        <description>Evaluate the function map:put() with a single singleton map (map-put-003 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:put(map{}, "foo", 1 to 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert-type>function(xs:string) as item()*</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-002">
+        <description>Evaluate the function map:put() with a single singleton map (map-put-003 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
+        <test>map:put(map{}, "foo", 1 to 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-003-hof">
+        <description>Evaluate the function map:put() with a single singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Tim Mills" on="2016-06-21" change="See Bug 29676" />
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:put(map{}, "foo", 1 to 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert-type>function(xs:string) as xs:integer*</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-003">
+        <description>Evaluate the function map:put() with a single singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
+        <test>map:put(map{}, "foo", 1 to 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-004">
+        <description>Evaluate the function map:put() with two singleton maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>map:put(map:entry("foo", 1 to 5), "bar", 6 to 10)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert>map:size($result) eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-006">
+        <description>Evaluate the function map:put() with duplicates in the input maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>map:put(map:entry("foo", 3), "foo", 4)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:get($result, "foo") eq 4</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-007">
+        <description>map:put() doesn't modify its input maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>let $foo := map:entry("foo", 3), $foobar := map:put($foo, "foo", 4)
+              return ($foobar, $foo)[2]</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:get($result, "foo") eq 3</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-008">
+        <description>map:put() doesn't modify its input maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
+        <test>let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $foobar := map:put($foo, 8, 63)
+              return ($foobar, $foo)[2]</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 20</assert>
+                <assert>$result?8 eq 64</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-010">
+        <description>map:put() with an empty map in the input</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
+        <test>map:put(map{}, 1, 2)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>$result?1 eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-011">
+        <description>map:put() with assorted keys that compare equal</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
+        <test>map:put(map{3 : "three"},  xs:float('3.0'), "threeF")</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:float, xs:string)</assert-type>
+                <assert>map:size($result) eq 1</assert>
+                <assert>$result?(3.0) eq "threeF"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-012">
+        <description>map:put() with nodes as values</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="auction"/>
+        <test>map:put(map:merge(for $n in distinct-values(/*//*/node-name()) 
+                                return map:entry($n, /*//*[node-name() eq $n])), node-name(/*), /*)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(xs:QName, element()+)</assert-type>
+                <assert>map:contains($result, QName("http://www.example.com/AuctionWatch", "Auction"))</assert>
+                <assert>map:contains($result, QName("http://www.example.com/AuctionWatch", "Seller"))</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-013">
+        <description>map:put() with maps as values</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
+        <test>map:put(
+            map:merge(for $n in 1 to 20 return map:entry($n, map{$n : string($n), $n+1 : string($n+1), $n+2 : string($n+2)})),
+            21, map{21 : '21'})
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(xs:integer, map(xs:integer, xs:string))</assert-type>
+                <assert>$result?1?3 eq "3"</assert>
+                <assert>$result?21?21 eq "21"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-017">
+        <description>Deep equal of singleton maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>deep-equal(map{"a":1}, map:put(map{}, 'a', 1))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-018">
+        <description>Deep equal of larger maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:put(map{"a":1,"b":2,"c":(3,4,5)}, "d", 6), map:put(map{"d":6,"c":(3,4,5),"a":1}, "b", 2))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-019">
+        <description>Deep equal of empty maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>deep-equal(map{}, map:remove(map:put(map:merge(()), 1, 2), 1))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-020">
+        <description>Deep equal of larger maps</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:put(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)), 1001, 1002),
+                         map:merge(for $i in 1 to 1001 return map:entry($i, $i+1)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-021">
+        <description>Float NaN and Double NaN are duplicates</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>map{} => map:put(xs:double('NaN'), 10) => map:put(xs:float('NaN'), 20) => map:size()</test>
+        <result>
+            <assert-eq>1</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="map-put-022">
+        <description>Float NaN and Double NaN are duplicates</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <environment ref="map"/>
+        <test>deep-equal(map{xs:double('NaN'): 10}, map{xs:float('NaN'):10e0})</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-023">
+        <description>Edge case with numerics: put with nearly-equal numerics</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="Michael Kay, Saxonica" on="2015-07-13" change="specification change"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 
+            => map:put(xs:decimal('1.0000000000100000000001'), 2) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>3</assert-eq>
+        </result>
+    </test-case>
+    
+    
+</test-set>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<output:serialization-parameters
+   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+   <output:method value="json"/>
+   
+   <output:use-character-maps>
+     <output:character-map character="1" map-string="one"/>
+     <output:character-map character="a" map-string="AAA"/>
+     <output:character-map character="b" map-string="BBB"/>
+     <output:character-map character="c" map-string="CCC"/>
+     
+     <output:character-map character="w" map-string="k"/>
+     <output:character-map character="x" map-string="k"/>
+     
+     <output:character-map character="y" map-string="&quot;"/>
+     <output:character-map character="z" map-string="suc&#807;on"/>
+   </output:use-character-maps>
+
+</output:serialization-parameters>

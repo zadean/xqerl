@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-append"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-append">
+    <description>Tests for the array:append function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-append"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+ 
+
+    <test-case name="array-append-101">
+        <description>Add string member to empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append([],"3")</test>
+        <result>
+            <all-of>                
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-count>1</assert-count>
+                <assert-deep-eq>["3"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-102">
+        <description>Add string member to array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append(["a","b"],"3")</test>
+        <result>
+            <all-of>                
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["a","b","3"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-103">
+        <description>Add array member to array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append(["a",["b"]],[3])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["a",["b"],[3]]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-104">
+        <description>Add sequence member to array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append(["a","b"],("c","d"))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["a","b",("c","d")]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-105">
+        <description>Add empty sequence member to array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append(["a","b"],())</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["a","b",()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-106">
+        <description>Add two string members to array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:append(array:append(["a","b"],"c"),"d")</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a","b","c","d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-107">
+        <description>Add empty array to empty array</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test>array:append([], [])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[[]]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-append-108">
+        <description>Multiple append implemented as a fold</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>fold-left(1 to 5, [], array:append#2)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>[1,2,3,4,5]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+ 
+
+</test-set>

@@ -1,0 +1,468 @@
+<schema targetNamespace="http://www.w3.org/XQueryTest/testcases"
+        xmlns:tc="http://www.w3.org/XQueryTest/testcases"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+
+  <element name="a" type="string" />
+  <element name="b" type="string" />
+  <element name="c" type="string" />
+  <element name="nillable" type="string" nillable="true" />
+
+  <attribute name="globalAttribute"
+             type="string" />
+  <attribute name="x"
+             type="string" />
+  <attribute name="y"
+             type="string" />
+
+  <element name="schema-attribute">
+    <complexType>
+      <attribute ref="tc:x" />
+    </complexType>
+  </element>
+
+  <element name="fixed-attribute">
+    <complexType>
+      <attribute name="attr"
+	         fixed="fixed"
+                 type="string" />
+    </complexType>
+  </element>
+
+  <element name="default-attribute">
+    <complexType>
+      <attribute name="attr"
+	         default="default"
+                 type="string" />
+    </complexType>
+  </element>
+
+
+  <attribute name="globalAttributeLocalContent">
+    <simpleType>
+      <restriction base="positiveInteger">
+        <maxExclusive value="100"/>
+      </restriction>
+    </simpleType>
+  </attribute>
+
+  <element name="globalComplexElementWithLocalElement">
+    <complexType>
+      <sequence>
+        <element name="localElement" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithGlobalElement">
+    <complexType>
+      <sequence>
+	<element ref="tc:globalComplexElementWithLocalElement" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithGlobalElementOccurs1">
+    <complexType>
+      <sequence>
+	<element ref="tc:globalComplexElementWithLocalElement" 
+	  minOccurs="0"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithGlobalElementOccurs2">
+    <complexType>
+      <sequence>
+	<element ref="tc:globalComplexElementWithLocalElement" 
+	  minOccurs="0"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithGlobalElementOccurs3">
+    <complexType>
+      <sequence>
+	<element ref="tc:globalComplexElementWithLocalElement" 
+	  minOccurs="1"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithGlobalElementOccurs4">
+    <complexType>
+      <sequence>
+	<element ref="tc:globalComplexElementWithLocalElement" 
+	  minOccurs="0"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementOccurs1">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  minOccurs="0"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementOccurs2">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  minOccurs="0"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementOccurs3">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  minOccurs="1"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementOccurs4">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  minOccurs="1"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementNillableOccurs1">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  nillable="true"
+	  minOccurs="0"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementNillableOccurs2">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  nillable="true"
+	  minOccurs="0"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementNillableOccurs3">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  nillable="true"
+	  minOccurs="1"
+	  maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalElementNillableOccurs4">
+    <complexType>
+      <sequence>
+	<element name="localElement" 
+	  type="string" 
+	  nillable="true"
+	  minOccurs="1"
+	  maxOccurs="2"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithReferencedGlobalAttribute">
+    <complexType>
+      <attribute ref="tc:globalAttribute" />
+    </complexType>
+  </element>
+
+  <element name="globalComplexElementWithLocalAttributeLocalContent">
+    <complexType>
+      <attribute name="localAttributeLocalContent">
+        <simpleType>
+          <restriction base="positiveInteger">
+            <maxExclusive value="100"/>
+          </restriction>
+	</simpleType>
+      </attribute>
+    </complexType>
+  </element>
+
+  <element name="globalSimpleElement" type="string" />
+
+  <element name="globalSimpleElementLocalContent">
+    <simpleType>
+      <restriction base="positiveInteger">
+        <maxExclusive value="100"/>
+      </restriction>
+    </simpleType>
+  </element>
+
+
+  <element name="schema-element-head" type="string" />
+
+  <element name="schema-element-group-nillable"
+    type="string"
+    nillable="true"
+    substitutionGroup="tc:schema-element-head" />
+
+  <element name="schema-element-group"
+    type="string"
+    substitutionGroup="tc:schema-element-head" />
+
+  <element name="schema-element-group-restriction"
+    substitutionGroup="tc:schema-element-group">
+    <simpleType>
+      <restriction base="string">
+        <maxLength value="10"/>
+      </restriction>
+    </simpleType>
+  </element>
+
+  <element name="schema-element-nillable-head" type="string" nillable="true" />
+
+  <element name="schema-element-nillable-group"
+    type="string"
+    nillable="true"
+    substitutionGroup="tc:schema-element-nillable-head" />
+
+  <element name="schema-element-nillable-group-restriction"
+    nillable="true"
+    substitutionGroup="tc:schema-element-nillable-group">
+  </element>
+
+  <element name="globalElementNillableLocalContentWithSubstitutionGroup1"
+    nillable="true"
+    substitutionGroup="tc:schema-element-head">
+    <simpleType>
+      <restriction base="string">
+        <maxLength value="10"/>
+      </restriction>
+    </simpleType>
+  </element>
+
+  <element name="globalElementNillableWithSubstitutionGroup1"
+    type="string"
+    nillable="true"
+    substitutionGroup="tc:schema-element-head" />
+
+  <element name="recursive-definition">
+    <complexType>
+      <sequence>
+        <element ref="tc:recursive-definition" 
+    	         minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="mixed-recursive-definition">
+    <complexType mixed="true">
+      <sequence>
+        <element ref="tc:mixed-recursive-definition" 
+    	         minOccurs="0" maxOccurs="unbounded" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <!-- global complex type - simple content - extension -->
+  <complexType name="globalComplexTypeSimpleContentExtension">
+    <simpleContent>
+      <extension base="string">
+	<attribute name="currency" type="string"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <!-- global complex type - simple content - restriction -->
+  <complexType name="globalComplexTypeSimpleContentRestrictionOfBaseType">
+    <simpleContent>
+      <restriction base="tc:globalComplexTypeSimpleContentExtension">
+	<minLength value="1" />
+	<maxLength value="10" />
+      </restriction>
+    </simpleContent>
+  </complexType>
+
+  <!-- global complex type - complex content - extension -->
+  <complexType name="globalComplexTypeComplexContentExtension">
+    <complexContent>
+      <extension base="anyType">
+	<attribute name="localAttribute" type="string" />
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <!-- global complex type - complex content - restriction -->
+  <complexType name="globalComplexTypeComplexContentRestriction">
+    <complexContent>
+      <restriction base="anyType" />
+    </complexContent>
+  </complexType>
+
+  <!-- global complex type - mixed - complex content - restriction -->
+  <complexType name="globalComplexTypeMixedComplexContentRestriction"
+    mixed="true">
+    <complexContent>
+      <restriction base="anyType" />
+    </complexContent>
+  </complexType>
+
+  <simpleType name="restriction">
+    <restriction base="string">
+       <enumeration value="BLACK" />
+       <enumeration value="WHITE" />
+    </restriction>
+  </simpleType>
+
+  <simpleType name="number1">
+    <union memberTypes="integer decimal float double" />
+  </simpleType>
+
+  <simpleType name="number2">
+    <union>
+      <simpleType>
+        <restriction base="string">
+  	  <enumeration value="RED" />
+  	  <enumeration value="GREEN" />
+  	  <enumeration value="BLUE" />
+	</restriction>
+      </simpleType>
+      <simpleType>
+        <restriction base="integer">
+	  <minExclusive value="0" />
+	  <maxExclusive value="100" />
+	</restriction>
+      </simpleType>
+    </union>
+  </simpleType>
+
+  <simpleType name="list1">
+    <list itemType="string" />
+  </simpleType>
+
+  <simpleType name="list2">
+    <list>
+      <simpleType>
+        <restriction base="string">
+  	  <enumeration value="YELLOW" />
+  	  <enumeration value="CYAN" />
+  	  <enumeration value="MAGENTA" />
+	</restriction>
+      </simpleType>
+    </list>
+  </simpleType>
+
+  <complexType name="SkipxAnnotation">
+    <sequence>
+      <any namespace="http://www.w3.org/1999/xhtml"
+           minOccurs="1" maxOccurs="unbounded"
+           processContents="skip"/>
+     </sequence>
+  </complexType>
+
+  <complexType name="text">
+    <complexContent mixed="true">
+      <restriction base="anyType">
+        <sequence>
+          <any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+	<attribute ref="tc:globalAttribute" />
+      </restriction>
+    </complexContent>
+  </complexType>
+
+  <complexType name="anyXHTML">
+    <sequence>
+      <any namespace="http://www.w3.org/1999/xhtml"
+           minOccurs="1" maxOccurs="unbounded"
+           processContents="skip"/>
+     </sequence>
+     <anyAttribute namespace="http://www.w3.org/1999/xhtml"/>
+  </complexType>
+
+  <complexType name="choice">
+    <choice>
+      <element ref="tc:a" />
+      <element ref="tc:b" />
+      <element ref="tc:c" />
+    </choice>
+  </complexType>
+
+  <complexType name="sequence">
+    <sequence>
+      <element ref="tc:a" />
+      <element ref="tc:b" />
+      <element ref="tc:c" />
+    </sequence>
+  </complexType>
+
+  <complexType name="all">
+    <all>
+      <element ref="tc:a" />
+      <element ref="tc:b" />
+      <element ref="tc:c" />
+    </all>
+  </complexType>
+
+  <group name="group">
+    <all>
+      <element ref="tc:a" />
+      <element ref="tc:b" />
+      <element ref="tc:c" />
+    </all>
+  </group>
+
+  <attributeGroup name="attrGroup">
+    <attribute name="p" type="string" />
+    <attribute name="q" type="string" />
+    <attribute name="r" type="string" />
+  </attributeGroup>
+
+  <element name="grouped-element">
+    <complexType>
+      <group ref="tc:group" />
+      <attributeGroup ref="tc:attrGroup" />
+    </complexType>
+  </element>
+  <element name="root">
+    <complexType>
+      <choice minOccurs="0" maxOccurs="unbounded">
+        <element ref="tc:a" />
+        <element ref="tc:b" />
+        <element ref="tc:c" />
+        <element ref="tc:nillable" />
+        <element ref="tc:schema-element-head" />
+        <element ref="tc:schema-element-nillable-head" />
+        <element ref="tc:schema-attribute" />
+        <element ref="tc:default-attribute" />
+        <element ref="tc:fixed-attribute" />
+	<element ref="tc:recursive-definition" />
+	<element ref="tc:mixed-recursive-definition" />
+      </choice>
+    </complexType>
+  </element>
+
+</schema>

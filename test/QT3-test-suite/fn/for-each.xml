@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-for-each" covers-30="fn-for-each">
+    <description>tests for the fn:for-each() higher-order function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-for-each"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions"/>
+    <environment name="names">
+        <source xml:id="names" file="higherOrder/names.xml" >
+            <description>Names of employees.</description>
+            <created by="O'Neil Delpratt" on="2010-12-22"/>
+        </source>
+    </environment>
+    <test-case name="for-each-001">
+        <description>Convert names to upper-case (one-to-one mapping)</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("aa", "bb", "cc", "dd", "ee"), upper-case#1)</test>
+        <result>
+            <assert-deep-eq>"AA", "BB", "CC", "DD", "EE"</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-002">
+        <description>Get lengths of names (one-to-many mapping)</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("john", "jane"), string-to-codepoints#1)</test>
+        <result>
+                <assert-deep-eq>106, 111, 104, 110, 106, 97, 110, 101</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-003">
+        <description>Use for-each function as a filter</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("john", "mary", "jane", "anne", "peter", "ian"), function($x){$x[contains(., 'e')]})</test>
+        <result>
+                <assert-deep-eq>"jane", "anne", "peter"</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-004">
+        <description>for-each using user-defined anonymous function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("john", "mary", "jane", "anne", "peter", "ian"), function($x){upper-case($x)})</test>
+        <result>
+                <assert-deep-eq>"JOHN", "MARY", "JANE", "ANNE", "PETER", "IAN"</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-005">
+        <description>for-each using user-defined anonymous function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <environment ref="names"/>
+        <test>
+            for-each(for-each(("john", "mary", "jane", "anne", "peter", "ian"), function($n as xs:string){upper-case($n)}), function($e as xs:string) as xs:string { lower-case($e) })
+        </test>
+        <result>
+                <assert-deep-eq>"john", "mary", "jane", "anne", "peter", "ian"</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-006">
+        <description>for-each using a named recursive function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <environment>
+            <source role="." file="higherOrder/doc1.xml"/>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <test>
+            declare function local:children($n as node()) as node()* 
+                { $n/child::node() }; 
+            declare function local:attributes($e as node()) as node()* 
+                { $e/attribute::node() }; 
+            declare function local:self($e as node()) as node() 
+                { $e }; 
+            declare function local:union(
+                        $f as function(node()) as node()*, 
+                        $g as function(node()) as node()*) as function(node()) as node()* { 
+                function($a) {$f($a) | $g($a)} };
+            let $data := (/a), 
+                $f := local:union(local:children#1, local:union(local:attributes#1, local:self#1)) 
+            return for-each($data/*, $f)[not(. instance of attribute())]
+        </test>
+        <result>
+            <assert-xml>&lt;b bid="b"&gt;&lt;b1/&gt;&lt;/b&gt;&lt;b1/&gt;&lt;c cid="c"&gt;&lt;c1/&gt;&lt;/c&gt;&lt;c1/&gt;</assert-xml>
+        </result>
+    </test-case>
+    <test-case name="for-each-007">
+        <description>for-each function - input is an empty sequence</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each((), round#1)</test>
+        <result>
+            <assert-empty />
+        </result>
+    </test-case>
+    <test-case name="for-each-008">
+        <description>for-each function - partial application</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <modified by="Michael Kay" on="2011-11-09" change="see bug 14739"/>
+        <test>let $f := function($x as xs:double*){for-each($x,round#1)} return $f((1.2345, 6.789))</test>
+        <result>
+                <assert-deep-eq>1, 7</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-009">
+        <description>for-each function - numeric promotion from integer to double</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>for-each((1,4,9,16,25), Q{http://www.w3.org/2005/xpath-functions/math}sqrt#1)</test>
+        <result>
+                <assert-deep-eq>1,2,3,4,5</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-010">
+        <description>for-each function - promotion from anyURI to string</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>for-each(namespace-uri-from-QName(function-name(xs:int#1)), upper-case#1)</test>
+        <result>
+                <assert-eq>'HTTP://WWW.W3.ORG/2001/XMLSCHEMA'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-011">
+        <description>for-each function - nested function coercion</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>
+          let $f := function($ff as (function(item()) as item()), $s as xs:string){$ff($ff($s))} return
+          for-each((upper-case#1, lower-case#1, normalize-space#1, concat(?, '!')), $f(?, ' Say NO! '))</test>
+        <result>
+                <assert-deep-eq>' SAY NO! ', ' say no! ', 'Say NO!', ' Say NO! !!'</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-012">
+        <description>for-each function - atomization</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for-each((<a>1</a>, <b>22</b>, <c>33</c>), 
+                   function($a as xs:string) as xs:integer {string-length($a)})
+        ]]></test>
+        <result>
+                <assert-deep-eq>1,2,2</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-901">
+        <description>for-each function - error, function has the wrong arity</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("aa", "bb", "cc", "dd", "ee"), starts-with#2)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="for-each-902">
+        <description>for-each function - error, function can't handle one item in the sequence</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("aa", "bb", "cc", "dd", 12), upper-case#1)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="for-each-903">
+        <description>for-each function - error, first argument is not a function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+
+        <test>for-each(("aa", "bb", "cc", "dd", 12), ())</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+</test-set>

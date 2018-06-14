@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-normalize-space">
+   <description>Tests for the fn:normalize-space function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-normalize-space"/>
+
+   <test-case name="fn-normalize-space1args-1">
+      <description> Evaluates The "normalize-space" function with the arguments set as follows: $arg = notNormalizedString(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:normalize-space("This is a charac")</test>
+      <result>
+         <assert-string-value>This is a charac</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space1args-2">
+      <description> Evaluates The "normalize-space" function with the arguments set as follows: $arg = notNormalizedString(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:normalize-space("This is a ch")</test>
+      <result>
+         <assert-string-value>This is a ch</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space1args-3">
+      <description> Evaluates The "normalize-space" function with the arguments set as follows: $arg = notNormalizedString(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:normalize-space("This is a charac")</test>
+      <result>
+         <assert-string-value>This is a charac</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space1args-4">
+      <description>Test normalize-space with an empty sequence argument </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <test>normalize-space(())</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-type>xs:string</assert-type>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space0args-1">
+      <description>Test normalize-space without argument </description>
+      <created by="Joanne Tong" on="2005-09-23"/>
+      <environment>
+        <source role="." file="normalize-space/textWithSpaces.xml">
+            <description>Data for normalize-space functions</description>
+            <created by="Joanne Tong" on="2005-09-29"/>
+        </source>
+      </environment>
+      <test>//doc/normalize-space(zero-or-one(a[normalize-space() = 'Hello, How are you?']))</test>
+      <result>
+         <assert-string-value>Hello, How are you?</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-1">
+      <description> Evaluation of fn-normalize-space function as per example 1 for this function from the Functions and Operators specs. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:normalize-space(" The wealthy curled darlings of our nation. ")</test>
+      <result>
+         <assert-string-value>The wealthy curled darlings of our nation.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-2">
+      <description> Evaluation of fn-normalize-space function with no arguments and no context node. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <environment ref="empty"/>
+      <test>fn:normalize-space()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-3">
+      <description> Evaluation of fn-normalize-space function with argument containing one tab character. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This	text should contains no tabs")</test>
+      <result>
+         <assert-string-value>This text should contains no tabs</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-4">
+      <description> Evaluation of fn-normalize-space function with argument containing one newline character. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This text should contains
+no newline characters.")</test>
+      <result>
+         <assert-string-value>This text should contains no newline characters.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-5">
+      <description> Evaluation of fn-normalize-space function with argument containing multiple tab character. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This	text	should	contains	no	tab	characters.")</test>
+      <result>
+         <assert-string-value>This text should contains no tab characters.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-6">
+      <description> Evaluation of fn-normalize-space function with argument containing multiple newline characters. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This
+text
+should
+contains
+no
+newline
+characters.")</test>
+      <result>
+         <assert-string-value>This text should contains no newline characters.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-7">
+      <description> Evaluation of fn-normalize-space function with argument containing a tab and a newline characters. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This text	should contains no tabs or
+newline characters.")</test>
+      <result>
+         <assert-string-value>This text should contains no tabs or newline characters.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-8">
+      <description> Evaluation of fn-normalize-space function with argument containing multiple tab and a newline characters. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("This	 text	 should	 contains
+ no tabs or newline characters.")</test>
+      <result>
+         <assert-string-value>This text should contains no tabs or newline characters.</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-9">
+      <description> Evaluation of fn-normalize-space function with argument string containing only spaces. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("    ")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-10">
+      <description> Evaluation of fn-normalize-space function with argument string containing only a single space. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space(" ")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-11">
+      <description> Evaluation of fn-normalize-space function with argument string containing the zero length string. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-12">
+      <description> Evaluation of fn-normalize-space function with argument string containing a single tab character. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("	")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-13">
+      <description> Evaluation of fn-normalize-space function with argument string containing only tab characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("		")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-14">
+      <description> Evaluation of fn-normalize-space function with argument string containing only a single newline character. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("
+")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-15">
+      <description> Evaluation of fn-normalize-space function with argument string containing only multiple newline characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("&#xD;
+&#xD;
+")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-16">
+      <description> Evaluation of fn-normalize-space function with argument string containing only spaces and tab characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space(" 	  	 ")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-17">
+      <description> Evaluation of fn-normalize-space function with argument string containing only spaces and newline characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space(" &#xD;  
+ ")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-18">
+      <description> Evaluation of fn-normalize-space function with argument string containing only tab and newline characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("	
+")</test>
+      <result>
+         <all-of>
+            <assert-eq>""</assert-eq>
+            <assert-count>1</assert-count>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-19">
+      <description> Evaluation of fn-normalize-space function with argument string containing tabs and numerical characters. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space("	12345")</test>
+      <result>
+         <assert-string-value>12345</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-20">
+      <description> Evaluation of fn-normalize-space function with argument referencing fn:string function. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space(fn:string(" ABC "))</test>
+      <result>
+         <assert-string-value>ABC</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-21">
+      <description> Evaluation of fn-normalize-space function with argument set to another fn:normalize-space function. </description>
+      <created by="Carmelo Montanez" on="2005-10-18"/>
+      <test>fn:normalize-space(fn:normalize-space(" ABC"))</test>
+      <result>
+         <assert-string-value>ABC</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-23">
+      <description>Evaluation of normalize-space applied to a node that cannot be atomized because it has element-only content. This succeeds, because although getting the typed value of such a node is an error, the string value is well defined, and normalize-space with no arguments uses the string value. Note, we assume construction from PSVI, therefore insignificant whitespace is stripped.</description>
+      <created by="Michael Kay" on="2011-06-25"/>
+      <environment ref="qname"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>/*/normalize-space()</test>
+      <result>
+         <assert-eq>"ns:barns:bar2ns:barDerivurn1test1test2"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-24">
+      <description>Evaluation of normalize-space applied to a node that cannot be atomized because it has element-only content. Unlike normalize-space-23, this fails, because when normalize-space() has an argument it atomizes the argument in the usual way.</description>
+      <created by="Michael Kay" on="2011-06-25"/>
+      <environment ref="qname"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>/*/normalize-space(.)</test>
+      <result>
+         <error code="FOTY0012"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-25">
+      <description>Evaluation of normalize-space#0 when the context item is a date. Succeeds because the default argument is string(.) rather than .</description>
+      <created by="Michael Kay" on="2011-06-25"/>
+      <environment ref="qname"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>current-date()[normalize-space()]</test>
+      <result>
+         <all-of>
+            <assert-count>1</assert-count>
+            <assert-type>xs:date</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-normalize-space-26">
+      <description>Evaluation of normalize-space#1 when the context item is a date. Succeeds because the default argument is string(.) rather than .</description>
+      <created by="Michael Kay" on="2011-06-25"/>
+      <environment ref="qname"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>current-date()[normalize-space(.)]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-1">
+      <description> A test whose essence is: `normalize-space("a string", "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space("a string", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-2">
+      <description> A test whose essence is: `if(false()) then normalize-space() else true()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>if(false()) then normalize-space() else true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPDY0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-3">
+      <description> A test whose essence is: `normalize-space("foo") eq "foo"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space("foo") eq "foo"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-4">
+      <description> A test whose essence is: `normalize-space(" foo") eq "foo"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space(" foo") eq "foo"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-5">
+      <description> A test whose essence is: `normalize-space("foo ") eq "foo"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space("foo ") eq "foo"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-6">
+      <description> A test whose essence is: `normalize-space(()) eq ""`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space(()) eq ""</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-7">
+      <description> A test whose essence is: `normalize-space("f o o ") eq "f o o"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space("f o o ") eq "f o o"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-8">
+      <description> A test whose essence is: `normalize-space(" 143 1239 fhjkls ") eq "143 1239 fhjkls"`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space(" 143 1239 fhjkls ") eq "143 1239 fhjkls"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NormalizeSpaceFunc-9">
+      <description> Invoke normalize-space on itself. Implementations supporting the static typing feature may raise XPTY0004. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>normalize-space(normalize-space(("foo", current-time())[1])) eq "foo"</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

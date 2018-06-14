@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-reverse" covers="array-reverse"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the array:reverse function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-reverse"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+    
+    <test-case name="array-reverse-801">
+        <description>Return reversed order array with integer members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:reverse(["a", "b", "c", "d"])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["d", "c", "b", "a"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-reverse-802">
+        <description>Return reversed order array with sequence members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:reverse([("a", "b"), ("c", "d")])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>[("c", "d"), ("a", "b")]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-reverse-803">
+        <description>Return reversed order array with sequence member</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:reverse([(1 to 5)])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[(1, 2, 3, 4, 5)]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-reverse-804">
+        <description>Return reversed order empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:reverse([])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+
+
+
+</test-set>

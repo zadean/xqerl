@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-hexBinary-greater-than" covers="op-hexBinary-greater-than">
+   <description>Tests for the hexBinary-greater-than() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-hexBinary-greater-than"/>
+   
+   <dependency type="spec" value="XP31+ XQ31+"/>
+   
+   <test-case name="hexBinary-gt-1">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") gt  xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-2">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(mid range)                      
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("6e7875626264756366") gt  xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-3">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(upper bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("786174616d61616772") gt  xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-4">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(mid range)                      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") > xs:hexBinary("6e7875626264756366")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-5">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(upper bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") > xs:hexBinary("786174616d61616772")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-6">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") > xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-7">
+      <description>
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(mid range)                      
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("6e7875626264756366") > xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-8">
+      <description>           
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(upper bound)                    
+$value2 = xs:hexBinary(lower bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("786174616d61616772") ge  xs:hexBinary("767479716c6a647663")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-9">
+      <description>           
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(mid range)                      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") ge  xs:hexBinary("6e7875626264756366")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-10">
+      <description>       
+Purpose: Evaluates The "op:hexBinary-greater-than" operator   
+ with the arguments set as follows:                    
+$value1 = xs:hexBinary(lower bound)                    
+$value2 = xs:hexBinary(upper bound)                    
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("767479716c6a647663") ge  xs:hexBinary("786174616d61616772")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-11">
+      <description>Simple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>(xs:hexBinary("786174616d61616772") >= xs:hexBinary("767479716c6a647663")) and (xs:hexBinary("786174616d61616772") gt  xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-12">
+      <description>imple Binary hex operation as part of a   
+logical expression.  Use "and" and "eq" operators.      
+</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>(xs:hexBinary("786174616d61616772") >= xs:hexBinary("767479716c6a647663")) or (xs:hexBinary("786174616d61616772") gt  xs:hexBinary("767479716c6a647663"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-13">
+      <description>Simple Binary hex operation  </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("786174616d61616772") >= xs:hexBinary("786174616d61616772")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-14">
+      <description>Compare hexBinary values as part of max() function</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>max((xs:hexBinary('aa'), xs:hexBinary('bb'), xs:hexBinary('88')))</test>
+      <result>
+         <assert-eq>xs:hexBinary('bb')</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-15">
+      <description>Compare hexBinary values as part of sort operation</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31"/>
+      <test>
+         for $i in (xs:hexBinary('aa'), xs:hexBinary('bb'), xs:hexBinary(''), xs:hexBinary('88'), xs:hexBinary('bbbb'))
+         order by $i descending
+         return string($i)
+      </test>
+      <result>
+         <assert-deep-eq>'BBBB', 'BB', 'AA', '88', ''</assert-deep-eq>
+      </result>
+   </test-case>
+ 
+   <test-case name="hexBinary-gt-16">
+      <description>Compare two hexBinary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("FF") gt  xs:hexBinary("ff")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-17">
+      <description>Compare two hexBinary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("FF") ge  xs:hexBinary("aa")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-18">
+      <description>Compare two hexBinary values.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("FF") gt  xs:hexBinary("aa")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="hexBinary-gt-19">
+      <description>Complex comparison test of wrapped hexBinary/base64Binary constructor functions.</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary(xs:base64Binary(xs:hexBinary("03"))) gt  xs:hexBinary("03")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-20">
+      <description>Complex comparison test of wrapped hexBinary/base64Binary constructor functions. </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary(xs:base64Binary(xs:hexBinary("14"))) ge  xs:hexBinary("13")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-21">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("") gt  xs:hexBinary("")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-22">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("") gt  xs:hexBinary("01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-23">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("00") gt  xs:hexBinary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-24">
+      <description>Comparison involving implicit conversion of untypedAtomic to hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:untypedAtomic("0001") > xs:hexBinary("0002")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-25">
+      <description>Comparing base64Binary to hexBinary is not allowed</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:base64Binary("") gt  xs:hexBinary("0002")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-gt-26">
+      <description>Comparing string to hexBinary is not allowed</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>"" gt  xs:hexBinary("0002")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-ge-27">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("") ge  xs:hexBinary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-ge-28">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("") ge  xs:hexBinary("01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="hexBinary-ge-29">
+      <description>Comparison involving empty hexBinary</description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <test>xs:hexBinary("00") gt  xs:hexBinary("")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>  
+   
+   <test-case name="hexBinary-gt-30">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/>     
+      <test>
+         declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
+            if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 
+         }; 
+         local:hexBinary-value(true()) gt  local:hexBinary-value(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="hexBinary-gt-31">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/> 
+      <test>
+         declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
+            if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 
+         }; 
+         not(local:hexBinary-value(true()) gt  local:hexBinary-value(false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="hexBinary-gt-32">
+      <description> test equality of xs:hexBinary </description>
+      <created by="Michael Kay" on="2014-05-14"/>
+      <dependency type="spec" value="XQ31+"/>     
+      <test>
+         declare function local:hexBinary-value($arg as xs:boolean) as xs:hexBinary { 
+            if ($arg) then xs:hexBinary('68656c6c6f') else xs:hexBinary('676f6f64627965') 
+         }; 
+         not(local:hexBinary-value(true()) ge  local:hexBinary-value(false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+</test-set>

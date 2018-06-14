@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-find"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="map-find">
+    <description>Tests for the map:find function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-map-find"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
+    
+    <environment name="json-files">
+        <resource file="../fn/parse-json/data004.json"
+            media-type="text/plain"
+            encoding="utf-8"
+            uri="http://www.w3.org/qt3/json/data004-json">
+            <description>UTF-8 encoded plain text.</description>
+            <created by="O'Neil Delpratt" on="2015-02-23"/>
+        </resource>
+        <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
+    </environment>
+    
+    <test-case name="map-find-001">
+        <description>Enpty sequence as first argument</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find((), 17)</test>
+        <result>
+            <assert-deep-eq>[]</assert-deep-eq>
+        </result>
+    </test-case>
+
+    <test-case name="map-find-002">
+        <description>Integer key, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 4)</test>
+        <result>
+            <assert-deep-eq>["Wednesday"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-003">
+        <description>Integer key, data is absent</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 86)</test>
+        <result>
+            <assert-deep-eq>[]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-004">
+        <description>Search a sequence of maps</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find((map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"},
+            map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:"Samedi",1:"Dimanche"}), 1)</test>
+        <result>
+            <assert-deep-eq>["Sunday", "Dimanche"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-005">
+        <description>Search an array of maps</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find([map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"},
+            map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:"Samedi",1:"Dimanche"}], 1)</test>
+        <result>
+            <assert-deep-eq>["Sunday", "Dimanche"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-006">
+        <description>Non-maps in the input are ignored</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="map"/>
+        <test>map:find([map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"},
+            map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:"Samedi",1:"Dimanche"}, 1], 1)</test>
+        <result>
+            <assert-deep-eq>["Sunday", "Dimanche"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-007">
+        <description>Maps within maps</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <modified by="Michael Kay, Saxonica" on="2016-11-01" change="bug 29918 allows results in a different order"/>
+        <environment ref="map"/>
+        <test>map:find(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday", "fr":
+            map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:"Samedi",1:"Dimanche"}}, 1)</test>
+        <result>
+            <any-of>
+                <assert-deep-eq>["Sunday", "Dimanche"]</assert-deep-eq>
+                <assert-deep-eq>["Dimanche", "Sunday"]</assert-deep-eq>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-008">
+        <description>Maps within arrays within arrays</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <modified by="Michael Kay, Saxonica" on="2016-11-01" change="bug 29918 allows results in a different order"/>
+        <environment ref="map"/>
+        <test>map:find([map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday", "fr":
+            [map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:"Samedi",1:"Dimanche"}, 78]}, 82], 7)</test>
+        <result>
+            <any-of>
+                <assert-deep-eq>["Saturday", "Samedi"]</assert-deep-eq>
+                <assert-deep-eq>["Samedi", "Saturday"]</assert-deep-eq>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-009">
+        <description>Arrays in result</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <modified by="Michael Kay, Saxonica" on="2016-11-01" change="bug 29918 allows results in a different order"/>
+        <environment ref="map"/>
+        <test>map:find([map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:["Saturday", "Sat"], "fr":
+            [map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:["Samedi", "Sa"],1:"Dimanche"}, 78]}, 82], 7)</test>
+        <result>
+            <any-of>
+                <assert-deep-eq>[["Saturday", "Sat"], ["Samedi", "Sa"]]</assert-deep-eq>
+                <assert-deep-eq>[["Samedi", "Sa"], ["Saturday", "Sat"]]</assert-deep-eq>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-010">
+        <description>Sequences in result</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <modified by="Michael Kay, Saxonica" on="2016-11-01" change="bug 29918 allows results in a different order"/>
+        <environment ref="map"/>
+        <test>map:find([map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:("Saturday", "Sat"), "fr":
+            [map{2:"Lundi",3:"Mardi",4:"Mercredi",5:"Jeudi",6:"Vendredi",7:("Samedi", "Sa"),1:"Dimanche"}, 78]}, 82], 7)</test>
+        <result>
+            <any-of>
+                <assert-deep-eq>[("Saturday", "Sat"), ("Samedi", "Sa")]</assert-deep-eq>
+                <assert-deep-eq>[("Samedi", "Sa"), ("Saturday", "Sat")]</assert-deep-eq>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-101">
+        <description>Search maps derived from JSON input</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="json-files"/>
+        <test>fn:json-doc("http://www.w3.org/qt3/json/data004-json") => map:find("servlet-name")</test>
+        <result>
+            <assert-deep-eq>["cofaxCDS", "cofaxEmail", "cofaxAdmin", "fileServlet", "cofaxTools"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="map-find-102">
+        <description>Search maps derived from JSON input: values are maps</description>
+        <created by="Michael Kay, Saxonica" on="2016-09-06"/>
+        <environment ref="json-files"/>
+        <test>fn:json-doc("http://www.w3.org/qt3/json/data004-json") => map:find("init-param") => map:find("mailHost")</test>
+        <result>
+            <assert-deep-eq>["mail1"]</assert-deep-eq>
+        </result>
+    </test-case>
+ 
+
+</test-set>

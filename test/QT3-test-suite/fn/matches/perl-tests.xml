@@ -1,0 +1,1668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tests>
+   <test id="p10" regex="abc" input="abc" result="y"/>
+   <test id="p11" regex="abc" input="abc" result="y"/>
+   <test id="p12" regex="abc" input="abc" result="y"/>
+   <test id="p13" regex="abc" input="xbc" result="n"/>
+   <test id="p14" regex="abc" input="axc" result="n"/>
+   <test id="p15" regex="abc" input="abx" result="n"/>
+   <test id="p16" regex="abc" input="xabcy" result="y"/>
+   <test id="p17" regex="abc" input="xabcy" result="y"/>
+   <test id="p18" regex="abc" input="xabcy" result="y"/>
+   <test id="p19" regex="abc" input="ababc" result="y"/>
+   <test id="p20" regex="abc" input="ababc" result="y"/>
+   <test id="p21" regex="abc" input="ababc" result="y"/>
+   <test id="p22" regex="ab*c" input="abc" result="y"/>
+   <test id="p23" regex="ab*c" input="abc" result="y"/>
+   <test id="p24" regex="ab*c" input="abc" result="y"/>
+   <test id="p25" regex="ab*bc" input="abc" result="y"/>
+   <test id="p26" regex="ab*bc" input="abc" result="y"/>
+   <test id="p27" regex="ab*bc" input="abc" result="y"/>
+   <test id="p28" regex="ab*bc" input="abbc" result="y"/>
+   <test id="p29" regex="ab*bc" input="abbc" result="y"/>
+   <test id="p30" regex="ab*bc" input="abbc" result="y"/>
+   <test id="p31" regex="ab*bc" input="abbbbc" result="y"/>
+   <test id="p32" regex="ab*bc" input="abbbbc" result="y"/>
+   <test id="p33" regex="ab*bc" input="abbbbc" result="y"/>
+   <test id="p34" regex=".{1}" input="abbbbc" result="y"/>
+   <test id="p35" regex=".{1}" input="abbbbc" result="y"/>
+   <test id="p36" regex=".{1}" input="abbbbc" result="y"/>
+   <test id="p37" regex=".{3,4}" input="abbbbc" result="y"/>
+   <test id="p38" regex=".{3,4}" input="abbbbc" result="y"/>
+   <test id="p39" regex=".{3,4}" input="abbbbc" result="y"/>
+   <test id="p40" regex="\N{1}" input="abbbbc" result="p"/>
+   <test id="p41" regex="\N{1}" input="abbbbc" result="p"/>
+   <test id="p42" regex="\N{1}" input="abbbbc" result="p"/>
+   <test id="p43" regex="/\N {1}/x" input="abbbbc" result="p"/>
+   <test id="p44" regex="/\N {1}/x" input="abbbbc" result="p"/>
+   <test id="p45" regex="/\N {1}/x" input="abbbbc" result="p"/>
+   <test id="p46" regex="\N{3,4}" input="abbbbc" result="p"/>
+   <test id="p47" regex="\N{3,4}" input="abbbbc" result="p"/>
+   <test id="p48" regex="\N{3,4}" input="abbbbc" result="p"/>
+   <test id="p49" regex="/\N {3,4}/x" input="abbbbc" result="p"/>
+   <test id="p50" regex="/\N {3,4}/x" input="abbbbc" result="p"/>
+   <test id="p51" regex="/\N {3,4}/x" input="abbbbc" result="p"/>
+   <test id="p52" regex="ab{0,}bc" input="abbbbc" result="y"/>
+   <test id="p53" regex="ab{0,}bc" input="abbbbc" result="y"/>
+   <test id="p54" regex="ab{0,}bc" input="abbbbc" result="y"/>
+   <test id="p55" regex="ab+bc" input="abbc" result="y"/>
+   <test id="p56" regex="ab+bc" input="abbc" result="y"/>
+   <test id="p57" regex="ab+bc" input="abbc" result="y"/>
+   <test id="p58" regex="ab+bc" input="abc" result="n"/>
+   <test id="p59" regex="ab+bc" input="abq" result="n"/>
+   <test id="p60" regex="ab{1,}bc" input="abq" result="n"/>
+   <test id="p61" regex="ab+bc" input="abbbbc" result="y"/>
+   <test id="p62" regex="ab+bc" input="abbbbc" result="y"/>
+   <test id="p63" regex="ab+bc" input="abbbbc" result="y"/>
+   <test id="p64" regex="ab{1,}bc" input="abbbbc" result="y"/>
+   <test id="p65" regex="ab{1,}bc" input="abbbbc" result="y"/>
+   <test id="p66" regex="ab{1,}bc" input="abbbbc" result="y"/>
+   <test id="p67" regex="ab{1,3}bc" input="abbbbc" result="y"/>
+   <test id="p68" regex="ab{1,3}bc" input="abbbbc" result="y"/>
+   <test id="p69" regex="ab{1,3}bc" input="abbbbc" result="y"/>
+   <test id="p70" regex="ab{3,4}bc" input="abbbbc" result="y"/>
+   <test id="p71" regex="ab{3,4}bc" input="abbbbc" result="y"/>
+   <test id="p72" regex="ab{3,4}bc" input="abbbbc" result="y"/>
+   <test id="p73" regex="ab{4,5}bc" input="abbbbc" result="n"/>
+   <test id="p74" regex="ab?bc" input="abbc" result="y"/>
+   <test id="p75" regex="ab?bc" input="abc" result="y"/>
+   <test id="p76" regex="ab{0,1}bc" input="abc" result="y"/>
+   <test id="p77" regex="ab?bc" input="abbbbc" result="n"/>
+   <test id="p78" regex="ab?c" input="abc" result="y"/>
+   <test id="p79" regex="ab{0,1}c" input="abc" result="y"/>
+   <test id="p80" regex="^abc$" input="abc" result="y"/>
+   <test id="p81" regex="^abc$" input="abcc" result="n"/>
+   <test id="p82" regex="^abc" input="abcc" result="y"/>
+   <test id="p83" regex="^abc$" input="aabc" result="n"/>
+   <test id="p84" regex="abc$" input="aabc" result="y"/>
+   <test id="p85" regex="abc$" input="aabcd" result="n"/>
+   <test id="p86" regex="^" input="abc" result="y"/>
+   <test id="p87" regex="$" input="abc" result="y"/>
+   <test id="p88" regex="a.c" input="abc" result="y"/>
+   <test id="p89" regex="a.c" input="axc" result="y"/>
+   <test id="p90" regex="a\Nc" input="abc" result="p"/>
+   <test id="p91" regex="/a\N c/x" input="abc" result="p"/>
+   <test id="p92" regex="a.*c" input="axyzc" result="y"/>
+   <test id="p93" regex="a\N*c" input="axyzc" result="p"/>
+   <test id="p94" regex="/a\N *c/x" input="axyzc" result="p"/>
+   <test id="p95" regex="a.*c" input="axyzd" result="n"/>
+   <test id="p96" regex="a\N*c" input="axyzd" result="p"/>
+   <test id="p97" regex="/a\N *c/x" input="axyzd" result="p"/>
+   <test id="p98" regex="a[bc]d" input="abc" result="n"/>
+   <test id="p99" regex="a[bc]d" input="abd" result="y"/>
+   <test id="p100" regex="a[b]d" input="abd" result="y"/>
+   <test id="p101" regex="[a][b][d]" input="abd" result="y"/>
+   <test id="p102" regex=".[b]." input="abd" result="y"/>
+   <test id="p103" regex=".[b]." input="aBd" result="n"/>
+   <test id="p104" regex="(?i:.[b].)" input="abd" result="p"/>
+   <test id="p105" regex="(?i:\N[b]\N)" input="abd" result="p"/>
+   <test id="p106" regex="a[b-d]e" input="abd" result="n"/>
+   <test id="p107" regex="a[b-d]e" input="ace" result="y"/>
+   <test id="p108" regex="a[b-d]" input="aac" result="y"/>
+   <test id="p109" regex="a[-b]" input="a-" result="y"/>
+   <test id="p110" regex="a[b-]" input="a-" result="y"/>
+   <test id="p111" regex="a[b-a]" input="-" result="c"/>
+   <test id="p112" regex="a[]b" input="-" result="c"/>
+   <test id="p113" regex="a[" input="-" result="c"/>
+   <test id="p114" regex="a]" input="a]" result="p"/>
+   <test id="p115" regex="a[]]b" input="a]b" result="p"/>
+   <test id="p116" regex="a[^bc]d" input="aed" result="y"/>
+   <test id="p117" regex="a[^bc]d" input="abd" result="n"/>
+   <test id="p118" regex="a[^-b]c" input="adc" result="y"/>
+   <test id="p119" regex="a[^-b]c" input="a-c" result="n"/>
+   <test id="p120" regex="a[^]b]c" input="a]c" result="p"/>
+   <test id="p121" regex="a[^]b]c" input="adc" result="p"/>
+   <test id="p122" regex="\ba\b" input="a-" result="p"/>
+   <test id="p123" regex="\ba\b" input="-a" result="p"/>
+   <test id="p124" regex="\ba\b" input="-a-" result="p"/>
+   <test id="p125" regex="\by\b" input="xy" result="p"/>
+   <test id="p126" regex="\by\b" input="yz" result="p"/>
+   <test id="p127" regex="\by\b" input="xyz" result="p"/>
+   <test id="p128" regex="\Ba\B" input="a-" result="p"/>
+   <test id="p129" regex="\Ba\B" input="-a" result="p"/>
+   <test id="p130" regex="\Ba\B" input="-a-" result="p"/>
+   <test id="p131" regex="\By\b" input="xy" result="p"/>
+   <test id="p132" regex="\By\b" input="xy" result="p"/>
+   <test id="p133" regex="\By\b" input="xy" result="p"/>
+   <test id="p134" regex="\By\b" input="xy" result="p"/>
+   <test id="p135" regex="\by\B" input="yz" result="p"/>
+   <test id="p136" regex="\By\B" input="xyz" result="p"/>
+   <test id="p137" regex="\w" input="a" result="y"/>
+   <test id="p138" regex="\w" input="-" result="n"/>
+   <test id="p139" regex="\W" input="a" result="n"/>
+   <test id="p140" regex="\W" input="-" result="y"/>
+   <test id="p141" regex="a\sb" input="a b" result="y"/>
+   <test id="p142" regex="a\sb" input="a-b" result="n"/>
+   <test id="p143" regex="a\Sb" input="a b" result="n"/>
+   <test id="p144" regex="a\Sb" input="a-b" result="y"/>
+   <test id="p145" regex="\d" input="1" result="y"/>
+   <test id="p146" regex="\d" input="-" result="n"/>
+   <test id="p147" regex="\D" input="1" result="n"/>
+   <test id="p148" regex="\D" input="-" result="y"/>
+   <test id="p149" regex="[\w]" input="a" result="y"/>
+   <test id="p150" regex="[\w]" input="-" result="n"/>
+   <test id="p151" regex="[\W]" input="a" result="n"/>
+   <test id="p152" regex="[\W]" input="-" result="y"/>
+   <test id="p153" regex="a[\s]b" input="a b" result="y"/>
+   <test id="p154" regex="a[\s]b" input="a-b" result="n"/>
+   <test id="p155" regex="a[\S]b" input="a b" result="n"/>
+   <test id="p156" regex="a[\S]b" input="a-b" result="y"/>
+   <test id="p157" regex="[\d]" input="1" result="y"/>
+   <test id="p158" regex="[\d]" input="-" result="n"/>
+   <test id="p159" regex="[\D]" input="1" result="n"/>
+   <test id="p160" regex="[\D]" input="-" result="y"/>
+   <test id="p161" regex="ab|cd" input="abc" result="y"/>
+   <test id="p162" regex="ab|cd" input="abcd" result="y"/>
+   <test id="p163" regex="()ef" input="def" result="y"/>
+   <test id="p164" regex="()ef" input="def" result="y"/>
+   <test id="p165" regex="()ef" input="def" result="y"/>
+   <test id="p166" regex="()\x{100}\x{1000}" input="d\x{100}\x{1000}" result="p"/>
+   <test id="p167" regex="()ef" input="def" result="y"/>
+   <test id="p168" regex="()ef" input="def" result="y"/>
+   <test id="p169" regex="*a" input="-" result="c"/>
+   <test id="p170" regex="(|*)b" input="-" result="c"/>
+   <test id="p171" regex="(*)b" input="-" result="c"/>
+   <test id="p172" regex="$b" input="b" result="n"/>
+   <test id="p173" regex="a\" input="-" result="c"/>
+   <test id="p174" regex="a\(b" input="a(b" result="y"/>
+   <test id="p175" regex="a\(*b" input="ab" result="y"/>
+   <test id="p176" regex="a\(*b" input="a((b" result="y"/>
+   <test id="p177" regex="a\\b" input="a\b" result="y"/>
+   <test id="p178" regex="abc)" input="-" result="c"/>
+   <test id="p179" regex="(abc" input="-" result="c"/>
+   <test id="p180" regex="((a))" input="abc" result="y"/>
+   <test id="p184" regex="((a))" input="abc" result="y"/>
+   <test id="p185" regex="(a)b(c)" input="abc" result="y"/>
+   <test id="p186" regex="(a)b(c)" input="abc" result="y"/>
+   <test id="p187" regex="(a)b(c)" input="abc" result="y"/>
+   <test id="p188" regex="a+b+c" input="aabbabc" result="y"/>
+   <test id="p189" regex="a{1,}b{1,}c" input="aabbabc" result="y"/>
+   <test id="p190" regex="a**" input="-" result="c"/>
+   <test id="p191" regex="a.+?c" input="abcabc" result="y"/>
+   <test id="p192" regex="(a+|b)*" input="ab" result="y"/>
+   <test id="p193" regex="(a+|b)*" input="ab" result="y"/>
+   <test id="p194" regex="(a+|b)*" input="ab" result="y"/>
+   <test id="p195" regex="(a+|b)*" input="ab" result="y"/>
+   <test id="p196" regex="(a+|b)*" input="ab" result="y"/>
+   <test id="p197" regex="(a+|b){0,}" input="ab" result="y"/>
+   <test id="p198" regex="(a+|b)+" input="ab" result="y"/>
+   <test id="p199" regex="(a+|b){1,}" input="ab" result="y"/>
+   <test id="p200" regex="(a+|b)?" input="ab" result="y"/>
+   <test id="p201" regex="(a+|b){0,1}" input="ab" result="y"/>
+   <test id="p202" regex=")(" input="-" result="c"/>
+   <test id="p203" regex="[^ab]*" input="cde" result="y"/>
+   <test id="p204" regex="abc" input="" result="n"/>
+   <test id="p205" regex="a*" input="" result="y"/>
+   <test id="p206" regex="([abc])*d" input="abbbcd" result="y"/>
+   <test id="p207" regex="([abc])*bcd" input="abcd" result="y"/>
+   <test id="p208" regex="a|b|c|d|e" input="e" result="y"/>
+   <test id="p209" regex="(a|b|c|d|e)f" input="ef" result="y"/>
+   <test id="p210" regex="(a|b|c|d|e)f" input="ef" result="y"/>
+   <test id="p211" regex="(a|b|c|d|e)f" input="ef" result="y"/>
+   <test id="p212" regex="(a|b|c|d|e)f" input="ef" result="y"/>
+   <test id="p213" regex="(a|b|c|d|e)f" input="ef" result="y"/>
+   <test id="p214" regex="abcd*efg" input="abcdefg" result="y"/>
+   <test id="p215" regex="ab*" input="xabyabbbz" result="y"/>
+   <test id="p216" regex="ab*" input="xayabbbz" result="y"/>
+   <test id="p217" regex="(ab|cd)e" input="abcde" result="y"/>
+   <test id="p218" regex="[abhgefdc]ij" input="hij" result="y"/>
+   <test id="p219" regex="^(ab|cd)e" input="abcde" result="n"/>
+   <test id="p220" regex="(abc|)ef" input="abcdef" result="y"/>
+   <test id="p221" regex="(a|b)c*d" input="abcd" result="y"/>
+   <test id="p222" regex="(ab|ab*)bc" input="abc" result="y"/>
+   <test id="p223" regex="a([bc]*)c*" input="abc" result="y"/>
+   <test id="p224" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p225" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p226" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p227" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p228" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p229" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p230" regex="a([bc]*)(c*d)" input="abcd" result="y"/>
+   <test id="p231" regex="a([bc]+)(c*d)" input="abcd" result="y"/>
+   <test id="p232" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p233" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p234" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p235" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p236" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p237" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p238" regex="a([bc]*)(c+d)" input="abcd" result="y"/>
+   <test id="p239" regex="a[bcd]*dcdcde" input="adcdcde" result="y"/>
+   <test id="p240" regex="a[bcd]+dcdcde" input="adcdcde" result="n"/>
+   <test id="p241" regex="(ab|a)b*c" input="abc" result="y"/>
+   <test id="p242" regex="(ab|a)b*c" input="abc" result="y"/>
+   <test id="p243" regex="(ab|a)b*c" input="abc" result="y"/>
+   <test id="p244" regex="(ab|a)b*c" input="abc" result="y"/>
+   <test id="p245" regex="(ab|a)b*c" input="abc" result="y"/>
+   <test id="p246" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p247" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p248" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p249" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p250" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p251" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p252" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p253" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p254" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p255" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p256" regex="((a)(b)c)(d)" input="abcd" result="y"/>
+   <test id="p257" regex="[a-zA-Z_][a-zA-Z0-9_]*" input="alpha" result="y"/>
+   <test id="p258" regex="^a(bc+|b[eh])g|.h$" input="abh" result="y"/>
+   <test id="p259" regex="(bc+d$|ef*g.|h?i(j|k))" input="effgz" result="y"/>
+   <test id="p260" regex="(bc+d$|ef*g.|h?i(j|k))" input="ij" result="y"/>
+   <test id="p261" regex="(bc+d$|ef*g.|h?i(j|k))" input="effg" result="n"/>
+   <test id="p262" regex="(bc+d$|ef*g.|h?i(j|k))" input="bcdd" result="n"/>
+   <test id="p263" regex="(bc+d$|ef*g.|h?i(j|k))" input="reffgz" result="y"/>
+   <test id="p264" regex="((((((((((a))))))))))" input="a" result="y"/>
+   <test id="p265" regex="((((((((((a))))))))))" input="a" result="y"/>
+   <test id="p266" regex="((((((((((a))))))))))" input="a" result="y"/>
+   <test id="p267" regex="((((((((((a))))))))))" input="a" result="y"/>
+   <test id="p268" regex="((((((((((a))))))))))" input="a" result="y"/>
+   <test id="p269" regex="((((((((((a))))))))))\10" input="aa" result="y"/>
+   <test id="p270" regex="((((((((((a))))))))))${bang}" input="aa" result="p"/>
+   <test id="p271" regex="((((((((((a))))))))))${bang}" input="a!" result="p"/>
+   <test id="p272" regex="(((((((((a)))))))))" input="a" result="y"/>
+   <test id="p273" regex="multiple words of text" input="uh-uh" result="n"/>
+   <test id="p274" regex="multiple words" input="multiple words, yeah" result="y"/>
+   <test id="p275" regex="(.*)c(.*)" input="abcde" result="y"/>
+   <test id="p276" regex="\((.*), (.*)\)" input="(a, b)" result="y"/>
+   <test id="p277" regex="[k]" input="ab" result="n"/>
+   <test id="p278" regex="abcd" input="abcd" result="y"/>
+   <test id="p279" regex="a(bc)d" input="abcd" result="y"/>
+   <test id="p280" regex="a[-]?c" input="ac" result="y"/>
+   <test id="p281" regex="(abc)\1" input="abcabc" result="y"/>
+   <test id="p282" regex="([a-c]*)\1" input="abcabc" result="y"/>
+   <test id="p283" regex="\1" input="-" result="c"/>
+   <test id="p284" regex="\2" input="-" result="c"/>
+   <test id="p285" regex="\g1" input="-" result="c"/>
+   <test id="p286" regex="\g-1" input="-" result="c"/>
+   <test id="p287" regex="\g{1}" input="-" result="c"/>
+   <test id="p288" regex="\g{-1}" input="-" result="c"/>
+   <test id="p289" regex="\g0" input="-" result="c"/>
+   <test id="p290" regex="\g-0" input="-" result="c"/>
+   <test id="p291" regex="\g{0}" input="-" result="c"/>
+   <test id="p292" regex="\g{-0}" input="-" result="c"/>
+   <test id="p293" regex="(a)|\1" input="a" result="y"/>
+   <test id="p294" regex="(a)|\1" input="x" result="y"/><!-- changed MHK: was n-->
+   <test id="p295" regex="(?:(b)?a)\1" input="a" result="y"/><!-- changed MHK: was n-->
+   <test id="p296" regex="(a)|\2" input="-" result="c"/>
+   <test id="p297" regex="(([a-c])b*?\2)*" input="ababbbcbc" result="y"/>
+   <test id="p298" regex="(([a-c])b*?\2){3}" input="ababbbcbc" result="y"/>
+   <test id="p299" regex="((\3|b)\2(a)x)+" input="aaxabxbaxbbx" result="p"/>
+   <test id="p300" regex="((\3|b)\2(a)x)+" input="aaaxabaxbaaxbbax" result="p"/>
+   <test id="p301" regex="((\3|b)\2(a)){2,}" input="bbaababbabaaaaabbaaaabba" result="p"/>
+   <test id="p303" regex="^((.)?a\2)+$" input="babadad" result="y"/> <!-- changed 2015-12-02, see bug 29253 -->
+   <test id="p304" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p305" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p306" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p307" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p308" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p309" regex="(a)|(b)" input="b" result="y"/>
+   <test id="p310" regex="abc" flags="i" input="ABC" result="y"/>
+   <test id="p311" regex="abc" flags="i" input="XBC" result="n"/>
+   <test id="p312" regex="abc" flags="i" input="AXC" result="n"/>
+   <test id="p313" regex="abc" flags="i" input="ABX" result="n"/>
+   <test id="p314" regex="abc" flags="i" input="XABCY" result="y"/>
+   <test id="p315" regex="abc" flags="i" input="ABABC" result="y"/>
+   <test id="p316" regex="ab*c" flags="i" input="ABC" result="y"/>
+   <test id="p317" regex="ab*bc" flags="i" input="ABC" result="y"/>
+   <test id="p318" regex="ab*bc" flags="i" input="ABBC" result="y"/>
+   <test id="p319" regex="ab*?bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p320" regex="ab{0,}?bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p321" regex="ab+?bc" flags="i" input="ABBC" result="y"/>
+   <test id="p322" regex="ab+bc" flags="i" input="ABC" result="n"/>
+   <test id="p323" regex="ab+bc" flags="i" input="ABQ" result="n"/>
+   <test id="p324" regex="ab{1,}bc" flags="i" input="ABQ" result="n"/>
+   <test id="p325" regex="ab+bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p326" regex="ab{1,}?bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p327" regex="ab{1,3}?bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p328" regex="ab{3,4}?bc" flags="i" input="ABBBBC" result="y"/>
+   <test id="p329" regex="ab{4,5}?bc" flags="i" input="ABBBBC" result="n"/>
+   <test id="p330" regex="ab??bc" flags="i" input="ABBC" result="y"/>
+   <test id="p331" regex="ab??bc" flags="i" input="ABC" result="y"/>
+   <test id="p332" regex="ab{0,1}?bc" flags="i" input="ABC" result="y"/>
+   <test id="p333" regex="ab??bc" flags="i" input="ABBBBC" result="n"/>
+   <test id="p334" regex="ab??c" flags="i" input="ABC" result="y"/>
+   <test id="p335" regex="ab{0,1}?c" flags="i" input="ABC" result="y"/>
+   <test id="p336" regex="^abc$" flags="i" input="ABC" result="y"/>
+   <test id="p337" regex="^abc$" flags="i" input="ABCC" result="n"/>
+   <test id="p338" regex="^abc" flags="i" input="ABCC" result="y"/>
+   <test id="p339" regex="^abc$" flags="i" input="AABC" result="n"/>
+   <test id="p340" regex="abc$" flags="i" input="AABC" result="y"/>
+   <test id="p341" regex="^" flags="i" input="ABC" result="y"/>
+   <test id="p342" regex="$" flags="i" input="ABC" result="y"/>
+   <test id="p343" regex="a.c" flags="i" input="ABC" result="y"/>
+   <test id="p344" regex="a.c" flags="i" input="AXC" result="y"/>
+   <test id="p345" regex="a\Nc" flags="i" input="ABC" result="p"/>
+   <test id="p346" regex="a.*?c" flags="i" input="AXYZC" result="y"/>
+   <test id="p347" regex="a.*c" flags="i" input="AXYZD" result="n"/>
+   <test id="p348" regex="a[bc]d" flags="i" input="ABC" result="n"/>
+   <test id="p349" regex="a[bc]d" flags="i" input="ABD" result="y"/>
+   <test id="p350" regex="a[b-d]e" flags="i" input="ABD" result="n"/>
+   <test id="p351" regex="a[b-d]e" flags="i" input="ACE" result="y"/>
+   <test id="p352" regex="a[b-d]" flags="i" input="AAC" result="y"/>
+   <test id="p353" regex="a[-b]" flags="i" input="A-" result="y"/>
+   <test id="p354" regex="a[b-]" flags="i" input="A-" result="y"/>
+   <test id="p355" regex="a[b-a]" flags="i" input="-" result="c"/>
+   <test id="p356" regex="a[]b" flags="i" input="-" result="c"/>
+   <test id="p357" regex="a[" flags="i" input="-" result="c"/>
+   <test id="p358" regex="a]" flags="i" input="A]" result="p"/>
+   <test id="p359" regex="a[]]b" flags="i" input="A]B" result="p"/>
+   <test id="p360" regex="a[^bc]d" flags="i" input="AED" result="y"/>
+   <test id="p361" regex="a[^bc]d" flags="i" input="ABD" result="n"/>
+   <test id="p362" regex="a[^-b]c" flags="i" input="ADC" result="y"/>
+   <test id="p363" regex="a[^-b]c" flags="i" input="A-C" result="n"/>
+   <test id="p364" regex="a[^]b]c" flags="i" input="A]C" result="p"/>
+   <test id="p365" regex="a[^]b]c" flags="i" input="ADC" result="p"/>
+   <test id="p366" regex="ab|cd" flags="i" input="ABC" result="y"/>
+   <test id="p367" regex="ab|cd" flags="i" input="ABCD" result="y"/>
+   <test id="p368" regex="()ef" flags="i" input="DEF" result="y"/>
+   <test id="p369" regex="*a" flags="i" input="-" result="c"/>
+   <test id="p370" regex="(|*)b" flags="i" input="-" result="c"/>
+   <test id="p371" regex="(*)b" flags="i" input="-" result="c"/>
+   <test id="p372" regex="$b" flags="i" input="B" result="n"/>
+   <test id="p373" regex="a\" flags="i" input="-" result="c"/>
+   <test id="p374" regex="a\(b" flags="i" input="A(B" result="y"/>
+   <test id="p375" regex="a\(*b" flags="i" input="AB" result="y"/>
+   <test id="p376" regex="a\(*b" flags="i" input="A((B" result="y"/>
+   <test id="p377" regex="a\\b" flags="i" input="A\B" result="y"/>
+   <test id="p378" regex="abc)" flags="i" input="-" result="c"/>
+   <test id="p379" regex="(abc" flags="i" input="-" result="c"/>
+   <test id="p380" regex="((a))" flags="i" input="ABC" result="y"/>
+   <test id="p381" regex="(a)b(c)" flags="i" input="ABC" result="y"/>
+   <test id="p382" regex="a+b+c" flags="i" input="AABBABC" result="y"/>
+   <test id="p383" regex="a{1,}b{1,}c" flags="i" input="AABBABC" result="y"/>
+   <test id="p384" regex="a**" flags="i" input="-" result="c"/>
+   <test id="p385" regex="a.+?c" flags="i" input="ABCABC" result="y"/>
+   <test id="p386" regex="a.*?c" flags="i" input="ABCABC" result="y"/>
+   <test id="p387" regex="a.{0,5}?c" flags="i" input="ABCABC" result="y"/>
+   <test id="p388" regex="(a+|b)*" flags="i" input="AB" result="y"/>
+   <test id="p389" regex="(a+|b){0,}" flags="i" input="AB" result="y"/>
+   <test id="p390" regex="(a+|b)+" flags="i" input="AB" result="y"/>
+   <test id="p391" regex="(a+|b){1,}" flags="i" input="AB" result="y"/>
+   <test id="p392" regex="(a+|b)?" flags="i" input="AB" result="y"/>
+   <test id="p393" regex="(a+|b){0,1}" flags="i" input="AB" result="y"/>
+   <test id="p394" regex="(a+|b){0,1}?" flags="i" input="AB" result="y"/>
+   <test id="p395" regex=")(" flags="i" input="-" result="c"/>
+   <test id="p396" regex="[^ab]*" flags="i" input="CDE" result="y"/>
+   <test id="p397" regex="abc" flags="i" input="" result="n"/>
+   <test id="p398" regex="a*" flags="i" input="" result="y"/>
+   <test id="p399" regex="([abc])*d" flags="i" input="ABBBCD" result="y"/>
+   <test id="p400" regex="([abc])*bcd" flags="i" input="ABCD" result="y"/>
+   <test id="p401" regex="a|b|c|d|e" flags="i" input="E" result="y"/>
+   <test id="p402" regex="(a|b|c|d|e)f" flags="i" input="EF" result="y"/>
+   <test id="p403" regex="abcd*efg" flags="i" input="ABCDEFG" result="y"/>
+   <test id="p404" regex="ab*" flags="i" input="XABYABBBZ" result="y"/>
+   <test id="p405" regex="ab*" flags="i" input="XAYABBBZ" result="y"/>
+   <test id="p406" regex="(ab|cd)e" flags="i" input="ABCDE" result="y"/>
+   <test id="p407" regex="[abhgefdc]ij" flags="i" input="HIJ" result="y"/>
+   <test id="p408" regex="^(ab|cd)e" flags="i" input="ABCDE" result="n"/>
+   <test id="p409" regex="(abc|)ef" flags="i" input="ABCDEF" result="y"/>
+   <test id="p410" regex="(a|b)c*d" flags="i" input="ABCD" result="y"/>
+   <test id="p411" regex="(ab|ab*)bc" flags="i" input="ABC" result="y"/>
+   <test id="p412" regex="a([bc]*)c*" flags="i" input="ABC" result="y"/>
+   <test id="p413" regex="a([bc]*)(c*d)" flags="i" input="ABCD" result="y"/>
+   <test id="p414" regex="a([bc]+)(c*d)" flags="i" input="ABCD" result="y"/>
+   <test id="p415" regex="a([bc]*)(c+d)" flags="i" input="ABCD" result="y"/>
+   <test id="p416" regex="a[bcd]*dcdcde" flags="i" input="ADCDCDE" result="y"/>
+   <test id="p417" regex="a[bcd]+dcdcde" flags="i" input="ADCDCDE" result="n"/>
+   <test id="p418" regex="(ab|a)b*c" flags="i" input="ABC" result="y"/>
+   <test id="p419" regex="((a)(b)c)(d)" flags="i" input="ABCD" result="y"/>
+   <test id="p420" regex="[a-zA-Z_][a-zA-Z0-9_]*" flags="i" input="ALPHA" result="y"/>
+   <test id="p421" regex="^a(bc+|b[eh])g|.h$" flags="i" input="ABH" result="y"/>
+   <test id="p422" regex="(bc+d$|ef*g.|h?i(j|k))" flags="i" input="EFFGZ" result="y"/>
+   <test id="p423" regex="(bc+d$|ef*g.|h?i(j|k))" flags="i" input="IJ" result="y"/>
+   <test id="p424" regex="(bc+d$|ef*g.|h?i(j|k))" flags="i" input="EFFG" result="n"/>
+   <test id="p425" regex="(bc+d$|ef*g.|h?i(j|k))" flags="i" input="BCDD" result="n"/>
+   <test id="p426" regex="(bc+d$|ef*g.|h?i(j|k))" flags="i" input="REFFGZ" result="y"/>
+   <test id="p427" regex="((((((((((a))))))))))" flags="i" input="A" result="y"/>
+   <test id="p428" regex="((((((((((a))))))))))\10" flags="i" input="AA" result="y"/>
+   <test id="p429" regex="((((((((((a))))))))))${bang}" flags="i" input="AA" result="p"/>
+   <test id="p430" regex="((((((((((a))))))))))${bang}" flags="i" input="A!" result="p"/>
+   <test id="p431" regex="(((((((((a)))))))))" flags="i" input="A" result="y"/>
+   <test id="p432" regex="(?:(?:(?:(?:(?:(?:(?:(?:(?:(a))))))))))" flags="i" input="A" result="y"/>
+   <test id="p433" regex="(?:(?:(?:(?:(?:(?:(?:(?:(?:(a|b|c))))))))))" flags="i" input="C" result="y"/>
+   <test id="p434" regex="multiple words of text" flags="i" input="UH-UH" result="n"/>
+   <test id="p435" regex="multiple words" flags="i" input="MULTIPLE WORDS, YEAH" result="y"/>
+   <test id="p436" regex="(.*)c(.*)" flags="i" input="ABCDE" result="y"/>
+   <test id="p437" regex="\((.*), (.*)\)" flags="i" input="(A, B)" result="y"/>
+   <test id="p438" regex="[k]" flags="i" input="AB" result="n"/>
+   <test id="p439" regex="abcd" flags="i" input="ABCD" result="y"/>
+   <test id="p440" regex="a(bc)d" flags="i" input="ABCD" result="y"/>
+   <test id="p441" regex="a[-]?c" flags="i" input="AC" result="y"/>
+   <test id="p442" regex="(abc)\1" flags="i" input="ABCABC" result="y"/>
+   <test id="p443" regex="([a-c]*)\1" flags="i" input="ABCABC" result="y"/>
+   <test id="p444" regex="a(?!b)." input="abad" result="p"/>
+   <test id="p445" regex="(?=)a" input="a" result="p"/>
+   <test id="p446" regex="a(?=d)." input="abad" result="p"/>
+   <test id="p447" regex="a(?=c|d)." input="abad" result="p"/>
+   <test id="p448" regex="a(?:b|c|d)(.)" input="ace" result="y"/>
+   <test id="p449" regex="a(?:b|c|d)*(.)" input="ace" result="y"/>
+   <test id="p450" regex="a(?:b|c|d)+?(.)" input="ace" result="y"/>
+   <test id="p451" regex="a(?:b|c|d)+?(.)" input="acdbcdbe" result="y"/>
+   <test id="p452" regex="a(?:b|c|d)+(.)" input="acdbcdbe" result="y"/>
+   <test id="p453" regex="a(?:b|c|d){2}(.)" input="acdbcdbe" result="y"/>
+   <test id="p454" regex="a(?:b|c|d){4,5}(.)" input="acdbcdbe" result="y"/>
+   <test id="p455" regex="a(?:b|c|d){4,5}?(.)" input="acdbcdbe" result="y"/>
+   <test id="p456" regex="((foo)|(bar))*" input="foobar" result="y"/>
+   <test id="p457" regex=":(?:" input="-" result="c"/>
+   <test id="p458" regex="a(?:b|c|d){6,7}(.)" input="acdbcdbe" result="y"/>
+   <test id="p459" regex="a(?:b|c|d){6,7}?(.)" input="acdbcdbe" result="y"/>
+   <test id="p460" regex="a(?:b|c|d){5,6}(.)" input="acdbcdbe" result="y"/>
+   <test id="p461" regex="a(?:b|c|d){5,6}?(.)" input="acdbcdbe" result="y"/>
+   <test id="p462" regex="a(?:b|c|d){5,7}(.)" input="acdbcdbe" result="y"/>
+   <test id="p463" regex="a(?:b|c|d){5,7}?(.)" input="acdbcdbe" result="y"/>
+   <test id="p464" regex="a(?:b|(c|e){1,2}?|d)+?(.)" input="ace" result="y"/>
+   <test id="p465" regex="^(.+)?B" input="AB" result="y"/>
+   <test id="p466" regex="^([^a-z])|(\^)$" input="." result="y"/>
+   <test id="p467" regex="^[&lt;&gt;]&amp;" input="&lt;&amp;OUT" result="y"/>
+   <test id="p468" regex="^(a\1?){4}$" input="aaaaaaaaaa" result="p"/>
+   <test id="p469" regex="^(a\1?){4}$" input="aaaaaaaaa" result="p"/>
+   <test id="p470" regex="^(a\1?){4}$" input="aaaaaaaaaaa" result="p"/>
+   <test id="p471" regex="^(a(?(1)\1)){4}$" input="aaaaaaaaaa" result="p"/>
+   <test id="p472" regex="^(a(?(1)\1)){4}$" input="aaaaaaaaa" result="p"/>
+   <test id="p473" regex="^(a(?(1)\1)){4}$" input="aaaaaaaaaaa" result="p"/>
+   <test id="p474" regex="((a{4})+)" input="aaaaaaaaa" result="y"/>
+   <test id="p475" regex="(((aa){2})+)" input="aaaaaaaaaa" result="y"/>
+   <test id="p476" regex="(((a{2}){2})+)" input="aaaaaaaaaa" result="y"/>
+   <test id="p477" regex="(?:(f)(o)(o)|(b)(a)(r))*" input="foobar" result="y"/>
+   <test id="p478" regex="(?&lt;=a)b" input="ab" result="p"/>
+   <test id="p479" regex="(?&lt;=a)b" input="cb" result="p"/>
+   <test id="p480" regex="(?&lt;=a)b" input="b" result="p"/>
+   <test id="p481" regex="(?&lt;!c)b" input="ab" result="p"/>
+   <test id="p482" regex="(?&lt;!c)b" input="cb" result="p"/>
+   <test id="p483" regex="(?&lt;!c)b" input="b" result="p"/>
+   <test id="p484" regex="(?&lt;!c)b" input="b" result="p"/>
+   <test id="p485" regex="(?&lt;%)b" input="-" result="p"/>
+   <test id="p486" regex="(?:..)*a" input="aba" result="y"/>
+   <test id="p487" regex="(?:..)*?a" input="aba" result="y"/>
+   <test id="p488" regex="^(?:b|a(?=(.)))*\1" input="abc" result="p"/>
+   <test id="p489" regex="^(){3,5}" input="abc" result="y"/>
+   <test id="p490" regex="^(a+)*ax" input="aax" result="y"/>
+   <test id="p491" regex="^((a|b)+)*ax" input="aax" result="y"/>
+   <test id="p492" regex="^((a|bc)+)*ax" input="aax" result="y"/>
+   <test id="p493" regex="(a|x)*ab" input="cab" result="y"/>
+   <test id="p494" regex="(a)*ab" input="cab" result="y"/>
+   <test id="p495" regex="(?:(?i)a)b" input="ab" result="p"/>
+   <test id="p496" regex="((?i)a)b" input="ab" result="p"/>
+   <test id="p497" regex="(?:(?i)a)b" input="Ab" result="p"/>
+   <test id="p498" regex="((?i)a)b" input="Ab" result="p"/>
+   <test id="p499" regex="(?:(?i)a)b" input="aB" result="p"/>
+   <test id="p500" regex="((?i)a)b" input="aB" result="p"/>
+   <test id="p501" regex="(?i:a)b" input="ab" result="p"/>
+   <test id="p502" regex="((?i:a))b" input="ab" result="p"/>
+   <test id="p503" regex="(?i:a)b" input="Ab" result="p"/>
+   <test id="p504" regex="((?i:a))b" input="Ab" result="p"/>
+   <test id="p505" regex="(?i:a)b" input="aB" result="p"/>
+   <test id="p506" regex="((?i:a))b" input="aB" result="p"/>
+   <test id="p507" regex="(?:(?-i)a)b" flags="i" input="ab" result="p"/>
+   <test id="p508" regex="((?-i)a)b" flags="i" input="ab" result="p"/>
+   <test id="p509" regex="(?:(?-i)a)b" flags="i" input="aB" result="p"/>
+   <test id="p510" regex="((?-i)a)b" flags="i" input="aB" result="p"/>
+   <test id="p511" regex="(?:(?-i)a)b" flags="i" input="Ab" result="p"/>
+   <test id="p512" regex="((?-i)a)b" flags="i" input="Ab" result="p"/>
+   <test id="p513" regex="(?:(?-i)a)b" flags="i" input="aB" result="p"/>
+   <test id="p514" regex="((?-i)a)b" flags="i" input="aB" result="p"/>
+   <test id="p515" regex="(?:(?-i)a)b" flags="i" input="AB" result="p"/>
+   <test id="p516" regex="((?-i)a)b" flags="i" input="AB" result="p"/>
+   <test id="p517" regex="(?-i:a)b" flags="i" input="ab" result="p"/>
+   <test id="p518" regex="((?-i:a))b" flags="i" input="ab" result="p"/>
+   <test id="p519" regex="(?-i:a)b" flags="i" input="aB" result="p"/>
+   <test id="p520" regex="((?-i:a))b" flags="i" input="aB" result="p"/>
+   <test id="p521" regex="(?-i:a)b" flags="i" input="Ab" result="p"/>
+   <test id="p522" regex="((?-i:a))b" flags="i" input="Ab" result="p"/>
+   <test id="p523" regex="(?-i:a)b" flags="i" input="aB" result="p"/>
+   <test id="p524" regex="((?-i:a))b" flags="i" input="aB" result="p"/>
+   <test id="p525" regex="(?-i:a)b" flags="i" input="AB" result="p"/>
+   <test id="p526" regex="((?-i:a))b" flags="i" input="AB" result="p"/>
+   <test id="p527" regex="((?-i:a.))b" flags="i" input="a&#xa;B" result="p"/>
+   <test id="p528" regex="((?-i:a\N))b" flags="i" input="a&#xa;B" result="p"/>
+   <test id="p529" regex="((?s-i:a.))b" flags="i" input="a&#xa;B" result="p"/>
+   <test id="p530" regex="((?s-i:a\N))b" flags="i" input="a&#xa;B" result="p"/>
+   <test id="p531" regex="((?s-i:a.))b" flags="i" input="B&#xa;B" result="p"/>
+   <test id="p532" regex="((?s-i:a\N))b" flags="i" input="B&#xa;B" result="p"/>
+   <test id="p533" regex="(?:c|d)(?:)(?:a(?:)(?:b)(?:b(?:))(?:b(?:)(?:b)))" input="cabbbb" result="y"/>
+   <test id="p534" regex="(?:c|d)(?:)(?:aaaaaaaa(?:)(?:bbbbbbbb)(?:bbbbbbbb(?:))(?:bbbbbbbb(?:)(?:bbbbbbbb)))" input="caaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" result="y"/>
+   <test id="p535" regex="(ab)\d\1" flags="i" input="Ab4ab" result="y"/>
+   <test id="p536" regex="(ab)\d\1" flags="i" input="ab4Ab" result="y"/>
+   <test id="p537" regex="foo\w*\d{4}baz" input="foobar1234baz" result="y"/>
+   <test id="p538" regex="a(?{})b" input="cabd" result="p"/>
+   <test id="p539" regex="a(?{f()+" input="-" result="c"/>
+   <test id="p540" regex="a(?{{1}+" input="-" result="c"/>
+   <test id="p541" regex="a(?{}})b" input="-" result="c"/>
+   <test id="p542" regex="a(?{&#34;{&#34;})b" input="ab" result="p"/>
+   <test id="p543" regex="a(?{&#34;\{&#34;})b" input="cabd" result="p"/>
+   <test id="p544" regex="a(?{&#34;{&#34;}})b" input="-" result="c"/>
+   <test id="p545" regex="a(?{$::bl=&#34;\{&#34;}).b" input="caxbd" result="p"/>
+   <test id="p546" regex="x(~~)*(?:(?:F)?)?" input="x~~" result="y"/>
+   <test id="p547" regex="^a(?#xxx){3}c" input="aaac" result="p"/>
+   <test id="p548" regex="^a (?#xxx) (?#yyy) {3}c" flags="x" input="aaac" result="p"/>
+   <test id="p549" regex="(?&lt;![cd])b" input="dbcb" result="p"/>
+   <test id="p550" regex="(?&lt;![cd])[ab]" input="dbaacb" result="p"/>
+   <test id="p551" regex="(?&lt;!(c|d))b" input="dbcb" result="p"/>
+   <test id="p552" regex="(?&lt;!(c|d))[ab]" input="dbaacb" result="p"/>
+   <test id="p553" regex="(?&lt;!cd)[ab]" input="cdaccb" result="p"/>
+   <test id="p554" regex="^(?:a?b?)*$" input="a--" result="n"/>
+   <test id="p555" regex="((?s)^a(.))((?m)^b$)" input="a\nb\nc\n" result="p"/>
+   <test id="p556" regex="((?m)^b$)" input="a\nb\nc\n" result="p"/>
+   <test id="p557" regex="(?m)^b" input="a\nb\n" result="p"/>
+   <test id="p558" regex="(?m)^(b)" input="a\nb\n" result="p"/>
+   <test id="p559" regex="((?m)^b)" input="a\nb\n" result="p"/>
+   <test id="p560" regex="\n((?m)^b)" input="a\nb\n" result="p"/>
+   <test id="p561" regex="((?s).)c(?!.)" input="a\nb\nc\n" result="p"/>
+   <test id="p562" regex="((?s).)c(?!.)" input="a\nb\nc\n" result="p"/>
+   <test id="p563" regex="((?s)b.)c(?!.)" input="a\nb\nc\n" result="p"/>
+   <test id="p564" regex="((?s)b.)c(?!.)" input="a\nb\nc\n" result="p"/>
+   <test id="p565" regex="((?s)b.)c(?!\N)" input="a\nb\nc\n" result="p"/>
+   <test id="p566" regex="(b.)c(?!\N)" flags="s" input="a\nb\nc\n" result="p"/>
+   <test id="p567" regex="^b" input="a\nb\nc\n" result="n"/>
+   <test id="p568" regex="()^b" input="a\nb\nc\n" result="n"/>
+   <test id="p569" regex="((?m)^b)" input="a\nb\nc\n" result="p"/>
+   <test id="p570" regex="(?(1)a|b)" input="a" result="p"/>
+   <test id="p571" regex="(?(1)b|a)" input="a" result="p"/>
+   <test id="p572" regex="(x)?(?(1)a|b)" input="a" result="p"/>
+   <test id="p573" regex="(x)?(?(1)b|a)" input="a" result="p"/>
+   <test id="p574" regex="()?(?(1)b|a)" input="a" result="p"/>
+   <test id="p575" regex="()(?(1)b|a)" input="a" result="p"/>
+   <test id="p576" regex="()?(?(1)a|b)" input="a" result="p"/>
+   <test id="p577" regex="^(\()?blah(?(1)(\)))$" input="(blah)" result="p"/>
+   <test id="p578" regex="^(\()?blah(?(1)(\)))$" input="blah" result="p"/>
+   <test id="p579" regex="^(\()?blah(?(1)(\)))$" input="blah)" result="p"/>
+   <test id="p580" regex="^(\()?blah(?(1)(\)))$" input="(blah" result="p"/>
+   <test id="p581" regex="^(\(+)?blah(?(1)(\)))$" input="(blah)" result="p"/>
+   <test id="p582" regex="^(\(+)?blah(?(1)(\)))$" input="blah" result="p"/>
+   <test id="p583" regex="^(\(+)?blah(?(1)(\)))$" input="blah)" result="p"/>
+   <test id="p584" regex="^(\(+)?blah(?(1)(\)))$" input="(blah" result="p"/>
+   <test id="p585" regex="(?(1?)a|b)" input="-" result="c"/>
+   <test id="p586" regex="(?(1)a|b|c)" input="-" result="c"/>
+   <test id="p587" regex="(?(?{0})a|b)" input="a" result="p"/>
+   <test id="p588" regex="(?(?{0})b|a)" input="a" result="p"/>
+   <test id="p589" regex="(?(?{1})b|a)" input="a" result="p"/>
+   <test id="p590" regex="(?(?{1})a|b)" input="a" result="p"/>
+   <test id="p591" regex="(?(?!a)a|b)" input="a" result="p"/>
+   <test id="p592" regex="(?(?!a)b|a)" input="a" result="p"/>
+   <test id="p593" regex="(?(?=a)b|a)" input="a" result="p"/>
+   <test id="p594" regex="(?(?=a)a|b)" input="a" result="p"/>
+   <test id="p595" regex="(?(?!\x{100})\x{100}|b)" input="\x{100}" result="p"/>
+   <test id="p596" regex="(?(?!\x{100})b|\x{100})" input="\x{100}" result="p"/>
+   <test id="p597" regex="(?(?=\x{100})b|\x{100})" input="\x{100}" result="p"/>
+   <test id="p598" regex="(?(?=\x{100})\x{100}|b)" input="\x{100}" result="p"/>
+   <test id="p599" regex="(?=(a+?))(\1ab)" input="aaab" result="p"/>
+   <test id="p600" regex="^(?=(a+?))\1ab" input="aaab" result="p"/>
+   <test id="p601" regex="(\w+:)+" input="one:" result="y"/>
+   <test id="p602" regex="$(?&lt;=^(a))" input="a" result="p"/>
+   <test id="p603" regex="(?=(a+?))(\1ab)" input="aaab" result="p"/>
+   <test id="p604" regex="^(?=(a+?))\1ab" input="aaab" result="p"/>
+   <test id="p605" regex="([\w:]+::)?(\w+)$" input="abcd:" result="n"/>
+   <test id="p606" regex="([\w:]+::)?(\w+)$" input="abcd" result="y"/>
+   <test id="p607" regex="([\w:]+::)?(\w+)$" input="xy:z:::abcd" result="y"/>
+   <test id="p608" regex="^[^bcd]*(c+)" input="aexycd" result="y"/>
+   <test id="p609" regex="(a*)b+" input="caab" result="y"/>
+   <test id="p610" regex="([\w:]+::)?(\w+)$" input="abcd:" result="n"/>
+   <test id="p611" regex="([\w:]+::)?(\w+)$" input="abcd" result="y"/>
+   <test id="p612" regex="([\w:]+::)?(\w+)$" input="xy:z:::abcd" result="y"/>
+   <test id="p613" regex="^[^bcd]*(c+)" input="aexycd" result="y"/>
+   <test id="p614" regex="(?{$a=2})a*aa(?{local$a=$a+1})k*c(?{$b=$a})" input="yaaxxaaaacd" result="p"/>
+   <test id="p615" regex="(?{$a=2})(a(?{local$a=$a+1}))*aak*c(?{$b=$a})" input="yaaxxaaaacd" result="p"/>
+   <test id="p617" regex="^(a(?{ &#34;x&#34; =~ m{x}})b)(??{ $1 })" input="abab" result="p"/>
+   <test id="p618" regex="(&gt;a+)ab" input="aaab" result="n"/>
+   <test id="p619" regex="(?&gt;a+)b" input="aaab" result="p"/>
+   <test id="p620" regex="([[:]+)" input="a:[b]:" result="p"/>
+   <test id="p621" regex="([[=]+)" input="a=[b]=" result="p"/>
+   <test id="p622" regex="([[.]+)" input="a.[b]." result="p"/>
+   <test id="p623" regex="[a[:xyz:" input="-" result="c"/>
+   <test id="p624" regex="[a[:xyz:]" input="-" result="c"/>
+   <test id="p625" regex="[a[:]b[:c]" input="abc" result="p"/>
+   <test id="p626" regex="([a[:xyz:]b]+)" input="-" result="c"/>
+   <test id="p653" regex="[[:foo:]]" input="-" result="c"/>
+   <test id="p654" regex="[[:^foo:]]" input="-" result="c"/>
+   <test id="p655" regex="((?&gt;a+)b)" input="aaab" result="p"/>
+   <test id="p656" regex="(?&gt;(a+))b" input="aaab" result="p"/>
+   <test id="p657" regex="((?&gt;[^()]+)|\([^()]*\))+" input="((abc(ade)ufh()()x" result="p"/>
+   <test id="p658" regex="(?&lt;=x+)y" input="-" result="c"/>
+   <test id="p659" regex="((def){37,17})?ABC" input="ABC" result="p"/>
+   <test id="p660" regex="\Z" input="a\nb\n" result="p"/>
+   <test id="p661" regex="\z" input="a\nb\n" result="p"/>
+   <test id="p662" regex="$" input="a\nb\n" result="y"/>
+   <test id="p663" regex="\Z" input="b\na\n" result="p"/>
+   <test id="p664" regex="\z" input="b\na\n" result="p"/>
+   <test id="p665" regex="$" input="b\na\n" result="y"/>
+   <test id="p666" regex="\Z" input="b\na" result="p"/>
+   <test id="p667" regex="\z" input="b\na" result="p"/>
+   <test id="p668" regex="$" input="b\na" result="y"/>
+   <test id="p669" regex="\Z" flags="m" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p670" regex="\z" flags="m" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p671" regex="$" flags="m" input="a&#xa;b&#xa;" result="y"/>
+   <test id="p672" regex="\Z" flags="m" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p673" regex="\z" flags="m" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p674" regex="$" flags="m" input="b&#xa;a&#xa;" result="y"/>
+   <test id="p675" regex="\Z" flags="m" input="b&#xa;a" result="p"/>
+   <test id="p676" regex="\z" flags="m" input="b&#xa;a" result="p"/>
+   <test id="p677" regex="$" flags="m" input="b&#xa;a" result="y"/>
+   <test id="p678" regex="a\Z" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p679" regex="a\z" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p680" regex="a$" input="a&#xa;b&#xa;" result="n"/>
+   <test id="p681" regex="a\Z" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p682" regex="a\z" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p683" regex="a$" input="b&#xa;a&#xa;" result="n"/><!-- Changed by MHK. Was "y" -->
+   <test id="p684" regex="a\Z" input="b&#xa;a" result="p"/>
+   <test id="p685" regex="a\z" input="b&#xa;a" result="p"/>
+   <test id="p686" regex="a$" input="b&#xa;a" result="y"/>
+   <test id="p687" regex="a\Z" flags="m" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p688" regex="a\z" flags="m" input="a&#xa;b&#xa;" result="p"/>
+   <test id="p689" regex="a$" flags="m" input="a&#xa;b&#xa;" result="y"/>
+   <test id="p690" regex="a\Z" flags="m" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p691" regex="a\z" flags="m" input="b&#xa;a&#xa;" result="p"/>
+   <test id="p692" regex="a$" flags="m" input="b&#xa;a&#xa;" result="y"/>
+   <test id="p693" regex="a\Z" flags="m" input="b&#xa;a" result="p"/>
+   <test id="p694" regex="a\z" flags="m" input="b&#xa;a" result="p"/>
+   <test id="p695" regex="a$" flags="m" input="b&#xa;a" result="y"/>
+   <test id="p696" regex="aa\Z" input="aa&#xa;b&#xa;" result="p"/>
+   <test id="p697" regex="aa\z" input="aa&#xa;b&#xa;" result="p"/>
+   <test id="p698" regex="aa$" input="aa&#xa;b&#xa;" result="n"/>
+   <test id="p699" regex="aa\Z" input="b&#xa;aa&#xa;" result="p"/>
+   <test id="p700" regex="aa\z" input="b&#xa;aa&#xa;" result="p"/>
+   <test id="p701" regex="aa$" input="b&#xa;aa&#xa;" result="n"/><!-- Changed by MHK. Was "y" -->
+   <test id="p702" regex="aa\Z" input="b&#xa;aa" result="p"/>
+   <test id="p703" regex="aa\z" input="b&#xa;aa" result="p"/>
+   <test id="p704" regex="aa$" input="b&#xa;aa" result="y"/>
+   <test id="p705" regex="aa\Z" flags="m" input="aa&#xa;b&#xa;" result="p"/>
+   <test id="p706" regex="aa\z" flags="m" input="aa&#xa;b&#xa;" result="p"/>
+   <test id="p707" regex="aa$" flags="m" input="aa&#xa;b&#xa;" result="y"/>
+   <test id="p708" regex="aa\Z" flags="m" input="b&#xa;aa&#xa;" result="p"/>
+   <test id="p709" regex="aa\z" flags="m" input="b&#xa;aa&#xa;" result="p"/>
+   <test id="p710" regex="aa$" flags="m" input="b&#xa;aa&#xa;" result="y"/>
+   <test id="p711" regex="aa\Z" flags="m" input="b&#xa;aa" result="p"/>
+   <test id="p712" regex="aa\z" flags="m" input="b&#xa;aa" result="p"/>
+   <test id="p713" regex="aa$" flags="m" input="b&#xa;aa" result="y"/>
+   <test id="p714" regex="aa\Z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p715" regex="aa\z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p716" regex="aa$" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p717" regex="aa\Z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p718" regex="aa\z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p719" regex="aa$" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p720" regex="aa\Z" input="b&#xa;ac" result="p"/>
+   <test id="p721" regex="aa\z" input="b&#xa;ac" result="p"/>
+   <test id="p722" regex="aa$" input="b&#xa;ac" result="n"/>
+   <test id="p723" regex="aa\Z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p724" regex="aa\z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p725" regex="aa$" flags="m" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p726" regex="aa\Z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p727" regex="aa\z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p728" regex="aa$" flags="m" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p729" regex="aa\Z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p730" regex="aa\z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p731" regex="aa$" flags="m" input="b&#xa;ac" result="n"/>
+   <test id="p732" regex="aa\Z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p733" regex="aa\z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p734" regex="aa$" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p735" regex="aa\Z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p736" regex="aa\z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p737" regex="aa$" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p738" regex="aa\Z" input="b&#xa;ca" result="p"/>
+   <test id="p739" regex="aa\z" input="b&#xa;ca" result="p"/>
+   <test id="p740" regex="aa$" input="b&#xa;ca" result="n"/>
+   <test id="p741" regex="aa\Z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p742" regex="aa\z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p743" regex="aa$" flags="m" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p744" regex="aa\Z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p745" regex="aa\z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p746" regex="aa$" flags="m" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p747" regex="aa\Z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p748" regex="aa\z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p749" regex="aa$" flags="m" input="b&#xa;ca" result="n"/>
+   <test id="p750" regex="ab\Z" input="ab&#xa;b&#xa;" result="p"/>
+   <test id="p751" regex="ab\z" input="ab&#xa;b&#xa;" result="p"/>
+   <test id="p752" regex="ab$" input="ab&#xa;b&#xa;" result="n"/>
+   <test id="p753" regex="ab\Z" input="b&#xa;ab&#xa;" result="p"/>
+   <test id="p754" regex="ab\z" input="b&#xa;ab&#xa;" result="p"/>
+   <test id="p755" regex="ab$" input="b&#xa;ab&#xa;" result="n"/><!-- Changed by MHK. Was "y" -->
+   <test id="p756" regex="ab\Z" input="b&#xa;ab" result="p"/>
+   <test id="p757" regex="ab\z" input="b&#xa;ab" result="p"/>
+   <test id="p758" regex="ab$" input="b&#xa;ab" result="y"/>
+   <test id="p759" regex="ab\Z" flags="m" input="ab&#xa;b&#xa;" result="p"/>
+   <test id="p760" regex="ab\z" flags="m" input="ab&#xa;b&#xa;" result="p"/>
+   <test id="p761" regex="ab$" flags="m" input="ab&#xa;b&#xa;" result="y"/>
+   <test id="p762" regex="ab\Z" flags="m" input="b&#xa;ab&#xa;" result="p"/>
+   <test id="p763" regex="ab\z" flags="m" input="b&#xa;ab&#xa;" result="p"/>
+   <test id="p764" regex="ab$" flags="m" input="b&#xa;ab&#xa;" result="y"/>
+   <test id="p765" regex="ab\Z" flags="m" input="b&#xa;ab" result="p"/>
+   <test id="p766" regex="ab\z" flags="m" input="b&#xa;ab" result="p"/>
+   <test id="p767" regex="ab$" flags="m" input="b&#xa;ab" result="y"/>
+   <test id="p768" regex="ab\Z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p769" regex="ab\z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p770" regex="ab$" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p771" regex="ab\Z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p772" regex="ab\z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p773" regex="ab$" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p774" regex="ab\Z" input="b&#xa;ac" result="p"/>
+   <test id="p775" regex="ab\z" input="b&#xa;ac" result="p"/>
+   <test id="p776" regex="ab$" input="b&#xa;ac" result="n"/>
+   <test id="p777" regex="ab\Z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p778" regex="ab\z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p779" regex="ab$" flags="m" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p780" regex="ab\Z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p781" regex="ab\z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p782" regex="ab$" flags="m" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p783" regex="ab\Z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p784" regex="ab\z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p785" regex="ab$" flags="m" input="b&#xa;ac" result="n"/>
+   <test id="p786" regex="ab\Z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p787" regex="ab\z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p788" regex="ab$" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p789" regex="ab\Z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p790" regex="ab\z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p791" regex="ab$" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p792" regex="ab\Z" input="b&#xa;ca" result="p"/>
+   <test id="p793" regex="ab\z" input="b&#xa;ca" result="p"/>
+   <test id="p794" regex="ab$" input="b&#xa;ca" result="n"/>
+   <test id="p795" regex="ab\Z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p796" regex="ab\z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p797" regex="ab$" flags="m" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p798" regex="ab\Z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p799" regex="ab\z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p800" regex="ab$" flags="m" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p801" regex="ab\Z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p802" regex="ab\z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p803" regex="ab$" flags="m" input="b&#xa;ca" result="n"/>
+   <test id="p804" regex="abb\Z" input="abb&#xa;b&#xa;" result="p"/>
+   <test id="p805" regex="abb\z" input="abb&#xa;b&#xa;" result="p"/>
+   <test id="p806" regex="abb$" input="abb&#xa;b&#xa;" result="n"/>
+   <test id="p807" regex="abb\Z" input="b&#xa;abb&#xa;" result="p"/>
+   <test id="p808" regex="abb\z" input="b&#xa;abb&#xa;" result="p"/>
+   <test id="p809" regex="abb$" input="b&#xa;abb&#xa;" result="n"/><!-- Changed by MHK. Was "y" -->
+   <test id="p810" regex="abb\Z" input="b&#xa;abb" result="p"/>
+   <test id="p811" regex="abb\z" input="b&#xa;abb" result="p"/>
+   <test id="p812" regex="abb$" input="b&#xa;abb" result="y"/>
+   <test id="p813" regex="abb\Z" flags="m" input="abb&#xa;b&#xa;" result="p"/>
+   <test id="p814" regex="abb\z" flags="m" input="abb&#xa;b&#xa;" result="p"/>
+   <test id="p815" regex="abb$" flags="m" input="abb&#xa;b&#xa;" result="y"/>
+   <test id="p816" regex="abb\Z" flags="m" input="b&#xa;abb&#xa;" result="p"/>
+   <test id="p817" regex="abb\z" flags="m" input="b&#xa;abb&#xa;" result="p"/>
+   <test id="p818" regex="abb$" flags="m" input="b&#xa;abb&#xa;" result="y"/>
+   <test id="p819" regex="abb\Z" flags="m" input="b&#xa;abb" result="p"/>
+   <test id="p820" regex="abb\z" flags="m" input="b&#xa;abb" result="p"/>
+   <test id="p821" regex="abb$" flags="m" input="b&#xa;abb" result="y"/>
+   <test id="p822" regex="abb\Z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p823" regex="abb\z" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p824" regex="abb$" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p825" regex="abb\Z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p826" regex="abb\z" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p827" regex="abb$" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p828" regex="abb\Z" input="b&#xa;ac" result="p"/>
+   <test id="p829" regex="abb\z" input="b&#xa;ac" result="p"/>
+   <test id="p830" regex="abb$" input="b&#xa;ac" result="n"/>
+   <test id="p831" regex="abb\Z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p832" regex="abb\z" flags="m" input="ac&#xa;b&#xa;" result="p"/>
+   <test id="p833" regex="abb$" flags="m" input="ac&#xa;b&#xa;" result="n"/>
+   <test id="p834" regex="abb\Z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p835" regex="abb\z" flags="m" input="b&#xa;ac&#xa;" result="p"/>
+   <test id="p836" regex="abb$" flags="m" input="b&#xa;ac&#xa;" result="n"/>
+   <test id="p837" regex="abb\Z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p838" regex="abb\z" flags="m" input="b&#xa;ac" result="p"/>
+   <test id="p839" regex="abb$" flags="m" input="b&#xa;ac" result="n"/>
+   <test id="p840" regex="abb\Z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p841" regex="abb\z" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p842" regex="abb$" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p843" regex="abb\Z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p844" regex="abb\z" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p845" regex="abb$" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p846" regex="abb\Z" input="b&#xa;ca" result="p"/>
+   <test id="p847" regex="abb\z" input="b&#xa;ca" result="p"/>
+   <test id="p848" regex="abb$" input="b&#xa;ca" result="n"/>
+   <test id="p849" regex="abb\Z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p850" regex="abb\z" flags="m" input="ca&#xa;b&#xa;" result="p"/>
+   <test id="p851" regex="abb$" flags="m" input="ca&#xa;b&#xa;" result="n"/>
+   <test id="p852" regex="abb\Z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p853" regex="abb\z" flags="m" input="b&#xa;ca&#xa;" result="p"/>
+   <test id="p854" regex="abb$" flags="m" input="b&#xa;ca&#xa;" result="n"/>
+   <test id="p855" regex="abb\Z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p856" regex="abb\z" flags="m" input="b&#xa;ca" result="p"/>
+   <test id="p857" regex="abb$" flags="m" input="b&#xa;ca" result="n"/>
+   <test id="p858" regex="\Aa$" flags="m" input="a&#xa;&#xa;" result="p"/>
+   <test id="p859" regex="(^|x)(c)" input="ca" result="y"/>
+   <test id="p860" regex="a*abc?xyz+pqr{3}ab{2,}xy{4,5}pq{0,6}AB{0,}zz" input="x" result="n"/>
+   <test id="p861" regex="a(?{$a=2;$b=3;($b)=$a})b" input="yabz" result="p"/>
+   <test id="p862" regex="round\(((?&gt;[^()]+))\)" input="_I(round(xs * sz),1)" result="p"/>
+   <test id="p863" regex="'((?x:.) )'" input="x " result="p"/>
+   <test id="p864" regex="((?-x:.) )" flags="x" input="x " result="p"/>
+   <test id="p865" regex="foo.bart" input="foo.bart" result="y"/>
+   <test id="p866" regex="^d[x][x][x]" flags="m" input="abcd&#xa;dxxx" result="y"/>
+   <!-- commented out because of pathological performance
+   <test id="p867" regex=".X(.+)+X" input="bbbbXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p868" regex=".X(.+)+XX" input="bbbbXcXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p869" regex=".XX(.+)+X" input="bbbbXXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p870" regex=".X(.+)+X" input="bbbbXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p871" regex=".X(.+)+XX" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p872" regex=".XX(.+)+X" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p873" regex=".X(.+)+[X]" input="bbbbXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p874" regex=".X(.+)+[X][X]" input="bbbbXcXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p875" regex=".XX(.+)+[X]" input="bbbbXXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p876" regex=".X(.+)+[X]" input="bbbbXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p877" regex=".X(.+)+[X][X]" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p878" regex=".XX(.+)+[X]" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p879" regex=".[X](.+)+[X]" input="bbbbXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p880" regex=".[X](.+)+[X][X]" input="bbbbXcXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p881" regex=".[X][X](.+)+[X]" input="bbbbXXcXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="y"/>
+   <test id="p882" regex=".[X](.+)+[X]" input="bbbbXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p883" regex=".[X](.+)+[X][X]" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   <test id="p884" regex=".[X][X](.+)+[X]" input="bbbbXXXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="n"/>
+   -->
+   <test id="p885" regex="tt+$" input="xxxtt" result="y"/>
+   <test id="p886" regex="([a-\d]+)" input="za-9z" result="Sy"/>
+   <test id="p887" regex="([a-\d]+)" input="-" result="sc"/>
+   <test id="p888" regex="([\d-z]+)" input="a0-za" result="Sy"/>
+   <test id="p889" regex="([\d-z]+)" input="-" result="sc"/>
+   <test id="p890" regex="([\d-\s]+)" input="a0- z" result="Sy"/>
+   <test id="p891" regex="([\d-\s]+)" input="-" result="sc"/>
+   <test id="p892" regex="([a-[:digit:]]+)" input="za-9z" result="y"/>
+   <test id="p893" regex="([a-[:digit:]]+)" input="-" result="n"/>
+   <test id="p894" regex="([[:digit:]-z]+)" input="=0-z=" result="Sy"/>
+   <test id="p895" regex="([[:digit:]-z]+)" input="-" result="sc"/>
+   <test id="p896" regex="([[:digit:]-[:alpha:]]+)" input="=0-z=" result="Sy"/>
+   <test id="p897" regex="([[:digit:]-[:alpha:]]+)" input="-" result="sc"/>
+   <test id="p898" regex="\GX.*X" input="aaaXbX" result="p"/>
+   <test id="p899" regex="(\d+\.\d+)" input="3.1415926" result="y"/>
+   <test id="p900" regex="(\ba.{0,10}br)" input="have a web browser" result="p"/>
+   <test id="p901" regex="\.c(pp|xx|c)?$" flags="i" input="Changes" result="n"/>
+   <test id="p902" regex="\.c(pp|xx|c)?$" flags="i" input="IO.c" result="y"/>
+   <test id="p903" regex="(\.c(pp|xx|c)?$)" flags="i" input="IO.c" result="y"/>
+   <test id="p904" regex="^([a-z]:)" input="C:/" result="n"/>
+   <test id="p905" regex="^\S\s+aa$" flags="m" input="&#xa;x aa" result="y"/>
+   <test id="p906" regex="(^|a)b" input="ab" result="y"/>
+   <test id="p907" regex="^([ab]*?)(b)?(c)$" input="abac" result="y"/>
+   <test id="p908" regex="(\w)?(abc)\1b" input="abcab" result="n"/><!-- changed 2015-12-02, see bug 29253 -->
+   <test id="p909" regex="^(?:.,){2}c" input="a,b,c" result="y"/>
+   <test id="p910" regex="^(.,){2}c" input="a,b,c" result="y"/>
+   <test id="p911" regex="^(?:[^,]*,){2}c" input="a,b,c" result="y"/>
+   <test id="p912" regex="^([^,]*,){2}c" input="a,b,c" result="y"/>
+   <test id="p913" regex="^([^,]*,){3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p914" regex="^([^,]*,){3,}d" input="aaa,b,c,d" result="y"/>
+   <test id="p915" regex="^([^,]*,){0,3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p916" regex="^([^,]{1,3},){3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p917" regex="^([^,]{1,3},){3,}d" input="aaa,b,c,d" result="y"/>
+   <test id="p918" regex="^([^,]{1,3},){0,3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p919" regex="^([^,]{1,},){3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p920" regex="^([^,]{1,},){3,}d" input="aaa,b,c,d" result="y"/>
+   <test id="p921" regex="^([^,]{1,},){0,3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p922" regex="^([^,]{0,3},){3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p923" regex="^([^,]{0,3},){3,}d" input="aaa,b,c,d" result="y"/>
+   <test id="p924" regex="^([^,]{0,3},){0,3}d" input="aaa,b,c,d" result="y"/>
+   <test id="p925" regex="(?i)" input="" result="p"/>
+   <test id="p926" regex="(?a:((?u)\w)\W)" input="\xC0\xC0" result="p"/>
+   <test id="p927" regex="(?!\A)x" flags="m" input="a\nxb\n" result="p"/>
+   <test id="p928" regex="^(a(b)?)+$" input="aba" result="y"/>
+   <test id="p929" regex="^(aa(bb)?)+$" input="aabbaa" result="y"/>
+   <test id="p930" regex="^.{9}abc.*\n" flags="m" input="123&#xa;abcabcabcabc&#xa;" result="y"/>
+   <test id="p931" regex="^(a)?a$" input="a" result="y"/>
+   <test id="p932" regex="^(a)?(?(1)a|b)+$" input="a" result="p"/>
+   <test id="p933" regex="^(a\1?)(a\1?)(a\2?)(a\3?)$" input="aaaaaa" result="p"/>
+   <test id="p934" regex="^(a\1?){4}$" input="aaaaaa" result="p"/>
+   <test id="p935" regex="^(0+)?(?:x(1))?" input="x1" result="y"/>
+   <test id="p936" regex="^([0-9a-fA-F]+)(?:x([0-9a-fA-F]+)?)(?:x([0-9a-fA-F]+))?" input="012cxx0190" result="y"/>
+   <test id="p937" regex="^(b+?|a){1,2}c" input="bbbac" result="y"/>
+   <test id="p938" regex="^(b+?|a){1,2}c" input="bbbbac" result="y"/>
+   <test id="p939" regex="\((\w\. \w+)\)" input="cd. (A. Tw)" result="y"/>
+   <test id="p940" regex="((?:aaaa|bbbb)cccc)?" input="aaaacccc" result="y"/>
+   <test id="p941" regex="((?:aaaa|bbbb)cccc)?" input="bbbbcccc" result="y"/>
+   <test id="p942" regex="(a)?(a)+" input="a" result="y"/>
+   <test id="p943" regex="(ab)?(ab)+" input="ab" result="y"/>
+   <test id="p944" regex="(abc)?(abc)+" input="abc" result="y"/>
+   <test id="p945" regex="b\s^" flags="m" input="a\nb\n" result="n"/>
+   <test id="p946" regex="\ba" input="a" result="p"/>
+   <test id="p947" regex="^(a(??{&#34;(?!)&#34;})|(a)(?{1}))b" input="ab" result="p"/>
+   <test id="p948" regex="ab(?i)cd" input="AbCd" result="p"/>
+   <test id="p949" regex="ab(?i)cd" input="abCd" result="p"/>
+   <test id="p950" regex="(A|B)*(?(1)(CD)|(CD))" input="CD" result="p"/>
+   <test id="p951" regex="(A|B)*(?(1)(CD)|(CD))" input="ABCD" result="p"/>
+   <test id="p952" regex="(A|B)*?(?(1)(CD)|(CD))" input="CD" result="p"/>
+   <test id="p953" regex="(A|B)*?(?(1)(CD)|(CD))" input="ABCD" result="p"/>
+   <test id="p954" regex="^(o)(?!.*\1)" flags="i" input="Oo" result="p"/>
+   <test id="p955" regex="(.*)\d+\1" input="abc12bc" result="y"/>
+   <test id="p956" regex="(?m:(foo\s*$))" input="foo\n bar" result="p"/>
+   <test id="p957" regex="(.*)c" input="abcd" result="y"/>
+   <test id="p958" regex="(.*)(?=c)" input="abcd" result="p"/>
+   <test id="p959" regex="(.*)(?=c)c" input="abcd" result="yB"/>
+   <test id="p960" regex="(.*)(?=b|c)" input="abcd" result="p"/>
+   <test id="p961" regex="(.*)(?=b|c)c" input="abcd" result="p"/>
+   <test id="p962" regex="(.*)(?=c|b)" input="abcd" result="p"/>
+   <test id="p963" regex="(.*)(?=c|b)c" input="abcd" result="p"/>
+   <test id="p964" regex="(.*)(?=[bc])" input="abcd" result="p"/>
+   <test id="p965" regex="(.*)(?=[bc])c" input="abcd" result="yB"/>
+   <test id="p966" regex="(.*)(?&lt;=b)" input="abcd" result="p"/>
+   <test id="p967" regex="(.*)(?&lt;=b)c" input="abcd" result="p"/>
+   <test id="p968" regex="(.*)(?&lt;=b|c)" input="abcd" result="p"/>
+   <test id="p969" regex="(.*)(?&lt;=b|c)c" input="abcd" result="p"/>
+   <test id="p970" regex="(.*)(?&lt;=c|b)" input="abcd" result="p"/>
+   <test id="p971" regex="(.*)(?&lt;=c|b)c" input="abcd" result="p"/>
+   <test id="p972" regex="(.*)(?&lt;=[bc])" input="abcd" result="p"/>
+   <test id="p973" regex="(.*)(?&lt;=[bc])c" input="abcd" result="p"/>
+   <test id="p974" regex="(.*?)c" input="abcd" result="y"/>
+   <test id="p975" regex="(.*?)(?=c)" input="abcd" result="p"/>
+   <test id="p976" regex="(.*?)(?=c)c" input="abcd" result="yB"/>
+   <test id="p977" regex="(.*?)(?=b|c)" input="abcd" result="p"/>
+   <test id="p978" regex="(.*?)(?=b|c)c" input="abcd" result="p"/>
+   <test id="p979" regex="(.*?)(?=c|b)" input="abcd" result="p"/>
+   <test id="p980" regex="(.*?)(?=c|b)c" input="abcd" result="p"/>
+   <test id="p981" regex="(.*?)(?=[bc])" input="abcd" result="p"/>
+   <test id="p982" regex="(.*?)(?=[bc])c" input="abcd" result="yB"/>
+   <test id="p983" regex="(.*?)(?&lt;=b)" input="abcd" result="p"/>
+   <test id="p984" regex="(.*?)(?&lt;=b)c" input="abcd" result="p"/>
+   <test id="p985" regex="(.*?)(?&lt;=b|c)" input="abcd" result="p"/>
+   <test id="p986" regex="(.*?)(?&lt;=b|c)c" input="abcd" result="p"/>
+   <test id="p987" regex="(.*?)(?&lt;=c|b)" input="abcd" result="p"/>
+   <test id="p988" regex="(.*?)(?&lt;=c|b)c" input="abcd" result="p"/>
+   <test id="p989" regex="(.*?)(?&lt;=[bc])" input="abcd" result="p"/>
+   <test id="p990" regex="(.*?)(?&lt;=[bc])c" input="abcd" result="p"/>
+   <test id="p991" regex="2(]*)?$\1" input="2" result="p"/>
+   <test id="p992" regex="(??{})" input="x" result="p"/>
+   <test id="p993" regex="a(b)??" input="abc" result="y"/>
+   <test id="p994" regex="(\d{1,3}\.){3,}" input="128.134.142.8" result="y"/>
+   <test id="p995" regex="^.{3,4}(.+)\1$" input="foobarbar" result="y"/>
+   <test id="p996" regex="^(?:f|o|b){3,4}(.+)\1$" input="foobarbar" result="y"/>
+   <test id="p997" regex="^.{3,4}((?:b|a|r)+)\1$" input="foobarbar" result="y"/>
+   <test id="p998" regex="^(?:f|o|b){3,4}((?:b|a|r)+)\1$" input="foobarbar" result="y"/>
+   <test id="p999" regex="^.{3,4}(.+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1000" regex="^(?:f|o|b){3,4}(.+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1001" regex="^.{3,4}((?:b|a|r)+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1002" regex="^(?:f|o|b){3,4}((?:b|a|r)+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1003" regex="^.{2,3}?(.+)\1$" input="foobarbar" result="y"/>
+   <test id="p1004" regex="^(?:f|o|b){2,3}?(.+)\1$" input="foobarbar" result="y"/>
+   <test id="p1005" regex="^.{2,3}?((?:b|a|r)+)\1$" input="foobarbar" result="y"/>
+   <test id="p1006" regex="^(?:f|o|b){2,3}?((?:b|a|r)+)\1$" input="foobarbar" result="y"/>
+   <test id="p1007" regex="^.{2,3}?(.+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1008" regex="^(?:f|o|b){2,3}?(.+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1009" regex="^.{2,3}?((?:b|a|r)+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1010" regex="^(?:f|o|b){2,3}?((?:b|a|r)+?)\1$" input="foobarbar" result="y"/>
+   <test id="p1011" regex=".*a(?!(b|cd)*e).*f" input="......abef" result="p"/>
+   <test id="p1012" regex="x(?#" input="-" result="c"/>
+   <test id="p1013" regex=":x(?#:" input="-" result="c"/>
+   <test id="p1014" regex="(WORDS|WORD)S" input="WORDS" result="y"/>
+   <test id="p1015" regex="(X.|WORDS|X.|WORD)S" input="WORDS" result="y"/>
+   <test id="p1016" regex="(WORDS|WORLD|WORD)S" input="WORDS" result="y"/>
+   <test id="p1017" regex="(X.|WORDS|WORD|Y.)S" input="WORDS" result="y"/>
+   <test id="p1018" regex="(foo|fool|x.|money|parted)$" input="fool" result="y"/>
+   <test id="p1019" regex="(x.|foo|fool|x.|money|parted|y.)$" input="fool" result="y"/>
+   <test id="p1020" regex="(foo|fool|money|parted)$" input="fool" result="y"/>
+   <test id="p1021" regex="(foo|fool|x.|money|parted)$" input="fools" result="n"/>
+   <test id="p1022" regex="(x.|foo|fool|x.|money|parted|y.)$" input="fools" result="n"/>
+   <test id="p1023" regex="(foo|fool|money|parted)$" input="fools" result="n"/>
+   <test id="p1024" regex="(a|aa|aaa||aaaa|aaaaa|aaaaaa)(b|c)" input="aaaaaaaaaaaaaaab" result="y"/>
+   <test id="p1025" regex="(a|aa|aaa||aaaa|aaaaa|aaaaaa)(??{$1&amp;&amp;&#34;&#34;})(b|c)" input="aaaaaaaaaaaaaaab" result="p"/>
+   <test id="p1026" regex="(a|aa|aaa|aaaa|aaaaa|aaaaaa)(??{$1&amp;&amp;&#34;foo&#34;})(b|c)" input="aaaaaaaaaaaaaaab" result="p"/>
+   <test id="p1027" regex="^(a*?)(?!(aa|aaaa)*$)" input="aaaaaaaaaaaaaaaaaaaa" result="p"/>
+   <test id="p1028" regex="^(a*?)(?!(aa|aaaa)*$)(?=a\z)" input="aaaaaaaa" result="p"/>
+   <test id="p1029" regex="^(.)\s+.$(?(1))" input="A B" result="p"/>
+   <test id="p1030" regex="(?:r?)*?r|(.{2,4})" input="abcde" result="y"/>
+   <test id="p1031" regex="(?!)+?|(.{2,4})" input="abcde" result="p"/>
+   <test id="p1032" regex="^(a*?)(?!(a{6}|a{5})*$)" input="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" result="p"/>
+   <test id="p1033" regex="^((?&gt;(?:aa)?b)?)" input="aab" result="p"/>
+   <test id="p1034" regex="^((?:aa)*)(?:X+((?:\d+|-)(?:X+(.+))?))?$" input="aaaaX5" result="y"/>
+   <test id="p1035" regex="X(A|B||C|D)Y" input="XXXYYY" result="y"/>
+   <test id="p1036" regex="(?i:X([A]|[B]|y[Y]y|[D]|)Y)" input="XXXYYYB" result="p"/>
+   <test id="p1037" regex="^([a]{1})*$" input="aa" result="y"/>
+   <test id="p1038" regex="a(?!b(?!c))(..)" input="abababc" result="p"/>
+   <test id="p1039" regex="a(?!b(?=a))(..)" input="abababc" result="p"/>
+   <test id="p1040" regex="a(?!b(?!c(?!d(?!e))))...(.)" input="abxabcdxabcde" result="p"/>
+   <test id="p1041" regex="X(?!b+(?!(c+)*(?!(c+)*d))).*X" input="aXbbbbbbbcccccccccccccaaaX" result="p"/>
+   <test id="p1042" regex="^(XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1043" regex="^(XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQX:" result="y"/>
+   <test id="p1044" regex="^([TUV]+|XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1045" regex="^([TUV]+|XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQX:" result="y"/>
+   <test id="p1046" regex="^([TUV]+|XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P|[MKJ]):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1047" regex="^([TUV]+|XXXXXXXXXX|YYYYYYYYYY|Z.Q*X|Z[TE]Q*P|[MKJ]):" input="ZEQQQX:" result="y"/>
+   <test id="p1048" regex="^(XXX|YYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1049" regex="^(XXX|YYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQX:" result="y"/>
+   <test id="p1050" regex="^([TUV]+|XXX|YYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1051" regex="^([TUV]+|XXX|YYY|Z.Q*X|Z[TE]Q*P):" input="ZEQQQX:" result="y"/>
+   <test id="p1052" regex="^([TUV]+|XXX|YYY|Z.Q*X|Z[TE]Q*P|[MKJ]):" input="ZEQQQQQQQQQQQQQQQQQQP:" result="y"/>
+   <test id="p1053" regex="^([TUV]+|XXX|YYY|Z.Q*X|Z[TE]Q*P|[MKJ]):" input="ZEQQQX:" result="y"/>
+   <test id="p1054" regex="X(?:ABCF[cC]x*|ABCD|ABCF):(?:DIT|DID|DIM)" input="XABCFCxxxxxxxxxx:DIM" result="y"/>
+   <test id="p1055" regex="(((ABCD|ABCE|ABCF)))(A|B|C[xy]*):" input="ABCFCxxxxxxxxxx:DIM" result="y"/>
+   <test id="p1056" regex="(?=foo)" input="foo" result="p"/>
+   <test id="p1057" regex="(?=foo)" input="XfooY" result="p"/>
+   <test id="p1058" regex=".*(?=foo)" input="XfooY" result="p"/>
+   <test id="p1059" regex="(?&lt;=foo)" input="foo" result="p"/>
+   <test id="p1060" regex="(?&lt;=foo)" input="XfooY" result="p"/>
+   <test id="p1061" regex=".*(?&lt;=foo)" input="foo" result="p"/>
+   <test id="p1062" regex=".*(?&lt;=foo)" input="XfooY" result="p"/>
+   <test id="p1063" regex="(?&lt;=foo)Y" input="XfooY" result="p"/>
+   <test id="p1064" regex="o(?&lt;=foo)Y" input="..XfooY.." result="p"/>
+   <test id="p1065" regex="X(?=foo)f" input="..XfooY.." result="p"/>
+   <test id="p1066" regex="X(?=foo)" input="..XfooY.." result="p"/>
+   <test id="p1067" regex="X(?&lt;=foo.)[YZ]" input="..XfooXY.." result="p"/>
+   <test id="p1068" regex="(?=XY*foo)" input="Xfoo" result="p"/>
+   <test id="p1069" regex="^(?=XY*foo)" input="Xfoo" result="p"/>
+   <test id="p1070" regex="^(??{&#34;a+&#34;})a" input="aa" result="p"/>
+   <test id="p1071" regex="^(?:(??{&#34;a+&#34;})|b)a" input="aa" result="p"/>
+   <test id="p1072" regex="^(??{chr 0x100}).$" input="\x{100}\x{100}" result="p"/>
+   <test id="p1073" regex="^(??{q(\x{100})})." input="\x{100}\x{100}" result="p"/>
+   <test id="p1074" regex="^(??{q(.+)})\x{100}" input="\x{100}\x{100}" result="p"/>
+   <test id="p1075" regex="^(??{q(.)})\x{100}" input="\x{100}\x{100}" result="p"/>
+   <test id="p1076" regex="^(??{chr 0x100})\xbb" input="\x{100}\x{bb}" result="p"/>
+   <test id="p1077" regex="^(.)(??{&#34;(.)(.)&#34;})(.)$" input="abcd" result="p"/>
+   <test id="p1078" regex="^(.)(??{&#34;(bz+|.)(.)&#34;})(.)$" input="abcd" result="p"/>
+   <test id="p1079" regex="^(.)((??{&#34;(.)(cz+)&#34;})|.)" input="abcd" result="p"/>
+   <test id="p1080" regex="^a(?&gt;(??{q(b)}))(??{q(c)})d" input="abcd" result="p"/>
+   <test id="p1081" regex="^x(??{&#34;&#34;})+$" input="x" result="p"/>
+   <test id="p1082" regex="^(&lt;(?:[^&lt;&gt;]+|(?3)|(?1))*&gt;)()(!&gt;!&gt;!&gt;)$" input="&lt;&lt;!&gt;!&gt;!&gt;&gt;&lt;&gt;&gt;!&gt;!&gt;!&gt;" result="p"/>
+   <test id="p1083" regex="^(&lt;(?:[^&lt;&gt;]+|(?1))*&gt;)$" input="&lt;&lt;&gt;&lt;&lt;&lt;&gt;&lt;&gt;&gt;&gt;&gt;" result="p"/>
+   <test id="p1084" regex="((?2)*)([fF]o+)" input="fooFoFoo" result="p"/>
+   <test id="p1085" regex="(&lt;(?:[^&lt;&gt;]+|(?R))*&gt;)" input="&lt;&lt;&gt;&lt;&lt;&lt;&gt;&lt;&gt;&gt;&gt;&gt;" result="p"/>
+   <test id="p1086" regex="(?&lt;n&gt;foo|bar|baz)" input="snofooewa" result="p"/>
+   <test id="p1087" regex="(?&lt;n&gt;foo|bar|baz)" input="snofooewa" result="yM"/>
+   <test id="p1088" regex="(?&lt;n&gt;foo|bar|baz)(?&lt;m&gt;[ew]+)" input="snofooewa" result="yM"/>
+   <test id="p1089" regex="(?&lt;n&gt;foo|bar|baz)(?&lt;m&gt;[ew]+)" input="snofooewa" result="yM"/>
+   <test id="p1090" regex="(?&lt;n&gt;foo)|(?&lt;n&gt;bar)|(?&lt;n&gt;baz)" input="snofooewa" result="yM"/>
+   <test id="p1091" regex="(?&lt;n&gt;foo)(??{ $+{n} })" input="snofooefoofoowaa" result="yM"/>
+   <test id="p1092" regex="(?P&lt;n&gt;foo|bar|baz)" input="snofooewa" result="p"/>
+   <test id="p1093" regex="(?P&lt;n&gt;foo|bar|baz)" input="snofooewa" result="yM"/>
+   <test id="p1094" regex="(?P&lt;n&gt;foo|bar|baz)(?P&lt;m&gt;[ew]+)" input="snofooewa" result="yM"/>
+   <test id="p1095" regex="(?P&lt;n&gt;foo|bar|baz)(?P&lt;m&gt;[ew]+)" input="snofooewa" result="yM"/>
+   <test id="p1096" regex="(?P&lt;n&gt;foo)|(?P&lt;n&gt;bar)|(?P&lt;n&gt;baz)" input="snofooewa" result="yM"/>
+   <test id="p1097" regex="(?P&lt;n&gt;foo)(??{ $+{n} })" input="snofooefoofoowaa" result="yM"/>
+   <test id="p1098" regex="(?P&lt;=n&gt;foo|bar|baz)" input="-" result="c"/>
+   <test id="p1099" regex="(?P&lt;!n&gt;foo|bar|baz)" input="-" result="c"/>
+   <test id="p1100" regex="(?PX&lt;n&gt;foo|bar|baz)" input="-" result="c"/>
+   <test id="p1101" regex="/(?'n'foo|bar|baz)/" input="snofooewa" result="p"/>
+   <test id="p1102" regex="/(?'n'foo|bar|baz)/" input="snofooewa" result="yM"/>
+   <test id="p1103" regex="/(?n'foo|bar|baz)(?'[ew]+)/" flags="/(?m'[ew]+)/" input="snofooewa" result="yM"/>
+   <test id="p1104" regex="/(?n'foo|bar|baz)(?'[ew]+)/" flags="/(?m'[ew]+)/" input="snofooewa" result="yM"/>
+   <test id="p1105" regex="/(?'n'foo)|(?'n'bar)|(?&lt;n&gt;baz)/" input="snobazewa" result="yM"/>
+   <test id="p1106" regex="/(?'n'foo)(??{ $+{n} })/" input="snofooefoofoowaa" result="yM"/>
+   <test id="p1107" regex="/(?'n'foo)\k&lt;n&gt;/" input="..foofoo.." result="p"/>
+   <test id="p1108" regex="/(?'n'foo)\k&lt;n&gt;/" input="..foofoo.." result="yM"/>
+   <test id="p1109" regex="/(?&lt;n&gt;foo)\k'n'/" input="..foofoo.." result="p"/>
+   <test id="p1110" regex="/(?&lt;n&gt;foo)\k'n'/" input="..foofoo.." result="yM"/>
+   <test id="p1111" regex="/(?:(?&lt;n&gt;foo)|(?&lt;n&gt;bar))\k&lt;n&gt;/" input="..barbar.." result="yM"/>
+   <test id="p1112" regex="/^(?'main'&lt;(?:[^&lt;&gt;]+|(?&amp;crap)|(?&amp;main))*&gt;)(?'empty')(?'crap'!&gt;!&gt;!&gt;)$/" input="&lt;&lt;!&gt;!&gt;!&gt;&gt;&lt;&gt;&gt;!&gt;!&gt;!&gt;" result="yM"/>
+   <test id="p1113" regex="/^(?'main'&lt;(?:[^&lt;&gt;]+|(?&amp;main))*&gt;)$/" input="&lt;&lt;&gt;&lt;&lt;&lt;&gt;&lt;&gt;&gt;&gt;&gt;" result="p"/>
+   <test id="p1114" regex="/(?first'(?&amp;second)*)(?econd'[fF]o+)/" flags="/(?second'[fF]o+)/" input="fooFoFoo" result="yM"/>
+   <test id="p1115" regex="(?&lt;A&gt;foo)?(?(&lt;A&gt;)bar|nada)" input="foobar" result="yM"/>
+   <test id="p1116" regex="(?&lt;A&gt;foo)?(?(&lt;A&gt;)bar|nada)" input="foo-barnada" result="p"/>
+   <test id="p1117" regex="(?&lt;A&gt;foo)?(?(1)bar|nada)" input="foo-barnada" result="p"/>
+   <test id="p1118" regex="(?&lt;A&gt;foo(?(R)bar))?(?1)" input="foofoobar" result="p"/>
+   <test id="p1119" regex="(?&lt;A&gt;foo(?(R)bar))?(?1)" input="foofoobar" result="p"/>
+   <test id="p1120" regex="(x)(?&lt;A&gt;foo(?(R&amp;A)bar))?(?&amp;A)" input="xfoofoobar" result="p"/>
+   <test id="p1121" regex="(x)(?&lt;A&gt;foo(?(R&amp;A)bar))?(?&amp;A)" input="xfoofoobar" result="p"/>
+   <test id="p1122" regex="(x)(?&lt;A&gt;foo(?(R2)bar))?(?&amp;A)" input="xfoofoobar" result="p"/>
+   <test id="p1123" regex="(x)(?&lt;A&gt;foo(?(R2)bar))?(?&amp;A)" input="xfoofoobar" result="p"/>
+   <test id="p1124" regex="(?1)(?(DEFINE)(blah))" input="blah" result="p"/>
+   <test id="p1125" regex="/^(?&lt;PAL&gt;(?&lt;CHAR&gt;.)((?&amp;PAL)|.?)\k&lt;CHAR&gt;)$/" input="madamimadam" result="p"/>
+   <test id="p1126" regex="/^(?&lt;PAL&gt;(?&lt;CHAR&gt;.)((?&amp;PAL)|.?)\k&lt;CHAR&gt;)$/" input="madamiamadam" result="p"/>
+   <test id="p1127" regex="/(a)?((?1))(fox)/" input="aafox" result="p"/>
+   <test id="p1128" regex="/(a)*((?1))(fox)/" input="aafox" result="p"/>
+   <test id="p1129" regex="/(a)+((?1))(fox)/" input="aafox" result="p"/>
+   <test id="p1130" regex="/(a){1,100}((?1))(fox)/" input="aafox" result="p"/>
+   <test id="p1131" regex="/(a){0,100}((?1))(fox)/" input="aafox" result="p"/>
+   <test id="p1132" regex="/(ab)?((?1))(fox)/" input="ababfox" result="p"/>
+   <test id="p1133" regex="/(ab)*((?1))(fox)/" input="ababfox" result="p"/>
+   <test id="p1134" regex="/(ab)+((?1))(fox)/" input="ababfox" result="p"/>
+   <test id="p1135" regex="/(ab){1,100}((?1))(fox)/" input="ababfox" result="p"/>
+   <test id="p1136" regex="/(ab){0,100}((?1))(fox)/" input="ababfox" result="p"/>
+   <test id="p1138" regex="a++a" input="aaaaa" result="p"/>
+   <test id="p1139" regex="a*+a" input="aaaaa" result="p"/>
+   <test id="p1140" regex="a{1,5}+a" input="aaaaa" result="p"/>
+   <test id="p1141" regex="a?+a" input="ab" result="p"/>
+   <test id="p1142" regex="a++b" input="aaaaab" result="p"/>
+   <test id="p1143" regex="a*+b" input="aaaaab" result="p"/>
+   <test id="p1144" regex="a{1,5}+b" input="aaaaab" result="p"/>
+   <test id="p1145" regex="a?+b" input="ab" result="p"/>
+   <test id="p1146" regex="fooa++a" input="fooaaaaa" result="p"/>
+   <test id="p1147" regex="fooa*+a" input="fooaaaaa" result="p"/>
+   <test id="p1148" regex="fooa{1,5}+a" input="fooaaaaa" result="p"/>
+   <test id="p1149" regex="fooa?+a" input="fooab" result="p"/>
+   <test id="p1150" regex="fooa++b" input="fooaaaaab" result="p"/>
+   <test id="p1151" regex="fooa*+b" input="fooaaaaab" result="p"/>
+   <test id="p1152" regex="fooa{1,5}+b" input="fooaaaaab" result="p"/>
+   <test id="p1153" regex="fooa?+b" input="fooab" result="p"/>
+   <test id="p1154" regex="(?:aA)++(?:aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1155" regex="(aA)++(aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1156" regex="(aA|bB)++(aA|bB)" input="aAaAbBaAbB" result="p"/>
+   <test id="p1157" regex="(?:aA|bB)++(?:aA|bB)" input="aAbBbBbBaA" result="p"/>
+   <test id="p1158" regex="(?:aA)*+(?:aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1159" regex="(aA)*+(aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1160" regex="(aA|bB)*+(aA|bB)" input="aAaAbBaAaA" result="p"/>
+   <test id="p1161" regex="(?:aA|bB)*+(?:aA|bB)" input="aAaAaAbBaA" result="p"/>
+   <test id="p1162" regex="(?:aA){1,5}+(?:aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1163" regex="(aA){1,5}+(aA)" input="aAaAaAaAaA" result="p"/>
+   <test id="p1164" regex="(aA|bB){1,5}+(aA|bB)" input="aAaAbBaAaA" result="p"/>
+   <test id="p1165" regex="(?:aA|bB){1,5}+(?:aA|bB)" input="bBbBbBbBbB" result="p"/>
+   <test id="p1166" regex="(?:aA)?+(?:aA)" input="aAb" result="p"/>
+   <test id="p1167" regex="(aA)?+(aA)" input="aAb" result="p"/>
+   <test id="p1168" regex="(aA|bB)?+(aA|bB)" input="bBb" result="p"/>
+   <test id="p1169" regex="(?:aA|bB)?+(?:aA|bB)" input="aAb" result="p"/>
+   <test id="p1170" regex="(?:aA)++b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1171" regex="(aA)++b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1172" regex="(aA|bB)++b" input="aAbBaAaAbBb" result="p"/>
+   <test id="p1173" regex="(?:aA|bB)++b" input="aAbBbBaAaAb" result="p"/>
+   <test id="p1174" regex="(?:aA)*+b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1175" regex="(aA)*+b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1176" regex="(aA|bB)*+b" input="bBbBbBbBbBb" result="p"/>
+   <test id="p1177" regex="(?:aA|bB)*+b" input="bBaAbBbBaAb" result="p"/>
+   <test id="p1178" regex="(?:aA){1,5}+b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1179" regex="(aA){1,5}+b" input="aAaAaAaAaAb" result="p"/>
+   <test id="p1180" regex="(aA|bB){1,5}+b" input="bBaAbBaAbBb" result="p"/>
+   <test id="p1181" regex="(?:aA|bB){1,5}+b" input="aAbBaAbBbBb" result="p"/>
+   <test id="p1182" regex="(?:aA)?+b" input="aAb" result="p"/>
+   <test id="p1183" regex="(aA)?+b" input="aAb" result="p"/>
+   <test id="p1184" regex="(aA|bB)?+b" input="bBb" result="p"/>
+   <test id="p1185" regex="(?:aA|bB)?+b" input="bBb" result="p"/>
+   <test id="p1186" regex="foo(?:aA)++(?:aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1187" regex="foo(aA)++(aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1188" regex="foo(aA|bB)++(aA|bB)" input="foobBbBbBaAaA" result="p"/>
+   <test id="p1189" regex="foo(?:aA|bB)++(?:aA|bB)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1190" regex="foo(?:aA)*+(?:aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1191" regex="foo(aA)*+(aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1192" regex="foo(aA|bB)*+(aA|bB)" input="foobBaAbBaAaA" result="p"/>
+   <test id="p1193" regex="foo(?:aA|bB)*+(?:aA|bB)" input="fooaAaAbBbBaA" result="p"/>
+   <test id="p1194" regex="foo(?:aA){1,5}+(?:aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1195" regex="foo(aA){1,5}+(aA)" input="fooaAaAaAaAaA" result="p"/>
+   <test id="p1196" regex="foo(aA|bB){1,5}+(aA|bB)" input="fooaAbBbBaAaA" result="p"/>
+   <test id="p1197" regex="foo(?:aA|bB){1,5}+(?:aA|bB)" input="fooaAbBbBaAbB" result="p"/>
+   <test id="p1198" regex="foo(?:aA)?+(?:aA)" input="fooaAb" result="p"/>
+   <test id="p1199" regex="foo(aA)?+(aA)" input="fooaAb" result="p"/>
+   <test id="p1200" regex="foo(aA|bB)?+(aA|bB)" input="foobBb" result="p"/>
+   <test id="p1201" regex="foo(?:aA|bB)?+(?:aA|bB)" input="fooaAb" result="p"/>
+   <test id="p1202" regex="foo(?:aA)++b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1203" regex="foo(aA)++b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1204" regex="foo(aA|bB)++b" input="foobBaAbBaAbBb" result="p"/>
+   <test id="p1205" regex="foo(?:aA|bB)++b" input="fooaAaAbBaAaAb" result="p"/>
+   <test id="p1206" regex="foo(?:aA)*+b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1207" regex="foo(aA)*+b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1208" regex="foo(aA|bB)*+b" input="foobBbBaAaAaAb" result="p"/>
+   <test id="p1209" regex="foo(?:aA|bB)*+b" input="foobBaAaAbBaAb" result="p"/>
+   <test id="p1210" regex="foo(?:aA){1,5}+b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1211" regex="foo(aA){1,5}+b" input="fooaAaAaAaAaAb" result="p"/>
+   <test id="p1212" regex="foo(aA|bB){1,5}+b" input="foobBaAaAaAaAb" result="p"/>
+   <test id="p1213" regex="foo(?:aA|bB){1,5}+b" input="fooaAbBaAbBbBb" result="p"/>
+   <test id="p1214" regex="foo(?:aA)?+b" input="fooaAb" result="p"/>
+   <test id="p1215" regex="foo(aA)?+b" input="fooaAb" result="p"/>
+   <test id="p1216" regex="foo(aA|bB)?+b" input="foobBb" result="p"/>
+   <test id="p1217" regex="foo(?:aA|bB)?+b" input="foobBb" result="p"/>
+   <test id="p1219" regex="([^()]++|\([^()]*\))+" input="((abc(ade)ufh()()x" result="p"/>
+   <test id="p1220" regex="round\(([^()]++)\)" input="_I(round(xs * sz),1)" result="p"/>
+   <test id="p1222" regex="(foo[1x]|bar[2x]|baz[3x])+y" input="foo1bar2baz3y" result="y"/>
+   <test id="p1223" regex="(foo[1x]|bar[2x]|baz[3x])+y" input="foo1bar2baz3y" result="y"/>
+   <test id="p1224" regex="(foo[1x]|bar[2x]|baz[3x])*y" input="foo1bar2baz3y" result="y"/>
+   <test id="p1225" regex="(foo[1x]|bar[2x]|baz[3x])*y" input="foo1bar2baz3y" result="y"/>
+   <test id="p1227" regex="([yX].|WORDS|[yX].|WORD)S" input="WORDS" result="y"/>
+   <test id="p1228" regex="(WORDS|WORLD|WORD)S" input="WORDS" result="y"/>
+   <test id="p1229" regex="([yX].|WORDS|WORD|[xY].)S" input="WORDS" result="y"/>
+   <test id="p1230" regex="(foo|fool|[zx].|money|parted)$" input="fool" result="y"/>
+   <test id="p1231" regex="([zx].|foo|fool|[zq].|money|parted|[yx].)$" input="fool" result="y"/>
+   <test id="p1232" regex="(foo|fool|[zx].|money|parted)$" input="fools" result="n"/>
+   <test id="p1233" regex="([zx].|foo|fool|[qx].|money|parted|[py].)$" input="fools" result="n"/>
+   <test id="p1235" regex="([yX].|WORDS|[yX].|WORD)+S" input="WORDS" result="y"/>
+   <test id="p1236" regex="(WORDS|WORLD|WORD)+S" input="WORDS" result="y"/>
+   <test id="p1237" regex="([yX].|WORDS|WORD|[xY].)+S" input="WORDS" result="y"/>
+   <test id="p1238" regex="(foo|fool|[zx].|money|parted)+$" input="fool" result="y"/>
+   <test id="p1239" regex="([zx].|foo|fool|[zq].|money|parted|[yx].)+$" input="fool" result="y"/>
+   <test id="p1240" regex="(foo|fool|[zx].|money|parted)+$" input="fools" result="n"/>
+   <test id="p1241" regex="([zx].|foo|fool|[qx].|money|parted|[py].)+$" input="fools" result="n"/>
+   <test id="p1243" regex="(x|y|z[QW])+(longish|loquatious|excessive|overblown[QW])+" input="xyzQzWlongishoverblownW" result="y"/>
+   <test id="p1244" regex="(x|y|z[QW])*(longish|loquatious|excessive|overblown[QW])*" input="xyzQzWlongishoverblownW" result="y"/>
+   <test id="p1245" regex="(x|y|z[QW]){1,5}(longish|loquatious|excessive|overblown[QW]){1,5}" input="xyzQzWlongishoverblownW" result="y"/>
+   <test id="p1247" regex="(x|y|z[QW])++(longish|loquatious|excessive|overblown[QW])++" input="xyzQzWlongishoverblownW" result="p"/>
+   <test id="p1248" regex="(x|y|z[QW])*+(longish|loquatious|excessive|overblown[QW])*+" input="xyzQzWlongishoverblownW" result="p"/>
+   <test id="p1249" regex="(x|y|z[QW]){1,5}+(longish|loquatious|excessive|overblown[QW]){1,5}+" input="xyzQzWlongishoverblownW" result="p"/>
+   <test id="p1251" regex="a*(?!)" input="aaaab" result="p"/>
+   <test id="p1252" regex="a*(*FAIL)" input="aaaab" result="p"/>
+   <test id="p1253" regex="a*(*F)" input="aaaab" result="p"/>
+   <test id="p1255" regex="(A(A|B(*ACCEPT)|C)D)(E)" input="AB" result="p"/>
+   <test id="p1256" regex="(A(A|B(*ACCEPT)|C)D)(E)" input="ACDE" result="p"/>
+   <test id="p1258" regex="(a)(?:(?-1)|(?+1))(b)" input="aab" result="p"/>
+   <test id="p1259" regex="(a)(?:(?-1)|(?+1))(b)" input="abb" result="p"/>
+   <test id="p1260" regex="(a)(?:(?-1)|(?+1))(b)" input="acb" result="p"/>
+   <test id="p1262" regex="(foo)(\g-2)" input="foofoo" result="p"/>
+   <test id="p1263" regex="(foo)(\g-2)(foo)(\g-2)" input="foofoofoofoo" result="p"/>
+   <test id="p1264" regex="(([abc]+) \g-1)(([abc]+) \g{-1})" input="abc abccba cba" result="p"/>
+   <test id="p1265" regex="(a)(b)(c)\g1\g2\g3" input="abcabc" result="p"/>
+   <test id="p1268" regex="/(?'n'foo) \k&lt;n&gt;/" input="..foo foo.." result="p"/>
+   <test id="p1269" regex="/(?'n'foo) \k&lt;n&gt;/" input="..foo foo.." result="yM"/>
+   <test id="p1270" regex="/(?&lt;n&gt;foo) \k'n'/" input="..foo foo.." result="p"/>
+   <test id="p1271" regex="/(?&lt;n&gt;foo) \k'n'/" input="..foo foo.." result="yM"/>
+   <test id="p1272" regex="/(?'a1'foo) \k'a1'/" input="..foo foo.." result="yM"/>
+   <test id="p1273" regex="/(?&lt;a1&gt;foo) \k&lt;a1&gt;/" input="..foo foo.." result="yM"/>
+   <test id="p1274" regex="/(?'_'foo) \k'_'/" input="..foo foo.." result="yM"/>
+   <test id="p1275" regex="/(?&lt;_&gt;foo) \k&lt;_&gt;/" input="..foo foo.." result="yM"/>
+   <test id="p1276" regex="/(?'_0_'foo) \k'_0_'/" input="..foo foo.." result="yM"/>
+   <test id="p1277" regex="/(?&lt;_0_&gt;foo) \k&lt;_0_&gt;/" input="..foo foo.." result="yM"/>
+   <test id="p1278" regex="/(?'0'foo) bar/" input="-" result="c"/>
+   <test id="p1279" regex="/(?&lt;0&gt;foo) bar/" input="-" result="c"/>
+   <test id="p1280" regex="/(?'12'foo) bar/" input="-" result="c"/>
+   <test id="p1281" regex="/(?&lt;12&gt;foo) bar/" input="-" result="c"/>
+   <test id="p1282" regex="/(?'1a'foo) bar/" input="-" result="c"/>
+   <test id="p1283" regex="/(?&lt;1a&gt;foo) bar/" input="-" result="c"/>
+   <test id="p1284" regex="/(?''foo) bar/" input="-" result="c"/>
+   <test id="p1285" regex="/(?&lt;&gt;foo) bar/" input="-" result="c"/>
+   <test id="p1286" regex="/foo \k'n'/" input="-" result="c"/>
+   <test id="p1287" regex="/foo \k&lt;n&gt;/" input="-" result="c"/>
+   <test id="p1288" regex="/foo \k'a1'/" input="-" result="c"/>
+   <test id="p1289" regex="/foo \k&lt;a1&gt;/" input="-" result="c"/>
+   <test id="p1290" regex="/foo \k'_'/" input="-" result="c"/>
+   <test id="p1291" regex="/foo \k&lt;_&gt;/" input="-" result="c"/>
+   <test id="p1292" regex="/foo \k'_0_'/" input="-" result="c"/>
+   <test id="p1293" regex="/foo \k&lt;_0_&gt;/" input="-" result="c"/>
+   <test id="p1294" regex="/foo \k'0'/" input="-" result="c"/>
+   <test id="p1295" regex="/foo \k&lt;0&gt;/" input="-" result="c"/>
+   <test id="p1296" regex="/foo \k'12'/" input="-" result="c"/>
+   <test id="p1297" regex="/foo \k&lt;12&gt;/" input="-" result="c"/>
+   <test id="p1298" regex="/foo \k'1a'/" input="-" result="c"/>
+   <test id="p1299" regex="/foo \k&lt;1a&gt;/" input="-" result="c"/>
+   <test id="p1300" regex="/foo \k''/" input="-" result="c"/>
+   <test id="p1301" regex="/foo \k&lt;&gt;/" input="-" result="c"/>
+   <test id="p1302" regex="/(?&lt;as&gt;as) (\w+) \k&lt;as&gt; (\w+)/" input="as easy as pie" result="p"/>
+   <test id="p1305" regex="/(?'n'foo) \g{n}/" input="..foo foo.." result="p"/>
+   <test id="p1306" regex="/(?'n'foo) \g{n}/" input="..foo foo.." result="yM"/>
+   <test id="p1307" regex="/(?&lt;n&gt;foo) \g{n}/" input="..foo foo.." result="p"/>
+   <test id="p1308" regex="/(?&lt;n&gt;foo) \g{n}/" input="..foo foo.." result="yM"/>
+   <test id="p1309" regex="/(?&lt;as&gt;as) (\w+) \g{as} (\w+)/" input="as easy as pie" result="p"/>
+   <test id="p1312" regex="/(?P&lt;n&gt;foo)(?P=n)/" input="..foofoo.." result="p"/>
+   <test id="p1313" regex="/(?P&lt;n&gt;foo)(?P=n)/" input="..foofoo.." result="yM"/>
+   <test id="p1314" regex="/(?:(?P&lt;n&gt;foo)|(?P&lt;n&gt;bar))(?P=n)/" input="..barbar.." result="yM"/>
+   <test id="p1315" regex="/^(?P&lt;PAL&gt;(?P&lt;CHAR&gt;.)((?P&gt;PAL)|.?)(?P=CHAR))$/" input="madamimadam" result="p"/>
+   <test id="p1316" regex="/^(?P&lt;PAL&gt;(?P&lt;CHAR&gt;.)((?P&gt;PAL)|.?)(?P=CHAR))$/" input="madamiamadam" result="p"/>
+   <test id="p1317" regex="/(?P&lt;n&gt;foo) (?P=n)/" input="..foo foo.." result="p"/>
+   <test id="p1318" regex="/(?P&lt;n&gt;foo) (?P=n)/" input="..foo foo.." result="yM"/>
+   <test id="p1319" regex="/(?P&lt;as&gt;as) (\w+) (?P=as) (\w+)/" input="as easy as pie" result="p"/>
+   <test id="p1322" regex="(?&lt;=bar&gt;)foo" input="bar&gt;foo" result="p"/>
+   <test id="p1323" regex="(?&lt;!bar&gt;)foo" input="bar&gt;foo" result="p"/>
+   <test id="p1324" regex="(?&lt;=bar&gt;ABC)foo" input="bar&gt;ABCfoo" result="p"/>
+   <test id="p1325" regex="(?&lt;!bar&gt;ABC)foo" input="bar&gt;ABCfoo" result="p"/>
+   <test id="p1326" regex="(?&lt;bar&gt;)foo" input="bar&gt;ABCfoo" result="p"/>
+   <test id="p1327" regex="(?&lt;bar&gt;ABC)foo" input="bar&gt;ABCfoo" result="p"/>
+   <test id="p1329" regex="(?&lt;=abcd(?&lt;=(aaaabcd)))" input="..aaaabcd.." result="p"/>
+   <test id="p1330" regex="(?=xy(?&lt;=(aaxy)))" input="..aaxy.." result="p"/>
+   <test id="p1332" regex="X(\w+)(?=\s)|X(\w+)" input="Xab" result="p"/>
+   <test id="p1335" regex="(?|(a))" input="a" result="p"/>
+   <test id="p1336" regex="(?|a(.)b|d(.(o).)d|i(.)(.)j)(.)" input="d!o!da" result="p"/>
+   <test id="p1337" regex="(?|a(.)b|d(.(o).)d|i(.)(.)j)(.)" input="aabc" result="p"/>
+   <test id="p1338" regex="(?|a(.)b|d(.(o).)d|i(.)(.)j)(.)" input="ixyjp" result="p"/>
+   <test id="p1339" regex="(?|(?|(a)|(b))|(?|(c)|(d)))" input="a" result="p"/>
+   <test id="p1340" regex="(?|(?|(a)|(b))|(?|(c)|(d)))" input="b" result="p"/>
+   <test id="p1341" regex="(?|(?|(a)|(b))|(?|(c)|(d)))" input="c" result="p"/>
+   <test id="p1342" regex="(?|(?|(a)|(b))|(?|(c)|(d)))" input="d" result="p"/>
+   <test id="p1343" regex="(.)(?|(.)(.)x|(.)d)(.)" input="abcde" result="p"/>
+   <test id="p1344" regex="(\N)(?|(\N)(\N)x|(\N)d)(\N)" input="abcde" result="p"/>
+   <test id="p1345" regex="(?|(?&lt;foo&gt;x))" input="x" result="yM"/>
+   <test id="p1346" regex="(?|(?&lt;foo&gt;x)|(?&lt;bar&gt;y))" input="x" result="yM"/>
+   <test id="p1347" regex="(?|(?&lt;bar&gt;y)|(?&lt;foo&gt;x))" input="x" result="yM"/>
+   <test id="p1348" regex="(?&lt;bar&gt;)(?|(?&lt;foo&gt;x))" input="x" result="yM"/>
+   <test id="p1351"
+         regex="(?|(b)|()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()(a))"
+         input="a"
+         result="p"/>
+   <test id="p1354" regex="(?(DEFINE)(?&lt;A&gt;(?&amp;B)+)(?&lt;B&gt;a))(?&amp;A)" input="a" result="p"/>
+   <test id="p1355" regex="(?(DEFINE)(?&lt;A&gt;(?&amp;B)+)(?&lt;B&gt;a))(?&amp;A)" input="aa" result="p"/>
+   <test id="p1356" regex="\x{100}?(??{&#34;&#34;})xxx" input="xxx" result="p"/>
+   <test id="p1358" regex="foo(\R)bar" input="foo\r\nbar" result="p"/>
+   <test id="p1359" regex="foo(\R)bar" input="foo\nbar" result="p"/>
+   <test id="p1360" regex="foo(\R)bar" input="foo\rbar" result="p"/>
+   <test id="p1362" regex="foo(\R+)bar" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1363" regex="(\V+)(\R)" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1364" regex="(\R+)(\V)" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1365" regex="foo(\R)bar" input="foo\x{85}bar" result="p"/>
+   <test id="p1366" regex="(\V)(\R)" input="foo\x{85}bar" result="p"/>
+   <test id="p1367" regex="(\R)(\V)" input="foo\x{85}bar" result="p"/>
+   <test id="p1368" regex="foo(\R)bar" input="foo\r\nbar" result="p"/>
+   <test id="p1369" regex="(\V)(\R)" input="foo\r\nbar" result="p"/>
+   <test id="p1370" regex="(\R)(\V)" input="foo\r\nbar" result="p"/>
+   <test id="p1371" regex="foo(\R)bar" input="foo\r\nbar" result="p"/>
+   <test id="p1372" regex="(\V)(\R)" input="foo\r\nbar" result="p"/>
+   <test id="p1373" regex="(\R)(\V)" input="foo\r\nbar" result="p"/>
+   <test id="p1374" regex="foo(\R)bar" input="foo\rbar" result="p"/>
+   <test id="p1375" regex="(\V)(\R)" input="foo\rbar" result="p"/>
+   <test id="p1376" regex="(\R)(\V)" input="foo\rbar" result="p"/>
+   <test id="p1378" regex="foo(\v+)bar" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1379" regex="(\V+)(\v)" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1380" regex="(\v+)(\V)" input="foo\r\n\x{85}\r\n\nbar" result="p"/>
+   <test id="p1381" regex="foo(\v)bar" input="foo\x{85}bar" result="p"/>
+   <test id="p1382" regex="(\V)(\v)" input="foo\x{85}bar" result="p"/>
+   <test id="p1383" regex="(\v)(\V)" input="foo\x{85}bar" result="p"/>
+   <test id="p1384" regex="foo(\v)bar" input="foo\rbar" result="p"/>
+   <test id="p1385" regex="(\V)(\v)" input="foo\rbar" result="p"/>
+   <test id="p1386" regex="(\v)(\V)" input="foo\rbar" result="p"/>
+   <test id="p1389" regex="foo(\h+)bar" input="foo\t\x{A0}bar" result="p"/>
+   <test id="p1390" regex="(\H+)(\h)" input="foo\t\x{A0}bar" result="p"/>
+   <test id="p1391" regex="(\h+)(\H)" input="foo\t\x{A0}bar" result="p"/>
+   <test id="p1392" regex="foo(\h)bar" input="foo\x{A0}bar" result="p"/>
+   <test id="p1393" regex="(\H)(\h)" input="foo\x{A0}bar" result="p"/>
+   <test id="p1394" regex="(\h)(\H)" input="foo\x{A0}bar" result="p"/>
+   <test id="p1395" regex="foo(\h)bar" input="foo\tbar" result="p"/>
+   <test id="p1396" regex="(\H)(\h)" input="foo\tbar" result="p"/>
+   <test id="p1397" regex="(\h)(\H)" input="foo\tbar" result="p"/>
+   <test id="p1399" regex=".*\z" input="foo\n" result="p"/>
+   <test id="p1400" regex="\N*\z" input="foo\n" result="p"/>
+   <test id="p1401" regex=".*\Z" input="foo\n" result="p"/>
+   <test id="p1402" regex="\N*\Z" input="foo\n" result="p"/>
+   <test id="p1403" regex="^(?:(\d)x)?\d$" input="1" result="y"/>
+   <test id="p1404" regex=".*?(?:(\w)|(\w))x" input="abx" result="y"/>
+   <test id="p1406" regex="0{50}" input="000000000000000000000000000000000000000000000000000" result="y"/>
+   <test id="p1407" regex="^a?(?=b)b" input="ab" result="p"/>
+   <test id="p1408" regex="^a*(?=b)b" input="ab" result="p"/>
+   <test id="p1409" regex="/&gt;\d+$ \n/ix" input="&gt;10\n" result="n"/>
+   <test id="p1410" regex="/&gt;\d+$ \n/ix" input="&gt;1\n" result="n"/>
+   <test id="p1411" regex="/\d+$ \n/ix" input="&gt;10\n" result="n"/>
+   <test id="p1412" regex="/&gt;\d\d$ \n/ix" input="&gt;10\n" result="n"/>
+   <test id="p1413" regex="/&gt;\d+$ \n/x" input="&gt;10\n" result="n"/>
+   <test id="p1417" regex="/^\s*i.*?o\s*$/s" input="io\n io" result="n"/>
+   <test id="p1419" regex="/(.*?)a(?!(a+)b\2c)/" input="baaabaac" result="p"/>
+   <test id="p1421" regex="/\A(?(?=db2)db2|\D+)(?&lt;!processed)\.csv\z/xms" input="sql_processed.csv" result="p"/>
+   <test id="p1422" regex="/\N{U+0100}/" input="\x{100}" result="p"/>
+   <test id="p1423" regex="/[a\N{U+0100}]/" input="\x{100}" result="p"/>
+   <test id="p1424" regex="/[a\N{U+0100}]/" input="a" result="p"/>
+   <test id="p1427" regex="/\N{U+41}\x{c1}/i" input="a\x{e1}" result="p"/>
+   <test id="p1428" regex="/[\N{U+41}\x{c1}]/i" input="\x{e1}" result="p"/>
+   <test id="p1430" regex="[\s][\S]" input="\x{a0}\x{a0}" result="n"/>
+   <test id="p1433" regex="[\x{100}\xff]" flags="i" input="\x{ff}" result="p"/>
+   <test id="p1435" regex="((??{ &#34;(?:|)&#34; }))\s" input="C\x20 " result="p"/>
+   <test id="p1438" regex="abc\N\{U+BEEF}" input="abc\n{UBEEF}" result="p"/>
+   <test id="p1439" regex="abc\N\{U+BEEF}" input="abc.{UBEEF}" result="p"/>
+   <test id="p1440" regex="[abc\N\{U+BEEF}]" input="-" result="c"/>
+   <test id="p1443" regex="abc\N" input="abcd" result="p"/>
+   <test id="p1444" regex="abc\N" input="abc\n" result="p"/>
+   <test id="p1448" regex="/\N{U+}/" input="-" result="c"/>
+   <test id="p1450" regex="/[\N{U+}]/" input="-" result="Sc"/>
+   <test id="p1451" regex="/[\N{U+}]/" input="-" result="sc"/>
+   <test id="p1452" regex="/abc\N{def/" input="-" result="c"/>
+   <test id="p1453" regex="/\N{U+4AG3}/" input="-" result="c"/>
+   <test id="p1454" regex="/[\N{U+4AG3}]/" input="-" result="c"/>
+   <test id="p1458" regex="\N{U+}" input="-" result="c"/>
+   <test id="p1459" regex="[\N{U+}]" input="-" result="c"/>
+   <test id="p1460" regex="\N{U+4AG3}" input="-" result="c"/>
+   <test id="p1461" regex="[\N{U+4AG3}]" input="-" result="c"/>
+   <test id="p1462" regex="abc\N{def" input="-" result="c"/>
+   <test id="p1465" regex="/abc\N {U+41}/x" input="-" result="c"/>
+   <test id="p1466" regex="/abc\N {SPACE}/x" input="-" result="c"/>
+   <test id="p1469" regex="/\N{U+0xBEEF}/" input="-" result="c"/>
+   <test id="p1470" regex="/\N{U+BEEF.BEAD}/" input="-" result="c"/>
+   <test id="p1474" regex="\N{U+0xBEEF}" input="-" result="c"/>
+   <test id="p1475" regex="\c`" input="-" result="n"/>
+   <test id="p1476" regex="\c1" input="-" result="n"/>
+   <test id="p1477" regex="\cA" input="\001" result="n"/>
+   <test id="p1479" regex="\400" input="\x{100}" result="p"/>
+   <test id="p1480" regex="\600" input="\x{180}" result="p"/>
+   <test id="p1481" regex="\777" input="\x{1FF}" result="p"/>
+   <test id="p1482" regex="[a\400]" input="\x{100}" result="p"/>
+   <test id="p1483" regex="[b\600]" input="\x{180}" result="p"/>
+   <test id="p1484" regex="[c\777]" input="\x{1FF}" result="p"/>
+   <test id="p1485" regex="\o{120}" input="\x{50}" result="p"/>
+   <test id="p1486" regex="\o{400}" input="\x{100}" result="p"/>
+   <test id="p1487" regex="\o{1000}" input="\x{200}" result="p"/>
+   <test id="p1488" regex="[a\o{120}]" input="\x{50}" result="p"/>
+   <test id="p1489" regex="[a\o{400}]" input="\x{100}" result="p"/>
+   <test id="p1490" regex="[a\o{1000}]" input="\x{200}" result="p"/>
+   <test id="p1493" regex="\87" input="87" result="p"/>
+   <test id="p1494" regex="a\87" input="a87" result="c"/>
+   <test id="p1495" regex="a\97" input="a97" result="c"/>
+   <test id="p1499" regex="(.)\g2147483648}" input="x" result="c"/>
+   <test id="p1500" regex="(.)\g2147483649}" input="x" result="c"/>
+   <test id="p1501" regex="(.)\g2147483650}" input="x" result="c"/>
+   <test id="p1502" regex="(.)\g4294967296}" input="x" result="c"/>
+   <test id="p1503" regex="(.)\g4294967297}" input="x" result="c"/>
+   <test id="p1504" regex="(.)\g4294967298}" input="x" result="c"/>
+   <test id="p1505" regex="a(.)\g2147483648}" input="x" result="c"/>
+   <test id="p1506" regex="a(.)\g2147483649}" input="x" result="c"/>
+   <test id="p1507" regex="a(.)\g2147483650}" input="x" result="c"/>
+   <test id="p1508" regex="a(.)\g4294967296}" input="x" result="c"/>
+   <test id="p1509" regex="a(.)\g4294967297}" input="x" result="c"/>
+   <test id="p1510" regex="a(.)\g4294967298}" input="x" result="c"/>
+   <test id="p1512" regex="(.)\g{2147483648}" input="x" result="c"/>
+   <test id="p1513" regex="(.)\g{2147483649}" input="x" result="c"/>
+   <test id="p1514" regex="(.)\g{2147483650}" input="x" result="c"/>
+   <test id="p1515" regex="(.)\g{4294967296}" input="x" result="c"/>
+   <test id="p1516" regex="(.)\g{4294967297}" input="x" result="c"/>
+   <test id="p1517" regex="(.)\g{4294967298}" input="x" result="c"/>
+   <test id="p1518" regex="a(.)\g{2147483648}" input="x" result="c"/>
+   <test id="p1519" regex="a(.)\g{2147483649}" input="x" result="c"/>
+   <test id="p1520" regex="a(.)\g{2147483650}" input="x" result="c"/>
+   <test id="p1521" regex="a(.)\g{4294967296}" input="x" result="c"/>
+   <test id="p1522" regex="a(.)\g{4294967297}" input="x" result="c"/>
+   <test id="p1523" regex="a(.)\g{4294967298}" input="x" result="c"/>
+   <test id="p1525" regex="(.)\2147483648" input="b\o{214}7483648" result="p"/>
+   <test id="p1526" regex="(.)\2147483649" input="b\o{214}7483649" result="p"/>
+   <test id="p1527" regex="(.)\2147483650" input="b\o{214}7483650" result="p"/>
+   <test id="p1528" regex="(.)\4294967296" input="b\o{42}94967296" result="p"/>
+   <test id="p1529" regex="(.)\4294967297" input="b\o{42}94967297" result="p"/>
+   <test id="p1530" regex="(.)\4294967298" input="b\o{42}94967298" result="p"/>
+   <test id="p1531" regex="a(.)\2147483648" input="ab\o{214}7483648" result="p"/>
+   <test id="p1532" regex="a(.)\2147483649" input="ab\o{214}7483649" result="p"/>
+   <test id="p1533" regex="a(.)\2147483650" input="ab\o{214}7483650" result="p"/>
+   <test id="p1534" regex="a(.)\4294967296" input="ab\o{42}94967296" result="p"/>
+   <test id="p1535" regex="a(.)\4294967297" input="ab\o{42}94967297" result="p"/>
+   <test id="p1536" regex="a(.)\4294967298" input="ab\o{42}94967298" result="p"/>
+   <test id="p1539" regex="[\8\9]" input="\000" result="Sn"/>
+   <test id="p1540" regex="[\8\9]" input="-" result="sc"/>
+   <test id="p1541" regex="[\8\9]" input="8" result="Sy"/>
+   <test id="p1542" regex="[\8\9]" input="9" result="Sy"/>
+   <test id="p1545" regex="[\0]" input="\000" result="Sy"/>
+   <test id="p1546" regex="[\0]" input="-" result="sc"/>
+   <test id="p1547" regex="[\07]" input="\007" result="Sy"/>
+   <test id="p1548" regex="[\07]" input="-" result="sc"/>
+   <test id="p1549" regex="[\07]" input="7\000" result="Sn"/>
+   <test id="p1550" regex="[\07]" input="-" result="sc"/>
+   <test id="p1551" regex="[\006]" input="\006" result="p"/>
+   <test id="p1552" regex="[\006]" input="6\000" result="p"/>
+   <test id="p1553" regex="[\0005]" input="\0005" result="p"/>
+   <test id="p1554" regex="[\0005]" input="5\000" result="p"/>
+   <test id="p1555" regex="[\_]" input="_" result="p"/>
+   <test id="p1558" regex="(q1|.)*(q2|.)*(x(a|bc)*y){2,}" input="xayxay" result="y"/>
+   <test id="p1559" regex="(q1|.)*(q2|.)*(x(a|bc)*y){2,3}" input="xayxay" result="y"/>
+   <test id="p1560" regex="(q1|z)*(q2|z)*z{15}-.*?(x(a|bc)*y){2,3}Z" input="zzzzzzzzzzzzzzzz-xayxayxayxayZ" result="y"/>
+   <test id="p1562" regex="(?:(?:)foo|bar|zot|rt78356)" input="foo" result="y"/>
+   <test id="p1563" regex="/\xe0\pL/i" input="\xc0a" result="p"/>
+   <test id="p1566" regex="(?{})[\x{100}]" input="\x{100}" result="p"/>
+   <test id="p1569" regex="^m?(\S)(.*)\1$" input="aba" result="y"/>
+   <test id="p1570" regex="^m?(\S)(.*)\1$" input="\tb\t" result="n"/>
+   <test id="p1571" regex="^m?(\s)(.*)\1$" input="\tb\t" result="n"/>
+   <test id="p1572" regex="^m?(\s)(.*)\1$" input="aba" result="n"/>
+   <test id="p1573" regex="^m?(\W)(.*)\1$" input=":b:" result="y"/>
+   <test id="p1574" regex="^m?(\W)(.*)\1$" input="aba" result="n"/>
+   <test id="p1575" regex="^m?(\w)(.*)\1$" input="aba" result="y"/>
+   <test id="p1576" regex="^m?(\w)(.*)\1$" input=":b:" result="n"/>
+   <test id="p1577" regex="^m?(\D)(.*)\1$" input="aba" result="y"/>
+   <test id="p1578" regex="^m?(\D)(.*)\1$" input="5b5" result="n"/>
+   <test id="p1579" regex="^m?(\d)(.*)\1$" input="5b5" result="y"/>
+   <test id="p1580" regex="^m?(\d)(.*)\1$" input="aba" result="n"/>
+   <test id="p1583" regex="/s/ai" input="&#x17F;" result="n"/>
+   <test id="p1584" regex="/s/aia" input="&#x17F;" result="n"/>
+   <test id="p1585" regex="/s/aia" input="S" result="n"/>
+   <test id="p1586" regex="(?aia:s)" input="&#x17F;" result="p"/>
+   <test id="p1587" regex="(?aia:s)" input="S" result="p"/>
+   <test id="p1592" regex="[^\x{1E9E}]/i" input="&#xDF;" result="Sn"/>
+   <test id="p1595" regex="^.*\d\H" input="X1" result="p"/>
+   <test id="p1596" regex="^.*\d\V" input="X1" result="p"/>
+   <test id="p1600" regex="^\p{L_}" input="&#x3400;" result="p"/>
+   <test id="p1601" regex="^\p{L}" input="&#x3400;" result="y"/>
+   <test id="p1604" regex="[s\xDF]a/ui" input="ssa" result="Sy"/>
+   <test id="p1605" regex="[s\xDF]a/ui" input="sa" result="p"/>
+   <test id="p1608" regex="^\R\x0A$" input="\x0D\x0A" result="p"/>
+   <test id="p1610" regex="/ff/i" input="\x{FB00}\x{FB01}" result="n"/>
+   <test id="p1611" regex="/ff/i" input="\x{FB01}\x{FB00}" result="n"/>
+   <test id="p1612" regex="/fi/i" input="\x{FB01}\x{FB00}" result="n"/>
+   <test id="p1613" regex="/fi/i" input="\x{FB00}\x{FB01}" result="n"/>
+   <test id="p1616" regex="(?#( (?{1+)a" input="a" result="p"/>
+   <test id="p1617" regex="a# (?{1+" flags="x" input="a" result="p"/>
+   <test id="p1618" regex="ab[(?{1]" input="ab1" result="y"/>
+   <test id="p1619" regex="ab[(?{1\](?{2]" input="ab2" result="y"/><!-- Changed MHK. Was "n" -->
+   <test id="p1620" regex="ab(?{&#34;[&#34;})cd" input="abcd" result="p"/>
+   <test id="p1621" regex="ab(??{&#34;[x]&#34;})cd" input="abxcd" result="p"/>
+   <test id="p1622" regex="ab\[(??{1})c" input="ab[1c" result="p"/>
+   <test id="p1623" regex="ab\\[(??{1;})]c" input="ab\;c" result="y"/>
+   <test id="p1624" regex="ab\\\[(??{1})c" input="ab\[1c" result="p"/>
+   <test id="p1625" regex="ab[c\](??{&#34;]d" input="abcd" result="y"/>
+   <test id="p1626" regex="ab[c\\](??{&#34;[x]&#34;})d" input="ab\\xd" result="p"/>
+   <test id="p1627" regex="ab[c\\\](??{&#34;x&#34;})]{3}d" input="ab\](d" result="y"/>
+   <test id="p1631" regex="/ffiffl/i" input="abcdef\x{FB03}\x{FB04}" result="n"/>
+   <test id="p1632" regex="/\xdf\xdf/ui" input="abcdefssss" result="p"/>
+   <test id="p1634" regex="/st/i" input="\x{DF}\x{FB05}" result="n"/><!-- Changed MHK. Was "y" -->
+   <test id="p1635" regex="/ssst/i" input="\x{DF}\x{FB05}" result="n"/><!-- Changed MHK. Was "y" -->
+   <test id="p1636" regex="/[s]s/i" input="\x{DF}" result="n"/>
+   <test id="p1637" regex="/s[s]/i" input="\x{DF}" result="n"/>
+   <test id="p1640" regex="/[[:lower:]]/i" input="\x{100}" result="p"/>
+   <test id="p1641" regex="/[[:upper:]]/i" input="\x{101}" result="p"/>
+   <test id="p1645" regex="/s\xDF/ui" input="\xDFs" result="p"/>
+   <test id="p1646" regex="/sst/ui" input="s\N{LATIN SMALL LIGATURE ST}" result="n"/><!-- Changed MHK. Was "y" -->
+   <test id="p1647" regex="/sst/ui" input="s\N{LATIN SMALL LIGATURE LONG S T}" result="n"/><!-- Changed MHK. Was "y" -->
+   <test id="p1650" regex="/[[:ascii:]]/i" input="\N{KELVIN SIGN}" result="p"/>
+   <test id="p1654" regex="/[[:lower:]]/i" input="\N{U+3400}" result="p"/>
+   <test id="p1655" regex="/[[:upper:]]/i" input="\N{U+01BB}" result="p"/>
+   <test id="p1658" regex="[^\p{Alphabetic}]" input="\x{100}" result="p"/>
+   <test id="p1661" regex="/[[:alnum:]]/" input="\x{2c1}" result="p"/>
+   <test id="p1662" regex="/[[:alnum:]]/" input="\x{2c2}" result="p"/>
+   <test id="p1663" regex="/[[:alpha:]]/" input="\x{2c1}" result="p"/>
+   <test id="p1664" regex="/[[:alpha:]]/" input="\x{2c2}" result="p"/>
+   <test id="p1665" regex="/[[:graph:]]/" input="\x{377}" result="p"/>
+   <test id="p1666" regex="/[[:graph:]]/" input="\x{378}" result="p"/>
+   <test id="p1667" regex="/[[:lower:]]/" input="\x{100}" result="p"/>
+   <test id="p1668" regex="/[[:lower:]]/" input="\x{101}" result="p"/>
+   <test id="p1669" regex="/[[:lower:]]/" input="\x{102}" result="p"/>
+   <test id="p1670" regex="/[[:print:]]/" input="\x{377}" result="p"/>
+   <test id="p1671" regex="/[[:print:]]/" input="\x{378}" result="p"/>
+   <test id="p1672" regex="/[[:punct:]]/" input="\x{37D}" result="p"/>
+   <test id="p1673" regex="/[[:punct:]]/" input="\x{37E}" result="p"/>
+   <test id="p1674" regex="/[[:punct:]]/" input="\x{388}" result="p"/>
+   <test id="p1675" regex="/[[:upper:]]/" input="\x{100}" result="p"/>
+   <test id="p1676" regex="/[[:upper:]]/" input="\x{101}" result="p"/>
+   <test id="p1677" regex="/[[:word:]]/" input="\x{2c1}" result="p"/>
+   <test id="p1678" regex="/[[:word:]]/" input="\x{2c2}" result="p"/>
+   <test id="p1681" regex="/syntax OK\s+\z/si" input="t/bin/good.pl syntax OK\n" result="p"/>
+   <test id="p1683" regex="^(.*?)\s*\|\s*(?:\/\s*|)'(.+)'$" input="text|'sec'" result="p"/>
+   <test id="p1684" regex="^(foo|)bar$" input="bar" result="y"/>
+   <test id="p1685" regex="^(foo||baz)bar$" input="bar" result="y"/>
+   <test id="p1686" regex="^(foo||baz)bar$" input="bazbar" result="y"/>
+   <test id="p1687" regex="^(foo||baz)bar$" input="foobar" result="y"/>
+   <test id="p1689" regex="^(?:foo|)bar$" input="bar" result="y"/>
+   <test id="p1690" regex="^(?:foo||baz)bar$" input="bar" result="y"/>
+   <test id="p1691" regex="^(?:foo||baz)bar$" input="bazbar" result="y"/>
+   <test id="p1692" regex="^(?:foo||baz)bar$" input="foobar" result="y"/>
+   <test id="p1694" regex="^(?i:foo|)bar$" input="bar" result="p"/>
+   <test id="p1695" regex="^(?i:foo||baz)bar$" input="bar" result="p"/>
+   <test id="p1696" regex="^(?i:foo||baz)bar$" input="bazbar" result="p"/>
+   <test id="p1697" regex="^(?i:foo||baz)bar$" input="foobar" result="p"/>
+   <test id="p1701" regex="^(.)(?:(..)|B)[CX]" input="ABCDE" result="y"/>
+   <test id="p1703" regex="^(.)(?:BC(.)|B)[CX]" input="ABCDE" result="y"/>
+   <test id="p1705" regex="^(.)(?:(.)+)*[BX]" input="ABCDE" result="y"/>
+   <test id="p1707" regex="^(.)(BC)*" input="ABCDE" result="y"/>
+   <test id="p1708" regex="^(.)(BC)*[BX]" input="ABCDE" result="y"/>
+   <test id="p1710" regex="^(.)(B)*.[DX]" input="ABCDE" result="y"/>
+   <test id="p1711" regex="^(.)(B)*.[CX]" input="ABCDE" result="y"/>
+   <test id="p1714" regex="^(A)(?{&#34;xyz&#34;})B$" input="AB" result="p"/>
+   <test id="p1715" regex="^(A)(?{return &#34;xyz&#34;})B$" input="AB" result="p"/>
+   <test id="p1716" regex="^(A)((??{&#34;xyz&#34;}))$" input="Axyz" result="p"/>
+   <test id="p1717" regex="^(A)((??{return &#34;xyz&#34;}))$" input="Axyz" result="p"/>
+   <test id="p1718" regex="^(A)((?(?{1})abc|xyz))$" input="Aabc" result="p"/>
+   <test id="p1719" regex="^(A)((?(?{0})abc|xyz))$" input="Axyz" result="p"/>
+   <test id="p1720" regex="^(A)((?(?{return 1})abc|xyz))$" input="Aabc" result="p"/>
+   <test id="p1721" regex="^(A)((?(?{return 0})abc|xyz))$" input="Axyz" result="p"/>
+   <test id="p1726" regex="/^(a)((??{&#34;b&#34;}))$/i" input="AB" result="p"/>
+   <test id="p1727" regex="/^(A)((??{'B$'}))(\nC)$/m" input="AB\nC" result="p"/>
+   <test id="p1728" regex="/^(A)((??{'.'}))(B)$/s" input="A\nB" result="p"/>
+   <test id="p1729" regex="/^(A) ((??{' .'}))(B)$/x" input="A B" result="p"/>
+   <test id="p1730" regex="/^((??{'\d'}))$/a" input="\x{660}" result="p"/>
+   <test id="p1731" regex="/^(??{&#34;s&#34;})$/i" input="\x{17F}" result="p"/>
+   <test id="p1732" regex="/^(??{&#34;s&#34;})$/ia" input="\x{17F}" result="p"/>
+   <test id="p1733" regex="/^(??{&#34;s&#34;})$/iaa" input="\x{17F}" result="p"/>
+   <test id="p1734" regex="/^(??{'\w'})$/u" input="\x{AA}" result="p"/>
+   <test id="p1739" regex="^(?:(X)?(\d)|(X)?(\d\d))$" input="X12" result="y"/>
+   <test id="p1740" regex="^(?:(XX)?(\d)|(XX)?(\d\d))$" input="XX12" result="y"/>
+   <test id="p1743" regex="\A(?&gt;\[(?:(?:)(?:R){1}|T|V?|A)\])\z" input="[A]" result="p"/>
+   <test id="p1745" regex="( [^z] $ [^z]+)" flags="xm" input="as&#xa;bb&#xa;cc&#xa;" result="y"/>
+   <test id="p1748" regex="[\h]" input="\x{A0}" result="p"/>
+   <test id="p1749" regex="[\H]" input="\x{BF}" result="p"/>
+   <test id="p1750" regex="[\H]" input="\x{A0}" result="p"/>
+   <test id="p1751" regex="[\H]" input="\x{A1}" result="p"/>
+   <test id="p1753" regex="[^\n]+" input="\nb" result="y"/>
+   <test id="p1754" regex="[^\n]+" input="a\n" result="y"/>
+   <test id="p1757" regex="(?a:\p{Any})" input="\x{100}" result="p"/>
+   <test id="p1758" regex="(?aa:\p{Any})" input="\x{100}" result="p"/>
+   <test id="p1760" regex="\w" input="&#x200C;" result="n"/>
+   <test id="p1761" regex="\W" input="&#x200C;" result="y"/>
+   <test id="p1762" regex="\w" input="&#x200D;" result="n"/>
+   <test id="p1763" regex="\W" input="&#x200D;" result="y"/>
+   <test id="p1765" regex="/^(?d:\xdf|_)*_/i" input="\x{17f}\x{17f}_" result="p"/>
+   <test id="p1770" regex="(\x{100})" input="\x{2000}\x{2000}\x{2000}\x{100}" result="p"/>
+   <test id="p1772" regex="^\R{2}$" input="\r\n\r\n" result="p"/>
+   <test id="p1774" regex="/^\D{11}/a" input="\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}" result="n"/>
+   <test id="p1775" regex="/^\S{11}/a" input="\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}" result="n"/>
+   <test id="p1776" regex="/^\W{11}/a" input="\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}\x{10FFFF}" result="n"/>
+   <test id="p1779" regex="\Vn" input="\xFFn/" result="p"/>
+   <test id="p1782" regex="/(?l:a?\w)/" input="b" result="p"/>
+   <test id="p1783" regex="/(?l:a?\D)/" input="b" result="p"/>
+   <test id="p1784" regex="^_?[^\S_0-9]\w*\z" input="\t" result="p"/>
+   <test id="p1785" regex="m?^xy\?$?" input="xy?" result="y"/>
+   <test id="p1786" regex="a?\X" input="a\x{100}" result="p"/>
+   <test id="p1787" regex="a?\R" input="a\n" result="p"/>
+   <test id="p1788" regex="^a?\N$" input="a\n" result="p"/>
+   <test id="p1789" regex="\N?a" input="\na" result="p"/>
+   <test id="p1790" regex="\s?\s" input="&#x9;" result="y"/>
+   <test id="p1791" regex="\s?\d" input="3" result="y"/>
+   <test id="p1792" regex="\s?\S" input="A" result="y"/>
+   <test id="p1796" regex="^(\x{100}|a)(??{ qr/.?\xF7/d})" input="a_\xF7" result="p"/>
+   <test id="p1799" regex="(a|(bc)){0,0}?xyz" input="xyz" result="y"/>
+   <test id="p1800" regex="( a | ( bc ) ) {0,0} ? xyz" flags="x" input="xyz" result="y"/>
+   <test id="p1802" regex="(a|(bc)){0,0}+xyz" input="xyz" result="p"/>
+   <test id="p1803" regex="(( a | ( bc ) ) {0,0} )+ xyz" flags="x" input="xyz" result="y"/>
+   <test id="p1805" regex="(A(*PRUNE)B|A(*PRUNE)C)" input="AC" result="p"/>
+   <test id="p1806" regex="(A(*PRUNE)B|A(*PRUNE)D|A(*PRUNE)C)" input="AC" result="p"/>
+   <test id="p1807" regex="(A(*PRUNE)B|A(*PRUNE)C|A(*PRUNE)D)" input="AC" result="p"/>
+   <test id="p1808" regex="((A(*PRUNE)B|A(*PRUNE)C))" input="AC" result="p"/>
+   <test id="p1809" regex="((A(*PRUNE)B|A(*PRUNE)D|A(*PRUNE)C))" input="AC" result="p"/>
+   <test id="p1810" regex="((A(*PRUNE)B|A(*PRUNE)C|A(*PRUNE)D))" input="AC" result="p"/>
+   <test id="p1812" regex="A+?(*THEN)BC" input="AAABC" result="p"/>
+   <test id="p1813" regex="A+?(*PRUNE)BC" input="AAABC" result="p"/>
+   <test id="p1814" regex="A+(*THEN)BC" input="AAABC" result="p"/>
+   <test id="p1815" regex="A+(*PRUNE)BC" input="AAABC" result="p"/>
+   <test id="p1816" regex="A+?(*THEN)BC(?{})" input="AAABC" result="p"/>
+   <test id="p1817" regex="A+?(*PRUNE)BC(?{})" input="AAABC" result="p"/>
+   <test id="p1818" regex="A+(*THEN)BC(?{})" input="AAABC" result="p"/>
+   <test id="p1819" regex="A+(*PRUNE)BC(?{})" input="AAABC" result="p"/>
+   <test id="p1820" regex="[#]" input="a#b" result="y"/>
+   <test id="p1821" regex="[#]b" input="a#b" result="y"/>
+   <test id="p1822" regex="[#]" flags="x" input="a#b" result="y"/>
+   <test id="p1823" regex="[#]b" flags="x" input="a#b" result="y"/>
+   <test id="p1824" regex="[#](?{})" flags="x" input="a#b" result="p"/>
+   <test id="p1825" regex="[#](??{'b'})" flags="x" input="a#b" result="p"/>
+   <test id="p1826" regex="(?#)(?{})b" input="a#b" result="p"/>
+   <test id="p1827" regex="(?#)(??{'b'})" input="a#b" result="p"/>
+   <test id="p1828" regex="[(?#](?{})b" input="a#b" result="p"/>
+   <test id="p1829" regex="[(?#](??{'b'})" input="a#b" result="p"/>
+   <test id="p1830" regex="(?#)(?{})b" flags="x" input="a#b" result="p"/>
+   <test id="p1831" regex="(?#)(??{'b'})" flags="x" input="a#b" result="p"/>
+   <test id="p1834" regex="^(?=(a)){0}b(?1)" input="back" result="p"/>
+   <test id="p1836" regex="(?:(a(*SKIP)b)){0}(?:(?1)|ac)" input="x" result="p"/>
+   <test id="p1838" regex="(?1)(?:(b)){0}" input="b" result="p"/>
+   <test id="p1840" regex="^A*\z" input="" result="p"/>
+   <test id="p1841" regex="\N* " flags="x" input="ab" result="p"/>
+   <test id="p1842" regex="\N (?#comment) * " flags="x" input="ab" result="p"/>
+   <test id="p1845" regex="(?&lt;W&gt;a)(?&lt;BB&gt;(?=(?&amp;W))(?&lt;=(?&amp;W)))(?&amp;BB)" input="aa" result="p"/>
+   <test id="p1848" regex="^\S+=" input="&#x3a3;=&#x3a0;" result="y"/>
+   <test id="p1852" regex="\x{100}[xy]\x{100}{2}" input="\x{100}y\x{100}\x{100}" result="p"/>
+   <test id="p1853" regex="\x{100}a{2,3}" input="\x{100}aaa" result="p"/>
+   <test id="p1854" regex="^x?abc?de" input="abcde" result="y"/>
+   <test id="p1856" regex="(?-m:^abc)" flags="m" input="abcde" result="p"/>
+   <test id="p1857" regex="(?-m:^abc)" flags="m" input="x\nabcde" result="p"/>
+   <test id="p1860" regex="/^[+]([^(]+)$/mi" input="li" result="n"/>
+   <test id="p1863" regex="/(.)((o)\1)(?2)/" input="fofof" result="p"/>
+   <test id="p1864" regex="/(.)(?2)((\1)(?4)(\1))/" input="fffffff" result="p"/>
+   <test id="p1865" regex="/(.)(?2)((.)(?4)(\1))/" input="foffoff" result="p"/>
+   <test id="p1866" regex="/^(.\2?)(.)(?1)$/" input="abcb" result="p"/>
+   <test id="p1867" regex="/^(.\1?)(?1)$/" input="aba" result="p"/>
+   <test id="p1868" regex="/^ (\3(?2)\3)? ((.)) (?1) $/x" input="aaba" result="p"/>
+   <test id="p1869" regex="/^ (a|\3(?1)\2|(?2)) ((b|c)(?4)?) (?1) (d(?1)) $/x" input="abbcdcabbda" result="p"/>
+   <test id="p1872" regex="(a)\2/" input="a\2" result="c"/>
+   <test id="p1873" regex="(a)(b)\3" input="ab\3" result="c"/>
+   <test id="p1874" regex="(a)(b)(c)\4" input="abc\4" result="c"/>
+   <test id="p1875" regex="(a)(b)(c)(d)\5" input="abcd\5" result="c"/>
+   <test id="p1876" regex="(a)(b)(c)(d)(e)\6" input="abcde\6" result="c"/>
+   <test id="p1877" regex="(a)(b)(c)(d)(e)(f)\7" input="abcdef\7" result="c"/>
+   <test id="p1878" regex="(a)(b)(c)(d)(e)(f)(g)(h)(i)\10" input="abcdefghi\10" result="n"/><!-- Changed MHK -->
+   <test id="p1879" regex="(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)\11" input="abcdefghij\11" result="n"/><!-- Changed MHK -->
+   <test id="p1880" regex="(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)\12" input="abcdefghijk\12" result="n"/><!-- Changed MHK -->
+   <test id="p1881" regex="(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)\12\13\14" input="abcdefghijk\12\13\14" result="n"/><!-- Changed MHK -->
+   <test id="p1883" regex="\d&lt;(.*?)&gt;" input="a&lt;&gt;" result="n"/>
+   <test id="p1884" regex="[bcd].{2,3}aaaa" input="XbXaaaaa" result="y"/>
+   <test id="p1885" regex="[bcd].{2,3}aaaa" input="Xb&#x100;aaaaa" result="y"/>
+   <test id="p1886" regex="\Awibble\z" flags="m" input="wibble" result="p"/>
+   <test id="p1887" regex="(alias|status)es$" flags="i" input="Statuses" result="y"/>
+</tests>
+

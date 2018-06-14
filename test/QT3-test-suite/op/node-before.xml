@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-node-before">
+   <description>Tests for the node-before() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-node-before"/>
+   
+
+
+
+   <test-case name="nodeexpression17">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = empty Sequence operator = &lt;&lt; operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <test><![CDATA[count(() << ())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression18">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = empty Sequence operator = &lt;&lt; operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(() << <a>50000</a>)]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression19">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = empty Sequence operator = &lt;&lt; operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test><![CDATA[count(() << /works[1]/employee[1]/empnum[1])]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression20">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = empty Sequence operator = &lt;&lt; operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test><![CDATA[count(() << /staff[1]/employee[1]/empnum[1])]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression21">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Element Constructor operator = &lt;&lt; operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a>50000</a> << ())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression22">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Element Constructor operator = &lt;&lt; operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> << <a>50000</a>]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression23">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Element Constructor operator = &lt;&lt; operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> << /works[1]/employee[1]/empnum[1]]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression24">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Element Constructor operator = &lt;&lt; operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> << (/staff[1]/employee[1]/empnum[1])]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression25">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Node Element operator = &lt;&lt; operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test><![CDATA[count(/works[1]/employee[1]/empnum[1] << ())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression26">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Node Element operator = &lt;&lt; operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[/works[1]/employee[1]/empnum[1] << <a>50000</a>]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression27">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Node Element operator = &lt;&lt; operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test><![CDATA[/works[1]/employee[1]/empnum[1] << /works[1]/employee[1]/empnum[1]]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression28">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Single Node Element operator = &lt;&lt; operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works-and-staff"/>
+      <test><![CDATA[$works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[1]/empnum[1]]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression29">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Sequence of single Element Node operator = &lt;&lt; operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test><![CDATA[count((/staff[1]/employee[1]/empnum[1]) << ())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression30">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Sequence of single Element Node operator = &lt;&lt; operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(/staff[1]/employee[1]/empnum[1]) << <a>50000</a>]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression31">
+      <description>Name nodeexpression31  Test of a ComparisonExpression testing the 
+         rule that states "If any node in a given tree, T1, occurs before any node in a 
+         different tree, T2, then all nodes in T1 are before all nodes in T2." 
+         Compare the first node of the first operand against various nodes of the second operand. </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works-and-staff"/>
+      <test><![CDATA[(($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[1]/empnum[1]) 
+         and ($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[2]/empnum[1]) 
+         and ($works/works[1]/employee[1]/empnum[1] << $staff/staff[1]/employee[3]/empnum[1])) 
+         or (($works/works[1]/employee[1]/empnum[1] >> $staff/staff[1]/employee[1]/empnum[1]) 
+         and ($works/works[1]/employee[1]/empnum[1] >> $staff/staff[1]/employee[2]/empnum[1]) 
+         and ($works/works[1]/employee[1]/empnum[1] >> $staff/staff[1]/employee[3]/empnum[1]))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression32">
+      <description> Test of a ComparisonExpression with the operands set as follows 
+         operand1 = Sequence of single Element Node operator = &lt;&lt; operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test><![CDATA[(/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc6">
+      <description> Test of a Node before Expression used as an argument to a "fn:not" function. </description>
+      <created by="Carmelo Montanez" on="2005-06-08"/>
+      <environment ref="staff"/>
+      <test><![CDATA[fn:not((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc7">
+      <description> Test of a Node before Expression used as part of a boolean-less-than expression (lt operator). </description>
+      <created by="Carmelo Montanez" on="2005-06-08"/>
+      <environment ref="staff"/>
+      <test><![CDATA[((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
+         lt 
+         ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc8">
+      <description> Test of a Node before Expression used as part of a boolean-less-than expression (ge operator). </description>
+      <created by="Carmelo Montanez" on="2005-06-08"/>
+      <environment ref="staff"/>
+      <test><![CDATA[((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
+         ge
+         ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc9">
+      <description> Test of a Node before Expression used as part of a boolean-greater-than expression (gt operator). </description>
+      <created by="Carmelo Montanez" on="2005-06-08"/>
+      <environment ref="staff"/>
+      <test><![CDATA[((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
+         gt ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc10">
+      <description> Test of a Node before Expression used as part of a boolean-greater-than expression (le operator). </description>
+      <created by="Carmelo Montanez" on="2005-06-08"/>
+      <environment ref="staff"/>
+      <test><![CDATA[((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1])) 
+         le ((/staff[1]/employee[1]/empnum[1]) << (/staff[1]/employee[1]/empnum[1]))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodecomparisonerr-2">
+      <description> A node comparison where one of the operands is not the empty sequence or a single node. </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-11-23"/>
+      <test><![CDATA[fn:count(() << 100)]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-1">
+      <description> A test whose essence is: `empty(1 &lt;&lt; ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[empty(1 << ())]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-2">
+      <description> A test whose essence is: `empty(() &lt;&lt; 1)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[empty(() << 1)]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-3">
+      <description> A test whose essence is: `1 &lt;&lt; 1`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[1 << 1]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-4">
+      <description> A test whose essence is: `empty(() &lt;&lt; ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[empty(() << ())]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-5">
+      <description> A test whose essence is: `() &lt;&lt;&lt; ()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[() <<< ()]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-6">
+      <description> A test whose essence is: `() &lt;&lt;`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[() <<]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-7">
+      <description> A test whose essence is: `&lt;&lt; ()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<< ()]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-8">
+      <description> A test whose essence is: `&lt;&lt;`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<<]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-9">
+      <description> A test whose essence is: `1 &lt;&lt;`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[1 <<]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-10">
+      <description> A test whose essence is: `&lt;&lt; 1`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<< 1]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeBefore-11">
+      <description> A test whose essence is: `&lt;&lt;&lt;`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[<<<]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-NodeBefore-12">
+      <description>Saxon bug 3384, see https://saxonica.plan.io/issues/3384</description>
+      <created by="Michael Kay after Priscilla Walmsley" on="2017-08-11"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+   let $doc := 
+   <catalog>
+       <product dept="WMN">
+        <number>557</number>
+        <name language="en">Fleece Pullover</name>
+        <colorChoices>navy black</colorChoices>
+       </product>
+       <product dept="ACC">
+        <number>563</number>
+        <name language="en">Floppy Sun Hat</name>
+       </product>
+       <product dept="ACC">
+        <number>443</number>
+        <name language="en">Deluxe Travel Bag</name>
+       </product>
+       <product dept="MEN">
+        <number>784</number>
+        <name language="en">Cotton Dress Shirt</name>
+        <colorChoices>white gray</colorChoices>
+        <desc>Our <i>favorite</i> shirt!</desc>
+       </product>
+   </catalog>
+   let $prods := $doc//product
+   for $prod in $prods
+   where $prod << $prods[@dept = $prod/@dept][last()]
+   return $prod]]></test>
+      <result>
+         <assert-xml><![CDATA[<product dept="ACC"><number>563</number><name language="en">Floppy Sun Hat</name></product>]]></assert-xml>
+      </result>
+   </test-case> 
+   
+   <test-case name="cbcl-node-before-001">
+      <description> test node before operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>     
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(exactly-one($node/b[1]) << exactly-one($node/c[1]))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-node-before-002">
+      <description> test node before operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(not(exactly-one($node/b[1]) << exactly-one($node/c[1])))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

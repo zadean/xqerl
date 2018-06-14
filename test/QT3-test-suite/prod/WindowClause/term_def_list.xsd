@@ -1,0 +1,12 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="doc">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:sequence maxOccurs="unbounded">
+                    <xs:element name="dt" type="xs:string" maxOccurs="unbounded"/>
+                    <xs:element name="dd" type="xs:string" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

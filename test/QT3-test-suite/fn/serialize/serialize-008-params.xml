@@ -1,0 +1,5 @@
+<params>
+    <method>xml</method>
+    <indent>yes</indent>
+    <suppress-indentation>p</suppress-indentation>
+</params>

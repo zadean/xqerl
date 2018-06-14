@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-UseCaseR31">
+   <description>Tests for the XQuery 3.1 requirements and use cases document</description>
+      <link type="spec" document="http://www.w3.org/TR/xquery-31/"
+         idref="doc-xquery31-spec"/>
+
+       <link type="spec" document="http://www.w3.org/TR/xquery-31-requirements/"
+         idref="doc-xquery31-UseCaseR"/>
+
+   <environment name="employees">
+      <source role="." file="UseCaseR31/employees.xml">
+         <description>Data for various NIST tests</description>
+         <created by="O'Neil Delpratt" on="2015-07-17"/>
+      </source>
+   </environment>
+
+   <environment name="gnt">
+      <source role="." file="UseCaseR31/gnt.xml">
+         <description>Data for various NIST tests</description>
+         <created by="O'Neil Delpratt" on="2015-07-17"/>
+      </source>
+   </environment>
+
+    <environment name="json-docs">
+      <!-- znd added base-uri to find docs -->
+      <static-base-uri uri="http://www.w3.org/qt3/app/"/>
+      <!-- znd added missing doc -->
+      <source file="UseCaseR31/Wikipedia-Origami.xml"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/Wikipedia-Origami.xml">
+          <created by="Zachary Dean" on="2017-12-08" />
+
+      </source>
+
+
+
+      <resource file="UseCaseR31/mildred.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/mildred-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+      <resource file="UseCaseR31/employees.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/employees-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+      <resource file="UseCaseR31/bookinfo.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+
+
+      <resource file="UseCaseR31/satellites.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/satellites-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+
+      <resource file="UseCaseR31/table.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/table-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+
+      <resource file="UseCaseR31/colors.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/colors-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+      <resource file="UseCaseR31/users2.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/users2-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+
+      </resource>
+
+      <resource file="UseCaseR31/incoming.json"
+                media-type="text/plain"
+              encoding="utf-8"
+              uri="http://www.w3.org/qt3/app/UseCaseR31/incoming-json">
+          <created by="O'Neil Delpratt" on="2015-09-18" />
+      </resource>
+
+   </environment>
+
+    <environment name="users-json">
+        <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json">
+            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
+        </collection>
+      <param name="users-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/users-json'" declared="false"/>
+    </environment>
+
+    <environment name="sales-json">
+        <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/sales-json">
+            <query>unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.)</query>
+        </collection>
+      <param name="sales-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'" declared="false"/>
+    </environment>
+
+
+    <dependency type="spec" value="XQ30+"/>
+
+    <test-case name="UseCaseR31-001">
+      <description>Find the highest earning employee in each department</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #29158" />
+      <environment ref="employees"/>
+      <test><![CDATA[
+        for $e in /employees/employee,
+    $d in $e/department
+group by $d
+return
+   <department name="{$d}">
+     {
+       let $max := max($e/salary)
+       return $e[salary=$max]
+     }
+   </department>
+      ]]></test>
+      <result>
+          <all-of>
+            <assert>$result/@name='Management'</assert>
+            <assert>count($result) = 1</assert>
+            <assert>$result//name = 'Charles Madigen'</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+
+    <test-case name="UseCaseR31-002" covers="map-constructor postfix-lookup">
+      <description>Find the highest earning employee in each department</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <environment ref="employees"/>
+      <dependency type="spec" value="XQ31+" />
+      <test><![CDATA[
+        for $e in /employees/employee,
+    $d in $e/department
+group by $d
+return
+   map {
+     "department" : $d,
+     "highest paid employee" :
+       let $max := max($e/salary)
+       return $e[salary=$max]/name/text()}]]></test>
+      <result>
+          <all-of>
+              <assert>$result?("highest paid employee") = "Charles Madigen"</assert>
+              <assert>$result?department = "Management"</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+
+    <test-case name="UseCaseR31-003">
+      <description>Find the highest earning employee in each department</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #29158" />
+      <environment ref="employees"/>
+      <test><![CDATA[   <out>  {
+for $employee in /employees/employee
+let $salary := $employee/salary
+group by $department := $employee/department
+let $max-salary := max($salary)
+let $highest-earners := $employee[salary = $max-salary]
+return
+   <department name="{$department}">{ $highest-earners }</department>,
+
+for $employee in /employees/employee
+let $salary := $employee/salary
+group by $job-type := $employee/employeeType
+let $totals := count($employee)
+return
+    <total-by-job-type type="{$job-type}">{ $totals }</total-by-job-type>
+    }</out>]]>
+      </test>
+      <result>
+          <all-of>
+                <assert>$result/department/@name='Management'</assert>
+                <assert>count($result/department) = 1</assert>
+                <assert>$result//name = 'Charles Madigen'</assert>
+                <assert>$result/total-by-job-type[@type='full time'] = 13</assert>
+                <assert>$result/total-by-job-type[@type='contract'] = 9</assert>
+                <assert>$result/total-by-job-type[@type='part time'] = 5</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+
+
+
+
+   <test-case name="UseCaseR31-004"  covers="map-constructor">
+      <description>Find both the highest earning employee in each department,
+          and the total number of employees to job-type
+          across all departments.</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3. Modified the result as a map" />
+      <environment ref="employees"/>
+      <dependency type="spec" value="XQ31+" />
+      <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+
+        for $employee in /employees/employee
+let $salary := $employee/salary
+group by $department := $employee/department
+let $max-salary := max($salary)
+let $highest-earners := $employee[salary = $max-salary]
+return
+  map{ "first" : map {
+     "department" : $department,
+     "highest earners" : $highest-earners/name/text()
+   }
+, "job type count" : map:merge(
+for $employee in /employees/employee
+let $salary := $employee/salary
+group by $job-type := $employee/employeeType
+let $totals := count($employee)
+return map {
+      $job-type : $totals
+   }
+   )}
+      ]]></test>
+      <result>
+           <all-of>
+              <assert>$result?first?("highest earners") = "Charles Madigen"</assert>
+              <assert>$result?first?department = "Management"</assert>
+              <assert>$result?("job type count")?contract = 9</assert>
+               <assert>$result?("job type count")?("part time") = 5</assert>
+               <assert>$result?("job type count")?("full time") = 13</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+
+
+
+    <test-case name="UseCaseR31-009" covers="map-merge">
+      <description>Construct a list of all authors, and the books they have written.</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="Michael Dyck" on="2015-10-21" change="Added the dependency on XQ31+ due to the MapConstructor" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #29158" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="map" />
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+      declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+      declare variable $book:= (<book>
+<isbn>0470192747</isbn>
+<publisher>Wiley</publisher>
+<title>XSLT 2.0 and XPath 2.0 Programmer's Reference</title>
+</book>);
+
+declare variable $author := (<author>
+<name>Michael H. Kay</name>
+<isbn>0470192747</isbn>
+<isbn>...</isbn>
+</author>);
+
+      declare variable $index := map:merge($book ! map{isbn : .});
+
+<table>{
+  for $a in $author
+  return <tr>
+    <td>{ $a/name/string() }</td>
+    <td>{ string-join($a/isbn ! $index(.)/title/string(), ", ") }</td>
+  </tr>
+}</table>
+      ]]></test>
+      <result>
+          <all-of>
+              <assert>$result//td[1]='Michael H. Kay'</assert>
+              <assert>$result//td[2]="XSLT 2.0 and XPath 2.0 Programmer's Reference"</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+ <!--   <test-case name="UseCaseR31-010">
+      <description>Find the highest earning employee in each department</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <test><![CDATA[let $flat-input-functions as map(xs:string, function(*))*
+return map {
+  'orders-for-customer' := function($c as element(customer)) as element(order)*
+    { $c/../order[@customer=$c/@id] },
+  'orders-for-product' := function($p as element(product)) as element(order)*
+    { $p/../order[@product=$p/@id] },
+  'customer-for-order' := function($o as element(order)) as element(customer)
+    { $o/../customer[@id=$o/@customer] },
+  'product-for-order' := function($o as element(order)) as element(product)
+    { $o/../product[@id=$o/@product] }
+}
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[]]></assert-xml>
+      </result>
+   </test-case> -->
+
+
+ <!--   <test-case name="UseCaseR31-011">
+      <description>THIS ONE Is DIFFICULT TO IMPLEMENT - Create a general interface that takes as input some words, does a full-text search for them,
+          and returns snippets of the top 10 results, ordered by score, where the nodes to search, their structure,
+          how to construct snippets and how to score them differ for different data sets.</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[(: Get top 10 from various sources :)
+s:search(("fire","earthquake"),$books),
+s:search(("fire","earthquake"),$twitter),
+s:search(("fire","earthquake"),$blog)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[]]></assert-xml>
+      </result>
+   </test-case>  -->
+
+
+
+   <test-case name="UseCaseR31-012" covers="map-constructor">
+      <description>Design a language-agnostic game (here just the core),
+          which allows a translation function or map as a parameter.</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+     <modified by="O'Neil Delpratt" on="2015-09-04" change="Added the XQuery 3.1 Use case to QT3" />
+     <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+     <environment ref="employees"/>
+     <dependency type="feature" value="higherOrderFunctions"/> 
+     <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare function local:play(
+  $secret-number as xs:integer,
+  $guessed-number as xs:integer,
+  $translator as function(xs:string) as xs:string)
+{
+  switch (true())
+  case $guessed-number eq $secret-number
+    return $translator("You won!")
+  case $guessed-number lt $secret-number
+    return $translator("The secret number is greater.")
+  default (: $guessed-number gt $secret-number :)
+    return $translator("The secret number is lower.")
+};
+
+local:play(76, 86, function($x) { $x }), (: Keep English :)
+
+local:play(76, 86, map {
+  "You won!" : "Du hast gewonnen!",
+  "The secret number is greater." : "Die geheime Zahl ist groesser.",
+  "The secret number is lower." :  "Die geheime Zahl ist kleiner." }
+)
+       ]]></test>
+      <result>
+         <assert-string-value><![CDATA[The secret number is lower. Die geheime Zahl ist kleiner.]]></assert-string-value>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-013" covers="array-square-constructor">
+      <description>Convert Part of Speech Data to XML</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="employees"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+<s>
+ {
+  for $w in $s?*
+  return <w pos="{ $w(2) }">{ $w(1) }</w>
+ }
+</s>
+
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-014" covers="array-square-constructor">
+      <description>Convert Part of Speech Data to XML</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="employees"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+declare variable $index := map { "pos" : 2, "lemma" : 1 };
+
+<s>
+ {
+  for $w in $s?*
+  return <w pos="{ $w($index("pos")) }">{ $w($index("lemma")) }</w>
+ }
+</s>]]></test>
+      <result>
+         <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
+      </result>
+   </test-case>
+
+
+   <test-case name="UseCaseR31-015" covers="array-square-constructor map-constructor">
+      <description>Group by Part of Speech</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+     <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+     <environment ref="employees"/>
+     <dependency type="feature" value="higherOrderFunctions"/>
+     <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+declare variable $index := map { "pos" : 2, "lemma" : 1 };
+
+for $word in $s?*
+let $pos := $word(2)
+let $lexeme := $word(1)
+where $pos = ("JJ", "NN", "RB", "VB")
+group by $pos
+order by $pos
+return
+  <pos name="{$pos}">
+    {
+      for $l in distinct-values($lexeme)
+      return <lexeme>{ $l }</lexeme>
+    }
+  </pos>]]></test>
+      <result>
+         <assert-xml><![CDATA[<pos name="JJ"><lexeme>natural</lexeme><lexeme>simple</lexeme><lexeme>preferable</lexeme></pos><pos name="NN"><lexeme>bride</lexeme><lexeme>taste</lexeme><lexeme>simplicity</lexeme><lexeme>style</lexeme><lexeme>dress</lexeme></pos><pos name="RB"><lexeme>so</lexeme><lexeme>infinitely</lexeme></pos><pos name="VB"><lexeme>appear</lexeme><lexeme>finery</lexeme></pos>]]></assert-xml>
+      </result>
+   </test-case>
+
+
+ <test-case name="UseCaseR31-016" covers="array-square-constructor array-curly-constructor">
+      <description>In corpus linguistics, n-grams are the basis for certain statistical
+          techniques used to explore and compare texts</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+   <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+   <environment ref="employees"/>
+   <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+declare function local:words-only($s)
+{
+  for $w in $s
+  where not($w(2) = (".", ",", ";", ":"))
+  return $w(1)
+};
+
+for sliding window $w in local:words-only($s?*)
+    start at $i when true()
+    only end at $j when $j - $i eq 2
+return
+    array { $w }]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[[ "A", "bride", "you" ],
+[ "bride", "you", "know" ],
+[ "you", "know", "must" ],
+[ "know", "must", "appear" ],
+[ "must", "appear", "like" ],
+[ "appear", "like", "a" ],
+[ "like", "a", "bride" ],
+[ "a", "bride", "but" ],
+[ "bride", "but", "my" ],
+[ "but", "my", "natural" ],
+[ "my", "natural", "taste" ],
+[ "natural", "taste", "is" ],
+[ "taste", "is", "all" ],
+[ "is", "all", "for" ],
+[ "all", "for", "simplicity" ],
+[ "for", "simplicity", "a" ],
+[ "simplicity", "a", "simple" ],
+[ "a", "simple", "style" ],
+[ "simple", "style", "of" ],
+[ "style", "of", "dress" ],
+[ "of", "dress", "is" ],
+[ "dress", "is", "so" ],
+[ "is", "so", "infinitely" ],
+[ "so", "infinitely", "preferable" ],
+[ "infinitely", "preferable", "to" ],
+[ "preferable", "to", "finery" ]]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+ <test-case name="UseCaseR31-017" covers="array-square-constructor array-curly-constructor">
+      <description>Partitioning using filters</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+   <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+   <environment ref="employees"/>
+   <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)
+{
+  array { $s[$p(.)] },   array { $s[not($p(.))] }
+};
+
+let $f := function($a) { starts-with($a(2), "VB") }
+return
+  local:filter($s?*, $f)]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[[ [ "know", "VBP" ], [ "appear", "VB" ], [ "is", "VBZ" ], [ "is", "VBZ" ],
+[ "finery", "VB" ] ],
+
+[ [ "A", "DT" ], [ "bride", "NN" ], [ ",", "," ], [ "you", "PRP" ],
+  [ ",", "," ], [ "must", "MD" ], [ "like", "IN" ], [ "a", "DT" ],
+  [ "bride", "NN" ], [ ",", "," ], [ "but", "CC" ], [ "my", "PRP$" ],
+  [ "natural", "JJ" ], [ "taste", "NN" ], [ "all", "DT" ], [ "for", "IN" ],
+  [ "simplicity", "NN" ], [ ";", ":" ], [ "a", "DT" ], [ "simple", "JJ" ],
+  [ "style", "NN" ], [ "of", "IN" ], [ "dress", "NN" ], [ "so", "RB" ],
+  [ "infinitely", "RB" ], [ "preferable", "JJ" ], [ "to", "TO"],
+  [ ".", "." ] ]]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+
+ <test-case name="UseCaseR31-018" covers="array-square-constructor array-curly-constructor map-constructor">
+      <description>Partitioning using filters</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-11" change="Added the XQuery 3.1 Use case to QT3" />
+       <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+       <environment ref="employees"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+              declare variable $s :=[['A', 'DT'], ['bride', 'NN'], [',', ','], ['you', 'PRP'], ['know', 'VBP'], [',', ','], ['must', 'MD'],
+ ['appear', 'VB'], ['like', 'IN'], ['a', 'DT'], ['bride', 'NN'], [',', ','], ['but', 'CC'], ['my', 'PRP$'],
+ ['natural', 'JJ'], ['taste', 'NN'], ['is', 'VBZ'], ['all', 'DT'], ['for', 'IN'], ['simplicity', 'NN'], [';', ':'],
+ ['a', 'DT'], ['simple', 'JJ'], ['style', 'NN'], ['of', 'IN'], ['dress', 'NN'], ['is', 'VBZ'],
+ ['so', 'RB'], ['infinitely', 'RB'], ['preferable', 'JJ'], ['to', 'TO'], ['finery', 'VB'], ['.', '.']
+];
+declare function local:filter($s as item()*, $p as function(item()) as xs:boolean)
+{
+  map {
+    true() : array { $s[$p(.)] },
+    false() : array { $s[not($p(.))] }
+  }
+};
+
+
+let $f := function($a) { starts-with($a(2), "VB") }
+return
+  local:filter($s?*, $f)]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map {
+
+  true() :
+             [ [ "know", "VBP" ], [ "appear", "VB" ], [ "is", "VBZ" ],
+               ["is", "VBZ" ], [ "finery", "VB" ] ],
+
+  false() :
+
+             [ [ "A", "DT" ], ["bride", "NN" ], [ ",", "," ],
+               [ "you", "PRP" ], [ ",", "," ], [ "must", "MD" ],
+               [ "like", "IN" ], [ "a", "DT" ], [ "bride", "NN" ],
+               [ ",", "," ], [ "but", "CC" ], [ "my", "PRP$" ],
+               [ "natural", "JJ" ], [ "taste", "NN" ], [ "all", "DT"],
+               [ "for", "IN" ], [ "simplicity", "NN" ], [ ";", ":" ],
+               [ "a", "DT" ], [ "simple", "JJ" ], [ "style", "NN" ],
+               [ "of", "IN" ], [ "dress", "NN" ], [ "so", "RB" ],
+               [ "infinitely", "RB" ], [ "preferable", "JJ" ],
+               [ "to", "TO" ], [ ".", "." ] ]
+}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+
+
+<test-case name="UseCaseR31-019">
+      <description>Comparing Sequences in Optical Character Recognition</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <test><![CDATA[
+              declare variable $span := <root><span class="ocr_word" title="bbox 1388 430 1461 474">the</span>
+<span class="ocr_word" title="bbox 1514 433 1635 476">other</span>
+<span class="ocr_word" title="bbox 133 498 317 554">pcssible</span>
+<span class="ocr_word" title="bbox 354 498 590 541">derivation</span>
+<span class="ocr_word" title="bbox 631 497 738 538">from</span>
+<span class="ocr_word" title="bbox 772 495 799 547" lang="grc" xml:lang="grc">?</span>
+<span class="ocr_word" title="bbox 835 495 1019 538" lang="grc" xml:lang="grc">???????</span>
+<span class="ocr_word" title="bbox 134 567 220 607">dies</span>
+<span class="ocr_word" title="bbox 257 566 462 607">erastinus</span></root>;
+
+declare function local:extract-text($spans)
+{
+  for $s in $spans//span return string($s)
+};
+
+  local:extract-text($span)]]></test>
+      <result>
+         <assert-string-value><![CDATA[the other pcssible derivation from ? ??????? dies erastinus]]></assert-string-value>
+      </result>
+   </test-case>
+
+
+
+
+
+<!-- <test-case name="UseCaseR31-021">
+      <description>This use case uses rotation matrices to rotate a shape in three dimensions.
+          The following library implements three-dimensional rotation in XQuery</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare namespace math = "http://www.w3.org/2005/xpath-functions/math";
+declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+declare function local:rotate-x( $theta )
+{
+   [
+     [ 1, 0, 0 ],
+     [ 0, math:cos($theta), - math:sin($theta) ],
+     [ 0, math:sin($theta), math:cos($theta) ]
+   ]
+};
+
+declare function local:rotate-y( $theta )
+{
+   [
+     [ math:cos($theta), 0, math:sin($theta) ],
+     [ 0, 1, 0],
+     [ - math:sin($theta), 0, math:cos($theta) ]
+   ]
+};
+
+declare function local:rotate-z( $theta )
+{
+   [
+     [ math:cos($theta), - math:sin($theta), 0 ],
+     [ math:sin($theta), math:cos($theta), 0 ],
+     [ 0, 0, 1]
+   ]
+};
+
+declare function local:rotate($pitch as xs:double, $yaw as xs:double, $roll as xs:double)
+{
+   let $p := local:rotate-x($pitch)
+   let $y := local:rotate-y($yaw)
+   let $r := local:rotate-z($roll)
+   let $py :=local:mult($p, $y)
+   return local:mult($py, $r)
+};
+
+declare function local:mult( $matrix1, $matrix2 )
+{
+  if (array:size($matrix1) != array:size($matrix2(1)))
+  then "Matrices must be m*n and n*p to multiply!"
+  else array {
+     for $i in 1 to array:size($matrix1)
+     return array {
+         let $xx := $matrix2(1)
+         for $j in 1 to array:size($xx)
+         return
+            sum (
+           for $k in 1 to array:size($matrix2)
+               return $matrix1($i)($k) * $matrix2($k)($j)
+            )
+     }
+  }
+};
+
+let $rect := [[0, 0, 0], [10, 0, 0], [10, 10, 0], [0, 10, 0], [0, 0, 0]]
+let $rot := for $r in 1 to array:size($rect)
+            return local:mult($rect($r), local:rotate( 10, 10, 10))
+return $rot]]></test>
+      <result>
+         <assert-string-value><![CDATA[the other pcssible derivation from ? ??????? dies erastinus]]></assert-string-value>
+      </result>
+   </test-case>   -->
+
+
+    <test-case name="UseCaseR31-022" covers="fn-json-doc postfix-lookup unary-lookup">
+      <description>Import a JSON document and retrieve the mobile phone number from it</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[json-doc("http://www.w3.org/qt3/app/UseCaseR31/mildred-json")?phone?*[?type = 'mobile']?number]]></test>
+      <result>
+         <assert-string-value><![CDATA[07356 740756]]></assert-string-value>
+      </result>
+   </test-case>
+
+
+   <test-case name="UseCaseR31-023" covers="fn-json-doc map-keys array-size">
+      <description>Convert a JSON data file to XML</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="json-docs"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
+declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+
+let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
+for $k in map:keys($input)
+return
+  <department name="{ $k }">
+    {
+    let $array := $input($k)
+    for $i in 1 to array:size($array)
+    let $emp := $array($i)
+    return
+      <employee>
+        <firstName>{ $emp('firstName') }</firstName>
+        <lastName>{ $emp('lastName') }</lastName>
+        <age>{ $emp('age') }</age>
+      </employee>
+    }
+  </department>]]></test>
+      <result>
+         <assert-xml><![CDATA[<department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseR31-025" covers="map-constructor map-merge map-general map-merge array-general fn-json-doc">
+      <description>Update the first name of the author "Dan Suciu" to "John" in the "bookinfo.json" document</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+     <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+     <environment ref="json-docs"/>
+     <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+
+declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()*
+{
+  let $mf := function($k, $v) {
+                if ($k eq $key)
+                then map{$k : $value}
+                else map{$k : local:deep-put($v, $key, $value)}
+             }
+  for $i in $input
+  return
+    if ($i instance of map(*))
+    then map:merge(map:for-each($i, $mf))
+    else if ($i instance of array(*))
+    then array{ local:deep-put($i?*, $key, $value) }
+    else $i
+};
+
+local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "first", "John")]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map {
+    "book": map {
+        "title": "Data on the Web",
+        "year": 2000,
+        "author": [
+            map {
+                "last": "Abiteboul",
+                "first": "John"
+            },
+            map {
+                "last": "Buneman",
+                "first": "John"
+            },
+            map {
+                "last": "Suciu",
+                "first": "John"
+            }
+        ],
+        "publisher": "Morgan Kaufmann Publishers",
+        "price": 39.95
+    }
+}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+
+  <test-case name="UseCaseR31-026" covers="fn-parse-json array-curly-constructor array-size postfix-lookup fn-collection">
+      <description>The following query performs a join on Sarah's friend
+          list to return the Object representing each of her friends</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-10-20" change="Use collection function on JSON document" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="users-json"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+      for $sarah in collection($users-collection-uri),
+          $friend in collection($users-collection-uri)
+      where $sarah('name') = "Sarah"
+       and $friend('name') = $sarah('friends')?*
+      return $friend('name')
+      ]]></test>
+      <result>
+         <assert-string-value><![CDATA[Jim]]></assert-string-value>
+      </result>
+   </test-case>
+
+<test-case name="UseCaseR31-027" covers="fn-parse-json array-curly-constructor array-size postfix-lookup map-merge fn-collection">
+      <description>this test case groups sales by product, across stores</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. I also had to change how the JSON document is parsed" />
+      <modified by="O'Neil Delpratt" on="2015-10-20" change="Use collection function on JSON document" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <modified by="Michael Kay" on="2016-09-14" change="Bug 29821: remove namespace declaration so that implicitly-declared external variable can be added at the start of the query" />
+      <environment ref="sales-json"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+Q{http://www.w3.org/2005/xpath-functions/map}merge(
+  for $sales in collection($sales-collection-uri)
+  let $pname := $sales('product')
+  group by $pname
+  return map { $pname : sum(for $s in $sales return $s('quantity')) })]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map {
+  "blender" : 250,
+  "broiler" : 20,
+  "shirt" : 10,
+  "socks" : 510,
+  "toaster" : 200
+  }]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+<test-case name="UseCaseR31-028" covers="fn-parse-json array-curly-constructor postfix-lookup map-merge">
+      <description>The following query groups by state, then by category,
+          then lists individual products and the sales associated with each.</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. Also had to change how the JSON document is parsed" />
+      <modified  by="O'Neil Delpratt" on="2016-01-06" change="Bug fix relating to issue #29337: Added order by clauses" />
+      <modified  by="Josh Spiegel" on="2016-01-11" change="Bug fix relating to issue #29337: Added order by clauses" />
+       <dependency type="spec" value="XQ31+"/>
+       <environment/>
+      <test><![CDATA[
+      declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+      declare variable $storesVar := array { unparsed-text-lines("UseCaseR31/stores.json") ! parse-json(.) };
+      declare variable $productsVar := array { unparsed-text-lines("UseCaseR31/products.json") ! parse-json(.) };
+      declare variable $salesVar := array { unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.) };
+      array {
+  for $store in $storesVar ? *
+  let $state := $store?state
+  group by $state
+  order by $state
+  return
+    map {
+      $state :  array {
+        for $product in $productsVar ? *
+        let $category := $product?category
+        group by $category
+        order by $category
+        return
+          map {
+            $category :  map:merge((
+              for $sales in $salesVar ? *
+              where $sales?("store number") = $store?("store number") and $sales?product = $product?name
+              let $pname := $sales?product
+              group by $pname
+              return map { $pname :  sum(for $s in $sales return $s?quantity)}
+            ))
+          }
+      }
+    }
+}]]></test>
+      <result>
+         <assert-deep-eq>[map{"CA":[map{"clothes":map{"socks":510}},map{"kitchen":map{"broiler":20,"toaster":150}}]},map{"MA":[map{"clothes":map{"shirt":10}},map{"kitchen":map{"toaster":50,"blender":250}}]}]</assert-deep-eq>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-029" covers="fn-json-doc array-curly-constructor array-size unary-lookup map-constructor map-keys">
+      <description>The following query takes satellite data, and summarizes which satellites are visible.
+          The data for the query is a simplified version of a Stellarium file that contains this information</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="json-docs"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+let $sats := json-doc("http://www.w3.org/qt3/app/UseCaseR31/satellites-json")("satellites")
+return map {
+  "visible" : array {
+     map:keys($sats)[$sats(.)("visible")]
+  },
+  "invisible" : array {
+     map:keys($sats)[not($sats(.)("visible"))]
+  }
+}]]></test>
+      <result>
+          <any-of>
+               <assert-deep-eq><![CDATA[map { "visible" : ["AKARI (ASTRO-F)","AJISAI (EGS)"], "invisible" : ["AAU CUBESAT"]}]]></assert-deep-eq>
+               <assert-deep-eq><![CDATA[map { "visible" : ["AJISAI (EGS)", "AKARI (ASTRO-F)"], "invisible" : ["AAU CUBESAT"]}]]></assert-deep-eq>
+          </any-of>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-030" covers="array-curly-constructor">
+      <description>Convert XML to JSON</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[array {
+ for $page in doc("UseCaseR31/Wikipedia-Origami.xml")//page
+ return map {
+  "title": string($page/title),
+  "id" : string($page/id),
+  "last updated" : string($page/revision[1]/timestamp),
+  "authors" : array {
+       for $a in $page/revision/contributor/username
+       return string($a)
+  }
+ }
+}]]></test>
+      <result>
+          <all-of>
+              <assert>array:get($result,1)?authors = "Myasuda"</assert>
+              <assert>array:get($result,1)?title = "Kawasaki's theorem"</assert>
+              <assert>array:get($result,1)?id = "14511776"</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-031" covers="fn-json-doc array-curly-constructor postfix-lookup">
+      <description>Convert Arrays to HTML</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+        <modified by="O'Neil Delpratt" on="2016-06-07" change="Bug fix relating to issue #29652" />
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+  <html><body><table>
+    <tr> (: Column headings :)
+         {
+            <th> </th>,
+            for $th in json-doc('http://www.w3.org/qt3/app/UseCaseR31/table-json')?col-labels?*
+            return <th>{ $th }</th>
+         }
+      </tr>
+      {  (: Data for each row :)
+         for $r at $i in json-doc('http://www.w3.org/qt3/app/UseCaseR31/table-json')?data?*
+         return
+            <tr>
+             {
+               <th>{ json-doc('http://www.w3.org/qt3/app/UseCaseR31/table-json')?row-labels[$i] }</th>,
+               for $c in $r?*
+               return <td>{ $c }</td>
+             }
+            </tr>
+      }
+    </table>
+
+  </body>
+</html>
+   ]]></test>
+      <result>
+          <all-of>
+              <assert>count($result//td[text()='spinnen'])=2</assert>
+              <assert>count($result//td[text()='spinne'])=1</assert>
+              <assert>count($result//td[text()='spinnst'])=1</assert>
+              <assert>count($result//td[text()='spinnt'])=2</assert>
+              <assert>count($result//th[text()='1p 2p 3p'])=1</assert>
+          </all-of>
+      </result>
+   </test-case>
+
+
+   <test-case name="UseCaseR31-032" covers="fn-json-doc postfix-lookup">
+      <description>Windowing Queries</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+  <table>{
+  for tumbling window $w in json-doc("http://www.w3.org/qt3/app/UseCaseR31/colors-json")?colors?*
+   start at $x when fn:true()
+    end at $y when $y - $x = 2
+  return
+    <tr>{
+      for $i in $w?color
+      return
+        <td>{ $i }</td>
+    }</tr>
+}</table>
+   ]]></test>
+      <result>
+          <assert-xml><![CDATA[<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>]]></assert-xml>
+      </result>
+   </test-case>
+
+<test-case name="UseCaseR31-033" covers="fn-json-doc unary-lookup map-put">
+      <description>The following query adds the pair "status" : "credit card declined" to the user's record</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. Had to modify query to use map:put function" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="json-docs"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+  let $dbj := json-doc("http://www.w3.org/qt3/app/UseCaseR31/users2-json")[ .("name") = "Deadbeat Jim" ]
+return map:put($dbj, "status", "credit card declined")
+   ]]></test>
+      <result>
+          <assert-deep-eq><![CDATA[map {
+  "name" : "Deadbeat Jim",
+  "address" : "1 E 161st St, Bronx, NY 10451",
+  "status" : "credit card declined",
+  "risk tolerance" : "high"
+}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+    <test-case name="UseCaseR31-034-err" covers="map-constructor map-general map-merge fn-json-doc">
+      <description>Type error in the argument of the dynamic function</description>
+      <created by="O'Neil Delpratt" on="2015-09-17" />
+      <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="json-docs"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+  let $mf := function($k as node(), $v) {
+                map{$k('book') : $v}
+
+             }
+
+  return $mf(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "first")]]></test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+<!-- <test-case name="UseCaseR31-034">
+      <description>The following query creates a modified copy of the feed by removing all entries that restrict syndication</description>
+      <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3." />
+      <environment ref="json-docs"/>
+       <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+let $feed := json-doc("http://www.w3.org/qt3/app/UseCaseR31/incoming-json")
+return
+  if ($entry("app$control")("yt$state")("name") = "restricted") then
+     map:remove($feed, "entry")
+  else
+     $feed
+   ]]></test>
+      <result>
+          <assert-deep-eq><![CDATA[map {
+    "encoding" : "UTF-8",
+    "feed" : map {
+        "author" : [
+            map {
+                "name" : map {
+                    "$t" : "YouTube"
+                },
+                "uri" : map {
+                    "$t" : "http://www.youtube.com/"
+                }
+            }
+        ],
+        "category" : [
+            map {
+                "scheme" : "http://schemas.google.com/g/2005#kind",
+                "term" : "http://gdata.youtube.com/schemas/2007#video"
+            }
+        ],
+        "entry" : [
+            map {
+                "app$control" : map {
+                    "yt$state" : {
+                        "$t" : "Syndication of this video was restricted by its owner.",
+                        "name" : "restricted",
+                        "reasonCode" : "limitedSyndication"
+                    }
+                },
+                "author" : [
+                    map {
+                        "name" : map {
+                            "$t" : "beyonceVEVO"
+                        },
+                        "uri" : map {
+                            "$t" : "http://gdata.youtube.com/feeds/api/users/beyoncevevo"
+                        }
+                    }
+                ]
+            }
+
+    }
+
+}
+}]]></assert-deep-eq>
+      </result>
+   </test-case> -->
+
+
+
+</test-set>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-string-to-codepoints">
+   <description/>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-string-to-codepoints"/>
+   <test-case name="fn-string-to-codepoints1args-1">
+      <description>
+Purpose: Evaluates The "string-to-codepoints" function 
+ with the arguments set as follows:                    
+$arg = xs:string(lower bound)                          
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-to-codepoints(xs:string("This is a characte"))</test>
+      <result>
+         <assert-deep-eq>84, 104, 105, 115, 32, 105, 115, 32, 97, 32, 99, 104, 97, 114, 97, 99, 116, 101</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-2">
+      <description>
+Purpose: Evaluates The "string-to-codepoints" function 
+ with the arguments set as follows:                    
+$arg = xs:string(mid range)                            
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-to-codepoints(xs:string("This is a characte"))</test>
+      <result>
+         <assert-deep-eq>84, 104, 105, 115, 32, 105, 115, 32, 97, 32, 99, 104, 97, 114, 97, 99, 116, 101</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-3">
+      <description>
+Purpose: Evaluates The "string-to-codepoints" function 
+ with the arguments set as follows:                    
+$arg = xs:string(upper bound)                          
+</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:string-to-codepoints(xs:string("This is a characte"))</test>
+      <result>
+         <assert-deep-eq>84, 104, 105, 115, 32, 105, 115, 32, 97, 32, 99, 104, 97, 114, 97, 99, 116, 101</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-4">
+      <description>
+Purpose:Test string-to-codepoints with variety of characters
+</description>
+      <created by="Joanne Tong" on="2005-09-23-04:00"/>
+      <test>string-to-codepoints('bßڒき豈')</test>
+      <result>
+         <assert-deep-eq>98, 223, 1682, 12365, 63744</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-5">
+      <description>
+Purpose:Test string-to-codepoints with an empty string argument
+</description>
+      <created by="Joanne Tong" on="2005-09-23-04:00"/>
+      <test>fn:string-to-codepoints("")</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-6">
+      <description>
+Purpose:Test string-to-codepoints with empty sequence argument
+</description>
+      <created by="Joanne Tong" on="2005-09-23-04:00"/>
+      <test>string-to-codepoints(())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-7">
+      <description>
+Purpose:Test string-to-codepoints with invalid type in argument
+</description>
+      <created by="Joanne Tong" on="2005-09-23-04:00"/>
+      <test>string-to-codepoints(12)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints1args-8">
+      <description>
+Purpose:Test string-to-codepoints with incorrect function arity
+</description>
+      <created by="Joanne Tong" on="2005-09-23-04:00"/>
+      <test>string-to-codepoints('abc','def')</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-1">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument set to a single character ('1'). 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints('1')</test>
+      <result>
+         <assert-eq>49</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-2">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument set to a single character ('a'). 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints('a')</test>
+      <result>
+         <assert-eq>97</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-3">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument set to a combination of number/character ('1a'). 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints('1a')</test>
+      <result>
+         <assert-deep-eq>49, 97</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-4">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument set to the characters "#*^$". 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints('#*^$')</test>
+      <result>
+         <assert-deep-eq>35, 42, 94, 36</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-5">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument set to "string-to-codepoints". 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints('string-to-codepoints')</test>
+      <result>
+         <assert-deep-eq>115, 116, 114, 105, 110, 103, 45, 116, 111, 45, 99, 111, 100, 101, 112, 111, 105, 110, 116, 115</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-6">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument that uses "xs:string()" function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints(xs:string("A String"))</test>
+      <result>
+         <assert-deep-eq>65, 32, 83, 116, 114, 105, 110, 103</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-7">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument that uses "fn:upper-case" function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints(fn:upper-case("A String"))</test>
+      <result>
+         <assert-deep-eq>(65, 32, 83, 84, 82, 73, 78, 71)</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-8">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" with argument that uses "fn:lower-case" function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:string-to-codepoints(fn:lower-case("A String"))</test>
+      <result>
+         <assert-deep-eq>(97, 32, 115, 116, 114, 105, 110, 103)</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-9">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:count function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:count(fn:string-to-codepoints("A String"))</test>
+      <result>
+         <assert-eq>8</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-10">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:avg function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:avg(fn:string-to-codepoints("A String"))</test>
+      <result>
+         <assert-eq>91</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-11">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:empty function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:empty(fn:string-to-codepoints("A String"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-12">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:empty function. 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:empty(fn:string-to-codepoints(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-13">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:exits function . 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:exists(fn:string-to-codepoints(()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-14">
+      <description>
+ Description: Evaluation of an "fn:string-to-codepoints" that is used as argument to fn:empty function. 
+</description>
+      <created by="Carmelo Montanez" on="2005-11-23"/>
+      <test>fn:exists(fn:string-to-codepoints("A String"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="fn-string-to-codepoints-15">
+      <description>
+Evaluation of  "fn:string-to-codepoints" with non-BMP characters
+</description>
+      <created by="Michael Kay" on="2011-06-25"/>
+      <test>fn:deep-equal(fn:string-to-codepoints("&#x10001;&#x10002;"), (65537, 65538))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-1">
+      <description>
+ Purpose: A test whose essence is: `string-to-codepoints()`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-2">
+      <description>
+ Purpose: A test whose essence is: `string-to-codepoints("str", "INVALID")`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("str", "INVALID")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-3">
+      <description>
+ Purpose: A test whose essence is: `empty(string-to-codepoints(()))`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>empty(string-to-codepoints(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-4">
+      <description>
+ Purpose: A test whose essence is: `empty(string-to-codepoints(""))`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>empty(string-to-codepoints(""))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-5">
+      <description>
+ Purpose: A test whose essence is: `count(string-to-codepoints("123")) eq 3`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>count(string-to-codepoints("123")) eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-6">
+      <description>
+ Purpose: A test whose essence is: `count(string-to-codepoints("")) eq 0`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>count(string-to-codepoints("")) eq 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-7">
+      <description>
+ Purpose: A test whose essence is: `empty(string-to-codepoints(""))`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>empty(string-to-codepoints(""))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-8">
+      <description>
+ Purpose: A test whose essence is: `string-to-codepoints("e")`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("e")</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-9">
+      <description>
+ Purpose: A test whose essence is: `deep-equal(string-to-codepoints("ee"), (101, 101))`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>deep-equal(string-to-codepoints("ee"), (101, 101))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-10">
+      <description>
+ Purpose: A test whose essence is: `deep-equal(string-to-codepoints("eee"), (101, 101, 101))`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>deep-equal(string-to-codepoints("eee"), (101, 101, 101))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-11">
+      <description>
+ Purpose: A test whose essence is: `string-join(for $code in string-to-codepoints("example.com/") return string($code), "") eq "10112097109112108101469911110947"`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-join(for $code in string-to-codepoints("example.com/") return string($code), "") eq "10112097109112108101469911110947"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-12">
+      <description>
+ Purpose: Combine fn:deep-equal and string-to-codepoints(). 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>deep-equal(string-to-codepoints("Thérèse"), (84, 104, 233, 114, 232, 115, 101))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-13">
+      <description>
+ Purpose: A test whose essence is: `codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"`. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-14">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[last()]</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-15">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[0 + last()]</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-16">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[last() - 1]</test>
+      <result>
+         <assert-eq>115</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-17">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[last() - 0]</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-18">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[0 + last()]</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-19">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[last() - 2]</test>
+      <result>
+         <assert-eq>232</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-20">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>empty(string-to-codepoints("Thérèse")[last() - 7])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="K-StringToCodepointFunc-21">
+      <description>
+ Purpose: Combine string-to-codepoints() and a predicate. 
+</description>
+      <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <test>string-to-codepoints("Thérèse")[last() - 6]</test>
+      <result>
+         <assert-eq>84</assert-eq>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ConstructionDecl">
+   <description>Tests for the ConstructionDecl production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-ConstructionDecl"/>
+   <link type="spec" document="XQuery" section-number="4.6"
+         idref="id-construction-declaration"/>
+         
+   <dependency type="spec" value="XQ10+"/>          
+
+   <test-case name="constprolog-1">
+      <description> Evaluation of a prolog with two construction declarations. </description>
+      <created by="Carmelo Montanez" on="2005-11-30"/>
+      <test>
+        declare construction strip; 
+        declare construction strip; 
+        "abc"</test>
+      <result>
+         <error code="XQST0067"/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-2">
+      <description> Evaluation of a prolog with construction declaration set to "strip" and used with directly construted element. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:untyped)]]>
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-3">
+      <description> Evaluation of a prolog with construction declaration set to "strip" and used with computed delement. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element anElement {"someContent"} 
+        return $anElement instance of element(*,xs:untyped)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-4">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" and used with directly construted element. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:anyType)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-5">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" and used with computed delement. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element anElement {"someContent"} 
+        return $anElement instance of element(*,xs:anyType)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-6">
+      <description> Evaluation of a prolog with construction declaration set to "strip" and used with directly construted element. Compare against wrong type </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        let $anElement := <anElement>some content</anElement> 
+        return $anElement instance of element(*,xs:anyType)]]>
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-7">
+      <description> Evaluation of a prolog with construction declaration set to "strip" and used with computed element, it compares agaisnt "xs:anyType". </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element anElement {"someContent"} 
+        return $anElement instance of element(*,xs:anyType)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-8">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for a directly constructed element and used as argument to fn:not. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        let $anElement := <someElement>some content</someElement> 
+        return fn:not($anElement instance of element(*,xs:untyped))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-9">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for a computed element and used as argument to fn:not. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element someElement{"some content"} 
+        return fn:not($anElement instance of element(*,xs:untyped))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-10">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for a directly constructed element and used as argument to fn:not. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        let $anElement := <someElement>some content</someElement> 
+        return fn:not($anElement instance of element(*,xs:anyType))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-11">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for a computed element and used as argument to fn:not. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction preserve; 
+        let $anElement := element someElement{"some content"} 
+        return fn:not($anElement instance of element(*,xs:anyType))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-12">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for a directly constructed element (inside of instance expression) and used as argument to fn:not() . </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        fn:not(<someElement>some content</someElement> instance of element(*,xs:untyped))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-13">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for a computed element (inside of instance of expression) and used as argument to fn:not. </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction preserve; 
+        fn:not(element someElement{"some content"} instance of element(*,xs:anyType))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-14">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for direct and used in boolean expression ("and" and "fn:true()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        let $var := <anElement>Some content</anElement> 
+        return ($var instance of element(*,xs:untyped)) and fn:true()
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-15">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for computed element and used in boolean expression ("and" and "fn:true()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element someElement{"some content"} 
+        return ($anElement instance of element(*,xs:untyped)) and fn:true()
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-16">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for direct element and used in boolean expression ("and" and "fn:true()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        let $anElement := <someElement>content</someElement> 
+        return ($anElement instance of element(*,xs:anyType)) and fn:true()
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-17">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for computed element and used in boolean expression ("and" and "fn:true()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction preserve; 
+        let $anElement := element someElement{"some content"} 
+        return ($anElement instance of element(*,xs:anyType)) and fn:true()
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-18">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for direct and used in boolean expression ("or" and "fn:false()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip; 
+        let $var := <anElement>Some content</anElement> 
+        return ($var instance of element(*,xs:untyped)) or fn:false()
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-19">
+      <description> Evaluation of a prolog with construction declaration set to "strip" for computed element and used in boolean expression ("or" and "fn:false()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction strip; 
+        let $anElement := element someElement{"some content"} 
+        return ($anElement instance of element(*,xs:untyped)) or fn:false()
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-20">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for direct element and used in boolean expression ("or" and "fn:false()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction preserve; 
+        let $anElement := <someElement>content</someElement> 
+        return ($anElement instance of element(*,xs:anyType)) or fn:false()
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="constprolog-21">
+      <description> Evaluation of a prolog with construction declaration set to "preserve" for computed element and used in boolean expression ("or" and "fn:false()") </description>
+      <created by="Carmelo Montanez" on="2006-01-27"/>
+      <test>
+        declare construction preserve; 
+        let $anElement := element someElement{"some content"} 
+        return ($anElement instance of element(*,xs:anyType)) or fn:false()
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ConstructionProlog-1">
+      <description> Test that 'declare construction' with the preserve keyword is parsed properly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(::)declare(::)construction(::)preserve(::);(::)1(::)eq(::)1(::)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ConstructionProlog-2">
+      <description> 'declare construction Preserve' is syntactically invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)construction(::)Preserve;(::)1(::)eq(::)1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ConstructionProlog-3">
+      <description> Test that 'declare construction' with the strip keyword is parsed properly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)construction(::)strip;(::)1(::)eq(::)1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ConstructionProlog-4">
+      <description> Two 'declare construction' expressions is invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)construction(::)strip; declare(::)construction(::)strip;1(::)eq(::)1</test>
+      <result>
+         <error code="XQST0067"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConstructionProlog-1">
+      <description> Ensure the 'construction' keyword is parsed correctly. </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <test>construction gt construction</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+</test-set>

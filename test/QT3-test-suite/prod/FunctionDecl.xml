@@ -1,0 +1,2155 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-FunctionDecl">
+   <description>Tests for the FunctionDecl production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-FunctionDecl"/>
+   <link type="spec" document="XQuery" section-number="4.15" idref="FunctionDeclns"/>
+   
+   <environment name="bib">
+      <source role="." file="../docs/bib.xml">
+         <description>Data for the the XML Query XMP use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>      
+   </environment>
+   
+   <environment name="acme_corp">
+      <source role="." file="../op/union/acme_corp.xml">
+         <description>Source document for Function Declaration tests</description>
+         <created by="Ravindranath Chennoju" on="2000-01-01"/>
+      </source>
+   </environment>
+   
+   <environment name="bib2">
+      <source role="." file="../op/union/bib2.xml">
+         <description>Bibliography example with extra comments and PIs.</description>
+         <created by="spec-authors" on="2000-01-01"/>
+      </source>
+   </environment>   
+   
+   <dependency type="spec" value="XQ10+"/>   
+
+   <test-case name="function-declaration-001">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare namespace foo = "http://www..oracle.com/xquery/test";
+        declare function foo:price ($b as element()) as element()* { $b/price };
+        1
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-002">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[        
+        declare function local:foo($n as xs:integer) { <tr> {$n} </tr> };
+        local:foo(4)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<tr>4</tr>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-003">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <environment ref="bib"/>
+      <test>
+        declare function local:price ($i as element()) as element()? { $i/price };
+        for $j in /bib/book return local:price($j)</test>
+      <result>
+         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-004">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <environment ref="acme_corp"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:summary($emps as element(employee)*) as element(dept)* { 
+            for $d in distinct-values($emps/deptno) 
+            let $e := $emps[deptno = $d] 
+            return <dept> 
+                      <deptno>{$d}</deptno> 
+                      <headcount> {count($e)} </headcount> 
+                      <payroll> {sum($e/salary)} </payroll> 
+                   </dept> 
+        };
+        local:summary(//employee[location = "Denver"])
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-005">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
+        declare function local:invoke_mysum() { let $s := 1 for $d in (1,2,3,4,5) let $s := local:mysum($s, $d) return $s };
+        local:invoke_mysum()</test>
+      <result>
+         <assert-string-value>2 3 4 5 6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-006">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare function local:mysum($i as xs:integer, $j as xs:integer) { let $j := $i + $j return $j };
+        declare function local:invoke_mysum($st as xs:integer) { for $d in (1,2,3,4,5) let $st := local:mysum($d, $st) return $st };
+        local:invoke_mysum(0)</test>
+      <result>
+         <assert-string-value>1 2 3 4 5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-007">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare variable $a := 1;
+        declare function local:foo($a as xs:integer) { 
+            if ($a &gt; 100) then $a else let $a := $a + 1 return local:foo($a) };
+        local:foo($a)</test>
+      <result>
+         <assert-eq>101</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-008">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace my = "urn:foo";
+        declare function my:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * my:fact($n - 1) };
+        declare variable $my:ten := my:fact(10);
+        <table> { for $i in 1 to 10 return <tr> <td>10!/{$i}! = {$my:ten div my:fact($i)}</td> </tr> } </table>]]></test>
+      <result>
+         <assert-xml><![CDATA[<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-009">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       
+        declare function local:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * local:fact(($n)-1) };
+        <table> { for $i in 1 to 10 return <tr> <td>{$i}! = {local:fact($i)}</td> </tr> } </table>]]></test>
+      <result>
+         <assert-xml><![CDATA[<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-010">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       
+        declare function local:prnt($n as xs:integer,$n2 as xs:string, $n3 as xs:date, $n4 as xs:long, $n5 as xs:string, $n6 as xs:decimal) { if ($n < 2) then 1 else concat($n, " ",$n2," ",$n3," ",$n4," ",$n5," ",$n6) };
+        <table> { <td>Value is = {local:prnt(4,xs:string("hello"),xs:date("2005-02-22"), xs:long(5),xs:string("well"),xs:decimal(1.2))}</td> } </table>]]></test>
+      <result>
+         <assert-xml><![CDATA[<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-011">
+      <description> Demonstrate function declaration - forward declaration </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>       
+        declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
+        declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
+        local:fn1(4)</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-012">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>       
+        declare function local:fn1 ($n as xs:integer) as xs:integer { local:fn2($n) };
+        declare function local:fn2 ($n as xs:integer) as xs:integer { if ($n = 1) then 1 else $n + local:fn1($n - 1) };
+        local:fn1(4)</test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-013">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>       
+        declare function local:foo2($i as xs:string) as xs:string {local:foo($i)};
+        declare function local:foo($i as xs:string) as xs:string {$i};
+        local:foo2("abc")</test>
+      <result>
+         <assert-string-value>abc</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-014">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
+        declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
+        local:even(4)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-015">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>
+        declare function local:odd($x as xs:integer) as xs:boolean {if ($x = 0) then false() else local:even($x - 1)};
+        declare function local:even($x as xs:integer) as xs:boolean {if ($x = 0) then true() else local:odd($x - 1)};
+        local:even(3)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-016">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <environment ref="bib2"/>
+      <test>
+        declare function local:title($a_book as element()) { for $i in $a_book return $i/title };
+        /bib/book/(local:title(.))</test>
+      <result>
+         <assert-xml><![CDATA[<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-017">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.example.com/filesystem";
+        declare variable $v as xs:integer := 100;
+        declare function local:udf1 ($CUSTNO as xs:integer) { <empty> {$CUSTNO*$v} </empty> };
+        local:udf1(10)
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">1000</empty>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-018">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.example.com/filesystem";
+        declare function local:udf1 () { <empty> {10*10} </empty> };
+        local:udf1 ()
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">100</empty>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-019">
+      <description> Demonstrate function declaration in different combination </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.example.com/def";
+        declare namespace test="http://www.example.com/test";
+        declare namespace test2="http://www.example.com/test2";
+        declare function test:udf1() { <empty> {10*10} </empty> };
+        declare function test2:udf1() { <empty/> };
+        <A> {test:udf1()} {test2:udf1()} </A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A xmlns="http://www.example.com/def"><empty>100</empty><empty/></A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-020">
+      <description> Demonstrate function declaration - overloading </description>
+      <created by="Pulkita Tyagi" on="2005-08-30"/>
+      <test>declare namespace foo = "http://www..oracle.com/xquery/test";
+        declare function foo:price () as xs:integer+ { 100 };
+        declare function foo:price ($z as xs:integer) as xs:integer+ { $z };
+        declare function foo:price ($x as xs:integer, $y as xs:integer) as xs:integer+ { $x, $y };
+        declare function foo:price ($x as xs:integer, $y as xs:integer, $z as xs:integer) as xs:integer+ { $x+$y+$z };
+        foo:price(), foo:price(1), foo:price(2,3), foo:price(4,5,6)</test>
+      <result>
+         <assert-string-value>100 1 2 3 15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-021">
+      <description> Demonstrate function declaration - negative tests </description>
+      <created by="Ravindranath Chennoju" on="2005-08-30"/>
+      <test>
+        declare function local:foo ($n as xs:integer) as xs:string { $n };
+        local:foo(4)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-022">
+      <description> Demonstrate function declaration - negative tests </description>
+      <created by="Ravindranath Chennoju" on="2005-08-30"/>
+      <test>
+        declare function local:foo ($m as xs:integer) { $m };
+        declare function local:foo ($n as xs:integer) { $n };
+        local:foo(4)</test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-023">
+      <description> Demonstrate function declaration - negative tests </description>
+      <created by="Ravindranath Chennoju" on="2005-08-30"/>
+      <test>
+        declare function foo ($n as xs:integer) { $n };
+        foo(4)</test>
+      <result>
+         <any-of>
+            <error code="XQST0045"/>
+            <error code="XPST0017"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-024">
+      <description> Demonstrate function declaration - negative tests </description>
+      <created by="Ravindranath Chennoju" on="2005-08-30"/>
+      <test>
+        declare function local:foo ($n as xs:integer, $n as xs:integer) { $n };
+        local:foo(4, 1)</test>
+      <result>
+         <error code="XQST0039"/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-025">
+      <description> Function Declaration with no namespace. </description>
+      <created by="Carmelo Montanez" on="2006-02-06"/>
+      <test>declare default function namespace "";
+        declare function foo ($n as xs:integer, $m as xs:integer) { $n };
+        foo(4, 1)</test>
+      <result>
+         <error code="XQST0060"/>
+      </result>
+   </test-case>
+
+   <test-case name="function-declaration-026">
+      <description> Function Declaration using global variable. A global node test, which uses the focus in the dynamic context. </description>
+      <created by="Frans Englich" on="2008-10-20"/>
+      <environment ref="bib2"/>
+      <test>
+        declare variable $global := node();
+        declare function local:function() { exists($global) };
+        local:function()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-027">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ10 XQ30"/>
+      <test>
+         declare function local:function() { };
+         local:function()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-028" covers="empty-enclosed-expr">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function() { };
+         local:function()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-029" covers="empty-enclosed-expr">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function($x) { (:there is nothing here:) };
+         local:function(3)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-030" covers="empty-enclosed-expr">
+      <description> Empty Function Declaration, not allowed until 3.1. Type error if () not allowed</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function($x as xs:integer) as xs:integer { (:there is nothing here:) };
+         local:function(3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-1">
+      <description> The 'XPath Data Types' namespace is not reserved anymore, although it was in older drafts. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace test = "http://www.w3.org/2005/xpath-datatypes";
+        declare function test:myFunction() { 1};
+        1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-2">
+      <description> A function cannot be declared in the 'http://www.w3.org/2005/xpath-functions' namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function wrongNS() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-3" covers-30="reserved-namespaces">
+      <description> A function cannot be declared in the 'http://www.w3.org/XML/1998/namespace' namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function xml:wrongNS() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-4" covers-30="reserved-namespaces">
+      <description> A function cannot be declared in the 'http://www.w3.org/2001/XMLSchema-instance' namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://www.w3.org/2001/XMLSchema-instance";
+        declare function my:wrongNS() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-5" covers-30="reserved-namespaces">
+      <description> A function cannot be declared in the 'http://www.w3.org/2001/XMLSchema' namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://www.w3.org/2001/XMLSchema";
+        declare function my:wrongNS() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-6">
+      <description> Arguments in functions cannot have default values initialized with '='(or in any other way). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg = 1) {1};
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-7">
+      <description> Arguments in functions cannot have default values initialized with '='(or in any other way). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg = 1 as xs:integer) {1};
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-8">
+      <description> Arguments in functions cannot have default values initialized with ':='(or in any other way). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg := 1) {1};
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-9">
+      <description> Arguments in functions cannot have default values initialized with ':='(or in any other way). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg := 1 as xs:integer) {1};
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-10">
+      <description> A user declared function whose return value simply doesn't match the return type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as xs:double { "This is not a double, it's an xs:string." };
+        local:myFunction()</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-11">
+      <description> A user declared function whose return value simply doesn't match the return type(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as item() { () };
+        local:myFunction()</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-12a">
+      <description> XQuery 1.0: Variable appearing after a function declaration is not in scope inside the function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2012-05-18" change="see bug 15790"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+        declare function local:computeSum() { $myVariable };
+        declare variable $myVariable := 1;
+        1</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-FunctionProlog-12b">
+      <description> XQuery 3.0: Variable appearing after a function declaration is in scope inside the function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2012-05-18" change="see bug 15790"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:computeSum() { $myVariable };
+        declare variable $myVariable := 1;
+        1</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-13">
+      <description> Namespaces declarations appearing after a function declaration are not in scope inside the function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:computeSum() { $prefix:myVariable };
+        declare namespaces prefix = "example.com/Anamespace";
+        1</test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-14">
+      <description> A user function which when run doesn't match the declared returned type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as xs:integer { subsequence((1, 2, "a string"), 3 ,1) };
+        fn:boolean(local:myFunction())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-15">
+      <description> A user function whose return type doesn't match the body, which can be statically inferred. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as xs:anyURI { 1 };
+        true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-16">
+      <description> When declaring a function, the paranteses must be present even though it doesn't have any arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction as xs:integer { 1 };
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-17">
+      <description> When declaring a function, the paranteses must be present even though it doesn't have any arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction { 1 };
+        true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-18">
+      <description> Two user functions using global variables. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare variable $var1 := 1;
+        declare function local:func1() as xs:integer { $var1 };
+        declare variable $var2 := 2;
+        declare function local:func2() as xs:integer { $var2 };
+        1 eq local:func1() and 2 eq local:func2()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-19">
+      <description> A user function where all its arguments are unused. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func1($a1, $a2, $a3) { 1 };
+        local:func1(1, 2, 3)</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-20">
+      <description> User functions which in some implementations causes constant propagation combined with function versioning. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func($choose, $whenTrue, $whenFalse) { if($choose) then $whenTrue else $whenFalse };
+        local:func(true(), current-time(), current-date()) instance of xs:time and local:func(false(), current-time(), current-date()) instance of xs:date</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-21">
+      <description> User functions where the middle argument of three arguments is unused. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func($a as xs:integer, $unused, $c as xs:integer) { $a + $c };
+        local:func(1, 2, 3)</test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-22">
+      <description> User functions where the first argument of three arguments is unused. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func($unused, $b as xs:integer, $c as xs:integer) { $b + $c };
+        local:func(1, 2, 3)</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-23">
+      <description> User functions where the last argument of three arguments is unused. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func($a as xs:integer, $b as xs:integer, $unused) { $a + $b };
+        local:func(1, 2, 3)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-24">
+      <description> A function cannot be declared in the 'http://www.w3.org/2005/xpath-functions' namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function wrongNS() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-25">
+      <description> A function and a variable can have the same name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare variable $local:myName := 1;
+        declare function local:myName() as xs:integer { 1 };
+        $local:myName eq local:myName()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-26">
+      <description> A function declaration duplicated. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myName() { 1 };
+        declare function local:myName() { 1 };
+        1</test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-27">
+      <description> A function declaration duplicated; difference in return types is insignificant. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myName() as xs:integer { 1 };
+        declare function local:myName() as xs:nonPositiveInteger { 1 };
+        1</test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-28">
+      <description> A function declaration duplicated; difference in arguments types is insignificant. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myName($myvar as xs:integer) { 1 };
+        declare function local:myName($myvar as xs:nonPositiveInteger) { 1 };
+        1</test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-29">
+      <description> A function declaration duplicated; difference in arguments name is insignificant. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myName($myvar) { 1 };
+        declare function local:myName($myvar2) { 1 };
+        1</test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-30">
+      <description> Overloading user functions based on arity. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myName($var as xs:integer) as xs:integer { $var };
+        declare function local:myName() as xs:integer { 1 };
+        (local:myName(4) - 3) eq local:myName()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-31">
+      <description> One cannot declare a user function as fn:count. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function fn:count($var) { fn:count($var) };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-32">
+      <description> One cannot declare a user function as xs:gYear. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function xs:gYear($arg as xs:anyAtomicType?) as xs:gYear? { xs:gYear($arg) };
+        1</test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-33">
+      <description> A type error inside a function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() { "a string" + 1 };
+        true()</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-34">
+      <description> A call to a user declared function which almost is spelled correctly(capitalization wrong). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:MyFunction() { 1 };
+        local:myFunction()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-35">
+      <description> A call to a user declared function which almost is spelled correctly(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:MyFunction() { 1 };
+        local:myFunctionn()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-36">
+      <description> The variable '$myArg' is in scope inside the function, but not in the query body. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:MyFunction($myArg) { 0 };
+        $myArg</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-37">
+      <description> The variable '$myArg' is in scope inside one function, but not the other function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:MyFunction($myArg) { 0 };
+        declare function local:MyFunction2($myArg2) { $myArg };
+        1</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-38">
+      <description> The variable '$myArg2' is in scope inside one function, but not the other function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:MyFunction($myArg) { $myArg2 };
+        declare function local:MyFunction2($myArg2) { 0 };
+        1</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-39">
+      <description> Function arguments shadows global variables. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare variable $local:myVar := 1;
+        declare function local:myFunction($local:myVar) { $local:myVar };
+        $local:myVar, local:myFunction(2)</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-40">
+      <description> Variables declared inside functions shadow function arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($local:myVar as xs:integer) { for $local:myVar in ($local:myVar, 3) return $local:myVar };
+        deep-equal(local:myFunction(1), (1, 3))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-41">
+      <description> Type error in body of user function caused by the argument value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($local:myVar) { $local:myVar + 1 };
+        local:myFunction(1), local:myFunction("this will fail")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-42">
+      <description> Type error(cardinality) in return value of user function caused by the argument value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($local:arg) as item() { 1, $local:arg };
+        local:myFunction(()), local:myFunction(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-43">
+      <description> Item type error in argument value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
+        local:myFunction("3", "3")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-44">
+      <description> Cardinality error in argument value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as item(), $arg2 as xs:integer) { $arg, $arg2 };
+        local:myFunction("3", ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-45">
+      <description> Item type error in argument value. xs:decimal doesn't match xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as item()?, $arg2 as xs:integer) { $arg, $arg2 };
+        local:myFunction((), 4.1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-46">
+      <description> '1' doesn't match the empty-sequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as empty-sequence()) { $arg };
+        local:myFunction(1)</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-47">
+      <description> 'empty-sequence()+' is syntactically invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as empty-sequence()+) { $arg };
+        local:myFunction(())</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-48">
+      <description> 'empty-sequence()? is syntactically invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as empty-sequence()?) { $arg };
+        local:myFunction(())</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-49">
+      <description> It is valid to declare an argument to be of type empty-sequence(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as empty-sequence()) { $arg };
+        empty(local:myFunction(()))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-50">
+      <description> empty-sequence() as return type, but body doesn't match when run. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg) as empty-sequence() { $arg };
+        local:myFunction(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-51">
+      <description> Too few arguments passed to a user function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg) { $arg };
+        local:myFunction()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-52">
+      <description> empty-sequence() as return type, and a body containing fn:error(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as empty-sequence() { fn:error() };
+        local:myFunction()</test>
+      <result>
+         <error code="FOER0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-53">
+      <description> A global variable referenced from inside a function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://example.com/MyNamespace/";
+        declare variable $my:error-qname := QName("http:example.org/", "prefix:ncname");
+        declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
+        empty((my:error(false(), "msg"), my:error(false(), "The message")))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-54">
+      <description> A more realistic case involving fn:error(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://example.com/MyNamespace/";
+        declare variable $my:error-qname := QName("http://example.com/MyErrorNS", "my:qName");
+        declare function my:error($msg as xs:string) as empty-sequence() { error($my:error-qname, concat('No luck: ', $msg)) };
+        my:error("The message")</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-55">
+      <description> A more realistic case involving fn:error(), #2. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://example.com/MyNamespace/";
+        declare variable $my:error-qname := QName("http://example.com/MyErrorNS", "my:qName");
+        declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
+        my:error(false(), "msg"), my:error(true(), "The message")</test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-56">
+      <description> A more realistic case involving fn:error(), #3. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://example.com/MyNamespace/";
+        declare variable $my:error-qname := QName("http://example.com/MyErrorNS", "my:qName");
+        declare function my:error($choice, $msg as xs:string) as empty-sequence() { if($choice) then error($my:error-qname, concat('No luck: ', $msg)) else () };
+        empty((my:error(false(), "msg"), my:error(false(), "The message")))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-57">
+      <description> The type 'none' isn't available to users. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:error() as none { 1 };
+        local:error()</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-58">
+      <description> The type 'none()' isn't available to users. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:error() as none() { 1 };
+        local:error()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XPST0051"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-59">
+      <description> A call to a user function where the argument in the callsite corresponding to an unused argument contains a type error. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($unusedArg) { true() };
+        local:myFunction(1 + "a string")</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-60">
+      <description> An argument in a user function is not in scope in the query body. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg) { 1 };
+        $arg</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-61">
+      <description> An argument in a user function is not in scope in the query body. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg, $arg2, $arg3) { 1 };
+        $arg3</test>
+      <result>
+         <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-62">
+      <description> Check that a global variable is in scope despite an unused function being declared. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare variable $my := 3;
+        declare function local:myFunction($my, $arg2, $arg4) { 1 };
+        $my eq 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-63">
+      <description> A function call that could be a call to a hypotehical user function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>local:myFunction(1)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-64">
+      <description> A function call that could be a call to a hypothetical user function(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare namespace my = "http://example.com/ANamespace";
+        my:function(1)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-65">
+      <description> Since the return type is empty-sequence() it is a type error(XPTY0004) to pass its return value to anything which requires cardinality exactly-one. That the function's body is of type 'none', doesn't affect that, it only adapts to the declared return type. However, there's no constraints on what is reported first, so FOER0000 can also be issued. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as empty-sequence() { fn:error() };
+        QName("http://example.com/ANamespace", local:myFunction())</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-66">
+      <description> If static typing is in use, XPTY004 is issued since local:myFunction() has static type item()*. However, if the function is invoked FOER0000 is issued. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() { fn:error() };
+        QName("http://example.com/ANamespace", local:myFunction())</test>
+      <result>
+         <any-of>
+            <error code="FOER0000"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-67">
+      <description> A function call that reminds of the range expression. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+        declare function local:is() as xs:integer { 1 };
+        is() eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-FunctionProlog-68">
+      <description> A call to a user function where the argument in the callsite corresponding to a used argument contains a type error. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($usedArg) { $usedArg };
+        local:myFunction(1 + "a string")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-1">
+      <description> Have two function callsites as arguments to 'eq'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
+        local:myFunction(1) eq local:myFunction(2)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-2">
+      <description> Have two function callsites as arguments to 'ne'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
+        not(local:myFunction(1) ne local:myFunction(2))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-3">
+      <description> Have two function callsites as arguments to '='. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
+        local:myFunction(1) = local:myFunction(2)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-4">
+      <description> Have two function callsites as arguments to '!='. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) as xs:integer { ((if($arg eq 1) then 1 else $arg - 1), current-time())[1] treat as xs:integer };
+        not(local:myFunction(1) != local:myFunction(2))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-5">
+      <description> A function requiring xs:integer but is passed an xs:decimal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) { $arg };
+        local:myFunction(1.0)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-6">
+      <description> A function requiring xs:integer as return value, but is passed xs:decimal. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as xs:integer { 1.0 };
+        local:myFunction()</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-7">
+      <description> A declared return value invokes numeric promotion. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as xs:float { 4.0 };
+        (current-time(), 1, 2, "a string", local:myFunction(), 4.0, xs:double("NaN"), current-date())[5] instance of xs:float
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-8">
+      <description> A recursive function stretching through several function calls. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction($arg as xs:integer) as xs:integer { if($arg eq 1) then $arg else local:myFunction3($arg - 1) };
+        declare function local:myFunction2($arg as xs:integer) as xs:integer { local:myFunction($arg) };
+        declare function local:myFunction3($arg as xs:integer) as xs:integer { local:myFunction2($arg) };
+        local:myFunction3(3) eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-9">
+      <description> A recursive function multiplying a sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:multiplySequence($input as xs:integer*) as xs:integer { if (empty($input)) then 1 else $input[1] * local:multiplySequence($input[position() != 1]) };
+        local:multiplySequence((1, 2, 3, 4, 5))</test>
+      <result>
+         <assert-eq>120</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-10">
+      <description> A function whose name is only '_' and is declared in the default namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare default function namespace "http://example.com";
+        declare function _() { 1 };
+        _()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-11">
+      <description> A function whose name is only '_'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:_() { 1 };
+        local:_()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-12">
+      <description> An argument requiring a node, but is passed an integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:_($arg as node()) { $arg };
+        local:_(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-13">
+      <description> An argument requiring a node, but is passed an integer(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:_($arg as attribute()?) { 1 };
+        local:_(1)</test>
+      <result>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-14">
+      <description> A focus doesn't propagate into function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:myFunc() { e };
+        <e/>/local:myFunc()/1]]></test>
+      <result>
+         <any-of>
+            <error code="XPDY0002"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-15">
+      <description> Use a range variable inside the assignment expression of a global variable. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare variable $var1 := let $var1 := 1 return 1;
+        $var1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-16">
+      <description> Ensure three subsequent stars are parsed. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:myFunction() as item()* {***};
+        1</test>
+      <result>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="XPDY0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-17">
+      <description> Conversions are invoked when an element is returned from a function with declared return type xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:func() as xs:integer { <e>1</e> };
+        local:func()]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-18">
+      <description> Conversions are invoked when an attribute is returned from a function with declared return type xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func() as xs:integer { attribute name {"1"} };
+        local:func()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-19">
+      <description> Conversions are invoked when a document is returned from a function with declared return type xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func() as xs:integer { document {"1"} };
+        local:func()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-20">
+      <description> Comments cannot be converted into xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:func() as xs:integer { <!--1--> };
+        local:func()]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-21">
+      <description> Processing instructions cannot be converted into xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:func() as xs:integer { <?target 1?> };
+        local:func()]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-22">
+      <description> Conversions are invoked when a text node is returned from a function with declared return type xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:func() as xs:integer? { text {"1"} };
+        local:func()</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-23">
+      <description> Call a function that subsequently calls a recursive function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:recursiveFunction($i as xs:integer) as xs:integer { if($i eq 5) then $i else local:recursiveFunction($i + 1) };
+        declare function local:proxy() as xs:integer { local:recursiveFunction(0) + 3 };
+        local:proxy()</test>
+      <result>
+         <assert-eq>8</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-24">
+      <description> The empty string cannot be cast to an xs:boolean. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:distinct-nodes-stable ($arg as node()*) as xs:boolean* { for $a in $arg return $a };
+        local:distinct-nodes-stable((<element1/>,<element2/>))]]></test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-25">
+      <description> A call site that has an operand that gets treated as an xs:integer. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:myFunc($recurse as xs:integer) { attribute {concat("name", $recurse)} {()} , if ($recurse = 0) then () else local:myFunc($recurse - 1) };
+        <e> { local:myFunc((2, current-time())[1] treat as xs:integer) } </e>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e name2="" name1="" name0=""/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-26">
+      <description> A type declaration whose body doesn't match. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:myFunc() as element(foo) { <bar/> };
+        local:myFunc()]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-27">
+      <description> A type declaration whose body doesn't match(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:myFunc() as attribute(foo) { <foo/> };
+        local:myFunc()]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-28">
+      <description> Compute the levenshtein distance between strings. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        declare function local:levenshtein($arg1 as xs:string, $arg2 as xs:string) as xs:decimal { if(string-length($arg1) = 0) then string-length($arg2) else if(string-length($arg2) = 0) then string-length($arg1) else min((local:levenshtein(substring($arg1, 2), $arg2) + 1, local:levenshtein($arg1, substring($arg2, 2)) + 1, local:levenshtein(substring($arg1, 2), substring($arg2, 2)) + (if(substring($arg1, 1, 1) = substring($arg2, 1, 1)) then 0 else 1))) };
+        local:levenshtein("a", "a"), local:levenshtein("aa", "aa"), local:levenshtein("aaa", "aaa"), local:levenshtein("aa a", "aa a"), local:levenshtein("a a a", "aaa"), local:levenshtein("aaa", "a a a"), local:levenshtein("aaa", "aaab"), local:levenshtein("978", "abc")</test>
+      <result>
+         <assert-string-value>0 0 0 0 2 2 1 3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-29">
+      <description> Ensure the 'function' keyword is parsed correctly. </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <test>function gt function</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-30">
+      <description> Ensure an invalid value, reached through conversions, is reported as invalid. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:foo($arg) as xs:boolean { $arg };
+        local:foo(<e/>)]]></test>
+      <result>
+         <any-of>
+            <error code="FORG0001"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-31">
+      <description> Pass a sequence of mixed atomic values and nodes to an argument which has no type declared. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:foo($arg) as xs:boolean* { $arg };
+        local:foo((<e>true</e>, true(), xs:untypedAtomic("false"), false(), <e> true </e>))]]></test>
+      <result>
+         <assert-string-value>true true false false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-32">
+      <description> Pass a value which cannot be converted to the expected type. $arg doesn't have a type declared. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <test>
+        declare function local:foo($arg ) as xs:boolean* { $arg };
+        local:foo(current-date())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-33">
+      <description> Mix in an atomic value which matches the type it's being converted to. $arg doesn't have a type declared. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:foo($arg ) as xs:boolean* { $arg };
+        local:foo((<e>true</e>, true(), xs:untypedAtomic("false"), false(), <e> true </e>))]]></test>
+      <result>
+         <assert-string-value>true true false false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-34">
+      <description> Call fn:true() and fn:false() and pass to a user function. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <test>
+        declare function local:foo($arg) as xs:boolean* { $arg };
+        local:foo((true(), xs:untypedAtomic("false"))), local:foo((false(), xs:untypedAtomic("false")))</test>
+      <result>
+         <assert-string-value>true false false false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-35">
+      <description> Pass an untyped value. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <test>
+        declare function local:foo($arg) as xs:boolean* { $arg };
+        local:foo(xs:untypedAtomic("false"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-36">
+      <description> Pass an untyped value(different cardinality). </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <test>
+        declare function local:foo($arg) as xs:boolean { $arg };
+        local:foo(xs:untypedAtomic("false"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-37">
+      <description> Mix in an atomic value which matches the type it's being converted to. $arg doesn't have a type declared. </description>
+      <created by="Frans Englich" on="2008-03-05"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[       declare function local:foo($arg ) as xs:boolean* { $arg };
+        local:foo((<e>true</e>, true(), xs:untypedAtomic("false"), false(), <e> true </e>))]]></test>
+      <result>
+         <assert-string-value>true true false false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-38">
+      <description> Trigger a crash in an implementation by having a user declared function with type, that has a text node constructor containing a call to a nonexisting function. </description>
+      <created by="Frans Englich" on="2008-11-13"/>
+      <test>
+        declare function local:foo() as xs:boolean { text {local:doesNotExist()} };
+        1</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-39">
+      <description> Use complex real-world case for function calls, with automatic conversion not needed. </description>
+      <created by="Frans Englich" on="2008-11-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $A:=(<A>{local:functionA()}</A>);
+        declare function local:functionA() as element() { <input>testing ...</input> };
+        declare function local:functionB ( ) as xs:string { xs:string($A) };
+        local:functionB()]]></test>
+      <result>
+         <assert-string-value>testing ...</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-FunctionProlog-40">
+      <description> Use complex real-world case for function calls, with automatic conversion. </description>
+      <created by="Frans Englich" on="2008-11-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $A:=(<A>{local:functionA()}</A>);
+        declare function local:functionA() as element() { <input>testing ...</input> };
+        declare function local:functionB ( ) as xs:string { $A };
+        local:functionB()]]></test>
+      <result>
+         <assert-string-value>testing ...</assert-string-value>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-function-decl-001">
+      <description> check that XPST0005 is NOT a valid response </description>
+      <created by="Tim Mills" on="2008-07-17"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:nothing() as empty-sequence() { () }; empty(local:nothing())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-function-declaration-002">
+      <description> Test passing a large sequence to a function. </description>
+      <created by="Oliver Hallam" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:count($x) { count($x) }; local:count((1 to 100000, 1 to 100000))</test>
+      <result>
+         <assert-string-value>200000</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-001">
+      <description>Check that reserved function name attribute is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function attribute() { fn:true() };
+	local:attribute()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-002">
+      <description>Check that reserved function name attribute is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function attribute() { fn:true() };
+	local:attribute()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-003">
+      <description>Check that reserved function name comment is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function comment() { fn:true() };
+	local:comment()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-004">
+      <description>Check that reserved function name comment is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function comment() { fn:true() };
+	local:comment()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-005">
+      <description>Check that reserved function name document-node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function document-node() { fn:true() };
+	local:document-node()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-006">
+      <description>Check that reserved function name document-node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function document-node() { fn:true() };
+	local:document-node()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-007">
+      <description>Check that reserved function name element is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function element() { fn:true() };
+	local:element()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-008">
+      <description>Check that reserved function name element is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function element() { fn:true() };
+	local:element()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-009">
+      <description>Check that reserved function name empty-sequence is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function empty-sequence() { fn:true() };
+	local:empty-sequence()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-010">
+      <description>Check that reserved function name empty-sequence is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function empty-sequence() { fn:true() };
+	local:empty-sequence()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-011">
+      <description>Check that reserved function name function is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function function() { fn:true() };
+	local:function()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-012">
+      <description>Check that reserved function name function is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function function() { fn:true() };
+	local:function()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-013">
+      <description>Check that reserved function name if is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function if() { fn:true() };
+	local:if()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-014">
+      <description>Check that reserved function name if is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function if() { fn:true() };
+	local:if()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-015">
+      <description>Check that reserved function name item is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function item() { fn:true() };
+	local:item()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-016">
+      <description>Check that reserved function name item is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function item() { fn:true() };
+	local:item()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-017">
+      <description>Check that reserved function name namespace-node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function namespace-node() { fn:true() };
+	local:namespace-node()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-018">
+      <description>Check that reserved function name namespace-node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function namespace-node() { fn:true() };
+	local:namespace-node()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-019">
+      <description>Check that reserved function name node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function node() { fn:true() };
+	local:node()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-020">
+      <description>Check that reserved function name node is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function node() { fn:true() };
+	local:node()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-021">
+      <description>Check that reserved function name processing-instruction is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function processing-instruction() { fn:true() };
+	local:processing-instruction()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-022">
+      <description>Check that reserved function name processing-instruction is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function processing-instruction() { fn:true() };
+	local:processing-instruction()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-023">
+      <description>Check that reserved function name schema-attribute is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function schema-attribute() { fn:true() };
+	local:schema-attribute()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-024">
+      <description>Check that reserved function name schema-attribute is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function schema-attribute() { fn:true() };
+	local:schema-attribute()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-025">
+      <description>Check that reserved function name schema-element is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function schema-element() { fn:true() };
+	local:schema-element()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-026">
+      <description>Check that reserved function name schema-element is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function schema-element() { fn:true() };
+	local:schema-element()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-027">
+      <description>Check that reserved function name switch is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function switch() { fn:true() };
+	local:switch()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-028">
+      <description>Check that reserved function name switch is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function switch() { fn:true() };
+	local:switch()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-029">
+      <description>Check that reserved function name text is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function text() { fn:true() };
+	local:text()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-030">
+      <description>Check that reserved function name text is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function text() { fn:true() };
+	local:text()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-031">
+      <description>Check that reserved function name typeswitch is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function typeswitch() { fn:true() };
+	local:typeswitch()
+      </test>
+      <result>
+	<assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="function-decl-reserved-function-names-032">
+      <description>Check that reserved function name typeswitch is handled correctly. </description>
+      <created by="Tim Mills" on="2013-01-24"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+	declare function typeswitch() { fn:true() };
+	local:typeswitch()
+      </test>
+      <result>
+         <error code="XPST0003" />
+      </result>
+   </test-case>
+
+</test-set>

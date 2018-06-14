@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-compare">
+   <description>Tests for the compare() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-compare"/>
+
+   <test-case name="fn-compare2args-1">
+      <description>Evaluates The "compare" function with the arguments set as follows: $comparand1 = xs:string(lower bound) $comparand2 = xs:string(lower bound)</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:compare(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare2args-2">
+      <description>Evaluates The "compare" function with the arguments set as follows: $comparand1 = xs:string(mid range) $comparand2 = xs:string(lower bound)</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:compare(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare2args-3">
+      <description>Evaluates The "compare" function with the arguments set as follows: $comparand1 = xs:string(upper bound) $comparand2 = xs:string(lower bound)</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:compare(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare2args-4">
+      <description>Evaluates The "compare" function with the arguments set as follows: $comparand1 = xs:string(lower bound) $comparand2 = xs:string(mid range)</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:compare(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare2args-5">
+      <description>Evaluates The "compare" function with the arguments set as follows: $comparand1 = xs:string(lower bound) $comparand2 = xs:string(upper bound)</description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:compare(xs:string("This is a characte"),xs:string("This is a characte"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-1">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "" $arg2 = ""</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("","")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-2">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "" $arg2 = "A Character String"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("","A Character String")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-3">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "A Character String" $arg2 = ""</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("A Character String","")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-4">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = () $arg2 = ""</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:count(fn:compare((),""))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-5">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "" $arg2 = ()</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:count(fn:compare("",()))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-6">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "A Character String" $arg2 = ()</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:count(fn:compare("A Character String",()))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-7">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = () $arg2 = "A Character String"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:count(fn:compare((),"A Character String"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-8">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "AAAAABBBBBCCCCC" $arg2 = "BBBBB"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("AAAAABBBBBCCCCC","BBBBB")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-9">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "AAAAABBBBB" $arg2 = " "</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("AAAAABBBBB"," ")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-10">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = " " $arg2 = " AAAAABBBBB"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare(" ","AAAAABBBBB")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-11">
+      <description>Evaluates The "compare" function using it as a argument of a fn:not - returns true</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:not(fn:compare("A","A"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-12">
+      <description>Evaluates The "compare" function using it as a argument of a fn:not - returns false</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:not(fn:compare("A","B"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-13">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = xs:string("A") $arg2 = "A"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare(xs:string("A"),"A")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-14">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "A" $arg2 = xs:string("A")</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("A",xs:string("A"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-15">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "A" $arg2 = "a"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("A","a")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-16">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "a" $arg2 = "A"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("a","A")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-17">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "compare" $arg2 = "compare"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("compare","compare")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-18">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "comparecompare" $arg2 = "compare"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("comparecompare","compare")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-19">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "****" $arg2 = "***"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("****","***")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-20">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "12345" $arg2 = "1234"</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("12345","1234")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-21">
+      <description>Evaluates The "compare" function with the arguments set as follows: $arg1 = "compare" $arg2 = "erapmoc" ("compare" backwards)</description>
+      <created by="Carmelo Montanez" on="2005-06-01"/>
+      <test>fn:compare("compare","erapmoc")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-compare-22">
+      <description>Description Evaluates The "compare" function with a nonexistent collation.</description>
+      <created by="Carmelo Montanez" on="2005-11-25"/>
+      <test>fn:compare("a","a","CollationA")</test>
+      <result>
+         <error code="FOCH0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-1">
+      <description>A test whose essence is: `codepoint-equal()`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoint-equal()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-2">
+      <description>A test whose essence is: `codepoint-equal(())`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoint-equal(())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-3">
+      <description>A test whose essence is: `codepoint-equal((), (), ())`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoint-equal((), (), ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-4">
+      <description>A test whose essence is: `empty(codepoint-equal((), "a string"))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(codepoint-equal((), "a string"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-5">
+      <description>A test whose essence is: `empty(codepoint-equal("a string", ()))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(codepoint-equal("a string", ()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-6">
+      <description>A test whose essence is: `codepoint-equal("a string", "a string")`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>codepoint-equal("a string", "a string")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-7">
+      <description>A test whose essence is: `not(codepoint-equal("cow", "a string"))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>not(codepoint-equal("cow", "a string"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-8">
+      <description>A test whose essence is: `compare()`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-9">
+      <description>A test whose essence is: `compare(())`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare(())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-10">
+      <description>A test whose essence is: `compare((), (), "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare((), (), "http://www.w3.org/2005/xpath-functions/collation/codepoint", "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-11">
+      <description>A test whose essence is: `empty(compare((), "a string"))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(compare((), "a string"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-12">
+      <description>A test whose essence is: `empty(compare("a string", ()))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(compare("a string", ()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-13">
+      <description>A test whose essence is: `empty(compare("a string", (), "http://www.w3.org/2005/xpath-functions/collation/codepoint"))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(compare("a string", (), "http://www.w3.org/2005/xpath-functions/collation/codepoint"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-14">
+      <description>A test whose essence is: `compare("str", "str") instance of xs:integer`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare("str", "str") instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-compareFunc-15">
+      <description>A test whose essence is: `empty(compare("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED"))`.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(compare("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED"))</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOCH0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="compare-001">
+      <description>Simple use of compare to compare strings</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("a", "b")</test>
+      <result>
+         <all-of>
+            <assert-eq>-1</assert-eq>
+            <assert-type>xs:integer</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="compare-002">
+      <description>Simple use of compare to compare strings</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("b", "a")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="compare-003">
+      <description>Simple use of compare to compare strings</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("b", "b")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="compare-004">
+      <description>compare() with empty sequence as argument</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("b", ())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="compare-005">
+      <description>compare() with empty sequence as argument</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare((), "b")</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="compare-006">
+      <description>compare() with empty sequence as argument</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare((), ())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="compare-007">
+      <description>compare() with non-BMP characters</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("&#65537;", "&#65538;", "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="compare-008">
+      <description>check that Unicode codepoint collation is used, not comparison of UTF16 surrogates</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("&#65537;", "&#65520;", "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="compare-009">
+      <description>check that Unicode codepoint collation is used, not comparison of UTF16 surrogates</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <test>compare("&#65537;", "&#65520;", "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="compare-010">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2011-06-29"/>
+      <modified by="O'Neil Delpratt" on="2013-08-02" change="Added feature dependency - Fix to bug issue #22423" />
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="feature" value="non_unicode_codepoint_collation"/>
+      <test>compare("a", "A", "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-011">
+      <description>compare() only works on strings</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <test>compare(123, 456)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-012">
+      <description>compare() only works on strings, but xs:anyURI gets promoted</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <test>compare(xs:anyURI('http://www.example.com/'), 'http://www.example.com/')</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-013">
+      <description>compare() only works on strings, but xs:untypedAtomic gets promoted</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <test>compare(xs:untypedAtomic('http://www.example.com/'), 'http://www.example.com/')</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-014" covers="html-ascii-case-insensitive">
+      <description>Use HTML case-blind collation</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("a", "A", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-015" covers="html-ascii-case-insensitive">
+      <description>Use HTML case-blind collation: test with non-letter characters</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("123 - ; ^ a", "123 -  ; ^ a", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") eq 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-016" covers="html-ascii-case-insensitive">
+      <description>Use HTML case-blind collation: test with non-ASCII letters (actual order is not defined)</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("&#xc1;", "&#xe1;", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") eq 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-017" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-018" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-019" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-020" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Databases", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-021" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-022" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-023" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary") != 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-024" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-025" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Databases", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-026" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-027" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "dâtabase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-028" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-029" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-030" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-031" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <test>fn:compare("database", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=upper")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-032" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-033" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("dâtabases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-034" covers="uca-collation">
+      <description> Use compare() with a UCA collation with numeric matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("Chap2", "Chap10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-035" covers="uca-collation">
+      <description> Use compare() with a UCA collation with numeric matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("Chap2-b", "Chap10-b", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-036" covers="uca-collation">
+      <description> Use compare() with a UCA collation : ignore accents but not case</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABASE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-037" covers="uca-collation">
+      <description> Use compare() with a UCA collation : ignore accents but not case</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABASE", "DÃTAbase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-038" covers="uca-collation">
+      <description> Use compare() with a UCA collation : first accent is the most significant</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABÃSE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-039" covers="uca-collation">
+      <description> Use compare() with a UCA collation : last accent is the most significant</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABÃSE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;backwards=yes")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-040" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=blanked : spaces insignificant at the tertiary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=tertiary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-041" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=blanked : spaces insignificant at the quaternary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=quaternary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-042" covers="uca-collation">
+      <description> 
+         Use compare() with a UCA collation : alternate=blanked : spaces significant at the identical level
+      
+         Note (MHK 2017-03-17):
+         
+         In Unicode TR10, §4.3 suggests that sorting using strength=identical should compute a sort key as follows: 
+         "after all the level weights have been added, append a copy of the NFD version of the original string". 
+         This implies that any difference between the two strings causes them to be not equal.
+         
+         §3.6 says (for alternate=blanked): "Variable collation elements and any subsequent ignorable collation 
+         elements are reset so that all weights (except for the identical level) are zero."
+         
+         So reading the two in combination, it seems that strength=identical wins in this case; the space is ignored
+         for ordering comparisons, but in the last resort it affects equality comparison.
+      </description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-043" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces insignificant at the tertiary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+      <dependency type="feature" value="advanced-uca-fallback"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=tertiary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-044" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces significant at the quaternary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-045" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces significant at the identical level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=identical") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-CompareFunc-1">
+      <description>Use a complex collation argument.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare("a", "a", ("http://www.w3.org/2005/xpath-functions/collation/codepoint", ()))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-2">
+      <description>Use a complex collation argument.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare("a", "a", ((), "http://www.w3.org/2005/xpath-functions/collation/codepoint"))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-3">
+      <description> Use a complex collation argument. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>compare("a", "a", ((), "http://www.w3.org/2005/xpath-functions/collation/codepoint", ()))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-4">
+      <description> Compare two values returned from fn:lower-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time())[1] treat as xs:string, 
+        $vB  := ("b string", current-time())[1] treat as xs:string
+        return compare(lower-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-5">
+      <description> Compare two values returned from fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA := ("B STRING", current-time())[1] treat as xs:string, 
+                $vB  := ("b string", current-time())[1] treat as xs:string 
+        return compare(upper-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-6">
+      <description> Compare two non-matching values returned from fn:lower-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA  := ("B STRING", current-time())[1] treat as xs:string, 
+                $vB  := ("no match", current-time())[1] treat as xs:string 
+        return compare(lower-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-7">
+      <description> Compare two non-matching values returned from fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA  := ("B STRING", current-time())[1] treat as xs:string, 
+                $vB  := ("no match", current-time())[1] treat as xs:string 
+        return compare(upper-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-8">
+      <description> Compare two non-matching values returned from fn:lower-case() and fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA  := ("B STRING", current-time())[1] treat as xs:string, 
+                $vB  := ("no match", current-time())[1] treat as xs:string 
+        return compare(upper-case($vA), lower-case($vB))</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-CompareFunc-9">
+      <description> Compare two non-matching values returned from fn:lower-case() and fn:upper-case(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>let $vA  := ("B STRING", current-time())[1] treat as xs:string, 
+                $vB  := ("no match", current-time())[1] treat as xs:string 
+        return compare(lower-case($vA), upper-case($vB))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+</test-set>

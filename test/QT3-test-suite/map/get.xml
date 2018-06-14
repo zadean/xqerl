@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-get"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="map-get">
+    <description>Tests for the map:get function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-get"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
+
+    <test-case name="map-get-001">
+        <description>Integer key, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 4)</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-002">
+        <description>Integer key, data is absent</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 23)</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-003">
+        <description>Empty map, data is absent</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map{}, 23)</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-004">
+        <description>Singleton map, data is absent</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry("foo", "bar"), "baz")</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-005">
+        <description>Singleton map, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry("foo", "bar"), "foo")</test>
+        <result>
+            <assert-string-value>bar</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-006">
+        <description>Singleton map, untyped atomic search key, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry("foo", "bar"), xs:untypedAtomic("foo"))</test>
+        <result>
+            <assert-string-value>bar</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-007">
+        <description>Singleton map, untyped atomic data, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry(xs:untypedAtomic("foo"), "bar"), "foo")</test>
+        <result>
+            <assert-string-value>bar</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-008">
+        <description>Singleton map, untyped atomic data, does not match numeric key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry(xs:untypedAtomic("12"), "bar"), 12)</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-009">
+        <description>Singleton map, untyped atomic search key, does not match numeric data</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(map:entry(12, "bar"), xs:untypedAtomic("12"))</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-010">
+        <description>Integer key in data, double in search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",4:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 4.0e0)</test>
+        <result>
+             <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-011">
+        <description>Double key in data, integer in search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",4.0e0:"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, 4)</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-012">
+        <description>String key in data, uri in search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday","urn:weds":"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, xs:anyURI("urn:weds"))</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-013">
+        <description>URI key in data, string in search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",xs:anyURI("urn:weds"):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, "urn:weds")</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-014">
+        <description>NaN as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",xs:anyURI("urn:weds"):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, number('NaN'))</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-015">
+        <description>NaN in data and as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="NaN can now be stored in the map"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",number('NaN'):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, number('NaN'))</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-016">
+        <description>Contains in a largish map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
+        <test>map:get(
+                map:merge(((for $i in 1 to 1000 return map:entry($i, $i*$i)),
+                         (for $i in 2000 to 3000 return map:entry($i, $i+30)),
+                         (for $i in 2500 to 3500 return map:entry($i, $i+30)))),
+                         3260)</test>
+        <result>
+            <assert-eq>3290</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="map-get-017">
+        <description>duration as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",xs:duration('P1Y'):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, xs:yearMonthDuration('P12M'))</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-018">
+        <description>QName as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",function-name(abs#1):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, xs:QName('fn:abs'))</test>
+        <result>
+            <assert-string-value>Wednesday</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-019">
+        <description>get() returns () when the value is empty</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",4:(),5:"Thursday",6:"Friday",7:"Saturday"}, 4)</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-020">
+        <description>default collation is not case-blind</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{"su":"Sunday","mo":"Monday","tu":"Tuesday","we":"Wednesday","th":"Thursday","fr":"Friday","sa":"Saturday"}, "TH")</test>
+        <result>
+            <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="map-get-021">
+        <description>Non-singleton map, untyped atomic search key, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-16"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{"foo":"bar", "bar":"foo"}, xs:untypedAtomic("foo"))</test>
+        <result>
+            <assert-string-value>bar</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-022">
+        <description>Non-singleton map, untyped atomic data, data is present</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-16"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{xs:untypedAtomic("foo"):"bar", xs:untypedAtomic("bar"):"foo"}, "foo")</test>
+        <result>
+            <assert-string-value>bar</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-023">
+        <description>Get from map with and without timezone</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>map:get(map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101}, current-dateTime())</test>
+        <result>
+            <assert-string-value>100</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-024">
+        <description>Get from map with and without timezone</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            map:get(map{current-date():100, current-date()=>adjust-date-to-timezone(()):101}, 
+                    current-date()=>adjust-date-to-timezone(()))</test>
+        <result>
+            <assert-string-value>101</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="map-get-025">
+        <description>NaN as a key</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <environment ref="map"/>
+        <test>
+            map:get(map{number('NaN'):100, 12e6:101}, xs:float('NaN'))</test>
+        <result>
+            <assert-eq>100</assert-eq>
+        </result>
+    </test-case>
+           
+    <test-case name="map-get-100">
+        <description>use map as a function item</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>fn:for-each(("we", "th"),
+                map{"su":"Sunday","mo":"Monday","tu":"Tuesday","we":"Wednesday","th":"Thursday","fr":"Friday","sa":"Saturday"}
+            )</test>
+        <result>
+            <all-of>
+                <assert-count>2</assert-count>
+                <assert>$result[1] eq "Wednesday"</assert>
+                <assert>$result[2] eq "Thursday"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    
+    <test-case name="map-get-901">
+        <description>Empty sequence as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747 (and contains=>get)"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",number('NaN'):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, (1 to 5)[10])</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="map-get-902">
+        <description>Non singleton sequence as search key</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",number('NaN'):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, (1 to 5)[. mod 2 = 0])</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="map-get-903">
+        <description>First argument is not a map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get(("a", "b", "c"), "a")</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="map-get-904">
+        <description>First argument is not a map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <test>map:get((), "a")</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="map-get-905">
+        <description>First argument is not a map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <environment ref="map"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>map:get(abs#1, "a")</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="map-get-906">
+        <description>First argument is a sequence of maps</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
+        <test>map:get((map{}, map{"a":"b"}), "a")</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    
+
+</test-set>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-size"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" covers="array-size">
+    <description>Tests for the array:size function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-size"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+    <test-case name="array-size-001">
+        <description>Size of empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size([])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>0</assert-eq>                
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-002">
+        <description>Size of array with integer members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size([2,3,4])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>3</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-003">
+        <description>Size of array with integer and array members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size([2,[3,4]])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>2</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-004">
+        <description>Size of array with empty array members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size([[],[]])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>2</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-005">
+        <description>Size of array with string members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size(["a","b","c","d"])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>4</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-006">
+        <description>Size of array with string members (some empty)</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size(["a","","c",""])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>4</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-size-007">
+        <description>Size of array with sequence members (some empty)</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-13"/>
+        <environment ref="array"/>
+        <test>array:size([(),(2,3), ()])</test>
+        <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>3</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+ 
+</test-set>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.example.org/2007/schema/XQST0012"
+            xmlns="http://www.example.org/2007/schema/XQST0012">
+
+  <xsd:element name="Element" type="Element.type" />
+
+  <xsd:complexType name="element.type">
+	  <xsd:group ref="element.group" />
+	  <xsd:attributeGroup ref="element.attlist" />
+  </xsd:complexType>
+
+  <xsd:group name="element.group">
+	  <xsd:sequence>
+		  <xsd:element ref="element" />
+	  </xsd:sequence>
+  </xsd:group>
+
+  <xsd:attributeGroup name="element.attlist">
+	  <xsd:attribute name="attr" type="xsd:integer" />
+  </xsd:attributeGroup>
+
+</xsd:schema>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-is-same-node">
+   <description>Tests for the is-same-node() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-is-same-node"/>
+   
+
+   
+   <test-case name="nodeexpression1">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = empty Sequence operator = is operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <test>count(() is ())</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression2">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = empty Sequence operator = is operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(() is <a>50000</a>)]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression3">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = empty Sequence operator = is operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test>count(() is /works[1]/employee[1]/empnum[1])</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression4">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = empty Sequence operator = is operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test>count(() is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression5">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Element Constructor operator = is operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a>50000</a> is ())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression6">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Element Constructor operator = is operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> is <a>50000</a>]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression7">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Element Constructor operator = is operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> is /works[1]/employee[1]/empnum[1]]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression8">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Element Constructor operator = is operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>50000</a> is (/staff[1]/employee[1]/empnum[1])]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression9">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Node Element operator = is operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test>count(/works[1]/employee[1]/empnum[1] is ())</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression10">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Node Element operator = is operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[/works[1]/employee[1]/empnum[1] is <a>50000</a>]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression11">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Node Element operator = is operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works"/>
+      <test>/works[1]/employee[1]/empnum[1] is /works[1]/employee[1]/empnum[1]</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression12">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Single Node Element operator = is operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works-and-staff"/>      
+      <test>
+         $works/works[1]/employee[1]/empnum[1] is $staff/staff[1]/employee[1]/empnum[1]</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression13">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Sequence of single Element Node operator = is operand2 = empty Sequence </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test>count((/staff[1]/employee[1]/empnum[1]) is ())</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression14">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Sequence of single Element Node operator = is operand2 = Single Element Constructor </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[(/staff[1]/employee[1]/empnum[1]) is <a>50000</a>]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression15">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Sequence of single Element Node operator = is operand2 = Single Node Element </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="works-and-staff"/>
+      <test>
+          ($staff/staff[1]/employee[1]/empnum[1]) is $works/works[1]/employee[1]/empnum[1]</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpression16">
+      <description> Test of a ComparisonExpression with the operands set as follows operand1 = Sequence of single Element Node operator = is operand2 = Sequence of single Element Node </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-05-16"/>
+      <environment ref="staff"/>
+      <test>(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc1">
+      <description> Test of a Node Expression used as an argument to the fn not function </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-07"/>
+      <environment ref="staff"/>
+      <test>fn:not((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc2">
+      <description> Test of a Node Expression used as part of a boolean-less-than expression (lt operator). </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-07"/>
+      <environment ref="staff"/>
+      <test>((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) lt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc3">
+      <description> Test of a Node Expression used as part of a boolean less than expression (ge) operator </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-07"/>
+      <environment ref="staff"/>
+      <test>((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) ge ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc4">
+      <description> Test of a Node Expression used as part of a boolean greater than expression (gt) operator. </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-07"/>
+      <environment ref="staff"/>
+      <test>((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) gt ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="nodeexpressionhc5">
+      <description> Test of a Node Expression used as part of a boolean greater than expression (le) operator </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-07"/>
+      <environment ref="staff"/>
+      <test>((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])) le ((/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="nodecomparisonerr-1">
+      <description> A node comparison where one of the operands is not the empty sequence or a single node. </description>
+      <created by="Carmelo Montanez (Automatic Generation)" on="2005-11-23"/>
+      <test>fn:count(() is 100)</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-1">
+      <description> A test whose essence is: `empty(1 is ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(1 is ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-2">
+      <description> A test whose essence is: `empty(() is 1)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(() is 1)</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPTY0004"/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-3">
+      <description> A test whose essence is: `1 is 1`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1 is 1</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-4">
+      <description> A test whose essence is: `empty(() is ())`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(() is ())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-5">
+      <description> A syntactically invalid expression. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>() is</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeSame-6">
+      <description> A query reminding of an invokation of 'is' operator. However, this is not a parse error(XPST0003), because it is a valid function call, although to a non-existant function. 'is' is not a reserved function name. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>is ()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-1">
+      <description> Ensure node identity is is correct for variables and element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $var := <elem/>; <a>{$var}</a>/elem[1] is $var]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-2">
+      <description> Ensure node identity is is correct between variable references. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $var := <elem/>; $var is $var]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-3">
+      <description> Ensure node identity is is correct for variables and element constructors(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $var := <elem/>; not($var is <elem/>)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-4">
+      <description> Ensure node identity of nodes used with node constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $e := attribute name {()}; $e is $e, <is/> is <is/>]]></test>
+      <result>
+         <assert-string-value>true false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-5">
+      <description> exactly-one() to is, that fails. Inferrence may conclude that it will always evaluate to false, so that is valid as well. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(exactly-one(<e/>/*) is exactly-one(<e/>/*))]]></test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FORG0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeSame-6">
+      <description> Compare two empty sequences, that are tricky to infer at compile time. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[empty(zero-or-one(<e/>/*) is zero-or-one(<e/>/*))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+   
+   <test-case name="cbcl-node-same-001">
+      <description> test is same node operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(exactly-one($node/b[1]) is exactly-one($node/c[1]))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-node-same-002">
+      <description> test is same node operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(not(exactly-one($node/b[1]) is exactly-one($node/c[1])))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+      
+   <test-case name="cbcl-is-same-node-001">
+      <description> Check node identity for return values of creative user defined functions. </description>
+      <created by="Oliver Hallam" on="2008-11-03"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f() as node() { <a/> }; 
+      	local:f() is local:f()
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case> 
+   
+   <test-case name="cbcl-is-same-node-002">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett " on="2015-01-22"/>
+      <environment ref="staff"/>
+      <test>(/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1]) is (/staff[1]/employee[1]/empnum[1])</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+</test-set>

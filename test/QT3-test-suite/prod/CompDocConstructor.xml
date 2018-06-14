@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CompDocConstructor">
+   
+   <description>Tests for the CompDocConstructor (Document node constructor) production</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CompDocConstructor"/>
+   <link type="spec" document="XQuery" section-number="3.7.3.3"
+         idref="id-documentConstructors"/>
+         
+   <environment name="DupNode">
+      <source role="." file="CompAttrConstructor/DupNode.xml">
+         <description>Simple document with all node kinds</description>
+         <created by="Andreas Behm" on="2005-04-26"/>
+      </source>
+   </environment>  
+   
+   <environment name="TreeEmpty">
+      <source role="." file="AxisStep/TreeEmpty.xml">
+         <description>A "compass" tree that has just one "south" element at the top, bearing one "mark" attribute.</description>
+         <created by="David Marston" on="2003-03-25"/>
+      </source>
+   </environment>    
+         
+   <dependency type="spec" value="XQ10+"/>             
+
+   <test-case name="Constr-docnode-adjtext-1">
+      <description> merge adjacent atomic values to text node </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>count((document {1, 'string', 1,2e3})/text())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-adjtext-2">
+      <description> merge adjacent atomic values and text nodes to text node </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="DupNode"/>
+      <test>count((document {1, //text(), 'string'})/text())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-adjtext-3">
+      <description> merge adjacent atomic values between other nodes to text node </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count((document {1, 2, <a/>, 3, 4, <b/>, 5, 6})/text())]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nested-1">
+      <description> nested computed element constructors </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>document {1, document {2, document {document {()}, document {3}}, 4}}</test>
+      <result>
+         <assert-string-value>1234</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nested-2">
+      <description> copy node tree into computed element constructor </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="DupNode"/>
+      <test>document {/root}</test>
+      <result>
+         <assert-xml><![CDATA[<root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nested-3">
+      <description> Check that text nodes are merged in nested document constructors. </description>
+      <created by="Oliver Hallam" on="2009-10-05"/>
+      <test>count(document {1, document{2}, document { document {()}, document {3}}, 4}/text())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nested-4">
+      <description> Check that empty text nodes are stripped in nested document constructors. </description>
+      <created by="Oliver Hallam" on="2009-10-05"/>
+      <test>count(document {"", document{""}, document { document {()}, document {""}}, ""}/text())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-enclexpr-1">
+      <description> empty computed element content </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>document {()}</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-enclexpr-2">
+      <description> atomic values in computed element content </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>document {1,'a',3.5,4e2}</test>
+      <result>
+         <assert-string-value>1 a 3.5 400</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-enclexpr-3">
+      <description> atomic values and nodes in computed element content </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="DupNode"/>
+      <test>document {1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}</test>
+      <result>
+         <assert-xml><![CDATA[1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-enclexpr-4">
+      <description> empty string in element content </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>document {1, '', 2}</test>
+      <result>
+         <assert-string-value>1  2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nodeid-1">
+      <description> Copied element node has new node identity </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <a/>, $y in document {$x} return exactly-one($y/a) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nodeid-3">
+      <description> Copied comment node has new node identity </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <!--comment-->, $y in document {$x} return exactly-one($y/comment()) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nodeid-4">
+      <description> Copied pi node has new node identity </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <?pi content?>, $y in document {$x} return exactly-one($y/processing-instruction()) is $x]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-nodeid-5">
+      <description> Copied text node has new node identity </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <a>text</a>, $y in document {$x/text()} return exactly-one($y/text()) is exactly-one($x/text())]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-constrmod-1">
+      <description> strip IDREFS type </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="atomic"/>
+      <test>declare construction strip; fn:count(fn:data((document {//*:idrefs})/*))</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-constrmod-2">
+      <description> preserve IDREFS type </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="atomic"/>
+      <test>declare construction preserve; fn:count(fn:data((document {//*:idrefs})/*))</test>
+      <result>
+         <any-of>
+            <assert-eq>2</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-constrmod-3">
+      <description> strip decimal type </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="atomic"/>
+      <test>declare construction strip; (document {//*:decimal})/* cast as xs:integer</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-constrmod-4">
+      <description> preserve decimal type </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="atomic"/>
+      <test>declare construction preserve; (document {//*:decimal})/* cast as xs:integer</test>
+      <result>
+         <any-of>
+            <assert-eq>12678967</assert-eq>
+            <error code="FORG0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-doc-1">
+      <description> strip document nodes </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="DupNode"/>
+      <test>document {., .}</test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root>]]></assert-xml>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-parent-1">
+      <description> empty parent </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>count((document {()})/..)</test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-string-1">
+      <description> string value of element </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>fn:string(document {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>ab</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-data-1">
+      <description> typed value of element </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <test>fn:data(document {'a', element a {}, 'b'})</test>
+      <result>
+         <assert-string-value>ab</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-attr-1">
+      <description> attribute in document constructor </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="TreeEmpty"/>
+      <test>document {//@mark}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-attr-2">
+      <description> attribute in document constructor </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="TreeEmpty"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document {<a/>, //@mark}]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-docnode-attr-3">
+      <description> attribute in document constructor </description>
+      <created by="Andreas Behm" on="2005-05-26"/>
+      <environment ref="TreeEmpty"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document {<a/>, //@mark, <b/>}]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-1">
+      <description> No node constructor by name document-node exists. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-node{"content"}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-2">
+      <description> A semi-colon can't follow document{}. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document{"content"};</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-3">
+      <description> A document constructor can't receive attribute nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{"some text", <e/>, attribute name {"content"}}]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-4">
+      <description> A document constructor can't receive attribute nodes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{<e/>, attribute name {"content"}, "some text"}]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-5">
+      <description> A document constructor can't receive attribute nodes(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{attribute name {"content"}, <e/>, "some text"}]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-6">
+      <description> A document constructor can't receive attribute nodes(#4). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(document{"some text", <e/>, attribute name {"content"}})]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-7">
+      <description> A document constructor can't receive attribute nodes(#5). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(document{<e/>, attribute name {"content"}, "some text"})]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-8">
+      <description> A document constructor can't receive attribute nodes(#7). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(document{attribute name {"content"}, <e/>, "some text"})]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-9">
+      <description> Document nodes may have several elements as children(#8). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{<a/>, <b/>, <c/>}]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/><b/><c/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-10">
+      <description> Document nodes may have several elements as children. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{<a/>, <b/>, <c/>}]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/><b/><c/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-11">
+      <description> Extract the typed value from a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{data(document{<a/>, <b/>, <c/>})}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-12">
+      <description> Extract the string value from a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{string(document{<a/>, <b/>, <c/>})}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-13">
+      <description> Extract the string value from a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{string(document{<a/>, <b/>, <c/>})}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-14">
+      <description> Extract the string value from a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(document{"abc"})</test>
+      <result>
+         <assert-string-value>abc</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-15">
+      <description> Test the atomized type. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>data(document {"content"}) instance of xs:untypedAtomic</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-16">
+      <description> Test node identity of two document nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document {"content"} is document{"content"}</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-17">
+      <description> Extract the string value from a complex document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string(document{"string", <e>more<a>even more</a><b attr="thisIsIgnored"/>]]>&lt;![CDATA[ButNotThis]]&gt;<![CDATA[<?target butThisIs?> content</e>})]]></test>
+      <result>
+         <assert-string-value>stringmoreeven moreButNotThis content</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-18">
+      <description> Ensure processing instructions and comments are ignored when extracting the string value from a document node. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(document{ text {"data"}, processing-instruction name {"data"}, processing-instruction name {"data"}, text {"data"}, processing-instruction name {"data"}, processing-instruction name1 {"data"}, comment {"content"}, comment {"content"}, text {"data"}, processing-instruction name2 {"data"}, comment {"content"}, text {"data"} })</test>
+      <result>
+         <assert-string-value>datadatadatadata</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-19">
+      <description> A recursive construction of document nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(document{document{document{document{()}}}}/child::node())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-20">
+      <description> A recursive construction of document nodes, combined with the comma operator. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>1, document{document{document{document{()}}}}/child::node(), 1</test>
+      <result>
+         <assert-string-value>1 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-21">
+      <description> A recursive construction of document nodes, with one child element. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{document{document{document{<e/>}}}}/child::node()]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-22">
+      <description> A recursive construction of document nodes, combined with elements. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[document{document{document{document{<e/>, document{()}, <e>{document{()}}</e>}}}}//child::node()]]></test>
+      <result>
+         <assert-xml><![CDATA[<e/><e/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-23">
+      <description> Extract the string value from a document node with four computed text nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(document{ text {"data"}, text {"data"}, text {"data"}, text {"data"} })</test>
+      <result>
+         <assert-string-value>datadatadatadata</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-24">
+      <description> Ensure text nodes gets merged. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(document{ text {"data"}, text {"data"}, <e/>, text {"data"}, text {"data"} }/child::node())]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-25">
+      <description> Ensure text nodes gets merged(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>count(document{ text {"data"}, text {"data"}, text {"data"}, text {"data"} }/child::node())</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-26">
+      <description> Attributes cannot be children of document nodes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<doo> { document { attribute name {"content"} } } </doo>]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-27">
+      <description> Attributes cannot be children of document nodes(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<doo> { document { <e/>, attribute name {"content"} } } </doo>]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-28">
+      <description> Attributes cannot be children of document nodes(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<doo> { document { <e> <b/> <b/> <b/> <c> <d/> </c> </e>, attribute name {"content"} } } </doo>]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-29">
+      <description> An invalid attribute constructor as child to the document constructor. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<doo> { document { <e> { <?target data?>, attribute name {"content"} } </e> } } </doo>]]></test>
+      <result>
+         <error code="XQTY0024"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-30">
+      <description> Ensure two text nodes appearing after a document constructor are merged properly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a>{document {text{'a'}}}b</a>/node())]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-31">
+      <description> Ensure a text node is properly constructed with nested document constructors, when extracting the string-value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>string(document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6})</test>
+      <result>
+         <assert-string-value>123456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ConDocNode-32">
+      <description> Ensure a text node is properly constructed with nested document constructors, when serializing. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document {1, document {2, document {document {()}, 3, document {4}}, 5}, 6}</test>
+      <result>
+         <assert-string-value>123456</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

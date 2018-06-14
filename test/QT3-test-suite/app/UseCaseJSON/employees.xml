@@ -1,0 +1,24 @@
+<department name="accounting">
+  <employee>
+    <firstName>John</firstName>
+    <lastName>Doe</lastName>
+    <age>23</age>
+  </employee>
+  <employee>
+    <firstName>Mary</firstName>
+    <lastName>Smith</lastName>
+    <age>32</age>
+  </employee>
+</department>
+<department name="sales">
+  <employee>
+    <firstName>Sally</firstName>
+    <lastName>Green</lastName>
+    <age>27</age>
+  </employee>
+  <employee>
+    <firstName>Jim</firstName>
+    <lastName>Galley</lastName>
+    <age>41</age>
+  </employee>
+</department>

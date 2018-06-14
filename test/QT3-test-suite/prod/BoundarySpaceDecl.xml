@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-BoundarySpaceDecl">
+
+   <description>Tests for the BoundarySpaceDecl production</description>
+   
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-BoundarySpaceDecl"/>
+   <link type="spec" document="XQuery" section-number="4.3"
+         idref="id-boundary-space-decls"/>
+         
+   <dependency type="spec" value="XQ10+"/>          
+
+   <test-case name="boundary-space-001">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space strip; <a> {"abc"} </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-002">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space preserve; <a> {"abc"} </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc </a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-003">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space strip; <a> z {"abc"}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> z abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-004">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space preserve; <a> z {"abc"}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> z abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-005">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space strip; <a>&#x20;{"abc"}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-006">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space preserve; <a>&#x20;{"abc"}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc</a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-007">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space strip; <a>&#x20;{"abc"}{' '}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc </a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-008">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space preserve; <a>&#x20;{"abc"}{' '}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc </a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-009">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space strip; <a>&#x20;{"abc"}{" "}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc </a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-010">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare boundary-space preserve; <a>&#x20;{"abc"}{" "}</a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<a> abc </a>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-011">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+<res>
+a
+b
+c
+</res>
+]]></test>
+      <result>
+         <assert-xml><![CDATA[<res>
+a
+b
+c
+</res>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-012">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space preserve;
+<res>
+a
+b
+c
+</res>]]></test>
+      <result>
+         <assert-xml><![CDATA[<res>
+a
+b
+c
+</res>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-013">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+<res>
+  a
+  b
+  c
+</res>]]></test>
+      <result>
+         <assert-xml><![CDATA[<res>
+  a
+  b
+  c
+</res>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-014">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space preserve;
+<res>
+  a
+  b
+  c
+</res>]]></test>
+      <result>
+         <assert-xml><![CDATA[<res>
+  a
+  b
+  c
+</res>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-015">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+<A>  A   {"B"}   C   {"D"}  </A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A>  A   B   C   D</A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-016">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space preserve;
+<A>  A   {"B"}   C   {"D"}  </A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A>  A   B   C   D  </A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-017">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+<A>  A   {"B"}   C   {"D  "}</A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A>  A   B   C   D  </A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-018">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space preserve;
+<A>  A   {"B"}   C   {"D  "}</A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A>  A   B   C   D  </A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-019">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+<A> (a), (b), (c) </A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A> (a), (b), (c) </A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-020">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+declare boundary-space preserve;
+<A> (a), (b), (c) </A>]]></test>
+      <result>
+         <assert-xml><![CDATA[<A> (a), (b), (c) </A>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-021">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <test>declare boundary-space strip; (" ",10, 20, 30, 40," ")</test>
+      <result>
+         <assert-string-value>  10 20 30 40  </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="boundary-space-022">
+      <description> Demonstrates stripping/preserving of boundary spaces by element constructors during processing of the query </description>
+      <created by="Pulkita Tyagi" on="2005-10-06"/>
+      <test>declare boundary-space preserve; (" ",10, 20, 30, 40," ")</test>
+      <result>
+         <assert-string-value>  10 20 30 40  </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="boundaryspacedeclerr-1">
+      <description> Evaluation of the of a query prolog with two boundary space declarations. </description>
+      <created by="Carmelo Montanez" on="2005-12-06"/>
+      <test>declare boundary-space preserve; declare boundary-space strip; "abc"</test>
+      <result>
+         <error code="XQST0068"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-BoundarySpaceProlog-1">
+      <description> A simple 'declare boundary-space' declaration, specifying 'preserve'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(::)declare(::)boundary-space(::)strip(::); 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-BoundarySpaceProlog-2">
+      <description> A simple 'declare boundary-space' declaration, specifying 'strip'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(::)declare(::)boundary-space(::)strip(::); 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-BoundarySpaceProlog-3">
+      <description> Two 'declare boundary-space' declarations are invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(::)declare(::)boundary-space(::)strip(::); (::)declare(::)boundary-space(::)preserve(::); 1 eq 1</test>
+      <result>
+         <error code="XQST0068"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-BoundarySpaceProlog-4">
+      <description> The expression 'declare boundary space' is invalid. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(::)declare(::)boundary space(::)strip(::); 1 eq 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-BoundarySpaceProlog-1">
+      <description> Ensure the 'boundary-space' keyword is parsed correctly. </description>
+      <created by="Frans Englich" on="2008-01-03"/>
+      <test>boundary-space ne boundary-space</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+</test-set>

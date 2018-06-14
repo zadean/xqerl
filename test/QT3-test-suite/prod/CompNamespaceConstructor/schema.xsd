@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema" 
+            targetNamespace = "http://www.w3.org/TestSchemas/cnc"
+            xmlns:cnc = "http://www.w3.org/TestSchemas/cnc"
+            elementFormDefault = "qualified">
+
+  <xsd:element name="value" type="xsd:integer" />
+
+</xsd:schema>

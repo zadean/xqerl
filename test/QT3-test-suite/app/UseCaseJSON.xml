@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-UseCaseJSON">
+   <description>Tests for the UseCaseJSON</description>
+            
+   <environment name="mildred.json">
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/mildred.json" media-type="application/json" uri="http://xqerl.org/mildred.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+   </environment>      
+   <environment name="employees.json">      
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="http://xqerl.org/employees.json">      
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+   </environment>      
+   <environment name="bookinfo.json">            
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="http://xqerl.org/bookinfo.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+   </environment>      
+   <environment name="users.json">      
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/users.json" media-type="application/json" uri="http://xqerl.org/users.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+   </environment>      
+   <environment name="sales.json">            
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/sales.json" media-type="application/json" uri="http://xqerl.org/sales.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+      <resource file="UseCaseJSON/products.json" media-type="application/json" uri="http://xqerl.org/products.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource> 
+      <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="http://xqerl.org/stores.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource>       
+   </environment>      
+   <environment name="satellites.json">                  
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="http://xqerl.org/satellites.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource>    
+      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
+   </environment>      
+   <environment name="colors.json">                           
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/colors.json" media-type="application/json" uri="http://xqerl.org/colors.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource>  
+   </environment>      
+   <environment name="incoming.json">                                            
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/incoming.json" media-type="application/json" uri="http://xqerl.org/incoming.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource>   
+      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
+   </environment>      
+   <environment name="table.json">                                                 
+      <static-base-uri uri="http://xqerl.org"/>
+      <resource file="UseCaseJSON/table.json" media-type="application/json" uri="http://xqerl.org/table.json">
+         <created by="Carla Spruit" on="2014-12-23"/>
+      </resource>                   
+   </environment>       
+   
+   <environment name="Wikipedia-Origami.xml">
+      <source role="." file="UseCaseJSON/Wikipedia-Origami.xml" uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/Wikipedia-Origami.xml"/>
+      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/UseCaseJSON/" />
+      <param name="uri" as="xs:string" select="'Wikipedia-Origami.xml'"/>
+   </environment>
+
+   <test-case name="UseCaseJSON-001" covers="fn-json-doc">
+      <description>Information Retrieval</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <environment ref="mildred.json"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>      
+      <test><![CDATA[json-doc("mildred.json")?phone?*[?type = 'mobile']?number]]></test>
+      <result>
+         <assert-string-value>07356 740756</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-002" covers="fn-json-doc">
+      <description>Converting JSON to XML</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
+      <modified by="Michael Kay" on="2015-01-19" change="see bug 27848"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <environment ref="employees.json"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[
+        declare namespace array="http://www.w3.org/2005/xpath-functions/array";
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+        let $input := json-doc('employees.json')
+				for $k in map:keys($input)
+				return 
+				  <department name="{$k}">{
+				    let $array := $input($k)
+				    for $i in 1 to array:size($array)
+				    let $emp := $array($i)
+				    return
+				      <employee>
+				        <firstName>{ $emp('firstName') }</firstName>
+				        <lastName>{ $emp('lastName') }</lastName>
+				        <age>{ $emp('age') }</age>
+				      </employee>
+				  }</department>		  ]]></test>
+      <result>
+        <any-of>
+          <assert-xml><![CDATA[<department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>]]></assert-xml>
+          <assert-xml><![CDATA[<department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>]]></assert-xml>        
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-003" covers="fn-json-doc">
+      <description>Update by Copying</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to FunctionDeclaration"/>
+      <environment ref="bookinfo.json"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>            
+      <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+				declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()* {
+				   for $i in $input return
+				     if ($i instance of map(*))
+				     then map:merge(map:for-each($i, function($k, $v) {
+				                                             if ($k eq $key) then map{$k : $value} else map{$k : local:deep-put($v, $key, $value)} }))
+				      else if ($i instance of array(*))
+				     then array{ local:deep-put($i?*, $key, $value) }
+				      else $i
+				};
+				local:deep-put(json-doc("bookinfo.json"), "first", "John")		  
+		  ]]></test>
+      <result>
+         <assert-deep-eq>map {"book" : map {"title" : "Data on the Web", "year" : 2000, "author" : [map {"last" : "Abiteboul", "first" : "John"}, map {"last" : "Buneman", "first" : "John"}, map {"last" : "Suciu", "first" : "John"}], "publisher" : "Morgan Kaufmann Publishers", "price" : 39.95}}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UseCaseJSON-004" covers="fn-json-doc">
+      <description>Joins</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to WhereClause"/>
+      <environment ref="users.json"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <test><![CDATA[
+        let $users := json-doc('users.json')?*
+        for $sarah in $users, $friend in $users
+        where $sarah?name = "Sarah" and $friend?name = $sarah?friends 
+        return $friend?name
+		  ]]></test>
+      <result>
+         <assert-string-value>Jim</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-005" covers="fn-json-doc">
+      <description>Grouping Queries for JSON</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency"/>
+      <environment ref="sales.json"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+        let $products := json-doc('sales.json')?*
+        return map:merge((
+          for $sales in $products
+          let $pname := $sales?product
+          group by $pname
+          return map { $pname : sum(for $s in $sales return $s?quantity) }
+        ))    
+		  ]]></test>
+      <result>
+         <assert-deep-eq>map { "broiler" : 20, "toaster" : 200, "blender" : 250, "socks" : 510, "shirt" : 10 }</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-006" covers="fn-json-doc">
+      <description>More Complex Grouping Queries for JSON</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-04-16" change="add ordering to make the results predictable: group-by produces indeterminate ordering"/>
+      <environment ref="sales.json"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+				array {
+				  for $store in json-doc('stores.json')?*
+				  let $state := $store?state
+				  group by $state
+				  order by $state
+				  return
+				    map {
+				      $state :  array {
+				        for $product in json-doc('products.json')?*
+				        let $category := $product?category
+				        group by $category
+				        order by $category
+				        return
+				          map {
+				            $category :  map:merge((
+				              for $sales in json-doc('sales.json')?*
+				              where $sales?("store number") = $store?("store number") and $sales?product = $product?name
+				              let $pname := $sales?product
+				              group by $pname
+				              order by $pname
+				              return map { $pname :  sum(for $s in $sales return $s?quantity)}
+				            ))
+				          }
+				      }
+				   }
+				}
+		  ]]></test>
+      <result>
+         <assert-deep-eq>[map { "CA" : [ map { "clothes" : map { "socks" : 510 }}, map { "kitchen" : map { "broiler" : 20, "toaster" : 150 }} ] }, map { "MA" : [ map { "clothes" : map { "shirt" : 10 }}, map { "kitchen" : map { "toaster" : 50, "blender" : 250 }}]}]</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-007" covers="fn-json-doc">
+      <description>JSON to JSON Transformations</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-01-19" change="see bug 27848"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <environment ref="satellites.json"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[
+        let $sats := json-doc("satellites.json")("satellites")
+        return map { "visible" : array { map:keys($sats)[$sats(.)("visible")] }, "invisible" : array { map:keys($sats)[not($sats(.)("visible"))] } }
+		  ]]></test>
+      <result>
+         <any-of>
+            <assert-deep-eq>map { "visible" : [ "AJISAI (EGS)", "AKARI (ASTRO-F)" ], "invisible" : [ "AAU CUBESAT" ] }</assert-deep-eq>
+            <assert-deep-eq>map { "visible" : [ "AKARI (ASTRO-F)" , "AJISAI (EGS)"], "invisible" : [ "AAU CUBESAT" ] }</assert-deep-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-008" covers="map-constructor array-square-constructor">
+      <description>Converting XML to JSON</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <environment ref="Wikipedia-Origami.xml"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <test><![CDATA[
+        array {
+          for $page in doc($uri)//page
+          return map {
+                  "title": string($page/title),
+                  "id" : string($page/id),
+                  "last updated" : string($page/revision[1]/timestamp),
+                  "authors" : array { for $a in $page/revision/contributor/username return string($a) }
+                 }               
+         }     
+		  ]]></test>
+      <result>
+         <assert-deep-eq>[map {"title" : "Kawasaki's theorem", "id" : "14511776", "last updated" : "2011-06-21T20:08:56Z", "authors" : ["Some jerk on the Internet"]}, map {"title" : "Origami techniques", "id" : "193590", "last updated" : "2011-08-31T17:21:49Z", "authors" : ["Dmcq"]}, map {"title" : "Mathematics of paper folding", "id" : "232840", "last updated" : "2011-07-23T09:10:42Z", "authors" : ["Tabletop"]}]</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-009" covers="map-constructor array-square-constructor">
+      <description>Transforming JSON to SVG</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to VariableDeclarations"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[   
+        declare namespace array="http://www.w3.org/2005/xpath-functions/array";
+        declare variable $data := map {
+          "color" : "blue",
+          "closed" : true(),
+          "points" : [[10,10], [20,10], [20,20], [10,20]]
+        };      
+        declare variable $stroke := attribute stroke { $data("color") };
+        declare variable $points := attribute points { array:flatten($data("points")) };
+        if ($data("closed")) then <svg><polygon>{ $stroke, $points }</polygon></svg>
+         else <svg><polyline>{ $stroke, $points }</polyline></svg>
+		  ]]></test>
+      <result>         
+         <assert-xml><![CDATA[<svg><polygon stroke="blue" points="10 10 20 10 20 20 10 20"/></svg>]]></assert-xml>
+      </result>
+   </test-case>
+         
+   <test-case name="UseCaseJSON-010" covers="fn-json-doc array-curly-constructor postfix-lookup">
+      <description>Transforming Arrays to HTML Tables</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <environment ref="table.json"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[
+        <html>
+				  <body>				
+				    <table>
+				      <tr> 
+				         { (: Column headings :) 
+				            <th> </th>,
+				            for $th in json-doc("table.json")("col labels")?*
+				            return <th>{ $th }</th>
+				         }
+				      </tr>
+				      {  (: Data for each row :)
+				         for $r at $i in json-doc("table.json")("data")?*
+				         return
+				            <tr>
+				             {
+				               <th>{ json-doc("table.json")("row labels")[$i] }</th>,
+				               for $c in $r?*
+				               return <td>{ $c }</td>
+				             }
+				            </tr>
+				      }
+				    </table>				
+				  </body>
+				</html>   
+		  ]]></test>
+      <result>
+         <assert-xml><![CDATA[<html><body><table><tr><th/><th>singular</th><th>plural</th></tr><tr><th>1p 2p 3p</th><td>spinne</td><td>spinnen</td></tr><tr><th/><td>spinnst</td><td>spinnt</td></tr><tr><th/><td>spinnt</td><td>spinnen</td></tr></table></body></html>]]></assert-xml>
+      </result>
+   </test-case>
+   
+    <test-case name="UseCaseJSON-011" covers="fn-json-doc postfix-lookup">
+      <description>Windowing Queries</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <environment ref="colors.json"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <test><![CDATA[
+        <table>{
+          for tumbling window $w in json-doc("colors.json")?*
+          start at $x when fn:true()
+          end at $y when $y - $x = 2
+          return
+            <tr>{ for $i in $w return <td>{ $i?color }</td> }</tr>
+         }</table>
+		  ]]></test>
+      <result>
+         <assert-xml><![CDATA[<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="UseCaseJSON-012" covers="map-constructor array-curly-constructor">
+      <description>JSON views in middleware</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[
+        let $users := [map { "userid" : "W0342", "firstname" : "Walter", "lastname" : "Denisovich" }, map { "userid" : "M0535", "firstname" : "Mick", "lastname" : "Goulish" }]?* 
+        let $holdings := [map { "userid" : "W0342", "ticker" : "DIS", "shares" : 153212312 }, map { "userid" : "M0535", "ticker" : "DIS", "shares" : 10 }, map { "userid" : "M0535", "ticker" : "AIG", "shares" : 23412 }]?*   
+        return array {
+          for $u in $users
+          order by $u("userid")
+          return map { "userid" : $u("userid"), 
+                       "first" :  $u("firstname"), 
+                       "last" :   $u("lastname"), 
+                       "holdings" : array {
+                          for $h in $holdings
+                          where $h("userid") = $u("userid")
+                          order by $h("ticker")
+									        return map { "ticker" : $h("ticker"), "share" : $h("shares") }
+										    }
+                 }
+        }       
+		  ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[[map {"userid" : "M0535", "first" : "Mick", "last" : "Goulish", "holdings" : [map {"ticker" : "AIG", "share" : 23412}, map {"ticker" : "DIS", "share" : 10}]}, map {"userid" : "W0342", "first" : "Walter", "last" : "Denisovich", "holdings" : [map {"ticker" : "DIS", "share" : 153212312}]}]]]></assert-deep-eq>
+      </result>
+   </test-case>
+   
+      
+   <test-case name="UseCaseJSON-014" covers="fn-json-doc map-remove">
+      <description>Data Transformations</description>
+      <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
+      <environment ref="incoming.json"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
+      <test><![CDATA[
+				let $feed := json-doc("incoming.json")("feed")
+				  , $entry := $feed("entry")
+				return
+				if ($entry?*("app$control")("yt$state")("name") = "restricted")
+				  then map:remove($feed, "entry")
+				  else $feed
+		  ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map {"author" : [map {"name" : map {"$t" : "YouTube"}, "uri" : map {"$t" : "http://www.youtube.com/"}}], "category" : [map {"scheme" : "http://schemas.google.com/g/2005#kind", "term" : "http://gdata.youtube.com/schemas/2007#video"}]}]]></assert-deep-eq>
+      </result>
+   </test-case>
+   
+</test-set>
