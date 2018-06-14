@@ -26,43 +26,13 @@
 -compile(inline_list_funcs).
 -include("xqerl_db.hrl").
 
--define(BSZ,22).
-
--define(tp(A),A:4/integer).
--define(dpt(A),A:12/integer).
--define(nxt(A),A:32/integer).
-%
--define(ln(A),A:24/integer).
--define(px(A),A:24/integer).
--define(ns(A),A:16/integer).
--define(att(A),A:32/integer).
--define(nms(A),A:32/integer).
-%
--define(off(A),A:64/integer).
--define(tlen(A),A:64/integer).
--define(plen(A),A:40/integer).
--define(drest(A),A:128/integer).
-
--define(NOD,<<?tp(_),?dpt(__Dpt),?nxt(__Nxt),?drest(_)>>).
--define(DMT,<<?tp(?document),?dpt(__Dpt),?nxt(__Nxt),?drest(0)>>).
--define(FRG,<<?tp(?fragment),?dpt(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms)>>).
--define(ELM,<<?tp(?element),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms)>>).
--define(TXT,<<?tp(?text),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
--define(CMT,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
--define(PIN,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len)>>).
-
--define(DOC,{__Filename,__Names,__Namesp,__Nodes,__Attributes,
-             __Nss,__Text,__Comment,__Data,__Indexes}).
--define(NSP,{__Par,__Ln,__Ns}).
--define(ATT,{__APar,__ALn,__APx,__ANs,__ATyp,__AVal}).
-
--define(node_get(Ix), catch binary_part(__Nodes, Ix * ?BSZ, ?BSZ)).
-
-
 %% ====================================================================
 %% API functions
 %% ====================================================================
 
+-export([struct_index/1,
+         name_index/1
+        ]).
 -export([run/2]).
 
 %internal
@@ -223,6 +193,13 @@
          position/2,
          last/1
          ]).
+
+
+struct_index(?DOC) ->
+   xqldb_idx_struct:index_doc(__Nodes, __Attributes, __Text, __Comment, __Data).
+name_index(?DOC) ->
+   xqldb_idx_name:index_doc(__Nodes, __Attributes).
+
 
 
 %% ====================================================================
@@ -1584,23 +1561,23 @@ get_first_child(__Nodes,I,Depth) ->
          []
    end.
 
-get_named_element_children(_,[],_,_) -> [];
-get_named_element_children(__Nodes,Id,Ns,Ln) ->
-   case ?node_get(Id) of
-      ?ELM when Ns == any orelse __Ns =:= Ns,
-                Ln == any orelse __Ln =:= Ln,
-                <<?nxt(__Nxt)>> =/= <<255,255,255,255>>,
-                __Nxt > Id ->
-         [Id|get_named_element_children(__Nodes,__Nxt,Ns,Ln)];
-      ?NOD when <<?nxt(__Nxt)>> =/= <<255,255,255,255>>,
-                __Nxt > Id ->
-         get_named_element_children(__Nodes,__Nxt,Ns,Ln);
-      ?ELM when Ns == any orelse __Ns =:= Ns,
-                Ln == any orelse __Ln =:= Ln ->
-         [Id];
-      _ ->
-         []
-   end.
+%% get_named_element_children(_,[],_,_) -> [];
+%% get_named_element_children(__Nodes,Id,Ns,Ln) ->
+%%    case ?node_get(Id) of
+%%       ?ELM when Ns == any orelse __Ns =:= Ns,
+%%                 Ln == any orelse __Ln =:= Ln,
+%%                 <<?nxt(__Nxt)>> =/= <<255,255,255,255>>,
+%%                 __Nxt > Id ->
+%%          [Id|get_named_element_children(__Nodes,__Nxt,Ns,Ln)];
+%%       ?NOD when <<?nxt(__Nxt)>> =/= <<255,255,255,255>>,
+%%                 __Nxt > Id ->
+%%          get_named_element_children(__Nodes,__Nxt,Ns,Ln);
+%%       ?ELM when Ns == any orelse __Ns =:= Ns,
+%%                 Ln == any orelse __Ln =:= Ln ->
+%%          [Id];
+%%       _ ->
+%%          []
+%%    end.
 
 get_text_children(_,[]) -> [];
 get_text_children(__Nodes,I) ->

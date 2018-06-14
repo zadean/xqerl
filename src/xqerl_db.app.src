@@ -8,5 +8,8 @@
                   mnesia
                  ]},
   {mod, { xqldb_app, []}},
-  {env, []}
+  {env, [
+      {max_index_text_length,    255},
+      {max_index_distinct_value, 255}
+   ]}
  ]}.

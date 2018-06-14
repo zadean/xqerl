@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 37).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 37).
 
 -file("c:/erlang/erl9.2/lib/parsetools-2.1.6/include/leexinc.hrl", 14).
 
@@ -305,7 +305,7 @@ adjust_line(T, A, [_|Cs], L) ->
 %% return signal either an unrecognised character or end of current
 %% input.
 
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.erl", 307).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.erl", 307).
 yystate() -> 35.
 
 yystate(38, [45|Ics], Line, Tlen, Action, Alen) ->
@@ -671,67 +671,67 @@ yyaction(12, _, _, _) ->
 yyaction(_, _, _, _) -> error.
 
 -compile({inline,yyaction_0/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 17).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 17).
 yyaction_0(TokenChars, TokenLine) ->
      { token, { string, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_1/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 18).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 18).
 yyaction_1(TokenChars, TokenLine) ->
      { token, { esc_string, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_2/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 21).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 21).
 yyaction_2(TokenLine) ->
      { token, { false, TokenLine, false } } .
 
 -compile({inline,yyaction_3/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 22).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 22).
 yyaction_3(TokenLine) ->
      { token, { true, TokenLine, true } } .
 
 -compile({inline,yyaction_4/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 23).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 23).
 yyaction_4(TokenLine) ->
      { token, { null, TokenLine, null } } .
 
 -compile({inline,yyaction_5/2}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 25).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 25).
 yyaction_5(TokenChars, TokenLine) ->
      { token, { number, TokenLine, TokenChars } } .
 
 -compile({inline,yyaction_6/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 27).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 27).
 yyaction_6(TokenLine) ->
      { token, { array_begin, TokenLine, array_begin } } .
 
 -compile({inline,yyaction_7/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 28).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 28).
 yyaction_7(TokenLine) ->
      { token, { array_end, TokenLine, array_end } } .
 
 -compile({inline,yyaction_8/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 29).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 29).
 yyaction_8(TokenLine) ->
      { token, { object_begin, TokenLine, object_begin } } .
 
 -compile({inline,yyaction_9/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 30).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 30).
 yyaction_9(TokenLine) ->
      { token, { object_end, TokenLine, object_end } } .
 
 -compile({inline,yyaction_10/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 31).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 31).
 yyaction_10(TokenLine) ->
      { token, { name_sep, TokenLine, name_sep } } .
 
 -compile({inline,yyaction_11/1}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 32).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 32).
 yyaction_11(TokenLine) ->
      { token, { value_sep, TokenLine, value_sep } } .
 
 -compile({inline,yyaction_12/0}).
--file("c:/git/zadean/xqerl/_build/default/lib/xqerl/src/json_scanner.xrl", 33).
+-file("c:/git/zadean/xqerl/_build/default/lib/xqerl_db/src/json_scanner.xrl", 33).
 yyaction_12() ->
      skip_token .
 

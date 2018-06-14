@@ -1,6 +1,6 @@
 -module(json_parser).
 -export([parse/1, parse_and_scan/1, format_error/1]).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 59).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 59).
 %% -------------------------------------------------------------------
 %%
 %% xqerl_db - XML Database for xqerl XQuery processor
@@ -228,7 +228,7 @@ yecctoken2string(Other) ->
 
 
 
--file("C:/git/zadean/xqerl_db/src/json_parser.erl", 231).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.erl", 231).
 
 -dialyzer({nowarn_function, yeccpars2/7}).
 yeccpars2(0=S, Cat, Ss, Stack, T, Ts, Tzr) ->
@@ -578,7 +578,7 @@ yeccgoto_values(35=_S, Cat, Ss, Stack, T, Ts, Tzr) ->
  yeccpars2_36(_S, Cat, Ss, Stack, T, Ts, Tzr).
 
 -compile({inline,yeccpars2_5_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 25).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 25).
 yeccpars2_5_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -586,7 +586,7 @@ yeccpars2_5_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_6_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 27).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 27).
 yeccpars2_6_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -594,7 +594,7 @@ yeccpars2_6_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_7_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 28).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 28).
 yeccpars2_7_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -602,7 +602,7 @@ yeccpars2_7_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_8_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 26).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 26).
 yeccpars2_8_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -610,7 +610,7 @@ yeccpars2_8_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_10_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 24).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 24).
 yeccpars2_10_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -618,7 +618,7 @@ yeccpars2_10_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_11_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 29).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 29).
 yeccpars2_11_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -626,7 +626,7 @@ yeccpars2_11_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_13_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 37).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 37).
 yeccpars2_13_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -634,7 +634,7 @@ yeccpars2_13_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_15_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 32).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 32).
 yeccpars2_15_(__Stack0) ->
  [__2,__1 | __Stack] = __Stack0,
  [begin
@@ -642,7 +642,7 @@ yeccpars2_15_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_18_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 39).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 39).
 yeccpars2_18_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -650,7 +650,7 @@ yeccpars2_18_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_21_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 52).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 52).
 yeccpars2_21_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -658,7 +658,7 @@ yeccpars2_21_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_22_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 45).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 45).
 yeccpars2_22_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -666,7 +666,7 @@ yeccpars2_22_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_23_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 46).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 46).
 yeccpars2_23_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -674,7 +674,7 @@ yeccpars2_23_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_24_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 50).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 50).
 yeccpars2_24_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -682,7 +682,7 @@ yeccpars2_24_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_25_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 51).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 51).
 yeccpars2_25_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -690,7 +690,7 @@ yeccpars2_25_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_26_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 47).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 47).
 yeccpars2_26_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -698,7 +698,7 @@ yeccpars2_26_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_28_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 40).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 40).
 yeccpars2_28_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -706,7 +706,7 @@ yeccpars2_28_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_30_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 36).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 36).
 yeccpars2_30_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -714,7 +714,7 @@ yeccpars2_30_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_31_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 31).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 31).
 yeccpars2_31_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -722,7 +722,7 @@ yeccpars2_31_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_33_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 43).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 43).
 yeccpars2_33_(__Stack0) ->
  [__1 | __Stack] = __Stack0,
  [begin
@@ -730,7 +730,7 @@ yeccpars2_33_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_34_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 34).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 34).
 yeccpars2_34_(__Stack0) ->
  [__2,__1 | __Stack] = __Stack0,
  [begin
@@ -738,7 +738,7 @@ yeccpars2_34_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_36_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 42).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 42).
 yeccpars2_36_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -746,7 +746,7 @@ yeccpars2_36_(__Stack0) ->
   end | __Stack].
 
 -compile({inline,yeccpars2_37_/1}).
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 33).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 33).
 yeccpars2_37_(__Stack0) ->
  [__3,__2,__1 | __Stack] = __Stack0,
  [begin
@@ -754,4 +754,4 @@ yeccpars2_37_(__Stack0) ->
   end | __Stack].
 
 
--file("C:/git/zadean/xqerl_db/src/json_parser.yrl", 113).
+-file("C:/git/zadean/xqerl/lib/xqerl_db/src/json_parser.yrl", 113).

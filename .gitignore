@@ -13,3 +13,4 @@ rel/example_project
 /ebin/
 /src/json_parser.erl
 /data/
+/_build/

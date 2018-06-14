@@ -24,6 +24,10 @@
 -behaviour(gen_server).
 -include("xqerl_db.hrl").
 
+-export([struct_index/1,
+         name_index/1
+        ]).
+
 -export([init/1, 
          handle_call/3, 
          handle_cast/2, 
@@ -181,6 +185,13 @@
 
 start_link(FileUri) ->
    gen_server:start_link(?MODULE, [FileUri], []).
+
+struct_index(Pid) ->
+   gen_server:call(Pid, struct_index, ?TIMEOUT).
+
+name_index(Pid) ->
+   gen_server:call(Pid, name_index, ?TIMEOUT).
+
 
 % return {ok,Pid}
 load(FileUriOrState) ->
@@ -544,6 +555,14 @@ handle_call({run,Fun}, _From, State) ->
          xqldb_docstore:deactivate(State#state.uri,State),
          {reply, Err, State, ?TIMEOUT}
    end;
+
+handle_call(struct_index, _From, State) ->
+   Reply = xqldb_xdm:struct_index(State#state.doc),
+   {reply, Reply, State, ?TIMEOUT};
+handle_call(name_index, _From, State) ->
+   Reply = xqldb_xdm:name_index(State#state.doc),
+   {reply, Reply, State, ?TIMEOUT};
+
 
 handle_call(delete, _From, State) ->
    {stop, normal, State};

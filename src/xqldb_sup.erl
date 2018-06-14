@@ -40,16 +40,24 @@ init(_) ->
    SupFlags = #{strategy  => one_for_one, 
                 intensity => 1, 
                 period    => 20},
-   ChildSpecs = [#{id     => xqldb_doc_sup,
+   ChildSpecs = [#{id     => xqldb_idx_sup,
+                   start  => {xqldb_idx_sup, start_link, []},
+                   type   => supervisor
+                  },
+                 #{id     => xqldb_doc_sup,
                    start  => {xqldb_doc_sup, start_link, []},
-                   type   => supervisor},
+                   type   => supervisor
+                  },
                  #{id     => xqldb_res_sup,
                    start  => {xqldb_res_sup, start_link, []},
-                   type   => supervisor},
+                   type   => supervisor
+                  },
                  #{id     => xqldb_name_server,
-                   start  => {xqldb_name_server, start_link, []}},
+                   start  => {xqldb_name_server, start_link, []}
+                  },
                  #{id     => xqldb_namespace_server,
-                   start  => {xqldb_namespace_server, start_link, []}}
+                   start  => {xqldb_namespace_server, start_link, []}
+                  }
                 ],
    {ok,{SupFlags, ChildSpecs}}.
 

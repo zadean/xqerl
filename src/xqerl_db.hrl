@@ -54,6 +54,45 @@
         {key,
          value}).
 
+-define(BSZ,22).
+
+-define(tp(A),A:4/integer).
+-define(dpt(A),A:12/integer).
+-define(nxt(A),A:32/integer).
+%
+-define(ln(A),A:24/integer).
+-define(px(A),A:24/integer).
+-define(ns(A),A:16/integer).
+-define(att(A),A:32/integer).
+-define(nms(A),A:32/integer).
+%
+-define(off(A),A:64/integer).
+-define(tlen(A),A:64/integer).
+-define(plen(A),A:40/integer).
+-define(drest(A),A:128/integer).
+
+-define(NOD,<<?tp(_),?dpt(__Dpt),?nxt(__Nxt),?drest(_)>>).
+-define(DMT,<<?tp(?document),?dpt(__Dpt),?nxt(__Nxt),?drest(0)>>).
+-define(FRG,<<?tp(?fragment),?dpt(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms)>>).
+-define(ELM,<<?tp(?element),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms)>>).
+-define(TXT,<<?tp(?text),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
+-define(CMT,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
+-define(PIN,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len)>>).
+
+-define(NODM,<<?tp(_),?dpt(__Dpt),?nxt(__Nxt),?drest(_),Rest/binary>>).
+-define(DMTM,<<?tp(?document),?dpt(__Dpt),?nxt(__Nxt),?drest(0),Rest/binary>>).
+-define(FRGM,<<?tp(?fragment),?dpt(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms),Rest/binary>>).
+-define(ELMM,<<?tp(?element),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms),Rest/binary>>).
+-define(TXTM,<<?tp(?text),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
+-define(CMTM,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
+-define(PINM,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len),Rest/binary>>).
+
+-define(DOC,{__Filename,__Names,__Namesp,__Nodes,__Attributes,
+             __Nss,__Text,__Comment,__Data,__Indexes}).
+-define(NSP,{__Par,__Ln,__Ns}).
+-define(ATT,{__APar,__ALn,__APx,__ANs,__ATyp,__AVal}).
+
+-define(node_get(Ix), (catch binary_part(__Nodes, Ix * ?BSZ, ?BSZ))).
 
 -define(dbg(A,B),io:format("~p:~p(~p): ~p ~p~n",[?MODULE,?FUNCTION_NAME,?LINE,A,B])).
 

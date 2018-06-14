@@ -19,7 +19,7 @@
 %% under the License.
 %%
 %% -------------------------------------------------------------------
--module(xqldb_parse).
+-module(xqldb_xstream).
 
 -include("xqerl_db.hrl").
 
@@ -47,7 +47,8 @@
                 ln = 0, ns = 0 % name
                }).
 
--record(st,{nd_pos = 0,
+-record(st,{loop,
+            nd_pos = 0,
             at_pos = -1,
             ns_pos = -1,
             depth  = 0,
@@ -186,33 +187,44 @@ read_bin(Cwd,Bin,State) when is_binary(Bin) ->
    
 
 read_stream(Name, State) when is_list(Name) ->
-   {ok,Bin} = file:read_file(Name),
-   read_stream({Name,Bin}, State);
-read_stream({Name,Bin}, State) when is_binary(Bin) ->
+   {ok,FD} = file:open(Name, [read,binary,read_ahead, raw]),
+   read_stream({Name,FD}, State);
+read_stream({Name,File}, State) ->
    CF = case State#st.source of
            rest -> [{continuation_fun,fun(S) -> {<<>>,S} end}];
-           _ -> []
+           _ -> [{continuation_fun,
+                  fun(S) ->
+                        case file:read(File, 65536 * 4) of
+                           eof ->
+                              {<<>>,S};
+                           {ok,B} ->
+                              {B,S}
+                        end
+                  end}]
         end,        
    Opts = [{current_location, Name},
-           {event_fun, fun event/3},
-           %{event_fun, fun event_dummy/3},
+           %{event_fun, fun event/3},
+           {event_fun, fun event_dummy/3},
            {event_state, State}|CF],
-   case xmerl_sax_parser:stream(Bin,Opts) of
+   case xmerl_sax_parser:stream(<<>>,Opts) of
       {ok, State1, <<>>} ->
          %?dbg("State1",State1),
-         event(endDocument, 0, State1#st{source = ok});
+         event_dummy(endDocument, 0, State1#st{source = ok});
+         %event(endDocument, 0, State1#st{source = ok});
       {ok, State1, R} ->
          case string:take(R,[0,$\r,$\n,$ ,[$\r,$\n]]) of % 0 for utf16 
             {_,<<>>} ->
                %?dbg("State1",State1),
-               event(endDocument, 0, State1#st{source = ok});
+               event_dummy(endDocument, 0, State1#st{source = ok});
+               %event(endDocument, 0, State1#st{source = ok});
             _Trim ->
                %?dbg("Trim",Trim),
                read_stream({Name,R}, State1#st{source = rest})
          end;
       {fatal_error,_Line, "No more bytes", _, #st{source = rest} = State2} -> 
          %?dbg("State2",State2),
-         event(endDocument, 0, State2#st{source = ok});
+         event_dummy(endDocument, 0, State2#st{source = ok});
+         %event(endDocument, 0, State2#st{source = ok});
       {fatal_error,_Line, Reason, _EndTags, State2} -> 
          ?dbg("{error,Name}",{error,Name}),
          ?dbg("{error,Reason}",{error,Reason,State2}),
@@ -235,6 +247,20 @@ read_file(Src) ->
                         Filename0 ->
                            {xqldb_lib:filename_to_uri(Filename0),Filename0}
                        end,
+      Loop_3 = erlang:spawn_opt(fun() -> loop_3(#{cnt => 0,
+                                                   acc => []}) end, 
+                                [link,{message_queue_data, off_heap}]),
+      Loop_2 = erlang:spawn_opt(fun() -> loop_2(#{cnt => 0,
+                                                   nxt => Loop_3,
+                                                   acc => []}) end, 
+                                [link,{message_queue_data, off_heap}]),
+      Loop_1 = erlang:spawn_opt(fun() -> loop_1(#{cnt => 0,
+                                                   nxt => Loop_2,
+                                                   acc => []}) end, 
+                                [link,{message_queue_data, off_heap}]),
+      ?dbg("Loop_3",Loop_3),
+      ?dbg("Loop_2",Loop_2),
+      ?dbg("Loop_1",Loop_1),
       #st{names  = Names,
           namesp = Namesp,
           text   = Text,
@@ -242,9 +268,10 @@ read_file(Src) ->
           data   = Data,
           nodes  = Nodes,
           nss    = Nss,
-          attab  = Atts} = read_stream(Filename, Ostate#st{source = file}),
+          attab  = Atts} = read_stream(Filename, Ostate#st{source = file,
+                                                           loop = Loop_1}),
       A = tab_to_array(Atts),
-      %?dbg("Map",xqldb_idx_struct:parent_children(Nodes)),
+      Loop_1 ! done,
       {Uri,
        flip_map(Names),
        flip_map(Namesp),
@@ -477,15 +504,6 @@ event({characters, String}, _Ln,
                  text = Text,
                  txtlen = TxtLen} = State) ->
    NodPos1 = NodPos + 1,
-   
-   catch merge_index:index(merge_index, 
-                           [{texts, 
-                             value, 
-                             {list_to_binary(String), 123}, 
-                             NodPos, 
-                             [{depth,Depth}], 
-                             125}]),
-   
    {ok, Children} = maps:find(Par, ParChld),
    Nodes = update_next_sibling(NodPos1,Children,Nodes0),
    Bin = unicode:characters_to_binary(String),
@@ -807,3 +825,52 @@ flip_map(Map) ->
        end,            
    maps:fold(F, Map, Map).
 
+
+loop_1(#{cnt := Cnt,
+         nxt := Nxt,
+         acc := Acc} = State) ->
+   receive
+      done ->
+         Nxt ! done,
+         ?dbg("Acc",length(Acc)),
+         ?dbg("Mem",process_info(self(),[memory])),
+         ?dbg("Done",{?FUNCTION_NAME, Cnt});
+      {startElement, _, _, _, _} = X ->
+         Nxt ! X, 
+         loop_1(State#{cnt := Cnt + 1,
+                       acc := [X|Acc]});
+      X ->
+         Nxt ! X, 
+         loop_1(State#{cnt := Cnt + 1})
+   end.
+
+loop_2(#{cnt := Cnt,
+         nxt := Nxt,
+         acc := Acc} = State) ->
+   receive
+      done ->
+         Nxt ! done,
+         ?dbg("Acc",length(Acc)),
+         ?dbg("Mem",process_info(self(),[memory])),
+         ?dbg("Done",{?FUNCTION_NAME, Cnt});
+      {characters, H} = X ->
+         Nxt ! X, 
+         loop_2(State#{cnt := Cnt + 1,
+                       acc := H ++ Acc});
+      X ->
+         Nxt ! X, 
+         loop_2(State#{cnt := Cnt + 1})
+   end.
+
+loop_3(#{cnt := Cnt} = State) ->
+   receive
+      done ->
+         ?dbg("Mem",process_info(self(),[memory])),
+         ?dbg("Done",{?FUNCTION_NAME, Cnt});
+      _ ->
+         loop_3(State#{cnt := Cnt + 1})
+   end.
+
+event_dummy(Event, _Ln, #st{loop = Loop} = State) ->
+   Loop ! Event,
+   State.
