@@ -280,10 +280,25 @@ string_value(Seq) ->
    xqerl_types:string_value(Seq).
 
 run_suite(Suite) ->
+   LibDir = code:lib_dir(xqerl),
+   TestDir = filename:absname_join(LibDir, "../../test"),
+   LogDir = filename:join(TestDir, "logs"),
+   _ = delete_all_docs(),
    ct:run_test([{suite, Suite},
-                {dir, code:lib_dir(xqerl, test)},
-                {logdir, filename:join(code:lib_dir(xqerl, test), "logs")},
+                {dir, TestDir},
+                {logdir, LogDir},
                 {logopts,[no_src]}]).
+
+delete_all_docs() ->
+   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore1)],
+   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore2)],
+   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore3)],
+   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore4)],
+   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore1)],
+   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore2)],
+   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore3)],
+   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore4)].
+   
 
 run(all) ->
    xqerl_module:one_time_init(),
@@ -869,7 +884,12 @@ handle_environment(List) ->
             ?dbg("Role",Role),
             if Role == "." ->
                   ?dbg("Uri2",Uri2),
-                  {ok,Doc} = xqldb_docstore:select(Uri2),
+                  {ok,Doc} = case xqldb_docstore:select(Uri2) of
+                                {ok,Docz} ->
+                                   {ok,Docz};
+                                Other ->
+                                   ?dbg("got:",Other)
+                             end,
                   %?dbg("Doc",Doc),
                   %?dbg("Doc",xqldb_doc:export(Doc)),
                   [Nd] = xqldb_doc:roots(Doc),

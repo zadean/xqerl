@@ -1044,7 +1044,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
       'document' ->
          case xqldb_doc:children(Doc, Node) of
             [Element] ->
-               Q2 = node_qname(Node, Doc),
+               Q2 = node_qname(Element, Doc),
                ?dbg("Q1",Q1),
                ?dbg("Q2",Q2),
                has_name(Q2, Q1);
