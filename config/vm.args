@@ -1,0 +1,9 @@
+-sname master
+-setcookie monster
+-pa /git/zadean/xqerl/lib/xqerl/ebin
+-pa /git/zadean/xqerl/lib/xqerl_db/ebin
+-pa /git/zadean/merge_index/ebin
++K true
++SDio30
++pc unicode
+-config ./config/xqerl

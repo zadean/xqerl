@@ -19,7 +19,7 @@
          between_inclusive_top/3]).
 
 from_list([]) ->
-   gb_trees:new();
+   gb_trees:empty();
 from_list(List) ->
    from_list_(List).
 

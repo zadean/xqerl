@@ -34,6 +34,7 @@ install(Nodes) ->
    ok = mnesia:delete_schema(Nodes),
    ok = mnesia:create_schema(Nodes),
    application:start(mnesia),
+   _ = xqldb_namespace_server:clear(),
    {atomic,ok} = mnesia:create_table(
                    xqldb_namespace,
                    [{attributes, record_info(fields, xqldb_namespace)},

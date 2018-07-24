@@ -1455,7 +1455,7 @@ named_element_children(?DOC,Ids,{Ns,Ln}) when is_list(Ids) ->
                    %?dbg("Named",Named),
                    [];
                 {ok,L} ->
-                   L
+                   lists:reverse(L)
              end
        end,
    lists:map(F,Ids);
@@ -1695,16 +1695,13 @@ build_parent_index(?DOC = D,Parent) ->
    lists:flatmap(F, Children).
 
 build_named_element_children_index(?DOC = Doc) ->
-   ok.
-
-%%    [Roots] = roots(Doc),
-%%    Dict = dict:new(),
-%%    Fun = fun(I,D) -> 
-%%                get_element_children_ix(Doc,I,D) 
-%%          end,               
-%%    Dict1 = lists:foldl(Fun, Dict, Roots),
-%%    List = dict:to_list(Dict1),
-%%    {named_element_children, maps:from_list(List)}.
+   [Roots] = roots(Doc),
+   Dict = #{},
+   Fun = fun(I,D) -> 
+               get_element_children_ix(Doc,I,D) 
+         end,               
+   Dict1 = lists:foldl(Fun, Dict, Roots),
+   {named_element_children, Dict1}.
 
 get_element_children_ix(?DOC = Doc,I,D) ->
    Children = children(Doc, I),
@@ -1720,13 +1717,22 @@ get_element_children_ix(?DOC = Doc,Parent,Child,D) ->
          K2 = {Parent,__Ns,any},
          K3 = {Parent,any,__Ln},
          K4 = {Parent,any,any},
-         D1 = dict:append(K1, Child, D),
-         D2 = dict:append(K2, Child, D1),
-         D3 = dict:append(K3, Child, D2),
-         D4 = dict:append(K4, Child, D3),
+         D1 = maps_append(K1, Child, D),
+         D2 = maps_append(K2, Child, D1),
+         D3 = maps_append(K3, Child, D2),
+         D4 = maps_append(K4, Child, D3),
          get_element_children_ix(Doc,Child,D4);
       _ ->
          D
+   end.
+
+
+maps_append(Key, Value, Map) ->
+   case maps:find(Key, Map) of
+      {ok, Vals} ->
+         Map#{Key := [Value|Vals]};
+      error ->
+         Map#{Key => [Value]}
    end.
 
 

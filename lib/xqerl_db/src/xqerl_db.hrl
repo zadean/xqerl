@@ -20,6 +20,7 @@
 %%
 %% -------------------------------------------------------------------
 % node kinds
+-include_lib("kernel/include/logger.hrl").
 -define(fragment, 7). % non-conformant xml
 -define(document, 0).
 -define(element,  1).
@@ -95,7 +96,7 @@
 
 -define(node_get(Ix), (catch binary_part(__Nodes, Ix * ?BSZ, ?BSZ))).
 
--define(dbg(A,B),io:format("~p:~p(~p): ~p ~p~n",[?MODULE,?FUNCTION_NAME,?LINE,A,B])).
+-define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B])).
 
 
 

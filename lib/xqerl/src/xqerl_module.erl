@@ -27,6 +27,8 @@
 %-include_lib("stdlib/include/qlc.hrl").
 -include("xqerl.hrl").
 
+-define(PRINT,false).
+
 %% ====================================================================
 %% Tables
 %% ====================================================================
@@ -276,7 +278,7 @@ compile(FileName, Str, Hints) ->
       compile:forms(Ret, 
                       [debug_info,verbose,return_errors,
                                      no_auto_import,nowarn_unused_vars]),
-      %_Erl = print_erl(M,B),
+      _Erl = print_erl(M,B),
       ok = check_cycle(M,ImportedMods),
 %?dbg("Erl",Erl),
       {
@@ -313,9 +315,9 @@ compile(FileName, Str, Hints) ->
                      compile(FileName, Str, Hints)
                end
          end;
-      _:Error ->
+      _:Error:StackTrace ->
          ?dbg("Error",Error),
-         ?dbg("Error",erlang:get_stacktrace()),
+         ?dbg("Error",StackTrace),
          % TODO save the error
          Error
    end.   
@@ -374,9 +376,9 @@ test_compile(FileName, Str) ->
       {ok,M,B} ->
          {ok,M,B}
    catch 
-      _:Error ->
+      _:Error:StackTrace ->
          ?dbg("Error",Error),
-         ?dbg("Error",erlang:get_stacktrace()),
+         ?dbg("Error",StackTrace),
          {error,Error}
    end.   
 
@@ -517,9 +519,9 @@ parse_tokens(Tokens) ->
       _:#xqError{} = E ->
          ?dbg("parse_tokens",E),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("parse_tokens e",E),
-         ?dbg("parse_tokens e",erlang:get_stacktrace()),
+         ?dbg("parse_tokens e",StackTrace),
          xqerl_error:error('XPST0003')
    end.
    
@@ -535,7 +537,7 @@ scan_tree(Tree) ->
          throw(E);
       _:E ->
          ?dbg("scan_tree",E),
-         %?dbg("scan_tree",erlang:get_stacktrace()),
+         %?dbg("scan_tree",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 
@@ -543,39 +545,20 @@ scan_tree_static(Tree, BaseUri) ->
    try 
       xqerl_static:handle_tree(Tree, BaseUri)
    catch
-      ?NOT_FOUND(V) = E ->
+      ?NOT_FOUND(V) = E:StackTrace ->
          ?dbg("scan_tree_static",V),
          ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",StackTrace),
          throw(E);
-      _:#xqError{} = E ->
+      _:#xqError{} = E:StackTrace ->
          ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",StackTrace),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",StackTrace),
          xqerl_error:error('XPST0003')
    end.
-
-% see what comes out
-%print_erl(_) -> wait;
-print_erl(M,B) ->
-   {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
-   FL = erl_syntax:form_list(AC),
-   PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, 
-                                        {encoding, utf8}])),
-   Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
-   %?dbg("",Flat),
-   Filename = filename:absname(atom_to_list(M)),
-   ?dbg("Filename",Filename),
-   {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
-   %?dbg("PP",PP),
-   io:put_chars(FP, PP),
-   file:close(FP),
-   %ok = file:write_file(Filename, list_to_binary(PP)),
-   Flat.   
-
 
 check_cycle(_Mod,[]) -> ok;
 check_cycle(Mod,ImportedMods) ->
@@ -599,3 +582,24 @@ check_cycle(Mod,ImportedMods) ->
                      end, Mods),
    digraph:delete(G),
    ok.
+
+-if(?PRINT).
+   % see what comes out
+   print_erl(M,B) ->
+      {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
+      FL = erl_syntax:form_list(AC),
+      PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, 
+                                           {encoding, utf8}])),
+      Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
+      %?dbg("",Flat),
+      Filename = filename:absname(atom_to_list(M)),
+      ?dbg("Filename",Filename),
+      {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
+      %?dbg("PP",PP),
+      io:put_chars(FP, PP),
+      file:close(FP),
+      %ok = file:write_file(Filename, list_to_binary(PP)),
+      Flat.   
+-elif(true).
+   print_erl(_,_) -> ok.
+-endif.

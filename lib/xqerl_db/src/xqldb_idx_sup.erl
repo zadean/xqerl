@@ -5,6 +5,9 @@
 -module(xqldb_idx_sup).
 -behaviour(supervisor).
 
+-include("xqerl_db.hrl").
+
+
 -export([init/1]).
 
 %% ====================================================================
@@ -33,6 +36,8 @@ start_child(DatabaseName) ->
 %% Behavioural functions
 %% ====================================================================
 
+-define(TAB,xqldb_idx_sup_tab).
+
 
 init(_) ->
    AbsDir = data_dir(),
@@ -53,14 +58,14 @@ init(_) ->
 ensure_name(Name) when is_list(Name) -> Name.
 
 make_lookup() ->
-   ets:new(?MODULE, []).
+   ets:new(xqldb_idx_sup_tab, [named_table]).
 
 load_index_names(AbsDir) ->
    Idxs = filelib:wildcard("*/index", AbsDir),
    lists:foreach(
      fun(Name) ->
            [N,_] = string:split(Name, "/", trailing),
-           ets:insert(?MODULE, {N,[]})
+           ets:insert(?TAB, {N,[]})
      end, Idxs).
 
 data_dir() ->

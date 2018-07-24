@@ -5,7 +5,6 @@
       kernel,
       stdlib,
       sasl,
-      lager,
       merge_index,
       mnesia,
       xqerl_db

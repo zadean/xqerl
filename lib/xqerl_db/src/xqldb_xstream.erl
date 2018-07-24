@@ -23,6 +23,11 @@
 
 -include("xqerl_db.hrl").
 
+-export([test/0,
+         rw/0,
+         insert/2]).
+
+
 -export([read_file/1]).
 -export([read_list/2]).
 -export([read_bin/2]).
@@ -119,8 +124,8 @@ read_bin({Cwd,BaseUri},Bin) when is_binary(Bin) ->
         #{}
        }}
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          {error,invalid_xml}
    end.
@@ -284,8 +289,8 @@ read_file(Src) ->
        #{}
       }
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          ok
    end.
@@ -316,8 +321,8 @@ read_list(BaseUri,List) ->
        #{}
       }
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          ok
    end.
@@ -606,17 +611,18 @@ event({namespace,Prefix,Uri},_Ln,#st{ns_pos = NsPos,
    Nss1 = array:set(NsPos1, node_to_tuple(Rec#nmsp{par = 0}), Nss),
    State1#st{ns_pos = NsPos1, nss = Nss1};
 
-event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value}, 
+event({attributeDecl, ElementName, AttributeName, Type, _Mode, _Value} = EVENT, 
              _Ln, #st{att_typ = AttTypeMap} = State) -> 
+   ?dbg("Event", EVENT),
    % expecting only local names for attribute types (namespaces in DTDs ?)
    AttTypeMap1 = maps:put({ElementName, AttributeName}, 
                           list_to_atom(Type), AttTypeMap),
    State#st{att_typ = AttTypeMap1};
 
-event(startCDATA, _Ln, State) -> State;
-event(endCDATA, _Ln, State) -> State;
-event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
-event(endDTD, _Ln, State) -> State;
+%% event(startCDATA, _Ln, State) -> State;
+%% event(endCDATA, _Ln, State) -> State;
+%% event({startDTD, _Name, _PublicId, _SystemId}, _Ln, State) -> State;
+%% event(endDTD, _Ln, State) -> State;
 
 %% event({startEntity, _SysId}, _Ln, State) -> State;
 %% event({endEntity, _SysId}, _Ln, State) -> State;
@@ -826,6 +832,19 @@ flip_map(Map) ->
    maps:fold(F, Map, Map).
 
 
+%% STREAM
+% 1. all events
+%    - set ID
+%    - text nodes to text handler
+%  2. text events, append binaries, split large values
+%  3. named events, build the names
+%     4. struct events, build the structure
+
+
+ 
+ 
+
+
 loop_1(#{cnt := Cnt,
          nxt := Nxt,
          acc := Acc} = State) ->
@@ -874,3 +893,76 @@ loop_3(#{cnt := Cnt} = State) ->
 event_dummy(Event, _Ln, #st{loop = Loop} = State) ->
    Loop ! Event,
    State.
+
+
+
+
+test() ->
+   Rand = fun() -> rand:uniform(1000000) end,
+   Time = fun() -> rand:uniform(40) end,
+   Seq = lists:seq(1, 100),
+   Indxs = [merge_index:start_link( "dummy_" ++ integer_to_list(N) ) ||
+            N <- lists:seq(1, 9)
+            ],
+   Insert = fun(Ix) ->
+                  P = fun() ->
+                            [{<<"index">>, <<"field">>, <<"term">>,
+                              Rand(), [], Time()} ||
+                             _ <- Seq,
+                             _ <- lists:seq(1, 100)
+                            ]
+                      end,
+                  [merge_index:index(Ix, P())|| _ <- Seq],
+                  ?dbg("Did insert",Ix),
+                  ok
+            end,
+   
+   DoInsert = fun({ok,I}) -> Insert(I) end,
+   Drop = fun({ok,I}) -> merge_index:stop(I) end,
+   lists:foreach(DoInsert, Indxs),
+   merge(Indxs),
+   lists:foreach(Drop, Indxs),
+   ok.
+
+   
+merge(Idxs) ->
+   Iter = fun({ok,I}) ->
+                merge_index:iterator(I, fun(_,_) -> true end)
+          end,
+   Iters = [Iter(Idx) || Idx <- Idxs ],
+   {ok,NewMI} = merge_index:start_link( "dummy_0"),
+   %NewIter = mi_join:merge(Iters),
+   ok = lists:foreach(fun(I) -> insert(I,NewMI) end, Iters),
+   %_ = rpc:pmap({?MODULE,insert}, [NewMI], Iters),
+   %insert(NewIter,NewMI),
+   merge_index:stop(NewMI),
+   ok.
+
+insert(eof,_Server) -> 
+   [];
+insert(Iter,Server) when is_function(Iter) ->
+  insert(Iter(),Server);
+insert({error,Iter},Server) ->
+   ?dbg("got error", {Iter,Server}),
+   [];
+insert({Entries,Iter},Server) ->
+   F = fun({Index, Field, Term, Value, Props, Tstamp}) ->
+               {Index, Field, Term, Value, Tstamp, Props}
+       end,
+   Postings1 = [F(X) || X <- Entries],
+   merge_index:index(Server, Postings1),
+   insert(Iter(),Server).
+
+
+rw() ->
+   {ok,FP1} = file:open(<<"dummy">>, [ram, write]),
+   ?dbg("FP1",FP1),
+   W = file:write(FP1, <<"a">>),
+   ?dbg("W",W),
+   {ok,B} = file:read(FP1, 3),
+   ?dbg("B",B),
+   B.
+
+   
+
+

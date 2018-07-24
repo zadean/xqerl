@@ -11,6 +11,6 @@ rel/example_project
 .project
 .rebar
 /ebin/
-/src/json_parser.erl
 /data/
 /_build/
+/log/

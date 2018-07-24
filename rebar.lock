@@ -1,0 +1,8 @@
+[{<<"merge_index">>,
+  {git,"git://github.com/zadean/merge_index.git",
+       {ref,"6376395463fedfd8f47d5c726f6f3f0dbe2f9656"}},
+  0},
+ {<<"xs_regex">>,
+  {git,"git://github.com/zadean/xs_regex.git",
+       {ref,"377d388ddd3674c4f9fd5299d849edfbd0fa2012"}},
+  0}].

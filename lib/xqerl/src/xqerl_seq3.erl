@@ -341,8 +341,8 @@ zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
       zip_with1(Ctx, Fun, {List1,List2}, Pos+1, NewSeq)
    catch 
       _:#xqError{} = E -> throw(E);
-      _:_ ->
-         ?dbg("error",erlang:get_stacktrace()),
+      _:_:StackTrace ->
+         ?dbg("error",StackTrace),
          ?err('XPTY0004')
    end.
 
@@ -373,12 +373,12 @@ for_each1(Ctx, Fun, [H|T], Pos) ->
             [Output | for_each1(Ctx, Fun, T, Pos + 1)]
       end
    catch
-      _:#xqError{} = E -> 
-         ?dbg("error",erlang:get_stacktrace()),
+      _:#xqError{} = E:StackTrace -> 
+         ?dbg("error",StackTrace),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("E",E),
-         ?dbg("error",erlang:get_stacktrace()),
+         ?dbg("error",StackTrace),
          ?err('XPTY0004')
    end.
 
@@ -550,12 +550,12 @@ map1(Ctx, Fun, [H|T], Pos) ->
             [Output | map1(Ctx, Fun, T, Pos + 1)]
       end
    catch
-      _:#xqError{} = E ->
-         ?dbg("error",erlang:get_stacktrace()),
+      _:#xqError{} = E:StackTrace ->
+         ?dbg("error",StackTrace),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("E",E),
-         ?dbg("error",erlang:get_stacktrace()),
+         ?dbg("error",StackTrace),
          ?err('XPTY0004')
    end.
 
@@ -842,8 +842,8 @@ filter1(Ctx, Fun, [H|T], Pos) ->
                                          #qname{local_name = "XPTY0019"}}} ->
          % context was not a node when one was expected
          ?err('XPTY0020');
-      _:#xqError{} = E ->
-         ?dbg("H",erlang:get_stacktrace()),
+      _:#xqError{} = E:StackTrace ->
+         ?dbg("H",StackTrace),
          throw(E)
   end.
 

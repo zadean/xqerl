@@ -118,8 +118,8 @@ read_bin({Cwd,BaseUri},Bin) when is_binary(Bin) ->
         #{}
        }}
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          {error,invalid_xml}
    end.
@@ -257,8 +257,8 @@ read_file(Src) ->
        #{}
       }
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          ok
    end.
@@ -289,8 +289,8 @@ read_list(BaseUri,List) ->
        #{}
       }
    catch
-      _:_ ->
-         ?dbg("Error",erlang:get_stacktrace()),
+      _:_:Stack ->
+         ?dbg("Error",Stack),
          ets:delete(A2),
          ok
    end.

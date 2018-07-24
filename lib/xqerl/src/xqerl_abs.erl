@@ -80,7 +80,7 @@ init_mod_scan() ->
    erlang:put(var_tuple, 1),
    erlang:put(iter_loop, 1).
 
-scan_functions(#{tab := Tab}, Functions,ModName, Scope) ->
+scan_functions(#{tab := Tab}, Functions,ModName, public) ->
    Specs = [ {Name#qname{prefix = []}, 
               Type, 
               Annos,
@@ -549,7 +549,7 @@ export_functions(Functions) ->
 export_variables(Variables, _Ctx) ->
    Specs = [ {xqerl_static:variable_hash_name(Name),1}
            || #xqVar{name = Name, 
-                     annotations = Annos} <- Variables%,
+                     annotations = _Annos} <- Variables%,
               %not_private(Annos)
            ],
    export_atts(Specs).
@@ -649,30 +649,34 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
            DoExprAbs = expr_do(Ctx5, DoExpr),
            lists:map(
              fun(#xqNameTest{name = #qname{namespace = "*",local_name = "*"}}) ->
-                   C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{}} = _@CodeVar1,
+                   C = ?Q("{_,#xqError{name = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_} -> _@DoExprAbs"),
-                   revert(C);
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                   D = revert(?Q("_@DoExprAbs")),
+                   {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = "*",local_name = Ln}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_} -> _@DoExprAbs"),
-                   revert(C);
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                   D = revert(?Q("_@DoExprAbs")),
+                   {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = "*"}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_} -> _@DoExprAbs"),
-                   revert(C);
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                   D = revert(?Q("_@DoExprAbs")),
+                   {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@,
                                                      local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
-                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_} -> _@DoExprAbs"),
-                   revert(C)
+                                 location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
+                   D = revert(?Q("_@DoExprAbs")),
+                   {clause,?L,[revert(C)],[],[D]}
                end, Errors)
      end,
    
@@ -939,10 +943,10 @@ expr_do(Ctx, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxItem = ?P("xqerl_context:get_context_item(_@CurrCtxVar)"),
    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
-   NextCtxVar = next_ctx_var_name(),
-   NextCtxVVar = {var,?L,NextCtxVar},
+%   NextCtxVar = next_ctx_var_name(),
+   %NextCtxVVar = {var,?L,NextCtxVar},
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
-      {[],Rest} -> % nothing simple, only complex
+      {[],_Rest} -> % nothing simple, only complex
 %?dbg("{P,Rest}",{[],Rest}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
          ?P(["fun() ->",
@@ -966,9 +970,9 @@ expr_do(Ctx, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
       {P,Rest} -> % simple and complex
 %?dbg("{P,Rest}",{P,Rest}),
          NextVar = {var,?L,next_var_name()},
-         PosVar = {var,?L,next_var_name()},
-         SizVar = {var,?L,next_var_name()},
-         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%         PosVar = {var,?L,next_var_name()},
+%         SizVar = {var,?L,next_var_name()},
+%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
          E1 = step_expr_do(Ctx, Rest, NextVar),
          % new context need position and size
          ?P(["fun() ->",
@@ -1024,9 +1028,9 @@ expr_do(Ctx, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
       {P,Rest} ->
          %?dbg("{P,Rest}",{P,Rest}),
          NextVar = {var,?L,next_var_name()},
-         PosVar = {var,?L,next_var_name()},
-         SizVar = {var,?L,next_var_name()},
-         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%         PosVar = {var,?L,next_var_name()},
+%         SizVar = {var,?L,next_var_name()},
+%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
          E1 = step_expr_do(Ctx, Rest, NextVar),
          % new context need position and size
          ?P(["fun() ->",
@@ -1094,9 +1098,9 @@ expr_do(Ctx, {path_expr,_Id,[ Base | Steps ]}) ->
       {P,Rest} ->
          ?dbg("{P,Rest}",{P,Rest}),
          NextVar = {var,?L,next_var_name()},
-         PosVar = {var,?L,next_var_name()},
-         SizVar = {var,?L,next_var_name()},
-         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%         PosVar = {var,?L,next_var_name()},
+%         SizVar = {var,?L,next_var_name()},
+%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
          E1 = step_expr_do(Ctx, Rest, NextVar),
          % new context need position and size
          ?P(["fun() ->",

@@ -268,13 +268,13 @@ assert_error(Result, ErrorCode) ->
    end.
 
 size(A) ->
-   ?seq:size(A).
+   xqerl_seq3:size(A).
 
 string_value(List) when is_list(List) andalso not is_integer(hd(List)) ->
    NewList = lists:map(fun(I) ->
-                             ?seq:singleton(I)
+                             xqerl_seq3:singleton(I)
                        end, List),
-   Seq = ?seq:from_list(NewList),
+   Seq = xqerl_seq3:from_list(NewList),
    xqerl_types:string_value(Seq);
 string_value(Seq) ->
    xqerl_types:string_value(Seq).

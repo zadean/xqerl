@@ -126,8 +126,10 @@ select(Uri) ->
       false ->
          {error,not_exists};
       true ->
+         ?dbg("exists",Uri),
          case get_status(Uri) of
             {active,Pid} ->
+               ?dbg("Pid",Pid),
                case is_process_alive(Pid) of
                   true ->
                      Pid ! touch,
@@ -147,12 +149,18 @@ select(Uri) ->
                      end
                end;
             inactive ->
+               ?dbg("active",false),
                try
                   set_status(Uri, loading),
+                  ?dbg("status set",true),
                   Bin = ext_select(Uri),
+                  ?dbg("Bin",Bin),
                   {ok,Pid1} = xqldb_doc:load(Bin),
+                  ?dbg("load",Pid1),
                   set_pid(Uri, Pid1),
+                  ?dbg("set_pid",true),
                   set_status(Uri, active),
+                  ?dbg("set_status",true),
                   {ok,Pid1}
                catch
                   _:Err ->

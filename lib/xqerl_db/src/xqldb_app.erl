@@ -44,7 +44,6 @@ start(normal, []) ->
 %%    DataDir = code:lib_dir(xqerl_db, Dir),
 %%    ok = application:set_env(mnesia, dir, DataDir),
    Ret = xqldb_sup:start_link(),
-   lager:start(),
    xqldb_docstore:init(),
    xqldb_resstore:init(),
    Ret.

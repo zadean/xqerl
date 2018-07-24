@@ -71,7 +71,7 @@
 {{qname, ?NS, "fn","analyze-string"},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
  {'analyze-string', 4},3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
 {{qname, ?NS, "fn","apply"},{xqSeqType, item, zero_or_many}, [], 
- {'apply', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
+ {'apply_', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
 {{qname, ?NS, "fn","available-environment-variables"},{xqSeqType, 'xs:string', zero_or_many}, [],
  {'available-environment-variables', 1}, 0, []},
 {{qname, ?NS, "fn","avg"},{xqSeqType, 'xs:anyAtomicType', zero_or_one}, [],
@@ -517,7 +517,7 @@
 -export(['adjust-date-to-timezone'/2,'adjust-date-to-timezone'/3]).
 -export(['adjust-time-to-timezone'/2,'adjust-time-to-timezone'/3]).
 -export(['analyze-string'/3,'analyze-string'/4]).
--export(['apply'/3]).
+-export(['apply_'/3]).
 -export(['available-environment-variables'/1]).
 -export(['avg'/2]).
 -export(['base-uri'/1,'base-uri'/2]).
@@ -767,7 +767,7 @@
         xq_types:xs_string() | [],
         xq_types:xs_string()) -> xq_types:xml_element().
 'analyze-string'(Ctx,Input,Pattern) ->
-   'analyze-string'(Ctx,Input,Pattern,[]).
+   'analyze-string'(Ctx,Input,Pattern,?str([])).
 
 %% fn:analyze-string(
 %%    $input    as xs:string?,
@@ -781,23 +781,31 @@
 'analyze-string'(Ctx,Input,Pattern0,Flags) ->
    Pattern = xqerl_types:string_value(Pattern0),
    Flags1 = xqerl_types:string_value(Flags),
-   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags1),
-   Input1 = string_value(Input),
-   Content = case re:run(Input1, MP, [global]) of
-                nomatch ->
-                   [];
-                {match,List} ->
-                   List
-             end,
-   Expr = if Input1 == [] -> [];
-             true ->
-                analyze_string1(Content,Input1)
-          end,
-   Frag = #xqElementNode{name = #qname{namespace = ?NS,
-                                       prefix = "fn",
-                                       local_name = "analyze-string-result"},
-                         expr = Expr},
-   xqerl_node:new_fragment(Ctx, Frag).
+   case xs_regex:compile(Pattern,Flags1) of
+      {error, {invalid_flag, _}} ->
+         ?err('FORX0001');
+      {error, _} ->
+         ?err('FORX0002');
+      {true,_} ->
+         ?err('FORX0003');
+      {_,MP} ->
+         Input1 = string_value(Input),
+         Content = case re:run(Input1, MP, [global]) of
+                      nomatch ->
+                         [];
+                      {match,List} ->
+                         List
+                   end,
+         Expr = if Input1 == [] -> [];
+                   true ->
+                      analyze_string1(Content,Input1)
+                end,
+         Frag = #xqElementNode{name = #qname{namespace = ?NS,
+                                             prefix = "fn",
+                                             local_name = "analyze-string-result"},
+                               expr = Expr},
+         xqerl_node:new_fragment(Ctx, Frag)
+   end.
 
 analyze_string1([],String) -> % no matches
    #xqElementNode{name = #qname{namespace = ?NS,
@@ -923,15 +931,15 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
 %% Makes a dynamic call on a function with an argument list supplied 
 %% in the form of an array. 
 %% fn:apply($function as function(*), $array as array(*)) as item()*
--spec 'apply'(
+-spec 'apply_'(
         xq_types:context(), 
         xq_types:xq_function(),
         xq_types:xq_array()) -> xq_types:xq_item() | 
                                   list(xq_types:xq_item()) |
                                   xq_types:xs_error().
-'apply'(Ctx,Function,#array{data = Args}) when is_map(Function) ->
+'apply_'(Ctx,Function,#array{data = Args}) when is_map(Function) ->
    xqerl_operators:lookup(Ctx, Function, Args);
-'apply'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
+'apply_'(Ctx,Function,#array{data = Args}) when is_function(Function) ->
    try
       case Function == fun ?MODULE:concat/2 of
          true ->
@@ -943,8 +951,8 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
       _:{badarity,_} ->
          ?err('FOAP0001')
    end;
-'apply'(Ctx,#xqFunction{body = Function},Args) when is_function(Function) -> 
-   ?MODULE:apply(Ctx,Function,Args).
+'apply_'(Ctx,#xqFunction{body = Function},Args) when is_function(Function) -> 
+   ?MODULE:apply_(Ctx,Function,Args).
 
 %% Returns a list of environment variable names that are suitable for passing 
 %% to fn:environment-variable, as a (possibly empty) sequence of strings. 
@@ -1215,7 +1223,7 @@ codepoint(_,_) -> ?err('FOCH0001').
       end
    catch
       _:_ ->
-         %?dbg("compare",erlang:get_stacktrace()),
+         %?dbg("compare",StackTrace),
          ?err('FOCH0002')
   end;
 'compare'(_Ctx,Arg1,Arg2,Collation) ->
@@ -1550,7 +1558,7 @@ data1(_) ->
          catch
             ?ERROR_MATCH("FOTY0015") = E -> throw(E);
             _:_ ->
-               %?dbg("deep-equal",erlang:get_stacktrace()),
+               %?dbg("deep-equal",StackTrace),
                ?bool(false)
          end
    end.
@@ -1676,9 +1684,9 @@ distinct_vals(Vals,Fun) ->
          [Roots] = xqldb_doc:roots(Doc1),
          #xqNode{doc = Doc1, node = Roots}
    catch 
-      _:_ ->
+      _:_:StackTrace ->
          ?dbg("FODC0005",{BaseUri, Uri}),
-         ?dbg("FODC0005",erlang:get_stacktrace()),
+         ?dbg("FODC0005",StackTrace),
          ?err('FODC0005')
    end.
 
@@ -2087,10 +2095,10 @@ pct_encode3([H|T]) ->
             ?ERROR_MATCH("FODF1310") ->
                ?err('FOFD1340');
             _:#xqError{} = E ->
-               %?dbg("E",erlang:get_stacktrace()),
+               %?dbg("E",StackTrace),
                throw(E);
             _:_ ->
-               %?dbg("FOFD1340",erlang:get_stacktrace()),
+               %?dbg("FOFD1340",StackTrace),
                ?err('FOFD1340')
          end
    end.
@@ -2909,16 +2917,22 @@ check_json_to_xml_opts(_) ->
                 xq_types:xs_string(),
                 xq_types:xs_string()) ->
          xq_types:xs_boolean().
-'matches'(Ctx,String,Pattern,Flags) ->
+'matches'(_Ctx,String,Pattern,Flags) ->
    Pattern1 = xqerl_types:value(Pattern),
    Flags1 = xqerl_types:string_value(Flags),
-   {_,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags1),
-   Input1 = xqerl_types:value(String),
-   case re:run(Input1, MP, [global]) of
-      nomatch ->
-         ?bool(false);
-      _ ->
-         ?bool(true)
+   case xs_regex:compile(Pattern1,Flags1) of
+      {error, {invalid_flag, _}} ->
+         ?err('FORX0001');
+      {error, _} ->
+         ?err('FORX0002');
+      {_,MP} ->
+         Input1 = xqerl_types:value(String),
+         case re:run(Input1, MP, [global]) of
+            nomatch ->
+               ?bool(false);
+            _ ->
+               ?bool(true)
+         end
    end.
 
 %% Returns a value that is equal to the highest value appearing in the 
@@ -3979,7 +3993,7 @@ remove1([H|T],Position,Current) ->
                 xq_types:xs_string(),
                 xq_types:xs_string()) ->
          xq_types:xs_string().
-'replace'(Ctx,Input,Pattern,Replacement,Flags) ->
+'replace'(_Ctx,Input,Pattern,Replacement,Flags) ->
    Input1 = xqerl_types:string_value(Input),
    Flags1 = xqerl_types:string_value(Flags),
    Repl   = xqerl_types:string_value(Replacement),
@@ -3989,25 +4003,30 @@ remove1([H|T],Position,Current) ->
          Str = string:replace(Input1, Pattern1, Repl, all),
          ?str(lists:flatten(Str));
       false ->
-         {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern1,Flags1),
-         if Zero ->
+         case xs_regex:compile(Pattern1,Flags1) of
+            {error, {invalid_flag, _}} ->
+               ?err('FORX0001');
+            {error, _} ->
+               ?err('FORX0002');
+            {true,_} ->
                ?err('FORX0003');
-            true ->
-               ok
-         end,
-         Repl1 = case lists:member($q, xqerl_types:value(Flags)) of
-                    true ->
-                       xqerl_regex:esc_esc(Repl);
-                    _ ->
-                       Depth = xqerl_regex:get_depth(Pattern1),
-                       xqerl_regex:parse_repl(Repl,Depth)
-                 end,
-         try
-            Str = re:replace(Input1, MP, Repl1, [{return,list},global]),
-            ?str(Str)
-         catch
-            _:_ ->
-               ?err('FORX0004')
+            {_,MP} ->
+               try
+                  Repl1 = 
+                    case lists:member($q, xqerl_types:value(Flags)) of
+                       true ->
+                          xs_regex:simple_escape(Repl);
+                       _ ->
+                          {ok, Depth} = xs_regex:get_depth(Pattern1),
+                          {ok, Reg} = xs_regex:transform_replace(Repl,Depth),
+                          Reg
+                    end,
+                  Str = re:replace(Input1, MP, Repl1, [{return,list},global]),
+                  ?str(Str)
+               catch
+                  _:_ ->
+                     ?err('FORX0004')
+               end
          end
    end.
 
@@ -4491,7 +4510,7 @@ sort1(Ctx,A,B,Coll) ->
          SourceSeq;
       true ->
          Len = xqerl_seq3:size(SourceSeq),
-         'subsequence'(_Ctx,SourceSeq,StartingLoc,Len)
+         'subsequence'(_Ctx,SourceSeq,StartingLoc,?atint(Len))
    end.
 
 %% fn:subsequence(
@@ -4808,24 +4827,27 @@ sum1([H|T], Sum) ->
                  xq_types:xs_string(),
                  xq_types:xs_string()) -> 
          [] | xq_types:sequence(xq_types:xs_string()).
-'tokenize'(Ctx,Input,Pattern0,Flags0) -> 
+'tokenize'(_Ctx,Input,Pattern0,Flags0) -> 
    Pattern = string_value(Pattern0),
    Flags = string_value(Flags0),
-   {Zero,MP} = xqerl_regex:regex_comp(Ctx,Pattern,Flags),
-   if Zero ->
+   case xs_regex:compile(Pattern,Flags) of
+      {error, {invalid_flag, _}} ->
+         ?err('FORX0001');
+      {error, _} ->
+         ?err('FORX0002');
+      {true,_} ->
          ?err('FORX0003');
-      true ->
-         ok
-   end,
-   Str = xqerl_types:cast_as(Input, 'xs:string'),
-   Input1 = string_value(Str),
-   if Input1 == "" -> [];
-      true ->
-         List = re:split(Input1, MP, [group, {return,list}]),
-         lists:map(fun(S) ->
-                         H = lists:flatten(hd(S)),
-                         #xqAtomicValue{type = 'xs:string', value = H}
-                   end, List)
+      {_,MP} ->
+         Str = xqerl_types:cast_as(Input, 'xs:string'),
+         Input1 = string_value(Str),
+         if Input1 == "" -> [];
+            true ->
+               List = re:split(Input1, MP, [group, {return,list}]),
+               lists:map(fun(S) ->
+                               H = lists:flatten(hd(S)),
+                               #xqAtomicValue{type = 'xs:string', value = H}
+                         end, List)
+         end
    end.
    
 %% Provides an execution trace intended to be used in debugging queries.
@@ -4834,7 +4856,8 @@ sum1([H|T], Sum) ->
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
 'trace'(_Ctx,Arg1) -> 
-   io:format("~p~n", [Arg1]),
+   Meta = #{domain => [trace]},
+   ?LOG_INFO("~p~n", [Arg1], Meta),
    Arg1.
 
 %% fn:trace($value as item()*, $label as xs:string) as item()*
@@ -4844,8 +4867,9 @@ sum1([H|T], Sum) ->
          [] | xq_types:sequence(xq_types:xq_item()).
 'trace'(_Ctx,Arg1,Arg2) ->
    AtStr = xqerl_xs:xs_string([], Arg2),
-   Str = xqerl_types:value(AtStr) , 
-   io:format("~s:~p~n", [Str,Arg1]),
+   Str = xqerl_types:value(AtStr),
+   Meta = #{domain => [trace]},
+   ?LOG_INFO("~s:~p~n", [Str,Arg1], Meta),
    Arg1.
 
 %% Invokes a transformation using a dynamically-loaded XSLT stylesheet. 

@@ -4,6 +4,8 @@
 
 -module(xqerl).
 
+-define(PRINT,false).
+
 -include("xqerl.hrl").
 
 %% ====================================================================
@@ -48,18 +50,19 @@ run(Str, Options) ->
 %      ?dbg("Ret",Ret),
       xqerl_context:destroy(Static),
       B = compile_abstract(Ret),
-%      print_erl(B),
+      print_erl(B),
+
       Res = (xqerl_static:string_atom(ModNs)):main(Options),
       erlang:erase(),
       Res
    catch
-      _:#xqError{} = E ->
+      _:#xqError{} = E:StackTrace ->
          ?dbg("run",E),
-         ?dbg("run",erlang:get_stacktrace()),
+         ?dbg("run",StackTrace),
          E;
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("run",E),
-         ?dbg("run",erlang:get_stacktrace()),
+         ?dbg("run",StackTrace),
          {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
          E1
          %E
@@ -74,8 +77,8 @@ strip_comments(Str) ->
       _:#xqError{} = E ->
          ?dbg("strip_comments",E),
          throw(E);
-      _:_ ->
-         ?dbg("strip_comments",erlang:get_stacktrace()),
+      _:_:StackTrace ->
+         ?dbg("strip_comments",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 
@@ -90,8 +93,8 @@ scan_tokens(Str) ->
       _:#xqError{} = E ->
          ?dbg("scan_tokens e",E),
          throw(E);
-      _:_ ->
-         ?dbg("scan_tokens",erlang:get_stacktrace()),
+      _:_:StackTrace ->
+         ?dbg("scan_tokens",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 
@@ -104,9 +107,9 @@ parse_tokens(Tokens) ->
       _:#xqError{} = E ->
          ?dbg("parse_tokens",E),
          throw(E);
-      _:_ ->
+      _:_:StackTrace ->
          ?dbg("Tokens",Tokens),
-         ?dbg("parse_tokens e",erlang:get_stacktrace()),
+         ?dbg("parse_tokens e",StackTrace),
          xqerl_error:error('XPST0003')
    end.
    
@@ -116,13 +119,13 @@ scan_tree(Tree) ->
       Abstract ->
          Abstract
    catch
-      _:#xqError{} = E ->
+      _:#xqError{} = E:StackTrace ->
          ?dbg("scan_tree",E),
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+         ?dbg("scan_tree",StackTrace),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("scan_tree",E),
-         ?dbg("scan_tree",erlang:get_stacktrace()),
+         ?dbg("scan_tree",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 
@@ -131,12 +134,12 @@ scan_tree_static(Tree,FileName) ->
       Abstract ->
          Abstract
    catch
-      _:#xqError{} = E ->
+      _:#xqError{} = E:StackTrace ->
          ?dbg("scan_tree_static",E),
-         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+         ?dbg("scan_tree_static",StackTrace),
          throw(E);
-      _:_ ->
-         ?dbg("scan_tree_static",erlang:get_stacktrace()),
+      _:_:StackTrace ->
+         ?dbg("scan_tree_static",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 
@@ -159,19 +162,12 @@ compile_abstract(Abstract) ->
       _:#xqError{} = E ->
          ?dbg("compile_abstract",E),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("compile_abstract",E),
-         ?dbg("compile_abstract",erlang:get_stacktrace()),
+         ?dbg("compile_abstract",StackTrace),
          xqerl_error:error('XPST0008')
    end.
 
-% see what comes out
-print_erl(B) ->
-   {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
-   FL = erl_syntax:form_list(AC),
-   PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
-   io:fwrite("~ts~n", [PP]),
-   ok.   
 
 
 
@@ -216,3 +212,16 @@ trun(Str, Opt) ->
       xqerl_main:main(Opt).
 %ok.
 
+
+
+-if(?PRINT).
+   % see what comes out
+   print_erl(B) ->
+      {ok,{_,[{abstract_code,{_,AC}}]}} = beam_lib:chunks(B,[abstract_code]),
+      FL = erl_syntax:form_list(AC),
+      PP = (catch erl_prettypr:format(FL, [{ribbon, 80},{paper, 140}, {encoding, utf8}])),
+      io:fwrite("~ts~n", [PP]),
+      ok.
+-elif(true).
+   print_erl(_) -> ok.
+-endif.

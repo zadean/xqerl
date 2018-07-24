@@ -36,10 +36,21 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    xqerl_sup:start_link().
+   logger:set_primary_config(level, debug), % turn on some logging for now
+   case xqerl_sup:start_link() of
+      {ok,Pid} ->
+         ok = logger:add_handlers(xqerl),
+         %logger:add_handler_filter(trace_handler, trace_filter, log_filter()),
+         {ok,Pid};
+      Error ->
+         Error
+   end.
 
 stop(_State) ->
     ok.
 
 init() ->
    ok.
+
+%log_filter() ->
+%   {fun logger_filters:domain/2, {log, equal, [trace]}}.

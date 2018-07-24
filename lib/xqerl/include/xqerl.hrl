@@ -1,5 +1,6 @@
 -ifndef(xqerl_hrl).
 -define(xqerl_hrl, true).
+-include_lib("kernel/include/logger.hrl").
 
 %% The variables available in both XQuery 3.1 and XSLT 3.0 are:
 %% - err:code - the error code
@@ -18,7 +19,7 @@
 -define(get(Tab,Key),xqerl_lib:lget(Tab,Key)).
 
 
--define(dbg(A,B),io:format("~p:~p(~p): ~p ~p~n",[?MODULE,?FUNCTION_NAME,?LINE,A,B])).
+-define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B])).
 -define(seq, xqerl_seq3).
 -define(err(Code),xqerl_error:error(Code)).
 
