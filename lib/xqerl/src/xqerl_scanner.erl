@@ -1805,7 +1805,9 @@ scan_integer(".e" ++ T, Acc) ->
 scan_integer(".E" ++ T, Acc) ->
    scan_decimal("E" ++ T, "0."++Acc);
 scan_integer([H], Acc) when H == $. ->
-   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse(Acc))}, []};
+   {{decimal, ?L, 
+     xqerl_numeric:decimal(list_to_binary(lists:reverse(Acc)))
+    }, []};
 scan_integer([H|T], Acc) when H == $. ->
    scan_decimal(T, [H|Acc]);
 scan_integer(Str = [H|_], Acc) when H == $e;
@@ -1815,7 +1817,9 @@ scan_integer(T, Acc) ->
    {{integer, ?L, list_to_integer(lists:reverse(Acc))}, T}.
 
 scan_decimal([], Acc) ->
-   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse(Acc))}, []};
+   {{decimal, ?L, 
+     xqerl_numeric:decimal(list_to_binary(lists:reverse(Acc)))
+    }, []};
 scan_decimal([H|T], Acc) when H >= $0, H =< $9 ->
    scan_decimal(T, [H|Acc]);
 scan_decimal("e+" ++ T, Acc) ->
@@ -1831,7 +1835,9 @@ scan_decimal("e" ++ T, Acc) ->
 scan_decimal("E" ++ T, Acc) ->
    scan_double(T, "+e" ++ Acc);
 scan_decimal(T, Acc) ->
-   {{decimal, ?L, xqerl_numeric:decimal(lists:reverse([$0|Acc]))}, T}.
+   {{decimal, ?L, 
+     xqerl_numeric:decimal(list_to_binary(lists:reverse([$0|Acc])))
+    }, T}.
 
 scan_double([], Acc) ->
     case catch list_to_float(lists:reverse(Acc)) of
@@ -2499,6 +2505,8 @@ scan_pragma([H|T], A, L) ->
 
 scan_braced_uri("}" ++ T, Acc) -> 
    {lists:reverse(Acc), T};
+scan_braced_uri("{" ++ _, _) ->
+   ?err('XPST0003');
 scan_braced_uri("&amp;" ++ T, Acc) ->
    scan_braced_uri(T, [$&|Acc]);
 scan_braced_uri("&gt;" ++ T, Acc) ->

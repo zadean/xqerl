@@ -29,7 +29,8 @@
 -compile(inline_list_funcs).
 
 -define(val(V), ?seq:singleton_value(V)).
--define(NS,"http://www.w3.org/2005/xpath-functions/map").
+-define(NS,<<"http://www.w3.org/2005/xpath-functions/map">>).
+-define(PX,<<"map">>).
 
 -export(['contains'/3]).
 -export(['entry'/3]).
@@ -48,27 +49,27 @@
 -export([construct/2]).
 
 -functions([
-{{qname, ?NS, "map", "contains"},{xqSeqType, 'xs:boolean', one}, [], 
+{{qname, ?NS, ?PX, <<"contains">>},{xqSeqType, 'xs:boolean', one}, [], 
  {'contains', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, "map", "entry"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"entry">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'entry', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, "map", "find"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"find">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'find', 3}, 2,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, "map", "for-each"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, ?PX, <<"for-each">>},{xqSeqType, item, zero_or_many}, [], 
  {'for-each', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, ?NS, "map", "get"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS, ?PX, <<"get">>},{xqSeqType, item, zero_or_many}, [], 
  {'get', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one}]},
-{{qname, ?NS, "map", "keys"},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
+{{qname, ?NS, ?PX, <<"keys">>},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'keys', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, ?NS, "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"merge">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'merge', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many}]},
-{{qname, ?NS, "map", "merge"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"merge">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'merge', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},zero_or_many},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]},
-{{qname, ?NS, "map", "put"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"put">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'put', 4}, 3,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, "map", "remove"},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
+{{qname, ?NS, ?PX, <<"remove">>},{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},[], 
  {'remove', 3}, 2,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one},{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
-{{qname, ?NS, "map", "size"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS, ?PX, <<"size">>},{xqSeqType, 'xs:integer', one}, [], 
  {'size', 2}, 1,[{xqSeqType, {xqFunTest, map, [], undefined, any, any},one}]}]).
 
 %% Tests whether a supplied map contains an entry for a given key 
@@ -195,16 +196,16 @@ find1([_|T], Key) ->
               xq_types:xq_map()) -> 
          xq_types:xq_map().
 'merge'(_Ctx,[],_) -> #{};
-'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}})
-  when Dup == "use-first";
-       Dup == "use-any" -> 
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
+  when Dup == <<"use-first">>;
+       Dup == <<"use-any">> -> 
    Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
    maps:from_list(Lists);
-'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}})
-  when Dup == "use-last" -> 
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
+  when Dup == <<"use-last">> -> 
    Lists = lists:append([maps:to_list(M) || M <- Maps]),
    maps:from_list(Lists);
-'merge'(_Ctx,Maps,#{"duplicates" := {_,#xqAtomicValue{value = Dup}}}) -> 
+'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
                end, #{}, lists:reverse(Maps));
@@ -250,20 +251,20 @@ combine_maps(Map1, Map2, _Any) when erlang:map_size(Map2) == 0 ->
    Map1;
 combine_maps(Map1, Map2, _Any) when erlang:map_size(Map1) == 0 ->
    Map2;
-combine_maps(Map1, Map2, "use-first") ->
+combine_maps(Map1, Map2, <<"use-first">>) ->
    Lists = lists:append([maps:to_list(M) || M <- [Map1,Map2]]),
    maps:from_list(Lists);
-combine_maps(Map1, Map2, "use-any") ->
+combine_maps(Map1, Map2, <<"use-any">>) ->
    Lists = lists:append([maps:to_list(M) || M <- [Map1,Map2]]),
    maps:from_list(Lists);
-combine_maps(Map1, Map2, "reject") ->
+combine_maps(Map1, Map2, <<"reject">>) ->
    case maps:size(maps:with(maps:keys(Map2), Map1)) of
       0 ->
          maps:merge(Map2, Map1);
       _ ->
          ?err('FOJS0003')
    end;
-combine_maps(Map1, Map2, "combine") ->
+combine_maps(Map1, Map2, <<"combine">>) ->
    F = fun(K,V,M) ->
              case maps:is_key(K, M) of
                 false ->

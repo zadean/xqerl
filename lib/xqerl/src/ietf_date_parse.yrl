@@ -144,14 +144,14 @@ minutes -> digit2 : int_in_range(val('$1'),0,59).
 
 %% seconds  ::=   digit digit ("." digit+)?
 seconds -> digit2 digits : 
-   V = xqerl_numeric:decimal(lists:concat([val('$1'),val('$2')])),
+   V = decimal(lists:concat([val('$1'),val('$2')])),
    case xqerl_numeric:greater_than_equal(V, 60) of
       true ->
          ?err('FORG0010');
       _ ->
          V
    end.
-seconds -> digit2 :   xqerl_numeric:decimal(int_in_range(val('$1'),0,59)).
+seconds -> digit2 :   decimal(int_in_range(val('$1'),0,59)).
 
 %% timezone ::=   tzname | tzoffset (S? "(" S? tzname S? ")")?
 timezone -> tzname                        : tzname_to_os('$1').
@@ -258,3 +258,8 @@ int_in_range(Val,Min,Max) ->
       true ->
          ?err('FORG0010')
    end.
+
+decimal(Str) when is_list(Str) ->
+   xqerl_numeric:decimal(list_to_binary(Str));
+decimal(Num) ->
+   xqerl_numeric:decimal(Num).

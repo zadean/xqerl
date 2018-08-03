@@ -494,7 +494,7 @@ build_named_element_children(Pid) ->
 	State :: term(),
 	Timeout :: non_neg_integer() | infinity.
 
-init([OldState]) when is_binary(OldState) ->
+init([{OldState, load}]) when is_binary(OldState) ->
    State = binary_to_term(OldState, [safe]),
    %State = #state{doc = Doc},
    {ok, State, ?TIMEOUT};

@@ -41,7 +41,7 @@
 -record(attr , {par = 0,     % parent element index 
                 ln = 0, px = 0, ns = 0, % name
                 typ = string,% value type
-                val = ""     % value
+                val = <<>>     % value
                }).
 -record(nmsp , {par = 0,     % parent element index 
                 ln = 0, ns = 0 % name
@@ -106,9 +106,9 @@ read_bin({Cwd,BaseUri},Bin) when is_binary(Bin) ->
           attab  = Atts} = State_1,
       A = tab_to_array(Atts),
       {ok,
-       {[], %Cwd,
-        flip_map(Names),
-        flip_map(Namesp),
+       {<<>>, %Cwd,
+        flip_map(map_to_unicode(Names)),
+        flip_map(map_to_unicode(Namesp)),
         Nodes,
         A,
         Nss,
@@ -185,6 +185,9 @@ read_bin(Cwd,Bin,State) when is_binary(Bin) ->
    end.
    
 
+read_stream(Name, State) when is_binary(Name) ->
+   {ok,Bin} = file:read_file(Name),
+   read_stream({Name,Bin}, State);
 read_stream(Name, State) when is_list(Name) ->
    {ok,Bin} = file:read_file(Name),
    read_stream({Name,Bin}, State);
@@ -224,7 +227,9 @@ read_stream({Name,Bin}, State) when is_binary(Bin) ->
    end.
 
 read_file({Uri,"file://"++_ = FileUri}) -> read_file({Uri,xqldb_lib:uri_to_filename(FileUri)});
+read_file({Uri,<<"file://",_/binary>> = FileUri}) -> read_file({Uri,xqldb_lib:uri_to_filename(FileUri)});
 read_file("file://"++_ = Uri) -> read_file(xqldb_lib:uri_to_filename(Uri));
+read_file(<<"file://",_/binary>> = Uri) -> read_file(xqldb_lib:uri_to_filename(Uri));
 read_file(Src) ->
    {#st{attab = A2} = Ostate,_} =
        resolve_qname(#st{},{"http://www.w3.org/XML/1998/namespace","xml",[]}),
@@ -245,9 +250,9 @@ read_file(Src) ->
           attab  = Atts} = read_stream(Filename, Ostate#st{source = file}),
       A = tab_to_array(Atts),
       %?dbg("Map",xqldb_idx_struct:parent_children(Nodes)),
-      {Uri,
-       flip_map(Names),
-       flip_map(Namesp),
+      {unicode:characters_to_binary(Uri),
+       flip_map(map_to_unicode(Names)),
+       flip_map(map_to_unicode(Namesp)),
        Nodes,
        A,
        Nss,
@@ -277,9 +282,9 @@ read_list(BaseUri,List) ->
           nss    = Nss,
           attab  = Atts} = read_list_1(List, Ostate),
       A = tab_to_array(Atts),
-      {BaseUri,
-       flip_map(Names),
-       flip_map(Namesp),
+      {unicode:characters_to_binary(BaseUri),
+       flip_map(map_to_unicode(Names)),
+       flip_map(map_to_unicode(Namesp)),
        Nodes,
        A,
        Nss,
@@ -625,16 +630,23 @@ get_attribute_val([D|_] = V) when D >= $0, D =< $9 ->
       {'EXIT',_} ->
          case catch list_to_float(V) of
             {'EXIT',_} ->
-               {string,V};
+               {string, unicode:characters_to_binary(V)};
             F ->
-               {double,{F,V}}
+               {double,{F,unicode:characters_to_binary(V)}}
          end;
       I ->
-         {integer,{I,V}}
+         {integer,{I,unicode:characters_to_binary(V)}}
    end;
 get_attribute_val(V) ->
-   {string,V}.
+   {string,unicode:characters_to_binary(V)}.
 
+resolve_qname(State, {Ns, Px, Local}) when is_list(Ns);
+                                           is_list(Px);
+                                           is_list(Local) ->
+   resolve_qname(State, 
+                 {unicode:characters_to_binary(Ns), 
+                  unicode:characters_to_binary(Px), 
+                  unicode:characters_to_binary(Local)});
 resolve_qname(#st{namesp = Namsp,
                   names = Names} = State, {Ns, Px, Local}) ->
    {Namsp1,NsId} = case maps:find(Ns, Namsp) of
@@ -760,7 +772,7 @@ rec_list_dir(Dir) ->
                Abs = filename:join(Dir,N),
                case is_xml(Abs) of
                   true ->
-                     {true,Abs};
+                     {true,list_to_binary(Abs)};
                   _ ->
                      false
                end
@@ -806,4 +818,10 @@ flip_map(Map) ->
              M#{V => K}
        end,            
    maps:fold(F, Map, Map).
+
+map_to_unicode(Map) ->
+   Fun = fun(K,V,M) ->
+               M#{unicode:characters_to_binary(K) => V}
+         end,    
+   maps:fold(Fun, #{}, Map).
 

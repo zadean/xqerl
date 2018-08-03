@@ -82,31 +82,60 @@ Erlang code.
 %% @doc  JSON parser (RFC7159).
 
 -compile([{hipe,[{regalloc,linear_scan}]}]).
+-include("xqerl_db.hrl").
 
 val({_,_,Token}) when hd(Token) == $" ->
-    tl(lists:droplast(Token));
+    unicode:characters_to_binary(tl(lists:droplast(Token)));
 val({_,_,Token}) ->
-   Token.
+   unicode:characters_to_binary(Token).
 
 str_val(Val) ->
-   norm_str(val(Val)).
+   norm_str(val(Val),<<>>).
    %unicode:characters_to_list(norm_str(val(Val))).
 
 
 list_to_number(List) ->
-   xqerl_numeric:double(List).
+  xqerl_numeric:double(List).
 
-norm_str([]) -> [];
-norm_str([$\\,$"|T]) -> [$" |norm_str(T)];
-norm_str([$\\,$\\|T])-> [$\\|norm_str(T)];
-norm_str([$\\,$/|T]) -> [$/|norm_str(T)];
-norm_str([$\\,$b|T]) -> [$\b|norm_str(T)];
-norm_str([$\\,$f|T]) -> [$\f|norm_str(T)];
-norm_str([$\\,$n|T]) -> [$\n|norm_str(T)];
-norm_str([$\\,$r|T]) -> [$\r|norm_str(T)];
-norm_str([$\\,$t|T]) -> [$\t|norm_str(T)];
-norm_str([$\\,$u,A,B,C,D|T]) ->
-  [list_to_integer([A,B,C,D],16)|norm_str(T)];
+norm_str(<<>>,Acc) -> Acc;
+norm_str(<<$\\,$",T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$" >>);
+norm_str(<<$\\,$\\,T/binary>>,Acc)-> norm_str(T,<<Acc/binary,$\\>>);
+norm_str(<<$\\,$/,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$/ >>);
+norm_str(<<$\\,$b,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$\b>>);
+norm_str(<<$\\,$f,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$\f>>);
+norm_str(<<$\\,$n,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$\n>>);
+norm_str(<<$\\,$r,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$\r>>);
+norm_str(<<$\\,$t,T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$\t>>);
+norm_str(<<$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2,T/binary>>,Acc) ->
+   High = list_to_integer([A,B,C,D],16),
+   Low  = list_to_integer([A2,B2,C2,D2],16),
+   if High >= 16#D800, High =< 16#DFFF, Low >= 16#D800, Low =< 16#DFFF ->
+         New = from_surrogates(High, Low),
+         NewC = maybe_utf(New),
+         norm_str(T, <<Acc/binary,NewC/binary>>);
+      true ->
+         HighC = maybe_utf(High),
+         LowC = maybe_utf(Low),
+         norm_str(T, <<Acc/binary,HighC/binary,LowC/binary>>)
+   end;
+norm_str(<<$\\,$u,A,B,C,D,T/binary>>,Acc) ->
+   Int = list_to_integer([A,B,C,D],16),
+   H = maybe_utf(Int),
+   norm_str(T, <<Acc/binary,H/binary>>);
+norm_str(<<H/utf8,T/binary>>,Acc) ->
+   norm_str(T, <<Acc/binary,H/utf8>>).
 
-norm_str([H|T]) ->
-  [H|norm_str(T)].
+
+from_surrogates(High, Low) ->
+   HC = (High - 16#D800) bsl 10,
+   LC = Low - 16#DC00,
+   HC bor LC + 16#10000.
+
+maybe_utf(Char) ->
+   try <<Char/utf8>> of H ->
+      H
+   catch _:_ ->
+      <<$\\,$u,(integer_to_binary(Char,16))/binary>>
+      %<<0/utf8>>
+   end.
+  

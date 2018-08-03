@@ -114,6 +114,7 @@ parse_options(#{fallback      := Fallback,
                 numeric       := Numeric,   % not implemented
                 reorder       := Reorder    % not implemented
                } = M) ->
+   ?dbg("M",M),
    Fb = parse_yes_no(Fallback) == yes, % can fallback boolean()
    if Fb ->
          ok;
@@ -190,24 +191,26 @@ parse_options(#{fallback      := Fallback,
    
    {Lang1,Strength1,MaxVar1,Alternate1,Backwards1,CaseLevel1,CaseFirst1}.
 
-parse_yes_no(yes) -> yes;
-parse_yes_no("yes") -> yes;
-parse_yes_no("Y") -> yes;
-parse_yes_no("y") -> yes;
-parse_yes_no("1") -> yes;
-parse_yes_no(1) -> yes;
-parse_yes_no(no) -> no;
-parse_yes_no("no") -> no;
-parse_yes_no("N") -> no;
-parse_yes_no("n") -> no;
-parse_yes_no("0") -> no;
-parse_yes_no(0) -> no;
+parse_yes_no(Y) 
+   when Y == yes; 
+        Y == <<"yes">>; Y == "yes";
+        Y == <<"Y">>; Y == "Y";
+        Y == <<"y">>; Y == "y";
+        Y == <<"1">>; Y == "1"; Y == 1 -> yes;
+parse_yes_no(N) 
+   when N == no; 
+        N == <<"no">>; N == "no";
+        N == <<"N">>; N == "N";
+        N == <<"n">>; N == "n";
+        N == <<"0">>; N == "0"; N == 0 -> no;
 parse_yes_no(_) -> undefined.
 
-parse_lang(en) -> en;
-parse_lang("en") -> en;
+parse_lang(En) 
+   when En == en; En == <<"en">>; En == "en" -> en;
 parse_lang(_) -> undefined.
 
+parse_version(Str) when is_binary(Str) ->
+   parse_version(binary_to_list(Str));
 parse_version(Str) when is_list(Str) ->
    case string:split(Str, ".") of
       [Maj,Min] ->
@@ -222,45 +225,50 @@ parse_version({Maj,Min}) ->
       true -> undefined
    end.
 
-parse_strength(primary) -> [1];
-parse_strength("primary") -> [1];
-parse_strength(1) -> [1];
-parse_strength(secondary) -> [1,2];
-parse_strength("secondary") -> [1,2];
-parse_strength(2) -> [1,2];
-parse_strength(tertiary) -> [1,2,3];
-parse_strength("tertiary") -> [1,2,3];
-parse_strength(3) -> [1,2,3];
-parse_strength(quaternary) -> [1,2,3,4];
-parse_strength("quaternary") -> [1,2,3,4];
-parse_strength(4) -> [1,2,3,4];
-parse_strength(identical) -> [1,2,3,4,5];
-parse_strength("identical") -> [1,2,3,4,5];
-parse_strength(5) -> [1,2,3,4,5];
+parse_strength(S) when S == primary;
+                       S == <<"primary">>;
+                       S == "primary";
+                       S == 1 -> [1];
+parse_strength(S) when S == secondary;
+                       S == <<"secondary">>;
+                       S == "secondary";
+                       S == 2 -> [1,2];
+parse_strength(S) when S == tertiary;
+                       S == <<"tertiary">>;
+                       S == "tertiary";
+                       S == 3 -> [1,2,3];
+parse_strength(S) when S == quaternary;
+                       S == <<"quaternary">>;
+                       S == "quaternary";
+                       S == 4 -> [1,2,3,4];
+parse_strength(S) when S == identical;
+                       S == <<"identical">>;
+                       S == "identical";
+                       S == 5 -> [1,2,3,4,5];
 parse_strength(_) -> undefined.
 
-parse_maxvariable(space) -> ?MAXSPACEVAR;
-parse_maxvariable("space") -> ?MAXSPACEVAR;
-parse_maxvariable(punct) -> ?MAXPUNCTVAR;
-parse_maxvariable("punct") -> ?MAXPUNCTVAR;
-parse_maxvariable(symbol) -> ?MAXSYMBOLVAR;
-parse_maxvariable("symbol") -> ?MAXSYMBOLVAR;
-parse_maxvariable(currency) -> ?MAXCURRVAR;
-parse_maxvariable("currency") -> ?MAXCURRVAR;
+parse_maxvariable(Max) 
+   when Max == space; Max == <<"space">>; Max == "space" -> ?MAXSPACEVAR;
+parse_maxvariable(Max) 
+   when Max == punct; Max == <<"punct">>; Max == "punct" -> ?MAXPUNCTVAR;
+parse_maxvariable(Max) 
+   when Max == symbol; Max == <<"symbol">>; Max == "symbol" -> ?MAXSYMBOLVAR;
+parse_maxvariable(Max) 
+   when Max == currency; Max == <<"currency">>; Max == "currency" -> ?MAXCURRVAR;
 parse_maxvariable(_) -> undefined.
 
-parse_alternate(non_ignorable) -> non_ignorable;
-parse_alternate("non_ignorable") -> non_ignorable;
-parse_alternate(shifted) -> shifted;
-parse_alternate("shifted") -> shifted;
-parse_alternate(blanked) -> blanked;
-parse_alternate("blanked") -> blanked;
+parse_alternate(Alt) 
+   when Alt == non_ignorable; 
+        Alt == <<"non_ignorable">>; 
+        Alt == "non_ignorable" -> non_ignorable;
+parse_alternate(Alt) 
+   when Alt == shifted; Alt == <<"shifted">>; Alt == "shifted" -> shifted;
+parse_alternate(Alt) 
+   when Alt == blanked; Alt == <<"blanked">>; Alt == "blanked" -> blanked;
 parse_alternate(_) -> undefined.
    
-parse_casefirst(upper) -> upper;
-parse_casefirst("upper") -> upper;
-parse_casefirst(lower) -> lower;
-parse_casefirst("lower") -> lower;
+parse_casefirst(CF) when CF == upper; CF == <<"upper">>; CF == "upper" -> upper;
+parse_casefirst(CF) when CF == lower; CF == <<"lower">>; CF == "lower" -> lower;
 parse_casefirst(_) -> undefined.
 
 default_options() ->

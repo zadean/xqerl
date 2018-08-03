@@ -411,15 +411,15 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 
 'Module'                 -> 'VersionDecl' 'MainModule'   : erlang:put(var_id, 1), #xqModule{version = '$1',            type = main,    declaration = [],               prolog = element(2, '$2'), body = element(3, '$2')}.
 'Module'                 -> 'VersionDecl' 'LibraryModule': erlang:put(var_id, 1), #xqModule{version = '$1',            type = library, declaration = element(1, '$2'), prolog = element(2, '$2'), body = []}.
-'Module'                 -> 'MainModule'                 : erlang:put(var_id, 1), #xqModule{version = {"3.1","UTF-8"}, type = main,    declaration = [],               prolog = element(2, '$1'), body = element(3, '$1')}.
-'Module'                 -> 'LibraryModule'              : erlang:put(var_id, 1), #xqModule{version = {"3.1","UTF-8"}, type = library, declaration = element(1, '$1'), prolog = element(2, '$1'), body = []}.
+'Module'                 -> 'MainModule'                 : erlang:put(var_id, 1), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = main,    declaration = [],               prolog = element(2, '$1'), body = element(3, '$1')}.
+'Module'                 -> 'LibraryModule'              : erlang:put(var_id, 1), #xqModule{version = {<<"3.1">>,<<"UTF-8">>}, type = library, declaration = element(1, '$1'), prolog = element(2, '$1'), body = []}.
 
 'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'encoding' 'StringLiteral' 'Separator' 
-                              : {value_of('$3'), value_of('$5')}.
+                              : {bin_value_of('$3'), bin_value_of('$5')}.
 'VersionDecl'            -> 'xquery' 'encoding' 'StringLiteral' 'Separator' 
-                              : {"3.1", value_of('$3')}.
+                              : {<<"3.1">>, bin_value_of('$3')}.
 'VersionDecl'            -> 'xquery' 'version' 'StringLiteral' 'Separator' 
-                              : {value_of('$3'),"UTF-8"}.
+                              : {bin_value_of('$3'),<<"UTF-8">>}.
 
 'MainModule'             -> 'Prolog' 'QueryBody' : {undefined, '$1', '$2'}. %% TODO local functions and variables, multiple namespaces!
 'MainModule'             ->          'QueryBody' : {undefined, [], '$1'}.
@@ -429,8 +429,10 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 
 'ModuleDecl'             -> 'module' 'namespace' 'NCName' '=' 'URILiteral' 'Separator' 
                            : if '$5' == [] -> ?err('XQST0088');
-                                true -> xqerl_context:add_statically_known_namespace(parser,"Q{"++'$5'++"}", value_of('$3')), 
-                                        {'module-namespace', {"Q{"++'$5'++"}", value_of('$3')}}
+                                true ->
+                                 Ns = list_to_binary(["Q{", '$5',"}"]),
+                                 xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$3')), 
+                                        {'module-namespace', {Ns, bin_value_of('$3')}}
                              end.
 
 'Separator'              -> ';'.
@@ -487,11 +489,11 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'InheritMode'            -> 'no-inherit' : 'no-inherit'.
 
 %% ignore this for a while TODO
-'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : {'decimal-format', '$3', '$4'}.
-'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : {'decimal-format', [], '$4'}.
+'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : {'decimal-format', qname(other,'$3'), '$4'}.
+'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : {'decimal-format', <<>>, '$4'}.
 
-'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral'  : [{'$1', value_of('$3')}].
-'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral' 'DFPropertyNameList' : [{'$1', value_of('$3')}|'$4'].
+'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral'  : [{'$1', bin_value_of('$3')}].
+'DFPropertyNameList'     -> 'DFPropertyName' '=' 'StringLiteral' 'DFPropertyNameList' : [{'$1', bin_value_of('$3')}|'$4'].
 
 'DFPropertyName'         -> 'decimal-separator'  : 'decimal-separator' .
 'DFPropertyName'         -> 'grouping-separator' : 'grouping-separator'.
@@ -513,47 +515,50 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'URILiteralList'         -> 'URILiteral' ',' 'URILiteralList' : ['$1'|'$3'].
 
 'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : {schema, {'$3', '$4'}, '$6'}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : {schema, {[], '$3'}, '$5'}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : {schema, {<<>>, '$3'}, '$5'}.
 'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : {schema, {'$3', '$4'}}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : {schema, {[], '$3'}}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : {schema, {<<>>, '$3'}}.
 
-'SchemaPrefix'           -> 'namespace' 'NCName' '=' : value_of('$2').
+'SchemaPrefix'           -> 'namespace' 'NCName' '=' : bin_value_of('$2').
 'SchemaPrefix'           -> 'default' 'element' 'namespace' : 'default-element-namespace'.
 
 'ModuleImport'           -> 'import' 'module' 'URILiteral'
-                           : if '$3' == [] ->
+                           : if '$3' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$3'++"}", []),
-                                    {"Q{"++'$3'++"}", []}
+                                    Ns = list_to_binary(["Q{", '$3', "}"]), 
+                                    xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
+                                    {Ns, <<>>}
                               end.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : if '$6' == [] ->
+                           : if '$6' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
-                                    {"Q{"++'$6'++"}", value_of('$4')}
+                                    Ns = list_to_binary(["Q{", '$6', "}"]), 
+                                    xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
+                                    {Ns, bin_value_of('$4')}
                               end.
 %%% ignoring the "at" portion, everything must be pre-compiled before use TODO?
 %'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' : {'module-import', '$3', undefined, '$5'}.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 'at' 'URILiteralList' 
-                           : if '$6' == [] ->
+                           : if '$6' == <<>> ->
                                     ?err('XQST0088');
                                  true ->
-                                    xqerl_context:add_statically_known_namespace(parser,"Q{"++'$6'++"}", value_of('$4')),
-                                    {"Q{"++'$6'++"}", value_of('$4')}
+                                    Ns = list_to_binary(["Q{", '$6', "}"]), 
+                                    xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
+                                    {Ns, bin_value_of('$4')}
                               end.
 
 'NamespaceDecl'          -> 'declare' 'namespace' 'NCName' '=' 'URILiteral' 
-                           : xqerl_context:add_statically_known_namespace(parser,'$5', value_of('$3')),
-                             {namespace, {'$5', value_of('$3')}}.
+                           : xqerl_context:add_statically_known_namespace(parser,'$5', bin_value_of('$3')),
+                             {namespace, {'$5', bin_value_of('$3')}}.
 
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'element'  'namespace' 'URILiteral' 
                            : 
 case '$5' of
-   "" -> {'element-namespace', 'no-namespace'};
+   <<>> -> {'element-namespace', 'no-namespace'};
    _ ->
-      xqerl_context:add_statically_known_namespace(parser,'$5', ""),
+      xqerl_context:add_statically_known_namespace(parser,'$5', <<>>),
       xqerl_context:set_default_element_type_namespace(parser,'$5'),
       {'element-namespace', '$5'}
 end.
@@ -625,7 +630,7 @@ end.
 'EnclosedExpr'           -> '{' 'Expr' '}' : '$2'.
 'EnclosedExpr'           -> '{' '}' : 'empty-expr'.
 
-'OptionDecl'             -> 'declare' 'option' 'EQName' 'StringLiteral' : {'option', {qname(opt, '$3'), value_of('$4')}}.
+'OptionDecl'             -> 'declare' 'option' 'EQName' 'StringLiteral' : {'option', {qname(opt, '$3'), bin_value_of('$4')}}.
 
 'QueryBody'              -> 'Expr' : #xqQuery{query = '$1'}.
 
@@ -1028,8 +1033,8 @@ end.
 'ExtensionExpr'          -> 'Pragmas' '{' 'Expr' '}' : {pragma, '$1', '$3'}.
 'ExtensionExpr'          -> 'Pragmas' '{' '}' : {pragma, '$1', []}.
 % [105]    Pragma            ::=      "(#" S? EQName (S PragmaContents)? "#)"   /* ws: explicit */
-'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$3'), value_of('$5')}.
-'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$2'), value_of('$4')}.
+'Pragma'                 -> '(#' 'S' 'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$3'), bin_value_of('$5')}.
+'Pragma'                 -> '(#'     'EQName' 'S' 'PragmaContents' '#)' : {qname(var,'$2'), bin_value_of('$4')}.
 'Pragma'                 -> '(#' 'S' 'EQName' '#)' : {qname(var,'$3'), []}.
 'Pragma'                 -> '(#'     'EQName' '#)' : {qname(var,'$2'), []}.
 
@@ -1162,15 +1167,15 @@ end.
 'NodeTest'               -> 'KindTest' : '$1'.
 'NodeTest'               -> 'NameTest' : '$1'.
 % [119]    NameTest    ::=      EQName | Wildcard 
-'NameTest'               -> 'EQName'   : #xqNameTest{name = qname(wildcard,'$1')}.
+'NameTest'               -> 'EQName'   : #xqNameTest{name = qname(nametest,'$1')}.
 'NameTest'               -> 'Wildcard' : #xqNameTest{name = qname(wildcard,'$1')}.
 % [120]    Wildcard    ::=      "*" | (NCName ":*") | ("*:" NCName) | (BracedURILiteral "*")   /* ws: explicit */
-'Wildcard'               -> '*'           : #'qname'{prefix = "*", local_name = "*"}. 
-'Wildcard'               -> 'NCName' ':*' : #'qname'{prefix = value_of('$1'), local_name = "*"}.
-'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = "*", local_name = value_of('$2')}.
-'Wildcard'               -> '*' ':*' : #'qname'{prefix = "*", local_name = "*"}.
-'Wildcard'               -> '*:' '*' : #'qname'{prefix = "*", local_name = "*"}.
-'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = "*"}.
+'Wildcard'               -> '*'           : #'qname'{prefix = <<"*">>, local_name = <<"*">>}. 
+'Wildcard'               -> 'NCName' ':*' : #'qname'{prefix = bin_value_of('$1'), local_name = <<"*">>}.
+'Wildcard'               -> '*:' 'NCName' : #'qname'{prefix = <<"*">>, local_name = bin_value_of('$2')}.
+'Wildcard'               -> '*' ':*' : #'qname'{prefix = <<"*">>, local_name = <<"*">>}.
+'Wildcard'               -> '*:' '*' : #'qname'{prefix = <<"*">>, local_name = <<"*">>}.
+'Wildcard'               -> 'BracedURILiteral' '*'  : #'qname'{namespace = '$1', local_name = <<"*">>}.
 % [121]    PostfixExpr    ::=      PrimaryExpr (Predicate | ArgumentList | Lookup)*   
 'PostfixExpr'            -> 'PrimaryExpr' 'PostFixes'  : case is_partial_impl('$2') of
                                                             true ->
@@ -1199,7 +1204,7 @@ end.
 % [125]    Lookup      ::=      "?" KeySpecifier
 'Lookup'                 -> '?' 'KeySpecifier' : '$2'.
 % [126]    KeySpecifier      ::=      NCName | IntegerLiteral | ParenthesizedExpr | "*"
-'KeySpecifier'           -> 'NCName'         : #xqAtomicValue{type = 'xs:NCName', value = value_of('$1')}.
+'KeySpecifier'           -> 'NCName'         : #xqAtomicValue{type = 'xs:NCName', value = bin_value_of('$1')}.
 'KeySpecifier'           -> 'IntegerLiteral' : #xqAtomicValue{type = 'xs:integer', value = value_of('$1')}.
 'KeySpecifier'           -> 'ParenthesizedExpr' : '$1'.
 'KeySpecifier'           -> '*'        : 'wildcard'.
@@ -1232,7 +1237,7 @@ end.
 %%          value = undefined :: term() 
 %%         }).
 'Literal'                -> 'NumericLiteral' : '$1'.
-'Literal'                -> 'StringLiteral'  : xqAtomicValue('xs:string',value_of('$1')).
+'Literal'                -> 'StringLiteral'  : xqAtomicValue('xs:string',bin_value_of('$1')).
 % [130]    NumericLiteral    ::=      IntegerLiteral | DecimalLiteral | DoubleLiteral 
 %'NumericLiteral'         -> 'IntegerLiteral' : value_of('$1').
 'NumericLiteral'         -> 'IntegerLiteral' : xqAtomicValue('xs:integer',value_of('$1')).
@@ -1326,14 +1331,14 @@ end.
 'DirAttribute'           -> 'S' : [].
 % [144]    DirAttributeValue    ::=      ('"' (EscapeQuot | QuotAttrValueContent)* '"') | ("'" (EscapeApos | AposAttrValueContent)* "'")   /* ws: explicit */
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' 'DirAttributeValuesQuot' : ['$1' | '$2'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : [{entity_ref,"\""} | '$2'].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           'DirAttributeValuesQuot' : [{entity_ref,<<"\"">>} | '$2'].
 'DirAttributeValuesQuot' -> 'QuotAttrValueContent' : ['$1'].
-'DirAttributeValuesQuot' -> 'EscapeQuot'           : [{entity_ref,"\""}].
+'DirAttributeValuesQuot' -> 'EscapeQuot'           : [{entity_ref,<<"\"">>}].
 
 'DirAttributeValuesApos' -> 'AposAttrValueContent' 'DirAttributeValuesApos' : ['$1' | '$2'].
-'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : [{entity_ref,"'"} | '$2'].
+'DirAttributeValuesApos' -> 'EscapeApos'           'DirAttributeValuesApos' : [{entity_ref,<<"'">>} | '$2'].
 'DirAttributeValuesApos' -> 'AposAttrValueContent' : ['$1'].
-'DirAttributeValuesApos' -> 'EscapeApos'           : [{entity_ref,"'"}].
+'DirAttributeValuesApos' -> 'EscapeApos'           : [{entity_ref,<<"'">>}].
 
 'DirAttributeValue'      -> 'quot' 'DirAttributeValuesQuot' 'quot' : '$2'.
 'DirAttributeValue'      -> 'quot'                          'quot' : [].
@@ -1343,14 +1348,14 @@ end.
 'QuotAttrValueContent'   -> 'QuotAttrContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
 'QuotAttrValueContent'   -> 'CommonContent' : '$1'.
 
-'QuotAttrContentChars'   -> 'QuotAttrContentChar' : [value_of('$1')].
-'QuotAttrContentChars'   -> 'QuotAttrContentChar' 'QuotAttrContentChars' : [value_of('$1') | '$2'].
+'QuotAttrContentChars'   -> 'QuotAttrContentChar' : bin_value_of('$1').
+'QuotAttrContentChars'   -> 'QuotAttrContentChar' 'QuotAttrContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
 % [146]    AposAttrValueContent    ::=      AposAttrContentChar | CommonContent   
 'AposAttrValueContent'   -> 'AposAttrContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
 'AposAttrValueContent'   -> 'CommonContent' : '$1'.
 
-'AposAttrContentChars'   -> 'AposAttrContentChar' 'AposAttrContentChars' : [value_of('$1') | '$2'].
-'AposAttrContentChars'   -> 'AposAttrContentChar' : [value_of('$1')].
+'AposAttrContentChars'   -> 'AposAttrContentChar' 'AposAttrContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
+'AposAttrContentChars'   -> 'AposAttrContentChar' : bin_value_of('$1').
 % [147]    DirElemContent    ::=      DirectConstructor | CDataSection | CommonContent | ElementContentChar 
 'DirElemContents'        -> 'DirElemContent' 'DirElemContents' : ['$1' | '$2'].
 'DirElemContents'        -> 'DirElemContent' : ['$1'].
@@ -1360,25 +1365,25 @@ end.
 'DirElemContent'         -> 'CommonContent'       : '$1'.
 'DirElemContent'         -> 'ElementContentChars' : #xqAtomicValue{type = 'xs:string', value = '$1'}.
 
-'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : [value_of('$1') | '$2'].
-'ElementContentChars'    -> 'S'                  'ElementContentChars' : [value_of('$1') | '$2'].
-'ElementContentChars'    -> 'ElementContentChar' : [value_of('$1')].
-'ElementContentChars'    -> 'S'                  : [value_of('$1')].
+'ElementContentChars'    -> 'ElementContentChar' 'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
+'ElementContentChars'    -> 'S'                  'ElementContentChars' : <<(bin_value_of('$1'))/binary , ('$2')/binary>>.
+'ElementContentChars'    -> 'ElementContentChar' : bin_value_of('$1').
+'ElementContentChars'    -> 'S'                  : bin_value_of('$1').
 % [148]    CommonContent     ::=      PredefinedEntityRef | CharRef | "{{" | "}}" | EnclosedExpr  
-'CommonContent'          -> 'PredefinedEntityRef' : {entity_ref, value_of('$1')}.
-'CommonContent'          -> 'CharRef'             : {char_ref, [value_of('$1')]}.
-'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = "{"}.
-'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = "}"}.
+'CommonContent'          -> 'PredefinedEntityRef' : {entity_ref, bin_value_of('$1')}.
+'CommonContent'          -> 'CharRef'             : {char_ref, bin_value_of('$1')}.
+'CommonContent'          -> '{{'                  : #xqAtomicValue{type = 'xs:string', value = <<"{">>}.
+'CommonContent'          -> '}}'                  : #xqAtomicValue{type = 'xs:string', value = <<"}">>}.
 'CommonContent'          -> 'EnclosedExpr' : {content_expr, '$1'}.
 % [149]    DirCommentConstructor      ::=      "<!--" DirCommentContents "-->"  /* ws: explicit */
 'DirCommentConstructor'  -> '<!--' 'DirCommentContents' '-->' : #xqCommentNode{identity = next_id(), expr = '$2'}.
 % [150]    DirCommentContents      ::=      ((Char - '-') | ('-' (Char - '-')))*
 %% done in scanner
-'DirCommentContents'     -> 'comment-text' : #xqAtomicValue{type = 'xs:string', value = value_of('$1')}.
+'DirCommentContents'     -> 'comment-text' : #xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}.
 % [151]    DirPIConstructor     ::=      "<?" PITarget (S DirPIContents)? "?>"  /* ws: explicit */
-'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2'))}.
-'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2')), 
-                                                                                                expr = #xqAtomicValue{type = 'xs:string', value = value_of('$3')}}.
+'DirPIConstructor'       -> '<?' 'PITarget' '?>'                 : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2'))}.
+'DirPIConstructor'       -> '<?' 'PITarget' 'DirPIContents' '?>' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2')), 
+                                                                                                expr = #xqAtomicValue{type = 'xs:string', value = bin_value_of('$3')}}.
 % [152]    DirPIContents     ::=      (Char* - (Char* '?>' Char*))  /* ws: explicit */
 %% done in scanner
 % [153]    CDataSection      ::=      "<![CDATA[" CDataSectionContents "]]>" /* ws: explicit */
@@ -1390,7 +1395,7 @@ end.
                                                                         end.
 % [154]    CDataSectionContents    ::=      (Char* - (Char* ']]>' Char*)) /* ws: explicit */
 %% done in scanner
-'CDataSectionContents'   -> 'cdata-contents' : value_of('$1').
+'CDataSectionContents'   -> 'cdata-contents' : bin_value_of('$1').
 % [155]    ComputedConstructor     ::=      CompDocConstructor | CompElemConstructor | CompAttrConstructor | 
 %                                           CompNamespaceConstructor | CompTextConstructor | CompCommentConstructor | CompPIConstructor
 'ComputedConstructor'    -> 'CompDocConstructor'  : '$1'.
@@ -1411,8 +1416,8 @@ end.
 'CompAttrConstructor'    -> 'attribute'    'EQName'    'EnclosedExpr' : #xqAttributeNode{identity = next_id(), name = qname(other,'$2'), expr = {content_expr, '$3'}}.
 'CompAttrConstructor'    -> 'attribute' '{' 'Expr' '}' 'EnclosedExpr' : #xqAttributeNode{identity = next_id(), name = '$3', expr = {content_expr, '$5'}}.
 % [160]    CompNamespaceConstructor      ::=      "namespace" (Prefix | EnclosedPrefixExpr) EnclosedURIExpr
-'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = value_of('$2'), local_name = []}}.
-'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = '$2', local_name = []}}.
+'CompNamespaceConstructor'-> 'namespace' 'NCName'             'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = bin_value_of('$2'), local_name = <<>>}}.
+'CompNamespaceConstructor'-> 'namespace' 'EnclosedPrefixExpr' 'EnclosedURIExpr' : #xqNamespaceNode{identity = next_id(), name = #'qname'{namespace = '$3', prefix = '$2', local_name = <<>>}}.
 % [161]    Prefix      ::=      NCName
 % block due to conflict with LocalPart 'Prefix'                 -> 'NCName' : value_of('$1').
 % [162]    EnclosedPrefixExpr      ::=      EnclosedExpr
@@ -1426,7 +1431,7 @@ end.
 % [165]    CompCommentConstructor     ::=      "comment" EnclosedExpr  
 'CompCommentConstructor' -> 'comment' 'EnclosedExpr' : #xqCommentNode{identity = next_id(), expr = {content_expr, '$2'}}.
 % [166]    CompPIConstructor    ::=      "processing-instruction" (NCName | ("{" Expr "}")) EnclosedExpr   
-'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,value_of('$2')), expr = {content_expr, '$3'}}.
+'CompPIConstructor'      -> 'processing-instruction'    'NCName'    'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_id(), name = qname(pi,bin_value_of('$2')), expr = {content_expr, '$3'}}.
 'CompPIConstructor'      -> 'processing-instruction' '{' 'Expr' '}' 'EnclosedExpr' : #xqProcessingInstructionNode{identity = next_id(), name = '$3',                     expr = {content_expr, '$5'}}.
 % [167]    FunctionItemExpr     ::=      NamedFunctionRef | InlineFunctionExpr
 'FunctionItemExpr'       -> 'NamedFunctionRef' : '$1'.
@@ -1471,10 +1476,10 @@ end.
 % [177]    StringConstructor    ::=      "``[" StringConstructorContent "]``"   /* ws: explicit */
 'StringConstructor'      -> '``[' 'StringConstructorContent' ']``' : {'string-constructor', '$2'}.
 % [178]    StringConstructorContent      ::=      StringConstructorChars (StringConstructorInterpolation StringConstructorChars)*  /* ws: explicit */
-'StringConstructorContent'-> 'StringConstructorChars'                                 : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}].
-'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [#xqAtomicValue{type = 'xs:string', value = value_of('$1')}|'$2'].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [#xqAtomicValue{type = 'xs:string', value = value_of('$2')}].
-'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[#xqAtomicValue{type = 'xs:string', value = value_of('$2')}|'$3'].
+'StringConstructorContent'-> 'StringConstructorChars'                                 : [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}].
+'StringConstructorContent'-> 'StringConstructorChars'        'StringConstContents'    : [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$1')}|'$2'].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' : '$1' ++ [#xqAtomicValue{type = 'xs:string', value = bin_value_of('$2')}].
+'StringConstContents'    -> 'StringConstructorInterpolation' 'StringConstructorChars' 'StringConstContents': '$1'++[#xqAtomicValue{type = 'xs:string', value = bin_value_of('$2')}|'$3'].
 % [179]    StringConstructorChars     ::=      (Char* - (Char* ('`{' | ']``') Char*)) /* ws: explicit */
 %% done in scanner
 % [180]    StringConstructorInterpolation      ::=      "`{" Expr? "}`"   
@@ -1506,12 +1511,12 @@ end.
 'ItemType'               -> 'ParenthesizedItemType' : '$1'.
 % [187]    AtomicOrUnionType    ::=      EQName   
 'AtomicOrUnionType'      -> 'EQName' : case qname(type,'$1') of
-                                          #qname{namespace = _, prefix = "xs", local_name = "*"} = Q ->
+                                          #qname{namespace = _, prefix = <<"xs">>, local_name = <<"*">>} = Q ->
                                              Q;
-                                          #qname{namespace = _, prefix = "xs", local_name = _} = Q ->
+                                          #qname{namespace = _, prefix = <<"xs">>, local_name = _} = Q ->
                                              qname_to_atom(Q);
                                           #qname{namespace = default, prefix = default, local_name = _} = Q ->
-                                             qname(wildcard,Q#qname{prefix = []});
+                                             qname(wildcard,Q#qname{prefix = <<>>});
                                           Q ->
                                              Q
                                        end.
@@ -1541,8 +1546,8 @@ end.
 % [193]    NamespaceNodeTest    ::=      "namespace-node" "(" ")"   
 'NamespaceNodeTest'      -> 'namespace-node' '(' ')' : #xqKindTest{kind = 'namespace'}.
 % [194]    PITest      ::=      "processing-instruction" "(" (NCName | StringLiteral)? ")"  
-'PITest'                 -> 'processing-instruction' '(' 'NCName' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,value_of('$3'))}.
-'PITest'                 -> 'processing-instruction' '(' 'StringLiteral' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,value_of('$3'))}.
+'PITest'                 -> 'processing-instruction' '(' 'NCName' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,bin_value_of('$3'))}.
+'PITest'                 -> 'processing-instruction' '(' 'StringLiteral' ')' : #xqKindTest{kind = 'processing-instruction', name = qname(pi,bin_value_of('$3'))}.
 'PITest'                 -> 'processing-instruction' '(' ')' : #xqKindTest{kind = 'processing-instruction'}.
 % [195]    AttributeTest     ::=      "attribute" "(" (AttribNameOrWildcard ("," TypeName)?)? ")" 
 'AttributeTest'          -> 'attribute' '(' 'AttribNameOrWildcard' ',' 'TypeName' ')' : #xqKindTest{kind = 'attribute', name = '$3', type = #xqSeqType{type = '$5', occur = one}}.
@@ -1550,7 +1555,7 @@ end.
 'AttributeTest'          -> 'attribute' '(' ')' : #xqKindTest{kind = 'attribute'}.
 % [196]    AttribNameOrWildcard    ::=      AttributeName | "*"  
 'AttribNameOrWildcard'   -> 'AttributeName' : qname(attwildcard,'$1').
-'AttribNameOrWildcard'   -> '*' : {qname,"*","*","*"}.
+'AttribNameOrWildcard'   -> '*' : {qname,<<"*">>,<<"*">>,<<"*">>}.
 % [197]    SchemaAttributeTest     ::=      "schema-attribute" "(" AttributeDeclaration ")" 
 'SchemaAttributeTest'    -> 'schema-attribute' '(' 'AttributeDeclaration' ')' : #xqKindTest{kind = 'schema-attribute', name = qname(wildcard,'$3')}.
 % [198]    AttributeDeclaration    ::=      AttributeName  
@@ -1561,8 +1566,8 @@ end.
 'ElementTest'            -> 'element' '(' 'ElementNameOrWildcard' ')' : #xqKindTest{kind = 'element', name = '$3'}.
 'ElementTest'            -> 'element' '(' ')' : #xqKindTest{kind = 'element'}.
 % [200]    ElementNameOrWildcard      ::=      ElementName | "*" 
-'ElementNameOrWildcard'  -> '*' : {qname,"*","*","*"}.
-'ElementNameOrWildcard'  -> 'ElementName' : qname(wildcard,'$1').
+'ElementNameOrWildcard'  -> '*' : {qname,<<"*">>,<<"*">>,<<"*">>}.
+'ElementNameOrWildcard'  -> 'ElementName' : qname(nametest,'$1').
 % [201]    SchemaElementTest    ::=      "schema-element" "(" ElementDeclaration ")"  
 'SchemaElementTest'      -> 'schema-element' '(' 'ElementDeclaration' ')' : #xqKindTest{kind = 'schema-element', name = qname(wildcard,'$3')}.
 % [202]    ElementDeclaration      ::=      ElementName 
@@ -1612,7 +1617,16 @@ end.
 % [216]    ParenthesizedItemType      ::=      "(" ItemType ")"  
 'ParenthesizedItemType'  -> '(' 'ItemType' ')' : '$2'.
 % [217]    URILiteral     ::=      StringLiteral  
-'URILiteral'             -> 'StringLiteral' : string:trim(xqerl_lib:shrink_spaces(value_of('$1'))).
+'URILiteral'             -> 'StringLiteral' : 
+   BV = bin_value_of('$1'),
+   case xqerl_lib:check_uri_string(BV) of
+      {error,_} when BV == <<>> ->
+         ?err('FORG0001');
+      {error,_} ->
+         ?err('XQST0046');
+      Val ->
+         Val
+   end.
 %'URILiteral'             -> 'StringLiteral' : xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(value_of('$1')))).
 %'URILiteral'             -> 'StringLiteral' : [{bin_element,?L,{string,?L,value_of('$1')},default,default}].
 % [218]    EQName      ::=      QName | URIQualifiedName
@@ -1624,14 +1638,14 @@ end.
 'QName'                  -> 'UnprefixedName' : '$1'.
 %'PrefixedName'           -> '*'      ':' 'NCName'    : #'qname'{prefix = "*", local_name = value_of('$3')}.
 %'PrefixedName'           -> 'NCName' ':' '*'         : #'qname'{prefix = value_of('$1'), local_name = "*"}.
-'PrefixedName'           -> 'NCName' ':' 'NCName'    : #'qname'{prefix = value_of('$1'), local_name = value_of('$3')}.
-'UnprefixedName'         -> 'NCName'                 : #'qname'{namespace = 'default', prefix = 'default', local_name = value_of('$1')}.
+'PrefixedName'           -> 'NCName' ':' 'NCName'    : #'qname'{prefix = bin_value_of('$1'), local_name = bin_value_of('$3')}.
+'UnprefixedName'         -> 'NCName'                 : #'qname'{namespace = 'default', prefix = 'default', local_name = bin_value_of('$1')}.
 %'LocalPart'              -> 'NCName' : value_of('$1').
 %'LocalPart'              -> 'Prefix' : '$1'.
 
 
-'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == "http://www.w3.org/2000/xmlns/" -> ?err('XQST0070');
-                                                             true -> #'qname'{namespace = '$1', local_name = value_of('$2')}
+'URIQualifiedName'       -> 'BracedURILiteral' 'NCName' : if '$1' == <<"http://www.w3.org/2000/xmlns/">> -> ?err('XQST0070');
+                                                             true -> #'qname'{namespace = '$1', local_name = bin_value_of('$2')}
                                                           end.
 'BracedURILiteral'       -> 'Q' '{' 'URILiteral' '}'    : '$3'.
 'BracedURILiteral'       -> 'Q' '{' '}'    : 'no-namespace'.
@@ -1677,10 +1691,20 @@ end.
 value_of(Token) ->
     element(3, Token).
 
+bin_value_of(Token) ->
+   Str = element(3, Token),
+   if is_list(Str) ->
+         unicode:characters_to_binary(Str);
+      is_integer(Str) ->
+         <<Str/utf8>>;
+      true ->
+         Str
+   end.
+
 qname_to_atom(Q) ->
    L = get_qname_local_name(Q),
    P = get_qname_prefix(Q),
-   list_to_atom(lists:concat([P,":",L])).
+   binary_to_atom(<<P/binary,":",L/binary>>,utf8).
 
 xqAtomicValue(Type,Value) ->
    {xqAtomicValue, Type,Value}.
@@ -1693,35 +1717,35 @@ qname(func, {qname,undefined,Px,Ln}) -> % may be known in static namespaces
       {qname,undefined,Px,Ln}
    end;
 % reserved function names
-qname(func, {qname,default,_,"array"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"attribute"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"comment"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"document-node"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"element"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"empty-sequence"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"function"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"if"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"item"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"map"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"namespace-node"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"node"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"processing-instruction"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"schema-attribute"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"schema-element"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"switch"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"text"}) -> ?err('XPST0003');
-qname(func, {qname,default,_,"typeswitch"}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"array">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"attribute">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"comment">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"document-node">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"element">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"empty-sequence">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"function">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"if">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"item">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"map">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"namespace-node">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"node">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"processing-instruction">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"schema-attribute">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"schema-element">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"switch">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"text">>}) -> ?err('XPST0003');
+qname(func, {qname,default,_,<<"typeswitch">>}) -> ?err('XPST0003');
 % default
 qname(func, {qname,default,_Px,Ln}) ->
-   {qname,xqerl_context:get_default_function_namespace(parser),"",Ln};
-qname(func, {qname,[],Px,Ln}) ->
+   {qname,xqerl_context:get_default_function_namespace(parser),<<>>,Ln};
+qname(func, {qname,<<>>,Px,Ln}) ->
    {qname,'no-namespace',Px,Ln};
 qname(func, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(pi, Ln) ->
-   Str = string:trim(Ln),
-   case xqerl_lib:is_xsncname_start_char(hd(Str)) of
+   <<H,Str/binary>> = Name = string:trim(Ln),
+   case xqerl_lib:is_xsncname_start_char(H) of
       true ->
          lists:foreach(fun($:) -> ?err('XPTY0004');
                           (C) ->
@@ -1731,27 +1755,27 @@ qname(pi, Ln) ->
                                  ?err('XPTY0004');
                               _ -> ok
                            end
-                        end, Str);
+                        end, unicode:characters_to_list(Str));
       _ ->
          ?err('XPTY0004')
    end,
    % allow "xml" here
-   {qname,'no-namespace',[],Str};
+   {qname,'no-namespace',<<>>,Name};
 qname(type, Q) -> Q;
 
-qname(var, {qname,[],_,Ln}) ->
-   qname(var, {qname,'no-namespace',"",Ln});
+qname(var, {qname,<<>>,_,Ln}) ->
+   qname(var, {qname,'no-namespace',<<>>,Ln});
 qname(var, {qname,default,default,Ln}) ->
-   qname(var, {qname,'no-namespace',"",Ln});
-qname(var, {qname,default,"",Ln}) ->
-   qname(var, {qname,'no-namespace',"",Ln});
-qname(var, {qname,_,"err",Ln}) ->
-   {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-qname(var, {qname,undefined,Px,Ln}) when Px =/= [] -> % may be known in static namespaces
+   qname(var, {qname,'no-namespace',<<>>,Ln});
+qname(var, {qname,default,<<>>,Ln}) ->
+   qname(var, {qname,'no-namespace',<<>>,Ln});
+qname(var, {qname,_,<<"err">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
+qname(var, {qname,undefined,Px,Ln}) when Px =/= <<>> -> % may be known in static namespaces
    try
       xqerl_context:get_statically_known_namespace_from_prefix(parser,Px)
    of
-      [] ->
+      <<>> ->
          ?err('XPST0081');
       Ns ->
          {qname,Ns,Px,Ln}
@@ -1779,8 +1803,8 @@ qname(anno, {qname,undefined,Px,Ln}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,Ln};
 qname(anno, {qname,default,_,Ln}) ->
-   Ns  = "http://www.w3.org/2012/xquery",
-   {qname,Ns,"",Ln};
+   Ns  = <<"http://www.w3.org/2012/xquery">>,
+   {qname,Ns,<<>>,Ln};
 qname(anno, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
@@ -1788,63 +1812,69 @@ qname(opt, {qname,undefined,Px,Ln}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
    {qname,Ns,Px,Ln};
 qname(opt, {qname,default,_,Ln}) ->
-   Ns  = "http://www.w3.org/2012/xquery",
-   {qname,Ns,"",Ln};
+   Ns  = <<"http://www.w3.org/2012/xquery">>,
+   {qname,Ns,<<>>,Ln};
 qname(opt, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 qname(attwildcard, {qname,default,default,Ln}) ->
    Ns = 'no-namespace',
-   {qname,Ns,[],Ln};
+   {qname,Ns,<<>>,Ln};
 qname(attwildcard, Q) ->
    qname(wildcard, Q);
 
+qname(nametest, {qname,default,default,Ln}) ->
+   Ns = xqerl_context:get_default_element_type_namespace(parser),
+?dbg("Ns",Ns),
+   {qname,Ns,<<>>,Ln};
+qname(nametest, Q) ->
+   qname(wildcard, Q);
 qname(wildcard, {qname,default,default,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, []),
-   {qname,Ns,[],Ln};
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, <<>>),
+   {qname,Ns,<<>>,Ln};
 qname(wildcard, {qname,default,_Px,Ln}) ->
-   {qname,'no-namespace',[],Ln};
-qname(wildcard, {qname,undefined,"*",Ln}) ->
-   {qname,"*","*",Ln};
+   {qname,'no-namespace',<<>>,Ln};
+qname(wildcard, {qname,undefined,<<"*">>,Ln}) ->
+   {qname,<<"*">>,<<"*">>,Ln};
 qname(wildcard, {qname,undefined,Px,Ln}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser, Px),
    {qname,Ns,Px,Ln};
 qname(wildcard, {qname,Ns,default,Ln}) ->
-   {qname,Ns,"*",Ln};
+   {qname,Ns,<<"*">>,Ln};
 qname(wildcard, {qname,Ns,Px,Ln}) ->
    {qname,Ns,Px,Ln};
 
 
-qname(other, {qname,_,"err",Ln}) ->
-   {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
-qname(other, {qname,"http://www.w3.org/2005/xqt-errors",_,Ln}) ->
-   {qname,"http://www.w3.org/2005/xqt-errors","err",Ln};
+qname(other, {qname,_,<<"err">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
+qname(other, {qname,<<"http://www.w3.org/2005/xqt-errors">>,_,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xqt-errors">>,<<"err">>,Ln};
 qname(other, {qname,_,undefined,_} = Q) ->
    qname(func, Q);
-qname(other, {qname,_,"*","*"}) ->
-   {qname,"*","*","*"};
-qname(other, {qname,_,"*",Ln}) ->
-   {qname,"*","*",Ln};
-qname(other, {qname,undefined,Px,"*"}) ->
+qname(other, {qname,_,<<"*">>,<<"*">>}) ->
+   {qname,<<"*">>,<<"*">>,<<"*">>};
+qname(other, {qname,_,<<"*">>,Ln}) ->
+   {qname,<<"*">>,<<"*">>,Ln};
+qname(other, {qname,undefined,Px,<<"*">>}) ->
    Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,Px),
-   {qname,Ns,Px,"*"};
-qname(other, {qname,_,"fn",Ln}) ->
-   {qname,"http://www.w3.org/2005/xpath-functions","fn",Ln};
-qname(other, {qname,_,"xsi",Ln}) ->
-   {qname,"http://www.w3.org/2001/XMLSchema-instance","xsi",Ln};
-qname(other, {qname,_,"xml",Ln}) ->
-   {qname,"http://www.w3.org/XML/1998/namespace","xml",Ln};
-qname(other, {qname,_,"xs",Ln}) ->
-   {qname,"http://www.w3.org/2001/XMLSchema","xs",Ln};
-qname(other, {qname,_,"math",Ln}) ->
-   {qname,"http://www.w3.org/2005/xpath-functions/math","math",Ln};
-qname(other, {qname,_,"map",Ln}) ->
-   {qname,"http://www.w3.org/2005/xpath-functions/map","map",Ln};
-qname(other, {qname,_,"array",Ln}) ->
-   {qname,"http://www.w3.org/2005/xpath-functions/array","array",Ln};
+   {qname,Ns,Px,<<"*">>};
+qname(other, {qname,_,<<"fn">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xpath-functions">>,<<"fn">>,Ln};
+qname(other, {qname,_,<<"xsi">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2001/XMLSchema-instance">>,<<"xsi">>,Ln};
+qname(other, {qname,_,<<"xml">>,Ln}) ->
+   {qname,<<"http://www.w3.org/XML/1998/namespace">>,<<"xml">>,Ln};
+qname(other, {qname,_,<<"xs">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2001/XMLSchema">>,<<"xs">>,Ln};
+qname(other, {qname,_,<<"math">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xpath-functions/math">>,<<"math">>,Ln};
+qname(other, {qname,_,<<"map">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xpath-functions/map">>,<<"map">>,Ln};
+qname(other, {qname,_,<<"array">>,Ln}) ->
+   {qname,<<"http://www.w3.org/2005/xpath-functions/array">>,<<"array">>,Ln};
 qname(other, {qname,_,default,Ln}) ->
-   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,[]),
-   {qname,Ns,[],Ln};
+   Ns = xqerl_context:get_statically_known_namespace_from_prefix(parser,<<>>),
+   {qname,Ns,<<>>,Ln};
 qname(other, {qname,Ns,Px,Ln}) ->
    try xqerl_context:get_statically_known_namespace_from_prefix(parser,Px) of
       Ns1 -> {qname,Ns1,Px,Ln}
@@ -1873,7 +1903,7 @@ at_value([#xqAtomicValue{value = At}]) ->
    At;
 at_value(A) when is_list(A) ->
    try
-      lists:flatmap( fun(#xqAtomicValue{value = V}) ->
+      L = lists:map( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,E}) ->
                             at_value(E);
@@ -1881,7 +1911,8 @@ at_value(A) when is_list(A) ->
                             E;
                         ({char_ref,E}) ->
                             E
-                     end, A)
+                     end, A),
+      list_to_binary(L)
    catch _:E ->
       ?dbg("XQST0022",E),
       ?dbg("XQST0022",A),
@@ -1899,7 +1930,7 @@ ns_value([]) ->
    [];
 ns_value([#xqAtomicValue{} = At]) ->
    %?dbg("1705",At),
-   string:trim(xqerl_lib:shrink_spaces(element(3,At)));
+   xqerl_lib:normalize_spaces(element(3,At));
    %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(element(3,At))));
 ns_value([{expr,A}]) ->
    ?dbg("XQST0022",A),
@@ -1907,7 +1938,7 @@ ns_value([{expr,A}]) ->
 ns_value(A) when is_list(A) ->
    %?dbg("1708",A),
    try
-      L = lists:flatmap( fun(#xqAtomicValue{value = V}) ->
+      L = lists:map( fun(#xqAtomicValue{value = V}) ->
                             V;
                         ({expr,_E}) ->
                             ?err('XQST0022');
@@ -1916,7 +1947,7 @@ ns_value(A) when is_list(A) ->
                         ({char_ref,E}) ->
                             E
                      end, A),
-      string:trim(xqerl_lib:shrink_spaces(L))
+      xqerl_lib:normalize_spaces(list_to_binary(L))
       %xqerl_lib:pct_encode3(string:trim(xqerl_lib:shrink_spaces(L)))
    catch _:_ ->
       ?dbg("XQST0022",A),
@@ -1933,30 +1964,31 @@ as_list(L) ->
    end.
 
 dir_att(QName, Value) ->
-   if QName#qname.prefix == "xmlns"  ->
+?dbg("{QName, Value}",{QName, Value}),
+   if QName#qname.prefix == <<"xmlns">>  ->
          xqerl_context:add_statically_known_namespace(parser,ns_value(Value),QName#qname.local_name),
          #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
                                         prefix = QName#qname.local_name, 
-                                        local_name = []}};
-      QName#qname.local_name == "xmlns" andalso QName#qname.prefix == default ->
+                                        local_name = <<>>}};
+      QName#qname.local_name == <<"xmlns">> andalso QName#qname.prefix == default ->
          case at_value(Value) of 
-            "" ->
-               xqerl_context:add_statically_known_namespace(parser,'no-namespace',[]),
+            [] ->
+               xqerl_context:add_statically_known_namespace(parser,'no-namespace',<<>>),
                #xqNamespaceNode{name = #qname{namespace = 'no-namespace', 
-                                              prefix = [], local_name = []}};
+                                              prefix = <<>>, local_name = <<>>}};
             _ -> 
-               xqerl_context:add_statically_known_namespace(parser,ns_value(Value),[]),
+               xqerl_context:add_statically_known_namespace(parser,ns_value(Value),<<>>),
                #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 
-                                              prefix = [], local_name = []}} 
+                                              prefix = <<>>, local_name = <<>>}} 
          end;
       true ->
          #xqAttributeNode{name = qname(other,QName), 
                           expr = case Value of
                                     [] -> [#xqAtomicValue{type = 'xs:string', 
-                                                          value = ""}];
+                                                          value = <<>>}];
                                     undefined -> 
                                        [#xqAtomicValue{type = 'xs:string', 
-                                                       value = ""}];
+                                                       value = <<>>}];
                                     _ -> normalize_att_content(Value)
                                     end}
    end.
@@ -1969,15 +2001,15 @@ normalize_att_content(Content) ->
             O
       end, Content).
 
-normalize_whitespace([H|T]) when H == 32;
-                                 H == 13;
-                                 H == 10;
-                                 H == 9 ->
-   [32|normalize_whitespace(T)];
-normalize_whitespace([H|T]) ->
-   [H|normalize_whitespace(T)];
-normalize_whitespace([]) ->
-   [].
+normalize_whitespace(<<H,T/binary>>) when H == 32;
+                                          H == 13;
+                                          H == 10;
+                                          H == 9 ->
+   <<32,(normalize_whitespace(T))/binary>>;
+normalize_whitespace(<<H,T/binary>>) ->
+   <<H,(normalize_whitespace(T))/binary>>;
+normalize_whitespace(<<>>) ->
+   <<>>.
 
 is_partial_impl(PostFixes) ->
    lists:any(fun({arguments,Args}) ->

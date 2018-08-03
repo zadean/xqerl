@@ -221,9 +221,9 @@
 
 -record(qname, 
         {
-         namespace  :: 'no-namespace' | default | undefined | string() | #xqAtomicValue{} | #xqNode{},
-         prefix    = undefined :: default | undefined | string() | #xqAtomicValue{} | #xqNode{},
-         local_name :: undefined | string() | #xqAtomicValue{} | #xqNode{}
+         namespace  :: 'no-namespace' | default | undefined | binary() | #xqAtomicValue{} | #xqNode{},
+         prefix    = undefined :: default | undefined | binary() | #xqAtomicValue{} | #xqNode{},
+         local_name :: undefined | binary() | #xqAtomicValue{} | #xqNode{}
         }).
 -record(xqPosVar,
         {
@@ -274,8 +274,8 @@
 
 -record(xqNamespace, 
         {
-         namespace  :: 'no-namespace' | undefined | string() | [],
-         prefix     :: undefined | string() | []
+         namespace  :: 'no-namespace' | undefined | binary() | [],
+         prefix     :: undefined | binary() | []
         }).
 %% -record(xqElement, 
 %%         {
@@ -312,7 +312,7 @@
       desc_count   = 0         :: integer(),
       document_uri = undefined :: term(),
       children     = []        :: [term()],
-      string_value = ""        :: string()
+      string_value = <<>>      :: binary()
    }).
 
 -record(xqDocumentNode, {
@@ -321,7 +321,7 @@
       base_uri     = undefined :: term(),
       children     = []        :: [term()],
       value        = undefined :: term(),
-      string_value = ""        :: string(),
+      string_value = <<>>      :: binary(),
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).
@@ -336,7 +336,7 @@
       inscope_ns   = []        ,
       nilled       = false     :: boolean(),
       type         = undefined :: term(),
-      base_uri     = ""        :: string() | #xqAtomicValue{},
+      base_uri     = <<>>      :: binary() | #xqAtomicValue{},
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).
@@ -346,7 +346,7 @@
       name         = undefined :: #qname{} | term(),
       parent_node  = undefined :: term(),
       value        = undefined :: term(),
-      string_value = ""        :: string(),
+      string_value = <<>>      :: binary(),
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).
@@ -363,7 +363,7 @@
       identity     = undefined :: term(),
       name         = undefined :: #qname{} | term(),
       parent_node  = undefined :: term(),
-      base_uri     = ""        :: string() | #xqAtomicValue{},
+      base_uri     = <<>>      :: binary() | #xqAtomicValue{},
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).
@@ -371,7 +371,7 @@
 -record(xqCommentNode, {
       identity     = undefined :: term(),
       parent_node  = undefined :: term(),
-      string_value = ""        :: string(),
+      string_value = <<>>      :: binary(),
       path_index   = undefined,% :: [integer()],
       expr         = undefined :: term()
    }).

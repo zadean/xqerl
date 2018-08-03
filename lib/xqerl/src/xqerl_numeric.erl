@@ -67,46 +67,50 @@ float_to_decimal(Float) when is_float(Float) ->
                          [M,E] ->
                             [M,E];
                          [M] ->
-                            [M,"0"]
+                            [M,<<"0">>]
                       end,
-   Exp = list_to_integer(ExpStr),
+   Exp = binary_to_integer(ExpStr),
    {Sign,AbsMantStr} = case MantStr of
-                          [$-|R] ->
-                             {"-",R};
+                          <<$-,R/binary>> ->
+                             {<<"-">>,R};
                           _ ->
-                             {"",MantStr}
+                             {<<"">>,MantStr}
                        end,
    [Int,Fract] = case string:split(AbsMantStr, [$.]) of
                     [I,F] ->
                        [I,F];
                     [I] ->
-                       [I,"0"]
+                       [I,<<"0">>]
                  end,
-   Shift = length(Fract),
+   Shift = size(Fract),
    TotalShift = (Exp - Shift) * -1,
    IntPart = if TotalShift > 0 ->
-                   list_to_integer(Sign ++ Int ++ Fract);
+                   binary_to_integer(<<Sign/binary, Int/binary, Fract/binary>>);
                 true ->
-                   list_to_integer(Sign ++ Int ++ Fract ++ 
-                                     lists:duplicate(-TotalShift, $0))
+                   binary_to_integer(<<Sign/binary, Int/binary, Fract/binary, 
+                                     (binary:copy(<<"0">>, -TotalShift))/binary>>)
              end,
    #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
--spec decimal(number() | #xsDecimal{} | string()) -> #xsDecimal{}.
-decimal(0.0) ->
-   #xsDecimal{int = 0, scf = 0};
+-spec decimal(number() | #xsDecimal{} | binary()) -> #xsDecimal{}.
+decimal(0.0) -> #xsDecimal{int = 0, scf = 0};
+decimal(0) -> #xsDecimal{int = 0, scf = 0};
+decimal(1.0) -> #xsDecimal{int = 1, scf = 0};
+decimal(1) -> #xsDecimal{int = 1, scf = 0};
+decimal(-1.0) -> #xsDecimal{int = -1, scf = 0};
+decimal(-1) -> #xsDecimal{int = -1, scf = 0};
 decimal(Float) when is_float(Float) ->
    try 
       if abs(Float) < 1 andalso Float < 0 ->
-            decimal(float_to_list(Float,[{decimals, 25},compact]));
+            decimal(float_to_binary(Float,[{decimals, 25},compact]));
          abs(Float) < 1 ->
-            decimal(float_to_list(Float,[{decimals, 25},compact]));
+            decimal(float_to_binary(Float,[{decimals, 25},compact]));
          abs(Float) > 100000000000000000000000000 ->
             decimal(trunc(Float));
          trunc(Float) == Float ->
             decimal(trunc(Float));
          true ->
-            decimal(float_to_list(Float,[{decimals, 20},compact]))
+            decimal(float_to_binary(Float,[{decimals, 20},compact]))
       end
    catch
       _:_ ->
@@ -115,23 +119,25 @@ decimal(Float) when is_float(Float) ->
 decimal(Int) when is_integer(Int) ->
    #xsDecimal{int = Int, scf = 0};
 decimal(#xsDecimal{} = D) -> D;
+%% decimal(String) when is_list(String) -> %TODO remove
+%%    decimal(list_to_binary(String));
 decimal(String) ->
    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
       [] ->
          Val = case string:split(String, [$.]) of
                   [Int,Fract] ->
-                     Scf = length(Fract),
-                     Num = list_to_integer(Int ++ Fract),
+                     Scf = byte_size(Fract),
+                     Num = binary_to_integer(<<Int/binary, Fract/binary>>),
                      simplify(#xsDecimal{int = Num, scf = Scf});
                   [Int] ->
-                     #xsDecimal{int = list_to_integer(Int), scf = 0}
+                     #xsDecimal{int = binary_to_integer(Int), scf = 0}
                end,
          xqerl_lib:lput({?MODULE,?FUNCTION_NAME,String}, Val),
          Val;
       V -> V
    end.   
 
--spec double(number() | #xsDecimal{} | string()) -> 
+-spec double(number() | #xsDecimal{} | binary()) -> 
          'infinity' | 'nan' | 'neg_infinity' | 'neg_zero' | 
            float() | #xsDecimal{}.
 double(Float) when is_float(Float) ->
@@ -144,14 +150,18 @@ double(#xsDecimal{int = 0, scf = 0}) -> 0.0;
 double(#xsDecimal{scf = Scf} = D) when Scf > 6 ->
    #xsDecimal{int = Int, scf = Scf1} = simplify(D) ,
    try 
-      double(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf1))
+      double(
+        <<(integer_to_binary(Int))/binary, $.,$0,$E,$-, 
+          (integer_to_binary(Scf1))/binary>>)
    catch 
       _:_ ->
          D
    end;
 double(#xsDecimal{int = Int, scf = Scf} = D) ->
    try 
-      double(integer_to_list(Int) ++ ".0E-" ++ integer_to_list(Scf))
+      double(
+        <<(integer_to_binary(Int))/binary, $.,$0,$E,$-, 
+          (integer_to_binary(Scf))/binary>>)
    catch 
       _:_ ->
          D
@@ -161,37 +171,43 @@ double(String) ->
       [] ->
          OVal = begin
    Val = case string:trim(String) of
-            [$.|T] ->
-               [$0,$.|T];
+            <<$.,T/binary>> ->
+               <<$0,$.,T/binary>>;
+            <<>> ->
+               ?err('FORG0001');
             V ->
                V
          end,
-   case string:find(Val, "--") of
+   case string:find(Val, <<"--">>) of
       nomatch ->
          ok;
       _ ->
          ?err('FORG0001')
    end,
-   if Val == "-0"  -> neg_zero;
-      Val == "NaN"  -> nan;
-      Val == "-INF" -> neg_infinity;
-      %Val == "+INF" -> infinity; % schema 1.1 
-      Val == "INF"  -> infinity;
+   if Val == <<"-0">>  -> neg_zero;
+      Val == <<"NaN">>  -> nan;
+      Val == <<"-INF">> -> neg_infinity;
+      %Val == <<"+INF">> -> infinity; % schema 1.1 
+      Val == <<"INF">>  -> infinity;
       true ->
-         case catch list_to_float(Val) of
-            Flt when is_float(Flt) ->
-               if Flt == 0 andalso hd(Val) == $- ->
+         %?dbg("Val",Val),
+         First = binary:first(Val),
+         case catch binary_to_float(Val) of
+            Flt when is_float(Flt), Flt == 0 ->
+               if First == $- ->
                      neg_zero;
                   true ->
                      Flt
                end;
+            Flt when is_float(Flt) ->
+               Flt;
             _ ->
-               case catch list_to_integer(Val) of
+               case catch binary_to_integer(Val) of
                   Int when is_integer(Int) ->
                      erlang:float(Int);
                   _ ->
                      try
-                        Bin = list_to_binary(Val),
+                        Bin = Val,
                         {Sign, Rest} = case Bin of
                                           <<"-",R/binary>> ->
                                              {'-', R};
@@ -230,7 +246,7 @@ double(String) ->
                            Str = float_to_list(NNum, [{decimals,18}]) ++ 
                                    "e" ++ integer_to_list(Exp),
                            ENum = list_to_float(Str),
-                           if ENum == 0 andalso hd(Val) == $- ->
+                           if ENum == 0 andalso First == $- ->
                                  neg_zero;
                               true ->
                                  ENum
@@ -264,8 +280,11 @@ float(Float) when is_float(Float) ->
 float(Int) when is_integer(Int) ->
    ?MODULE:float(erlang:float(Int));
 float(#xsDecimal{int = Int, scf = Scf}) ->
-   ?MODULE:float(double(integer_to_list(Int) ++ ".0E-" ++ 
-                                 integer_to_list(Scf))).
+   ?MODULE:float(
+     double(
+       <<(integer_to_binary(Int))/binary, ".0E-",
+         (integer_to_binary(Scf))/binary >>
+           )).
 
 -spec integer(number() | #xsDecimal{}) -> integer().
 integer(Int) when is_integer(Int) -> Int;
@@ -274,15 +293,15 @@ integer(#xsDecimal{int = Int, scf = 0}) -> Int;
 integer(#xsDecimal{int = Int, scf = Scf}) -> 
    Int div pow10(Scf).
 
--spec float_string(float()) -> string().
+-spec float_string(float()) -> binary().
 float_string(Float) when is_float(Float) ->
    format_float(Float).
 
--spec string(number() | #xsDecimal{}) -> string().
+-spec string(number() | #xsDecimal{}) -> binary().
 string(Float) when is_float(Float) ->
    format_double(Float);
 string(Int) when is_integer(Int) ->
-   integer_to_list(Int);
+   integer_to_binary(Int);
 string(#xsDecimal{int = Int, scf = Scf}) ->
    decimal_to_string(Int,Scf).
 
@@ -713,10 +732,11 @@ pow10(N) when N > 9 ->
 
 decimal_to_string(Int,Scf) when Int < 0 ->
    List = lists:reverse(integer_to_list(abs(Int))),
-   [$-|decimal_to_string(List,Scf,[])];
+   Bin = list_to_binary(decimal_to_string(List,Scf,[])),
+   <<$-,Bin/binary>>;
 decimal_to_string(Int,Scf) ->
    List = lists:reverse(integer_to_list(abs(Int))),
-   decimal_to_string(List,Scf,[]).
+   list_to_binary(decimal_to_string(List,Scf,[])).
 
 % trailing zeroes
 decimal_to_string([$0|T], Scf, []) when Scf > 0 ->
@@ -742,23 +762,23 @@ decimal_to_string([H|T], Scf, Acc) ->
    decimal_to_string(T, Scf - 1, [H|Acc]).
 
 format_double(Val) when abs(Val) < 1000000 andalso trunc(Val) == Val ->
-   integer_to_list(trunc(Val));
+   integer_to_binary(trunc(Val));
 format_double(Val) when abs(Val) >= 0.000001, abs(Val) < 1000000 ->
    %string(decimal(Val));
    W = lists:flatten(io_lib:format("~w",[Val])),
    case lists:member($e, W) of
       true ->
-         string:trim(lists:flatten(io_lib:format("~f",[Val])), trailing, "0");
+         list_to_binary(string:trim(lists:flatten(io_lib:format("~f",[Val])), trailing, "0"));
       _ ->
-         string:trim(W, trailing, "0")
+         list_to_binary(string:trim(W, trailing, "0"))
    end;
 format_double(0.0) ->
-    "0.0";
+    <<"0.0">>;
 format_double(Float) when is_float(Float) ->
-    {Frac, Exp} = mantissa_exponent_d(Float),
-    {Place, Digits} = format_double_1(Float, Exp, Frac),
-    R = insert_decimal(Place, [$0 + D || D <- Digits]),
-    [$- || true <- [Float < 0.0]] ++ R.
+   {Frac, Exp} = mantissa_exponent_d(Float),
+   {Place, Digits} = format_double_1(Float, Exp, Frac),
+   R = insert_decimal(Place, [$0 + D || D <- Digits]),
+   list_to_binary([[$- || true <- [Float < 0.0]],R]).
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -771,14 +791,14 @@ format_float(Val) when abs(Val) >= 9.999999974752427e-7, abs(Val) < 1000000 ->
    S1 = lists:flatten(io_lib:format("~.6e",[Val])),
    S2 = list_to_float(S1),
    S3 = lists:flatten(io_lib:format("~.6f",[S2])),
-   string:trim(S3, trailing, "0");
+   list_to_binary(string:trim(S3, trailing, "0"));
 format_float(0.0) ->
-    "0.0";
+    <<"0.0">>;
 format_float(Float) when is_float(Float) ->
-    {Frac, Exp} = mantissa_exponent(Float),
-    {Place, Digits} = format_float_1(Float, Exp, Frac),
-    R = insert_decimal(Place, [$0 + D || D <- Digits]),
-    [$- || true <- [Float < 0.0]] ++ R.
+   {Frac, Exp} = mantissa_exponent(Float),
+   {Place, Digits} = format_float_1(Float, Exp, Frac),
+   R = insert_decimal(Place, [$0 + D || D <- Digits]),
+   list_to_binary( [$- || true <- [Float < 0.0]] ++ R).
 
 -define(BIG_POW, (1 bsl 23)).
 -define(MIN_EXP, (-149)).

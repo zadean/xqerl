@@ -111,7 +111,8 @@ atomize(#xqNode{doc = D, node = N}) when is_pid(D) ->
    end;
 atomize(L) when is_list(L) -> 
    lists:map(fun atomize/1, L);
-atomize(_) -> 
+atomize(O) ->
+   ?dbg("O",O),
    ?err('XPTY0004').
 
 
@@ -137,13 +138,14 @@ return_value(List) when is_list(List) ->
 return_value(Other) -> 
    Other.
 
-string_value([]) -> [];
-string_value([H|T]) when is_integer(H) -> [H|T];
+string_value([]) -> <<>>;
+string_value(Bin) when is_binary(Bin) -> Bin;
+%string_value([H|T]) when is_integer(H) -> [H|T];
 string_value(#xqError{} = E) -> E;
 string_value(#xqRange{} = R) -> 
    string_value(xqerl_seq3:expand(R));
 string_value(#array{data = L}) -> string_value(L);
-string_value([V]) when not is_integer(V) -> string_value(V);
+string_value([V]) -> string_value(V);
 %% string_value({Doc,Node}) when is_map(Doc), is_binary(Node) ->
 %%    xqldb_doc:string_value(Doc, Node);
 string_value({Error,_}) ->
@@ -176,9 +178,9 @@ string_value(Map) when is_map(Map) ->
    ?err('FOTY0013');
 string_value(Fun) when is_function(Fun) ->
    ?err('XPTY0004');
-string_value(Seq) ->
-   lists:concat([string_value(hd(Seq))|
-                   [" "++ string_value(Av) || Av <- tl(Seq) ] ]).
+string_value([H|T]) ->
+   T2 = << <<" ", (string_value(Av))/binary>> || Av <- T  >>, 
+   << (string_value(H))/binary, T2/binary >>.
 
 value(#xqNode{} = N) ->
    value(atomize(N));
@@ -346,7 +348,7 @@ treat_as_seq(Vals, SeqType) ->
 
 name_match(_,undefined) ->
    true;
-name_match(_,#qname{namespace = "*",local_name = "*"}) ->
+name_match(_,#qname{namespace = <<"*">>,local_name = <<"*">>}) ->
    true;
 name_match(#qname{namespace = Ns1,local_name = Ln1},
            #qname{namespace = Ns2,local_name = Ln2}) ->
@@ -377,15 +379,15 @@ kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
       false ->
          false;
       nocast ->
-         ?dbg("nocast",nocast),
+         %?dbg("nocast",nocast),
          true;
       _ -> % maybe, so check name and type
          ST = subtype_of(Kt2#xqSeqType.type, Kt1#xqSeqType.type),         
-         ?dbg("ST",ST),
+         %?dbg("ST",ST),
          if Kind1 == Kind2 orelse ST ->
                NameMatch = name_match(Name2, Name1),
                if NameMatch ->
-                     ?dbg("Type match",{Type1,Type2}),
+                     %?dbg("Type match",{Type1,Type2}),
                      if Type2 == undefined ->
                            true;
                         true ->
@@ -417,7 +419,7 @@ fun_test_match(#xqSeqType{type = #xqFunTest{kind   = Kind1,
    if Kind1 =:= Kind2;
       Kind1 =:= function ->
          M = seq_type_val_match(Type1,Type2),
-         ?dbg("M",M),
+         %?dbg("M",M),
          case M of
             false when Type1 =:= any ->
                true;
@@ -841,8 +843,8 @@ castable( Av, Type ) ->
          try_cast(Av, Type)
    end.
 
-castable([], TargetSeqType, Namespaces) ->
-   castable(?seq:empty(), TargetSeqType, Namespaces);
+%% castable([], TargetSeqType, Namespaces) ->
+%%    castable(?seq:empty(), TargetSeqType, Namespaces);
 castable(#xqAtomicValue{} = Seq, TargetSeqType, Namespaces) ->
    castable(?seq:singleton(Seq), TargetSeqType, Namespaces);
 castable(Seq, #xqSeqType{type = Type} = TargetSeqType, Namespaces) ->
@@ -873,12 +875,12 @@ try_cast(Av, Type) ->
       _ = cast_as(Av, Type),
       ?true
    catch
-      ?ERROR_MATCH("FORG0001") -> ?false;
-      ?ERROR_MATCH("XPTY0004") -> ?false;
-      ?ERROR_MATCH("FODT0001") -> ?false;
-      ?ERROR_MATCH("FODT0002") -> ?false;
-      ?ERROR_MATCH("FOCA0002") -> ?false;
-      ?ERROR_MATCH("XPST0081") -> ?false;
+      ?ERROR_MATCH(<<"FORG0001">>) -> ?false;
+      ?ERROR_MATCH(<<"XPTY0004">>) -> ?false;
+      ?ERROR_MATCH(<<"FODT0001">>) -> ?false;
+      ?ERROR_MATCH(<<"FODT0002">>) -> ?false;
+      ?ERROR_MATCH(<<"FOCA0002">>) -> ?false;
+      ?ERROR_MATCH(<<"XPST0081">>) -> ?false;
       _:E -> throw(E)            
    end.
 
@@ -887,12 +889,12 @@ try_cast(Av, Type, Namespaces) ->
       _ = cast_as(Av, Type, Namespaces),
       ?true
    catch
-      ?ERROR_MATCH("FORG0001") -> ?false;
-      ?ERROR_MATCH("XPTY0004") -> ?false;
-      ?ERROR_MATCH("FODT0001") -> ?false;
-      ?ERROR_MATCH("FODT0002") -> ?false;
-      ?ERROR_MATCH("FOCA0002") -> ?false;
-      ?ERROR_MATCH("XPST0081") -> ?false;
+      ?ERROR_MATCH(<<"FORG0001">>) -> ?false;
+      ?ERROR_MATCH(<<"XPTY0004">>) -> ?false;
+      ?ERROR_MATCH(<<"FODT0001">>) -> ?false;
+      ?ERROR_MATCH(<<"FODT0002">>) -> ?false;
+      ?ERROR_MATCH(<<"FOCA0002">>) -> ?false;
+      ?ERROR_MATCH(<<"XPST0081">>) -> ?false;
       _:E -> throw(E)            
    end.
 
@@ -905,10 +907,10 @@ instance_of(#xqRange{cnt = C}, #xqSeqType{type = Type,
         C =:= 0, ?integer(Type) orelse Type == item, TOccur == zero_or_one; 
         C > 0, ?integer(Type) orelse Type == item, TOccur == one_or_many; 
         ?integer(Type) orelse Type == item, TOccur == zero_or_many ->
-   ?dbg("range",true),
+   %?dbg("range",true),
    ?true;
 instance_of(#xqRange{}, _) ->
-   ?dbg("range",false),
+   %?dbg("range",false),
    ?false;
 instance_of([], #xqSeqType{occur = TOccur}) 
    when TOccur == none;
@@ -998,7 +1000,7 @@ check_param_types(Params, Params) -> true;
 check_param_types(Params, TargetParams) ->
    try
       Zipped = lists:zip(Params, TargetParams),
-      ?dbg("Zipped",Zipped),
+      %?dbg("Zipped",Zipped),
       lists:all(fun({#xqSeqType{type = #xqKindTest{}} = P,
                      #xqSeqType{type = #xqKindTest{}} = T}) ->
                       kind_test_match(P, T);
@@ -1028,7 +1030,7 @@ check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
    ?dbg("{Type, ReturnType}",{Type, ReturnType}),
    subtype_of(Type,ReturnType).
 
-fix_ns([]) -> 'no-namespace';
+fix_ns(<<>>) -> 'no-namespace';
 fix_ns(X) -> X.
 
 instance_of1(#xqAtomicValue{}, 'xs:anyAtomicType') -> true;
@@ -1045,8 +1047,8 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
          case xqldb_doc:children(Doc, Node) of
             [Element] ->
                Q2 = node_qname(Element, Doc),
-               ?dbg("Q1",Q1),
-               ?dbg("Q2",Q2),
+               %?dbg("Q1",Q1),
+               %?dbg("Q2",Q2),
                has_name(Q2, Q1);
             _ ->
                false
@@ -1144,7 +1146,7 @@ instance_of1(#xqNode{node = [Node], doc = Doc},
    case catch xqldb_doc:node_kind(Doc, Node) of
       'processing-instruction' ->
          {_,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = [], local_name = Ln},
+         Q2 = #qname{namespace = <<>>, local_name = Ln},
          has_name(Q2, Q1);
       _ ->
          false
@@ -1190,8 +1192,8 @@ instance_of1(#xqFunction{annotations = Annos,
    if AnnoOk andalso ParamOk andalso TypeOk ->
          true;
       true ->
-         ?dbg("{AnnoOk,ParamOk,TypeOk}",{AnnoOk,ParamOk,TypeOk}),
-         ?dbg("Params, ListOfSeqTypes",{Params, ListOfSeqTypes}),
+         %?dbg("{AnnoOk,ParamOk,TypeOk}",{AnnoOk,ParamOk,TypeOk}),
+         %?dbg("Params, ListOfSeqTypes",{Params, ListOfSeqTypes}),
          false
    end;
 instance_of1(Map, #xqFunTest{kind = function, 
@@ -1353,11 +1355,11 @@ fun_check(#xqFunTest{kind = function, name = Name1,
                      params = Params2}) ->
    % this should only fail if the 1st function cannot take the types of the 2nd
    NameCheck = has_name(Name2,Name1),
-   ?dbg(?LINE, {NameCheck, Name1, Name2}),
+   %?dbg(?LINE, {NameCheck, Name1, Name2}),
    TypeCheck = type_check(RetType1, RetType2),
-   ?dbg(?LINE, {TypeCheck, RetType1, RetType2}),
+   %?dbg(?LINE, {TypeCheck, RetType1, RetType2}),
    ParamCheck = param_check(Params1,Params2),
-   ?dbg(?LINE, {ParamCheck, Params1, Params2}),
+   %?dbg(?LINE, {ParamCheck, Params1, Params2}),
    NameCheck andalso TypeCheck andalso ParamCheck;
 fun_check(#xqFunTest{},#xqFunTest{}) ->
    false.
@@ -1425,9 +1427,9 @@ cast_as( #xqAtomicValue{type = Type, value = _} = ST, Type )
    when Type /= 'xs:float' -> 
    ST;
 cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:string' ) -> 
-   ?xav('xs:string',"");
+   ?xav('xs:string',<<>>);
 cast_as( ?xav('xs:anyURI', 'no-namespace'), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic',"");
+   ?xav('xs:untypedAtomic',<<>>);
 cast_as( ?xav('xs:anyURI', Val), 'xs:string' ) -> 
    %?xav('xs:string', Val);
    ?xav('xs:string', xqerl_lib:decode_string(Val));
@@ -1457,9 +1459,9 @@ cast_as( ?true, 'xs:integer' ) ->
 cast_as( ?false, 'xs:integer' ) ->
    ?xav('xs:integer',0);
 cast_as( ?xav('xs:boolean', Val), 'xs:string' ) -> 
-   ?xav('xs:string', atom_to_list(Val));
+   ?xav('xs:string', atom_to_binary(Val,utf8));
 cast_as( ?xav('xs:boolean', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', atom_to_list(Val));
+   ?xav('xs:untypedAtomic', atom_to_binary(Val,utf8));
 cast_as( ?xav('xs:date', Val), 'xs:dateTime' ) -> 
    Rec = zero_time(Val),
    Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
@@ -1655,18 +1657,18 @@ cast_as( ?xav('xs:double', Val), 'xs:integer' ) -> % MAYBE castable
       true -> ?xav('xs:integer', trunc(Val))
    end;
 cast_as( ?xav('xs:double', Val), 'xs:string' ) -> 
-   SVal = if Val == infinity -> "INF";
-             Val == neg_infinity -> "-INF";
-             Val == neg_zero -> "-0";
-             Val == nan -> "NaN";
+   SVal = if Val == infinity -> <<"INF">>;
+             Val == neg_infinity -> <<"-INF">>;
+             Val == neg_zero -> <<"-0">>;
+             Val == nan -> <<"NaN">>;
              true -> xqerl_numeric:string(Val)
           end,
    ?xav('xs:string', SVal);
 cast_as( ?xav('xs:double', Val), 'xs:untypedAtomic' ) -> 
-   SVal = if Val == infinity -> "INF";
-             Val == neg_infinity -> "-INF";
-             Val == neg_zero -> "-0";
-             Val == nan -> "NaN";
+   SVal = if Val == infinity -> <<"INF">>;
+             Val == neg_infinity -> <<"-INF">>;
+             Val == neg_zero -> <<"-0">>;
+             Val == nan -> <<"NaN">>;
              true -> xqerl_numeric:string(Val)
           end,
    ?xav('xs:untypedAtomic', SVal);
@@ -1706,18 +1708,18 @@ cast_as( ?xav('xs:float', Val), 'xs:integer' ) -> % MAYBE castable
       true -> ?xav('xs:integer', trunc(Val))
    end;
 cast_as( ?xav('xs:float', Val), 'xs:string' ) -> 
-   SVal = if Val == infinity -> "INF";
-             Val == neg_infinity -> "-INF";
-             Val == neg_zero -> "-0";
-             Val == nan -> "NaN";
+   SVal = if Val == infinity -> <<"INF">>;
+             Val == neg_infinity -> <<"-INF">>;
+             Val == neg_zero -> <<"-0">>;
+             Val == nan -> <<"NaN">>;
              true -> xqerl_numeric:float_string(Val)
           end,
    ?xav('xs:string', SVal);
 cast_as( ?xav('xs:float', Val), 'xs:untypedAtomic' ) -> 
-   SVal = if Val == infinity -> "INF";
-             Val == neg_infinity -> "-INF";
-             Val == neg_zero -> "0";
-             Val == nan -> "NaN";
+   SVal = if Val == infinity -> <<"INF">>;
+             Val == neg_infinity -> <<"-INF">>;
+             Val == neg_zero -> <<"0">>;
+             Val == nan -> <<"NaN">>;
              true -> xqerl_numeric:float_string(Val)
           end,
    ?xav('xs:untypedAtomic', SVal);
@@ -1762,9 +1764,9 @@ cast_as( ?xav('xs:integer', Val), 'xs:double' ) ->
 cast_as( ?xav('xs:integer', Val), 'xs:float' ) -> 
    ?xav('xs:float', xqerl_numeric:float(Val));
 cast_as( ?xav('xs:integer', Val), 'xs:string' ) -> 
-   ?xav('xs:string', integer_to_list(Val));
+   ?xav('xs:string', integer_to_binary(Val));
 cast_as( ?xav('xs:integer', Val), 'xs:untypedAtomic' ) -> 
-   ?xav('xs:untypedAtomic', integer_to_list(Val));
+   ?xav('xs:untypedAtomic', integer_to_binary(Val));
 cast_as( ?xav('xs:NMTOKEN', Val), 'xs:string' ) -> 
    ?xav('xs:string', Val);
 cast_as( ?xav('xs:Name', Val), 'xs:string' ) -> 
@@ -1781,9 +1783,9 @@ cast_as( ?xav('xs:NOTATION', Val), 'xs:QName' ) ->
    ?xav('xs:QName', Val);
 cast_as( ?xav('xs:NOTATION', #qname{prefix = P, local_name = L}), 
          'xs:string' ) -> 
-   Val = if P == "" -> L;
+   Val = if P == <<>> -> L;
             true ->
-               lists:append([P,":",L])
+               <<P/binary,":",L/binary>>
          end,
    ?xav('xs:string', Val);
 cast_as( #xqAtomicValue{type = 'xs:NOTATION'} = N, 'xs:untypedAtomic' ) -> 
@@ -1792,154 +1794,53 @@ cast_as( #xqAtomicValue{type = 'xs:NOTATION'} = N, 'xs:untypedAtomic' ) ->
 cast_as( ?xav('xs:QName', Val), 'xs:NOTATION' ) -> % MAYBE castable
    ?xav('xs:NOTATION', Val);
 cast_as( ?xav('xs:QName', #qname{prefix = P, local_name = L}), 'xs:string' ) ->
-   Pre = if is_atom(P) -> "";
+   %?dbg("P",P),
+   Pre = if is_atom(P) -> <<>>;
             true -> P end,
    Val = case Pre of
-            "" -> L;
+            <<>> -> L;
             _ ->
-               lists:append([P,":",L])
+               <<P/binary,":",L/binary>>
          end,
    ?xav('xs:string', Val);
 cast_as( #xqAtomicValue{type = 'xs:QName'} = Q, 'xs:untypedAtomic' ) ->
    Val = value(cast_as( Q, 'xs:string' )),
    ?xav('xs:untypedAtomic', Val);
-cast_as( ?xav('xs:string', []), 'xs:anyURI' ) -> ?xav('xs:anyURI', []);
+cast_as( ?xav('xs:string', <<>>), 'xs:anyURI' ) -> ?xav('xs:anyURI', <<>>);
 cast_as( ?xav('xs:string', Val), 'xs:anyURI' ) -> % MAYBE castable
-   Trim = string:trim(Val),
-   if Trim == "" ->
-         ?xav('xs:anyURI', []);
-      true ->
-         EncBig = lists:flatmap(fun(Cp) when Cp > 255 ->
-                                      "&#" ++ integer_to_list(Cp) ++ ";";
-                                   (Cp) ->
-                                      [Cp]                                   
-                                end, Trim),
-         case ietf_rfc2396_scanner:string(EncBig) of
-            {ok,L,_} ->
-               Head = hd(L),
-               %?dbg("Bad",L),
-               Bad = element(3, Head) == ":" orelse 
-                       lists:keyfind(excluded, 1, L),
-               if Bad == false ->
-                     ?xav('xs:anyURI', EncBig);
-                  true ->
-                     %?dbg("Bad",L),
-                     ?err('FORG0001')
-               end;
-            _ ->
-               ?err('FORG0001')
-         end
+   case xqerl_lib:check_uri_string(Val) of
+      {error,Err} ->
+         ?dbg("Err",Err),
+         ?err('FORG0001');
+      Uri ->
+         ?xav('xs:anyURI', Uri)
    end;
 cast_as( ?xav('xs:string', Val), 'xs:base64Binary' ) -> % MAYBE castable
    ?xav('xs:base64Binary', str_to_b64bin(string:trim(Val)));
 cast_as( ?xav('xs:string', Val0), 'xs:boolean' ) -> % MAYBE castable
    Val = string:trim(Val0),
-   if Val == "true"  -> ?true;
-      Val == "false" -> ?false;
-      Val == "1"     -> ?true;
-      Val == "0"     -> ?false;
+   if Val == <<"true">>  -> ?true;
+      Val == <<"false">> -> ?false;
+      Val == <<"1">>     -> ?true;
+      Val == <<"0">>     -> ?false;
       true -> ?err('FORG0001') 
    end;
 %% In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types 
 %% derived from these), if the value is too large or too small to be 
 %% represented by the implementation, a dynamic error [err:FODT0001] is raised.
 cast_as( ?xav('xs:string', Val), 'xs:date' ) -> % MAYBE castable
-   Bin = list_to_binary(string:trim(Val)),
-   {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
-   Offset = tz_bin_to_offset(Rest),
-   Rec = #xsDateTime{sign = Sign,
-                     year = Year, 
-                     month = Mon, 
-                     day = Day, 
-                     offset = Offset},
-   Str = xqerl_datetime:to_string(Rec,'xs:date'),
-   Dt = ?xav('xs:date', set_date_string(Rec, Str)),
-   if Offset == [] ->
-         Dt;
-      true ->
-         #off_set{hour = Hour, min = Min} = Offset,
-         if Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-            Min  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-            true ->
-               Dt
-         end
-   end;
+   xqerl_datetime:string_to_date(Val);
 cast_as( ?xav('xs:string', Val), 'xs:dateTime' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
-      {Hour,Min,Sec,Rest1} = time_bin_to_hms(Rest),
-      Offset = tz_bin_to_offset(Rest1),
-      Rec = #xsDateTime{sign   = Sign,
-                        year   = Year, 
-                        month  = Mon, 
-                        day    = Day,
-                        hour   = Hour,
-                        minute = Min,
-                        second = Sec, 
-                        offset = Offset},
-      Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-      Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
-      SecFlt = double(Sec),
-      if Hour   == 24 andalso Min == 0 andalso SecFlt == 0 -> 
-            xqerl_operators:add(Dt, cast_as(?xav('xs:string', "PT0S"), 
-                                            'xs:dayTimeDuration'));
-         Hour   >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-         Min    >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-         SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-         true ->
-            Dt
-      end
-   catch _:#xqError{} = E -> throw(E);
-         _:_ -> ?err('FORG0001')
-   end; 
+   xqerl_datetime:string_to_dateTime(Val);
 %% cast_as( ?xav('xs:string', Val), 'xs:dateTimeStamp' ) -> % MAYBE castable
-%%    Bin = list_to_binary(string:trim(Val)),
-%%    {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
-%%    {Hour,Min,Sec,Rest1} = time_bin_to_hms(Rest),
-%%    Offset = tz_bin_to_offset(Rest1),
-%%    if Offset == [] -> ?err('FORG0001');
-%%       true ->
-%%          Rec = #xsDateTime{sign   = Sign,
-%%                            year   = Year, 
-%%                            month  = Mon, 
-%%                            day    = Day,
-%%                            hour   = Hour,
-%%                            minute = Min,
-%%                            second = Sec, 
-%%                            offset = Offset},
-%%          Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-%%          Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
-%%          if Hour == 24 -> xqerl_operators:add(Dt, cast_as(?xav('xs:string', "P1D"), 'xs:dayTimeDuration'));
-%%             Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-%%             Min  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-%%             Sec  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-%%             true ->
-%%                Dt
-%%          end
-%%    end;
+%%    xqerl_datetime:string_to_dateTimeStamp(Val);
 
 %% In casting to a duration value, if the value is too large or too small to 
 %% be represented by the implementation, a dynamic error [err:FODT0002] is 
 %% raised.
 cast_as( ?xav('xs:string', Val), 'xs:dayTimeDuration' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign,Day,Hour,Min,Sec} = daytimedur_bin_to_dhms(Bin),
-      Rec = #xsDateTime{sign   = Sign,
-                        year   = 0, 
-                        month  = 0, 
-                        day    = Day,
-                        hour   = Hour,
-                        minute = Min,
-                        second = Sec},
-      Str = xqerl_datetime:to_string(Rec,'xs:dayTimeDuration'),
-      ?xav('xs:dayTimeDuration', set_date_string(Rec, Str))   
-   catch
-      _:#xqError{} = E -> 
-         throw(E);
-      _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_dayTimeDuration(Val);
+
 %% In casting to xs:decimal or to a type derived from xs:decimal, if the value 
 %% is not too large or too small but nevertheless cannot be represented 
 %% accurately with the number of decimal digits available to the 
@@ -1963,23 +1864,8 @@ cast_as( ?xav('xs:string', Val1), 'xs:double' ) -> % MAYBE castable
 %% In casting to a duration value, if the value is too large or too small to be represented 
 %% by the implementation, a dynamic error [err:FODT0002] is raised.
 cast_as( ?xav('xs:string', Val), 'xs:duration' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign,Year,Mon,Day,Hour,Min,Sec} = dur_bin_to_ymdhms(Bin),
-      Rec = #xsDateTime{sign   = Sign,
-                        year   = Year, 
-                        month  = Mon, 
-                        day    = Day,
-                        hour   = Hour,
-                        minute = Min,
-                        second = Sec},
-      Str = xqerl_datetime:to_string(Rec,'xs:duration'),
-      ?xav('xs:duration', set_date_string(Rec, Str))
-   catch
-      _:#xqError{} = E -> 
-         throw(E);
-      _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_duration(Val);
+
 cast_as( #xqAtomicValue{type = 'xs:string'} = Av, 'xs:float' ) -> % MAYBE castable
    % xs:float is a 32 bit xs:double
    #xqAtomicValue{value = DblVal} = cast_as(Av, 'xs:double'),
@@ -1991,150 +1877,31 @@ cast_as( #xqAtomicValue{type = 'xs:string'} = Av, 'xs:float' ) -> % MAYBE castab
          end;
       true -> ?xav('xs:float', DblVal)
    end;
+
 cast_as( ?xav('xs:string', Val), 'xs:gDay' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      <<$-,$-,$-,D1,D2,Rest/binary>> = Bin,
-      Offset = tz_bin_to_offset(Rest),
-      Day = list_to_integer([D1,D2]),
-      if Day < 32 andalso Day > 0 ->
-         Rec = #xsDateTime{year   = 0, 
-                           month  = 0, 
-                           day    = Day,
-                           hour   = 0,
-                           minute = 0,
-                           second = xqerl_numeric:decimal(0), 
-                           offset = Offset},
-         Str = xqerl_datetime:to_string(Rec,'xs:gDay'),
-         ?xav('xs:gDay', set_date_string(Rec, Str));
-         true ->
-            throw({error,bad_date})
-      end
-   catch _:#xqError{} = E -> throw(E);
-         _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_gDay(Val);
 cast_as( ?xav('xs:string', Val), 'xs:gMonth' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      <<$-,$-,M1,M2,Rest/binary>> = Bin,
-      Offset = tz_bin_to_offset(Rest),
-      Mon = list_to_integer([M1,M2]),
-      if Mon < 13 andalso Mon > 0 ->
-         Rec = #xsDateTime{year   = 0, 
-                           month  = Mon, 
-                           day    = 0,
-                           hour   = 0,
-                           minute = 0,
-                           second = xqerl_numeric:decimal(0), 
-                           offset = Offset},
-         Str = xqerl_datetime:to_string(Rec,'xs:gMonth'),
-         ?xav('xs:gMonth', set_date_string(Rec, Str));
-         true ->
-            throw({error,bad_date})
-      end
-   catch _:#xqError{} = E -> throw(E);
-         _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_gMonth(Val);
 cast_as( ?xav('xs:string', Val), 'xs:gMonthDay' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      <<$-,$-,M1,M2,$-,D1,D2,Rest/binary>> = Bin,
-      Offset = tz_bin_to_offset(Rest),
-      Mon = list_to_integer([M1,M2]),
-      Day = list_to_integer([D1,D2]),
-      case is_valid_month_day(Mon,Day) of
-         true ->
-            Rec = #xsDateTime{year   = 0, 
-                              month  = Mon, 
-                              day    = Day,
-                              hour   = 0,
-                              minute = 0,
-                              second = xqerl_numeric:decimal(0), 
-                              offset = Offset},
-            Str = xqerl_datetime:to_string(Rec,'xs:gMonthDay'),
-            ?xav('xs:gMonthDay', set_date_string(Rec, Str));
-         _ ->
-            throw({error,bad_date})
-      end
-   catch _:#xqError{} = E -> throw(E);
-         _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_gMonthDay(Val);
 %In casting to xs:date, xs:dateTime, xs:gYear, or xs:gYearMonth (or types derived from these), 
 %% if the value is too large or too small to be represented by the implementation, 
 %% a dynamic error [err:FODT0001] is raised.
 cast_as( ?xav('xs:string', Val), 'xs:gYear' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign, Rest} = case Bin of
-                        <<"-",R/binary>> ->
-                           {'-', R};
-                        R ->
-                           {'+', R}
-                     end,
-      <<C1,C2,Y1,Y2,Rest1/binary>> = Rest,
-      Offset = tz_bin_to_offset(Rest1),
-      Year = list_to_integer([C1,C2,Y1,Y2]),
-      Rec = #xsDateTime{sign   = Sign,
-                        year   = Year, 
-                        month  = 0, 
-                        day    = 0,
-                        hour   = 0,
-                        minute = 0,
-                        second = xqerl_numeric:decimal(0), 
-                        offset = Offset},
-      if Year == 0 ->
-            ?err('FORG0001');
-         Year > 9999 ->
-            ?err('FODT0001');
-         true ->
-            Str = xqerl_datetime:to_string(Rec,'xs:gYear'),
-            ?xav('xs:gYear', set_date_string(Rec, Str))
-      end
-   catch _:#xqError{} = E -> throw(E);
-         _:_ -> 
-            ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_gYear(Val);
 cast_as( ?xav('xs:string', Val), 'xs:gYearMonth' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign, Rest} = case Bin of
-                        <<"-",R/binary>> ->
-                           {'-', R};
-                        R ->
-                           {'+', R}
-                     end,
-      <<C1,C2,Y1,Y2,$-,M1,M2,Rest1/binary>> = Rest,
-      Offset = tz_bin_to_offset(Rest1),
-      Year = list_to_integer([C1,C2,Y1,Y2]),
-      Mon  = list_to_integer([M1,M2]),
-      if Mon < 1 orelse Mon > 12 orelse Year == 0 ->
-            ?err('FORG0001');
-         true ->
-            Rec = #xsDateTime{sign   = Sign,
-                              year   = Year, 
-                              month  = Mon, 
-                              day    = 0,
-                              hour   = 0,
-                              minute = 0,
-                              second = xqerl_numeric:decimal(0), 
-                              offset = Offset},
-            Str = xqerl_datetime:to_string(Rec,'xs:gYearMonth'),
-            ?xav('xs:gYearMonth', set_date_string(Rec, Str))
-      end
-   catch
-      _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_gYearMonth(Val);
 cast_as( ?xav('xs:string', ""), 'xs:hexBinary' ) -> % MAYBE castable
    ?xav('xs:hexBinary', <<>>);
 cast_as( ?xav('xs:string', Val), 'xs:hexBinary' ) -> % MAYBE castable
    Val1 = string:trim(Val),
-   case erlang:length(Val1) rem 2 =/= 0 orelse 
-      lists:any(fun(C) when C >= 48, C =< 57 -> false;
-                (C) when C >= 65, C =< 90 -> false;
-                (C) when C >= 97, C =< 102 -> false;
-                (_X) -> %?dbg("X",X), 
-                     true
-             end, Val1) of
+   case erlang:size(Val1) rem 2 =/= 0 orelse 
+          [C || 
+          <<C/utf8>> <= Val1,
+          not (C >= 48 andalso C =< 57),
+          not (C >= 65 andalso C =< 90),
+          not (C >= 97 andalso C =< 102)          
+         ] /= [] of
       true ->
          ?err('FORG0001');
       _ ->
@@ -2146,33 +1913,12 @@ cast_as( ?xav('xs:string', Val), 'xs:hexBinary' ) -> % MAYBE castable
    end;
 cast_as( ?xav('xs:string', Val), 'xs:integer' ) -> % MAYBE castable
    try
-      ?xav('xs:integer', list_to_integer(string:trim(Val)))
+      ?xav('xs:integer', binary_to_integer(string:trim(Val)))
    catch
       _:_ -> ?err('FORG0001')
    end;
 cast_as( ?xav('xs:string', Val), 'xs:time' ) -> % MAYBE castable
-   %24:00:00
-   Bin = list_to_binary(["T", string:trim(Val)]),
-   {Hour,Min,Sec,Rest} = time_bin_to_hms(Bin),
-   Offset = tz_bin_to_offset(Rest),
-   SecFlt = xqerl_numeric:float(Sec),
-   Hour1 = if Hour == 24 andalso Min == 0 andalso SecFlt == 0 ->
-                 0;
-              Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-              true ->
-                 Hour
-           end,
-   Rec = #xsDateTime{hour   = Hour1,
-                     minute = Min,
-                     second = Sec, 
-                     offset = Offset},
-   if Hour1  >= 24 ; % only no min/sec is okay with hour 24
-      Min    >= 60 ; % only no min/sec is okay with hour 24
-      SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-      true ->
-         Str = xqerl_datetime:to_string(Rec,'xs:time'),
-         ?xav('xs:time', set_date_string(Rec, Str))
-   end;
+   xqerl_datetime:string_to_time(Val);
 cast_as( ?xav('xs:string', Val),'xs:untypedAtomic' ) -> 
    ?xav('xs:untypedAtomic', Val);
 % subtypes
@@ -2202,11 +1948,11 @@ cast_as( ?xav('xs:ENTITY', Val), 'xs:untypedAtomic' ) ->
    ?xav('xs:untypedAtomic', Val);
 cast_as( #xqAtomicValue{} = Arg1,'xs:normalizedString' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:string' )),
-   Norm = xqerl_lib:normalize_spaces(StrVal),
+   Norm = xqerl_lib:normalize_string(StrVal),
    ?xav('xs:normalizedString', Norm);
 cast_as( #xqAtomicValue{} = Arg1,'xs:token' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as(Arg1, 'xs:normalizedString')),
-   Token = xqerl_lib:shrink_spaces(string:trim(StrVal)),
+   Token = xqerl_lib:normalize_spaces(StrVal),
    ?xav('xs:token', Token);
 cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) -> 
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
@@ -2217,55 +1963,36 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:language' ) ->
          ?xav('xs:language', StrVal)
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKEN' ) ->
-   case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [] ->
-         ?err('FORG0001');
-      StrVal ->
-         case lists:all(fun(C) ->
-                              xqerl_lib:is_xsname_char(C)
-                        end, StrVal) of
-            true ->
-               ?xav('xs:NMTOKEN', StrVal);
-            _ ->
-               ?err('FORG0001')
-         end
+   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
+   case xqerl_lib:is_valid_token(StrVal) of
+      true ->
+         ?xav('xs:NMTOKEN', StrVal);
+      false ->
+         ?err('FORG0001')
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:NMTOKENS' ) ->
-   case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [] ->
-         ?err('FORG0001');
-      StrVal ->
+   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
+   case xqerl_lib:is_valid_tokens(StrVal) of
+      true ->
          Tokens = string:split(StrVal," ",all),
          lists:map(fun(Tok) ->
-                      case lists:all(fun xqerl_lib:is_xsname_char/1, Tok) of
-                         true ->
-                            ?xav('xs:NMTOKEN', Tok);
-                         _ ->
-                            ?err('FORG0001')
-                      end
-                   end, Tokens)
+                         ?xav('xs:NMTOKEN', Tok)
+               end, Tokens);
+      false ->
+         ?err('FORG0001')
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:Name' ) ->
-   case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [H|T] ->
-         case xqerl_lib:is_xsname_start_char(H) andalso 
-            lists:all(fun xqerl_lib:is_xsname_char/1, T) of
-            true ->
-               ?xav('xs:Name', [H|T]);
-            _ ->
-               ?err('FORG0001')
-         end;
-      [] ->
+   StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )),
+   case xqerl_lib:is_valid_name(StrVal) of
+      true ->
+         ?xav('xs:Name', StrVal);
+      false ->
          ?err('FORG0001')
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:NCName' ) ->
    StrVal = xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:Name' )),
-   case re:run(StrVal, "[:]",[unicode]) of
-      nomatch ->
-         ?xav('xs:NCName', StrVal);
-      _ ->
-         ?err('FORG0001')
-   end;
+   _ = [?err('FORG0001')  || <<":">> <= StrVal],
+   ?xav('xs:NCName', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:ID' ) ->
    StrVal = ncname_value(Arg1),
    ?xav('xs:ID', StrVal);
@@ -2274,15 +2001,12 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:IDREF' ) ->
    ?xav('xs:IDREF', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:IDREFS' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [] ->
+      <<>> ->
          ?err('FORG0001');
       StrVal ->
          Tokens = string:split(StrVal," ",all),
          lists:map(fun(Tok) ->
-                         case lists:all(fun xqerl_lib:is_xsname_char/1, Tok) of
-                            true -> ?xav('xs:IDREF', Tok);
-                           _ -> ?err('FORG0001')
-                         end
+                         ?xav('xs:IDREF', Tok)
                    end, Tokens)
    end;
 cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITY' ) ->
@@ -2290,44 +2014,23 @@ cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITY' ) ->
    ?xav('xs:ENTITY', StrVal);
 cast_as( #xqAtomicValue{} = Arg1,'xs:ENTITIES' ) ->
    case xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:token' )) of
-      [] ->
+      <<>> ->
          ?err('FORG0001');
       StrVal ->
          Tokens = string:split(StrVal," ",all),
          lists:map(fun(Tok) ->
-                         case lists:all(fun xqerl_lib:is_xsname_char/1, Tok) of
-                            true -> ?xav('xs:ENTITY', Tok);
-                           _ -> ?err('FORG0001')
+                         case xqerl_lib:is_valid_token(Tok) of
+                            true ->
+                               ?xav('xs:ENTITY', Tok);
+                            false ->
+                               ?err('FORG0001')
                          end
                    end, Tokens)
    end;
 %% In casting to a duration value, if the value is too large or too small to be represented by the 
 %% implementation, a dynamic error [err:FODT0002] is raised.
 cast_as( ?xav('xs:string', Val), 'xs:yearMonthDuration' ) -> % MAYBE castable
-   try
-      Bin = list_to_binary(string:trim(Val)),
-      {Sign, Bin1} = case Bin of
-                        <<$-,$P,R/binary>> ->
-                           {'-', <<R/binary>>};
-                        <<$P,R/binary>> ->
-                           {'+', <<R/binary>>}
-                       end,
-      {Year,Mon,<<>>} = ymdur_bin_to_ym(Bin1),
-      % push up the ladder
-      Rec = #xsDateTime{sign   = Sign,
-                        year   = Year, 
-                        month  = Mon, 
-                        day    = 0,
-                        hour   = 0,
-                        minute = 0,
-                        second = xqerl_numeric:decimal(0)},
-      Str = xqerl_datetime:to_string(Rec,'xs:yearMonthDuration'),
-      ?xav('xs:yearMonthDuration', set_date_string(Rec, Str))
-   catch
-      _:#xqError{} = E -> 
-         throw(E);
-      _:_ -> ?err('FORG0001')
-   end;
+   xqerl_datetime:string_to_yearMonthDuration(Val);
 cast_as( ?xav('xs:time', #xsDateTime{string_value = Val}), 'xs:string' ) -> 
    ?xav('xs:string', Val);
 cast_as( ?xav('xs:time', #xsDateTime{string_value = Val}), 
@@ -2336,9 +2039,9 @@ cast_as( ?xav('xs:time', #xsDateTime{string_value = Val}),
 % xs:untypedAtomic handled as if xs:string
 cast_as( ?xav('xs:untypedAtomic', Val), Type ) -> % MAYBE castable
    Val1 = if is_integer(Val) ->
-                integer_to_list(Val);
+                integer_to_binary(Val);
              is_float(Val) ->
-                float_to_list(Val);
+                float_to_binary(Val);
              true ->
                Val
           end,
@@ -2522,16 +2225,16 @@ cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _) ->
    Q;
 cast_as( [],'xs:QName', _Namespaces) -> 
    ?err('XPTY0004');
-cast_as( ?xav(AType, []),'xs:QName', _) 
+cast_as( ?xav(AType, <<>>),'xs:QName', _) 
    when AType == 'xs:string';
         AType == 'xs:untypedAtomic'->
    ?err('FORG0001');
-cast_as( ?xav(AType, "Q{" ++ Rest), 'xs:QName', _) 
+cast_as( ?xav(AType, <<"Q{", Rest/binary>>), 'xs:QName', _) 
    when AType == 'xs:string';
         AType == 'xs:untypedAtomic'-> % MAYBE castable
    [Ns,Local] = string:split(Rest, [$}]),
    ?xav('xs:QName', #qname{namespace = Ns,
-                           prefix = [],
+                           prefix = <<>>,
                            local_name = string:trim(Local)});   
 cast_as( ?xav(AType, Val), 'xs:QName', Namespaces) 
    when AType == 'xs:string';
@@ -2539,11 +2242,11 @@ cast_as( ?xav(AType, Val), 'xs:QName', Namespaces)
    try
       {Prefix, Local} = case scan_ncname(string:trim(Val)) of
                               {P, L} -> {P, L};
-                              L -> {"", L}
+                              L -> {<<>>, L}
                            end,
       %{xqNamespace,"http://www.example.com/foo","foo"} 
       case Prefix of 
-         "" ->
+         <<>> ->
             Def = case lists:keyfind(Prefix, 3, Namespaces) of
                      false ->
                         'no-namespace';
@@ -2584,261 +2287,35 @@ cast_as( #xqAtomicValue{type = AType} = At, 'xs:NOTATION', Namespaces)
 cast_as(_,_,_)  ->
    ?err('XPTY0004').
 
-tz_bin_to_offset(Bin) ->
-   try
-      case Bin of
-         <<>> ->
-            [];
-         <<"Z">> ->
-            #off_set{};
-         <<P,Ho1,Ho2,$:,Mio1,Mio2>> when Mio1 >= $0, Mio1 =< $9,
-                                         Mio2 >= $0, Mio2 =< $9,
-                                         Ho1 >= $0, Ho1 =< $9,
-                                         Ho2 >= $0, Ho2 =< $9 ->
-            Ho  = list_to_integer([P,Ho1,Ho2]), 
-            Mio = list_to_integer([Mio1,Mio2]), 
-            if Mio =< 59 ->
-                  Sign = if P == $- andalso Ho == 0 andalso Mio == 0 -> '+';
-                            P == $- -> '-';
-                            P == $+ -> '+'
-                         end,
-                  if abs(Ho) < 14 orelse (abs(Ho) == 14 andalso Mio == 00) ->
-                        #off_set{sign = Sign, hour = abs(Ho), min = Mio};
-                     true ->
-                        ?err('FORG0001')
-                  end;
-               true ->
-                  ?err('FORG0001')
-            end;
-         _ ->
-            ?err('FORG0001')
-      end
-   catch
-      _:#xqError{} = E -> throw(E);
-      _:badarg -> ?err('FORG0001');
-      _:_ -> 
-         ?err('FODT0001')
-   end.  
 
-date_bin_to_ymd(Bin) ->
-   %% B.C. dates
-   try
-      {Sign,Bin1} = case Bin of
-                 <<$-,R/binary>> ->
-                    {'-',R};
-                 _ ->
-                    {'+', Bin}
-              end,
-      case Bin1 of
-         <<C1,C2,Y1,Y2,$-,M1,M2,$-,D1,D2,Rest/binary>> 
-            when (C1 >= $0 andalso C1 =< $9),
-                 (C2 >= $0 andalso C2 =< $9),
-                 (Y1 >= $0 andalso Y1 =< $9),
-                 (Y2 >= $0 andalso Y2 =< $9),
-                 (M1 >= $0 andalso M1 =< $9),
-                 (M2 >= $0 andalso M2 =< $9),
-                 (D1 >= $0 andalso D1 =< $9),
-                 (D2 >= $0 andalso D2 =< $9) ->
-            Year = list_to_integer([C1,C2,Y1,Y2]),
-            Mon  = list_to_integer([M1,M2]),
-            Day  = list_to_integer([D1,D2]),
-            _ = xqerl_datetime:ymd_is_valid(Year,Mon,Day),
-            {Sign,Year,Mon,Day,Rest};
-         _ ->
-            %check if the year is larger than 9999 for overflow
-            {YBin,_} = string:take(Bin1,lists:seq($0,$9)),
-            if YBin == <<>> ->
-                  ?err('FORG0001');
-               true ->
-                  TNum = binary_to_integer(YBin),
-                  if TNum > 9999 ->
-                        ?err('FODT0001');
-                     true ->
-                        ?err('FORG0001')
-                  end
-            end
-      end
-   catch
-      _:#xqError{} = E -> throw(E);
-      _:{badmatch,_} -> ?err('FORG0001');
-      _:_ -> 
-         ?err('FODT0001')
-   end.
-
-time_bin_to_hms(Bin) ->
-   try
-      case Bin of
-         <<$T,H1,H2,$:,M1,M2,$:,S1,S2,Rest/binary>> 
-            when (H1 >= $0 andalso H1 =< $9),
-                 (H2 >= $0 andalso H2 =< $9),
-                 (M1 >= $0 andalso M1 =< $9),
-                 (M2 >= $0 andalso M2 =< $9),
-                 (S1 >= $0 andalso S1 =< $9),
-                 (S2 >= $0 andalso S2 =< $9) ->
-            Hour = list_to_integer([H1,H2]),
-            Min  = list_to_integer([M1,M2]),
-            Sec  = [S1,S2],
-            case Rest of
-               <<$.,R/binary>> ->
-                  L = binary_to_list(R),
-                  Tk = fun(E) -> E >= $0 andalso E =< $9 end,
-                  Fract = lists:takewhile(Tk, L),
-                  RestL = lists:subtract(L, Fract),
-                  Sec1 = Sec ++ "." ++ Fract,
-                  {Hour,Min,xqerl_numeric:decimal(Sec1),list_to_binary(RestL)};
-               _ ->
-                  {Hour,Min,xqerl_numeric:decimal(Sec),Rest}
-            end;
-         _ ->
-            ?err('FORG0001')
-      end
-   catch
-      _:#xqError{} = E -> throw(E);
-      _:{badmatch,_} -> ?err('FORG0001');
-      _:badarg -> ?err('FORG0001');
-      _:_ ->  
-         ?err('FODT0001')
-   end.
-
-timedur_bin_to_hms(Bin) ->
-   {Hour,Rest} = case binary:split(Bin, <<"H">>) of
-                    [HourBin,R] ->
-                       {binary_to_integer(HourBin),R};
-                    [R] ->
-                       {0,R}
-                 end,
-   {Min,Rest1} = case binary:split(Rest, <<"M">>) of
-                    [MinBin,R1] ->
-                       {binary_to_integer(MinBin),R1};
-                    [R1] ->
-                       {0,R1}
-                 end,
-   Sec =   case binary:split(Rest1, <<"S">>) of
-              [SecBin,<<>>] ->
-                 xqerl_numeric:decimal(binary_to_list(SecBin));
-              [_,_] ->
-                 ?err('FORG0001');
-              [<<>>] ->
-                 xqerl_numeric:decimal(0);
-              [_R2] -> % timezone not allowed
-                 ?err('FORG0001')
-           end,
-   %?dbg("{Bin,Hour,Min,Sec}",{Bin,Hour,Min,Sec}),
-   {Hour,Min,Sec}.
-
-ymdur_bin_to_ym(<<>>) -> ?err('FORG0001');
-ymdur_bin_to_ym(Bin) ->
-   {Year,Rest} = case binary:split(Bin, <<"Y">>) of
-                    [YearBin,R] ->
-                       {binary_to_integer(YearBin),R};
-                    [R] ->
-                       {0,R}
-                 end,
-   {Mon,Rest1} = case binary:split(Rest, <<"M">>) of
-                    [MonBin,R1] ->
-                       {binary_to_integer(MonBin),R1};
-                    [R1] ->
-                       {0,R1}
-                 end,
-   {Mon1, Year1} = shift_units(Mon, Year, 12),
-   _ = if Year1 > 9999 -> % over 9999 years
-             ?err('FODT0002');
-          true ->
-             ok
-       end,      
-   {Year1,Mon1,Rest1}.
-
-daytimedur_bin_to_dhms(Bin) ->
-   % negative duration
-   {Sign, Bin1} = case Bin of
-                     <<$-,$P,R/binary>> ->
-                        {'-', <<R/binary>>};
-                     <<$P,R/binary>> ->
-                        {'+', <<R/binary>>}
-                    end,
-   {DayPart,TimePart} = get_day_time_parts(Bin1),
-   Day = if DayPart == <<>> -> 0;
-            true ->
-               [DayNum] = binary:split(DayPart, <<"D">>, [trim]),
-               binary_to_integer(DayNum)
-         end,
-   _ = if Day > 3656000 -> % over 9999 years
-             ?err('FODT0002');
-          true ->
-             ok
-       end,      
-   {Hour,Min,Sec} = timedur_bin_to_hms(TimePart),
-   % push values up the ladder
-   SecTotal = xqerl_numeric:add(Sec, Min * 60),
-   MI1 = xqerl_numeric:truncate(SecTotal) div 60,
-   SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
-   {MI2, HH1} = shift_units(MI1, Hour, 60),
-   {HH2, D1}  = shift_units(HH1, Day, 24),
-   {Sign,D1,HH2,MI2,SS1}.
-
-dur_bin_to_ymdhms(Bin) ->
-   % negative duration
-   {Sign, Bin1} = case Bin of
-                     <<$-,$P,R/binary>> ->
-                        {'-', <<R/binary>>};
-                     <<$P,R/binary>> ->
-                        {'+', <<R/binary>>}
-                    end,
-   {DayPart,TimePart} = get_day_time_parts(Bin1),
-   {Year,Mon,Rest} = if DayPart == <<>> ->
-                           {0,0,<<>>};
-                        true ->
-                           ymdur_bin_to_ym(DayPart)
-                     end,
-   Day = if Rest == <<>> -> 0;
-            true ->
-               [DayNum] = binary:split(Rest, <<"D">>, [trim]),
-               binary_to_integer(DayNum)
-         end,
-   _ = if Day > 3656000 -> % over 9999 years
-             ?err('FODT0002');
-          true ->
-             ok
-       end,      
-   {Hour,Min,Sec} = timedur_bin_to_hms(TimePart),
-   % push values up the ladder
-   {Mon1, Year1} = shift_units(Mon, Year, 12),
-   % push values up the ladder
-   SecTotal = xqerl_numeric:add(Sec, Min * 60),
-   MI1 = xqerl_numeric:truncate(SecTotal) div 60,
-   SS1 = xqerl_numeric:subtract(SecTotal, MI1 * 60),
-   {MI2, HH1} = shift_units(MI1, Hour, 60),
-   {HH2, D1}  = shift_units(HH1, Day, 24),
-   {Sign,Year1,Mon1,D1,HH2,MI2,SS1}.
-
-scan_ncname([$_|T]) ->
-   scan_ncname(T, [$_]);
-scan_ncname([]) ->
+scan_ncname(<<$_,T/binary>>) ->
+   scan_ncname(T, <<$_>>);
+scan_ncname(<<>>) ->
    ?err('FORG0001');
-scan_ncname([H|T]) ->
+scan_ncname(<<H/utf8,T/binary>>) ->
    case xmerl_lib:is_letter(H) of 
       true ->
-         scan_ncname(T, [H]);
+         scan_ncname(T, <<H/utf8>>);
       _ ->
          ?err('FORG0001')
    end.
 
-scan_ncname([], Acc) ->
-   lists:reverse(Acc);
-scan_ncname([$:|T], Acc) ->
-   {lists:reverse(Acc), scan_ncname(T)};
-scan_ncname([H|T], Acc) ->
+scan_ncname(<<>>, Acc) -> Acc;
+scan_ncname(<<$:,T/binary>>, Acc) ->
+   {Acc, scan_ncname(T)};
+scan_ncname(<<H/utf8,T/binary>>, Acc) ->
    case xmerl_lib:is_namechar(H) of
       true ->
-         scan_ncname(T, [H|Acc]);
+         scan_ncname(T, <<Acc/binary,H/utf8>>);
       _ ->
          ?err('FORG0001')
    end.
 
-hexbin_to_str(Bin) -> [ hd(erlang:integer_to_list(I, 16)) || << I:4 >> <= Bin ].
-b64bin_to_str(Bin) -> base64:encode_to_string(Bin).
+hexbin_to_str(Bin) -> 
+   list_to_binary([ hd(erlang:integer_to_list(I, 16)) || << I:4 >> <= Bin ]).
+b64bin_to_str(Bin) -> list_to_binary(base64:encode_to_string(Bin)).
 
-str_to_hexbin(Str) -> << << (erlang:list_to_integer([H], 16)):4 >> || H <- Str >>.
+str_to_hexbin(Str) -> << << (erlang:list_to_integer([H], 16)):4 >> || <<H/utf8>> <= Str >>.
 str_to_b64bin(Str) -> 
    try
       Str1 = re:replace(Str, "(\\s+)", "", [global,{return,list}]),
@@ -2876,20 +2353,6 @@ derives_from( AT, ET ) ->
       _ ->
          false
    end.
-
-is_valid_month_day(1,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(2,Day) when Day >= 1, Day =< 29 -> true;
-is_valid_month_day(3,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(4,Day) when Day >= 1, Day =< 30 -> true;
-is_valid_month_day(5,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(6,Day) when Day >= 1, Day =< 30 -> true;
-is_valid_month_day(7,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(8,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(9,Day) when Day >= 1, Day =< 30 -> true;
-is_valid_month_day(10,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(11,Day) when Day >= 1, Day =< 30 -> true;
-is_valid_month_day(12,Day) when Day >= 1, Day =< 31 -> true;
-is_valid_month_day(_Mon,_Day) -> false.
 
 is_known_type('xs:unsignedInt')            -> true;
 is_known_type('xs:string')                 -> true;
@@ -2952,22 +2415,22 @@ has_name(undefined, _) ->
 has_name(_, undefined) ->
    true;
 has_name(#qname{} = Name, #qname{namespace = Ns, local_name = Loc}) ->
-   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
-   (Loc == "*" orelse Loc == Name#qname.local_name);
+   (Ns  == <<"*">> orelse Ns  == Name#qname.namespace )    andalso 
+   (Loc == <<"*">> orelse Loc == Name#qname.local_name);
 has_name(#xqElementNode{name = _Name}, 
-         #qname{namespace = undefined,prefix = Px}) when Px =/= "*" ->
+         #qname{namespace = undefined,prefix = Px}) when Px =/= <<"*">> ->
    % non-expandable QName
    ?err('XPST0081');
 has_name(#xqElementNode{name = Name}, 
          #qname{namespace = Ns, local_name = Loc}) ->
-   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
-   (Loc == "*" orelse Loc == Name#qname.local_name);
+   (Ns  == <<"*">> orelse Ns  == Name#qname.namespace )    andalso 
+   (Loc == <<"*">> orelse Loc == Name#qname.local_name);
 has_name(#xqAttributeNode{name = _Name}, undefined) ->
    true;
 has_name(#xqAttributeNode{name = Name}, 
          #qname{namespace = Ns, local_name = Loc}) ->
-   (Ns  == "*" orelse Ns  == Name#qname.namespace )    andalso 
-   (Loc == "*" orelse Loc == Name#qname.local_name).
+   (Ns  == <<"*">> orelse Ns  == Name#qname.namespace )    andalso 
+   (Loc == <<"*">> orelse Loc == Name#qname.local_name).
 
 to_int_val(Arg1) ->
    xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:integer' )).
@@ -2981,20 +2444,6 @@ set_date_string(Rec, Str) ->
 ncname_value(Arg1) ->
    xqerl_types:value(xqerl_types:cast_as( Arg1, 'xs:NCName' )).
 
-% returns {NewSmall, NewLarge}
-shift_units(Small, Large, Size) ->
-   {Small rem Size, Large + Small div Size}.
-
-get_day_time_parts(<<>>) -> ?err('FORG0001');
-get_day_time_parts(Bin) ->
-   case binary:split(Bin,<<"T">>) of
-      [_D,<<>>] ->
-         ?err('FORG0001');
-      [D,T] ->
-         {D,T};
-      [D] ->
-         {D,<<>>}
-   end.
 
 zero_time(Val) ->
    Val#xsDateTime{hour = 0,

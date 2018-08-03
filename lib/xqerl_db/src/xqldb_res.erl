@@ -39,6 +39,7 @@
 %% ====================================================================
 -export([start_link/1,
          load/1,
+         insert/1,
          export/1,
          delete/1]).
 
@@ -55,7 +56,10 @@ start_link(FileUri) ->
 
 % return {ok,Pid}
 load(FileUriOrState) ->
-   xqldb_res_sup:start_child(FileUriOrState).
+   xqldb_res_sup:start_child({FileUriOrState,load}).
+
+insert(FileUriOrState) ->
+   xqldb_res_sup:start_child({FileUriOrState, insert}).
 
 export(Pid) ->
    gen_server:call(Pid, export, ?TIMEOUT).
@@ -95,11 +99,11 @@ get_binary(Pid) ->
 	State :: term(),
 	Timeout :: non_neg_integer() | infinity.
 
-init([OldState]) when is_binary(OldState) ->
+init([{OldState,load}]) when is_binary(OldState) ->
    State = binary_to_term(OldState, [safe]),
    %State = #state{doc = Doc},
    {ok, State, ?TIMEOUT};
-init([{Uri,FileUri}]) ->
+init([{{Uri,FileUri},insert}]) ->
    State = #state{uri = {Uri,FileUri}},
    Self = self(),
    ok = gen_server:cast(Self, from_file),
@@ -237,9 +241,12 @@ do_from_file(State) ->
          add_doc_to_state(Doc, State)
    end.
 
+read_file_1(<<"file://", _/binary>> = File) ->
+   read_file_1(xqldb_lib:uri_to_filename(File));
 read_file_1("file://" ++ Filename) ->
    read_file_1(xqldb_lib:uri_to_filename("file://" ++ Filename));
 read_file_1(Filename) ->
+   ?dbg("Filename",Filename),
    {ok,Bin} = file:read_file(Filename),
    Bin.
 
@@ -247,11 +254,11 @@ string_to_json(Bin) when is_binary(Bin) ->
    string_to_json(unicode:characters_to_list(Bin));
 string_to_json(String) ->
    try
-      %?dbg("String",String),
+      ?dbg("String",String),
       {_,Tks,_} = json_scanner:string(String),
-      %?dbg("Tks",Tks),
+      ?dbg("Tks",Tks),
       {ok,Obj} = json_parser:parse(Tks),
-      %?dbg("Obj",Obj),
+      ?dbg("Obj",Obj),
       Obj
    catch
       _:_ ->

@@ -44,7 +44,7 @@ run(Str, Options) ->
       erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Tokens),
 %      ?dbg("Tree",Tree),
-      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname("xqerl_main.xq"))),
+      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
 %      ?dbg("Static",maps:get(body, Static)),
       {ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
 %      ?dbg("Ret",Ret),
@@ -107,7 +107,8 @@ parse_tokens(Tokens) ->
       _:#xqError{} = E ->
          ?dbg("parse_tokens",E),
          throw(E);
-      _:_:StackTrace ->
+      _:Err:StackTrace ->
+         ?dbg("Err",Err),
          ?dbg("Tokens",Tokens),
          ?dbg("parse_tokens e",StackTrace),
          xqerl_error:error('XPST0003')
@@ -202,7 +203,7 @@ trun(Str, Opt) ->
       _ = erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Tokens),
       ?dbg("Tree",Tree),
-      Static = xqerl_static:handle_tree(Tree,"xqerl_main"),
+      Static = xqerl_static:handle_tree(Tree,<<"xqerl_main">>),
      ?dbg("Static",maps:get(body,Static)),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),

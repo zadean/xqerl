@@ -35,7 +35,8 @@
 -include("xqerl.hrl").
 
 -define(str(S), #xqAtomicValue{type = 'xs:string', value = S} ).
--define(NS, "http://www.w3.org/2005/xqt-errors").
+-define(NS, <<"http://www.w3.org/2005/xqt-errors">>).
+-define(PX, <<"err">>).
 
 -dialyzer({[no_return], [error/1, error/2, error/3]}).
 
@@ -53,8 +54,8 @@ error(#qname{} = Name) ->
 error(Code) when is_atom(Code) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
                                           #qname{namespace = ?NS, 
-                                prefix = "err", 
-                                local_name = atom_to_list(Code)}},
+                                prefix = ?PX, 
+                                local_name = atom_to_binary(Code,latin1)}},
                   description = ?str(msg(Code))},
    exit(Err).
 
@@ -65,8 +66,8 @@ error(#qname{} = Name, Msg) ->
 error(Code, Msg) ->
    Err = #xqError{name = #xqAtomicValue{type = 'xs:QName', value = 
                                           #qname{namespace = ?NS, 
-                                prefix = "err", 
-                                local_name = atom_to_list(Code)}},
+                                prefix = ?PX, 
+                                local_name = atom_to_binary(Code, latin1)}},
                   description = Msg},
    exit(Err).
 
@@ -79,9 +80,9 @@ error(Code, Msg, Obj) ->
    Err = #xqError{name = 
                     #xqAtomicValue{type = 'xs:QName',
                                    value = #qname{namespace = ?NS,
-                                                  prefix = "err",
+                                                  prefix = ?PX,
                                                   local_name = 
-                                                    atom_to_list(Code)}},
+                                                    atom_to_binary(Code, latin1)}},
                   description = Msg,
                   value = Obj},
    exit(Err).

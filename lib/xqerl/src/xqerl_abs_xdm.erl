@@ -41,8 +41,8 @@ revert(L) when is_list(L) ->
 revert(I) ->
    erl_syntax:revert(I).
 
--define(FN,"http://www.w3.org/2005/xpath-functions").
--define(XS,"http://www.w3.org/2001/XMLSchema").
+-define(FN,<<"http://www.w3.org/2005/xpath-functions">>).
+-define(XS,<<"http://www.w3.org/2001/XMLSchema">>).
 
 -define(FN_MATCH(Name),{'function-call',
                          #xqFunction{params = __Params,
@@ -76,7 +76,7 @@ compile_path_statement(_Ctx,Source,[atomize],Level,Acc) ->
 compile_path_statement(Ctx,Last,[{path_expr,E}|Rest],Level,Acc) ->
    compile_path_statement(Ctx,Last,E ++ Rest,Level,Acc);
 
-compile_path_statement(_Ctx,Source,[?FN_MATCH("string")],Level,Acc) 
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"string">>)],Level,Acc) 
    when __Params == [];
         __Params == [{ensure,'context-item',{xqSeqType,item,zero_or_one}}]->
    VarName = var_name(Level),
@@ -85,23 +85,23 @@ compile_path_statement(_Ctx,Source,[?FN_MATCH("string")],Level,Acc)
    Gen1 = generate_l(VarName1, ?P("xqerl_types:cast_as(_@VVarName,'xs:string')")),
    Rev = [Gen1,generate(VarName, p2(atomize,Source))|Acc],
    {Level + 1,lists:reverse(Rev)};
-compile_path_statement(_Ctx,Source,[?FN_MATCH("string") = S],Level,Acc) ->
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"string">>) = S],Level,Acc) ->
    VarName = var_name(Level),
    Rev = [generate(VarName, p2(nodify,Source))|Acc],
    {Level,lists:reverse(Rev),S};
-compile_path_statement(_Ctx,Source,[?FN_MATCH("name") = S],Level,Acc) ->
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"name">>) = S],Level,Acc) ->
    VarName = var_name(Level),
    Rev = [generate(VarName, p2(nodify,Source))|Acc],
    {Level,lists:reverse(Rev),S};
-compile_path_statement(_Ctx,Source,[?FN_MATCH("local-name") = S],Level,Acc) ->
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"local-name">>) = S],Level,Acc) ->
    VarName = var_name(Level),
    Rev = [generate(VarName, p2(nodify,Source))|Acc],
    {Level,lists:reverse(Rev),S};
-compile_path_statement(_Ctx,Source,[?FN_MATCH("node-name") = S],Level,Acc) ->
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"node-name">>) = S],Level,Acc) ->
    VarName = var_name(Level),
    Rev = [generate(VarName, p2(nodify,Source))|Acc],
    {Level,lists:reverse(Rev),S};
-compile_path_statement(_Ctx,Source,[?FN_MATCH("data")],Level,Acc) 
+compile_path_statement(_Ctx,Source,[?FN_MATCH(<<"data">>)],Level,Acc) 
    when __Params == [];
         __Params == [{ensure,'context-item',{xqSeqType,item,zero_or_one}}]->
    VarName = var_name(Level),
@@ -335,7 +335,7 @@ forward_path(Source, child, #xqKindTest{kind = comment}) ->
    p2(comment_children,Source);
 forward_path(Source, child, #xqKindTest{kind = 'processing-instruction', 
                                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_children,Source,{string,?LINE,Ln});
+   p3(named_pi_children,Source,?P("_@Ln@"));
 forward_path(Source, child, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_children,Source);
 %% ----------------------------------------------------------------------------
@@ -363,7 +363,7 @@ forward_path(Source, self, #xqKindTest{kind = comment}) ->
    p2(comment_selfs,Source);
 forward_path(Source, self, #xqKindTest{kind = 'processing-instruction', 
                                        name = #qname{local_name = Ln}}) ->
-   p3(named_pi_selfs,Source,{string,?LINE,Ln});
+   p3(named_pi_selfs,Source,?P("_@Ln@"));
 forward_path(Source, self, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_selfs,Source);
 %% ----------------------------------------------------------------------------
@@ -383,7 +383,7 @@ forward_path(Source, descendant, #xqKindTest{kind = comment}) ->
 forward_path(Source, descendant, 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendants,Source,{string,?LINE,Ln});
+   p3(named_pi_descendants,Source,?P("_@Ln@"));
 forward_path(Source, descendant, 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_descendants,Source);
@@ -406,7 +406,7 @@ forward_path(Source, 'descendant-or-self', #xqKindTest{kind = comment}) ->
 forward_path(Source, 'descendant-or-self', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendant_or_selfs,Source,{string,?LINE,Ln});
+   p3(named_pi_descendant_or_selfs,Source,?P("_@Ln@"));
 forward_path(Source, 'descendant-or-self', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_descendant_or_selfs,Source);
@@ -427,7 +427,7 @@ forward_path(Source, 'following-sibling', #xqKindTest{kind = comment}) ->
 forward_path(Source, 'following-sibling', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_following_siblings,Source,{string,?LINE,Ln});
+   p3(named_pi_following_siblings,Source,?P("_@Ln@"));
 forward_path(Source, 'following-sibling', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_following_siblings,Source);
@@ -447,7 +447,7 @@ forward_path(Source, following, #xqKindTest{kind = comment}) ->
    p2(comment_followings,Source);
 forward_path(Source, following, #xqKindTest{kind = 'processing-instruction', 
                                             name = #qname{local_name = Ln}}) ->
-   p3(named_pi_followings,Source,{string,?LINE,Ln});
+   p3(named_pi_followings,Source,?P("_@Ln@"));
 forward_path(Source, following, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_followings,Source);
 %% ----------------------------------------------------------------------------
@@ -517,7 +517,7 @@ reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = comment}) ->
 reverse_path(Source, 'preceding-sibling', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_preceding_siblings,Source,{string,?LINE,Ln});
+   p3(named_pi_preceding_siblings,Source,?P("_@Ln@"));
 reverse_path(Source, 'preceding-sibling', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_preceding_siblings,Source);
@@ -537,7 +537,7 @@ reverse_path(Source, preceding, #xqKindTest{kind = comment}) ->
    p2(comment_precedings,Source);
 reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction', 
                                             name = #qname{local_name = Ln}}) ->
-   p3(named_pi_precedings,Source,{string,?LINE,Ln});
+   p3(named_pi_precedings,Source,?P("_@Ln@"));
 reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_precedings,Source);
 %% ----------------------------------------------------------------------------
@@ -555,7 +555,7 @@ generate_l(TargetVar,Source) ->
    {generate,?LINE,{var,?LINE,TargetVar}, {cons,?LINE,Source,{nil,?LINE}}}.
 
 qname_tuple(#qname{namespace = 'no-namespace', local_name = Ln}) ->
-   ?P("{[],_@Ln@}");
+   ?P("{<<>>,_@Ln@}");
 qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
    ?P("{_@Ns@,_@Ln@}").
 
@@ -568,7 +568,7 @@ var_name(Level) ->
 % VarName source list name
 % Level current depth in statement 
 generate_preds(_,Source,[]) -> Source;
-generate_preds(Ctx,Source,[{positional_predicate,?FN_MATCH("last")}|Preds]) ->
+generate_preds(Ctx,Source,[{positional_predicate,?FN_MATCH(<<"last">>)}|Preds]) ->
   %?dbg("Preds left",Preds),
    Filt = pos_pred(Source, {atom,?LINE,last}),
    generate_preds(Ctx,Filt,Preds);
@@ -582,7 +582,7 @@ generate_preds(Ctx,Source,[{positional_predicate,#xqAtomicValue{value = Val}}|Pr
    Filt = pos_pred(Source, ?P("{eq,_@Val@}")),
    generate_preds(Ctx,Filt,Preds);
 
-generate_preds(Ctx,Source,[{predicate,?FN_MATCH("position")}]) -> 
+generate_preds(Ctx,Source,[{predicate,?FN_MATCH(<<"position">>)}]) -> 
    PathVar = {var,?LINE,next_var_name()},
    BoolFun = ?P("fun(_@PathVar) -> {true,_@PathVar} end"),
    Filt = pred(Source, BoolFun),
@@ -684,7 +684,7 @@ generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds]) ->
          nope
    end;
 
-generate_preds(Ctx,Source,[{predicate,?FN_MATCH("lang")}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,?FN_MATCH(<<"lang">>)}|Preds]) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    [Arg] = __Params,
@@ -693,7 +693,7 @@ generate_preds(Ctx,Source,[{predicate,?FN_MATCH("lang")}|Preds]) ->
    Filt = pred(Source, BoolFun),
    generate_preds(Ctx,Filt,Preds);
 
-generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH("position"), 
+generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH(<<"position">>), 
                                        #xqAtomicValue{value = Val}}}|Preds]) 
    when Op =/= 'and',
         Op =/= 'or' ->
@@ -702,7 +702,7 @@ generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH("position"),
    Filt = pos_pred(Source, ?P("{'@Op@',_@Val@}")),
    generate_preds(Ctx,Filt,Preds);
 
-generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH("node-name"),#xqAtomicValue{} = NodeName}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH(<<"node-name">>),#xqAtomicValue{} = NodeName}}|Preds]) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Body = has_node_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
@@ -710,7 +710,7 @@ generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH("node-name"),#xqAtomicValue
    Filt = pred(Source, BoolFun),
    generate_preds(Ctx,Filt,Preds);
 
-generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH("node-name"),#xqAtomicValue{} = NodeName}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH(<<"node-name">>),#xqAtomicValue{} = NodeName}}|Preds]) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Body = has_node_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
@@ -758,10 +758,11 @@ pred(SourceList,FilterFun) ->
 
 
 has_lang(Arg,Source) ->
-   Str = ?P("string:lowercase(xqldb_xdm:lang(Doc,_@Source))"),
-   TestLang = ?P("string:lowercase(xqerl_types:string_value(_@Arg@))"),
-   Prefix = ?P("string:prefix(_@Str,_@TestLang ++ \"-\")"),     
-   ?P("_@Str == _@TestLang orelse _@Prefix =/= nomatch").
+   Lang = ?P(["(begin case xqldb_xdm:lang(Doc,_@Source) of [] -> false;",
+              " [LINT] ->",
+              "  string:lowercase(LINT) == string:lowercase(xqerl_types:string_value(_@Arg@)) orelse string:prefix(string:lowercase(LINT),<<(string:lowercase(xqerl_types:string_value(_@Arg@)))/binary, \"-\">>) =/= nomatch", 
+              "end end)"]),
+   Lang.
 
 has_node_name(Arg,Source) ->
    V = case Source of
@@ -769,7 +770,7 @@ has_node_name(Arg,Source) ->
           _ -> Source
        end,
    ?P("begin 
-         {Ns0,_,Ln1} = _@Arg, Ns1 = case  Ns0 of [] -> 'no-namespace'; _ -> Ns0 end, 
+         {Ns0,_,Ln1} = _@Arg, Ns1 = case  Ns0 of <<>> -> 'no-namespace'; _ -> Ns0 end, 
          #xqAtomicValue{value = #qname{namespace = Ns2, local_name = Ln2}} = _@V,
          Ns1 == Ns2 andalso Ln1 == Ln2
       end").

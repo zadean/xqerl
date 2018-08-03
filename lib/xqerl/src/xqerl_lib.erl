@@ -45,12 +45,20 @@
 -export([decode_string/1]).
 
 -export([escape_uri/1]).
--export([shrink_spaces/1]).
--export([normalize_spaces/1]).
+%-export([shrink_spaces/1]).
 -export([reserved_namespaces/1]).
 -export([encode_for_uri/1]).
 -export([pct_encode3/1]).
--export([resolve_against_base_uri/2]).
+
+-export([resolve_against_base_uri/2,
+         check_uri_string/1,
+         is_absolute_uri/1,
+         is_valid_token/1,
+         is_valid_tokens/1,
+         is_valid_name/1]).
+-export([normalize_spaces/1,
+         normalize_string/1]).
+
 
 -export([next_comp_prefix/1]).
 -export([pmap/3]).
@@ -186,62 +194,91 @@ hex_digit(N) when N > 9, N =< 15 ->
 
 reserved_namespaces(Ns) ->
    % check reserved NS 
-   if Ns == "http://www.w3.org/XML/1998/namespace";
-      Ns == "http://www.w3.org/2001/XMLSchema";
-      Ns == "http://www.w3.org/2001/XMLSchema-instance";
-      Ns == "http://www.w3.org/2005/xpath-functions";
-      Ns == "http://www.w3.org/2005/xpath-functions/math";
-      Ns == "http://www.w3.org/2005/xpath-functions/array";
-      Ns == "http://www.w3.org/2005/xpath-functions/map";
-      Ns == "http://www.w3.org/2012/xquery" -> ?err('XQST0045');
+   if Ns == <<"http://www.w3.org/XML/1998/namespace">>;
+      Ns == <<"http://www.w3.org/2001/XMLSchema">>;
+      Ns == <<"http://www.w3.org/2001/XMLSchema-instance">>;
+      Ns == <<"http://www.w3.org/2005/xpath-functions">>;
+      Ns == <<"http://www.w3.org/2005/xpath-functions/math">>;
+      Ns == <<"http://www.w3.org/2005/xpath-functions/array">>;
+      Ns == <<"http://www.w3.org/2005/xpath-functions/map">>;
+      Ns == <<"http://www.w3.org/2012/xquery">> -> ?err('XQST0045');
       true ->
          ok
    end.
 
-shrink_spaces([]) ->
-   [];
-shrink_spaces([32,WS|T]) when ?WS(WS) ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#xD;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#xA;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces("&#x9;"++T) ->
-   shrink_spaces([32|T]);
-shrink_spaces([WS|T]) when ?NSWS(WS) ->
-   shrink_spaces([32|T]);
-shrink_spaces([H|T]) ->
-   [H|shrink_spaces(T)].
+%% shrink_spaces(Bin) when is_binary(Bin) ->
+%%    Str = bin_to_str(Bin),
+%%    unicode:characters_to_binary(shrink_spaces(Str));
+%% shrink_spaces([]) ->
+%%    [];
+%% shrink_spaces([32,WS|T]) when ?WS(WS) ->
+%%    shrink_spaces([32|T]);
+%% shrink_spaces("&#xD;"++T) ->
+%%    shrink_spaces([32|T]);
+%% shrink_spaces("&#xA;"++T) ->
+%%    shrink_spaces([32|T]);
+%% shrink_spaces("&#x9;"++T) ->
+%%    shrink_spaces([32|T]);
+%% shrink_spaces([WS|T]) when ?NSWS(WS) ->
+%%    shrink_spaces([32|T]);
+%% shrink_spaces([H|T]) ->
+%%    [H|shrink_spaces(T)].
 
-normalize_spaces([]) ->
-   [];
-normalize_spaces([WS|T]) when ?NSWS(WS) ->
-   [32|normalize_spaces(T)];
-normalize_spaces("&#xD;"++T) ->
-   [32|normalize_spaces(T)];
-normalize_spaces("&#xA;"++T) ->
-   [32|normalize_spaces(T)];
-normalize_spaces("&#x9;"++T) ->
-   [32|normalize_spaces(T)];
-normalize_spaces([H|T]) ->
-   [H|normalize_spaces(T)].
+bin_to_str(Bin) ->
+   [C || <<C/utf8>> <= Bin ].
 
-encode_for_uri([]) ->
-   [];
-encode_for_uri([H|T]) when H == $-;
-                           H == $_;
-                           H == $.;
-                           H == $~ ->
-   [H|encode_for_uri(T)];
-encode_for_uri([H|T]) when H >= $A, H =< $Z ->
-   [H|encode_for_uri(T)];
-encode_for_uri([H|T]) when H >= $a, H =< $z ->
-   [H|encode_for_uri(T)];
-encode_for_uri([H|T]) when H >= $0, H =< $9 ->
-   [H|encode_for_uri(T)];
-encode_for_uri([H|T]) ->
-   string:uppercase(edoc_lib:escape_uri([H])) ++ encode_for_uri(T).
+normalize_spaces(<<>>) -> <<>>;
+normalize_spaces(Str) ->
+   normalize_spaces(string:trim(Str),<<>>).
 
+normalize_spaces(<<32,C/utf8,T/binary>>, Acc) when ?WS(C) ->
+   normalize_spaces(<<32,T/binary>>, Acc);
+normalize_spaces(<<"&#xD;",T/binary>>, Acc)->
+   normalize_spaces(<<32,T/binary>>, Acc);
+normalize_spaces(<<"&#xA;",T/binary>>, Acc)->
+   normalize_spaces(<<32,T/binary>>, Acc);
+normalize_spaces(<<"&#x9;",T/binary>>, Acc)->
+   normalize_spaces(<<32,T/binary>>, Acc);
+normalize_spaces(<<C/utf8,T/binary>>, Acc) when ?NSWS(C) ->
+   normalize_spaces(<<32,T/binary>>, Acc);
+normalize_spaces(<<C/utf8,T/binary>>, Acc) ->
+   normalize_spaces(T, <<Acc/binary,C/utf8>>);
+normalize_spaces(<<>>, Acc) -> Acc.
+
+normalize_string(<<>>) -> <<>>;
+normalize_string(Str) ->
+   normalize_string(Str,<<>>).
+
+normalize_string(<<"&#xD;",T/binary>>, Acc)->
+   normalize_string(T, <<Acc/binary,32>>);
+normalize_string(<<"&#xA;",T/binary>>, Acc)->
+   normalize_string(T, <<Acc/binary,32>>);
+normalize_string(<<"&#x9;",T/binary>>, Acc)->
+   normalize_string(T, <<Acc/binary,32>>);
+normalize_string(<<C/utf8,T/binary>>, Acc) when ?NSWS(C) ->
+   normalize_string(T, <<Acc/binary,32>>);
+normalize_string(<<C/utf8,T/binary>>, Acc) ->
+   normalize_string(T, <<Acc/binary,C/utf8>>);
+normalize_string(<<>>, Acc) -> Acc.
+
+encode_for_uri(<<>>) -> <<>>;
+encode_for_uri(<<H/utf8,T/binary>>) 
+  when H == $-;
+       H == $_;
+       H == $.;
+       H == $~;
+       H >= $A, H =< $Z;
+       H >= $a, H =< $z;
+       H >= $0, H =< $9 ->
+   <<H,(encode_for_uri(T))/binary>>;
+encode_for_uri(<<H/utf8,T/binary>>) ->
+   Esc = edoc_lib:escape_uri([H]),
+   Upp = string:uppercase(list_to_binary(Esc)), 
+   <<Upp/binary, (encode_for_uri(T))/binary>>.
+
+pct_encode3(Bin) when is_binary(Bin) ->
+   Str = bin_to_str(Bin),
+   unicode:characters_to_binary(pct_encode3(Str));
 pct_encode3([]) ->
    [];
 pct_encode3([H|T]) when H == $< ;H == $>;
@@ -255,7 +292,11 @@ pct_encode3([H|T]) when H >= 32, H =< 126 ->
 pct_encode3([H|T]) ->
    string:uppercase(xqerl_lib:escape_uri([H])) ++ pct_encode3(T).
 
-decode_string(Str) ->
+decode_string(<<>>) -> <<>>;
+decode_string(Bin) when is_binary(Bin) ->
+   Str = [C || <<C/utf8>> <= Bin ],
+   unicode:characters_to_binary(decode_string(Str));
+decode_string(Str) when is_list(Str) ->
    decode_string(Str,[]).
 
 decode_string([], Acc) ->
@@ -294,11 +335,101 @@ scan_hex_char_ref([H|T], Acc) when H == $; ->
    Hex = lists:reverse(Acc),
    {list_to_integer(Hex, 16),T}.
 
--spec resolve_against_base_uri(string(),
-                               string()) ->
-         nonempty_string() | {error,_}.
+-spec resolve_against_base_uri(binary(),
+                               binary()) ->
+         binary() | {error,_}.
 resolve_against_base_uri(BaseUri, RefUri) ->
-   xqldb_lib:join_uris(BaseUri, RefUri).
+   case xqldb_lib:join_uris(BaseUri, RefUri) of
+      Base when is_binary(Base) ->
+         check_uri_string(Base);
+      Base ->
+         Base
+   end.
+
+
+-define(ISHEX(H), H >= $0, H =< $9;
+                  H >= $A, H =< $F;
+                  H >= $a, H =< $f).
+
+-spec check_uri_string(binary()) ->
+         binary() | {error,_}.
+check_uri_string(Uri) ->
+   Trim = string:trim(Uri),
+   case colon_first(Trim) of
+      true ->
+         {error, invalid_uri};
+      false ->
+         check_uri_string(Trim, <<>>)
+   end.
+
+check_uri_string(<<$%,H1,H2,T/binary>>, Acc) when ?ISHEX(H1) ->
+   if ?ISHEX(H2) ->
+         check_uri_string(T, <<Acc/binary,$%,H1,H2>>);
+      true ->
+         {error, [H1,H2]}
+   end;
+check_uri_string(<<C,_/binary>>, _Acc) when C == $%;
+                                            C == $[;
+                                            C == $]->
+   {error, invalid_uri};
+check_uri_string(<<32,C/utf8,T/binary>>, Acc) when ?WS(C) ->
+   check_uri_string(<<32,T/binary>>, Acc);
+check_uri_string(<<"&#xD;",T/binary>>, Acc)->
+   check_uri_string(<<32,T/binary>>, Acc);
+check_uri_string(<<"&#xA;",T/binary>>, Acc)->
+   check_uri_string(<<32,T/binary>>, Acc);
+check_uri_string(<<"&#x9;",T/binary>>, Acc)->
+   check_uri_string(<<32,T/binary>>, Acc);
+check_uri_string(<<C/utf8,T/binary>>, Acc) when ?NSWS(C) ->
+   check_uri_string(<<32,T/binary>>, Acc);
+check_uri_string(<<C/utf8,T/binary>>, Acc) ->
+   check_uri_string(T, <<Acc/binary,C/utf8>>);
+check_uri_string(<<>>, Acc) -> Acc.
+
+colon_first(<<$:,_/binary>>) -> true;
+colon_first(_) -> false.
+
+-spec is_absolute_uri(binary()) -> boolean().
+is_absolute_uri(<<C/utf8,T/binary>>) when C >= $a, C =< $z;
+                                          C >= $A, C =< $Z;
+                                          C >= $0, C =< $9;
+                                          C == $-;
+                                          C == $. -> 
+   is_absolute_uri(T);
+is_absolute_uri(<<":/",_/binary>>) -> true;
+is_absolute_uri(_) -> false.
+
+-spec is_valid_name(binary()) -> boolean().
+is_valid_name(<<>>) -> false;
+is_valid_name(<<H/utf8>>) -> 
+   is_xsname_start_char(H);
+is_valid_name(<<H/utf8,T/binary>>) -> 
+   is_xsname_start_char(H) andalso
+   is_valid_token(T).
+
+   
+-spec is_valid_token(binary()) -> boolean().
+is_valid_token(<<>>) -> false;
+is_valid_token(Token) ->
+   [C ||
+    <<C/utf8>> <= Token,
+    C == 32 orelse C == 13 orelse C == 10 orelse C == 9 orelse
+    is_xsname_char(C) == false
+    ] == [].
+
+-spec is_valid_tokens(binary()) -> boolean().
+is_valid_tokens(<<>>) -> false;
+is_valid_tokens(Token) ->
+   [C ||
+    <<C/utf8>> <= Token,
+    is_xsname_char(C) == false
+    ] == [].
+
+   
+
+%% shrink_spaces([H|T]) ->
+%%    [H|shrink_spaces(T)].
+%% 
 
 %% resolve_against_base_uri(Base,[]) -> 
 %%    Base;
@@ -389,7 +520,7 @@ next_comp_prefix(Namespaces) ->
              Max
        end,
    Last = lists:foldl(F, 0, Pxs),
-   "ns_" ++ integer_to_list(Last + 1).
+   list_to_binary("ns_" ++ integer_to_list(Last + 1)).
 
 
 % use a queue to map a function to a list in parallel with limited processes

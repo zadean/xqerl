@@ -27,7 +27,8 @@
 -include("xqerl.hrl").
 -include_lib("kernel/include/file.hrl").
 
--define(NS,"http://expath.org/ns/file").
+-define(NS,<<"http://expath.org/ns/file">>).
+-define(PX,<<"file">>).
 
 %% 3 File Properties
 -export([exists/2,
@@ -88,149 +89,149 @@
          current_dir/1
         ]).
 
--'module-namespace'({?NS,"file"}).
+-'module-namespace'({?NS,?PX}).
 -namespaces([]).
 -variables([]).
 -functions([
 %% 3 File Properties
- {{qname,?NS, "file","exists"}, 
+ {{qname,?NS, ?PX,<<"exists">>}, 
   {xqSeqType, 'xs:boolean', one}, [], {'exists', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","is-dir"}, 
+ {{qname,?NS, ?PX,<<"is-dir">>}, 
   {xqSeqType, 'xs:boolean', one}, [], {'is_dir', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","is-file"}, 
+ {{qname,?NS, ?PX,<<"is-file">>}, 
   {xqSeqType, 'xs:boolean', one}, [], {'is_file', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","last-modified"}, 
+ {{qname,?NS, ?PX,<<"last-modified">>}, 
   {xqSeqType, 'xs:dateTime', one}, [], {'last_modified', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","size"}, 
+ {{qname,?NS, ?PX,<<"size">>}, 
   {xqSeqType, 'xs:integer', one}, [], {'size', 2}, 1, [{xqSeqType, 'xs:dateTime', one}]},
 %% 4 Input/Output
- {{qname,?NS, "file","append"}, 
+ {{qname,?NS, ?PX,<<"append">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'item', zero_or_many}]},
- {{qname,?NS, "file","append"}, 
+ {{qname,?NS, ?PX,<<"append">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'item', zero_or_many},{xqSeqType, 'item', one}]},
- {{qname,?NS, "file","append-binary"}, 
+ {{qname,?NS, ?PX,<<"append-binary">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append_binary', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:base64Binary', one}]},
- {{qname,?NS, "file","append-text"}, 
+ {{qname,?NS, ?PX,<<"append-text">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append_text', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","append-text"}, 
+ {{qname,?NS, ?PX,<<"append-text">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append_text', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","append-text-lines"}, 
+ {{qname,?NS, ?PX,<<"append-text-lines">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append_text_lines', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_many}]},
- {{qname,?NS, "file","append-text-lines"}, 
+ {{qname,?NS, ?PX,<<"append-text-lines">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'append_text_lines', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","copy"}, 
+ {{qname,?NS, ?PX,<<"copy">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'copy', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","create-dir"}, 
+ {{qname,?NS, ?PX,<<"create-dir">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'create_dir', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","create-temp-dir"}, 
+ {{qname,?NS, ?PX,<<"create-temp-dir">>}, 
   {xqSeqType, 'xs:string', one}, [], {'create_temp_dir', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","create-temp-dir"}, 
+ {{qname,?NS, ?PX,<<"create-temp-dir">>}, 
   {xqSeqType, 'xs:string', one}, [], {'create_temp_dir', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","create-temp-file"}, 
+ {{qname,?NS, ?PX,<<"create-temp-file">>}, 
   {xqSeqType, 'xs:string', one}, [], {'create_temp_file', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","create-temp-file"}, 
+ {{qname,?NS, ?PX,<<"create-temp-file">>}, 
   {xqSeqType, 'xs:string', one}, [], {'create_temp_file', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","delete"}, 
+ {{qname,?NS, ?PX,<<"delete">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'delete', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","delete"}, 
+ {{qname,?NS, ?PX,<<"delete">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'delete', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:boolean', one}]},
- {{qname,?NS, "file","list"}, 
+ {{qname,?NS, ?PX,<<"list">>}, 
   {xqSeqType, 'xs:string', zero_or_many}, [], {'list', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","list"}, 
+ {{qname,?NS, ?PX,<<"list">>}, 
   {xqSeqType, 'xs:string', zero_or_many}, [], {'list', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:boolean', one}]},
- {{qname,?NS, "file","list"}, 
+ {{qname,?NS, ?PX,<<"list">>}, 
   {xqSeqType, 'xs:string', zero_or_many}, [], {'list', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:boolean', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","move"}, 
+ {{qname,?NS, ?PX,<<"move">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'move', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","read-binary"}, 
+ {{qname,?NS, ?PX,<<"read-binary">>}, 
   {xqSeqType, 'xs:base64Binary', one}, [], {'read_binary', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","read-binary"}, 
+ {{qname,?NS, ?PX,<<"read-binary">>}, 
   {xqSeqType, 'xs:base64Binary', one}, [], {'read_binary', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:integer', one}]},
- {{qname,?NS, "file","read-binary"}, 
+ {{qname,?NS, ?PX,<<"read-binary">>}, 
   {xqSeqType, 'xs:base64Binary', one}, [], {'read_binary', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:integer', one},{xqSeqType, 'xs:integer', one}]},
- {{qname,?NS, "file","read-text"}, 
+ {{qname,?NS, ?PX,<<"read-text">>}, 
   {xqSeqType, 'xs:string', one}, [], {'read_text', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","read-text"}, 
+ {{qname,?NS, ?PX,<<"read-text">>}, 
   {xqSeqType, 'xs:string', one}, [], {'read_text', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","read-text-lines"}, 
+ {{qname,?NS, ?PX,<<"read-text-lines">>}, 
   {xqSeqType, 'xs:string', one}, [], {'read_text_lines', 2}, 1, 
   [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","read-text-lines"}, 
+ {{qname,?NS, ?PX,<<"read-text-lines">>}, 
   {xqSeqType, 'xs:string', one}, [], {'read_text_lines', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","write"}, 
+ {{qname,?NS, ?PX,<<"write">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'item', zero_or_many}]},
- {{qname,?NS, "file","write"}, 
+ {{qname,?NS, ?PX,<<"write">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'item', zero_or_many},{xqSeqType, 'item', one}]},
- {{qname,?NS, "file","write-binary"}, 
+ {{qname,?NS, ?PX,<<"write-binary">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_binary', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:base64Binary', one}]},
- {{qname,?NS, "file","write-binary"}, 
+ {{qname,?NS, ?PX,<<"write-binary">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_binary', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:base64Binary', one},{xqSeqType, 'xs:integer', one}]},
- {{qname,?NS, "file","write-text"}, 
+ {{qname,?NS, ?PX,<<"write-text">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_text', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","write-text"}, 
+ {{qname,?NS, ?PX,<<"write-text">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_text', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","write-text-lines"}, 
+ {{qname,?NS, ?PX,<<"write-text-lines">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_text_lines', 3}, 2, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_many}]},
- {{qname,?NS, "file","write-text-lines"}, 
+ {{qname,?NS, ?PX,<<"write-text-lines">>}, 
   {xqSeqType, 'empty-sequence', zero}, [], {'write_text_lines', 4}, 3, 
   [{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, 'xs:string', one}]},
 %% 5 Paths
- {{qname,?NS, "file","name"}, 
+ {{qname,?NS, ?PX,<<"name">>}, 
   {xqSeqType, 'xs:string', one}, [], {'name', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","parent"}, 
+ {{qname,?NS, ?PX,<<"parent">>}, 
   {xqSeqType, 'xs:string', zero_or_one}, [], {'parent', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","children"}, 
+ {{qname,?NS, ?PX,<<"children">>}, 
   {xqSeqType, 'xs:string', zero_or_many}, [], {'children', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","path-to-native"}, 
+ {{qname,?NS, ?PX,<<"path-to-native">>}, 
   {xqSeqType, 'xs:string', one}, [], {'path_to_native', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","path-to-uri"}, 
+ {{qname,?NS, ?PX,<<"path-to-uri">>}, 
   {xqSeqType, 'xs:anyURI', one}, [], {'path_to_uri', 2}, 1, [{xqSeqType, 'xs:string', one}]},
- {{qname,?NS, "file","resolve-path"}, 
+ {{qname,?NS, ?PX,<<"resolve-path">>}, 
   {xqSeqType, 'xs:string', one}, [], {'resolve_path', 2}, 1, [{xqSeqType, 'xs:string', one}]},
 %% 6 System Properties
- {{qname,?NS, "file","dir-separator"}, 
+ {{qname,?NS, ?PX,<<"dir-separator">>}, 
   {xqSeqType, 'xs:string', one}, [], {'dir_separator', 1}, 0, []},
- {{qname,?NS, "file","line-separator"}, 
+ {{qname,?NS, ?PX,<<"line-separator">>}, 
   {xqSeqType, 'xs:string', one}, [], {'line_separator', 1}, 0, []},
- {{qname,?NS, "file","path-separator"}, 
+ {{qname,?NS, ?PX,<<"path-separator">>}, 
   {xqSeqType, 'xs:string', one}, [], {'path_separator', 1}, 0, []},
- {{qname,?NS, "file","temp-dir"}, 
+ {{qname,?NS, ?PX,<<"temp-dir">>}, 
   {xqSeqType, 'xs:string', one}, [], {'temp_dir', 1}, 0, []},
- {{qname,?NS, "file","base-dir"}, 
+ {{qname,?NS, ?PX,<<"base-dir">>}, 
   {xqSeqType, 'xs:string', zero_or_one}, [], {'base_dir', 1}, 0, []},
- {{qname,?NS, "file","current-dir"}, 
+ {{qname,?NS, ?PX,<<"current-dir">>}, 
   {xqSeqType, 'xs:string', zero_or_one}, [], {'current_dir', 1}, 0, []}
 ]).
 
@@ -435,11 +436,11 @@ append_binary(Ctx,Path,Value) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 append_text(Ctx,Path,Value) ->
-   append_text(Ctx,Path,Value,?str("UTF-8")).
+   append_text(Ctx,Path,Value,?str(<<"UTF-8">>)).
 
 append_text(_,?str(Path),?str(Value),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [append,{encoding,Enc}]) of
+   case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          case file:write(Fd, Value) of
             ok ->
@@ -482,11 +483,11 @@ append_text(Ctx,Path,Value,Encoding) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 append_text_lines(Ctx,Path,Values) ->
-   append_text_lines(Ctx,Path,Values,?str("UTF-8")).
+   append_text_lines(Ctx,Path,Values,?str(<<"UTF-8">>)).
 
 append_text_lines(_,?str(Path),Values,?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [append,{encoding,Enc}]) of
+   case file:open(Path, [append,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          W = fun(S) ->
                   write_line(Fd,S)
@@ -632,11 +633,13 @@ create_dir(Ctx,Dir) ->
 %%       points to a file.
 %%    [file:io-error] is raised if any other error occurs.
 create_temp_dir(Ctx,Prefix,Suffix) ->
-   Dir = filename:basedir(user_cache, "xqerl"),
+   Dir = filename:basedir(user_cache, <<"xqerl">>),
    create_temp_dir(Ctx,Prefix,Suffix,?str(Dir)).
 
 create_temp_dir(_,?str(Prefix),?str(Suffix),?str(Dir)) ->
-   Name = Prefix ++ integer_to_list(erlang:phash2(make_ref())) ++ Suffix,
+   Name = <<Prefix/binary, 
+            (integer_to_binary(erlang:phash2(make_ref())))/binary, 
+            Suffix/binary>>,
    DirName = filename:join(Dir,Name),
    try
       ok = filelib:ensure_dir(DirName),
@@ -672,11 +675,13 @@ create_temp_dir(Ctx,Prefix,Suffix,Dir) ->
 %%    [file:no-dir] is raised if the specified does not exist or points to a file.
 %%    [file:io-error] is raised if any other error occurs.
 create_temp_file(Ctx,Prefix,Suffix) ->
-   Dir = filename:basedir(user_cache, "xqerl"),
+   Dir = filename:basedir(user_cache, <<"xqerl">>),
    create_temp_file(Ctx,Prefix,Suffix,?str(Dir)).
 
 create_temp_file(_,?str(Prefix),?str(Suffix),?str(Dir)) ->
-   Name = Prefix ++ integer_to_list(erlang:phash2(make_ref())) ++ Suffix,
+   Name = <<Prefix/binary, 
+            (integer_to_binary(erlang:phash2(make_ref())))/binary, 
+            Suffix/binary>>,
    FileName = filename:join(Dir,Name),
    try
       ok = filelib:ensure_dir(FileName),
@@ -783,7 +788,7 @@ list(Ctx,Dir) ->
    list(Ctx,Dir,?bool(false)).
 
 list(Ctx,Dir,Recursive) ->
-   list(Ctx,Dir,Recursive,?str("*")).
+   list(Ctx,Dir,Recursive,?str(<<"*">>)).
 
 list(_,?str(Dir),?bool(Recursive),?str(Pattern)) ->
    case filelib:is_dir(Dir) of
@@ -792,7 +797,7 @@ list(_,?str(Dir),?bool(Recursive),?str(Pattern)) ->
          try
             if Recursive ->
                   L = do_rec_list(Dir,Pattern),
-                  [?str(tl(Li -- Dir)) || Li <- L];
+                  [?str(binary:replace(Li, Dir, <<>>)) || Li <- L];
                true ->
                   [?str(Li) || 
                    Li <- filelib:wildcard(Pattern, Dir)]
@@ -974,11 +979,11 @@ read_binary(Ctx,File,Offset,Length) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 read_text(Ctx,File) ->
-   read_text(Ctx,File,?str("UTF-8")).
+   read_text(Ctx,File,?str(<<"UTF-8">>)).
 
 read_text(_,?str(File),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(strip_scheme(File), [read,read_ahead,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [read,read_ahead,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          case do_read_from(Fd, 0) of
             {ok,Str} ->
@@ -1022,11 +1027,11 @@ read_text(Ctx,File,Encoding) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 read_text_lines(Ctx,File) ->
-   read_text_lines(Ctx,File,?str("UTF-8")).
+   read_text_lines(Ctx,File,?str(<<"UTF-8">>)).
 
 read_text_lines(_,?str(File),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(strip_scheme(File), [read,read_ahead,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [read,read_ahead,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          case catch do_read_lines(Fd) of
             {ok,Strs} ->
@@ -1167,11 +1172,11 @@ write_binary(Ctx,File,Value,Offset) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 write_text(Ctx,File,Value) ->
-   write_text(Ctx,File,Value,?str("UTF-8")).
+   write_text(Ctx,File,Value,?str(<<"UTF-8">>)).
 
 write_text(_,?str(File),?str(Value),?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(strip_scheme(File), [write,{encoding,Enc}]) of
+   case file:open(strip_scheme(File), [write,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          ok = io:fwrite(Fd,"~ts",[Value]),
          _ = file:close(Fd),
@@ -1211,11 +1216,11 @@ write_text(Ctx,File,Value,Encoding) ->
 %%       supported by the implementation.
 %%    [file:io-error] is raised if any other error occurs.
 write_text_lines(Ctx,Path,Values) ->
-   write_text_lines(Ctx,Path,Values,?str("UTF-8")).
+   write_text_lines(Ctx,Path,Values,?str(<<"UTF-8">>)).
 
 write_text_lines(_,?str(Path),Values,?str(Encoding)) ->
    Enc = get_encoding(Encoding),
-   case file:open(Path, [write,{encoding,Enc}]) of
+   case file:open(Path, [write,binary,{encoding,Enc}]) of
       {ok,Fd} ->
          W = fun(S) ->
                   write_line(Fd,S)
@@ -1285,7 +1290,7 @@ parent(Ctx,Path) ->
 %%    [file:no-dir] is raised if $path does not point to an existing directory.
 %%    [file:io-error] is raised if any other error occurs.
 children(Ctx,Dir) ->
-   list(Ctx,Dir,?bool(false),?str("*")).
+   list(Ctx,Dir,?bool(false),?str(<<"*">>)).
 
 %% 5.4 file:path-to-native
 %% Signature
@@ -1304,7 +1309,7 @@ children(Ctx,Dir) ->
 %%       native path.
 path_to_native(_,?str(Path)) ->
    try
-      R = xqerl_lib:resolve_against_base_uri(".", Path),
+      R = xqerl_lib:resolve_against_base_uri(<<".">>, Path),
       N = filename:nativename(strip_scheme(R)),
       case filelib:is_file(N) of
          false ->
@@ -1312,7 +1317,7 @@ path_to_native(_,?str(Path)) ->
          true ->
             case filelib:is_dir(N) of
                true ->
-                  N ++ get_dir_sep();
+                  <<N/binary, (get_dir_sep())/binary>>;
                false ->
                   N
             end
@@ -1334,7 +1339,7 @@ path_to_native(Ctx,Path) ->
 %% This function is -deterministic- (no path existence check is made).
 path_to_uri(_,?str(Path)) ->
    try
-      ?uri(xqerl_lib:resolve_against_base_uri(".", Path))
+      ?uri(xqerl_lib:resolve_against_base_uri(<<".">>, Path))
    catch
       _:_ ->
          err_invalid_path(Path)
@@ -1353,7 +1358,7 @@ path_to_uri(Ctx,Path) ->
 %% This function is -nondeterministic-.
 resolve_path(_,?str(Path)) ->
    try
-      R = xqerl_lib:resolve_against_base_uri(filename:absname(""), Path),
+      R = xqerl_lib:resolve_against_base_uri(filename:absname(<<>>), Path),
       N = filename:nativename(strip_scheme(R)),
       case filelib:is_file(N) of
          false ->
@@ -1361,7 +1366,7 @@ resolve_path(_,?str(Path)) ->
          true ->
             case filelib:is_dir(N) of
                true ->
-                  N ++ get_dir_sep();
+                  <<N/binary, (get_dir_sep())/binary>>;
                false ->
                   N
             end
@@ -1412,7 +1417,7 @@ path_seperator(_) -> ?str(get_path_sep()).
 %%       system.
 %% This function is -nondeterministic-.
 temp_dir(_) ->
-   ?str(filename:nativename(filename:basedir(user_cache, "xqerl"))).
+   ?str(filename:nativename(filename:basedir(user_cache, <<"xqerl">>))).
 
 %% 6.5 file:base-dir
 %% Signature
@@ -1438,7 +1443,7 @@ base_dir(#{'base-uri' := ?uri(B)}) ->
 %%    Returns the current working directory. - This function returns the same 
 %%       result as the function call file:resolve-path('.').
 current_dir(_) ->
-   resolve_path([], ?str("")).
+   resolve_path([], ?str(<<"">>)).
 
 %% A References
 %% XSLT and XQuery Serialization 3.0
@@ -1468,38 +1473,38 @@ current_dir(_) ->
 
 err_not_found(Path) ->
    E = #xqError{description = Path ++ " does not exist.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "not-found"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"not-found">>}
                 },
    exit(E).
 err_invalid_path(Path) ->
    E = #xqError{description = Path ++ " is invalid.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "invalid-path"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"invalid-path">>}
                 },
    exit(E).
 err_exists(Path) ->
    E = #xqError{description = Path ++ " already exists.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "exists"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"exists">>}
                 },
    exit(E).
 err_no_dir(Path) ->
    E = #xqError{description = Path ++ " does not point to a directory.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "no-dir"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"no-dir">>}
                 },
    exit(E).
 err_is_dir(Path) ->
    E = #xqError{description = Path ++ " points to a directory.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "is-dir"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"is-dir">>}
                 },
    exit(E).
 err_unknown_encoding(Path) ->
    E = #xqError{description = Path ++ " encoding is not supported.",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "unknown-encoding"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"unknown-encoding">>}
                 },
    exit(E).
 err_out_of_range(Path) ->
@@ -1507,26 +1512,26 @@ err_out_of_range(Path) ->
                               ++ Path ++
                               ") is negative, or the chosen values"
                               " would exceed the file bounds",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "out-of-range"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"out-of-range">>}
                 },
    exit(E).
 err_io_error(File) ->
    E = #xqError{description = "A generic file system error occurred. ("
                ++ File ++ ")",
-                name = #qname{namespace = ?NS,prefix = "file",
-                              local_name = "io-error"}
+                name = #qname{namespace = ?NS,prefix = ?PX,
+                              local_name = <<"io-error">>}
                 },
    exit(E).
 
 get_encoding(E) ->
    get_encoding_1(string:lowercase(E)).
 
-get_encoding_1("utf-8") -> utf8;
-get_encoding_1("us-ascii") -> latin1;
-get_encoding_1("iso-8859-1") -> latin1;
-get_encoding_1("utf-16") -> utf16;
-get_encoding_1("utf-32") -> utf32;
+get_encoding_1(<<"utf-8">>) -> utf8;
+get_encoding_1(<<"us-ascii">>) -> latin1;
+get_encoding_1(<<"iso-8859-1">>) -> latin1;
+get_encoding_1(<<"utf-16">>) -> utf16;
+get_encoding_1(<<"utf-32">>) -> utf32;
 get_encoding_1(E) -> err_unknown_encoding(E).
 
 write_line(Fd,?str(S)) ->
@@ -1688,28 +1693,28 @@ not_implemented() ->
 
 get_dir_sep() -> 
    case os:type() of
-      {win32,_} -> "\\";
-      {_,_} -> "/"
+      {win32,_} -> <<"\\">>;
+      {_,_} -> <<"/">>
    end.
 
 get_line_sep() -> 
    case os:type() of
-      {win32,_} -> "\r\n";
-      {unix,darwin} -> "\r";
-      {_,_} -> "\n"
+      {win32,_} -> <<"\r\n">>;
+      {unix,darwin} -> <<"\r">>;
+      {_,_} -> <<"\n">>
    end.
 
 get_path_sep() -> 
    case os:type() of
-      {win32,_} -> ";";
-      {_,_} -> ":"
+      {win32,_} -> <<";">>;
+      {_,_} -> <<":">>
    end.
 
-strip_scheme("file:///" ++ Path) -> 
+strip_scheme(<<"file:///", Path/binary>>) -> 
    case os:type() of
       {win32,_} -> Path;
-      {_,_} -> [$/|Path]
+      {_,_} -> <<$/,Path/binary>>
    end;
-strip_scheme("file://" ++ Path) -> Path;
-strip_scheme("file:/" ++ Path) -> Path;
+strip_scheme(<<"file://", Path/binary>>) -> Path;
+strip_scheme(<<"file:/", Path/binary>>) -> Path;
 strip_scheme(Path) -> Path.

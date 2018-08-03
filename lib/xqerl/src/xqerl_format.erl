@@ -29,15 +29,22 @@
 -include("xqerl.hrl").
 -compile(inline_list_funcs).
 
--export([parse_picture/2]).
--export([parse_picture_string/2]).
+-export([parse_picture/2,
+         parse_picture_string/2]).
+
+-export([zero_base_by_family/1]).
+
 
 %% used for fn:format-number
 %% takes (PictureString,#dec_format{})
 %% returns {PosFun,NegFun}
+parse_picture_string(String, DF) when is_binary(String) ->
+   parse_picture_string(unicode:characters_to_list(String), DF);
 parse_picture_string(String, #dec_format{} = DF) ->
    try
       Format = dec_format_to_map(DF),
+      %?dbg("DF",DF),
+      %?dbg("Format",Format),
       Tokens = tokenize_picture_string(String, Format),
       case split_with(Tokens, pattern_separator) of
          {V,[]} ->
@@ -49,7 +56,9 @@ parse_picture_string(String, #dec_format{} = DF) ->
              build_format(N,picture_string_variable_map(N, positive),Format)}
       end
    catch 
-      _:_ -> ?err('FODF1310')
+      _:_:Stack -> 
+         ?dbg("Stack",Stack),
+         ?err('FODF1310')
    end.
 
 % tokenizes the picture string based on the format map,
@@ -110,6 +119,7 @@ validate_tokens(List,subpicture) ->
                       N =:= per_mille orelse 
                         N =:= percent orelse 
                         N =:= exponent]) =< 1,
+   %?dbg("List",List),
    ok   = nest_passive(List),
    ok.
 
@@ -338,7 +348,7 @@ build_format(SubPicture,
                                     Exponent, Minus)
                end
          end,
-   Fun.
+   fun(A,B) -> unicode:characters_to_binary(Fun(A,B)) end.
 
 build_format_1(AdjNum, MinExpSize, ScalingFactor, MaxFractSize, Decimal, Zero, 
                MinIntSize, MinFractSize, IntGrpPos, FractGrpPos, Grouping,
@@ -394,39 +404,48 @@ insert_groupings(String,Dec,Left,Right,Char) ->
 
 convert_dec_string(AbsString0,[Decimal],[Zero]) ->
    AbsString = case AbsString0 of
-                  "0" ->
-                     ".";
+                  <<"0">> ->
+                     <<".">>;
                   _ ->
                      AbsString0
                end,
-   LTrim = trim_char(AbsString, $0),
-   RTrim = case lists:member(Decimal, LTrim) of
+   LTrim = string:trim(AbsString, leading, [$0]),
+   RTrim = case contains(LTrim, Decimal) of
               true ->
-                 lists:reverse(trim_char(lists:reverse(LTrim), $0));
+                 string:trim(LTrim, trailing, [$0]);
               _ ->
                  LTrim
            end,
-   RTrim2 = case lists:member($., RTrim) of
+   RTrim2 = case contains(RTrim, $.) of
                true ->
                   RTrim;
                _ ->
-                  RTrim ++ "."
+                  <<RTrim/binary, ".">>
             end,
-   adj_to_zero(RTrim2,[Zero],[Decimal]).
+   unicode:characters_to_list(adj_to_zero(RTrim2,[Zero],[Decimal])).
 
+adj_to_zero(Str,[Zero],[Decimal]) when is_list(Str) ->
+   Bin1 = unicode:characters_to_binary(Str),
+   Bin2 = adj_to_zero(Bin1,[Zero],[Decimal]),
+   unicode:characters_to_list(Bin2);
 adj_to_zero(Str,[Zero],[Decimal]) ->
+   ?dbg("{Str,[Zero],[Decimal]}",{Str,Zero,Decimal}),
    NewZero = zero_base_by_family(Zero),
    Adj = NewZero - $0,
-   lists:map(fun($.) ->
-                   Decimal;
-                (I) ->
-                   I + Adj
-             end, Str).
+   << <<(if C == $. -> Decimal;
+         true -> C + Adj end)/utf8>> ||
+     <<C/utf8>> <= Str
+     >>.
 
-trim_char([H|T],C) when H =:= C ->
-   trim_char(T,C);
-trim_char(T,_C) ->
-   T.
+%% trim_char(<<C/utf8,T/binary>>,C) ->
+%%    trim_char(T,C);
+%% trim_char(T,_C) ->
+%%    T.
+
+contains(<<>>, _) -> false;
+contains(<<C/utf8,_/binary>>, C) -> true;
+contains(<<_/utf8,Rest/binary>>, C) ->
+   contains(Rest, C).
 
 insert_char([],_,_Char,_Pos) -> [];
 insert_char([H|T],[],_Char,_Pos) -> 
@@ -523,6 +542,9 @@ dec_format_to_map(#dec_format{ decimal   = Decimal,%".",
      exponent  => Exponent%"e"                                         
     }.
 
+parse_picture(Int, Picture) when is_binary(Picture) ->
+   unicode:characters_to_binary(
+     parse_picture(Int, unicode:characters_to_list(Picture)));
 parse_picture(Int, Picture) when is_integer(Int) ->
    Sign = if Int < 0 ->
                 "-";
@@ -1107,7 +1129,7 @@ format_datetime_part_as_fract(Fract,{First,_Second,{MinLen,MaxLen}}) ->
              end,
    W1 = length([S || {digit, _} = S <- Format1]),
    W2 = W1 + length([S || {optional_digit} = S <- Format1]),
-   Str1 = xqerl_numeric:string(Fract) -- "0.",
+   Str1 = numeric_string(Fract) -- "0.",
    SList = if is_integer(MaxLen), length(Str1) > MaxLen, W1 =< MaxLen ->
                  lists:sublist(Str1, MaxLen);
               is_integer(MinLen), length(Str1) < MinLen ->
@@ -1120,7 +1142,11 @@ format_datetime_part_as_fract(Fract,{First,_Second,{MinLen,MaxLen}}) ->
                  Str1
            end,
    lists:reverse(format_decimal(lists:reverse(SList),lists:reverse(Format1))).
-                         
+
+numeric_string(Val) ->
+   binary_to_list(xqerl_numeric:string(Val)).
+
+
 optional_to_mandatory([],_Cnt,_ManChar) ->
    [];
 optional_to_mandatory(T,0,_ManChar) ->
@@ -1436,12 +1462,12 @@ int_to_upper_roman1(Num, Acc, [_|DecList], [_|RomList]) ->
 zero_base_by_family(C) when C >= $0,
                             C =< $9 ->
   $0;
-zero_base_by_family(C) when C >= $a,
-                            C =< $z ->
-  $a;
-zero_base_by_family(C) when C >= $A,
-                            C =< $Z ->
-  $A;
+%% zero_base_by_family(C) when C >= $a,
+%%                             C =< $z ->
+%%   $a;
+%% zero_base_by_family(C) when C >= $A,
+%%                             C =< $Z ->
+%%   $A;
 %% 16#0660 - 16#0669 ARABIC-INDIC  numerals
 zero_base_by_family(C) when C >= 16#0660,
                             C =< 16#0669 ->
@@ -1686,7 +1712,7 @@ zero_base_by_family(C) when C >= 16#1E950,
   16#1E950;
 
 zero_base_by_family(_) -> % all others
-  $1.
+  $0.
 
 % can be ordinal|alpha for now and for English
 format_integer(Int, Format, ordinal) ->

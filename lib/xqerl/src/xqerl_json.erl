@@ -27,23 +27,28 @@
 
 -include("xqerl.hrl").
 
--define(ns, "http://www.w3.org/2005/xpath-functions").
--define(qn(Local), #qname{namespace = ?ns, prefix = [], local_name = Local}).
+-define(ns, <<"http://www.w3.org/2005/xpath-functions">>).
+-define(qn(Local), #qname{namespace = ?ns, prefix = <<>>, local_name = <<Local>>}).
 -define(key(Value),#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                                  prefix = [], 
-                                                  local_name = "key"},
+                                                  prefix = <<>>, 
+                                                  local_name = <<"key">>},
                                     expr = #xqAtomicValue{type = 'xs:string', 
                                                           value = Value}}).
 -define(esckey, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                               prefix = [], 
-                                               local_name = "escaped-key"},
+                                               prefix = <<>>, 
+                                               local_name = <<"escaped-key">>},
                                  expr = #xqAtomicValue{type = 'xs:string', 
-                                                       value = "true"}}).
+                                                       value = <<"true">>}}).
 -define(esc, #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                            prefix = [], 
-                                            local_name = "escaped"},
+                                            prefix = <<>>, 
+                                            local_name = <<"escaped">>},
                               expr = #xqAtomicValue{type = 'xs:string', 
-                                                    value = "true"}}).
+                                                    value = <<"true">>}}).
+
+-define(CP_REST(Cp,Rest), <<Cp/utf8,Rest/binary>>).
+-define(CP2_REST(Cp1,Cp2,Rest), <<Cp1/utf8,Cp2/utf8,Rest/binary>>).
+-define(ACC_CP2(Cp1,Cp2,Acc), <<Acc/binary,Cp1/utf8,Cp2/utf8>>).
+-define(ACC_CP(Cp,Acc), <<Acc/binary,Cp/utf8>>).
 
 -record(state, {liberal    = false, % ignored, no liberal parsing
                 duplicates = use_first,
@@ -51,15 +56,17 @@
                 %escape     = true, %% different from the spec
                 validate   = false,
                 indent     = false,
-                fallback   = fun(_) -> [16#FFFD] end}).
+                fallback   = fun(_) -> <<16#FFFD/utf8>> end}).
 
 
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([string/2]).
--export([string_to_xml/2]).
--export([xml_to_string/2]).
+-export([xml_no_escape/2, xml_escape/2, xml_to_json/2]).
+
+-export([string/2,
+         string_to_xml/2,
+         xml_to_string/2]).
 
 string(String, Options) ->
    State = parse_options(#state{},Options),
@@ -70,7 +77,9 @@ string(String, Options) ->
          ?err('FOJS0001');
       Term ->
          ?dbg("Term",Term),
-         json_to_map(State, Term)
+         Map = json_to_map(State, Term),
+         ?dbg("Map",Map),
+         Map
    catch
       _:_ ->
          ?err('FOJS0001')
@@ -90,14 +99,15 @@ string_to_xml(String, Options) ->
          ?err('FOJS0001');
       Term ->
          ?dbg("Term",Term),
-         Frag = json_to_xml(State, [], Term),
+         Frag = json_to_xml(State, <<>>, Term),
          Doc = #xqDocumentNode{expr = Frag},
          Opt = #{namespaces => [],
                  'base-uri' => get_base_uri(Options),
                  'copy-namespaces' => {preserve,'no-inherit'}},
          xqerl_node:new_fragment(Opt, Doc)
    catch
-      _:_ ->
+      _:_ :Stk ->
+         ?dbg("Stk", Stk),
          ?err('FOJS0001')
    end.
 
@@ -108,6 +118,7 @@ string_to_xml(String, Options) ->
 get_base_uri(Options) ->
    proplists:get_value('base-uri', Options).
 
+if_empty(<<>>,Default) -> Default;
 if_empty([],Default) -> Default;
 if_empty(Value,_Default) -> Value.
 
@@ -126,7 +137,7 @@ xml_to_json(State, [#xqElementNode{} = E]) ->
 
 xml_to_json(State = #state{indent = Indent},
              #xqElementNode{name = #qname{namespace = ?ns, 
-                                          local_name = "array"},
+                                          local_name = <<"array">>},
                             expr = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Content = lists:map(fun(V) ->
@@ -135,12 +146,12 @@ xml_to_json(State = #state{indent = Indent},
    if Key =:= [] ->
          serialize_array(Content, Indent);
       true ->
-         State1 = State#state{escape = not if_empty(EscKey,false)},
-         KeyVal = normalize_string(State1, xqerl_types:string_value(Key)),
-         {[$"] ++ KeyVal ++ [$"], serialize_array(Content, Indent), EscKey}
+         State1 = State#state{escape = if_empty(EscKey,false)},
+         KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
+         {<<$", KeyVal/binary, $">>, serialize_array(Content, Indent), EscKey}
    end;
 xml_to_json(State = #state{indent = Indent}, 
-            #xqElementNode{name = #qname{namespace = ?ns, local_name = "map"},
+            #xqElementNode{name = #qname{namespace = ?ns, local_name = <<"map">>},
                            expr = Expr}) ->
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,false),
    Fold = fun(V,Check) ->
@@ -148,9 +159,9 @@ xml_to_json(State = #state{indent = Indent},
                    {K,V1,EscKey0} ->
                       EscKey1 = if_empty(EscKey0,false),
                       K1 = if EscKey1 ->
-                                 to_codepoints(K,true);
+                                 to_codepoints(K,true,<<>>);
                               true ->
-                                 to_codepoints(K,false)
+                                 to_codepoints(K,false,<<>>)
                            end,
                       case maps:is_key(K1, Check) of
                          true ->
@@ -166,12 +177,12 @@ xml_to_json(State = #state{indent = Indent},
    if Key == [] ->
          serialize_map(Content, Indent);
       true ->
-         State1 = State#state{escape = not EscKey},
-         KeyVal = normalize_string(State1, xqerl_types:string_value(Key)),
-         {[$"] ++ KeyVal ++ [$"],serialize_map(Content, Indent), EscKey}
+         State1 = State#state{escape = if_empty(EscKey,false)},
+         KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
+         {<<$", KeyVal/binary, $">>,serialize_map(Content, Indent), EscKey}
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = "boolean"},
+                                                local_name = <<"boolean">>},
                                   expr = Expr}) -> 
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
@@ -180,73 +191,71 @@ xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns,
       if Key == [] ->
             Bool;
          true ->
-            State1 = State#state{escape = not if_empty(EscKey,false)},
-            KeyVal = normalize_string(State1, xqerl_types:string_value(Key)),
-            {[$"] ++ KeyVal ++ [$"],Bool, EscKey}
+            State1 = State#state{escape = if_empty(EscKey,false)},
+            KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
+            {<<$", KeyVal/binary, $">>,Bool, EscKey}
       end
    catch
       _:_ ->
          ?err('FOJS0006') % invalid boolean
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = "null"},
+                                                local_name = <<"null">>},
                                   expr = Expr}) -> 
    {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
    if Rest =/= [] ->
          ?err('FOJS0006');
       Key == [] ->
-         "null";
+         <<"null">>;
       true ->
-         State1 = State#state{escape = not if_empty(EscKey,false)},
-         KeyVal = normalize_string(State1, xqerl_types:string_value(Key)),
-         {[$"] ++ KeyVal ++ [$"],"null", EscKey}
+         State1 = State#state{escape = if_empty(EscKey,false)},
+         KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
+         {<<$", KeyVal/binary, $">>,<<"null">>, EscKey}
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = "number"},
+                                                local_name = <<"number">>},
                                   expr = Expr})->
    try
       {Key, EscKey, _Esc, Rest} = get_attributes(Expr,true),
       Txt = xqerl_node:atomize_nodes(Rest),
       Dbl = xqerl_types:cast_as(Txt,'xs:double'),
       NumTxt = xqerl_types:string_value(Dbl),
-      if NumTxt == "INF";
-         NumTxt == "-INF";
-         NumTxt == "NaN" -> % not allowed in JSON
+      if NumTxt == <<"INF">>;
+         NumTxt == <<"-INF">>;
+         NumTxt == <<"NaN">> -> % not allowed in JSON
             ?err('FOJS0006');
          Key == [] ->
             NumTxt;
          true ->
-            State1 = State#state{escape = not if_empty(EscKey,false)},
-            KeyVal = normalize_string(State1, xqerl_types:string_value(Key)),
-            {[$"] ++ KeyVal ++ [$"],NumTxt, EscKey}
+            State1 = State#state{escape = if_empty(EscKey,false)},
+            KeyVal = normalize_xml_string(State1, xqerl_types:string_value(Key)),
+            {<<$", KeyVal/binary, $">>,NumTxt, EscKey}
       end
    catch 
       _:_ ->
          ?err('FOJS0006') % invalid number
    end;
 xml_to_json(State, #xqElementNode{name = #qname{namespace = ?ns, 
-                                                local_name = "string"},
+                                                local_name = <<"string">>},
                                   expr = Expr}) ->
    {Key, EscKey, Esc, Rest} = get_attributes(Expr,true),
    case Rest of
       [#xqTextNode{}] when Key =:= [] ->
-         State1 = State#state{escape = not if_empty(Esc,false)},
-         StrVal = escape_non_json(
-                    normalize_string(State1, xqerl_types:string_value(Rest))),
-         [$"] ++ StrVal ++ [$"];
+         State1 = State#state{escape = if_empty(Esc,false)},
+         StrVal = normalize_xml_string(State1, xqerl_types:string_value(Rest)),
+         <<$", StrVal/binary, $">>;
       [#xqTextNode{}] ->
-         State2 = State#state{escape = not if_empty(EscKey,false)},
-         State3 = State#state{escape = not if_empty(Esc,false)},
-         KeyVal = normalize_string(State2, xqerl_types:string_value(Key)),
-         StrVal = escape_non_json(
-                    normalize_string(State3, xqerl_types:string_value(Rest))),
-         {[$"] ++ KeyVal ++ [$"],[$"] ++ StrVal ++ [$"], EscKey};
+         State2 = State#state{escape = if_empty(EscKey,false)},
+         State3 = State#state{escape = if_empty(Esc,false)},
+         KeyVal = normalize_xml_string(State2, xqerl_types:string_value(Key)),
+         StrVal = normalize_xml_string(State3, xqerl_types:string_value(Rest)),
+         {<<$", KeyVal/binary, $">>,<<$", StrVal/binary, $">>, EscKey};
       [] when Key =:= [] ->
-         [$",$"];
+         <<$",$">>;
       [] ->
-         State4 = State#state{escape = not if_empty(EscKey,false)},
-         KeyVal = normalize_string(State4, xqerl_types:string_value(Key)),
-         {[$"] ++ KeyVal ++ [$"],[$",$"], EscKey};
+         State4 = State#state{escape = if_empty(EscKey,false)},
+         KeyVal = normalize_xml_string(State4, xqerl_types:string_value(Key)),
+         {<<$", KeyVal/binary, $">>,<<$",$">>, EscKey};
       _ ->
          ?err('FOJS0006')
    end;
@@ -254,31 +263,32 @@ xml_to_json(_State, _) -> % not schema conform
    ?err('FOJS0006').
 
 get_attributes(Content, AllowWs) ->
+   ?dbg("Content",Content),
    try
       Key = [ xqerl_types:string_value(K) || 
               #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                             local_name = "key"},
+                                             local_name = <<"key">>},
                                expr = K} <- Content ],
       EscKey = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
                  #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                                local_name = "escaped-key"},
+                                                local_name = <<"escaped-key">>},
                                   expr = K} <- Content ],
       Esc = [ xqerl_types:value(xqerl_types:cast_as(K,'xs:boolean')) || 
               #xqAttributeNode{name = #qname{namespace = 'no-namespace', 
-                                             local_name = "escaped"},
+                                             local_name = <<"escaped">>},
                                expr = K} <- Content ],
       Rest0 = [ K || K <- Content, 
                      not is_record(K, xqProcessingInstructionNode),
                      not is_record(K, xqCommentNode)],
       F = fun(#xqTextNode{expr = [#xqAtomicValue{value = V}]}) ->
-                AllowWs orelse string:trim(V) =/= [];
+                AllowWs orelse string:trim(V) =/= <<>>;
              (#xqTextNode{expr = #xqAtomicValue{value = V}}) ->
-                AllowWs orelse string:trim(V) =/= [];
+                AllowWs orelse string:trim(V) =/= <<>>;
              (#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = Ln}}) 
-                when Ln == "key";
-                     Ln == "escaped-key";
-                     Ln == "escaped" ->
+                when Ln == <<"key">>;
+                     Ln == <<"escaped-key">>;
+                     Ln == <<"escaped">> ->
                 false;
              (#xqAttributeNode{name = #qname{namespace = Ns}}) 
                 when Ns == 'no-namespace';
@@ -298,16 +308,16 @@ get_attributes(Content, AllowWs) ->
       _:_ -> ?err('FOJS0006') % bad cast
   end.
 
-sing_val([]) -> [];
-sing_val([Val]) -> Val.
+sing_val([Val]) -> Val;
+sing_val([]) -> [].
 
 json_to_xml(State, Key, {array, Values}) ->
    Content = lists:map(fun(V) ->
-                          json_to_xml(State, [], V)
+                          json_to_xml(State, <<>>, V)
                        end, Values),
    #xqElementNode{name = ?qn("array"),
                   attributes = att_key(Key, State#state.escape),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = Content};
 json_to_xml(#state{duplicates = Dupes,
@@ -319,7 +329,7 @@ json_to_xml(#state{duplicates = Dupes,
                   true ->
                      ?err('FOJS0003');
                   _ ->
-                     {json_to_xml(State, NormKey, V),Map#{NormKey => []}} 
+                     {json_to_xml(State, NormKey, V),Map#{NormKey => <<>>}} 
                end;
           ({K,V},Map) when Dupes == use_first ->
                NormKey = if_empty(normalize_string(State, K), empty),
@@ -327,35 +337,35 @@ json_to_xml(#state{duplicates = Dupes,
                   true ->
                      {[],Map};
                   _ ->
-                     {json_to_xml(State, NormKey, V),Map#{NormKey => []}}
+                     {json_to_xml(State, NormKey, V),Map#{NormKey => <<>>}}
                end;
           ({K,V},Map) when Dupes == retain ->
                NormKey = if_empty(normalize_string(State, K), empty),
-               {json_to_xml(State, NormKey, V),Map#{NormKey => []}};
+               {json_to_xml(State, NormKey, V),Map#{NormKey => <<>>}};
           (_,_) ->
              ?err('FOJS0005')
        end,
    {Content,_} = lists:mapfoldl( F, #{}, Members),
    #xqElementNode{name = ?qn("map"),
                   attributes = att_key(Key, Escape),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = Content};
 json_to_xml(State, Key, true) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:boolean', value = true}};
 json_to_xml(State, Key, false) -> 
    #xqElementNode{name = ?qn("boolean"),
                   attributes = att_key(Key, State#state.escape),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:boolean', value = false}};
 json_to_xml(State, Key, null) -> 
    #xqElementNode{name = ?qn("null"),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   attributes = att_key(Key, State#state.escape)};
 json_to_xml(State, Key, Val) when is_float(Val);
@@ -364,7 +374,7 @@ json_to_xml(State, Key, Val) when is_float(Val);
                                   Val =:= neg_infinity ->
    #xqElementNode{name = ?qn("number"),
                   attributes = att_key(Key, State#state.escape),
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:double', value = Val}};
 json_to_xml(State, Key, Val) ->
@@ -372,7 +382,7 @@ json_to_xml(State, Key, Val) ->
    Esc = att_esc(Norm, State#state.escape),
    #xqElementNode{name = ?qn("string"),
                   attributes = [Esc|att_key(Key, State#state.escape)],
-                  inscope_ns = [#xqNamespace{prefix = [],namespace = ?ns}],
+                  inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   expr = #xqAtomicValue{type = 'xs:string', 
                                         value = Norm}}.
@@ -422,172 +432,224 @@ json_to_map(_State, Val) when is_float(Val);
                               Val =:= neg_infinity ->
    #xqAtomicValue{type = 'xs:double', value = Val};
 json_to_map(State, Val) ->
+   ?dbg("State#state.escape",State#state.escape),
    Norm = normalize_string(State, Val),
    #xqAtomicValue{type = 'xs:string', value = Norm}.
 
-normalize_string(#state{escape = true, fallback = Fallback}, String) ->
-   escape(String, Fallback);
-normalize_string(#state{escape = [], fallback = Fallback}, String) ->
-   escape(String, Fallback);
+normalize_string(#state{escape = true}, String) ->
+   escape(String, <<>>);
+normalize_string(#state{escape = []}, String) ->
+   escape(String, <<>>);
 normalize_string(#state{fallback = Fallback}, String) ->
-   no_escape(String, Fallback).
+   no_escape(String, Fallback, <<>>).
 
-escape_non_json([]) -> [];
-escape_non_json([$\\,$"|T]) ->
-   [$\\,$"|escape_non_json(T)];
-escape_non_json([$"|T]) ->
-   [$\\,$"|escape_non_json(T)];
-escape_non_json([$\b|T]) ->
-   [$\\,$f|escape_non_json(T)];
-escape_non_json([$\f|T]) ->
-   [$\\,$f|escape_non_json(T)];
-escape_non_json([$\n|T]) -> 
-   [$\\,$n|escape_non_json(T)];
-escape_non_json([$\r|T]) -> 
-   [$\\,$r|escape_non_json(T)];
-escape_non_json([$\t|T]) -> 
-   [$\\,$t|escape_non_json(T)];
-escape_non_json([$\\,$\\|T]) -> 
-   [$\\,$\\|escape_non_json(T)];
-escape_non_json([$\\,$u,A,B,C,D, $\\,$u,E,F,G,H | T]) ->
-   try
-      High = list_to_integer([A,B,C,D],16),
-      Low  = list_to_integer([E,F,G,H],16),
-      %?dbg("High",High),
-      %?dbg("Low",Low),
-      if High >= 16#D800, High =< 16#DFFF,
-         Low  >= 16#D800, Low  =< 16#DFFF ->
-            [$\\,$u,A,B,C,D, $\\,$u,E,F,G,H |escape_non_json(T)];
-         High < 16#D800;
-         High > 16#DFFF ->
-            [$\\,$u,A,B,C,D | escape_non_json([$\\,$u,E,F,G,H|T])];
-         true ->
-            ?err('FOJS0007')
-      end
-   catch
-      _:_ -> ?err('FOJS0007')
-   end;
-escape_non_json([$\\,$u,A,B,C,D | T]) ->
-   try
-      Num = list_to_integer([A,B,C,D],16),
-      %?dbg("Num",Num),
-      if Num >= 16#D800, Num =< 16#DFFF ->
-            ?err('FOJS0007');
-         true ->
-            [$\\,$u,A,B,C,D | escape_non_json(T)]
-      end
-   catch
-      _:_ -> ?err('FOJS0007')
-   end;
-escape_non_json([H|T]) when H >= 1, H =< 31;
-                            H >= 127, H =< 159 -> 
-   Pad = do_pad(H),
-   [$\\, $u | Pad] ++ escape_non_json(T);
-escape_non_json([H|T]) -> 
-   %?dbg("T",T),
-   [H|escape_non_json(T)].
+normalize_xml_string(#state{escape = true}, String) ->
+   xml_escape(String, <<>>);
+normalize_xml_string(#state{escape = []}, String) ->
+   xml_escape(String, <<>>);
+normalize_xml_string(#state{}, String) ->
+   xml_no_escape(String, <<>>).
 
 do_pad(H) ->
    string:uppercase(
-           lists:flatten(string:pad(integer_to_list(H,16), 4, leading, $0))).
+           list_to_binary(string:pad(integer_to_binary(H,16), 4, leading, $0))).
 
-escape([], _Fallback) -> [];
-%% escape([$\\, $u, A,B,C,D | T],Fallback) ->
-%%    [$\\, $u] ++ string:uppercase([A,B,C,D]) ++ escape(T, Fallback);
-% escape([$"|T], Fallback) ->
-%    [$\\,$"|escape(T, Fallback)];
-escape([$/|T], Fallback) ->
-   [$\\,$/|escape(T, Fallback)];
-escape([$\\|T], Fallback) ->
-   [$\\,$\\|escape(T, Fallback)];
-escape([$\f|T], Fallback) ->
-   [$\\,$f|escape(T, Fallback)];
-escape([$\n|T], Fallback) -> 
-   [$\\,$n|escape(T, Fallback)];
-escape([$\r|T], Fallback) -> 
-   [$\\,$r|escape(T, Fallback)];
-escape([$\t|T], Fallback) -> 
-   [$\\,$t|escape(T, Fallback)];
-escape([H1,H2|T], Fallback) when H1 >= 16#D800, H1 =< 16#DFFF, 
-                                 H2 >= 16#D800, H2 =< 16#DFFF ->
-   C = from_surrogates(H1, H2),
-   [C|escape(T, Fallback)];
-escape([H|T], Fallback) when H >= 16#00,   H =< 16#07; % hack \b out
-                             H >= 16#09,   H =< 16#1F;
-                             H >= 16#7F,   H =< 16#9F -> 
+%% JSON escape sequences are used in the result to represent special characters 
+%% in the JSON input, as defined below, whether or not they were represented 
+%% using JSON escape sequences in the input. The characters that are considered 
+%% "special" for this purpose are:
+%%    * all codepoints in the range x00 to x1F or x7F to x9F;
+%%    * all codepoints that do not represent characters that are valid in the 
+%%      version of XML supported by the processor, including codepoints 
+%%      representing unpaired surrogates;
+%%    * the backslash character itself (x5C).
+%% Such characters are represented using a two-character escape sequence where 
+%% available (for example, \t), or a six-character escape sequence otherwise 
+%% (for example \uDEAD). Characters other than these are not escaped in the 
+%% result, even if they were escaped in the input.
+escape(<<>>, Acc) -> Acc;
+escape(?CP_REST($/,T), Acc) ->
+   escape(T, ?ACC_CP2($\\,$/,Acc));
+escape(?CP_REST($\f,T), Acc) ->
+   escape(T, ?ACC_CP2($\\,$f,Acc));
+escape(?CP_REST($\n,T), Acc) -> 
+   escape(T, ?ACC_CP2($\\,$n,Acc));
+escape(?CP_REST($\r,T), Acc) -> 
+   escape(T, ?ACC_CP2($\\,$r,Acc));
+escape(?CP_REST($\t,T), Acc) -> 
+   escape(T, ?ACC_CP2($\\,$t,Acc));
+escape(?CP_REST(H,T), Acc) 
+   when H >= 16#00,   H =< 16#07; % hack \b out
+        H >= 16#09,   H =< 16#1F;
+        H >= 16#7F,   H =< 16#9F -> 
    Pad = do_pad(H),
-   [$\\, $u | Pad] ++ escape(T, Fallback);
-escape([$\\|_], _Fallback) -> 
-   ?err('FOJS0007'); % bad escape sequence
-escape([H|T], Fallback) ->
+   escape(T, <<Acc/binary,$\\,$u,Pad/binary>>);
+escape(?CP2_REST(H1,H2,T), Acc) when H1 >= 16#D800, H1 =< 16#DFFF, 
+                                     H2 >= 16#D800, H2 =< 16#DFFF ->
+   C = from_surrogates(H1, H2),
+   escape(T,?ACC_CP(C,Acc));
+%% escape(?CP_REST($\\,_), Acc) -> 
+%%    ?err('FOJS0007'); % bad escape sequence
+escape(?CP2_REST($\\,$u,T), Acc) ->
+   escape(T, ?ACC_CP2($\\,$u,Acc));
+escape(?CP_REST($\\,T), Acc) ->
+   escape(T, ?ACC_CP2($\\,$\\,Acc));
+escape(?CP_REST(H,T), Acc) ->
    case xqerl_lib:is_xschar(H) of
       true ->
          %?dbg("H",H),
-         [H|escape(T, Fallback)];
-      _ when H =< 65535 ->
+         escape(T,?ACC_CP(H,Acc));
+      _ ->
          Pad = do_pad(H),
-         Str = [$\\,$u | Pad],
-         Str ++ escape(T, Fallback);
-      _ -> % invalid XML, but valid JSON
-         NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = [H]}),
-         xqerl_types:string_value(NewStr) ++ escape(T, Fallback)
+         Str = <<$\\,$u, Pad/binary>>,
+         escape(T, <<Acc/binary,Str/binary>>)
    end.
 
-no_escape([], _Fallback) -> [];
-no_escape([$\\, $u, A,B,C,D | T],Fallback) ->
-   [$\\, $u] ++ string:uppercase([A,B,C,D]) ++ no_escape(T, Fallback);
-no_escape([H1,H2|T], Fallback) when H1 >= 16#D800, H1 =< 16#DFFF, 
-                                    H2 >= 16#D800, H2 =< 16#DFFF ->
-   C = from_surrogates(H1, H2),
-   no_escape([C|T], Fallback);
-no_escape([H|T], Fallback) when H >= 16#D800, 
-                                H =< 16#DFFF -> % unpaired surrogate
-   Pad = do_pad(H),
-   Str = [$\\,$u | Pad],
-   try
-      NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
-      xqerl_types:string_value(NewStr) ++ no_escape(T, Fallback)
-   catch
-      _:#xqError{} = E ->
-         throw(E);
-      _:_ ->
-         ?err('XPTY0004')
-   end;
-no_escape([$\\,H|_], _Fallback) when H =/= $\\,
-                                     H =/= $/,
-                                     H =/= $",
-                                     H =/= $b,
-                                     H =/= $f,
-                                     H =/= $n,
-                                     H =/= $r,
-                                     H =/= $t -> 
+%% All characters in the input that are valid in the version of XML supported 
+%% by the implementation, whether or not they are represented in the input by 
+%% means of an escape sequence, are represented as unescaped characters in the 
+%% result. Any characters or codepoints that are not valid XML characters (for 
+%% example, unpaired surrogates) are passed to the fallback function as described 
+%% below; in the absence of a fallback function, they are replaced by the Unicode 
+%% REPLACEMENT CHARACTER (xFFFD).
+no_escape(<<>>, _Fallback, Acc) -> Acc;
+no_escape(<<$\\,$u,A,B,C,D, T/binary>>,Fallback, Acc) ->
+   % this should be a bad codepoint, so call fallback
+   Str = <<$\\,$u,A,B,C,D>>,
+   NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
+   StrVal = xqerl_types:string_value(NewStr),
+   no_escape(T, Fallback, <<Acc/binary,StrVal/binary>>);
+no_escape(?CP2_REST($\\,H,_), _Fallback, _Acc) 
+   when H =/= $\\, H =/= $/,
+        H =/= $",  H =/= $b,
+        H =/= $f,  H =/= $n,
+        H =/= $r,  H =/= $t -> 
    ?err('FOJS0007'); % bad escape sequence
-%% no_escape([$\\,$t|T],Fallback) -> % catch valid xml char not valid in json
-%%    [$\\, $t|no_escape(T, Fallback)];
-%% no_escape([$\t|T],Fallback) -> % catch valid xml char not valid in json
-%%    [$\\, $t|no_escape(T, Fallback)];
-no_escape([H|T], Fallback) ->
+no_escape(?CP_REST(H,T), Fallback, Acc) ->
    %?dbg("H",H),
    case xqerl_lib:is_xschar(H) of
       true ->
-         [H|no_escape(T, Fallback)];
+         no_escape(T, Fallback, ?ACC_CP(H,Acc));
       _ ->
-         Str = if H =< 65535 ->
-                     [$\\, $u |do_pad(H)];
-                  true ->
-                     %?dbg("BIG",H),
-                     [H]
-               end,
          try
+            Pad = do_pad(H),
+            Str = <<$\\,$u,Pad/binary>>,
             NewStr = Fallback(#xqAtomicValue{type = 'xs:string', value = Str}),
-            xqerl_types:string_value(NewStr) ++ no_escape(T, Fallback)
+            NewVal = xqerl_types:string_value(NewStr),
+            no_escape(T, Fallback, <<Acc/binary,NewVal/binary>>)
          catch
             _:#xqError{} = E ->
                throw(E);
-            _:_ ->
+            _:_:Stack ->
+               ?dbg("Stack",Stack),
                ?err('XPTY0004')
          end
    end.
+
+%% If the attribute escaped="true" is present for a string value, or 
+%% escaped-key="true" for a key value, then:
+%%    * any valid JSON escape sequence present in the string is copied unchanged 
+%%      to the output;
+%%    * any invalid JSON escape sequence results in a dynamic error [err:FOJS0007];
+%%    * any unescaped occurrence of quotation mark, backspace, form-feed, 
+%%      newline, carriage return, tab, or solidus is replaced by \", \b, \f, 
+%%      \n, \r, \t, or \/ respectively;
+%% any other codepoint in the range 1-31 or 127-159 is replaced by an escape in 
+%% the form \uHHHH where HHHH is the upper-case hexadecimal representation of 
+%% the codepoint value.
+xml_escape(<<>>, Acc) -> Acc;
+xml_escape(?CP2_REST($\\,H,T), Acc) 
+   when H == $\\; H == $/;
+        H == $";  H == $b;
+        H == $f;  H == $n;
+        H == $r;  H == $t ->
+   xml_escape(T, ?ACC_CP2($\\,H,Acc));
+xml_escape(?CP_REST($" ,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$",Acc));
+xml_escape(?CP_REST($\b,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$b,Acc));
+xml_escape(?CP_REST($\f,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$f,Acc));
+xml_escape(?CP_REST($\n,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$n,Acc));
+xml_escape(?CP_REST($\r,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$r,Acc));
+xml_escape(?CP_REST($\t,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$t,Acc));
+xml_escape(?CP_REST($/,T), Acc) ->
+   xml_escape(T, ?ACC_CP2($\\,$/,Acc));
+
+xml_escape(<<$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2,T/binary>>,Acc) ->
+   try
+      _High = list_to_integer([A,B,C,D],16),
+      _Low  = list_to_integer([A2,B2,C2,D2],16),
+       xml_escape(T, <<Acc/binary,$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2>>)
+   catch
+      _:_ ->
+         ?err('FOJS0007')
+   end;
+xml_escape(<<$\\,$u,A,B,C,D,T/binary>>,Acc) ->
+   try
+      Int = list_to_integer([A,B,C,D],16),
+      if Int >= 16#D800, Int =< 16#DFFF -> % lonely surrogate
+            ?err('FOJS0007');
+         true ->
+            xml_escape(T, <<Acc/binary,$\\,$u,A,B,C,D>>)
+      end
+   catch
+      _:_ ->
+         ?err('FOJS0007')
+   end;
+xml_escape(?CP_REST($\\,_), _) ->
+   ?err('FOJS0007');
+xml_escape(?CP_REST(H,T), Acc) 
+   when H >= 1,   H =< 31;
+        H >= 127, H =< 159 -> 
+   Pad = do_pad(H),
+   xml_escape(T, <<Acc/binary,$\\,$u,Pad/binary>>);
+xml_escape(?CP_REST(H,T), Acc) ->
+   case xqerl_lib:is_xschar(H) of
+      true ->
+         xml_escape(T,?ACC_CP(H,Acc));
+      _ -> % should not be here
+         Pad = do_pad(H),
+         Str = <<$\\,$u, Pad/binary>>,
+         xml_escape(T, <<Acc/binary,Str/binary>>)
+   end.
+
+%% Otherwise (that is, in the absence of the attribute escaped="true" for a 
+%% string value, or escaped-key="true" for a key value):
+%%    * any occurrence of backslash is replaced by \\
+%%    * any occurrence of quotation mark, backspace, form-feed, newline, 
+%%      carriage return, or tab is replaced by \", \b, \f, \n, \r, or \t 
+%%      respectively;
+%%    * any other codepoint in the range 1-31 or 127-159 is replaced by an 
+%%      escape in the form \uHHHH where HHHH is the upper-case hexadecimal 
+%%      representation of the codepoint value.
+xml_no_escape(<<>>, Acc) -> Acc;
+xml_no_escape(?CP_REST($\\,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$\\,Acc));
+xml_no_escape(?CP_REST($" ,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$",Acc));
+xml_no_escape(?CP_REST($\b,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$b,Acc));
+xml_no_escape(?CP_REST($\f,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$f,Acc));
+xml_no_escape(?CP_REST($\n,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$n,Acc));
+xml_no_escape(?CP_REST($\r,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$r,Acc));
+xml_no_escape(?CP_REST($\t,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$t,Acc));
+xml_no_escape(?CP_REST($/,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP2($\\,$/,Acc));
+xml_no_escape(?CP_REST(H,T), Acc)
+   when H >= 1,   H =< 31;
+        H >= 127, H =< 159 -> 
+   Pad = do_pad(H),
+   xml_no_escape(T, <<Acc/binary,$\\,$u,Pad/binary>>);
+xml_no_escape(?CP_REST(H,T), Acc) ->
+   xml_no_escape(T, ?ACC_CP(H,Acc)).
 
 -compile({nowarn_unused_function, to_surrogates/1}).
 to_surrogates(C) when C >= 16#10000, C =< 16#10FFFF ->
@@ -617,61 +679,103 @@ parse_options(State, [{indent,Bool}|T]) ->
 parse_options(State, [_|T]) ->
    parse_options(State, T).
 
-att_esc([],_) -> [];
+att_esc(<<>>,_) -> [];
 att_esc(_, false) -> [];
 att_esc(Key, true) -> 
-   case lists:member($\\, Key) of
+   case contains(Key, $\\) of
       true ->
          [?esc];
       _ ->
          []
    end.
 
-att_key([],_) -> [];
+att_key(<<>>,_) -> [];
 att_key(empty, _) -> 
-   [?key([])];
-att_key(Key, false) -> [?key(Key)];
+   [?key(<<>>)];
+att_key(Key, false) -> 
+   [?key(Key)];
 att_key(Key, true) -> 
-   case lists:member($\\, Key) of
+   case contains(Key, $\\) of
       true ->
          [?key(Key),?esckey];
       _ ->
          [?key(Key)]
    end.
 
-serialize_array([],_) -> "[]";
+contains(<<>>, _) -> false;
+contains(<<C/utf8,_/binary>>, C) -> true;
+contains(<<_/utf8,Rest/binary>>, C) ->
+   contains(Rest, C).
+
+serialize_array([],_) -> <<"[]">>;
 serialize_array([H|T],false) ->
-   lists:flatten("["++ H ++ ["," ++ C || C <- T] ++"]");
+   serialize_array_no_indent(T,<<"[", H/binary>>);
 serialize_array([H|T],true) ->
-   lists:flatten("["++ H ++ [", " ++ C || C <- T] ++"]").
+   serialize_array_indent(T,<<"[", H/binary>>).
 
-serialize_map([],_) -> "{}";
-serialize_map([H|T],false) ->
-   lists:flatten("{" ++ serialize_key_val(H) ++ 
-                   ["," ++ serialize_key_val(C) || C <- T] ++ "}");
-serialize_map([H|T],true) ->
-   lists:flatten("{ " ++ serialize_key_val(H) ++ 
-                   [",\n" ++ serialize_key_val(C) || C <- T] ++ " }").
+serialize_array_no_indent([],Acc) ->
+   <<Acc/binary,"]">>;
+serialize_array_no_indent([H|T],Acc) ->
+   serialize_array_no_indent(T,<<Acc/binary,",",H/binary>>).
 
-serialize_key_val({Key,Value}) ->
-   Key ++ [$:] ++ Value .
+serialize_array_indent([],Acc) ->
+   <<Acc/binary,"]">>;
+serialize_array_indent([H|T],Acc) ->
+   serialize_array_indent(T,<<Acc/binary,", ",H/binary>>).
 
-to_codepoints([],_) -> [];
-to_codepoints([$\\,$"|T],Esc) -> 
-   [$"|to_codepoints(T,Esc)];
-to_codepoints([$\\,$b|T],Esc) -> 
-   [$\b|to_codepoints(T,Esc)];
-to_codepoints([$\\,$f|T],Esc) -> 
-   [$\f|to_codepoints(T,Esc)];
-to_codepoints([$\\,$n|T],Esc) -> 
-   [$\n|to_codepoints(T,Esc)];
-to_codepoints([$\\,$r|T],Esc) -> 
-   [$\r|to_codepoints(T,Esc)];
-to_codepoints([$\\,$t|T],Esc) -> 
-   [$\t|to_codepoints(T,Esc)];
-to_codepoints([$\\,$u,A,B,C,D|T],true) -> 
-   [list_to_integer([A,B,C,D],16)|to_codepoints(T,true)];
-%% to_codepoints([$\\|_T],_Esc) -> 
-%%    ?err('FOJS0007'); % bad escape sequence
-to_codepoints([H|T],Esc) -> 
-   [H|to_codepoints(T,Esc)].
+
+serialize_map([],_) -> <<"{}">>;
+serialize_map([{K,V}|T],false) ->
+   serialize_map_no_indent(T,<<"{",K/binary,$:,V/binary>>);
+serialize_map([{K,V}|T],true) ->
+   serialize_map_indent(T,<<"{ ",K/binary,$:,V/binary>>).
+
+serialize_map_indent([],Acc) ->
+   <<Acc/binary," }">>;
+serialize_map_indent([{K,V}|T],Acc) ->
+   serialize_map_indent(T, <<Acc/binary,",\n",K/binary,$:,V/binary>>).
+
+serialize_map_no_indent([],Acc) ->
+   <<Acc/binary,"}">>;
+serialize_map_no_indent([{K,V}|T],Acc) ->
+   serialize_map_no_indent(T, <<Acc/binary,",",K/binary,$:,V/binary>>).
+
+to_codepoints(<<>>,_,Acc) -> Acc;
+to_codepoints(?CP2_REST($\\,$",T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($",Acc));
+to_codepoints(?CP2_REST($\\,$b,T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($\b,Acc));
+to_codepoints(?CP2_REST($\\,$f,T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($\f,Acc));
+to_codepoints(?CP2_REST($\\,$n,T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($\n,Acc));
+to_codepoints(?CP2_REST($\\,$r,T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($\r,Acc));
+to_codepoints(?CP2_REST($\\,$t,T),Esc,Acc) -> 
+   to_codepoints(T,Esc,?ACC_CP($\t,Acc));
+to_codepoints(<<$\\,$u,A,B,C,D,$\\,$u,A2,B2,C2,D2,T/binary>>,true,Acc) ->
+   try
+      High = list_to_integer([A,B,C,D],16),
+      Low  = list_to_integer([A2,B2,C2,D2],16),
+      if High >= 16#D800, High =< 16#DFFF, Low >= 16#D800, Low =< 16#DFFF ->
+            New = from_surrogates(High, Low),
+            to_codepoints(T,true,?ACC_CP(New,Acc));
+         true ->
+            to_codepoints(<<$\\,$u,A2,B2,C2,D2,T/binary>>,true, 
+                       <<Acc/binary,$\\,$u,A,B,C,D>>)
+      end
+   catch 
+      _:_ ->
+         ?err('FOJS0007')
+   end;
+to_codepoints(<<$\\,$u,A,B,C,D,T/binary>>,true,Acc) ->
+   try
+      Int = list_to_integer([A,B,C,D],16),
+      to_codepoints(T,true,?ACC_CP(Int,Acc))
+   catch 
+      _:_ ->
+         ?err('FOJS0007')
+   end;
+to_codepoints(?CP_REST(H,T),Esc,Acc) ->
+   to_codepoints(T,Esc,?ACC_CP(H,Acc)).
+

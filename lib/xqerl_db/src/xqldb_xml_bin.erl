@@ -116,8 +116,6 @@ attribute_value_index_postings_3([H|T], AttValBin, Tmst, DocId) ->
     end};
 attribute_value_index_postings_3(Atts, AttValBin, Tmst, DocId) ->
    case split_bin(Atts) of
-      [] ->
-         [];
       [H] ->
          attribute_value_index_postings_2(H, AttValBin, Tmst, DocId);
       [H|T] ->

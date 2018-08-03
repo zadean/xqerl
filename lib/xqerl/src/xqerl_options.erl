@@ -25,8 +25,8 @@
  
 -module(xqerl_options).
 
--define(NS,"https://www.w3.org/2010/xslt-xquery-serialization").
--define(OUTPUT(N), #qname{namespace = ?NS, prefix = "output", local_name = N}).
+-define(NS,<<"https://www.w3.org/2010/xslt-xquery-serialization">>).
+-define(OUTPUT(N), #qname{namespace = ?NS, prefix = <<"output">>, local_name = <<N>>}).
 
 -include("xqerl.hrl").
 

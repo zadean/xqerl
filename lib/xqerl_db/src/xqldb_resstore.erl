@@ -225,7 +225,7 @@ tab(Val) ->
 
 try_load_new({Uri,_} = U) ->
    try
-      {ok,Pid} = xqldb_res:load(U),
+      {ok,Pid} = xqldb_res:insert(U),
       {ok,Bin} = xqldb_res:export(Pid),
       ok = ext_insert(Uri, Bin),
       set_pid(Uri, Pid),
@@ -236,19 +236,20 @@ try_load_new({Uri,_} = U) ->
          set_status(Uri, failed),
          {error,failed}
    end;
-try_load_new(Uri) ->
-   try
-      {ok,Pid} = xqldb_res:load(Uri),
-      {ok,Bin} = xqldb_res:export(Pid),
-      ok = ext_insert(Uri, Bin),
-      set_pid(Uri, Pid),
-      set_status(Uri, active),
-      ok
-   catch
-      _:_ ->
-         set_status(Uri, failed),
-         {error,failed}
-   end.
+try_load_new(Uri) -> try_load_new({Uri,Uri}).
+
+%%    try
+%%       {ok,Pid} = xqldb_res:insert(Uri),
+%%       {ok,Bin} = xqldb_res:export(Pid),
+%%       ok = ext_insert(Uri, Bin),
+%%       set_pid(Uri, Pid),
+%%       set_status(Uri, active),
+%%       ok
+%%    catch
+%%       _:_ ->
+%%          set_status(Uri, failed),
+%%          {error,failed}
+%%    end.
 
 try_unload_new(Uri,Obj) ->
    try

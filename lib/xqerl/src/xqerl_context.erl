@@ -210,9 +210,9 @@ merge(InitialContext, OuterContext) ->
 
 % remove invalid base uri and use empty 
 check_base_uri(#{'base-uri' := #xqAtomicValue{value = Uri}} = C) ->
-   case xqerl_lib:resolve_against_base_uri(Uri,"") of
+   case xqerl_lib:resolve_against_base_uri(Uri,<<>>) of
       {error,_} ->
-         C#{'base-uri' := #xqAtomicValue{value = ""}};
+         C#{'base-uri' := #xqAtomicValue{value = <<>>}};
       _ ->
          C
    end;
@@ -246,10 +246,10 @@ set_statically_known_namespaces(Tab,Value) ->
    set(Tab, 'statically-known-namespaces', Value).
 
 % block static prefixes
-add_statically_known_namespace(_,"http://www.w3.org/XML/1998/namespace",
-                               "xml") -> ok;
-add_statically_known_namespace(_,"http://www.w3.org/2000/xmlns/",
-                               "xmlns") -> ok;
+add_statically_known_namespace(_,<<"http://www.w3.org/XML/1998/namespace">>,
+                               <<"xml">>) -> ok;
+add_statically_known_namespace(_,<<"http://www.w3.org/2000/xmlns/">>,
+                               <<"xmlns">>) -> ok;
 add_statically_known_namespace(parser,Namespace,Prefix) ->
    Old = case erlang:get('statically-known-namespaces') of
             undefined ->
@@ -271,6 +271,8 @@ add_statically_known_namespace(Tab,Namespace,Prefix) ->
    set_statically_known_namespaces(Tab,New),
    ok.
 
+get_statically_known_namespace_from_prefix(parser,[]) ->
+   get_statically_known_namespace_from_prefix(parser,<<>>);
 get_statically_known_namespace_from_prefix(parser,Prefix) ->
    Dict = erlang:get('statically-known-namespaces'),
    case dict:find(Prefix, Dict) of
@@ -312,6 +314,8 @@ get_statically_known_prefix_from_namespace(Tab,Namespace) ->
    end.
 
 
+get_default_element_type_namespace(parser) ->
+   erlang:get('default-element-type-namespace');
 get_default_element_type_namespace(Tab) ->
    get(Tab, 'default-element-type-namespace').
 
@@ -349,14 +353,14 @@ set_ordering_mode(Ctx,O) ->
 get_default_function_namespace(parser) ->
    case erlang:get('default-function-namespace') of
       undefined ->
-         "http://www.w3.org/2005/xpath-functions";
+         <<"http://www.w3.org/2005/xpath-functions">>;
       N ->
          N
    end;
 get_default_function_namespace(Tab) ->
    case get(Tab, 'default-function-namespace') of
       undefined ->
-         "http://www.w3.org/2005/xpath-functions";
+         <<"http://www.w3.org/2005/xpath-functions">>;
       N ->
          N
    end.
@@ -766,24 +770,24 @@ set_default_uri_collection(Tab, Value) ->
    set(Tab, 'default-uri-collection', Value).
 
 static_namespaces() ->
-   [ {[],     'no-namespace'},
-     {"local","http://www.w3.org/2005/xquery-local-functions"},
-     {"fn",   "http://www.w3.org/2005/xpath-functions"},
-     {"xsi",  "http://www.w3.org/2001/XMLSchema-instance"},
-     {"xml",  "http://www.w3.org/XML/1998/namespace"},
-     {"xs",   "http://www.w3.org/2001/XMLSchema"},
-     {"math", "http://www.w3.org/2005/xpath-functions/math"},
-     {"map",  "http://www.w3.org/2005/xpath-functions/map"},
-     {"array","http://www.w3.org/2005/xpath-functions/array"},
-     {"file", "http://expath.org/ns/file"},
-     {"err",  "http://www.w3.org/2005/xqt-errors"}].
+   [ {<<>>,     'no-namespace'},
+     {<<"local">>,<<"http://www.w3.org/2005/xquery-local-functions">>},
+     {<<"fn">>,   <<"http://www.w3.org/2005/xpath-functions">>},
+     {<<"xsi">>,  <<"http://www.w3.org/2001/XMLSchema-instance">>},
+     {<<"xml">>,  <<"http://www.w3.org/XML/1998/namespace">>},
+     {<<"xs">>,   <<"http://www.w3.org/2001/XMLSchema">>},
+     {<<"math">>, <<"http://www.w3.org/2005/xpath-functions/math">>},
+     {<<"map">>,  <<"http://www.w3.org/2005/xpath-functions/map">>},
+     {<<"array">>,<<"http://www.w3.org/2005/xpath-functions/array">>},
+     {<<"file">>, <<"http://expath.org/ns/file">>},
+     {<<"err">>,  <<"http://www.w3.org/2005/xqt-errors">>}].
 
 static_collations() ->
-   ["http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind", % testing
-    "http://www.w3.org/2005/xpath-functions/collation/codepoint",
-    "http://www.w3.org/2013/collation/UCA",
-    "http://www.w3.org/2005/xpath-functions/collation/"
-      "html-ascii-case-insensitive"].
+   [<<"http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">>, % testing
+    <<"http://www.w3.org/2005/xpath-functions/collation/codepoint">>,
+    <<"http://www.w3.org/2013/collation/UCA">>,
+    <<"http://www.w3.org/2005/xpath-functions/collation/"
+      "html-ascii-case-insensitive">>].
 
 
 get_local_timezone(RawCdt) ->
@@ -805,7 +809,7 @@ add_default_static_values(parser) ->
    parser.
 
 add_default_static_values(Tab, RawCdt) ->
-   set_static_base_uri(Tab, "http://xqerl.org"),
+   set_static_base_uri(Tab, <<"http://xqerl.org">>),
    set_implicit_timezone(Tab, get_local_timezone(RawCdt)),
    set_default_element_type_namespace(Tab, 'no-namespace'),
    
@@ -813,7 +817,7 @@ add_default_static_values(Tab, RawCdt) ->
    StaticNsDict = dict:from_list(StaticNsList),
    set_statically_known_namespaces(Tab, StaticNsDict),
    set_default_language(Tab, #xqAtomicValue{type = 'xs:language', 
-                                            value = "en"}),
+                                            value = <<"en">>}),
    
    %% non-augmentable values from dynamic context can be put here as well.
    set_current_datetime(Tab, xqerl_datetime:get_from_now_local(RawCdt)),

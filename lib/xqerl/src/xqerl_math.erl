@@ -43,37 +43,41 @@
 -export(['sqrt'/2]).
 -export(['tan'/2]).
 
--'module-namespace'({"http://www.w3.org/2005/xpath-functions/math","math"}).
+-define(NS,<<"http://www.w3.org/2005/xpath-functions/math">>).
+-define(PX,<<"math">>).
+
+
+-'module-namespace'({?NS,?PX}).
 -namespaces([{"xqerl_xs", "xs"}]).
 -variables([]).
 -functions([
- {{qname,"http://www.w3.org/2005/xpath-functions/math", "math","acos"}, 
+ {{qname,?NS, ?PX, <<"acos">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'acos', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "asin"}, 
+ {{qname, ?NS,?PX, <<"asin">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'asin', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "atan"}, 
+ {{qname, ?NS,?PX, <<"atan">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'atan', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "atan2"}, 
+ {{qname, ?NS,?PX, <<"atan2">>}, 
   {xqSeqType, 'xs:double', one}, [], {'atan2', 3}, 2, [{xqSeqType, 'xs:double', one},{xqSeqType, 'xs:double', one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "cos"}, 
+ {{qname, ?NS,?PX, <<"cos">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'cos', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "exp"}, 
+ {{qname, ?NS,?PX, <<"exp">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'exp', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "exp10"}, 
+ {{qname, ?NS,?PX, <<"exp10">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'exp10', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "log"}, 
+ {{qname, ?NS,?PX, <<"log">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'log', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "log10"}, 
+ {{qname, ?NS,?PX, <<"log10">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'log10', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "pi"}, 
+ {{qname, ?NS,?PX, <<"pi">>}, 
   {xqSeqType, 'xs:double', one}, [], {'pi', 1}, 0, []},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "pow"}, 
+ {{qname, ?NS,?PX, <<"pow">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'pow', 3}, 2, [{xqSeqType, 'xs:double', zero_or_one},{xqSeqType, 'xs:numeric', one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "sin"}, 
+ {{qname, ?NS,?PX, <<"sin">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'sin', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "sqrt"}, 
+ {{qname, ?NS,?PX, <<"sqrt">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'sqrt', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]},
- {{qname, "http://www.w3.org/2005/xpath-functions/math","math", "tan"}, 
+ {{qname, ?NS,?PX, <<"tan">>}, 
   {xqSeqType, 'xs:double', zero_or_one}, [], {'tan', 2}, 1, [{xqSeqType, 'xs:double', zero_or_one}]}]).
 
 -define(dbl(D), #xqAtomicValue{type = 'xs:double', value = D}).

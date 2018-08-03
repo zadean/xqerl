@@ -75,8 +75,12 @@
 -define(is_numeric(Num), (is_integer(Num) or is_float(Num))).
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
+-define(intv(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
 -define(sing(Val), Val).
 -define(dec(Val),decimal(Val)).
+-define(BIN(V),(V)/binary).
+
+%-define(T(A,B),io:format("~p: ~p~n",[A,B])).
 
 %(xs:integer, xs:decimal, xs:float, xs:double)
 
@@ -981,36 +985,105 @@ node_is(O1, O2) ->
    ?dbg("node_is(O1, O2)",{O1, O2}),
    ?err('XPTY0004').
 
+range_val_comp_any(Op, Val, #xqRange{min = Min, max = Min}) ->
+   xqerl_types:value(value_compare(Op,Val,?intv(Min)));
+range_val_comp_any(Op, #xqRange{min = Min, max = Min}, Val) ->
+   xqerl_types:value(value_compare(Op,?intv(Min),Val));
+range_val_comp_any(Op, #xqRange{min = Min} = Range, Val) ->
+   case value_compare(Op,?intv(Min),Val) of
+      ?bool(true) ->
+         true;
+      _ ->
+         range_val_comp_any(Op, Range#xqRange{min = Min + 1}, Val)
+   end;
+range_val_comp_any(Op, Val, #xqRange{min = Min} = Range) ->
+   case value_compare(Op,Val,?intv(Min)) of
+      ?bool(true) ->
+         true;
+      _ ->
+         range_val_comp_any(Op, Val, Range#xqRange{min = Min + 1})
+   end.
+
+range_range_comp_any(Op, 
+                     Range1, 
+                     #xqRange{min = Min} = Range2) ->
+   range_range_comp_any(Op,Range1,Range2,Min) .
+
+range_range_comp_any(Op, 
+                     #xqRange{min = Min1, max = Min1}, 
+                     #xqRange{min = Min2, max = Min2},
+                     _ ) ->
+   xqerl_types:value(value_compare(Op,?intv(Min1),?intv(Min2)));
+range_range_comp_any(Op, 
+                     #xqRange{min = Min} = Range1, 
+                     #xqRange{min = Min2, max = Min2},
+                     Orig) ->
+   case value_compare(Op,?intv(Min),?intv(Min2)) of
+      ?bool(true) ->
+         true;
+      _ ->
+         range_range_comp_any(Op, Range1#xqRange{min = Min + 1},
+                              #xqRange{min = Orig, max = Min2, cnt = 1},
+                              Orig)
+   end;
+range_range_comp_any(Op, 
+                     #xqRange{min = Min} = Range1, 
+                     #xqRange{min = Min2} = Range2,
+                     Orig) ->
+   case value_compare(Op,?intv(Min),?intv(Min2)) of
+      ?bool(true) ->
+         true;
+      _ ->
+         range_range_comp_any(Op, Range1,
+                              Range2#xqRange{min = Min2 + 1},
+                              Orig)
+   end.
 
 % returns xs:boolean
 general_compare(_Op,[],_) -> ?bool(false);
 general_compare(_Op,_,[]) -> ?bool(false);
+general_compare(Op,{array,L1},L2) -> 
+   general_compare(Op,L1,L2);
+general_compare(Op,L1,{array,L2}) -> 
+   general_compare(Op,L1,L2);
 general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
    ?bool(xqerl_types:value(value_compare(Op,List1,List2)));
 general_compare(Op,#xqAtomicValue{} = V1,#xqRange{} = List2) ->
-   AList2 = xqerl_seq3:expand(List2),
-   Bool = lists:any(fun(V2) ->
-                          xqerl_types:value(value_compare(Op,V1,V2))
-                    end, AList2),
+   Bool = range_val_comp_any(Op, V1, List2),
+   ?bool(Bool);
+general_compare(Op,#xqRange{} = List1,#xqRange{} = List2) ->
+   Bool = range_range_comp_any(Op, List1, List2),
+   ?bool(Bool);
+   
+
+general_compare(Op,#xqAtomicValue{} = V1,List2) when is_list(List2) ->
+   Bool = lists:any(fun(#xqAtomicValue{} = V2) ->
+                          xqerl_types:value(value_compare(Op,V1,V2));
+                       (#xqRange{} = V2) ->
+                          xqerl_types:value(general_compare(Op,V1,V2));
+                       (V2) ->
+                          ?dbg("V2",V2),
+                          V3 = xqerl_types:atomize(V2),
+                          xqerl_types:value(value_compare(Op,V1, V3))
+                    end, List2),
    ?bool(Bool);
 general_compare(Op,#xqAtomicValue{} = V1,List2) ->
-   AList2 = atomize_list(List2),
-   Bool = lists:any(fun(V2) ->
-                          xqerl_types:value(value_compare(Op,V1,V2))
-                    end, AList2),
-   ?bool(Bool);
+   general_compare(Op,V1,[List2]);
 general_compare(Op,#xqRange{} = List1,#xqAtomicValue{} = V2) ->
-   AList1 = xqerl_seq3:expand(List1),
-   Bool = lists:any(fun(V1) ->
-                          xqerl_types:value(value_compare(Op,V1,V2))
-                    end, AList1),
+   Bool = range_val_comp_any(Op, List1, V2),
+   ?bool(Bool);
+general_compare(Op,List1,#xqAtomicValue{} = V2) when is_list(List1) ->
+   Bool = lists:any(fun(#xqAtomicValue{} = V1) ->
+                          xqerl_types:value(value_compare(Op,V1,V2));
+                       (#xqRange{} = V1) ->
+                          xqerl_types:value(general_compare(Op,V1,V2));
+                       (V1) ->
+                          V3 = xqerl_types:atomize(V1),
+                          xqerl_types:value(value_compare(Op,V3, V2))
+                    end, List1),
    ?bool(Bool);
 general_compare(Op,List1,#xqAtomicValue{} = V2) ->
-   AList1 = atomize_list(List1),
-   Bool = lists:any(fun(V1) ->
-                          xqerl_types:value(value_compare(Op,V1,V2))
-                    end, AList1),
-   ?bool(Bool);
+   general_compare(Op,[List1],V2);
 general_compare(Op,List1,List2) ->
    AList1 = atomize_list(List1),
    AList2 = atomize_list(List2),
@@ -1109,6 +1182,7 @@ atomize_list(Seq) when is_list(Seq) ->
                 (#xqNode{} = N) ->
                    [xqerl_types:atomize(N)];
                 (#xqRange{} = R) ->
+                   %?dbg("R",R),
                    xqerl_seq3:expand(R)
              end, Seq));
 atomize_list(Seq) ->
@@ -1122,8 +1196,10 @@ numeric_add(A,#xqAtomicValue{value = neg_zero} = B) ->
 numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
             #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) -> 
-   Prec = max(?num(TypeA), ?num(TypeB)),
-   TypeC = ?numtype(Prec),
+   TypeC = if TypeA =:= TypeB -> TypeA;
+              true ->
+                 get_numeric_type(TypeA, TypeB)
+           end,
    ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
                 ValA + ValB;
              ValA == infinity, ?is_numeric(ValB) ->
@@ -1148,7 +1224,7 @@ numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
                 infinity;
              ValA == neg_infinity orelse ValB == neg_infinity ->
                 neg_infinity;
-             Prec == 15 -> % float could be overflowed
+             TypeC == 'xs:float' -> % float could be overflowed
                 case float(ValA) + float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
@@ -1173,8 +1249,10 @@ numeric_subtract(A,#xqAtomicValue{value = neg_zero} = B) ->
 numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   Prec = max(?num(TypeA), ?num(TypeB)),
-   TypeC = ?numtype(Prec),
+   TypeC = if TypeA =:= TypeB -> TypeA;
+              true ->
+                 get_numeric_type(TypeA, TypeB)
+           end,
    ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
                 ValA - ValB;
              ValA == infinity, ?is_numeric(ValB) ->
@@ -1198,7 +1276,7 @@ numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
              (is_integer(ValA) orelse trunc(ValA) == ValA) andalso 
                (is_integer(ValB) orelse trunc(ValB) == ValB) ->
                 ValA - ValB;
-             Prec == 15 -> % float could be overflowed
+             TypeC == 'xs:float' -> % float could be overflowed
                 case float(ValA) - float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
@@ -1223,8 +1301,10 @@ numeric_multiply(A,#xqAtomicValue{value = neg_zero} = B) ->
 numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB})  
    when ?numeric(TypeA),?numeric(TypeB) -> 
-   Prec = max(?num(TypeA), ?num(TypeB)),
-   TypeC = ?numtype(Prec),
+   TypeC = if TypeA =:= TypeB -> TypeA;
+              true ->
+                 get_numeric_type(TypeA, TypeB)
+           end,
    ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
                 ValA * ValB;
              ValA == infinity andalso ?is_numeric(ValB) andalso ValB > 0 ->
@@ -1247,7 +1327,7 @@ numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                 nan;
              is_integer(ValA) andalso is_integer(ValB) ->
                 ValA * ValB;
-             Prec == 15 -> % float could be overflowed
+             TypeC == 'xs:float' -> % float could be overflowed
                 case float(ValA) * float(ValB) of
                    X when X > ?MAXFLOAT ->
                       infinity;
@@ -1340,7 +1420,10 @@ numeric_divide(_,_) ->
 numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                        #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   Prec = max(?num(TypeA), ?num(TypeB)),
+   TypeC = if TypeA =:= TypeB -> TypeA;
+              true ->
+                 get_numeric_type(TypeA, TypeB)
+           end,
    ValC = if is_integer(ValA) andalso ValB == 0 ->
                 ?err('FOAR0001');
              is_integer(ValA) andalso is_integer(ValB) ->
@@ -1363,7 +1446,7 @@ numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                 ?err('FOAR0002');
              ValA == neg_infinity ->
                 ?err('FOAR0002');
-             Prec == 15 -> % float could be overflowed
+             TypeC == 'xs:float' -> % float could be overflowed
                 case trunc(float(ValA) / float(ValB)) of
                    X when X > ?MAXFLOAT ->
                       ?err('FOAR0002');
@@ -1389,8 +1472,10 @@ numeric_integer_divide(_,_) ->
 numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
             #xqAtomicValue{type = TypeB, value = ValB} = B) 
    when ?numeric(TypeA),?numeric(TypeB) ->
-   Prec = max(?num(TypeA), ?num(TypeB)),
-   TypeC = ?numtype(Prec),
+   TypeC = if TypeA =:= TypeB -> TypeA;
+              true ->
+                 get_numeric_type(TypeA, TypeB)
+           end,
    if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
          ?err('FOAR0001');
       (ValA == nan) orelse (ValB == nan) ->
@@ -1716,10 +1801,10 @@ multiply_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
 divide_yearMonthDuration(_A,#xqAtomicValue{value = nan}) ->
    ?err('FOCA0005');
 divide_yearMonthDuration(_A,#xqAtomicValue{value = infinity}) ->
-   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "P0M"}, 
+   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = <<"P0M">>}, 
                         'xs:yearMonthDuration' );
 divide_yearMonthDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
-   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "P0M"}, 
+   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = <<"P0M">>}, 
                         'xs:yearMonthDuration' );
 divide_yearMonthDuration(_A,#xqAtomicValue{value = Val}) 
    when Val == 0;
@@ -1784,11 +1869,13 @@ add_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
             xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), 
             unary_sign(SnB)),
    SecC = xqerl_numeric:add(SecA,SecB),
-   Str = case xqerl_numeric:less_than(SecC, 0) of
-            true -> "-";
-            _ -> ""
-         end ++ 
-           "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
+   Sgn = case xqerl_numeric:less_than(SecC, 0) of
+            true -> <<"-">>;
+            _ -> <<>>
+         end,
+   Str = <<Sgn/binary,$P,$T, 
+           ?BIN(xqerl_numeric:string(xqerl_numeric:abs_val(SecC))),
+           $S>>,
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 
                         'xs:dayTimeDuration' ).
 
@@ -1812,11 +1899,13 @@ subtract_dayTimeDurations(#xqAtomicValue{type = 'xs:dayTimeDuration',
             xqerl_numeric:add(SdB, (MiB * 60) + (HrB * 3600) + (DyB * 86400)), 
             unary_sign(SnB)),
    SecC = xqerl_numeric:subtract(SecA, SecB),
-   Str = case xqerl_numeric:less_than(SecC, 0) of
-            true -> "-";
-            _ -> ""
-         end ++ 
-           "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
+   Sgn = case xqerl_numeric:less_than(SecC, 0) of
+            true -> <<"-">>;
+            _ -> <<>>
+         end,
+   Str = <<Sgn/binary,$P,$T, 
+           ?BIN(xqerl_numeric:string(xqerl_numeric:abs_val(SecC))),
+           $S>>,
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 
                         'xs:dayTimeDuration' ).
 
@@ -1840,15 +1929,16 @@ multiply_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
             xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), 
             unary_sign(SnA)),
    SecC = xqerl_numeric:multiply(SecA,Dbl),
-   Str = case xqerl_numeric:less_than(SecC, 0) of
-            true -> "-";
-            _ -> ""
-         end ++ "PT" ++ 
-           if is_integer(SecC) ->
-                 erlang:integer_to_list(erlang:abs(SecC));
+   Sgn = case xqerl_numeric:less_than(SecC, 0) of
+            true -> <<"-">>;
+            _ -> <<>>
+         end,
+   Str = <<?BIN(Sgn), "PT",
+           ?BIN((if is_integer(SecC) ->
+                 integer_to_binary(erlang:abs(SecC));
               true ->
                  xqerl_numeric:string(xqerl_numeric:abs_val(SecC))
-           end ++ "S",
+           end)),"S">>,
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 
                         'xs:dayTimeDuration' ).
    
@@ -1859,10 +1949,10 @@ divide_dayTimeDuration(_A,#xqAtomicValue{value = Val}) when Val == 0;
 divide_dayTimeDuration(_A,#xqAtomicValue{value = nan}) ->
    ?err('FOCA0005');
 divide_dayTimeDuration(_A,#xqAtomicValue{value = infinity}) ->
-   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "PT0S"}, 
+   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = <<"PT0S">>}, 
                         'xs:dayTimeDuration' );
 divide_dayTimeDuration(_A,#xqAtomicValue{value = neg_infinity}) ->
-   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = "PT0S"}, 
+   xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = <<"PT0S">>}, 
                         'xs:dayTimeDuration' );
 divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                       value = #xsDateTime{sign = SnA, 
@@ -1876,11 +1966,11 @@ divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
             xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), 
             unary_sign(SnA)),
    SecC = decimal(xqerl_numeric:divide(SecA, Dbl)),
-   Str = case xqerl_numeric:less_than(SecC, 0) of
-            true -> "-";
-            _ -> ""
-         end ++ 
-           "PT" ++ xqerl_numeric:string(xqerl_numeric:abs_val(SecC)) ++ "S",
+   Sgn = case xqerl_numeric:less_than(SecC, 0) of
+            true -> <<"-">>;
+            _ -> <<>>
+         end,
+   Str = <<?BIN(Sgn), "PT", ?BIN((xqerl_numeric:string(xqerl_numeric:abs_val(SecC)))), "S">>,
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 
                         'xs:dayTimeDuration' );
 divide_dayTimeDuration(_,_) ->
@@ -2059,7 +2149,7 @@ date_greater_than(#xqAtomicValue{type = 'xs:date'} = A,
 time_equal(#xqAtomicValue{type = 'xs:time'} = A,
            #xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
-                                               value = "1972-12-31"}),
+                                               value = <<"1972-12-31">>}),
    equal(
      xqerl_fn:dateTime(#{}, RefDt, A),
      xqerl_fn:dateTime(#{}, RefDt, B)
@@ -2069,7 +2159,7 @@ time_equal(#xqAtomicValue{type = 'xs:time'} = A,
 time_less_than(#xqAtomicValue{type = 'xs:time'} = A,
                #xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
-                                               value = "1972-12-31"}),
+                                               value = <<"1972-12-31">>}),
    less_than(
      xqerl_fn:dateTime(#{}, RefDt, A),
      xqerl_fn:dateTime(#{}, RefDt, B)
@@ -2079,7 +2169,7 @@ time_less_than(#xqAtomicValue{type = 'xs:time'} = A,
 time_greater_than(#xqAtomicValue{type = 'xs:time'} = A,
                   #xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
-                                               value = "1972-12-31"}),
+                                               value = <<"1972-12-31">>}),
    greater_than(
      xqerl_fn:dateTime(#{}, RefDt, A),
      xqerl_fn:dateTime(#{}, RefDt, B)
@@ -2260,13 +2350,13 @@ subtract_dateTimes(#xqAtomicValue{type = 'xs:dateTime',
    FraSec = xqerl_numeric:subtract(AbsSec, IntSec),
    LT = xqerl_numeric:less_than(SecC, 0),
    {Days, {Hour,Min,Secs}} = calendar:seconds_to_daystime(IntSec),
-   Str = if LT -> "-" ;
-            true -> "" end ++ 
-           "P"++integer_to_list(Days)++
-           "T"++integer_to_list(Hour)++"H"++
-                integer_to_list(Min)++"M" ++
-                xqerl_numeric:string(?dec(xqerl_numeric:add(Secs, FraSec))) ++
-           "S",                  
+   Sgn = if LT -> <<"-">> ;
+            true -> <<>> end,
+   Str = <<?BIN(Sgn), "P", ?BIN((integer_to_binary(Days))), 
+           "T", ?BIN((integer_to_binary(Hour))), 
+           "H", ?BIN((integer_to_binary(Min))),
+           "M", ?BIN((xqerl_numeric:string(?dec(xqerl_numeric:add(Secs, FraSec))))),
+           "S">>,
    xqerl_types:cast_as( #xqAtomicValue{type = 'xs:string', value = Str}, 
                         'xs:dayTimeDuration' ).
 
@@ -2282,7 +2372,7 @@ subtract_dates(#xqAtomicValue{type = 'xs:date'} = A,
 subtract_times(#xqAtomicValue{type = 'xs:time'} = A,
                #xqAtomicValue{type = 'xs:time'} = B) ->
    RefDt = xqerl_xs:xs_date([], #xqAtomicValue{type = 'xs:string', 
-                                               value = "1972-12-31"}),
+                                               value = <<"1972-12-31">>}),
    subtract(
      xqerl_fn:dateTime(#{}, RefDt, A),
      xqerl_fn:dateTime(#{}, RefDt, B)
@@ -2682,7 +2772,7 @@ eff_bool_val(#xqAtomicValue{type = Type, value = Val})
    when ?string(Type);
         Type == 'xs:anyURI';
         Type == 'xs:untypedAtomic' -> 
-   if Val == "" -> false;
+   if Val == <<>> -> false;
       true -> true
    end;
 % 5 + 6
@@ -2702,3 +2792,15 @@ eff_bool_val(#xqAtomicValue{} = A) ->
 eff_bool_val(Seq) ->
    ?dbg("boolean", Seq),
    ?err('FORG0006').
+
+get_numeric_type(TypeA, TypeA) -> TypeA;
+get_numeric_type('xs:double', _) -> 'xs:double';
+get_numeric_type(_,'xs:double') -> 'xs:double';
+get_numeric_type(TypeA, TypeB) -> 
+   N1 = ?num(TypeA),
+   N2 = ?num(TypeB),
+   if N1 > N2 ->
+         ?numtype(N1);
+      true ->
+         ?numtype(N2)
+   end.

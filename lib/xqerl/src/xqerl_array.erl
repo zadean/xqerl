@@ -27,50 +27,54 @@
 -include("xqerl.hrl").
 -define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
--'module-namespace'({"http://www.w3.org/2005/xpath-functions/array","array"}).
--variables([]).
+-define(NS, <<"http://www.w3.org/2005/xpath-functions/array">>).
+-define(PX, <<"array">>).
+
+
+-'module-namespace'({?NS,?PX}).
+
 -functions([
-{{qname,"http://www.w3.org/2005/xpath-functions/array", "array","append"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname,?NS, ?PX, <<"append">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'append', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "filter"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"filter">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'filter', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many}],{xqSeqType, 'xs:boolean', one}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "flatten"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS,?PX, <<"flatten">>},{xqSeqType, item, zero_or_many}, [], 
  {'flatten', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "fold-left"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS,?PX, <<"fold-left">>},{xqSeqType, item, zero_or_many}, [], 
  {'fold-left', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "fold-right"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS,?PX, <<"fold-right">>},{xqSeqType, item, zero_or_many}, [], 
  {'fold-right', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, item, zero_or_many},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "for-each"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"for-each">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'for-each', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "for-each-pair"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"for-each-pair">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'for-each-pair', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many},{xqSeqType, item, zero_or_many}],{xqSeqType, item, zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "get"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS,?PX, <<"get">>},{xqSeqType, item, zero_or_many}, [], 
  {'get', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "head"},{xqSeqType, item, zero_or_many}, [], 
+{{qname, ?NS,?PX, <<"head">>},{xqSeqType, item, zero_or_many}, [], 
  {'head', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "insert-before"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"insert-before">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'insert-before', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "join"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"join">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'join', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any},zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "put"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"put">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'put', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', one},{xqSeqType, item, zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "remove"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"remove">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'remove', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', zero_or_many}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "reverse"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"reverse">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'reverse', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "size"},{xqSeqType, 'xs:integer', one}, [], 
+{{qname, ?NS,?PX, <<"size">>},{xqSeqType, 'xs:integer', one}, [], 
  {'size', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "sort"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"sort">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'sort', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "sort"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"sort">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'sort', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "sort"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"sort">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'sort', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:string', zero_or_one},{xqSeqType,{xqFunTest, function, [], undefined,[{xqSeqType, item, zero_or_many}],{xqSeqType, 'xs:anyAtomicType', zero_or_many}},one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "subarray"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"subarray">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'subarray', 3}, 2,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "subarray"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
+{{qname, ?NS,?PX, <<"subarray">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[], 
  {'subarray', 4}, 3,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one},{xqSeqType, 'xs:integer', one},{xqSeqType, 'xs:integer', one}]},
-{{qname, "http://www.w3.org/2005/xpath-functions/array","array", "tail"},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[],
+{{qname, ?NS,?PX, <<"tail">>},{xqSeqType, {xqFunTest, array, [], undefined, any, any},one},[],
  {'tail', 2}, 1,[{xqSeqType,{xqFunTest, array, [], undefined, any, any}, one}]}
 ]).
 

@@ -31,8 +31,9 @@
 -define(s(E,T), {call,?L,{remote,?L,{atom,?L,xqerl_types},
                           {atom,?L,cast_as_seq}},[E,abs_seq_type(Ctx,T)]}).
 -define(e, erl_syntax).
--define(FN,"http://www.w3.org/2005/xpath-functions").
--define(XS,"http://www.w3.org/2001/XMLSchema").
+-define(A(T),<<T>>).
+-define(FN,?A("http://www.w3.org/2005/xpath-functions")).
+-define(XS,?A("http://www.w3.org/2001/XMLSchema")).
 
 -include("xqerl.hrl").
 -include_lib("syntax_tools/include/merl.hrl").
@@ -81,7 +82,7 @@ init_mod_scan() ->
    erlang:put(iter_loop, 1).
 
 scan_functions(#{tab := Tab}, Functions,ModName, public) ->
-   Specs = [ {Name#qname{prefix = []}, 
+   Specs = [ {Name#qname{prefix = <<>>}, 
               Type, 
               Annos,
               begin
@@ -107,7 +108,7 @@ scan_variables(Ctx, Variables) ->
    scan_variables(Ctx, Variables, all).
 
 scan_variables(#{tab := Tab}, Variables, _Scope) ->
-   Specs = [{Name#qname{prefix = []}, Type, Annos,
+   Specs = [{Name#qname{prefix = <<>>}, Type, Annos,
              xqerl_static:variable_hash_name(Name),External}
            || #xqVar{annotations = Annos, 
                      name = Name,
@@ -208,7 +209,7 @@ scan_mod(#xqModule{prolog = Prolog,
    ConstNamespaces  = xqerl_static:overwrite_static_namespaces(StaticNamespaces, 
                                                                Namespaces),
    EmptyMap = Map#{namespaces => ConstNamespaces},
-   ImportedMods = lists:filtermap(fun({'module-import', {_,[]}}) -> false;
+   ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, xqerl_static:string_atom(N)};
                                      (_) -> false
@@ -267,7 +268,7 @@ scan_mod(#xqModule{prolog = Prolog,
    {Functions1, Variables1, StaticProps} = 
      xqerl_context:get_module_exports(Imports),
    
-   ImportedMods = lists:filtermap(fun({'module-import', {_,[]}}) -> false;
+   ImportedMods = lists:filtermap(fun({'module-import', {_,<<>>}}) -> false;
                                      ({'module-import', {N,_}}) -> 
                                         {true, xqerl_static:string_atom(N)};
                                      (_) -> false
@@ -327,7 +328,7 @@ init_function(Variables,Prolog) ->
    ImportedMods = [E || 
                    {'module-import',{N,P} = E} <- Prolog,
                    not lists:member(N, Stats),
-                   P =/= []],
+                   P =/= <<>>],
    ?dbg("{Variables,ImportedMods}",{Variables,ImportedMods}),
    
    ImpSetFun = fun({I,_} = _M, CtxVar) ->
@@ -405,7 +406,7 @@ body_function(ContextMap, Body,Prolog) ->
    ImportedMods = [E || 
                    {'module-import',{N,P} = E} <- Prolog,
                    not lists:member(N, Stats),
-                   P =/= []],
+                   P =/= <<>>],
    _ = erlang:put(ctx, 1),
    ?dbg("ImportedMods",ImportedMods),
    ImpSetFun = fun({I,_} = _M, CtxVar) ->
@@ -471,12 +472,12 @@ variable_functions(ContextMap, Variables) ->
                           Type0
                     end,
              #qname{namespace = Ns1, prefix = P1, local_name = L1} = QName,
-             QNameStr = if P1 == [] ->
+             QNameStr = if P1 == <<>> ->
                               L1;
                            P1 == undefined ->
-                              "Q{" ++ Ns1 ++ "}" ++ L1;
+                              <<"Q{", Ns1/binary, "}", L1/binary>>;
                            true ->
-                              P1 ++ ":" ++ L1
+                              <<P1/binary, ":", L1/binary>>
                         end,
              erlang:put(ctx, 1),
              Name = xqerl_static:variable_hash_name(QName),
@@ -534,8 +535,8 @@ function_functions(ContextMap, Functions) ->
 
 not_private(Annos) ->
    [ok || 
-    #annotation{name = #qname{namespace = "http://www.w3.org/2012/xquery",
-                              local_name = "private"}} <- Annos] == [].
+    #annotation{name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                              local_name = ?A("private")}} <- Annos] == [].
 
 
 export_functions(Functions) ->
@@ -581,10 +582,10 @@ expr_do(Ctx, {ensure, Var, #xqSeqType{occur = Occur}}) ->
 % ignoring pragmas for now
 expr_do(_Ctx, {pragma, _Pragmas, []}) ->
    ?err('XQST0079');
-expr_do(Ctx, {pragma, [{#qname{namespace = "http://xqerl.org/xquery",
-                               local_name = "parallel"},P}], Exprs}) ->
+expr_do(Ctx, {pragma, [{#qname{namespace = ?A("http://xqerl.org/xquery"),
+                               local_name = ?A("parallel")},P}], Exprs}) ->
    case string:trim(P) of
-      "unordered" ->
+      ?A("unordered") ->
          {unordered_parallel,expr_do(Ctx, Exprs)};
       _ ->
          {parallel,expr_do(Ctx, Exprs)}
@@ -603,30 +604,30 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
    LineVar = list_to_atom("LineVar" ++ integer_to_list(Id)),
    ColnVar = list_to_atom("ColnVar" ++ integer_to_list(Id)),
    
-   ErrNs = "http://www.w3.org/2005/xqt-errors",
+   ErrNs = ?A("http://www.w3.org/2005/xqt-errors"),
    
-   NewCodeVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "code"},
+   NewCodeVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("code")},
                  #xqSeqType{type = 'xs:QName', 
                             occur = one},[],CodeVar},
-   NewDescVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "description"},
+   NewDescVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("description")},
                  #xqSeqType{type = 'xs:string', 
                             occur = zero_or_one},[],DescVar},
-   NewValuVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "value"},
+   NewValuVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("value")},
                  #xqSeqType{type = 'item', 
                             occur = zero_or_many},[],ValuVar},
-   NewModuVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "module"},
+   NewModuVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("module")},
                  #xqSeqType{type = 'xs:string', 
                             occur = zero_or_one},[],ModuVar},
-   NewLineVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "line-number"},
+   NewLineVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("line-number")},
                  #xqSeqType{type = 'xs:integer', 
                             occur = zero_or_one},[],LineVar},
-   NewColnVar = {#qname{namespace = ErrNs,prefix = "err", 
-                        local_name = "column-number"},
+   NewColnVar = {#qname{namespace = ErrNs,prefix = ?A("err"), 
+                        local_name = ?A("column-number")},
                  #xqSeqType{type = 'xs:integer', 
                             occur = zero_or_one},[],ColnVar},
    
@@ -648,21 +649,21 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
      fun({Errors,DoExpr}) ->
            DoExprAbs = expr_do(Ctx5, DoExpr),
            lists:map(
-             fun(#xqNameTest{name = #qname{namespace = "*",local_name = "*"}}) ->
+             fun(#xqNameTest{name = #qname{namespace = ?A("*"),local_name = ?A("*")}}) ->
                    C = ?Q("{_,#xqError{name = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
-                (#xqNameTest{name = #qname{namespace = "*",local_name = Ln}}) ->
+                (#xqNameTest{name = #qname{namespace = ?A("*"),local_name = Ln}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
                                  location = {_@ModuVar1, _@LineVar1, _@ColnVar1}},_}"),
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
-                (#xqNameTest{name = #qname{namespace = Ns,local_name = "*"}}) ->
+                (#xqNameTest{name = #qname{namespace = Ns,local_name = ?A("*")}}) ->
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
@@ -822,12 +823,23 @@ expr_do(_Ctx, #xqAtomicValue{type = T, value = V}) ->
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}");
 
 expr_do(Ctx, {'string-constructor', Expr}) ->
-   F = fun(I,Abs) ->
+   F = fun(#xqAtomicValue{type = 'xs:string', value = V}, Abs) ->
+             if V == <<>> ->
+                   Abs;
+                true ->
+                   V1 = binary_to_list(V),
+                   B = {bin_element, ?L,{string,?L,V1},default,default},
+                     %?P("<<_@V1>>"),
+                   [B|Abs]
+             end;
+          (I,Abs) ->
              V = expr_do(Ctx,I),
-             ?P("[xqerl_types:string_value(_@V)|_@Abs]")
+             ?dbg("I",I),
+             {_,_,[B]} = ?P("<<(xqerl_types:string_value(_@V))/binary>>"),
+             [B|Abs]          
        end,
-   Es = lists:foldr(F, {nil,?L}, alist(Expr)),
-   Fl = ?P("xqerl_seq3:flatten(_@Es)"),
+   Es = lists:foldr(F, [], alist(Expr)),
+   Fl = {bin,?L,Es},
    ?P("#xqAtomicValue{type = 'xs:string', value = _@Fl}");
 
 expr_do(Ctx, 'context-item') ->
@@ -863,7 +875,7 @@ expr_do(_Ctx, {castable_as,'empty-sequence',#xqSeqType{occur = zero_or_one}}) ->
    % good empty cast
    abs_boolean(true);
 expr_do(Ctx, {castable_as,Expr1,
-              #xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) ->
+              #xqSeqType{type = #qname{prefix = ?A("xs"),local_name = ?A("QName")}}}) ->
    expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = 'xs:QName'}});
 expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = 'xs:QName'}}) -> 
    % namespace sensitive
@@ -876,7 +888,7 @@ expr_do(Ctx, {castable_as,Expr1,Expr2}) ->
    ?P("xqerl_types:castable(_@E1,_@E2)");
 
 expr_do(Ctx, {cast_as,Expr1,
-              #xqSeqType{type = #qname{prefix = "xs",local_name = "QName"}}}) -> 
+              #xqSeqType{type = #qname{prefix = ?A("xs"),local_name = ?A("QName")}}}) -> 
    expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = 'xs:QName'}});
 expr_do(Ctx, {cast_as,Expr1,#xqSeqType{type = 'xs:QName'}}) -> 
    % namespace sensitive
@@ -901,7 +913,7 @@ expr_do(Ctx, {promote_to,Expr1,Expr2}) ->
    ?P("xqerl_types:promote(_@E1,_@E2)");
 
 expr_do(Ctx, #xqSeqType{type = #qname{local_name = Ln}} = ST) ->
-   Atom = erlang:list_to_atom("xs:" ++ Ln),
+   Atom = erlang:binary_to_atom(<<"xs:", Ln/binary>>, latin1),
    abs_seq_type(Ctx, ST#xqSeqType{type = Atom});
 expr_do(Ctx, #xqSeqType{} = ST) ->
    abs_seq_type(Ctx, ST);
@@ -1197,7 +1209,7 @@ expr_do(Ctx, {Op,Vars,Test}) when Op =:= every;
 % ordering
 expr_do(Ctx, {'function-call', 
               #qname{namespace = ?FN,
-                     local_name = "unordered"}, 1, Args}) ->
+                     local_name = ?A("unordered")}, 1, Args}) ->
    expr_do(Ctx, {'unordered-expr', Args});
 expr_do(_Ctx, {'unordered-expr', 'empty-expr'}) -> ?err('XPST0003');
 expr_do(Ctx, {'unordered-expr', Expr}) ->
@@ -1614,6 +1626,7 @@ expr_do(Ctx, #xqFlwor{id = RetId, loop = Loop, return = Return}) ->
    VarTup = get_variable_tuple_name(Ctx1),
    {_NewCtx,In,Out} = flwor(Ctx1, Loop, RetId, Return, [], [],VarTup, false),
    add_global_funs(Out),
+   %?P("(begin _@In end)");
    ?P("xqerl_seq3:flatten(begin _@In end)");
 
 expr_do(Ctx, [Sing]) ->
@@ -2553,9 +2566,9 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
             #qname{namespace = undefined, prefix = Px, local_name = Ln} ->
                Nss = maps:get(namespaces, Map),
                Ns1 = proplists:get_value(Px, Nss),
-               #qname{namespace = Ns1, prefix = "", local_name = Ln};
+               #qname{namespace = Ns1, prefix = <<>>, local_name = Ln};
             _ ->
-               Qn#qname{prefix = ""}
+               Qn#qname{prefix = <<>>}
          end,
    Variable1 = erlang:setelement(1, Variable, Qn1),
    
@@ -2572,9 +2585,9 @@ add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
             #qname{namespace = undefined, prefix = Px, local_name = Ln} ->
                Nss = maps:get(namespaces, Map),
                Ns1 = proplists:get_value(Px, Nss),
-               #qname{namespace = Ns1, prefix = "", local_name = Ln};
+               #qname{namespace = Ns1, prefix = <<>>, local_name = Ln};
             _ ->
-               Qn#qname{prefix = ""}
+               Qn#qname{prefix = <<>>}
          end,
    Variable1 = erlang:setelement(1, Variable, Qn1),
    
@@ -2723,7 +2736,7 @@ abs_element_node(Ctx, #xqElementNode{name = N,
 abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
    E1 = case N of
            #qname{namespace = _Ns, prefix = Px} ->
-              if Px == [] ->
+              if Px == <<>> ->
                     % no default namespace for these
                     abs_ns_qname(Ctx,N#qname{namespace = 'no-namespace'});
                  true ->
@@ -2784,7 +2797,7 @@ abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N,
                                               expr = E, 
                                               base_uri = BU}) ->
    BU1 = case maps:get('base-uri', Ctx) of
-            undefined when BU =/= [] ->
+            undefined when BU =/= <<>> ->
                BU;
             undefined ->
                [];
@@ -2826,10 +2839,10 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind,
                             name = Name, 
                             params = Params, 
                             type = Type}) ->
-   AnnoF = fun(#annotation{name = #qname{namespace = "http://www.w3.org/2012/xquery",
+   AnnoF = fun(#annotation{name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
                                    local_name = L} = Q}, Abs) 
-                 when L == "public";
-                      L == "private" ->
+                 when L == ?A("public");
+                      L == ?A("private") ->
                  {cons,?L,abs_qname(Ctx, Q), Abs};
               (#annotation{name = #qname{namespace = N} = Q}, Abs) ->
                  _ = xqerl_lib:reserved_namespaces(N),
@@ -2888,8 +2901,8 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
         end,
    E2 = if is_tuple(P) ->
               case P of
-                 #xqAtomicValue{value = ""} ->
-                    atom_or_string("");
+                 #xqAtomicValue{value = <<>>} ->
+                    atom_or_string(<<>>);
                  _ ->
                     expr_do(Ctx, P)
               end;
@@ -2949,11 +2962,15 @@ abs_boolean(Bool) ->
 abs_simp_atomic_value(#xqAtomicValue{type = T, value = V}) ->
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}").
 
-atom_or_string([]) ->
-   {nil,?L};
+atom_or_string(<<>>) ->
+   {bin,?L, []};
+%% atom_or_string([]) ->
+%%    {nil,?L};
 atom_or_string(AS) ->
    if is_atom(AS) -> {atom,?L,AS};
-      true -> {string,?L,AS}
+      is_binary(AS) -> ?P("_@AS@");
+      %is_list(AS) -> {string,?L,AS};
+      true -> throw({string,?L,AS})
    end.
 
 empty_seq() ->
@@ -3030,9 +3047,15 @@ abs_list(List) ->
     lists:foldr(fun(E, Abs) ->
                       {cons,?L, E, Abs}
                 end, {nil,?L}, List).
-from_list_to_seq(List) ->
+
+from_list_to_seq([List]) ->
+   ?P("(_@List)");
+from_list_to_seq(List) when is_list(List) ->
    E1 = abs_list(List),
    ?P("xqerl_seq3:flatten(_@E1)").
+%% ;
+%% from_list_to_seq(NonList) ->
+%%    ?P("(_@NonList)").
 
 get_global_funs() ->
    case erlang:get(global_funs) of
@@ -3205,7 +3228,7 @@ forward_path(Source, child, #xqKindTest{kind = comment}) ->
    p2(comment_children,Source);
 forward_path(Source, child, #xqKindTest{kind = 'processing-instruction', 
                                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_children,Source,{string,?LINE,Ln});
+   p3(named_pi_children,Source,atom_or_string(Ln));
 forward_path(Source, child, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_children,Source);
 %% ----------------------------------------------------------------------------
@@ -3233,7 +3256,7 @@ forward_path(Source, self, #xqKindTest{kind = comment}) ->
    p2(comment_selfs,Source);
 forward_path(Source, self, #xqKindTest{kind = 'processing-instruction', 
                                        name = #qname{local_name = Ln}}) ->
-   p3(named_pi_selfs,Source,{string,?LINE,Ln});
+   p3(named_pi_selfs,Source,atom_or_string(Ln));
 forward_path(Source, self, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_selfs,Source);
 %% ----------------------------------------------------------------------------
@@ -3253,7 +3276,7 @@ forward_path(Source, descendant, #xqKindTest{kind = comment}) ->
 forward_path(Source, descendant, 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendants,Source,{string,?LINE,Ln});
+   p3(named_pi_descendants,Source,atom_or_string(Ln));
 forward_path(Source, descendant, 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_descendants,Source);
@@ -3276,7 +3299,7 @@ forward_path(Source, 'descendant-or-self', #xqKindTest{kind = comment}) ->
 forward_path(Source, 'descendant-or-self', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendant_or_selfs,Source,{string,?LINE,Ln});
+   p3(named_pi_descendant_or_selfs,Source,atom_or_string(Ln));
 forward_path(Source, 'descendant-or-self', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_descendant_or_selfs,Source);
@@ -3297,7 +3320,7 @@ forward_path(Source, 'following-sibling', #xqKindTest{kind = comment}) ->
 forward_path(Source, 'following-sibling', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_following_siblings,Source,{string,?LINE,Ln});
+   p3(named_pi_following_siblings,Source,atom_or_string(Ln));
 forward_path(Source, 'following-sibling', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_following_siblings,Source);
@@ -3317,7 +3340,7 @@ forward_path(Source, following, #xqKindTest{kind = comment}) ->
    p2(comment_followings,Source);
 forward_path(Source, following, #xqKindTest{kind = 'processing-instruction', 
                                             name = #qname{local_name = Ln}}) ->
-   p3(named_pi_followings,Source,{string,?LINE,Ln});
+   p3(named_pi_followings,Source,atom_or_string(Ln));
 forward_path(Source, following, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_followings,Source);
 %% ----------------------------------------------------------------------------
@@ -3387,7 +3410,7 @@ reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = comment}) ->
 reverse_path(Source, 'preceding-sibling', 
              #xqKindTest{kind = 'processing-instruction',
                          name = #qname{local_name = Ln}}) ->
-   p3(named_pi_preceding_siblings,Source,{string,?LINE,Ln});
+   p3(named_pi_preceding_siblings,Source,atom_or_string(Ln));
 reverse_path(Source, 'preceding-sibling', 
              #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_preceding_siblings,Source);
@@ -3407,7 +3430,7 @@ reverse_path(Source, preceding, #xqKindTest{kind = comment}) ->
    p2(comment_precedings,Source);
 reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction', 
                                             name = #qname{local_name = Ln}}) ->
-   p3(named_pi_precedings,Source,{string,?LINE,Ln});
+   p3(named_pi_precedings,Source,atom_or_string(Ln));
 reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_precedings,Source);
 %% ----------------------------------------------------------------------------
@@ -3416,7 +3439,7 @@ reverse_path(_, Axis, NodeTest) ->
    {error,NodeTest}.
 
 qname_tuple(#qname{namespace = 'no-namespace', local_name = Ln}) ->
-   ?P("{[],_@Ln@}");
+   ?P("{<<>>,_@Ln@}");
 qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
    ?P("{_@Ns@,_@Ln@}").
 

@@ -243,7 +243,7 @@ attributes_by_value(?DOC,Value) ->
        end,
    lists:filter(F, array:to_list(__Attributes)).
 
-named_attributes(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
+named_attributes(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
       named_attributes(?DOC,Ids,{NsId,LnId})
@@ -394,8 +394,8 @@ document_uri(?DOC,Ids) ->
 
 is_id(?DOC,Ids) when is_list(Ids) ->
    try
-      P = maps:get("xml", __Names),
-      L = maps:get("id", __Names),
+      P = maps:get(<<"xml">>, __Names),
+      L = maps:get(<<"id">>, __Names),
       F = fun(?ATT) when __APx == P andalso __ALn == L ->
                 true;
              (_) ->
@@ -411,8 +411,8 @@ is_id(?DOC,Id) ->
    X.
 
 ids(?DOC) ->
-   P = maps:get("xml", __Names, -1),
-   L = maps:get("id", __Names, -1),
+   P = maps:get(<<"xml">>, __Names, -1),
+   L = maps:get(<<"id">>, __Names, -1),
    F = fun(?ATT) when __APx == P andalso __ALn == L;
                       __ATyp =:= 'ID'  ->
              {true, __APar};
@@ -431,8 +431,8 @@ idrefs(?DOC) ->
    lists:filtermap(F, array:to_list(__Attributes)).
    
 id(?DOC,Values) ->
-   P = maps:get("xml", __Names, -1),
-   L = maps:get("id", __Names, -1),
+   P = maps:get(<<"xml">>, __Names, -1),
+   L = maps:get(<<"id">>, __Names, -1),
    F = fun(?ATT) when __APx == P andalso __ALn == L;
                       __ATyp =:= 'ID'  ->
              case __AVal of
@@ -562,10 +562,8 @@ node_name(?DOC,Ids) when is_list(Ids) ->
              N = maps:get(__Ns, __Namesp),
              if N == [] ->
                    [];
-                   %{'no-namespace',[],L};
                 true ->
-                   {[],[],L}
-                   %{N,[],L}
+                   {<<>>,<<>>,L}
              end;
           (?ATT) ->
              L = maps:get(__ALn, __Names),
@@ -581,18 +579,18 @@ node_name(?DOC,Ids) when is_list(Ids) ->
                    {N,P,L};
                 ?PIN ->
                    L = maps:get(__Ln, __Names),
-                   {[],[],L};
+                   {<<>>,<<>>,L};
                 ?FRG when byte_size(__Nodes) == ?BSZ ->
                    %?dbg("?FRG",?FRG),
                    %?dbg("?DOC",?DOC),
                    case namespaces(?DOC, 0) ++ attributes(?DOC, 0) of
                       [] ->
-                         {[],[],[]};
+                         {<<>>,<<>>,<<>>};
                       [H|_] ->
                          node_name(?DOC,H)
                    end;
                 _ ->
-                   {[],[],[]}
+                   {<<>>,<<>>,<<>>}
              end
        end,
    lists:map(F, Ids);
@@ -1077,7 +1075,7 @@ element_following_siblings(?DOC,Ids) ->
              end
        end,
    lists:map(F, Ids).
-named_element_following_siblings(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
+named_element_following_siblings(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
       named_element_following_siblings(?DOC,Ids,{NsId,LnId})
@@ -1108,7 +1106,7 @@ pi_following_siblings(?DOC,Ids) ->
              f_pi_nodes(?DOC, S)
        end,
    lists:map(F, Ids).
-named_pi_following_siblings(?DOC,Ids,Ln) when is_list(Ln) ->
+named_pi_following_siblings(?DOC,Ids,Ln) when is_binary(Ln) ->
    try
       LnId = get_name_id(Ln,__Names),
       named_pi_following_siblings(?DOC,Ids,LnId)
@@ -1257,7 +1255,7 @@ f_pi_nodes(?DOC,[I|T]) ->
    end.
 
 % return named processing-instruction node ids when given list of ids, use as filter for descendants
-f_named_pi_nodes(?DOC,Ids,Ln) when is_list(Ln) ->
+f_named_pi_nodes(?DOC,Ids,Ln) when is_binary(Ln) ->
    try
       LnId = get_name_id(Ln, __Names),
       f_named_pi_nodes(?DOC,Ids,LnId)
@@ -1297,7 +1295,7 @@ f_element_nodes(?DOC,[I|T]) ->
    end.
 
 % return named element node ids when given list of ids, use as filter for descendants
-f_named_element_nodes(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
+f_named_element_nodes(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
       f_named_element_nodes(?DOC,Ids,{NsId,LnId})
@@ -1327,7 +1325,7 @@ f_attribute_nodes(?DOC,[I|T]) ->
    end.
 
 % return named attribute node ids when given list of ids, use as filter for descendants
-f_named_attribute_nodes(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
+f_named_attribute_nodes(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
       f_named_attribute_nodes(?DOC,Ids,{NsId,LnId})
@@ -1373,7 +1371,8 @@ collect_texts(_,_,{FPos,_},{LPos,LLen},_) ->
 collect_texts(_,_,[],_,_) -> {0,0}. % no texts
 
 get_text_value(Pos,Len,Bin) ->
-   unicode:characters_to_list(binary:part(Bin, Pos, Len)).
+   binary:part(Bin, Pos, Len).
+   %unicode:characters_to_list(binary:part(Bin, Pos, Len)).
 
 
 % element 'xs:untyped', attribute and  PI 'xs:untypedAtomic' rest []
@@ -1436,7 +1435,7 @@ path_to_root(?DOC,Id) ->
    [X] = path_to_root(?DOC,[Id]),
    X.
 
-named_element_children(?DOC,Ids,{Ns,Ln}) when is_list(Ns),is_list(Ln) ->
+named_element_children(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
    try
       {NsId,LnId} = get_name_id({Ns,Ln}, __Namesp, __Names),
       named_element_children(?DOC,Ids,{NsId,LnId})
@@ -1636,12 +1635,12 @@ get_pi_children(__Nodes,I) ->
 %% Indexes 
 %% ====================================================================
 build_base_uri_index(?DOC) ->
-   case maps:is_key("base", __Names) of
+   case maps:is_key(<<"base">>, __Names) of
       false ->
          {base_uris,#{}}; % no base
       true ->
-         #{"base" := Base,
-           "xml" := Xml} = __Names,
+         #{<<"base">> := Base,
+           <<"xml">> := Xml} = __Names,
          Atts = array:to_list(__Attributes),
          Nds = [{__APar,__AVal} || 
                 ?ATT <- Atts,
@@ -1651,17 +1650,18 @@ build_base_uri_index(?DOC) ->
    end.
 
 build_lang_index(?DOC) ->
-   case maps:is_key("lang", __Names) of
+   case maps:is_key(<<"lang">>, __Names) of
       false ->
          {langs,#{}}; % no langs
       true ->
-         #{"lang" := Lang,
-           "xml" := Xml} = __Names,
+         #{<<"lang">> := Lang,
+           <<"xml">> := Xml} = __Names,
          Atts = array:to_list(__Attributes),
          Nds = [{__APar,__AVal} || 
                 ?ATT <- Atts,
                 __APx == Xml,
                 __ALn == Lang ],
+         %?dbg("Nds",Nds),
          {langs,maps:from_list(Nds)}
    end.
 
@@ -1771,6 +1771,17 @@ get_base_uris([H|T],Bases) ->
 rollup_uri([],Acc) -> Acc;
 rollup_uri([[]|T],Acc) ->
    rollup_uri(T,Acc);
+rollup_uri([<<>>|T],Acc) ->
+   rollup_uri(T,Acc);
+%% rollup_uri([<<$.,_/binary>> = H|T],Acc) -> % relative
+%%    ?dbg("{H,T,Acc}",{H,T,Acc}),
+%%    case catch xqldb_lib:join_uris(<<>>,<<Acc/binary,H/binary>>) of
+%%       {'EXIT',_} ->
+%%          rollup_uri(T,Acc);
+%%       B ->
+%%          ?dbg("{H,T,B}",{H,T,B}),
+%%          rollup_uri(T,B)
+%%    end;
 rollup_uri([H|T],Acc) ->
    case catch xqldb_lib:join_uris(Acc, H) of
       {'EXIT',_} ->
@@ -1795,8 +1806,8 @@ inscope_prefixes(?DOC,Ids) ->
    lists:map(F, inscope_namespaces(?DOC,Ids)).
 
 inscope_namespaces(?DOC,Ids) when is_list(Ids) ->
-   M = #{maps:get("xml", __Names) => 
-           maps:get("http://www.w3.org/XML/1998/namespace", __Namesp)},
+   M = #{maps:get(<<"xml">>, __Names) => 
+           maps:get(<<"http://www.w3.org/XML/1998/namespace">>, __Namesp)},
    F = fun(I) when is_integer(I) ->
              case ?node_get(I) of
                 ?ELM ->
@@ -2152,11 +2163,11 @@ intersect_1(A,B) when is_list(B) -> intersect_1([A],B);
 intersect_1(A,B) when is_list(A) -> intersect_1(A,[B]);
 intersect_1(_,_) -> [].
 
-get_name_id({"*","*"},_,_) -> {any,any};
-get_name_id({"*",Ln},_,Names) ->
+get_name_id({<<"*">>,<<"*">>},_,_) -> {any,any};
+get_name_id({<<"*">>,Ln},_,Names) ->
    LnId = maps:get(Ln, Names),
    {any,LnId};
-get_name_id({Ns,"*"},Namesp,_) ->
+get_name_id({Ns,<<"*">>},Namesp,_) ->
    NsId = maps:get(Ns, Namesp),
    {NsId,any};
 get_name_id({Ns,Ln},Namesp,Names) ->
@@ -2164,7 +2175,7 @@ get_name_id({Ns,Ln},Namesp,Names) ->
    LnId = maps:get(Ln, Names),
    {NsId,LnId}.
    
-get_name_id("*",_) -> any;
+get_name_id(<<"*">>,_) -> any;
 get_name_id(Ln,Names) ->
    maps:get(Ln, Names).
 

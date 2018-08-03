@@ -643,6 +643,8 @@ expand(L) when is_list(L) ->
 expand(L) ->
    [L].
 
+expand1(#xqRange{min = Min, max = Max, cnt = Cnt}) when Cnt < 100 ->
+   [int_rec(A) || A <- lists:seq(Min, Max)];
 expand1(#xqRange{min = Min, max = Max}) ->
    range_2(Min,Max);
 expand1([]) -> [];
@@ -752,11 +754,11 @@ get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
 position_filter(_Ctx, #xqAtomicValue{type = 'xs:integer',
-                                     value = I}, Seq0) when is_list(Seq0) ->
-   Seq = expand(Seq0),
+                                     value = I}, Seq) when is_list(Seq) ->
    nth(I, Seq);
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    Size = ?MODULE:size(Seq0),
+   %?dbg("Size",Size),
    %?dbg("Seq0",Seq0),
    Seq = expand(Seq0),
    {Positions,_} =
@@ -769,6 +771,7 @@ position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    position_filter(Ctx, Positions, Seq);
 
 position_filter(_Ctx, Positions, Seq0) when is_list(Seq0), is_list(Positions) ->
+   %?dbg("Size",0),
    %?dbg("Seq0",Seq0),
    Seq = expand(Seq0),
    UniquePos = get_unique_values(lists:usort(Positions)),
@@ -839,7 +842,7 @@ filter1(Ctx, Fun, [H|T], Pos) ->
          end
    catch 
       _:#xqError{name = #xqAtomicValue{value = 
-                                         #qname{local_name = "XPTY0019"}}} ->
+                                         #qname{local_name = <<"XPTY0019">>}}} ->
          % context was not a node when one was expected
          ?err('XPTY0020');
       _:#xqError{} = E:StackTrace ->
@@ -879,11 +882,14 @@ all_not_node(Seq) ->
 get_seq_type([]) -> #xqSeqType{type = 'empty-sequence', occur = zero};
 get_seq_type(#xqRange{}) ->
    #xqSeqType{type = 'xs:integer', occur = one_or_many};
-get_seq_type(List) when is_list(List) ->
-   Hd = hd(List),
+get_seq_type([Singleton]) ->
+   Type = get_item_type(Singleton),
+   #xqSeqType{type = Type, occur = one};
+get_seq_type([Hd|Tl]) ->
+   %?dbg("Hd",Hd),
    HType = get_item_type(Hd),
-   Type = get_seq_type1(tl(List),xqerl_btypes:get_type(HType)),
-   if length(List) == 1 ->
+   Type = get_seq_type1(Tl,xqerl_btypes:get_type(HType)),
+   if Tl == [] ->
          #xqSeqType{type = Type, occur = one};
       true ->
          #xqSeqType{type = Type, occur = one_or_many}
@@ -893,6 +899,7 @@ get_seq_type(List) ->
 
 get_seq_type1([],Curr) ->
    xqerl_btypes:get_type(Curr);
+% TODO this is slow when called often
 get_seq_type1([H|T],Curr) ->
    HType = get_item_type(H),
    HBType = xqerl_btypes:get_type(HType),
@@ -943,6 +950,8 @@ int_rec(Val) ->
 
 
 nth(_, []) -> [];
+nth(N, [#xqRange{} = H|T]) -> 
+   nth(N, expand(H) ++ T);
 nth(1, [H|_]) -> H;
 nth(2, [_,H|_]) -> H;
 nth(3, [_,_,H|_]) -> H;

@@ -56,23 +56,25 @@
 -define(boolzone,#xqSeqType{type = 'xs:boolean', occur = zero_or_one}).
 -define(stringone,#xqSeqType{type = 'xs:string', occur = one}).
 -define(intone,#xqSeqType{type = 'xs:integer', occur = one}).
--define(FN,"http://www.w3.org/2005/xpath-functions").
--define(XS,"http://www.w3.org/2001/XMLSchema").
+-define(FN,<<"http://www.w3.org/2005/xpath-functions">>).
+-define(XS,<<"http://www.w3.org/2001/XMLSchema">>).
 -define(ERROR_MATCH(Err), 
         _:#xqError{name = #xqAtomicValue{value= #qname{local_name = Err}}}).
--define(ERR_VAR(N), #qname{namespace = "http://www.w3.org/2005/xqt-errors",
-                           prefix = "err", 
+-define(ERR_VAR(N), #qname{namespace = <<"http://www.w3.org/2005/xqt-errors">>,
+                           prefix = <<"err">>, 
                            local_name = N}).
+
+-define(A(T),<<T>>).
 
 % state should hold the entire static context, augmented by statements that 
 % can do it in their own scope.
 -record(context,
         {statement,      % possibly optimized statement
          statement_type, % give type information back to caller
-         inscope_ns   = [#xqNamespace{namespace = 'no-namespace', prefix = []},
+         inscope_ns   = [#xqNamespace{namespace = 'no-namespace', prefix = <<>>},
                          #xqNamespace{namespace = 
-                                        "http://www.w3.org/XML/1998/namespace", 
-                                      prefix = "xml"}] ,
+                                        <<"http://www.w3.org/XML/1998/namespace">>, 
+                                      prefix = <<"xml">>}] ,
          static_count,
          can_inline   = false,  
          in_constructor = false % currently in an XML constructor 
@@ -120,7 +122,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    Tab = init_mod_scan(),
    _ = xqerl_context:set_static_base_uri(Tab,BaseUri),
    ok = check_prolog_order(Prolog),
-   DefElNs     = pro_def_elem_ns(Prolog),
+   DefElNs     = pro_def_elem_ns(Prolog), 
    _           = pro_def_func_ns(Prolog),
    ContextItem = pro_context_item(Prolog,ModuleType),
    Setters     = pro_setters(Prolog),
@@ -138,7 +140,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
    % analyze for cyclical references
    DiGraph = xqerl_static_analysis:analyze(Body, Functions1 ++ Functions, 
                               ContextItem ++ Variables1 ++ Variables),
-   LU = {?FN,"function-lookup"},
+   LU = {?FN,?A("function-lookup")},
    _ = case lists:member({0,LU,2}, digraph:vertices(DiGraph)) of
           true ->
              [xqerl_static_analysis:add_edge(DiGraph, {Id,N,A}, ModuleType) || 
@@ -477,11 +479,11 @@ handle_node(State, {'context-item', {Type,External,Expr}}) ->
 %% 3.1.5 Static Function Calls
 handle_node(_, {'partial-function',
                 #qname{namespace = ?FN,
-                       local_name = "concat"}, 1, _}) ->
+                       local_name = ?A("concat")}, 1, _}) ->
    ?err('XPST0017');
 handle_node(State, {'partial-function', 
                     #qname{namespace = ?FN,
-                           local_name = "concat"} = Name, Arity, Args}) ->
+                           local_name = ?A("concat")} = Name, Arity, Args}) ->
    if Arity == length(Args) ->
          ok;
       true ->
@@ -548,11 +550,11 @@ handle_node(State, {'partial-function', Name, Arity, Args}) ->
 %% 3.1.6 Named Function References
 handle_node(_, {'function-ref', 
                 #qname{namespace = ?FN,
-                       local_name = "concat"}, 1}) ->
+                       local_name = ?A("concat")}, 1}) ->
    ?err('XPST0017');
 handle_node(State, {'function-ref', 
                     #qname{namespace = ?FN,
-                           local_name = "concat"} = Name, Arity}) -> 
+                           local_name = ?A("concat")} = Name, Arity}) -> 
    #xqFunction{type = T} = F = get_static_function(State, {Name, Arity}),
    NewP = lists:duplicate(Arity, {xqSeqType,'xs:anyAtomicType',zero_or_one}),   
    Type = #xqFunTest{kind = function, params = NewP, type = T} ,
@@ -561,7 +563,7 @@ handle_node(State, {'function-ref',
                           #xqSeqType{type = Type, occur = one});
 handle_node(State, {'function-ref', 
                     #qname{namespace = ?FN,
-                           local_name = "static-base-uri"}, 0}) -> 
+                           local_name = ?A("static-base-uri")}, 0}) -> 
    RType = #xqSeqType{type = 'xs:anyURI',occur = zero_or_one},
    Base = xqerl_context:get_static_base_uri(State#state.tab),
    ArgSt = #xqAtomicValue{type = 'xs:anyURI', value = Base},
@@ -740,11 +742,11 @@ handle_node(State,
    end;
 handle_node(_, {postfix, _,
                     {'function-ref',#qname{namespace = ?FN, 
-                                           local_name = "concat"}, 1}, 
+                                           local_name = ?A("concat")}, 1}, 
                     [{arguments,_}]}) -> ?err('XPST0017');
 handle_node(State, {postfix, _,
                     {'function-ref',#qname{namespace = ?FN, 
-                                           local_name = "concat"} = Name, 
+                                           local_name = ?A("concat")} = Name, 
                      Arity}, 
                     [{arguments,Args}]}) ->
    if Arity =/= length(Args) ->
@@ -1001,6 +1003,13 @@ handle_node(State, #xqKindTest{kind = 'document-node',
 
 handle_node(State, #xqKindTest{kind = Kind, name = Name, type = Type} = Node) ->
    QName = resolve_qname(Name, State),
+%%    QName = if QName0#qname.prefix == <<>> ->
+%%                  QName0#qname{namespace = 'no-namespace'};
+%%               true ->
+%%                  QName0
+%%            end,
+%%    ?dbg("QName0",QName0),
+   ?dbg("QName",QName),
    if Kind == 'schema-element';
       Kind == 'schema-attribute' -> % not supported, so all names are unknown
          ?err('XPST0008');
@@ -1016,7 +1025,9 @@ handle_node(State, #xqKindTest{kind = Kind, name = Name, type = Type} = Node) ->
    set_statement(State, Node#xqKindTest{name = QName, type = Type1});
 
 handle_node(State, #xqNameTest{name = Name} = Node) ->
+   %QName = resolve_attribute_name(Name, State),
    QName = resolve_qname(Name, State),
+   %?dbg("QName",QName),
    set_statement(State, Node#xqNameTest{name = QName});
 
 handle_node(State, #xqFunTest{params = Params, type = Type} = Node) ->
@@ -1077,7 +1088,7 @@ handle_node(State, #xqAxisStep{direction = Direction,
                            KTypeST1
                      end
                   catch 
-                     ?ERROR_MATCH("XPST0051") -> ?err('XPST0008');
+                     ?ERROR_MATCH(?A("XPST0051")) -> ?err('XPST0008');
                      _:#xqError{} = E -> throw(E);
                      _:_ -> ?err('XPST0008')
                   end;
@@ -1359,7 +1370,7 @@ handle_node(State, {'unary', '-', Expr1} = _Node) ->
 %% 3.6 String Concatenation Expressions
 handle_node(State, {'concat', Expr1, Expr2}) -> 
    S3 = {'function-call', #qname{namespace = ?FN,
-                                 local_name = "concat"}, 2, [Expr1,Expr2]},
+                                 local_name = ?A("concat")}, 2, [Expr1,Expr2]},
    handle_node(State, S3);
 %% 3.7 Comparison Expressions
 %% 3.7.1 Value Comparisons
@@ -2138,31 +2149,31 @@ handle_node(State, {'try', Id, Expr, {'catch', CatchClauses}}) ->
            % add the magic error variables
            Stat1 = add_inscope_variable(
                      State, 
-                     {?ERR_VAR("code"),
+                     {?ERR_VAR(?A("code")),
                       #xqSeqType{type = 'xs:QName', occur = one},[],CodeVar}),
            Stat2 = add_inscope_variable(
                      Stat1, 
-                     {?ERR_VAR("description"),
+                     {?ERR_VAR(?A("description")),
                       #xqSeqType{type = 'xs:string', occur = zero_or_one},
                       [],DescVar}),
            Stat3 = add_inscope_variable(
                      Stat2, 
-                     {?ERR_VAR("value"),
+                     {?ERR_VAR(?A("value")),
                       #xqSeqType{type = 'item', occur = zero_or_many},
                       [],ValuVar}),
            Stat4 = add_inscope_variable(
                      Stat3, 
-                     {?ERR_VAR("module"),
+                     {?ERR_VAR(?A("module")),
                       #xqSeqType{type = 'xs:string', occur = zero_or_one},
                       [],ModuVar}),
            Stat5 = add_inscope_variable(
                      Stat4, 
-                     {?ERR_VAR("line-number"),
+                     {?ERR_VAR(?A("line-number")),
                       #xqSeqType{type = 'xs:integer', occur = zero_or_one},
                       [],LineVar}),
            Stat6 = add_inscope_variable(
                      Stat5, 
-                     {?ERR_VAR("column-number"),
+                     {?ERR_VAR(?A("column-number")),
                       #xqSeqType{type = 'xs:integer', occur = zero_or_one},
                       [],ColnVar}),
            CatchState = handle_node(Stat6, DoExpr),
@@ -2239,7 +2250,7 @@ handle_node(State, {'case-var'  , Types, Var }) ->
 handle_node(State, {cast_as, 'empty-sequence', 
                     #xqSeqType{type = #qname{local_name = L}, 
                                occur = zero_or_one}}) 
-   when L =/= "NOTATION" ->
+   when L =/= ?A("NOTATION") ->
    set_statement(State, 'empty-sequence');
 handle_node(State, {cast_as, 'empty-sequence', 
                     #xqSeqType{type = T, occur = zero_or_one}}) 
@@ -2247,9 +2258,9 @@ handle_node(State, {cast_as, 'empty-sequence',
    set_statement(State, 'empty-sequence');
 handle_node(State, {cast_as, #xqAtomicValue{} = Av, 
                     #xqSeqType{type = #qname{local_name = Ln} = Name}}) -> 
-   if Ln == "NOTATION";
-      Ln == "anyAtomicType";
-      Ln == "anySimpleType" ->
+   if Ln == ?A("NOTATION");
+      Ln == ?A("anyAtomicType");
+      Ln == ?A("anySimpleType") ->
          ?err('XPST0080');
       true ->
          ok
@@ -2258,15 +2269,15 @@ handle_node(State, {cast_as, #xqAtomicValue{} = Av,
    try
       handle_node(State, {'function-call',St2, 1, [Av]})
    catch
-      ?ERROR_MATCH("XPST0017") -> ?err('XQST0052');
+      ?ERROR_MATCH(?A("XPST0017")) -> ?err('XQST0052');
       _:#xqError{} = E -> throw(E);
       _:_ -> ?err('XQST0052') % unknown type in cast
   end;
 handle_node(State, {cast_as, Expr1, 
                     #xqSeqType{type = #qname{local_name = Ln}} = Expr2}) -> 
-   if Ln == "NOTATION";
-      Ln == "anyAtomicType";
-      Ln == "anySimpleType" ->
+   if Ln == ?A("NOTATION");
+      Ln == ?A("anyAtomicType");
+      Ln == ?A("anySimpleType") ->
          ?err('XPST0080');
       true ->
          ok
@@ -2292,7 +2303,7 @@ handle_node(State, {cast_as, Expr1, #xqSeqType{type = TypeAtom} = Expr2}) ->
 handle_node(State, {castable_as, 'empty-sequence', 
                     #xqSeqType{type = #qname{local_name = L}, 
                                occur = zero_or_one}}) 
-   when L =/= "NOTATION" ->
+   when L =/= ?A("NOTATION") ->
    set_statement_and_type(State, ?true, ?boolone);
 handle_node(State, {castable_as, 'empty-sequence', 
                     #xqSeqType{type = T, occur = zero_or_one}}) 
@@ -2300,7 +2311,7 @@ handle_node(State, {castable_as, 'empty-sequence',
    set_statement_and_type(State, ?true, ?boolone);
 handle_node(State, {castable_as, 'empty-sequence', 
                     #xqSeqType{type = #qname{local_name = L}, occur = one}}) 
-   when L =/= "NOTATION" ->
+   when L =/= ?A("NOTATION") ->
    set_statement_and_type(State, ?false, ?boolone);
 handle_node(State, {castable_as, 'empty-sequence', 
                     #xqSeqType{type = T, occur = one}}) 
@@ -2308,9 +2319,9 @@ handle_node(State, {castable_as, 'empty-sequence',
    set_statement_and_type(State, ?false, ?boolone);
 handle_node(State, {castable_as, Expr1, 
                     #xqSeqType{type = #qname{local_name = Ln}} = Expr2}) -> 
-   if Ln == "NOTATION";
-      Ln == "anyAtomicType";
-      Ln == "anySimpleType" ->
+   if Ln == ?A("NOTATION");
+      Ln == ?A("anyAtomicType");
+      Ln == ?A("anySimpleType") ->
          ?err('XPST0080');
       true ->
          ok
@@ -2340,30 +2351,30 @@ handle_node(State, {castable_as, Expr1, #xqSeqType{type = TypeAtom} = Expr2}) ->
 handle_node(State, {'function-call',#qname{namespace = ?XS,
                                            local_name = Type}, 1, 
                     [#xqAtomicValue{type = AtType, value = AtVal} = Av]}) -> 
-   TypeAtom = list_to_atom("xs:" ++ Type),
+   TypeAtom = list_to_atom("xs:" ++ binary_to_list(Type)),
    BOType = xqerl_btypes:get_type(TypeAtom),
    BIType = xqerl_btypes:get_type(AtType),
    NoCast = xqerl_btypes:can_substitute(BIType, BOType),
-   NewNode = if Type == "numeric";
-                Type == "decimal";
-                Type == "double";
-                Type == "float" ->
+   NewNode = if Type == <<"numeric">>;
+                Type == <<"decimal">>;
+                Type == <<"double">>;
+                Type == <<"float">> ->
                    xqerl_types:cast_as(Av, TypeAtom);
                 NoCast ->
                    #xqAtomicValue{type = TypeAtom, value = AtVal};
-                Type == "NOTATION" ->
+                Type == <<"NOTATION">> ->
                    ?err('XPST0017');
-                Type == "QName" andalso AtType == 'xs:untypedAtomic' ->
+                Type == <<"QName">> andalso AtType == 'xs:untypedAtomic' ->
                    ?err('FORG0001');
-                Type == "QName" ->
+                Type == <<"QName">> ->
                    xqerl_types:cast_as(Av, TypeAtom, State#state.known_ns);
-                Type == "NMTOKENS" ->
+                Type == <<"NMTOKENS">> ->
                    {sequence,xqerl_types:cast_as(Av, TypeAtom)};
                 true ->
                    ?dbg("{Av,TypeAtom}",{Av,TypeAtom}),
                    xqerl_types:cast_as(Av, TypeAtom)
              end,
-   if Type == "NMTOKENS" ->
+   if Type == <<"NMTOKENS">> ->
          set_statement_and_type(State, NewNode, 
                                 #xqSeqType{type = 'xs:NMTOKEN', 
                                            occur = zero_or_many});
@@ -2405,14 +2416,14 @@ handle_node(State, {'function-call',#qname{namespace = ?XS} = Name, 1,
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
                            local_name = Ln} = Name, 0, []}) 
-   when Ln == "node-name";        Ln == "nilled";
-        Ln == "string";           Ln == "data";
-        Ln == "base-uri";         Ln == "document-uri";
-        Ln == "number";           Ln == "normalize-space";
-        Ln == "string-length";    Ln == "name";
-        Ln == "local-name";       Ln == "namespace-uri";
-        Ln == "root";             Ln == "path";
-        Ln == "has-children";     Ln == "generate-id" -> 
+   when Ln == ?A("node-name");        Ln == ?A("nilled");
+        Ln == ?A("string");           Ln == ?A("data");
+        Ln == ?A("base-uri");         Ln == ?A("document-uri");
+        Ln == ?A("number");           Ln == ?A("normalize-space");
+        Ln == ?A("string-length");    Ln == ?A("name");
+        Ln == ?A("local-name");       Ln == ?A("namespace-uri");
+        Ln == ?A("root");             Ln == ?A("path");
+        Ln == ?A("has-children");     Ln == ?A("generate-id") -> 
    #xqFunction{params = [TargetType], type = Type} = 
      get_static_function(State, {Name, 1}),
    CtxType = State#state.context_item_type,
@@ -2434,10 +2445,10 @@ handle_node(State, {'function-call',
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
                            local_name = Ln} = Name, 1, [Arg]}) 
-   when Ln == "lang";
-        Ln == "id";
-        Ln == "element-with-id";
-        Ln == "idref" -> 
+   when Ln == ?A("lang");
+        Ln == ?A("id");
+        Ln == ?A("element-with-id");
+        Ln == ?A("idref") -> 
    #xqFunction{params = [TargetType1,TargetType2], type = Type} = 
      get_static_function(State, {Name, 2}),
    CtxType = State#state.context_item_type,
@@ -2469,7 +2480,7 @@ handle_node(State, {'function-call',
 % cardinality check functions - defer type checking until runtime
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN, 
-                           local_name = "zero-or-one"} = Name, 1, [Arg]}) -> 
+                           local_name = ?A("zero-or-one")} = Name, 1, [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
    SimpArg = handle_node(StateC, Arg),
@@ -2480,7 +2491,7 @@ handle_node(State, {'function-call',
                           #xqSeqType{type = Type, occur = zero_or_one});
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN, 
-                           local_name = "one-or-more"} = Name, 1, [Arg]}) -> 
+                           local_name = ?A("one-or-more")} = Name, 1, [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
    SimpArg = handle_node(StateC, Arg),
@@ -2491,7 +2502,7 @@ handle_node(State, {'function-call',
                           #xqSeqType{type = Type, occur = one_or_many});
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "exactly-one"} = Name, 1, [Arg]}) -> 
+                           local_name = ?A("exactly-one")} = Name, 1, [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
    SimpArg = handle_node(StateC, Arg),
@@ -2505,13 +2516,13 @@ handle_node(State, {'function-call',
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
                            local_name = LocalName} = Name, 1, [Arg]}) 
-   when LocalName == "min";
-        LocalName == "max";
-        LocalName == "abs";
-        LocalName == "avg";
-        LocalName == "sum";
-        LocalName == "floor";
-        LocalName == "ceiling" -> 
+   when LocalName == ?A("min");
+        LocalName == ?A("max");
+        LocalName == ?A("abs");
+        LocalName == ?A("avg");
+        LocalName == ?A("sum");
+        LocalName == ?A("floor");
+        LocalName == ?A("ceiling") -> 
    F = get_static_function(State, {Name, 1}),
    [TargetType] = F#xqFunction.params,
    StateC = set_in_constructor(State, false),
@@ -2520,10 +2531,10 @@ handle_node(State, {'function-call',
    Type = case Type0 of
              #xqSeqType{type = Ty} when ?node(Ty) ->
                 Type0#xqSeqType{type = 'xs:double'};
-             #xqSeqType{type = 'xs:anyAtomicType'} when LocalName == "avg" ->
+             #xqSeqType{type = 'xs:anyAtomicType'} when LocalName == ?A("avg") ->
                 Type0;
              #xqSeqType{type = 
-                #xqFunTest{type = T}} when LocalName == "avg" ->
+                #xqFunTest{type = T}} when LocalName == ?A("avg") ->
                 
                 try
                    NT = static_operator_type(divide,
@@ -2534,7 +2545,7 @@ handle_node(State, {'function-call',
                       ?dbg("Type0",Type0),
                       ?err('FORG0006')
                 end;
-             _ when LocalName == "avg" ->
+             _ when LocalName == ?A("avg") ->
                 try
                    NT = static_operator_type(divide,
                                              Type0#xqSeqType.type,'xs:integer'),
@@ -2559,7 +2570,7 @@ handle_node(State, {'function-call',
 % functions on functions
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "function-arity"} = FName, 1, [Arg]}) -> 
+                           local_name = ?A("function-arity")} = FName, 1, [Arg]}) -> 
    Type = ?intone,
    F = get_static_function(State, {FName, 1}),
    case Arg of
@@ -2619,7 +2630,7 @@ handle_node(State, {'function-call',
    end;
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "function-name"} = FName, 1, [Arg]}) -> 
+                           local_name = ?A("function-name")} = FName, 1, [Arg]}) -> 
    Type = #xqSeqType{type = 'xs:QName', occur = zero_or_one},
    case Arg of
       {'partial-function', _Name,_Arity,_Args} ->
@@ -2645,7 +2656,7 @@ handle_node(State, {'function-call',
                     #qname{namespace = ?FN,
                            local_name = LocalName} = Name, Arity, 
                     Args})
-   when Arity > 0, LocalName == "tokenize" -> 
+   when Arity > 0, LocalName == ?A("tokenize") -> 
    #xqFunction{params = Params, type = Type} = 
       F = get_static_function(State, {Name, Arity}),
    StateC = set_in_constructor(State, false),
@@ -2668,7 +2679,7 @@ handle_node(State, {'function-call',
 
 % list reordering / takes type of the arg
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "reverse"} = Name, 1, 
+                    #qname{namespace = ?FN,local_name = ?A("reverse")} = Name, 1, 
                     [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
@@ -2680,7 +2691,7 @@ handle_node(State, {'function-call',
                            F#xqFunction{params = [ArgSt], type = Type}}, Type);
 
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "head"} = Name, 1, 
+                    #qname{namespace = ?FN,local_name = ?A("head")} = Name, 1, 
                     [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
@@ -2692,7 +2703,7 @@ handle_node(State, {'function-call',
                            F#xqFunction{params = [ArgSt], type = Type}}, Type);
 
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "tail"} = Name, 1, 
+                    #qname{namespace = ?FN,local_name = ?A("tail")} = Name, 1, 
                     [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
@@ -2704,7 +2715,7 @@ handle_node(State, {'function-call',
                            F#xqFunction{params = [ArgSt], type = Type}}, Type);
 
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "count"} = Name, 1, 
+                    #qname{namespace = ?FN,local_name = ?A("count")} = Name, 1, 
                     [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
@@ -2725,7 +2736,7 @@ handle_node(State, {'function-call',
    end;
 
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "filter"} = Name, 2, 
+                    #qname{namespace = ?FN, local_name = ?A("filter")} = Name, 2, 
                     [Arg,#xqFunction{} = Fun]}) -> 
    Fun1 = case Fun#xqFunction.type of
              #xqSeqType{type = item} -> % generic type
@@ -2749,14 +2760,14 @@ handle_node(State, {'function-call',
 
 % static context functions
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "default-collation"}, 
+                    #qname{namespace = ?FN,local_name = ?A("default-collation")}, 
                     0, []}) -> 
    DefCol = State#state.default_collation,
    Type = ?stringone,
    ArgSt = #xqAtomicValue{type = 'xs:string', value = DefCol},
    set_statement_and_type(State, ArgSt, Type);
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN,local_name = "static-base-uri"}, 
+                    #qname{namespace = ?FN,local_name = ?A("static-base-uri")}, 
                     0, []}) -> 
    Base = xqerl_context:get_static_base_uri(State#state.tab),%State#state.base_uri,
    Type = #xqSeqType{type = 'xs:anyURI', occur = zero_or_one},
@@ -2767,14 +2778,14 @@ handle_node(State, {'function-call',
 % TODO the rest of them...
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "environment-variable"}, 1, [Arg]}) -> 
+                           local_name = ?A("environment-variable")}, 1, [Arg]}) -> 
    Type = #xqSeqType{type = 'xs:string', occur = zero_or_one},
    ArgS = handle_node(State, Arg),
    _ = check_fun_arg_types(State, [ArgS], [?stringone]),   
    set_statement_and_type(State, 'empty-sequence', Type);
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "available-environment-variables"}, 0, 
+                           local_name = ?A("available-environment-variables")}, 0, 
                     []}) -> 
    Type = #xqSeqType{type = 'xs:string', occur = zero_or_many},
    set_statement_and_type(State, 'empty-sequence', Type);
@@ -2782,7 +2793,7 @@ handle_node(State, {'function-call',
 % list distinct / takes type of the arg, unless node then xs:anyAtomicType
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN,
-                           local_name = "distinct-values"} = Name, 1, [Arg]}) -> 
+                           local_name = ?A("distinct-values")} = Name, 1, [Arg]}) -> 
    F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
    SimpArg = handle_node(StateC, Arg),
@@ -2801,7 +2812,7 @@ handle_node(State, {'function-call',
 % data function return type is based on type of the argument, 
 % atomics keep their type 
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "data"} = Name, 1, 
+                    #qname{namespace = ?FN, local_name = ?A("data")} = Name, 1, 
                     [Arg]}) -> 
    #xqFunction{type = FType} = F = get_static_function(State, {Name, 1}),
    StateC = set_in_constructor(State, false),
@@ -2821,7 +2832,7 @@ handle_node(State, {'function-call',
 
 % boolean functions
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "exists"} = FName, 1, 
+                    #qname{namespace = ?FN, local_name = ?A("exists")} = FName, 1, 
                     [Arg]}) -> 
    StateC = set_in_constructor(State, false),
    S2 = handle_node(StateC, Arg),
@@ -2842,7 +2853,7 @@ handle_node(State, {'function-call',
          end,
    set_statement_and_type(State, Val, ?boolone);
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "empty"} = FName, 1, 
+                    #qname{namespace = ?FN, local_name = ?A("empty")} = FName, 1, 
                     [Arg]}) -> 
    StateC = set_in_constructor(State, false),
    S2 = handle_node(StateC, Arg),
@@ -2851,18 +2862,18 @@ handle_node(State, {'function-call',
    Val = {'function-call', F#xqFunction{params = [S1]} },
    set_statement_and_type(State, Val, ?boolone);
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "true"}, 0, []}) -> 
+                    #qname{namespace = ?FN, local_name = ?A("true")}, 0, []}) -> 
    set_statement_and_type(State, ?true, ?boolone);
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "false"}, 0, []}) -> 
+                    #qname{namespace = ?FN, local_name = ?A("false")}, 0, []}) -> 
    set_statement_and_type(State, ?false, ?boolone);
 
 % concat
 handle_node(_, {'function-call', 
-                #qname{namespace = ?FN, local_name = "concat"}, 1, _}) -> 
+                #qname{namespace = ?FN, local_name = ?A("concat")}, 1, _}) -> 
    ?err('XPST0017');
 handle_node(State, {'function-call', 
-                    #qname{namespace = ?FN, local_name = "concat"} = Name, 
+                    #qname{namespace = ?FN, local_name = ?A("concat")} = Name, 
                     Arity, Args}) ->
    F = get_static_function(State, {Name, Arity}),
    StateC = set_in_constructor(State, false),
@@ -2908,7 +2919,7 @@ handle_node(State, #xqSeqType{type = #qname{} = Name} = Node) ->
    %?dbg("Name",Name),
    #qname{namespace = Ns, local_name = Ln} = resolve_qname(Name, State),
    Atom = if Ns == ?XS ->
-                list_to_atom("xs:" ++ Ln);
+                list_to_atom("xs:" ++ binary_to_list(Ln));
              true ->
                 ?err('XPST0051')
           end,
@@ -2983,8 +2994,9 @@ handle_node(State, {pragma, Pragmas, Exprs}) ->
    % just resolve any names
    F = fun({Name,Contents}) ->
              #qname{namespace = Ns} = QName = resolve_pragma_qname(Name, State),
-             if Ns == [] -> false;
+             if Ns == <<>>;
                 Ns == undefined -> ?err('XPST0081');
+                Ns == 'no-namespace' -> false;
                 true ->
                    {true, {QName,Contents}}
              end
@@ -3191,15 +3203,15 @@ check_parameter_names(Params) ->
 sim_name(#qname{namespace = N, local_name = L}) ->
    {N,L}.
 
-valid_enc("US-ASCII") -> true;
-valid_enc("ISO-8859-1") -> true;
-valid_enc("UTF-16") -> true;
-valid_enc("UTF-8") -> true;
+valid_enc(<<"US-ASCII">>) -> true;
+valid_enc(<<"ISO-8859-1">>) -> true;
+valid_enc(<<"UTF-16">>) -> true;
+valid_enc(<<"UTF-8">>) -> true;
 valid_enc(_) -> ?err('XQST0087').
 
-valid_ver("1.0") -> true;
-valid_ver("3.0") -> true;
-valid_ver("3.1") -> true;
+valid_ver(<<"1.0">>) -> true;
+valid_ver(<<"3.0">>) -> true;
+valid_ver(<<"3.1">>) -> true;
 valid_ver(_) -> ?err('XQST0031').
 
 init_mod_scan() ->
@@ -3257,13 +3269,15 @@ pro_def_elem_ns(Prolog) ->
       length(D) > 1 ->
          ?err('XQST0066');
       true ->
-         lists:flatten(D)
+         hd(D)
    end.
 
 check_def_collation(#state{known_collations = _KC}, 
-                    "http://www.w3.org/2013/collation/UCA" ++ _) ->
+                    <<"http://www.w3.org/2013/collation/UCA",_/binary>>) ->
    ok;
 check_def_collation(#state{known_collations = KC}, URI) ->
+   ?dbg("URI",URI),
+   ?dbg("KC",KC),
    Ok = lists:member(URI, KC),
    if Ok ->
          ok;
@@ -3279,8 +3293,8 @@ pro_def_func_ns(Prolog) ->
                        end, Prolog),
    if length(D) > 1 ->
          ?err('XQST0066');
-      D == ["http://www.w3.org/2000/xmlns/"];
-      D == ["http://www.w3.org/XML/1998/namespace"] ->
+      D == [?A("http://www.w3.org/2000/xmlns/")];
+      D == [?A("http://www.w3.org/XML/1998/namespace")] ->
          ?err('XQST0070');
       true ->
          ok
@@ -3316,13 +3330,16 @@ pro_setters(Prolog) ->
 
 pro_module_ns([]) ->
    [];
-pro_module_ns({'module-namespace',{"Q{" ++Ns,Px}}) ->
-   {lists:droplast(Ns),Px}.
+pro_module_ns({'module-namespace',{<<"Q{",Rest/binary>>,Px}}) ->
+   Sz = size(Rest) - 1,
+   <<Ns:Sz/bytes,_:1/bytes>> = Rest,
+   {Ns,Px}.
 
 pro_namespaces(Prolog,ModNsPx,DefElNs) ->
-   Namespaces = [{DefElNs,[]}|
+   %?dbg("{Prolog,ModNsPx,DefElNs}",{Prolog,ModNsPx,DefElNs}),
+   Namespaces = [{DefElNs,<<>>}|
                    lists:filtermap(fun({'namespace', N}) -> {true,N};
-                                      ({'module-import', {_,[]}}) -> false;
+                                      ({'module-import', {_,<<>>}}) -> false;
                                       ({'module-import', N}) -> {true,N};
                                       (_) -> false
                                    end, Prolog)],
@@ -3341,20 +3358,21 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
                          end
                    end, dict:new(), Namespaces1),
    % check for overwritten namespaces
-   _ = lists:foreach(fun({_,"xmlns"}) ->
+   _ = lists:foreach(fun({_,?A("xmlns")}) ->
                            ?err('XQST0070');
-                        ({"http://www.w3.org/2000/xmlns/",P}) 
-                           when P =/= "xmlns" ->
+                        ({?A("http://www.w3.org/2000/xmlns/"),P}) 
+                           when P =/= ?A("xmlns") ->
                            ?err('XQST0070');
-                        ({N,"xml"}) 
-                           when N =/= "http://www.w3.org/2000/xmlns/" ->
+                        ({N,?A("xml")}) 
+                           when N =/= ?A("http://www.w3.org/2000/xmlns/") ->
                            ?err('XQST0070');
-                        ({"http://www.w3.org/XML/1998/namespace",P}) 
-                           when P =/= "xml" ->
+                        ({?A("http://www.w3.org/XML/1998/namespace"),P}) 
+                           when P =/= ?A("xml") ->
                            ?err('XQST0070');
                         (_) ->
                            ok
                      end, Namespaces1),
+   ?dbg("Namespaces1",Namespaces1),
    Namespaces1.
 
 pro_mod_imports(Prolog) ->
@@ -3372,7 +3390,7 @@ pro_mod_imports(Prolog) ->
 
 pro_options(Prolog, main) ->
    Opts = [E || {'option', E} <- Prolog],
-   Output = [Q || {#qname{prefix = "output"} = Q,_} <- Opts],
+   Output = [Q || {#qname{prefix = ?A("output")} = Q,_} <- Opts],
    case lists:sort(Output) == lists:usort(Output) of
       true ->
          Opts;
@@ -3388,9 +3406,9 @@ pro_glob_variables(Prolog, ModNs) ->
                   annotations = Annos},Dict) ->
              % check reserved annotation NS http://www.w3.org/2012/xquery
              A = fun(#annotation{
-                      name = #qname{namespace = "http://www.w3.org/2012/xquery",
-                              local_name = L}}) when L == "public";
-                                                       L == "private" ->
+                      name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                              local_name = L}}) when L == ?A("public");
+                                                     L == ?A("private") ->
                        ok;
                     (#annotation{name = #qname{namespace = N}}) ->
                        % will throw error if reserved
@@ -3399,14 +3417,14 @@ pro_glob_variables(Prolog, ModNs) ->
              _ = lists:foreach(A, Annos),
              % check dupe public/private 
              B = fun(#annotation{
-                      name = #qname{namespace = "http://www.w3.org/2012/xquery",
-                              local_name = L}},[]) when L == "public";
-                                                        L == "private" ->
+                      name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                              local_name = L}},[]) when L == ?A("public");
+                                                        L == ?A("private") ->
                        anno;
                     (#annotation{
-                      name = #qname{namespace = "http://www.w3.org/2012/xquery",
-                              local_name = L}},anno) when L == "public";
-                                                          L == "private" ->
+                      name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                              local_name = L}},anno) when L == ?A("public");
+                                                          L == ?A("private") ->
                        ?err('XQST0116');
                     (_,D) ->
                        D
@@ -3417,7 +3435,7 @@ pro_glob_variables(Prolog, ModNs) ->
                 [] ->
                    ok;
                 {Ns1,_} ->
-                   Ns2 = "Q{" ++ Ns1 ++ "}",
+                   Ns2 = <<"Q{", Ns1/binary, "}">>,
                    if Ns =/= Ns2 -> 
                          ?dbg("Ns =/= Ns1",{Ns,Ns1}),
                          ?err('XQST0048');
@@ -3444,7 +3462,7 @@ pro_glob_functions(Prolog, ModNs) ->
                        arity = A,
                        params = Params},Dict) ->
              % no null namespaces for functions
-             if Ns == [] -> ?err('XQST0060'); true -> ok end,
+             if Ns == <<>> -> ?err('XQST0060'); true -> ok end,
              % check for dupe params
              _ = lists:foldl(fun(#xqVar{name = Nm1},Dict1) ->
                                    case dict:is_key(Nm1, Dict1) of
@@ -3456,9 +3474,9 @@ pro_glob_functions(Prolog, ModNs) ->
              ok = xqerl_lib:reserved_namespaces(Ns),
              % check reserved annotation NS 
              Af = fun(#annotation{name = 
-                        #qname{namespace = "http://www.w3.org/2012/xquery",
-                               local_name = L}}) when L == "public";
-                                                      L == "private" ->
+                        #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                               local_name = L}}) when L == ?A("public");
+                                                      L == ?A("private") ->
                        ok;
                     (#annotation{name = 
                         #qname{namespace = N}}) ->
@@ -3467,25 +3485,25 @@ pro_glob_functions(Prolog, ModNs) ->
              _ = lists:foreach(Af, Annos),
              % check dupe public/private 
              B = fun(#annotation{name = 
-                        #qname{namespace = "http://www.w3.org/2012/xquery",
-                               local_name = L}},[]) when L == "public";
-                                                            L == "private" ->
+                        #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                               local_name = L}},[]) when L == ?A("public");
+                                                         L == ?A("private") ->
                        anno;
                     (#annotation{name = 
-                        #qname{namespace = "http://www.w3.org/2012/xquery",
-                               local_name = L}},anno) when L == "public";
-                                                              L == "private" ->
+                        #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                               local_name = L}},anno) when L == ?A("public");
+                                                           L == ?A("private") ->
                        ?err('XQST0106');
                     (_,D) ->
                        D
                  end,
              _ = lists:foldl(B, [], Annos),
-             % check for bad function namespace
+             % check for bad function namespace, ModNs can be [] or {_,_}
              case ModNs of
                 [] ->
                    ok;
                 {Ns1,_} ->
-                   Ns2 = "Q{" ++ Ns1 ++ "}",
+                   Ns2 = <<"Q{", Ns1/binary, "}">>,
                    if Ns =/= Ns2 -> 
                          if Ns =/= Ns1 -> 
                                ?dbg("Ns =/= Ns1",{Ns,Ns1}),
@@ -3507,7 +3525,7 @@ pro_glob_functions(Prolog, ModNs) ->
    Functions.
 
 overwrite_static_namespaces(StaticNamespaces, LocalNamespaces) ->
-   lists:foldl(fun({[],Px},List) ->
+   lists:foldl(fun({<<>>,Px},List) ->
                      lists:keydelete(Px, 1, List);
                   ({Ns,Px},List) ->
                      lists:keystore(Px, 1, List, {Px,Ns})
@@ -3521,22 +3539,24 @@ set_or_error(Name,List,Default,Error) ->
       [] ->
          Default;
       [H] when Name =:= 'base-uri' ->
-         try 
-            xqerl_lib:resolve_against_base_uri(Default,H)
-         of
-            {error,_} ->
-               ?err('XQST0046');
-            N ->
-               if N == Default andalso H =/= Default ->
-                     ?dbg("N",N),
-                     ?err('XPST0001');
-                  true ->
+         case xqerl_lib:is_absolute_uri(H) of
+            false ->
+               try
+                  ?dbg("Default",Default),
+                  ?dbg("H",H),
+                  xqerl_lib:resolve_against_base_uri(Default,H)
+               of
+                  {error,_} ->
+                     ?err('XQST0046');
+                  N ->
                      N
-               end
-         catch 
-            _:E ->
-               ?dbg("E",E),
-               ?err('XQST0046')
+               catch 
+                  _:E ->
+                     ?dbg("E",E),
+                     ?err('XQST0046')
+               end;
+            true ->
+               H
          end;
       [H] when Name =:= 'default-collation' ->
          try 
@@ -3554,7 +3574,7 @@ set_or_error(Name,List,Default,Error) ->
    end.  
 
 scan_setters(#state{tab = Tab} = State, SetList) ->
-   D = "http://www.w3.org/2005/xpath-functions/collation/codepoint",
+   D = ?A("http://www.w3.org/2005/xpath-functions/collation/codepoint"),
    S = xqerl_context:get_static_base_uri(Tab),
    BU = set_or_error('base-uri', SetList, S, 'XQST0032'),
    _ = xqerl_context:set_static_base_uri(Tab, BU),
@@ -3582,8 +3602,8 @@ scan_functions(Functions) ->
    P = fun(A) ->
              [ok || 
               #annotation{name = 
-                #qname{namespace = "http://www.w3.org/2012/xquery", 
-                       local_name = "private"}} <- A] == []
+                #qname{namespace = ?A("http://www.w3.org/2012/xquery"), 
+                       local_name = ?A("private")}} <- A] == []
        end,
               
    [{Name, Type, Annos,
@@ -3608,7 +3628,7 @@ scan_namespaces(State, Namespaces) ->
    NsList = [#xqNamespace{namespace = Ns, prefix = Px}
              || {Px,Ns} <- Namespaces],
    Default = [#xqNamespace{namespace = Ns, prefix = Px}
-              || {Px,Ns} <- Namespaces, Px == []],
+              || {Px,Ns} <- Namespaces, Px == <<>>],
    State1 = set_inscope_ns(State, Default),
    State1#state{known_ns = NsList}.
 
@@ -3618,41 +3638,50 @@ scan_options(Options) ->
 
 scan_dec_formats(Formats,State) ->
    RecF = fun({F,V}, R) ->
+                L = [C || <<C/utf8>> <= V],
                 case F of
-                   'decimal-separator' when length(V) == 1 ->
-                      R#dec_format{decimal = V};
-                   'grouping-separator' when length(V) == 1 ->
-                      R#dec_format{grouping = V};
+                   'decimal-separator' when length(L) == 1 ->
+                      R#dec_format{decimal = L};
+                   'grouping-separator' when length(L) == 1 ->
+                      R#dec_format{grouping = L};
                    'infinity' ->
-                      R#dec_format{infinity = V};
-                   'minus-sign' when length(V) == 1 ->
-                      R#dec_format{minus = V};
+                      R#dec_format{infinity = L};
+                   'minus-sign' when length(L) == 1 ->
+                      R#dec_format{minus = L};
                    'NaN' ->
-                      R#dec_format{nan = V};
-                   'percent' when length(V) == 1 ->
-                      R#dec_format{percent = V};
-                   'per-mille' when length(V) == 1 ->
-                      R#dec_format{per_mille = V};
-                   'zero-digit' when length(V) == 1 ->
-                      R#dec_format{zero = V};
-                   'digit' when length(V) == 1 ->
-                      R#dec_format{digit = V};
-                   'pattern-separator' when length(V) == 1 ->
-                      R#dec_format{pattern = V};
-                   'exponent-separator' when length(V) == 1 ->
-                      R#dec_format{exponent = V};
+                      R#dec_format{nan = L};
+                   'percent' when length(L) == 1 ->
+                      R#dec_format{percent = L};
+                   'per-mille' when length(L) == 1 ->
+                      R#dec_format{per_mille = L};
+                   'zero-digit' when length(L) == 1 ->
+                      % check if value is zero
+                      Zb = xqerl_format:zero_base_by_family(hd(L)),
+                      if [Zb] == L ->
+                            R#dec_format{zero = L};
+                         true ->
+                            ?err('XQST0097')
+                      end;
+                   'digit' when length(L) == 1 ->
+                      R#dec_format{digit = L};
+                   'pattern-separator' when length(L) == 1 ->
+                      R#dec_format{pattern = L};
+                   'exponent-separator' when length(L) == 1 ->
+                      R#dec_format{exponent = L};
                    _ ->
                       ?err('XQST0097')
                 end
           end,
    MapF = fun({'decimal-format', Name, FList}) ->
                 Rec = lists:foldl(RecF, #dec_format{}, FList),
+                [Zero] = Rec#dec_format.zero,
+                Nums = [[N] || N <- lists:seq(Zero + 1, Zero + 9)],
                 Names = lists:sort([N || {N,_} <- FList]),
                 % remove items not in picture string
                 Rem = Rec#dec_format{nan = nan, 
                                      minus = minus, 
                                      infinity = infinity},
-                Sort = lists:sort(tl(tuple_to_list(Rem))),
+                Sort = lists:sort(Nums ++ tl(tuple_to_list(Rem))),
                 % check for duplicate values and names
                 OK = lists:usort(Sort) == Sort,
                 Dup = lists:usort(Names) == Names,
@@ -3663,12 +3692,13 @@ scan_dec_formats(Formats,State) ->
                    true ->
                       ?err('XQST0098')
                 end,    
-                ResName = if Name == [] ->
-                                [];
+                ResName = if Name == <<>> ->
+                                <<>>;
                              true ->
                                 try
                                    resolve_qname(Name, State)
                                 catch _:_ ->
+                                         ?dbg("Name",Name),
                                    ?err('FODF1280')
                                 end
                           end,
@@ -3676,7 +3706,12 @@ scan_dec_formats(Formats,State) ->
           end,
    All = lists:map(MapF, Formats),
    % check for duplicate format names
-   Names2 = [N || {N,_}  <- All],
+   Names2 = [case A of
+                {#qname{namespace = N, local_name = L},_} ->
+                   {N,L};
+                {O,_} ->
+                   O
+             end || A <- All],
    Nl1 = length(Names2),
    Nl2 = length(lists:usort(Names2)),
    if Nl1 =:= Nl2 ->
@@ -3685,9 +3720,9 @@ scan_dec_formats(Formats,State) ->
          ?err('XQST0111')
    end,
    % maybe add default
-   case lists:keyfind([], 1, All) of
+   case lists:keyfind(<<>>, 1, All) of
       false ->
-         [{[],#dec_format{}}|All];
+         [{<<>>,#dec_format{}}|All];
       _ ->
          All
    end.
@@ -3695,14 +3730,15 @@ scan_dec_formats(Formats,State) ->
 %attribute(Name,Val) -> erlang:list_to_tuple([attribute,?LINE,Name,Val]).
 
 variable_hash_name(#qname{namespace = 'no-namespace',local_name = L}) ->
-   string_atom("___Q_"++L);
+   string_atom(<<"___Q_", L/binary>>);
 variable_hash_name(#qname{namespace = N,local_name = L}) ->
-   string_atom("___Q_"++N++"_"++L).
+   string_atom(<<"___Q_", N/binary, "_", L/binary>>).
 
 function_hash_name(undefined, Arity) ->
    {undefined, Arity + 1};
 function_hash_name(#qname{namespace = N,local_name = L}, Arity) ->
-   {string_atom("__Q_"++N++"_"++L), Arity + 1}.
+   Bin = <<"__Q_", N/binary, "_", L/binary>>,
+   {string_atom(Bin), Arity + 1}.
 
 string_atom(Term) ->
    Bin = binary:replace(
@@ -3717,15 +3753,16 @@ string_atom(Term) ->
 resolve_qname(#qname{namespace = Ns, 
                      prefix = undefined, 
                      local_name = Ln}, _) ->
-   #qname{namespace = Ns, prefix = "*", local_name = Ln};
-resolve_qname(#qname{prefix = "*"} = N, _) ->
+   #qname{namespace = Ns, prefix = ?A("*"), local_name = Ln};
+resolve_qname(#qname{prefix = ?A("*")} = N, _) ->
    N;
 resolve_qname(#qname{prefix = default} = N, X) ->
-   resolve_qname(N#qname{prefix = []}, X);
+   resolve_qname(N#qname{prefix = <<>>}, X);
 resolve_qname(#qname{prefix = Px, 
                      local_name = Ln}, #state{known_ns = Nss}) ->
    case lists:keyfind(Px, 3, Nss) of
       false ->
+         ?dbg("XPST0081",{Px,Nss}),
          ?err('XPST0081'); % unable to expand
       #xqNamespace{namespace = Ns} ->
          #qname{namespace = Ns, prefix = Px, local_name = Ln}
@@ -3744,9 +3781,9 @@ resolve_pragma_qname(#qname{namespace = undefined,
    end;
 resolve_pragma_qname(#qname{namespace = default, 
                             local_name = Ln}, #state{known_ns = Nss}) ->
-   case lists:keyfind([], 3, Nss) of
+   case lists:keyfind(<<>>, 3, Nss) of
       false ->
-         #qname{namespace = [], prefix = [], local_name = Ln};
+         #qname{namespace = <<>>, prefix = <<>>, local_name = Ln};
       #xqNamespace{namespace = undefined} ->
          ?err('XPST0081');
       #xqNamespace{namespace = Ns, prefix = Px} ->
@@ -3771,11 +3808,11 @@ namespace_nodes(AttsNs) ->
 
 override_namespaces(State, Namespaces) ->
    Fun = fun(#xqNamespaceNode{name = #qname{namespace = Ns, 
-                                            prefix = []}} = Namespace, 
+                                            prefix = <<>>}} = Namespace, 
              State1) ->
-               New = #xqNamespace{namespace = Ns, prefix = []},
+               New = #xqNamespace{namespace = Ns, prefix = <<>>},
                Known = State1#state.known_ns,
-               NewKnown = lists:keystore([], 3, Known, New),
+               NewKnown = lists:keystore(<<>>, 3, Known, New),
                State2 = State1#state{default_elem_ns = Ns,
                                      known_ns = NewKnown},
                add_inscope_namespace(State2, Namespace);
@@ -3797,11 +3834,11 @@ add_inscope_namespace(State, #xqNamespaceNode{name = #qname{namespace = Ns,
    NewKnown = lists:keystore(Px, 3, Known, New),
    set_inscope_ns(State, NewKnown).
 
-resolve_element_name(_State, #qname{prefix = "*"} = QName) ->
-   QName#qname{namespace = "*"};
-resolve_element_name(_State, #qname{namespace = "*"} = QName) ->
-   QName#qname{prefix = "*"};
-resolve_element_name(State, #qname{prefix = []} = QName) ->
+resolve_element_name(_State, #qname{prefix = ?A("*")} = QName) ->
+   QName#qname{namespace = ?A("*")};
+resolve_element_name(_State, #qname{namespace = ?A("*")} = QName) ->
+   QName#qname{prefix = ?A("*")};
+resolve_element_name(State, #qname{prefix = <<>>} = QName) ->
    DefaultNs = State#state.default_elem_ns,
    QName#qname{namespace = DefaultNs};
 resolve_element_name(State, #qname{namespace = Ns,
@@ -3812,7 +3849,8 @@ resolve_element_name(State, #qname{namespace = Ns,
       QName#qname{prefix = element(3,Px)}
    catch
       _:_ ->
-         QName
+         NPx = xqerl_lib:next_comp_prefix(State#state.known_ns),
+         QName#qname{prefix = NPx}
    end;
 resolve_element_name(State, #qname{prefix = Px} = QName) ->
    try
@@ -3821,29 +3859,32 @@ resolve_element_name(State, #qname{prefix = Px} = QName) ->
       QName#qname{namespace = element(2,Ns)}
    catch
       _:_ ->
+         ?dbg("QName",QName),
+         ?dbg("State#state.known_ns",State#state.known_ns),
          ?err('XPST0081')
    end;
 resolve_element_name(_State, QName) ->
    QName.
 
-resolve_attribute_name(State, #xqAtomicValue{value = V} = A) when is_list(V) ->
-   case lists:member($:, V) of
-      true ->
-         A;
-      false ->
-         try
-            Q = xqerl_types:cast_as(A,'xs:QName',State#state.known_ns),
-            (xqerl_types:value(Q))#qname{namespace = 'no-namespace'}
-         catch
-            _:_ ->
-               A
-         end
+resolve_attribute_name(State, #xqAtomicValue{} = A) ->
+   try 
+      xqerl_types:value(xqerl_types:cast_as(A,'xs:QName',State#state.known_ns))
+   of Q ->
+      case Q#qname.prefix of
+         <<>> ->
+            Q#qname{namespace = 'no-namespace'};
+         _ ->
+            Q
+      end
+   catch 
+      _:_ ->
+         A
    end;
-resolve_attribute_name(_State, #qname{prefix = "*"} = QName) ->
-   QName#qname{namespace = "*"};
-resolve_attribute_name(_State, #qname{namespace = "*"} = QName) ->
-   QName#qname{prefix = "*"};
-resolve_attribute_name(_State, #qname{prefix = []} = QName) ->
+resolve_attribute_name(_State, #qname{prefix = ?A("*")} = QName) ->
+   QName#qname{namespace = ?A("*")};
+resolve_attribute_name(_State, #qname{namespace = ?A("*")} = QName) ->
+   QName#qname{prefix = ?A("*")};
+resolve_attribute_name(_State, #qname{prefix = <<>>} = QName) ->
    QName#qname{namespace = 'no-namespace'};
 resolve_attribute_name(State, #qname{namespace = Ns, 
                                      prefix = undefined} = QName) ->
@@ -3853,7 +3894,8 @@ resolve_attribute_name(State, #qname{namespace = Ns,
       QName#qname{prefix = element(3,Px)}
    catch
       _:_ ->
-         QName
+         NPx = xqerl_lib:next_comp_prefix(State#state.known_ns),
+         QName#qname{prefix = NPx}
    end;
 resolve_attribute_name(State, #qname{prefix = Px} = QName) ->
    try
@@ -3914,18 +3956,18 @@ check_direct_namespaces(Namespaces) ->
                       xqerl_types:string_value(N2x)
                 end,
            % attempt to reset xml or xsi namespace
-           if P2 == "xml" andalso 
-                N2 =/= "http://www.w3.org/XML/1998/namespace" ->
+           if P2 == ?A("xml") andalso 
+                N2 =/= ?A("http://www.w3.org/XML/1998/namespace") ->
                  ?err('XQST0070');
-              P2 =/= "xml" andalso 
-                N2 == "http://www.w3.org/XML/1998/namespace" ->
+              P2 =/= ?A("xml") andalso 
+                N2 == ?A("http://www.w3.org/XML/1998/namespace") ->
                  ?err('XQST0070');
-              P2 == "xmlns" ->
+              P2 == ?A("xmlns") ->
                  ?err('XQST0070');
-              P2 =/= "xmlns" andalso 
-                N2 == "http://www.w3.org/2000/xmlns/" ->
+              P2 =/= ?A("xmlns") andalso 
+                N2 == ?A("http://www.w3.org/2000/xmlns/") ->
                  ?err('XQST0070');
-              N2 == "" ->
+              N2 == <<>> ->
                  ?err('XQST0085');
               true ->
                  #xqNamespace{namespace = N2,prefix = P2}
@@ -3974,12 +4016,12 @@ handle_direct_constructor(State, #xqAttributeNode{expr = Content} = Node) ->
 handle_direct_constructor(
   State, #xqProcessingInstructionNode{name =#qname{local_name = Ln}} = Node) ->
    case string:lowercase(Ln) of
-      "xml" ->
+      ?A("xml") ->
          xqerl_error:error('XPST0003');
       _ ->
          ok
    end,
-   set_statement(State, Node#xqProcessingInstructionNode{base_uri = []});
+   set_statement(State, Node#xqProcessingInstructionNode{base_uri = <<>>});
 handle_direct_constructor(State, #xqCommentNode{expr = Content} = Node) ->
    S1 = handle_node(State, Content),
    St = get_statement(S1),
@@ -4147,7 +4189,7 @@ maybe_strip_whitespace(#state{boundary_space = strip}, Content0) ->
    lists:reverse(Content2).
 
 is_whitespace(Str) ->
-   string:trim(Str) == [].
+   string:trim(Str) == <<>>.
 
 -define(IS_BOUNDARY(I), is_list(I) orelse
                         is_tuple(I) andalso
@@ -4230,23 +4272,23 @@ combine_literals_to_text([{RefType, Val1},
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
    combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = Val1++Val2}|T]);
+                                            value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals_to_text([#xqAtomicValue{type = 'xs:string', value = Val1},
                           {RefType, Val2}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
    combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = Val1++Val2}|T]);
+                                            value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals_to_text([{RefType1, Val1},
                           {RefType2, Val2}|T]) 
    when RefType1 =:= char_ref orelse RefType1 =:= entity_ref andalso
         RefType2 =:= char_ref orelse RefType2 =:= entity_ref ->
    combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = Val1++Val2}|T]);
+                                            value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals_to_text([#xqAtomicValue{type = 'xs:string', value = Val1},
                           #xqAtomicValue{type = 'xs:string', value = Val2}|T]) ->
    combine_literals_to_text([#xqAtomicValue{type = 'xs:string', 
-                                            value = Val1++Val2}|T]);
+                                            value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals_to_text([{RefType,Txt}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
@@ -4264,19 +4306,19 @@ combine_literals([{RefType, Val1},
                   #xqAtomicValue{type = 'xs:string', value = Val2}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
+   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
                   {RefType, Val2}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
+   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals([{RefType1, Val1},{RefType2, Val2}|T]) 
    when (RefType1 =:= char_ref orelse RefType1 =:= entity_ref) andalso
         (RefType2 =:= char_ref orelse RefType2 =:= entity_ref) ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
+   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1},
                   #xqAtomicValue{type = 'xs:string', value = Val2}|T]) ->
-   combine_literals([#xqAtomicValue{type = 'xs:string', value = Val1++Val2}|T]);
+   combine_literals([#xqAtomicValue{type = 'xs:string', value = <<Val1/binary, Val2/binary>>}|T]);
 combine_literals([{RefType,Txt}|T]) 
    when RefType =:= char_ref;
         RefType =:= entity_ref ->
@@ -4286,14 +4328,14 @@ combine_literals([H|T]) ->
 
 % the one "special" function
 get_static_function(State,
-                    {#qname{namespace = ?FN,local_name = "concat"} = Name, 
+                    {#qname{namespace = ?FN,local_name = ?A("concat")} = Name, 
                      Arity}) when Arity =/= 1 ->
    if Arity > 1 ->
          get_static_function(State, {Name, 1});
       true ->
          ?err('XPST0017')
    end;
-get_static_function(_,{#qname{namespace = []}, _}) -> ?err('XPST0081');
+get_static_function(_,{#qname{namespace = <<>>}, _}) -> ?err('XPST0081');
 get_static_function(#state{known_fx_sigs = Sigs},
                     {#qname{namespace = Ns, local_name = Ln}, Arity}) ->
    Lookup = [#xqFunction{annotations = Annotations,
@@ -4311,7 +4353,7 @@ get_static_function(#state{known_fx_sigs = Sigs},
                 ParamTypes}
             <- Sigs,
                % ok == ?dbg("Name1",Name1),
-               Ns == Ns1 orelse Ns == "Q{"++Ns1++"}",
+               Ns == Ns1 orelse Ns == <<"Q{", Ns1/binary, "}">>,
                Ln == Ln1,
                Arity == Arity1],
    case Lookup of
@@ -4670,11 +4712,11 @@ check_type_match(#xqSeqType{type = function},
 % types can come in as EQNames
 check_type_match(#xqSeqType{type = #qname{namespace = ?XS, 
                                           local_name = Ln}} = A, B) ->
-   Atom = list_to_atom("xs:" ++ Ln),
+   Atom = list_to_atom("xs:" ++ binary_to_list(Ln)),
    check_type_match(A#xqSeqType{type = Atom},B);
 check_type_match(A, #xqSeqType{type = #qname{namespace = ?XS, 
                                              local_name = Ln}} = B) ->
-   Atom = list_to_atom("xs:" ++ Ln),
+   Atom = list_to_atom("xs:" ++ binary_to_list(Ln)),
    check_type_match(A,B#xqSeqType{type = Atom});
 
 check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, 
@@ -4809,12 +4851,12 @@ check_occurance_match1(_In, _Target, _) ->
 check_anon_fun_annos(Annotations) ->
    _ = lists:foreach(
          fun(#annotation{name = 
-                           #qname{namespace = "http://www.w3.org/2012/xquery",
-                                  local_name = "private"}}) ->
+                           #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                                  local_name = ?A("private")}}) ->
                ?err('XQST0125');
             (#annotation{name = 
-                           #qname{namespace = "http://www.w3.org/2012/xquery",
-                                  local_name = "public"}}) ->
+                           #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
+                                  local_name = ?A("public")}}) ->
                ?err('XQST0125');
             (_) ->
                false
@@ -4832,11 +4874,11 @@ set_statement(#state{context = #context{} = Ctx} = State, Statement) ->
 get_statement(#state{context = #context{statement = Statement}}) -> Statement;
 get_statement(#xqError{name = #xqAtomicValue{value =  
                                #qname{local_name = Ln}}}) -> 
-   {error,list_to_atom(Ln)};
+   {error,list_to_atom(binary_to_list(Ln))};
 get_statement({'EXIT',
                #xqError{name = #xqAtomicValue{value =  
                                  #qname{local_name = Ln}}}}) -> 
-   {error,list_to_atom(Ln)}.
+   {error,list_to_atom(binary_to_list(Ln))}.
 
 set_statement_type(#state{context = #context{} = Ctx} = State, StatementType) ->
    NewCtx = Ctx#context{statement_type = StatementType},
@@ -5241,21 +5283,21 @@ atomized_node_type(#xqSeqType{} = St) ->
 
 placeholders(Args) ->
    [#xqVar{id = Id,
-           name = #qname{local_name = "aVeryLongBogusName__" ++
-                                        integer_to_list(Id)}}
+           name = #qname{local_name = list_to_binary("aVeryLongBogusName__" ++
+                                        integer_to_list(Id))}}
    || {'?',Id} <- Args].
 
 placeholders_1(any,Args) ->
    [#xqVar{id = Id,
            type = #xqSeqType{type = item, occur = zero_or_many},
-           name = #qname{local_name = "aVeryLongBogusName__" ++ 
-                                        integer_to_list(Id)}}
+           name = #qname{local_name = list_to_binary("aVeryLongBogusName__" ++ 
+                                        integer_to_list(Id))}}
    || {'?',Id} <- Args];
 placeholders_1(Params,Args) ->
    [#xqVar{id = Id,
            type = P,
-           name = #qname{local_name = "aVeryLongBogusName__" ++ 
-                                        integer_to_list(Id)}}
+           name = #qname{local_name = list_to_binary("aVeryLongBogusName__" ++ 
+                                        integer_to_list(Id))}}
    || {P, {'?',Id}} <- lists:zip(Params, Args)].
 
 param_prefix() -> "__Param__var_".

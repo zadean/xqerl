@@ -243,13 +243,13 @@ x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
    Map;
 
 x(G, Map, Parent, {'catch',Catches}) ->
-   ErrNs = "http://www.w3.org/2005/xqt-errors",
-   E1 = {ErrNs,"code"},
-   E2 = {ErrNs,"description"},
-   E3 = {ErrNs,"value"},
-   E4 = {ErrNs,"module"},
-   E5 = {ErrNs,"line-number"},
-   E6 = {ErrNs,"column-number"},
+   ErrNs = <<"http://www.w3.org/2005/xqt-errors">>,
+   E1 = {ErrNs,<<"code">>},
+   E2 = {ErrNs,<<"description">>},
+   E3 = {ErrNs,<<"value">>},
+   E4 = {ErrNs,<<"module">>},
+   E5 = {ErrNs,<<"line-number">>},
+   E6 = {ErrNs,<<"column-number">>},
    add_vertex(G, E1),
    add_vertex(G, E2),
    add_vertex(G, E3),

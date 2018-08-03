@@ -107,13 +107,13 @@
 -type xs_listType() :: xs_NMTOKENS() | xs_ENTITIES() | xs_IDREFS().
 -type xs_NMTOKENS() :: 
         #xqAtomicValue{type :: 'xs:NMTOKENS',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_ENTITIES() :: 
         #xqAtomicValue{type :: 'xs:ENTITIES',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_IDREFS() :: 
         #xqAtomicValue{type :: 'xs:IDREFS',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 
 -type xs_unionType() :: xs_numeric().
 -type xs_numeric() :: xs_decimal() | xs_float() | xs_double().
@@ -144,7 +144,7 @@
         xs_NOTATION().
 -type xs_untypedAtomic() :: 
         #xqAtomicValue{type :: 'xs:untypedAtomic',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_decimal() :: 
         #xqAtomicValue{type :: 'xs:decimal',
                        value :: #xsDecimal{}} |
@@ -218,7 +218,7 @@
                        value :: binary()}.  
 -type xs_anyURI() :: 
         #xqAtomicValue{type :: 'xs:anyURI',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_QName() :: 
         #xqAtomicValue{type :: 'xs:QName',
                        value :: #qname{}}.  
@@ -301,39 +301,39 @@
 
 -type xs_string() :: 
         #xqAtomicValue{type :: 'xs:string',
-                       value :: list(xml_char())} |
+                       value :: binary()} |
         xs_normalizedString().  
 -type xs_normalizedString() :: 
         #xqAtomicValue{type :: 'xs:normalizedString',
-                       value :: list(xml_char())} |
+                       value :: binary()} |
         xs_token().  
 -type xs_token() :: 
         #xqAtomicValue{type :: 'xs:token', 
-                       value :: list(xml_char())} |
+                       value :: binary()} |
         xs_language() | xs_NMTOKEN() | xs_Name().  
 -type xs_language() :: % [a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*
         #xqAtomicValue{type :: 'xs:language',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_NMTOKEN() :: % \c+
         #xqAtomicValue{type :: 'xs:NMTOKEN',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_Name() :: % \i\c*
         #xqAtomicValue{type :: 'xs:Name',
-                       value :: list(xml_char())} | 
+                       value :: binary()} | 
         xs_NCName().  
 -type xs_NCName() :: % \i\c* ∩ [\i-[:]][\c-[:]]*
         #xqAtomicValue{type :: 'xs:NCName',
-                       value :: list(xml_char())} |
+                       value :: binary()} |
         xs_ID() | xs_IDREF() | xs_ENTITY() .  
 -type xs_ID() :: % \i\c* ∩ [\i-[:]][\c-[:]]*
         #xqAtomicValue{type :: 'xs:ID',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_IDREF() :: % \i\c* ∩ [\i-[:]][\c-[:]]* 
         #xqAtomicValue{type :: 'xs:IDREF',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 -type xs_ENTITY() :: % \i\c* ∩ [\i-[:]][\c-[:]]*
         #xqAtomicValue{type :: 'xs:ENTITY',
-                       value :: list(xml_char())}.  
+                       value :: binary()}.  
 
 
 -type xq_function() :: function() | #xqFunction{} | xq_array() | xq_map().
@@ -341,12 +341,12 @@
 -type xq_map() :: #{ map_key() => {xs_anyAtomicType(), xq_item()} }.
 -type xq_map(K,V) :: #{ map_key() => {K, V} }.
 
--type xml_char() :: 16#1..16#D7FF | 16#E000..16#FFFD | 16#10000..16#10FFFF.
+%-type xml_char() :: 16#1..16#D7FF | 16#E000..16#FFFD | 16#10000..16#10FFFF.
 
 -type map_key() :: 
-        string() | {number, #xsDecimal{}} | {number, atom()} |
+        binary() | {number, #xsDecimal{}} | {number, atom()} |
         {duration, #xsDateTime{}} | {time, #xsDateTime{}} | 
-        {string(), string()} | {atom(), any()}.
+        {binary(), binary()} | {atom(), any()}.
 
 
  

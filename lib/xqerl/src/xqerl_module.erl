@@ -78,7 +78,7 @@
         {module_name_atom           :: {atom(),atom(),integer()} | 
                                        {atom(),'_','_'}, % {M,F,A}
          signature                  :: term() | '_',
-         name                       :: string() | '_',
+         name                       :: binary() | '_',
          external                   :: boolean() | '_',
          annotations       = []     :: [term()] | '_'
         }).
@@ -96,7 +96,7 @@
 -record(xq_variable, 
         {module_name_atom           :: {atom(),atom()} | {atom(),'_'},
          signature                  :: term() | '_',
-         name                       :: string() | '_',
+         name                       :: binary() | '_',
          position                   :: integer() | '_',
          external                   :: boolean() | '_',
          annotations       = []     :: [term()] | '_'
@@ -157,8 +157,8 @@ one_time_init() ->
 
 
 -define(NOT_FOUND(V), _:#xqError{name = 
-                                   #xqAtomicValue{value = #qname{prefix = "err",
-                                                 local_name = "XQST0059"}},
+                                   #xqAtomicValue{value = #qname{prefix = <<"err">>,
+                                                 local_name = <<"XQST0059">>}},
                  value = V}).
 
 
@@ -266,7 +266,7 @@ compile(FileName, Str, Hints) ->
 %?dbg("Tree",Tree),
       Static = scan_tree_static(
                  Tree, 
-                 xqerl_lib:resolve_against_base_uri("file:///", FileName)),
+                 xqldb_lib:filename_to_uri(unicode:characters_to_binary(FileName))),
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
 %?dbg("Ret",Ret),
@@ -292,6 +292,7 @@ compile(FileName, Str, Hints) ->
                   imported_modules = ImportedMods,
                   binary = B,
                   erl_code = wait},
+                  %erl_code = _Erl},
         FunSigs,
         VarSigs,
         M
@@ -301,8 +302,8 @@ compile(FileName, Str, Hints) ->
          save_module(Rec,FS,VS,MN)
    catch 
       ?NOT_FOUND(V) = Error ->
-         "Q{"++KN = V,
-         KN1 = lists:droplast(KN),
+         <<"Q{", KN/binary>> = V,
+         KN1 = binary:part(KN, 0, byte_size(KN) - 1),
          case lists:keyfind(KN1, 2, Hints) of
             false ->
                Error;
@@ -458,14 +459,14 @@ build_fun_recs(ModName,FunSigs) ->
              {FunName,A},Arity,_} = Sig) ->
               #xq_function{module_name_atom = {ModName,FunName,Arity}, 
                            signature = setelement(4, Sig, {ModName,FunName,A}),
-                           name = "Q{"++Namespace++"}"++LocalName,
+                           name = serial_qname(Namespace, LocalName),
                            external = false, annotations = Annos};
            ({#qname{namespace = Namespace, 
                     local_name = LocalName},_,Annos,
              {_ModName1,FunName,A},Arity,_} = Sig) ->
               #xq_function{module_name_atom = {ModName,FunName,Arity}, 
                            signature = setelement(4, Sig, {ModName,FunName,A}),
-                           name = "Q{"++Namespace++"}"++LocalName,
+                           name = serial_qname(Namespace, LocalName),
                            external = false, annotations = Annos}
         end,
    lists:map(Fx, FunSigs).
@@ -481,14 +482,14 @@ build_var_recs(ModName,VarSigs) ->
    Fx = fun({#qname{namespace = Namespace0, local_name = LocalName},
              _,Annos,VarName,External} = Sig,Pos) ->
               Namespace = if Namespace0 == 'no-namespace' ->
-                                "";
+                                <<>>;
                              true ->
                                 Namespace0
                           end,
               NewSig = setelement(4, Sig, {ModName,VarName}),
               {#xq_variable{module_name_atom = {ModName,VarName}, 
                             signature = NewSig,
-                            name = "Q{"++Namespace++"}"++LocalName,
+                            name = serial_qname(Namespace, LocalName),
                             external = External, 
                             position = Pos, 
                             annotations = Annos},
@@ -497,6 +498,9 @@ build_var_recs(ModName,VarSigs) ->
    Fil = lists:filter(fun({_,_,I,_,_}) -> not IsPriv(I) end, VarSigs),
    {Ret,_} = lists:mapfoldl(Fx, 1, Fil),
    Ret.
+
+serial_qname(Namespace, LocalName) ->
+   <<"Q{", Namespace/binary, "}", LocalName/binary>>.
 
 scan_tokens(Str) ->
    try 
@@ -592,7 +596,7 @@ check_cycle(Mod,ImportedMods) ->
                                            {encoding, utf8}])),
       Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
       %?dbg("",Flat),
-      Filename = filename:absname(atom_to_list(M)),
+      Filename = filename:absname(atom_to_list(M)) ++ ".erl",
       ?dbg("Filename",Filename),
       {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
       %?dbg("PP",PP),

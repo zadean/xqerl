@@ -126,10 +126,10 @@ select(Uri) ->
       false ->
          {error,not_exists};
       true ->
-         ?dbg("exists",Uri),
+         %?dbg("exists",Uri),
          case get_status(Uri) of
             {active,Pid} ->
-               ?dbg("Pid",Pid),
+               %?dbg("Pid",Pid),
                case is_process_alive(Pid) of
                   true ->
                      Pid ! touch,
@@ -138,7 +138,7 @@ select(Uri) ->
                      try
                         set_status(Uri, loading),
                         Bin = ext_select(Uri),
-                        {ok,Pid1} = xqldb_doc:load(Bin),
+                        {ok,Pid1} = xqldb_doc:load({Bin,load}),
                         set_pid(Uri, Pid1),
                         set_status(Uri, active),
                         {ok,Pid1}
@@ -149,18 +149,18 @@ select(Uri) ->
                      end
                end;
             inactive ->
-               ?dbg("active",false),
+               %?dbg("active",false),
                try
                   set_status(Uri, loading),
-                  ?dbg("status set",true),
+                  %?dbg("status set",true),
                   Bin = ext_select(Uri),
-                  ?dbg("Bin",Bin),
-                  {ok,Pid1} = xqldb_doc:load(Bin),
-                  ?dbg("load",Pid1),
+                  %?dbg("Bin",Bin),
+                  {ok,Pid1} = xqldb_doc:load({Bin,load}),
+                  %?dbg("load",Pid1),
                   set_pid(Uri, Pid1),
-                  ?dbg("set_pid",true),
+                  %?dbg("set_pid",true),
                   set_status(Uri, active),
-                  ?dbg("set_status",true),
+                  %?dbg("set_status",true),
                   {ok,Pid1}
                catch
                   _:Err ->
@@ -232,6 +232,7 @@ delete(Uri) ->
          ok
    end.
 
+delete_collection([]) -> delete_collection(<<>>);
 delete_collection(Uri) ->
    case collection_exists(Uri) of
       false ->
