@@ -410,11 +410,11 @@ kind_test_match(#xqSeqType{type = #xqKindTest{kind = Kind1,
 
 %TODO expand to parameters
 fun_test_match(#xqSeqType{type = #xqFunTest{kind   = Kind1,
-                                            params = Params1,
-                                            type   = Type1}} = Ft1,
+                                            params = _Params1,
+                                            type   = Type1}} = _Ft1,
                #xqSeqType{type = #xqFunTest{kind   = Kind2,
-                                            params = Params2,
-                                            type   = Type2}} = Ft2) ->
+                                            params = _Params2,
+                                            type   = Type2}} = _Ft2) ->
    % maybe, so check name and type
    if Kind1 =:= Kind2;
       Kind1 =:= function ->

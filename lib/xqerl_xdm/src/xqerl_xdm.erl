@@ -54,10 +54,10 @@ add(Str, Map) ->
 
 
 
-string_table_rec(Table, Str) when is_map_key(Str, Table) ->
-   map_get(Str, Table);
-string_table_rec(Table, Str) ->
-   Id = maps:size(Table) + 1,
-   {Str, Id, Table#{Str => Id}}.
+%% string_table_rec(Table, Str) when is_map_key(Str, Table) ->
+%%    map_get(Str, Table);
+%% string_table_rec(Table, Str) ->
+%%    Id = maps:size(Table) + 1,
+%%    {Str, Id, Table#{Str => Id}}.
 
 

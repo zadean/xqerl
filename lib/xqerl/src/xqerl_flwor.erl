@@ -727,7 +727,7 @@ get_first_non_where([{I,_}|_]) ->
 %% TODO: implement, need a good way to scope variables here 
 -spec maybe_inline_let(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-maybe_inline_let(#xqFlwor{id = Id, loop = Clauses, return = Return} = FL, G) ->
+maybe_inline_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G) ->
    % lets that rely on nothing are static
    %   PosList = to_pos_list(Clauses),
    %   Lets = [{P,V} || 
@@ -846,8 +846,8 @@ maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G) ->
 %% TODO: implement 
 -spec where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-where_clause_as_predicate(#xqFlwor{id = Id, loop = Clauses, 
-                                 return = Return} = FL, G) ->
+where_clause_as_predicate(#xqFlwor{id = _Id, loop = _Clauses, 
+                                 return = _Return} = FL, _G) ->
    {false,FL}.
 
 %% STEP 2.8
@@ -857,8 +857,8 @@ where_clause_as_predicate(#xqFlwor{id = Id, loop = Clauses,
 %% TODO: implement 
 -spec positional_where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-positional_where_clause_as_predicate(#xqFlwor{id = Id, loop = Clauses, 
-                                 return = Return} = FL, G) ->
+positional_where_clause_as_predicate(#xqFlwor{id = _Id, loop = _Clauses, 
+                                 return = _Return} = FL, _G) ->
    {false,FL}.
 
 %% STEP 3
@@ -877,7 +877,7 @@ strip_empty_flwor(#xqFlwor{} = FL) ->
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
 -spec replace_trailing_for_in_return(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-replace_trailing_for_in_return(#xqFlwor{id = Id,
+replace_trailing_for_in_return(#xqFlwor{id = _Id,
                                         loop = Clauses,
                                         return = Return} = FL, G) 
    when Clauses =/= [] ->

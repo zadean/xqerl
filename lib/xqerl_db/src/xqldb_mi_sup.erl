@@ -47,7 +47,7 @@ start_child() ->
 
 
 init(_) ->
-   BaseDir = application:get_env(xqerl, base_data_dir),
+   _BaseDir = application:get_env(xqerl, base_data_dir),
    SupFlags = #{strategy  => one_for_one,
                 intensity => 10,
                 period    => 3},

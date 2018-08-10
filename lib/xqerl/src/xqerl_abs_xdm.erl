@@ -115,7 +115,7 @@ compile_path_statement(_,Source,[?FN_MATCH(_) = S|Rest],Level,Acc) ->
 
 
 %% % variable, could be join, or local BLOCK THIS NOT SAFE
-compile_path_statement(Ctx,_,[{variable,Var} = S|Rest],Level,Acc) ->
+compile_path_statement(_Ctx,_,[{variable,_Var} = S|Rest],Level,Acc) ->
    {Level,lists:reverse(Acc),[S|Rest]};
 %%    ExtVar = {var,?LINE,Var},
 %%    {Cnt,Path1} = compile_path_statement(Ctx,{var,?LINE,'Node2'},Rest,Level + 1,[]),
@@ -264,7 +264,7 @@ compile_path_statement(_Ctx,Last,[#xqAtomicValue{} = S],Level,Acc) ->
    {Level + 1,lists:reverse(Rev)};
 
 
-compile_path_statement(_Ctx,Last,Rest,Level,Acc) ->
+compile_path_statement(_Ctx,_Last,Rest,Level,Acc) ->
 %  %?dbg("Last,[Unknown |Rest],Level,Acc",{Last,Rest,Level,Acc}),
    {Level,lists:reverse(Acc),Rest}.
 
@@ -278,7 +278,7 @@ do_gen(_Ctx,_Source,root,Level) ->
 do_gen(Ctx,Last,#xqAxisStep{direction = Direction,
                             axis = Axis,
                             predicates = Preds,
-                            node_test = NodeTest} = S, Level) ->
+                            node_test = NodeTest} = _S, Level) ->
    VarName = var_name(Level),
    case Preds of
       [] ->
@@ -455,7 +455,7 @@ forward_path(Source, following, #xqKindTest{kind = 'processing-instruction'}) ->
 forward_path(_, _, #xqKindTest{kind = 'document-node'}) -> {nil,?LINE};
 forward_path(_, _, #xqKindTest{kind = attribute}) -> {nil,?LINE};
 
-forward_path(_, Axis, NodeTest) ->
+forward_path(_, _Axis, NodeTest) ->
   %?dbg("Unknown axis",{Axis, NodeTest}),
    {error,NodeTest}.
 
@@ -541,7 +541,7 @@ reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction',
 reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->  
    p2(pi_precedings,Source);
 %% ----------------------------------------------------------------------------
-reverse_path(_, Axis, NodeTest) ->
+reverse_path(_, _Axis, NodeTest) ->
   %?dbg("Unknown axis",{Axis, NodeTest}),
    {error,NodeTest}.
 
@@ -626,7 +626,7 @@ generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {path_expr,Path}}}|
          nope
    end;
 
-generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {variable,V}}}|Preds]) ->
+generate_preds(_Ctx,_Source,[{predicate,{_Op,#xqAxisStep{} = _A, {variable,_V}}}|_Preds]) ->
    nope;
 %%    B = {var,?LINE,V},
 %%    try

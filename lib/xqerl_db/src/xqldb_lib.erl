@@ -469,7 +469,7 @@ pmap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
          pmap(From,[],Fun,Limit,Left + 1,Ps, [X|Acc])
    after 10000 -> error
    end;
-pmap(From,[],Fun,Limit,Left,[],Acc) ->
+pmap(From,[],_Fun,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
 
 pmap(From,List,Fun,Limit,0,[P|Ps],Acc) ->

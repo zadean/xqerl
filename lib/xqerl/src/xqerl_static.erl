@@ -26,8 +26,8 @@
 
 -include("xqerl.hrl").
 
--dialyzer({[no_unused], [get_can_inline/1,
-                         set_can_inline/2]}).
+%% -dialyzer({[no_unused], [get_can_inline/1,
+%%                          set_can_inline/2]}).
 
 %% ====================================================================
 %% API functions
@@ -252,7 +252,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                        },
    State1 = scan_namespaces(State0, ConstNamespaces),
    State2 = scan_setters(State1, Setters),
-   OptionAbs = scan_options(Options), % use later
+   _OptionAbs = scan_options(Options), % TODO use later
    FunctionSigs = scan_functions(FunctionsSorted),
    %StatFuncSigs = scan_functions(Functions1),
    VariableSigs = scan_variables(State2,VariablesSorted),
@@ -4948,12 +4948,16 @@ set_inscope_ns(#state{context = #context{} = Ctx} = State, InscopeNs) ->
 get_inscope_ns(#state{context = #context{inscope_ns = InscopeNs}}) -> 
    InscopeNs.
 
-set_can_inline(#state{context = #context{} = Ctx} = State, CanInline) ->
-   NewCtx = Ctx#context{can_inline = CanInline},
-   State#state{context = NewCtx}.
-
-get_can_inline(#state{context = #context{can_inline = CanInline}}) -> 
-   CanInline.
+%% TODO - use these functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 
+%% set_can_inline(#state{context = #context{} = Ctx} = State, CanInline) ->
+%%    NewCtx = Ctx#context{can_inline = CanInline},
+%%    State#state{context = NewCtx}.
+%% 
+%% get_can_inline(#state{context = #context{can_inline = CanInline}}) -> 
+%%    CanInline.
+%% 
+%% TODO - use these functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global_variable_name(Name) ->
    variable_hash_name(Name).

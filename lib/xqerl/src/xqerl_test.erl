@@ -810,7 +810,7 @@ handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
    _ = file:set_cwd([filename:join(code:lib_dir(xqerl),"test")]),
    Sources = proplists:get_value(sources, List) ,
-   Schemas = proplists:get_value(schemas, List) ,
+   _Schemas = proplists:get_value(schemas, List) ,
    Collections = proplists:get_value(collections, List) ,
    BaseUri = proplists:get_value('static-base-uri', List) ,
    Params = proplists:get_value(params, List) ,
