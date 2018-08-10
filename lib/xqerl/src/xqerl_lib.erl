@@ -56,8 +56,11 @@
          is_valid_token/1,
          is_valid_tokens/1,
          is_valid_name/1]).
+
 -export([normalize_spaces/1,
-         normalize_string/1]).
+         normalize_string/1,
+         bin_to_utf8/1,
+         bin_to_utf8/2]).
 
 
 -export([next_comp_prefix/1]).
@@ -275,6 +278,61 @@ encode_for_uri(<<H/utf8,T/binary>>) ->
    Esc = edoc_lib:escape_uri([H]),
    Upp = string:uppercase(list_to_binary(Esc)), 
    <<Upp/binary, (encode_for_uri(T))/binary>>.
+
+
+bin_to_utf8(<<>>) ->
+    ?err('FOUT1200'); 
+bin_to_utf8(Binary) ->
+   case unicode:bom_to_encoding(Binary) of
+      % no BOM UTF-8 assumed
+      {latin1, 0} ->
+         case unicode:characters_to_binary(Binary, utf8) of
+            {error,_,_} ->
+               ?err('FOUT1190');
+            {incomplete,_,_} ->
+               ?err('FOUT1190');
+            Bin ->
+               Bin
+         end;
+      {Enc, L} ->
+         <<_:L/binary, Bin/binary>> = Binary,
+         case unicode:characters_to_binary(Bin, Enc, unicode) of
+            {error,_,E} ->
+               ?dbg("E",E),
+               ?err('FOUT1190');
+            {incomplete,_,E} ->
+               ?dbg("E",E),
+               ?err('FOUT1190');
+            BinOut ->
+               BinOut
+         end
+    end.
+
+bin_to_utf8(Bin,[]) ->
+   bin_to_utf8(Bin);
+bin_to_utf8(<<>>,_) ->
+    ?err('FOUT1200'); 
+bin_to_utf8(Binary,Enc) ->
+   Enc1 = case string:lowercase(Enc) of
+             <<"utf-8">> ->
+                utf8;
+             <<"utf-16">> ->
+                utf16;
+             E ->
+                ?dbg("Encoding?",E),
+                ?err('FOUT1190')
+          end,  
+   case unicode:characters_to_binary(Binary, Enc1) of
+      {error,_,_} ->
+         ?err('FOUT1190');
+      {incomplete,_,_} ->
+         ?err('FOUT1190');
+      Bin ->
+         Bin
+   end.
+
+
+
 
 pct_encode3(Bin) when is_binary(Bin) ->
    Str = bin_to_str(Bin),

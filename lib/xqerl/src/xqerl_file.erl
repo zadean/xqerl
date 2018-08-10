@@ -22,31 +22,34 @@
 
 %% @doc Helpers for collecting xml file names.
 
+%% Garbage, remove.
+
 -module(xqerl_file).
 
 -include("xqerl.hrl").
 
--export([read_uri/1]).
--export([doc_file/1]).
--export([rec_list_dir/1]).
--export([bin_to_utf8/1]).
--export([bin_to_utf8/2]).
+%-export([read_uri/1]).
+%-export([doc_file/1]).
+%-export([rec_list_dir/1]).
 
 read_uri(Uri) ->
    uri_get(Uri).
 
 doc_file(File) ->
-   {ok, Io} = file:open(File, [compressed, read]),
+   {ok, Io} = file:open(File, [compressed, read, binary]),
    Bin = read(Io),
    ok = file:close(Io),
    binary_to_term(Bin).
 
 read(Io) ->
+   read(Io, <<>>).
+
+read(Io, Acc) ->
    case file:read(Io, 100000) of
       {ok,Data} ->
-         <<(list_to_binary(Data))/binary, (read(Io))/binary>>;
+         read(Io,<<Acc/binary,Data/binary>>);
       eof ->
-         <<>>
+         Acc
    end.
 
 read_file(File) ->
@@ -96,56 +99,6 @@ is_xml(Path) ->
 
 
 
-bin_to_utf8(<<>>) ->
-    ?err('FOUT1200'); 
-bin_to_utf8(Binary) ->
-   case unicode:bom_to_encoding(Binary) of
-      % no BOM UTF-8 assumed
-      {latin1, 0} ->
-         case unicode:characters_to_binary(Binary, utf8) of
-            {error,_,_} ->
-               ?err('FOUT1190');
-            {incomplete,_,_} ->
-               ?err('FOUT1190');
-            Bin ->
-               Bin
-         end;
-      {Enc, L} ->
-         <<_:L/binary, Bin/binary>> = Binary,
-         case unicode:characters_to_binary(Bin, Enc, unicode) of
-            {error,_,E} ->
-               ?dbg("E",E),
-               ?err('FOUT1190');
-            {incomplete,_,E} ->
-               ?dbg("E",E),
-               ?err('FOUT1190');
-            BinOut ->
-               BinOut
-         end
-    end.
-
-bin_to_utf8(Bin,[]) ->
-   bin_to_utf8(Bin);
-bin_to_utf8(<<>>,_) ->
-    ?err('FOUT1200'); 
-bin_to_utf8(Binary,Enc) ->
-   Enc1 = case string:lowercase(Enc) of
-             <<"utf-8">> ->
-                utf8;
-             <<"utf-16">> ->
-                utf16;
-             E ->
-                ?dbg("Encoding?",E),
-                ?err('FOUT1190')
-          end,  
-   case unicode:characters_to_binary(Binary, Enc1) of
-      {error,_,_} ->
-         ?err('FOUT1190');
-      {incomplete,_,_} ->
-         ?err('FOUT1190');
-      Bin ->
-         Bin
-   end.
 
 %% valid_unicode(List) -> List.
 %% %% remove for now 

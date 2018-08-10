@@ -5025,9 +5025,9 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
       Binary = xqldb_res:get_binary(P),
       %{ok,Binary} = xqerl_ds:lookup_res(ResVal),
       if Enc =:= <<>> ->
-            ?str( valid_cps(xqerl_file:bin_to_utf8(Binary)));
+            ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary)));
          true ->
-            ?str( valid_cps(xqerl_file:bin_to_utf8(Binary, Enc)))
+            ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary, Enc)))
       end
    catch 
       ?ERROR_MATCH(?A("FORG0002")) -> ?err('FOUT1170');
