@@ -1368,9 +1368,10 @@ handle_node(State, {'unary', '-', Expr1} = _Node) ->
                                            occur = zero_or_one})
    end; 
 %% 3.6 String Concatenation Expressions
-handle_node(State, {'concat', Expr1, Expr2}) -> 
+handle_node(State, {'concat', _, _} = Concat) ->
+   List = flatten_concat(Concat),
    S3 = {'function-call', #qname{namespace = ?FN,
-                                 local_name = ?A("concat")}, 2, [Expr1,Expr2]},
+                                 local_name = ?A("concat")}, length(List), List},
    handle_node(State, S3);
 %% 3.7 Comparison Expressions
 %% 3.7.1 Value Comparisons
@@ -5306,6 +5307,10 @@ placeholders_1(Params,Args) ->
 
 param_prefix() -> "__Param__var_".
 
+flatten_concat({'concat', Expr1, {'concat', _, _} = C}) ->
+   [Expr1|flatten_concat(C)];
+flatten_concat({'concat', Expr1, Expr2}) ->
+  [Expr1, Expr2].
 
       
    

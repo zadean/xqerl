@@ -27,7 +27,7 @@
 %-include_lib("stdlib/include/qlc.hrl").
 -include("xqerl.hrl").
 
--define(PRINT,false).
+-define(PRINT,true).
 
 %% ====================================================================
 %% Tables
