@@ -684,7 +684,7 @@
    Arg#xqAtomicValue{value = infinity};
 'abs'(_Ctx,#xqAtomicValue{value = neg_zero} = Arg) -> 
    Arg#xqAtomicValue{value = 0.0};
-'abs'(_Ctx,#xqAtomicValue{type = Type, value = Val}) when ?integer(Type) ->
+'abs'(_Ctx,#xqAtomicValue{type = Type, value = Val}) when ?xs_integer(Type) ->
    ?atint(xqerl_numeric:abs_val(Val));
 'abs'(_Ctx,#xqAtomicValue{value = Val} = Arg) ->
    Arg#xqAtomicValue{value = xqerl_numeric:abs_val(Val)}.
@@ -979,7 +979,7 @@ get_groups(String,[{Start,End},{NStart,NEnd}|Rest],Cnt) ->
    {Seq,SeqType} = compare_convert_seq(xqerl_seq3:to_list(Arg1), [], []),
    try
       Avg = avg1(Seq, [], 0),
-      OutType = if ?integer(SeqType) ->
+      OutType = if ?xs_integer(SeqType) ->
                       'xs:decimal';
                    true ->
                       SeqType
@@ -1320,7 +1320,7 @@ concat_1([H|T], Acc) ->
    'contains-token'(Ctx,[InputList],Token,Collation);
 'contains-token'(Ctx,InputList,Token,Collation) when is_function(Collation);
                                                      is_atom(Collation) ->
-   Token1 = string:trim(xqerl_types:string_value(Token)),
+   Token1 = xqerl_lib:trim(xqerl_types:string_value(Token)),
    if Token1 == [] ->
          ?bool(false);
       true ->
@@ -1526,7 +1526,7 @@ data1(_) ->
                    true;
                 ({#xqAtomicValue{type = T1} = N1,
                   #xqAtomicValue{type = T2} = N2}) 
-                   when ?string(T1) andalso ?string(T2) ->
+                   when ?xs_string(T1) andalso ?xs_string(T2) ->
                    compare(Ctx, N1, N2, CollFun) == ?atint(0);
                 ({#xqAtomicValue{} = N1,#xqAtomicValue{} = N2}) ->
                    xqerl_operators:equal(N1,N2) == 
@@ -1601,7 +1601,7 @@ data1(_) ->
    'distinct-values'(Ctx,[Arg1],Collation);
 'distinct-values'(_Ctx,Arg1,Collation) when is_function(Collation);
                                             is_atom(Collation) ->
-   CompVal = fun(#xqAtomicValue{type = T} = A) when ?string(T);
+   CompVal = fun(#xqAtomicValue{type = T} = A) when ?xs_string(T);
                                                     T == 'xs:untypedAtomic';
                                                     T == 'xs:anyURI' ->
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
@@ -1632,17 +1632,17 @@ distinct_vals(Vals,Fun) ->
              X = fun({#xqAtomicValue{type = AccType} = AccKey,_}) ->
                        case Key of
                           #xqAtomicValue{type = KeyType, value = nan} 
-                             when ?numeric(KeyType) ->
-                             ?numeric(AccType) andalso 
+                             when ?xs_numeric(KeyType) ->
+                             ?xs_numeric(AccType) andalso 
                                AccKey#xqAtomicValue.value == nan;
                           #xqAtomicValue{type = KeyType} 
-                             when ?string(KeyType), ?string(AccType) ->
+                             when ?xs_string(KeyType), ?xs_string(AccType) ->
                               xqerl_operators:equal(AccKey, Key) == ?bool(true);
                           #xqAtomicValue{type = KeyType} 
-                             when ?numeric(KeyType), ?numeric(AccType) ->
+                             when ?xs_numeric(KeyType), ?xs_numeric(AccType) ->
                               xqerl_operators:equal(AccKey, Key) == ?bool(true);
                           #xqAtomicValue{type = KeyType} 
-                             when ?duration(KeyType), ?duration(AccType) ->
+                             when ?xs_duration(KeyType), ?xs_duration(AccType) ->
                               xqerl_operators:equal(AccKey, Key) == ?bool(true);
                           #xqAtomicValue{type = AccType} ->
                               xqerl_operators:equal(AccKey, Key) == ?bool(true);
@@ -1672,7 +1672,7 @@ distinct_vals(Vals,Fun) ->
    BaseUri = xqerl_types:value(BaseUri0),
 %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
-      {error,E} ->
+      {error,E} when E =/= relative -> % relative is a kludge to get correct error
          ?dbg("E",E),
          ?err('FODC0005');
       ResVal ->
@@ -2245,7 +2245,7 @@ is_valid_calendar({_,_}) ->
 'format-number'(#{known_dec_formats := Dfs,
                   namespaces        := Nss} = Ctx,Number,PicString,Name) ->
    S1 = xqerl_types:string_value(Name),
-   S2 = string:trim(S1),
+   S2 = xqerl_lib:trim(S1),
    try xqerl_types:value(xqerl_types:cast_as(?str(S2), 'xs:QName', Nss)) of
       #qname{namespace = N,local_name = L} ->
          case [D || {#qname{namespace = N1, local_name = L1},D} <- Dfs, 
@@ -2985,13 +2985,13 @@ cache(#{tab := Tab}, Key, Value) ->
    {Seq,SeqType} = compare_convert_seq(xqerl_seq3:to_list(Arg1), [], []),
    Max1 = max1(Seq, []),
    %?dbg("SeqType",SeqType),
-   if ?decimal(SeqType) ->
+   if ?xs_decimal(SeqType) ->
          Max1;
-      ?string(SeqType), element(2, Max1) == 'xs:anyURI' ->
+      ?xs_string(SeqType), element(2, Max1) == 'xs:anyURI' ->
          xqerl_types:cast_as(Max1, SeqType);
-      ?string(SeqType) ->
+      ?xs_string(SeqType) ->
          Max1;
-      ?numeric(SeqType) ->
+      ?xs_numeric(SeqType) ->
          xqerl_types:cast_as(Max1, SeqType);
       true ->
          Max1
@@ -3058,7 +3058,7 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H|T],
                     Acc, SeqType) ->
    try xqerl_types:cast_as(H,'xs:double') of
       H1 ->
-         if ?numeric(SeqType) orelse SeqType == [] ->
+         if ?xs_numeric(SeqType) orelse SeqType == [] ->
                compare_convert_seq([H1|T], Acc, 'xs:double');
             true ->
                ?err('FORG0006')
@@ -3071,15 +3071,15 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:anyURI'} = H|T], Acc, SeqType) ->
    if SeqType == [];
       SeqType == 'xs:anyURI' ->
          compare_convert_seq(T, [H|Acc], 'xs:anyURI');
-      ?string(SeqType) ->
+      ?xs_string(SeqType) ->
          H1 = xqerl_types:cast_as(H,'xs:string'),
          compare_convert_seq(T, [H1|Acc], 'xs:string');
       true ->
          ?err('FORG0006')
    end;
 compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType) 
-   when ?string(StrType), 
-        ?string(SeqType) orelse SeqType == 'xs:anyURI' ->
+   when ?xs_string(StrType), 
+        ?xs_string(SeqType) orelse SeqType == 'xs:anyURI' ->
    NewType = if SeqType == 'xs:string' ->
                    SeqType;
                 SeqType == 'xs:anyURI' ->
@@ -3095,8 +3095,8 @@ compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType)
          compare_convert_seq(T, [H|Acc], NewType)
    end;
 compare_convert_seq([#xqAtomicValue{type = StrType} = H|T], Acc, SeqType) 
-   when ?integer(StrType), 
-        ?integer(SeqType) ->
+   when ?xs_integer(StrType), 
+        ?xs_integer(SeqType) ->
    NewType = if SeqType == 'xs:integer' ->
                    SeqType;
                 true ->
@@ -3114,7 +3114,7 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:double'} = H|T], Acc, _) ->
 compare_convert_seq([#xqAtomicValue{type = 'xs:float'} = H|T], Acc, SeqType) ->
    if SeqType =:= 'xs:float' orelse 
         SeqType =:= 'xs:decimal' orelse 
-        ?integer(SeqType) orelse 
+        ?xs_integer(SeqType) orelse 
         SeqType =:= [] ->
          compare_convert_seq(T, [H|Acc], 'xs:float');
       SeqType =:= 'xs:double' ->
@@ -3124,7 +3124,7 @@ compare_convert_seq([#xqAtomicValue{type = 'xs:float'} = H|T], Acc, SeqType) ->
    end;
 compare_convert_seq([#xqAtomicValue{type = 'xs:decimal'} = H|T], Acc,SeqType) ->
    if SeqType =:= 'xs:decimal' orelse 
-        ?integer(SeqType) orelse 
+        ?xs_integer(SeqType) orelse 
         SeqType =:= [] ->
          compare_convert_seq(T, [H|Acc], 'xs:decimal');
       SeqType =:= 'xs:float' ->
@@ -3174,13 +3174,13 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 'min'(_,Arg1) -> 
    {Seq,SeqType} = compare_convert_seq(xqerl_seq3:to_list(Arg1), [], []),
    Min1 = min1(Seq, []),
-   if ?decimal(SeqType) ->
+   if ?xs_decimal(SeqType) ->
          Min1;
-      ?string(SeqType), element(2, Min1) == 'xs:anyURI' ->
+      ?xs_string(SeqType), element(2, Min1) == 'xs:anyURI' ->
          xqerl_types:cast_as(Min1, SeqType);
-      ?string(SeqType) ->
+      ?xs_string(SeqType) ->
          Min1;
-      ?numeric(SeqType) ->
+      ?xs_numeric(SeqType) ->
          xqerl_types:cast_as(Min1, SeqType);
       true ->
          Min1
@@ -3567,15 +3567,15 @@ shrink_spaces(<<H,T/binary>>) ->
 'parse-ietf-date'(_Ctx,[]) ->  [];
 'parse-ietf-date'(_Ctx,Arg1) -> 
    Str = xqerl_types:string_value(Arg1),
-   Strip = unicode:characters_to_list(string:trim(Str)),
+   Strip = unicode:characters_to_list(xqerl_lib:trim(Str)),
    try 
       {ok,L,_} = ietf_date:string(Strip),
       ?dbg("L",L),
       {ok,Dt} = ietf_date_parse:parse(L),
       ?dbg("Dt",Dt),
-      _ = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, 
-                                      Dt#xsDateTime.month, 
-                                      Dt#xsDateTime.day),
+      true = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, 
+                                         Dt#xsDateTime.month, 
+                                         Dt#xsDateTime.day),
       DtStr = xqerl_datetime:to_string(Dt, 'xs:dateTime'),
       ?atm('xs:dateTime', Dt#xsDateTime{string_value = DtStr})
    catch
@@ -3722,7 +3722,7 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
 'parse-xml'(_,[]) -> [];
 'parse-xml'(#{'base-uri' := BaseUri} = Ctx,Arg1) ->
    String = xqerl_types:string_value(Arg1),
-   if String =:= [] ->
+   if String =:= <<>> ->
          xqerl_node:new_fragment(Ctx, []);
       true ->
          BaseUri1 = xqerl_types:string_value(BaseUri),
@@ -3738,7 +3738,7 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
                         C
                   end,
             {ok,NewDoc} = xqldb_parse:read_bin({Cwd,BaseUri1},Bin),
-            ?dbg("NewDoc",NewDoc),
+            %?dbg("NewDoc",NewDoc),
             {ok,DocPid} = xqldb_doc:start_link(NewDoc),
             [Roots] = xqldb_doc:roots(DocPid),
             #xqNode{doc = DocPid, node = Roots}
@@ -4380,10 +4380,10 @@ sort1(Ctx,[HA|TA],[HB|TB],Coll) ->
             true ->
                TypeA = xqerl_types:type(HA),
                TypeB = xqerl_types:type(HB),
-               if ?string(TypeA) orelse 
+               if ?xs_string(TypeA) orelse 
                     TypeA == 'xs:anyURI' orelse 
                     TypeA == 'xs:untypedAtomic',
-                  ?string(TypeB) orelse 
+                  ?xs_string(TypeB) orelse 
                     TypeB == 'xs:anyURI' orelse 
                     TypeB == 'xs:untypedAtomic' ->
                      #xqAtomicValue{value = Comp} = xqerl_fn:compare(Ctx, HA, 
@@ -4781,7 +4781,7 @@ sort1(Ctx,A,B,Coll) ->
 'sum'(_,[],Arg2) -> Arg2;
 'sum'(_,Arg1,_) -> 
    {Seq,SeqType} = compare_convert_seq(xqerl_seq3:to_list(Arg1), [], []),
-   if ?numeric(SeqType) ->
+   if ?xs_numeric(SeqType) ->
          Sum1 = sum1(lists:reverse(Seq), []),
          xqerl_types:cast_as(Sum1, SeqType);
       true ->
@@ -4859,7 +4859,7 @@ sum1([H|T], Sum) ->
    if Input1 == [] ->
          [];
       true ->
-         Stripped = string:trim(Input1),
+         Stripped = xqerl_lib:trim(Input1),
          'tokenize'(Ctx,?str(Stripped),?str(?A("(\\s)+")))
    end.
 
@@ -5120,7 +5120,7 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
    Upp = string:uppercase(Str),
    #xqAtomicValue{type = 'xs:string', value = Upp};
 'upper-case'(_,#xqAtomicValue{type = Type} = Arg1) 
-   when ?string(Type);
+   when ?xs_string(Type);
         Type =:= 'xs:anyURI' ->
    Str = string_value(Arg1),
    Upp = string:uppercase(Str),

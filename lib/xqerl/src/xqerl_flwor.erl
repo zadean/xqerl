@@ -42,6 +42,15 @@
 
 -export([optimize/2]).
 
+%% -export([test/1]).
+%% test(Term) ->
+%%    replace_var_with_context_item(<<0>>, Term).
+
+
+-define(BOOL_CALL(Arg),{'function-call', 
+                    #qname{namespace = <<"http://www.w3.org/2005/xpath-functions">>,
+                           local_name = <<"boolean">>}, 1, [Arg]}).
+
 % internal use
 %% -export([int_order_1/2]).
    
@@ -846,9 +855,67 @@ maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G) ->
 %% TODO: implement 
 -spec where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
-where_clause_as_predicate(#xqFlwor{id = _Id, loop = _Clauses, 
-                                 return = _Return} = FL, _G) ->
-   {false,FL}.
+where_clause_as_predicate(#xqFlwor{id = _Id, loop = Clauses, 
+                                 return = _Return} = FL, G) ->
+   NewClauses = merge_for_where(Clauses, G),
+   if Clauses == NewClauses ->
+         {false, FL};
+      true ->
+         {true, FL#xqFlwor{loop = NewClauses}}
+   end.
+
+merge_for_where([{for,#xqVar{name = FName,
+                             empty = false,
+                             expr = Expr, position = undefined} = FVar} = For,
+                 {'where',WId,WExpr} = Where|T], G) ->
+   WName = vertex_name(Where),
+   FVName = vertex_name(For),
+   case relies_on_for_no_pos(Where, For, G) of
+      true ->
+         % relies on for variable, so replace with 'context-item'
+         ?dbg("Lifting where into for as predicate",WExpr),
+         FVarRef = #xqVarRef{name = FName},
+         ?dbg("removing where clause",WName),
+         digraph:add_edge(G, WName, FVName),
+         case catch replace_var_with_context_item(FVarRef, WExpr) of
+            {error,predicate} ->
+               [For,Where|merge_for_where(T, G)];
+            WExpr2 ->
+               ?dbg("removed where clause",{FVarRef,WExpr2}),
+               [{for,FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr2)}]}}}
+               |merge_for_where(T, G)]
+         end;
+      false ->
+         ?dbg("Lifting where into for as predicate",WExpr),
+         ?dbg("removing where clause",WName),
+         digraph:add_edge(G, WName, FVName),
+         [{for,FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr)}]}}}
+          |merge_for_where(T, G)]
+   end;
+merge_for_where([H|T], G) ->
+   [H|merge_for_where(T, G)];
+merge_for_where([],_) ->
+   [].
+
+replace_var_with_context_item(_, predicate) ->
+   % an internal predicate cannot use the outside context item
+   throw({error,predicate});
+replace_var_with_context_item(FVarRef, [H|T]) when H == FVarRef ->
+   ['context-item'|replace_var_with_context_item(FVarRef, T)];
+replace_var_with_context_item(FVarRef, [H|T]) when is_list(H) ->
+   replace_var_with_context_item(FVarRef, H) ++ replace_var_with_context_item(FVarRef, T);
+replace_var_with_context_item(FVarRef, [H|T]) ->
+   [replace_var_with_context_item(FVarRef, H)
+   |replace_var_with_context_item(FVarRef, T)];
+replace_var_with_context_item(FVarRef, T) when T == FVarRef ->
+   'context-item';
+replace_var_with_context_item(FVarRef, T) when is_tuple(T) ->
+   List = tuple_to_list(T),
+   New = [replace_var_with_context_item(FVarRef, L) || L <- List],
+   list_to_tuple(New);
+replace_var_with_context_item(_, WExpr) ->
+   WExpr.
+
 
 %% STEP 2.8
 %% 'where' clauses using positional variables from 'for' clauses 
@@ -1157,6 +1224,20 @@ relies_on(This, That, G) -> % this relies on that
             win_vertex_names(W);
          _ ->
             [vertex_name(That)]
+      end,
+   Rg = [R || 
+         R <- digraph_utils:reaching([Cn], G),
+         lists:member(R, Vn) ],
+   Rg =/= [].  
+
+relies_on_for_no_pos(This, That, G) -> % this relies on that
+   Cn = vertex_name(This),
+   Vn =
+      case That of
+         {'for',#xqVar{}} ->
+            [vertex_name(That)];
+         _ ->
+            []
       end,
    Rg = [R || 
          R <- digraph_utils:reaching([Cn], G),

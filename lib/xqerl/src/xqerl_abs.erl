@@ -190,7 +190,7 @@ add_context_key(Map,Key,Ctx) ->
 
 scan_mod(#{body := B} = Map) ->
    X = scan_mod(B, maps:remove(body, Map)),
-?dbg("here",ok),
+%?dbg("here",ok),
    X.
    
 scan_mod(#xqModule{prolog = Prolog, 
@@ -386,7 +386,7 @@ set_globals(Prolog, Map) ->
 
 global_variable_map_match(Modules,Locals) ->
    Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
-   ?dbg("Vars",Vars),
+%?dbg("Vars",Vars),
    Matches = [{map_field_exact,?L,{atom,?L,V},V1} || {_,_,V} = V1 <- Vars ++ Locals],
    O = {map,?L,Matches},
    erlang:put(global_var_match, O),
@@ -394,7 +394,7 @@ global_variable_map_match(Modules,Locals) ->
 
 global_variable_map_set(Modules,Locals) ->
    Vars = lists:flatten([get_imported_variables(M) || M <- Modules]),
-   ?dbg("Vars",Vars),
+%?dbg("Vars",Vars),
    Matches = [{map_field_assoc,?L,{atom,?L,V},V1} || {_,_,V} = V1 <- Vars ++ Locals],
    O = {map,?L,Matches},
    erlang:put(global_var_set, O),
@@ -408,7 +408,7 @@ body_function(ContextMap, Body,Prolog) ->
                    not lists:member(N, Stats),
                    P =/= <<>>],
    _ = erlang:put(ctx, 1),
-   ?dbg("ImportedMods",ImportedMods),
+%?dbg("ImportedMods",ImportedMods),
    ImpSetFun = fun({I,_} = _M, CtxVar) ->
                      NC0 = next_ctx_var_name(),
                      NV0 = {var,?L,NC0},
@@ -933,6 +933,7 @@ expr_do(Ctx, {Cons, Expr}) when Cons =:= direct_cons;
                                 Cons =:= comp_cons ->
    C = {var,?L,get_context_variable_name(Ctx)},
    E = expr_do(Ctx, Expr),
+   %?P("_@E");
    ?P("xqerl_node:new_fragment(_@C,_@E)");
 
 expr_do(Ctx, {atomize, #xqFunction{body = Body} = Expr1}) ->
@@ -2332,7 +2333,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            expr = Expr, 
                            position = undefined}} = Part, 
          NextFunAtom, IsList) ->
-   ?dbg("list?",{Id,IsList}),
+%?dbg("list?",{Id,IsList}),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
    NoEmptyType = (Type#xqSeqType.occur == one orelse 
@@ -2460,7 +2461,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
              true ->
                 ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
           end,
-   Ens = ensure_type(Ctx,VarName1,Type),
+   Ens = ensure_type(Ctx,VarName1,Type), % TODO remove this if not needed
    ForFun = 
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -3117,7 +3118,7 @@ handle_predicate({Ctx, {positional_predicate, P}}, Abs) ->
 handle_predicate({Ctx, {predicate, [P]}}, Abs) ->
    handle_predicate({Ctx, {predicate, P}}, Abs);
 handle_predicate({Ctx, {predicate, #xqAtomicValue{type = Type} = A}}, Abs) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    A1 = abs_simp_atomic_value(A),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@A1,_@Abs)");
@@ -3125,7 +3126,7 @@ handle_predicate({Ctx, {predicate, #xqAtomicValue{type = Type} = A}}, Abs)
 handle_predicate({Ctx, {predicate, #xqVarRef{name = Name}}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
-   if ?numeric(VarType) ->
+   if ?xs_numeric(VarType) ->
          ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
       true ->
          NextCtxVar = {var,?L,next_ctx_var_name()},

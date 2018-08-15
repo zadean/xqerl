@@ -8,16 +8,16 @@ declare variable $_:cn := ', &#10;';
 declare variable $_:dn := '. &#10;';
 declare variable $_:scn := '; &#10;';
 
-declare function _:join-nl($strs as xs:string*) as xs:string
+declare function _:join-nl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:n) };
 
-declare function _:join-cnl($strs as xs:string*) as xs:string
+declare function _:join-cnl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:cn) };
 
-declare function _:join-dnl($strs as xs:string*) as xs:string
+declare function _:join-dnl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:dn) };
 
-declare function _:join-scnl($strs as xs:string*) as xs:string
+declare function _:join-scnl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:scn) };
 
 declare function _:all-of($result) as xs:string
@@ -422,7 +422,7 @@ declare function _:print-testcase2($test-case, $name, $env)
   "   end"
 };
 
-declare function _:print-environment($env,$is-local) as xs:string?
+declare function _:print-environment($env,$is-local) as xs:string
 {
   let $name            := $env/@name
   let $sources         := $env/*:source

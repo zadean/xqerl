@@ -27,6 +27,7 @@
 -include("xqerl.hrl").
 
 -define(MAXDEC, 20).
+-define(INT_DEC(I),#xsDecimal{int = I, scf = 0}).
 
 %% ====================================================================
 %% API functions
@@ -76,7 +77,7 @@ float_to_decimal(Float) when is_float(Float) ->
                           _ ->
                              {<<"">>,MantStr}
                        end,
-   [Int,Fract] = case string:split(AbsMantStr, [$.]) of
+   [Int,Fract] = case split_on_dot(AbsMantStr, <<>>) of
                     [I,F] ->
                        [I,F];
                     [I] ->
@@ -93,12 +94,12 @@ float_to_decimal(Float) when is_float(Float) ->
    #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
 -spec decimal(number() | #xsDecimal{} | binary()) -> #xsDecimal{}.
-decimal(0.0) -> #xsDecimal{int = 0, scf = 0};
-decimal(0) -> #xsDecimal{int = 0, scf = 0};
-decimal(1.0) -> #xsDecimal{int = 1, scf = 0};
-decimal(1) -> #xsDecimal{int = 1, scf = 0};
-decimal(-1.0) -> #xsDecimal{int = -1, scf = 0};
-decimal(-1) -> #xsDecimal{int = -1, scf = 0};
+decimal(0.0) -> ?INT_DEC(0);
+decimal(0) ->   ?INT_DEC(0);
+decimal(1.0) -> ?INT_DEC(1);
+decimal(1) ->   ?INT_DEC(1);
+decimal(-1.0) -> ?INT_DEC(-1);
+decimal(-1) ->  ?INT_DEC(-1);
 decimal(Float) when is_float(Float) ->
    try 
       if abs(Float) < 1 andalso Float < 0 ->
@@ -106,9 +107,9 @@ decimal(Float) when is_float(Float) ->
          abs(Float) < 1 ->
             decimal(float_to_binary(Float,[{decimals, 25},compact]));
          abs(Float) > 100000000000000000000000000 ->
-            decimal(trunc(Float));
+            ?INT_DEC(trunc(Float));
          trunc(Float) == Float ->
-            decimal(trunc(Float));
+            ?INT_DEC(trunc(Float));
          true ->
             decimal(float_to_binary(Float,[{decimals, 20},compact]))
       end
@@ -124,7 +125,7 @@ decimal(#xsDecimal{} = D) -> D;
 decimal(String) ->
    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
       [] ->
-         Val = case string:split(String, [$.]) of
+         Val = case split_on_dot(String,<<>>) of
                   [Int,Fract] ->
                      Scf = byte_size(Fract),
                      Num = binary_to_integer(<<Int/binary, Fract/binary>>),
@@ -145,7 +146,7 @@ double(Float) when is_float(Float) ->
 double(Int) when is_integer(Int) andalso abs(Int) < 9999999999999999999999 ->
    erlang:float(Int);
 double(Int) when is_integer(Int) ->
-   double(decimal(Int));
+   double(?INT_DEC(Int));
 double(#xsDecimal{int = 0, scf = 0}) -> 0.0;
 double(#xsDecimal{scf = Scf} = D) when Scf > 6 ->
    #xsDecimal{int = Int, scf = Scf1} = simplify(D) ,
@@ -170,7 +171,7 @@ double(String) ->
    case xqerl_lib:lget({?MODULE,?FUNCTION_NAME,String}) of
       [] ->
          OVal = begin
-   Val = case string:trim(String) of
+   Val = case xqerl_lib:trim(String) of
             <<$.,T/binary>> ->
                <<$0,$.,T/binary>>;
             <<>> ->
@@ -220,15 +221,14 @@ double(String) ->
                                    true -> <<$0,Rest/binary>>;
                                    _ -> Rest
                                 end,
-                        {Man, Exp} = case binary:split(Rest1, 
-                                                       [<<"e">>,<<"E">>]) of
+                        {Man, Exp} = case split_on_e(Rest1, <<>>) of
                                         [M,E] ->
                                            {M,binary_to_integer(E)};
                                         [M] ->
                                            {M,0}
                                      end,
-                        Num = case binary:match(Man, <<".">>) of
-                                       nomatch ->
+                        Num = case xqerl_lib:contains(Man, $.) of
+                                       false ->
                                           erlang:float(binary_to_integer(Man));
                                        _ ->
                                           case binary:last(Man) of
@@ -259,7 +259,8 @@ double(String) ->
                               end
                         end
                      catch
-                        _:_ -> ?err('FORG0001')
+                        _:_:Stack -> ?dbg("Stack",Stack), 
+                           ?err('FORG0001')
                      end
                end
          end
@@ -318,9 +319,9 @@ add(#xsDecimal{int = IntA, scf = ScfA},#xsDecimal{int = IntB, scf = ScfB})
 add(#xsDecimal{int = IntA, scf = ScfA},#xsDecimal{int = IntB}) ->
    #xsDecimal{int = IntA + IntB, scf = ScfA};
 add(#xsDecimal{} = A, B) when is_integer(B) ->
-   add(A, decimal(B));
+   add(A, ?INT_DEC(B));
 add(A, #xsDecimal{} = B) when is_integer(A) ->
-   add(decimal(A), B);
+   add(?INT_DEC(A), B);
 add(#xsDecimal{} = A, B) when is_float(B) ->
    add(double(A), B);
 add(A, #xsDecimal{} = B) when is_float(A) ->
@@ -342,9 +343,9 @@ subtract(#xsDecimal{int = IntA, scf = ScfA},
          #xsDecimal{int = IntB}) ->
    #xsDecimal{int = IntA - IntB, scf = ScfA};
 subtract(#xsDecimal{} = A, B) when is_integer(B) ->
-   subtract(A, decimal(B));
+   subtract(A, ?INT_DEC(B));
 subtract(A, #xsDecimal{} = B) when is_integer(A) ->
-   subtract(decimal(A), B);
+   subtract(?INT_DEC(A), B);
 subtract(#xsDecimal{} = A, B) when is_float(B) ->
    subtract(double(A), B);
 subtract(A, #xsDecimal{} = B) when is_float(A) ->
@@ -358,9 +359,9 @@ multiply(#xsDecimal{int = IntA, scf = ScfA},
          #xsDecimal{int = IntB, scf = ScfB}) ->
    #xsDecimal{int = IntA * IntB, scf = ScfA + ScfB};
 multiply(#xsDecimal{} = A, B) when is_integer(B) ->
-   multiply(A, decimal(B));
+   multiply(A, ?INT_DEC(B));
 multiply(A, #xsDecimal{} = B) when is_integer(A) ->
-   multiply(decimal(A), B);
+   multiply(?INT_DEC(A), B);
 multiply(#xsDecimal{} = A, B) when is_float(B) ->
    multiply(double(A), B);
 multiply(A, #xsDecimal{} = B) when is_float(A) ->
@@ -387,11 +388,11 @@ divide(#xsDecimal{int = IntA},
    IntA2 = IntA * pow10(?MAXDEC + 1),
    simplify(round1(#xsDecimal{int = IntA2 div IntB, scf = ?MAXDEC + 1}));
 divide(#xsDecimal{} = A, B) when is_integer(B) ->
-   divide(A, decimal(B));
+   divide(A, ?INT_DEC(B));
 divide(A, #xsDecimal{} = B) when is_integer(A) ->
-   divide(decimal(A), B);
+   divide(?INT_DEC(A), B);
 divide(A, B) when is_integer(A),is_integer(B) ->
-   divide(decimal(A), decimal(B));
+   divide(?INT_DEC(A), ?INT_DEC(B));
 divide(#xsDecimal{} = A, B) when is_float(B) ->
    divide(double(A), B);
 divide(A, #xsDecimal{} = B) when is_float(A) ->
@@ -401,12 +402,14 @@ divide(A,B) ->
 
 -spec equal(number() | #xsDecimal{},
             number() | #xsDecimal{}) -> boolean().
-equal(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
-   equal(IntA, decimal(IntB));
-equal(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
-   equal(decimal(IntA), IntB);
 equal(A, B) when is_integer(A), is_integer(B) ->
    A =:= B;
+equal(A, B) when is_number(A), is_number(B) ->
+   A == B;
+equal(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
+   equal(IntA, ?INT_DEC(IntB));
+equal(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
+   equal(?INT_DEC(IntA), IntB);
 equal(#xsDecimal{int = IntA, scf = ScfA}, 
       #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),
@@ -423,10 +426,12 @@ equal(A, B) ->
 
 -spec greater_than(number() | #xsDecimal{},
                    number() | #xsDecimal{}) -> boolean().
+greater_than(A, B) when is_number(A), is_number(B) ->
+   A > B;
 greater_than(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
-   greater_than(IntA, decimal(IntB));
+   greater_than(IntA, ?INT_DEC(IntB));
 greater_than(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
-   greater_than(decimal(IntA), IntB);
+   greater_than(?INT_DEC(IntA), IntB);
 greater_than(#xsDecimal{int = IntA, scf = ScfA}, 
              #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),
@@ -442,10 +447,12 @@ greater_than(A, B) ->
 
 -spec greater_than_equal(number() | #xsDecimal{},
                          number() | #xsDecimal{}) -> boolean().
+greater_than_equal(A, B) when is_number(A), is_number(B) ->
+   A >= B;
 greater_than_equal(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
-   greater_than_equal(IntA, decimal(IntB));
+   greater_than_equal(IntA, ?INT_DEC(IntB));
 greater_than_equal(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
-   greater_than_equal(decimal(IntA), IntB);
+   greater_than_equal(?INT_DEC(IntA), IntB);
 greater_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
                    #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),
@@ -461,10 +468,12 @@ greater_than_equal(A, B) ->
 
 -spec less_than(number() | #xsDecimal{},
                 number() | #xsDecimal{}) -> boolean().
+less_than(A, B) when is_number(A), is_number(B) ->
+   A < B;
 less_than(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
-   less_than(IntA, decimal(IntB));
+   less_than(IntA, ?INT_DEC(IntB));
 less_than(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
-   less_than(decimal(IntA), IntB);
+   less_than(?INT_DEC(IntA), IntB);
 less_than(#xsDecimal{int = IntA, scf = ScfA}, 
           #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),
@@ -480,10 +489,12 @@ less_than(A, B) ->
 
 -spec less_than_equal(number() | #xsDecimal{},
                       number() | #xsDecimal{}) -> boolean().
+less_than_equal(A, B) when is_number(A), is_number(B) ->
+   A =< B;
 less_than_equal(#xsDecimal{} = IntA, IntB) when is_integer(IntB) ->
-   less_than_equal(IntA, decimal(IntB));
+   less_than_equal(IntA, ?INT_DEC(IntB));
 less_than_equal(IntA,#xsDecimal{} = IntB) when is_integer(IntA) ->
-   less_than_equal(decimal(IntA), IntB);
+   less_than_equal(?INT_DEC(IntA), IntB);
 less_than_equal(#xsDecimal{int = IntA, scf = ScfA}, 
                 #xsDecimal{int = IntB, scf = ScfB}) when ScfA < ScfB ->
    IntA1 = IntA * pow10(ScfB - ScfA),
@@ -959,4 +970,14 @@ log2floor(0, N) ->
     N;
 log2floor(Int, N) ->
     log2floor(Int bsr 1, 1 + N).
+
+split_on_dot(<<>>,Acc) -> [Acc];
+split_on_dot(<<".",T/binary>>,Acc) -> [Acc,T];
+split_on_dot(<<H/utf8,T/binary>>,Acc) -> split_on_dot(T,<<Acc/binary,H/utf8>>).
+
+split_on_e(<<>>,Acc) -> [Acc];
+split_on_e(<<"e",T/binary>>,Acc) -> [Acc,T];
+split_on_e(<<"E",T/binary>>,Acc) -> [Acc,T];
+split_on_e(<<H/utf8,T/binary>>,Acc) -> split_on_e(T,<<Acc/binary,H/utf8>>).
+
 

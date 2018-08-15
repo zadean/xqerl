@@ -281,9 +281,9 @@ get_attributes(Content, AllowWs) ->
                      not is_record(K, xqProcessingInstructionNode),
                      not is_record(K, xqCommentNode)],
       F = fun(#xqTextNode{expr = [#xqAtomicValue{value = V}]}) ->
-                AllowWs orelse string:trim(V) =/= <<>>;
+                AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
              (#xqTextNode{expr = #xqAtomicValue{value = V}}) ->
-                AllowWs orelse string:trim(V) =/= <<>>;
+                AllowWs orelse xqerl_lib:trim(V) =/= <<>>;
              (#xqAttributeNode{name = #qname{namespace = 'no-namespace', 
                                              local_name = Ln}}) 
                 when Ln == <<"key">>;

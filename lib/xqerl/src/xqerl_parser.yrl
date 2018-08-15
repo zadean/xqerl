@@ -1058,15 +1058,15 @@ end.
 %'PathExpr'               -> '/'                    : {step, {'root'}}.              %/* xgs: leading-lone-slash */
 'PathExpr'               -> '/' 'RelativePathExpr'  : {path_expr, next_id(), ['root' | '$2']}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' 'RelativePathExpr'  : {step, {'root', '$2'}}.            %/* xgs: leading-lone-slash */
-'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{axis = 'descendant-or-self'}|'$2']}.
+'PathExpr'               -> '//' 'RelativePathExpr' : {path_expr, next_id(), ['any-root',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'}|'$2']}.
 %% 'PathExpr'               -> '//' 'RelativePathExpr' : {step, {'any-root', 
-%%                                                              {step, #xqAxisStep{axis = 'descendant-or-self'},
+%%                                                              {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},
 %%                                                                     '$2'}}}.
 'PathExpr'               -> 'RelativePathExpr'     : case '$1' of [V] -> V; V -> {path_expr, next_id(), V} end.
 %% 
 %% 'PathExpr'               -> 'lone-slash' '/'  'RelativePathExpr' : ?dbg("1021",{step, {'root', '$3'}}),{step, {'root', '$3'}}.            %/* xgs: leading-lone-slash */
 %% 'PathExpr'               -> 'lone-slash' '//' 'RelativePathExpr' : ?dbg("1022",'$3'),{step, {'root', 
-%%                                                              {step, #xqAxisStep{axis = 'descendant-or-self'},
+%%                                                              {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},
 %%                                                                     '$3'}}}.
 %% 
 %% 'PathExpr'               -> 'RelativePathExpr' '/'  'lone-slash'  : {step, {'root'}}.
@@ -1074,14 +1074,14 @@ end.
 % [109]    RelativePathExpr     ::=      StepExpr (("/" | "//") StepExpr)*   
 %% 'RelativePathExpr'      -> '/'  'RelativePathExpr' : {step, '$2'}.
 %% 'RelativePathExpr'      -> 'lone-slash'  'RelativePathExpr' : {step, '$2'}.
-%% 'RelativePathExpr'      -> '//' 'RelativePathExpr' : {step, #xqAxisStep{axis = 'descendant-or-self'},'$2'}.
+%% 'RelativePathExpr'      -> '//' 'RelativePathExpr' : {step, #xqAxisStep{id = next_id(),axis = 'descendant-or-self'},'$2'}.
 %% 'RelativePathExpr'       -> 'StepExpr' 'RelativePathExpr' : {step, '$1', '$2'}.
 'RelativePathExpr'       -> 'StepExpr' '/'  'RelativePathExpr' : ['$1' | '$3'].
 'RelativePathExpr'       -> 'StepExpr' '//' 'RelativePathExpr' : case '$1' of #xqAxisStep{} ->
                                                                   case '$3' of 
-                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} , '$3'];
-                                                                    _ -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'] end;
-                                                                   _ -> ['$1',#xqAxisStep{axis = 'descendant-or-self'} | '$3'] end.
+                                                                    #xqAxisStep{} -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} , '$3'];
+                                                                    _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} | '$3'] end;
+                                                                   _ -> ['$1',#xqAxisStep{id = next_id(),axis = 'descendant-or-self'} | '$3'] end.
 'RelativePathExpr'       -> 'StepExpr' :  ['$1'].
 %% case '$1' of 
 %%                                              #xqAxisStep{} ->
@@ -1118,15 +1118,15 @@ end.
 %%    next       :: #xqAxisStep{}
 %% }).
 % [111]    AxisStep    ::=      (ReverseStep | ForwardStep) PredicateList 
-'AxisStep'               -> 'ReverseStep' 'PredicateList' : #xqAxisStep{direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
-'AxisStep'               -> 'ReverseStep'                 : #xqAxisStep{direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
-'AxisStep'               -> 'ForwardStep' 'PredicateList' : #xqAxisStep{direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
-'AxisStep'               -> 'ForwardStep'                 : #xqAxisStep{direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
+'AxisStep'               -> 'ReverseStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
+'AxisStep'               -> 'ReverseStep'                 : #xqAxisStep{id = next_id(),direction = reverse, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
+'AxisStep'               -> 'ForwardStep' 'PredicateList' : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = '$2'}.
+'AxisStep'               -> 'ForwardStep'                 : #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []}.
 %%                                                             case element(1,'$1') of
 %%                                                                forward ->
-%%                                                                   #xqAxisStep{direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
+%%                                                                   #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
 %%                                                                reverse ->
-%%                                                                   #xqAxisStep{direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
+%%                                                                   #xqAxisStep{id = next_id(),direction = forward, axis = element(1,'$1'), node_test = element(2,'$1'), predicates = []};
 %%                                                                _ ->
 %%                                                                   '$1'
 %%                                                             end.
@@ -1825,7 +1825,7 @@ qname(attwildcard, Q) ->
 
 qname(nametest, {qname,default,default,Ln}) ->
    Ns = xqerl_context:get_default_element_type_namespace(parser),
-?dbg("Ns",Ns),
+%?dbg("Ns",Ns),
    {qname,Ns,<<>>,Ln};
 qname(nametest, Q) ->
    qname(wildcard, Q);

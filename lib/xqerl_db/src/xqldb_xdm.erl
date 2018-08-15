@@ -683,7 +683,7 @@ string_value(?DOC,Ids) when is_list(Ids) ->
                 ?CMT -> 
                    get_text_value(__Pos, __Len, __Comment);
                 ?PIN -> 
-                   string:trim(get_text_value(__Pos, __Len, __Data),trailing)
+                   string:trim(get_text_value(__Pos, __Len, __Data),leading)
              end
        end,
    lists:map(F, Ids);
@@ -1052,15 +1052,42 @@ comment_descendant_or_selfs(?DOC,Ids) ->
 
 following_siblings(?DOC,Ids) ->
    F = fun O(I) ->
-             case ?node_get(I) of
-                ?NOD when __Nxt > I,
-                          <<?nxt(__Nxt)>> =/= <<255,255,255,255>> ->
-                   [__Nxt|O(__Nxt)];
-                _ ->
-                   []
-             end
+              case cached(?FUNCTION_NAME,?DOC,I) of
+                 undefined ->
+                    List = case ?node_get(I) of
+                              ?NOD when __Nxt > I,
+                                        <<?nxt(__Nxt)>> =/= <<255,255,255,255>> ->
+                                 [__Nxt|O(__Nxt)];
+                              _ ->
+                                 []
+                           end,
+                    add_to_cache(?FUNCTION_NAME,?DOC,I,List),
+                    List;
+                 R ->
+                    R
+              end
        end,
    lists:map(F, Ids).
+
+following_sibling_nodes(?DOC,Ids) ->
+   F = fun O(I) ->
+              case cached(?FUNCTION_NAME,?DOC,I) of
+                 undefined ->
+                    List = case ?node_get(I) of
+                              ?NOD when __Nxt > I,
+                                        <<?nxt(__Nxt)>> =/= <<255,255,255,255>> ->
+                                 [{__Nxt,?node_get(__Nxt)}|O(__Nxt)];
+                              _ ->
+                                 []
+                           end,
+                    add_to_cache(?FUNCTION_NAME,?DOC,I,List),
+                    List;
+                 R ->
+                    R
+              end
+       end,
+   lists:map(F, Ids).
+
 element_following_siblings(?DOC,Ids) ->
    F = fun O(I) ->
              case ?node_get(I) of
@@ -1090,7 +1117,9 @@ named_element_following_siblings(?DOC,Ids,{Ns,Ln}) ->
       case cached(?FUNCTION_NAME,?DOC,I,{Ns,Ln}) of
          undefined ->
             Resp = begin
+                      %[S] = following_sibling_nodes(?DOC, [I]),
                       [S] = following_siblings(?DOC, [I]),
+                      %f_named_element_nodes(?DOC, S, {Ns,Ln})
                       f_named_element_nodes(?DOC, S, {Ns,Ln})
                    end,
             add_to_cache(?FUNCTION_NAME,?DOC,I,{Ns,Ln},Resp),
@@ -1306,11 +1335,21 @@ f_named_element_nodes(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
          []
    end;
 f_named_element_nodes(_,[],_) -> [];
-f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) ->
+f_named_element_nodes(?DOC,Ids,{any,any}) ->
+   f_element_nodes(?DOC,Ids);
+f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) when is_integer(I) ->
    case ?node_get(I) of
       ?ELM when Ln == any orelse __Ln == Ln,
                 Ns == any orelse __Ns == Ns ->
          [I|f_named_element_nodes(?DOC,T,{Ns,Ln})];
+      _ ->
+         f_named_element_nodes(?DOC,T,{Ns,Ln})
+   end;
+f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) ->
+   case I of
+      {Id,?ELM} when Ln == any ; __Ln == Ln,
+                Ns == any ; __Ns == Ns ->
+         [Id|f_named_element_nodes(?DOC,T,{Ns,Ln})];
       _ ->
          f_named_element_nodes(?DOC,T,{Ns,Ln})
    end.

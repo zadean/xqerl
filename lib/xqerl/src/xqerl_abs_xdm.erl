@@ -598,7 +598,7 @@ generate_preds(Ctx,Source,[{predicate,#xqAtomicValue{value = false}}]) ->
    generate_preds(Ctx,Filt,[]);
 
 % path value = < > something?
-generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {path_expr,Path}}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {path_expr,Path}}}|Preds] = P) ->
    try
      %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
@@ -623,10 +623,59 @@ generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, {path_expr,Path}}}|
       generate_preds(Ctx,Filt,Preds)
    catch
       _:_ ->
+         ?dbg("Unknown predicate",P),
+         nope
+   end;
+generate_preds(Ctx,Source,[{predicate,{Op,A,{sequence,[Sing]}}}|Preds]) ->
+   generate_preds(Ctx,Source,[{predicate,{Op,A,Sing}}|Preds]);
+
+generate_preds(Ctx,Source,[{predicate,{Op,#xqAxisStep{} = A, #xqAtomicValue{} = AVal}}|Preds] = P) ->
+   try
+     %?dbg("Preds left",Preds),
+      PathVar = {var,?LINE,next_var_name()},
+      {Cnt,Gens} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,[A,atomize],100,[]),
+      %{Cnt1,Gens1} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,Path++[atomize],100,[]),
+      NewVarName = var_name(Cnt),
+      Body = {lc,?LINE,{var,?LINE,NewVarName},Gens},
+      %NewVarName1 = var_name(Cnt1),
+      %Body1 = {lc,?LINE,{var,?LINE,NewVarName1},Gens1},
+      Same = case Op of
+                'eq' -> ?P("xqerl_operators:equal(_@Body,_@AVal@)");
+                'lt' -> ?P("xqerl_operators:less_than(_@Body,_@AVal@)");
+                'le' -> ?P("xqerl_operators:less_than_eq(_@Body,_@AVal@)");
+                'gt' -> ?P("xqerl_operators:greater_than(_@Body,_@AVal@)");
+                'ge' -> ?P("xqerl_operators:greater_than_eq(_@Body,_@AVal@)");
+                'ne' -> ?P("xqerl_operators:not_equal(_@Body,_@AVal@)");
+                _ ->
+                   ?P("xqerl_operators:general_compare('@Op@',_@Body,_@AVal@)")
+             end,
+      BoolFun = ?P("fun(_@PathVar) -> xqerl_operators:eff_bool_val(_@Same) end"),
+      Filt = pred(Source, BoolFun),
+      generate_preds(Ctx,Filt,Preds)
+   catch
+      _:_ ->
+         ?dbg("Unknown predicate",P),
          nope
    end;
 
-generate_preds(_Ctx,_Source,[{predicate,{_Op,#xqAxisStep{} = _A, {variable,_V}}}|_Preds]) ->
+generate_preds(Ctx,Source,[{predicate,?FN_UPDATE(<<"empty">>,[#xqAxisStep{} = A])}|Preds] = P) ->
+   try
+     %?dbg("Preds left",Preds),
+      PathVar = {var,?LINE,next_var_name()},
+      {Cnt,Gens} = compile_path_statement(Ctx, {cons,?LINE,PathVar,{nil,?LINE}} ,[A],100,[]),
+      NewVarName = var_name(Cnt),
+      Body = {lc,?LINE,{var,?LINE,NewVarName},Gens},
+      BoolFun = ?P("fun(_@PathVar) -> _@Body == [] end"),
+      Filt = pred(Source, BoolFun),
+      generate_preds(Ctx,Filt,Preds)
+   catch
+      _:_ ->
+         ?dbg("Unknown predicate",P),
+         nope
+   end;
+
+generate_preds(_Ctx,_Source,[{predicate,{_Op,#xqAxisStep{} = _A, {variable,_V}}}|_Preds] = P) ->
+   ?dbg("Unknown predicate",P),
    nope;
 %%    B = {var,?LINE,V},
 %%    try
@@ -654,7 +703,7 @@ generate_preds(_Ctx,_Source,[{predicate,{_Op,#xqAxisStep{} = _A, {variable,_V}}}
 %%    end;
 
 % does the path predicate exist?
-generate_preds(Ctx,Source,[{predicate,{path_expr,Path}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{path_expr,Path}}|Preds] = P) ->
    try
      %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
@@ -666,10 +715,11 @@ generate_preds(Ctx,Source,[{predicate,{path_expr,Path}}|Preds]) ->
       generate_preds(Ctx,Filt,Preds)
    catch
       _:_ ->
+         ?dbg("Unknown predicate",P),
          nope
    end;
 
-generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds] = P) ->
    try
      %?dbg("Preds left",Preds),
       PathVar = {var,?LINE,next_var_name()},
@@ -681,6 +731,7 @@ generate_preds(Ctx,Source,[{predicate,#xqAxisStep{} = Path}|Preds]) ->
       generate_preds(Ctx,Filt,Preds)
    catch
       _:_ ->
+         ?dbg("Unknown predicate",P),
          nope
    end;
 
@@ -694,11 +745,17 @@ generate_preds(Ctx,Source,[{predicate,?FN_MATCH(<<"lang">>)}|Preds]) ->
    generate_preds(Ctx,Filt,Preds);
 
 generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH(<<"position">>), 
+                                       #xqAtomicValue{value = #xsDecimal{int = Val, scf = 0}}}}|Preds]) 
+   when Op =/= 'and',
+        Op =/= 'or',
+        is_integer(Val) ->
+   Filt = pos_pred(Source, ?P("{'@Op@',_@Val@}")),
+   generate_preds(Ctx,Filt,Preds);
+generate_preds(Ctx,Source,[{predicate,{Op,?FN_MATCH(<<"position">>), 
                                        #xqAtomicValue{value = Val}}}|Preds]) 
    when Op =/= 'and',
-        Op =/= 'or' ->
-  %?dbg("Preds left",Preds),
-  %?dbg("Preds left",Op),
+        Op =/= 'or',
+        is_integer(Val) ->
    Filt = pos_pred(Source, ?P("{'@Op@',_@Val@}")),
    generate_preds(Ctx,Filt,Preds);
 
@@ -710,6 +767,22 @@ generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH(<<"node-name">>),#xqAtomicV
    Filt = pred(Source, BoolFun),
    generate_preds(Ctx,Filt,Preds);
 
+generate_preds(Ctx,Source,[{predicate,{'=',?FN_MATCH(<<"name">>),#xqAtomicValue{} = NodeName}}|Preds]) ->
+  %?dbg("Preds left",Preds),
+   PathVar = {var,?LINE,next_var_name()},
+   Body = has_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
+   BoolFun = ?P("fun(_@PathVar) -> xqerl_operators:eff_bool_val(_@Body) end"),
+   Filt = pred(Source, BoolFun),
+   generate_preds(Ctx,Filt,Preds);
+
+generate_preds(Ctx,Source,[{predicate,{'!=',?FN_MATCH(<<"name">>),#xqAtomicValue{} = NodeName}}|Preds]) ->
+  %?dbg("Preds left",Preds),
+   PathVar = {var,?LINE,next_var_name()},
+   Body = has_name(?P("xqldb_xdm:node_name(Doc,_@PathVar)"),NodeName),
+   BoolFun = ?P("fun(_@PathVar) -> not xqerl_operators:eff_bool_val(_@Body) end"),
+   Filt = pred(Source, BoolFun),
+   generate_preds(Ctx,Filt,Preds);
+
 generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH(<<"node-name">>),#xqAtomicValue{} = NodeName}}|Preds]) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
@@ -718,12 +791,13 @@ generate_preds(Ctx,Source,[{predicate,{'eq',?FN_MATCH(<<"node-name">>),#xqAtomic
    Filt = pred(Source, BoolFun),
    generate_preds(Ctx,Filt,Preds);
 
-generate_preds(Ctx,Source,[{predicate,{'or',A,B}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{'or',A,B}}|Preds] = P) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Bool1 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,A}]),
    Bool2 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,B}]),
    if Bool1 == nope orelse Bool2 == nope ->
+         ?dbg("Unknown predicate",P),
          nope;
       true ->
          Body = ?P("xqerl_operators:eff_bool_val(_@Bool1 =/= []) orelse xqerl_operators:eff_bool_val(_@Bool2 =/= [])"),
@@ -732,13 +806,14 @@ generate_preds(Ctx,Source,[{predicate,{'or',A,B}}|Preds]) ->
          generate_preds(Ctx,Filt,Preds)
    end;
 
-generate_preds(Ctx,Source,[{predicate,{'and',A,B}}|Preds]) ->
+generate_preds(Ctx,Source,[{predicate,{'and',A,B}}|Preds] = P) ->
   %?dbg("Preds left",Preds),
    PathVar = {var,?LINE,next_var_name()},
    Bool1 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,A}]),
    Bool2 = generate_preds(Ctx,?P("[_@PathVar]"),[{predicate,B}]),
   %?dbg("Preds left",{Bool1,Bool2}),
    if Bool1 == nope orelse Bool2 == nope ->
+         ?dbg("Unknown predicate",P),
          nope;
       true ->
          Body = ?P("xqerl_operators:eff_bool_val(_@Bool1 =/= []) andalso xqerl_operators:eff_bool_val(_@Bool2 =/= [])"),
@@ -747,7 +822,8 @@ generate_preds(Ctx,Source,[{predicate,{'and',A,B}}|Preds]) ->
          generate_preds(Ctx,Filt,Preds)
    end;
 
-generate_preds(_,_,_) ->
+generate_preds(_,_,P) ->
+   ?dbg("Unknown predicate",P),
    nope.
 
 pos_pred(SourceList,PosTuple) ->
@@ -773,6 +849,18 @@ has_node_name(Arg,Source) ->
          {Ns0,_,Ln1} = _@Arg, Ns1 = case  Ns0 of <<>> -> 'no-namespace'; _ -> Ns0 end, 
          #xqAtomicValue{value = #qname{namespace = Ns2, local_name = Ln2}} = _@V,
          Ns1 == Ns2 andalso Ln1 == Ln2
+      end").
+
+has_name(Arg,Source) ->
+   V = case Source of
+          %{variable,Vr} -> merl:var(Vr);
+          _ -> Source
+       end,
+   ?P("begin 
+         {Ns0,_,Ln1} = _@Arg, Ns1 = case  Ns0 of <<>> -> 'no-namespace'; _ -> Ns0 end, 
+         xqerl_operators:equal(
+         xqerl_types:cast_as(#xqAtomicValue{value = #qname{namespace = Ns1, local_name = Ln1}},'xs:string'),
+         _@V@)
       end").
 
 

@@ -449,7 +449,7 @@ build_string_from_format_1([{s,Str}|Rest]) ->
 
 string_to_date(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
       Offset = tz_bin_to_offset(Rest),
       Rec = #xsDateTime{sign = Sign,
@@ -478,7 +478,7 @@ string_to_date(String) ->
 
 string_to_dateTime(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
       %io:format("~p~n",[Rest]),
       {Hour,Min,Sec,Rest1} = time_bin_to_hms(Rest),
@@ -491,25 +491,27 @@ string_to_dateTime(String) ->
                         minute = Min,
                         second = Sec, 
                         offset = Offset},
-      Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
-      Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
       SecFlt = xqerl_numeric:double(Sec),
       if Hour   == 24 andalso Min == 0 andalso SecFlt == 0 -> 
             ZeroDur = string_to_dayTimeDuration(<<"PT0S">>),
-            xqerl_operators:add(Dt, ?xav('xs:dayTimeDuration', ZeroDur));
+            Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
+            Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
+            xqerl_operators:add(Dt, ZeroDur);
          Hour   >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
          Min    >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
          SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
          Year > ?MAXYEAR -> ?err('FODT0001');
          true ->
-            Dt
+            Str = xqerl_datetime:to_string(Rec,'xs:dateTime'),
+            ?xav('xs:dateTime', set_date_string(Rec, Str))
       end
    catch ?THROW(E);
-         _:_ -> ?err('FORG0001')
+         _:_ ->
+            ?err('FORG0001')
    end.
 
 string_to_dateTimeStamp(String) ->
-   Bin = string:trim(String),
+   Bin = xqerl_lib:trim(String),
    {Sign,Year,Mon,Day,Rest} = date_bin_to_ymd(Bin),
    {Hour,Min,Sec,Rest1} = time_bin_to_hms(Rest),
    Offset = tz_bin_to_offset(Rest1),
@@ -527,7 +529,7 @@ string_to_dateTimeStamp(String) ->
          Dt = ?xav('xs:dateTime', set_date_string(Rec, Str)),
          if Hour == 24 ->
                OneDur = string_to_dayTimeDuration(<<"P1D">>),
-               xqerl_operators:add(Dt, ?xav('xs:dayTimeDuration', OneDur));
+               xqerl_operators:add(Dt, OneDur);
             Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
             Min  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
             Sec  >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
@@ -539,7 +541,7 @@ string_to_dateTimeStamp(String) ->
 
 string_to_dayTimeDuration(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign,Day,Hour,Min,Sec} = daytimedur_bin_to_dhms(Bin),
       Rec = #xsDateTime{sign   = Sign,
                         year   = 0, 
@@ -563,7 +565,7 @@ string_to_dayTimeDuration(String) ->
 
 string_to_duration(String) -> 
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign,Year,Mon,Day,Hour,Min,Sec} = dur_bin_to_ymdhms(Bin),
       Rec = #xsDateTime{sign   = Sign,
                         year   = Year, 
@@ -581,7 +583,7 @@ string_to_duration(String) ->
 
 string_to_gDay(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       <<$-,$-,$-,D1,D2,Rest/binary>> = Bin,
       Offset = tz_bin_to_offset(Rest),
       Day = list_to_integer([D1,D2]),
@@ -604,7 +606,7 @@ string_to_gDay(String) ->
 
 string_to_gMonth(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       <<$-,$-,M1,M2,Rest/binary>> = Bin,
       Offset = tz_bin_to_offset(Rest),
       Mon = list_to_integer([M1,M2]),
@@ -627,7 +629,7 @@ string_to_gMonth(String) ->
 
 string_to_gMonthDay(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       <<$-,$-,M1,M2,$-,D1,D2,Rest/binary>> = Bin,
       Offset = tz_bin_to_offset(Rest),
       Mon = list_to_integer([M1,M2]),
@@ -655,7 +657,7 @@ string_to_gMonthDay(String) ->
 %% a dynamic error [err:FODT0001] is raised.
 string_to_gYear(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign, Rest} = get_sign(Bin),
       {Year, Rest1} = get_gyear(Rest),
       Offset = tz_bin_to_offset(Rest1),
@@ -682,7 +684,7 @@ string_to_gYear(String) ->
 
 string_to_gYearMonth(String) -> % MAYBE castable
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign, Rest} = get_sign(Bin),
       {Year, Rest1} = get_year(Rest),
       <<M1,M2,Rest2/binary>> = Rest1,
@@ -710,32 +712,37 @@ string_to_gYearMonth(String) -> % MAYBE castable
    end.
 
 string_to_time(String) ->
-   %24:00:00
-   Bin = <<"T", (string:trim(String))/binary >>,
-   {Hour,Min,Sec,Rest} = time_bin_to_hms(Bin),
-   Offset = tz_bin_to_offset(Rest),
-   SecFlt = xqerl_numeric:float(Sec),
-   Hour1 = if Hour == 24 andalso Min == 0 andalso SecFlt == 0 ->
-                 0;
-              Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-              true ->
-                 Hour
-           end,
-   Rec = #xsDateTime{hour   = Hour1,
-                     minute = Min,
-                     second = Sec, 
-                     offset = Offset},
-   if Hour1  >= 24 ; % only no min/sec is okay with hour 24
-      Min    >= 60 ; % only no min/sec is okay with hour 24
-      SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
-      true ->
-         Str = xqerl_datetime:to_string(Rec,'xs:time'),
-         ?xav('xs:time', set_date_string(Rec, Str))
+   try
+      %24:00:00
+      Bin = <<"T", (xqerl_lib:trim(String))/binary >>,
+      {Hour,Min,Sec,Rest} = time_bin_to_hms(Bin),
+      Offset = tz_bin_to_offset(Rest),
+      SecFlt = xqerl_numeric:float(Sec),
+      Hour1 = if Hour == 24 andalso Min == 0 andalso SecFlt == 0 ->
+                    0;
+                 Hour >= 24 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
+                 true ->
+                    Hour
+              end,
+      Rec = #xsDateTime{hour   = Hour1,
+                        minute = Min,
+                        second = Sec, 
+                        offset = Offset},
+      if Hour1  >= 24 ; % only no min/sec is okay with hour 24
+         Min    >= 60 ; % only no min/sec is okay with hour 24
+         SecFlt >= 60 -> ?err('FORG0001'); % only no min/sec is okay with hour 24
+         true ->
+            Str = xqerl_datetime:to_string(Rec,'xs:time'),
+            ?xav('xs:time', set_date_string(Rec, Str))
+      end
+   catch
+      ?THROW(E);
+      _:_ -> ?err('FORG0001')
    end.
 
 string_to_yearMonthDuration(String) ->
    try
-      Bin = string:trim(String),
+      Bin = xqerl_lib:trim(String),
       {Sign, Bin1} = case Bin of
                         <<$-,$P,R/binary>> ->
                            {'-', <<R/binary>>};
@@ -787,19 +794,18 @@ tz_bin_to_offset(Bin) ->
                   if abs(Ho) < 14 orelse (abs(Ho) == 14 andalso Mio == 00) ->
                         #off_set{sign = Sign, hour = abs(Ho), min = Mio};
                      true ->
-                        ?err('FORG0001')
+                        throw({error,bad_offset})
                   end;
                true ->
-                  ?err('FORG0001')
+                  throw({error,bad_offset})
             end;
          _ ->
-            ?err('FORG0001')
+            throw({error,bad_offset})
       end
    catch
       ?THROW(E);
-      _:badarg -> ?err('FORG0001');
       _:_ -> 
-         ?err('FODT0001')
+         throw({error,bad_offset})
    end.  
 
 
@@ -989,7 +995,7 @@ date_bin_to_ymd(Bin) ->
       {Sign,Year,Mon,Day,Bin4}
    catch
       _:_ -> 
-         ?err('FODT0001')
+         throw({error,bad_ymd})
    end.
 
 get_sign(<<$-,Rest/binary>>) ->
@@ -999,16 +1005,12 @@ get_sign(Rest) ->
 
 get_year(Bin1) ->
    {YearDigits,Bin2} = get_digits_til_minus(Bin1,[]),
-   if length(YearDigits) < 4 ->
-         throw({error,bad_year});
-      true ->
-         Year = list_to_integer(YearDigits),
-         {Year, Bin2}
-   end.
+   Year = list_to_integer(YearDigits),
+   {Year, Bin2}.
 
 get_gyear(Bin1) ->
-   {YearDigits,Bin2} = get_digits_til_p(Bin1,[]),
-   if length(YearDigits) < 4 ->
+   {YearDigits,Bin2} = get_digits_with_minus(Bin1,[]),
+   if length(YearDigits) =/= 4 ->
          throw({error,bad_year});
       true ->
          {list_to_integer(YearDigits), Bin2}
@@ -1024,6 +1026,16 @@ get_day(<<D1,D2,Rest/binary>>) when ?digit(D1), ?digit(D2) ->
 get_day(_) ->
    throw({error,bad_day}). % must be Monday
    
+
+
+get_digits_with_minus(<<C,$-,Rest/binary>>, Acc) when ?digit(C)->
+   {lists:reverse([C|Acc]), <<$-,Rest/binary>>};
+get_digits_with_minus(<<C,Rest/binary>>, Acc) when ?digit(C)->
+   get_digits_with_minus(Rest,[C|Acc]);
+get_digits_with_minus(<<Rest/binary>>, Acc) ->
+   {lists:reverse(Acc), Rest};
+get_digits_with_minus(_,_) ->
+   throw({error,bad_digits}).
 
 get_digits_til_minus(<<C,$-,Rest/binary>>, Acc) when ?digit(C)->
    {lists:reverse([C|Acc]), Rest};

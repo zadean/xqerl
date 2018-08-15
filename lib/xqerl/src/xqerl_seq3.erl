@@ -144,8 +144,8 @@ path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = length(List),
    %?dbg("List",Size),
-   Mapped = ?MODULE:flatten(do_path_map(Fun, List,1,Size)),
-   %?dbg("Mapped",Mapped),
+   Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
+%?dbg("Mapped",Mapped),
    case Mapped of
       [#xqNode{}|_] ->
          U = lists:usort(Mapped),
@@ -160,7 +160,6 @@ path_map(#xqFunction{body = Fun},List) ->
 
 do_path_map(_,[],_,_) -> [];
 do_path_map(F,[H|T],P,S) ->
-   %?dbg("H,P,S",{H,P,S}),
    [F(H,P,S)|do_path_map(F,T,P + 1,S)].
 
    
@@ -428,7 +427,7 @@ pformap(Fun,List) ->
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
-   after 15000 -> error
+   after 60000 -> error
    end.
 
 pformap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
@@ -753,8 +752,8 @@ get_unique_values1([#xqAtomicValue{value = F}|T]) when is_float(F) ->
 get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
-position_filter(_Ctx, #xqAtomicValue{type = 'xs:integer',
-                                     value = I}, Seq) when is_list(Seq) ->
+position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
+                                                           is_integer(I) ->
    nth(I, Seq);
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    Size = ?MODULE:size(Seq0),
@@ -821,13 +820,13 @@ filter1(Ctx, Fun, [H|T], Pos) ->
    NextPos = Pos + 1,
    Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
    try Fun(Ctx1) of
-      [#xqAtomicValue{type = NType, value = FPos}] when ?numeric(NType) ->
+      [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
          if FPos == Pos ->
                [H|filter1(Ctx, Fun, T, NextPos)];
             true ->
                filter1(Ctx, Fun, T, NextPos)
          end;
-      #xqAtomicValue{type = NType, value = FPos} when ?numeric(NType) ->
+      #xqAtomicValue{type = NType, value = FPos} when ?xs_numeric(NType) ->
          if FPos == Pos ->
                [H|filter1(Ctx, Fun, T, NextPos)];
             true ->
@@ -903,8 +902,11 @@ get_seq_type1([],Curr) ->
 get_seq_type1([H|T],Curr) ->
    HType = get_item_type(H),
    HBType = xqerl_btypes:get_type(HType),
-   case xqerl_btypes:is_numeric(HBType) of
-      true ->
+   if HBType == Curr ->
+         get_seq_type1(T,Curr);
+      HType == 'xs:double' orelse
+      HType == 'xs:float' orelse
+      ?xs_decimal(HType) ->
          case xqerl_btypes:is_numeric(Curr) of
             true ->
                New = HBType band Curr,
@@ -917,7 +919,7 @@ get_seq_type1([H|T],Curr) ->
             _ ->
                get_seq_type1(T,HBType band Curr)
          end;
-      _ ->
+      true ->
          get_seq_type1(T,HBType band Curr)
    end.
 

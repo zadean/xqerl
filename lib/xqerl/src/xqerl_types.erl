@@ -47,7 +47,7 @@
 -export([subtype_of/2]).
 -export([seq_type_val_match/2]).
 -export([is_ns_sensitive/1]).
--export([is_numeric_type/1]).
+
 -export([is_date_type/1]).
 
 -export([scan_ncname/1]).
@@ -63,25 +63,6 @@
 -define(xav(T,V),  #xqAtomicValue{type = T, value = V}).
 -define(ERROR_MATCH(E),
         _:#xqError{name = #xqAtomicValue{value=#qname{local_name = E}}}).
-
-is_numeric_type('xs:double') -> true;
-is_numeric_type('xs:numeric') -> true;
-is_numeric_type('xs:decimal') -> true;
-is_numeric_type('xs:float') -> true;
-is_numeric_type('xs:integer') -> true;
-is_numeric_type('xs:unsignedShort') -> true;
-is_numeric_type('xs:unsignedLong') -> true;
-is_numeric_type('xs:unsignedInt') -> true;
-is_numeric_type('xs:unsignedByte') -> true;
-is_numeric_type('xs:short') -> true;
-is_numeric_type('xs:positiveInteger') -> true;
-is_numeric_type('xs:nonPositiveInteger') -> true;
-is_numeric_type('xs:nonNegativeInteger') -> true;
-is_numeric_type('xs:negativeInteger') -> true;
-is_numeric_type('xs:long') -> true;
-is_numeric_type('xs:int') -> true;
-is_numeric_type('xs:byte') -> true;
-is_numeric_type(_Type) -> false.
 
 is_date_type('xs:duration')               -> true;
 is_date_type('xs:dateTime')               -> true;
@@ -121,6 +102,7 @@ return_value([]) -> ?seq:empty();
 %% return_value(#xqNode{doc = Doc, node = Node}) when is_pid(Doc) ->
 %%    {ok,Bin} = xqldb_doc:export(Doc),
 %%    {Bin,Node};
+%return_value(#xqElementNode{} = N) -> xqerl_node:new_fragment([], N);
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
 return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
@@ -240,7 +222,7 @@ cast_as_seq(#xqAtomicValue{type = 'xs:untypedAtomic'} = Av,
    cast_as(Av,Type);
 cast_as_seq(#xqAtomicValue{type = AType} = Av, 
             #xqSeqType{type = Type}) 
-   when ?numeric(AType), ?numeric(Type) ->
+   when ?xs_numeric(AType), ?xs_numeric(Type) ->
    cast_as(Av,Type);
 cast_as_seq(#xqAtomicValue{type = AType} = Av, 
             #xqSeqType{type = Type}) ->
@@ -541,7 +523,7 @@ promote(#xqRange{} = R, #xqSeqType{} = T) ->
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    At;
 promote(#xqNode{} = N,#xqSeqType{type = T}) when T == 'xs:anyAtomicType';
-                                                 ?string(T) ->
+                                                 ?xs_string(T) ->
    atomize(N);
 promote(#xqNode{} = N,#xqSeqType{} = T) ->
    case instance_of(N, T) of
@@ -564,7 +546,7 @@ promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
          end,
    lists:map(Fun, List);
 promote(#xqAtomicValue{type = Num1} = At,#xqSeqType{type = Num2}) 
-   when ?numeric(Num1) andalso ?numeric(Num2) ->
+   when ?xs_numeric(Num1) andalso ?xs_numeric(Num2) ->
    %?dbg("{Num1,Num2}",{Num1,Num2}),
    case subtype_of(Num1,Num2) of
       true ->
@@ -647,7 +629,7 @@ promote(At,#xqSeqType{type = TType} = Type) ->
          ?err('XPTY0004');
       _ when InType =:= 'xs:untypedAtomic' ->
          try cast_as_seq(At,Type) catch _:_ -> ?err('FORG0001') end;
-      _ when ?numeric(InType) andalso ?numeric(TType) ->
+      _ when ?xs_numeric(InType) andalso ?xs_numeric(TType) ->
          cast_as_seq(At,Type);
       _ ->
          try cast_as_seq(At,Type) catch _:_ -> ?err('FORG0001') end
@@ -898,15 +880,16 @@ try_cast(Av, Type, Namespaces) ->
       _:E -> throw(E)            
    end.
 
+%TODO slow fix
 instance_of(_, #xqSeqType{type = item, occur = zero_or_many}) ->
    ?true;
 instance_of(#xqRange{cnt = C}, #xqSeqType{type = Type,
                                           occur = TOccur})
-   when C =:= 1, ?integer(Type) orelse Type == item, TOccur == one;
-        C =:= 1, ?integer(Type) orelse Type == item, TOccur == zero_or_one;
-        C =:= 0, ?integer(Type) orelse Type == item, TOccur == zero_or_one; 
-        C > 0, ?integer(Type) orelse Type == item, TOccur == one_or_many; 
-        ?integer(Type) orelse Type == item, TOccur == zero_or_many ->
+   when C =:= 1, ?xs_integer(Type) orelse Type == item, TOccur == one;
+        C =:= 1, ?xs_integer(Type) orelse Type == item, TOccur == zero_or_one;
+        C =:= 0, ?xs_integer(Type) orelse Type == item, TOccur == zero_or_one; 
+        C > 0, ?xs_integer(Type) orelse Type == item, TOccur == one_or_many; 
+        ?xs_integer(Type) orelse Type == item, TOccur == zero_or_many ->
    %?dbg("range",true),
    ?true;
 instance_of(#xqRange{}, _) ->
@@ -971,14 +954,15 @@ instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqKindTest{}}) ->
 instance_of(#xqAtomicValue{}, #xqSeqType{type = #xqFunTest{}}) ->
    ?false;
 instance_of(#xqAtomicValue{type = IType}, 
+            #xqSeqType{type = IType}) -> ?true;
+instance_of(#xqAtomicValue{type = IType}, 
             #xqSeqType{type = TType, occur = TOccur}) 
    when TOccur == one;
         TOccur == one_or_many;
         TOccur == zero_or_one;
-        TOccur == zero_or_many -> 
-   BIType = xqerl_btypes:get_type(IType),
-   BTType = xqerl_btypes:get_type(TType),
-   ?xav('xs:boolean',xqerl_btypes:can_substitute(BIType, BTType));
+        TOccur == zero_or_many ->
+   simple_type_check(IType, TType);
+
 instance_of([Seq], Type) ->
    instance_of(Seq, Type);
 instance_of(Seq, #xqSeqType{type = TType, occur = TOccur}) 
@@ -994,6 +978,29 @@ instance_of(Seq, #xqSeqType{type = TType, occur = TOccur})
    ?xav('xs:boolean',instance_of1(Seq, TType));
 instance_of(_,_) ->
    ?false.
+
+simple_type_check(I, 'xs:anyAtomicType') when ?xs_anyAtomicType(I) -> ?true;
+simple_type_check(I, 'xs:ENTITY') when ?xs_ENTITY(I) -> ?true;
+simple_type_check(I, 'xs:IDREF') when ?xs_IDREF(I) -> ?true;
+simple_type_check(I, 'xs:NCName') when ?xs_NCName(I) -> ?true;
+simple_type_check(I, 'xs:NMTOKEN') when ?xs_NMTOKEN(I) -> ?true;
+simple_type_check(I, 'xs:Name') when ?xs_Name(I) -> ?true;
+simple_type_check(I, 'xs:decimal') when ?xs_decimal(I) -> ?true;
+simple_type_check(I, 'xs:duration') when ?xs_duration(I) -> ?true;
+simple_type_check(I, 'xs:int') when ?xs_int(I) -> ?true;
+simple_type_check(I, 'xs:integer') when ?xs_integer(I) -> ?true;
+simple_type_check(I, 'xs:long') when ?xs_long(I) -> ?true;
+simple_type_check(I, 'xs:nonNegativeInteger') when ?xs_nonNegativeInteger(I) -> ?true;
+simple_type_check(I, 'xs:nonPositiveInteger') when ?xs_nonPositiveInteger(I) -> ?true;
+simple_type_check(I, 'xs:normalizedString') when ?xs_normalizedString(I) -> ?true;
+simple_type_check(I, 'xs:numeric') when ?xs_numeric(I) -> ?true;
+simple_type_check(I, 'xs:short') when ?xs_short(I) -> ?true;
+simple_type_check(I, 'xs:string') when ?xs_string(I) -> ?true;
+simple_type_check(I, 'xs:token') when ?xs_token(I) -> ?true;
+simple_type_check(I, 'xs:unsignedInt') when ?xs_unsignedInt(I) -> ?true;
+simple_type_check(I, 'xs:unsignedLong') when ?xs_unsignedLong(I) -> ?true;
+simple_type_check(I, 'xs:unsignedShort') when ?xs_unsignedShort(I) -> ?true;
+simple_type_check(_, _) -> ?false.
 
 check_param_types(_Params, any) -> true;
 check_param_types(Params, Params) -> true;
@@ -1035,7 +1042,7 @@ fix_ns(X) -> X.
 
 instance_of1(#xqAtomicValue{}, 'xs:anyAtomicType') -> true;
 instance_of1(#xqRange{}, 'xs:anyAtomicType') -> true;
-instance_of1(#xqRange{}, T) when ?integer(T) -> true;
+instance_of1(#xqRange{}, T) when ?xs_integer(T) -> true;
 instance_of1(#xqNode{}, #xqKindTest{kind = node}) ->
    true;
 instance_of1(#xqNode{node = [Node], doc = Doc}, 
@@ -1239,9 +1246,21 @@ instance_of1(Seq, Type) when is_list(Seq) ->
 instance_of1(Seq, Type) ->
    IType = get_item_type(Seq),
    TType = get_type(Type),
-   BIType = xqerl_btypes:get_type(IType),
-   BTType = xqerl_btypes:get_type(TType),
-   xqerl_btypes:can_substitute(BIType, BTType).
+   if IType == TType ->
+         true;
+      true ->
+         Key = {?MODULE,?FUNCTION_NAME,IType,TType},
+         case xqerl_lib:lget(Key) of
+            [] ->
+               BIType = xqerl_btypes:get_type(IType),
+               BTType = xqerl_btypes:get_type(TType),
+               Resp = xqerl_btypes:can_substitute(BIType, BTType),
+               xqerl_lib:lput(Key, Resp),
+               Resp;
+            Ok ->
+               Ok
+         end
+   end.
 
 node_qname(Node, Doc) ->
     {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
@@ -1412,7 +1431,7 @@ cast_as( [], 'xs:date') -> [];
 cast_as( [], 'xs:time') -> [];
 cast_as( [], 'xs:dateTime') -> [];
 cast_as( #xqAtomicValue{type = Type} = ST, 'xs:numeric' ) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    ST;
 cast_as( #xqAtomicValue{type = 'xs:untypedAtomic'} = ST, 'xs:numeric' ) ->
    cast_as(ST,'xs:double');
@@ -1816,9 +1835,9 @@ cast_as( ?xav('xs:string', Val), 'xs:anyURI' ) -> % MAYBE castable
          ?xav('xs:anyURI', Uri)
    end;
 cast_as( ?xav('xs:string', Val), 'xs:base64Binary' ) -> % MAYBE castable
-   ?xav('xs:base64Binary', str_to_b64bin(string:trim(Val)));
+   ?xav('xs:base64Binary', str_to_b64bin(xqerl_lib:trim(Val)));
 cast_as( ?xav('xs:string', Val0), 'xs:boolean' ) -> % MAYBE castable
-   Val = string:trim(Val0),
+   Val = xqerl_lib:trim(Val0),
    if Val == <<"true">>  -> ?true;
       Val == <<"false">> -> ?false;
       Val == <<"1">>     -> ?true;
@@ -1849,7 +1868,7 @@ cast_as( ?xav('xs:string', Val), 'xs:dayTimeDuration' ) -> % MAYBE castable
 %% algorithm and the choice between rounding and error behavior and is 
 %% implementation-defined.
 cast_as( ?xav('xs:string', Val1), 'xs:decimal' ) -> % MAYBE castable
-   Val = string:trim(Val1),
+   Val = xqerl_lib:trim(Val1),
    try
       NNum = xqerl_numeric:decimal(Val),
       ?xav('xs:decimal', NNum)
@@ -1894,7 +1913,7 @@ cast_as( ?xav('xs:string', Val), 'xs:gYearMonth' ) -> % MAYBE castable
 cast_as( ?xav('xs:string', ""), 'xs:hexBinary' ) -> % MAYBE castable
    ?xav('xs:hexBinary', <<>>);
 cast_as( ?xav('xs:string', Val), 'xs:hexBinary' ) -> % MAYBE castable
-   Val1 = string:trim(Val),
+   Val1 = xqerl_lib:trim(Val),
    case erlang:size(Val1) rem 2 =/= 0 orelse 
           [C || 
           <<C/utf8>> <= Val1,
@@ -1913,7 +1932,7 @@ cast_as( ?xav('xs:string', Val), 'xs:hexBinary' ) -> % MAYBE castable
    end;
 cast_as( ?xav('xs:string', Val), 'xs:integer' ) -> % MAYBE castable
    try
-      ?xav('xs:integer', binary_to_integer(string:trim(Val)))
+      ?xav('xs:integer', binary_to_integer(xqerl_lib:trim(Val)))
    catch
       _:_ -> ?err('FORG0001')
    end;
@@ -2235,12 +2254,12 @@ cast_as( ?xav(AType, <<"Q{", Rest/binary>>), 'xs:QName', _)
    [Ns,Local] = string:split(Rest, [$}]),
    ?xav('xs:QName', #qname{namespace = Ns,
                            prefix = <<>>,
-                           local_name = string:trim(Local)});   
+                           local_name = xqerl_lib:trim(Local)});   
 cast_as( ?xav(AType, Val), 'xs:QName', Namespaces) 
    when AType == 'xs:string';
         AType == 'xs:untypedAtomic'-> % MAYBE castable
    try
-      {Prefix, Local} = case scan_ncname(string:trim(Val)) of
+      {Prefix, Local} = case scan_ncname(xqerl_lib:trim(Val)) of
                               {P, L} -> {P, L};
                               L -> {<<>>, L}
                            end,

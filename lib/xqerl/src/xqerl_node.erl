@@ -869,7 +869,8 @@ merge_content([H1,#xqNode{} = Node|T], Acc) ->
    merge_content([H1|Content] ++ T, Acc);
 % empty strings ignored
 merge_content([#xqAtomicValue{type = Type, value = <<>>}|T], Acc) 
-   when Type =/= 'xs:untypedAtomic' ->
+   when Type =/= 'xs:untypedAtomic',
+        Type =/= 'xs:string' ->
    merge_content(T, Acc);
 merge_content([#xqAtomicValue{type = Type} = H|T], Acc) 
    when Type =/= 'xs:untypedAtomic' ->
@@ -1313,56 +1314,44 @@ to_xml(N) when is_list(N) ->
       M1 <- M >>;
 to_xml(#xqNode{doc = Doc, node = Node}) ->
    to_xml(Node, Doc);
-%% to_xml(#xqNode{doc = Doc, node = Node}) ->
-%%    {NewDoc,NewNode} = xqerl_xdm:copy(Doc, Node),
-%%    to_xml(NewNode, NewDoc);
 to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
 
 to_xml([Node], Doc) -> to_xml(Node, Doc);
 to_xml(Node, Doc) ->
    NodeKind = xqldb_doc:node_kind(Doc, Node),
-   if NodeKind == element ->
-         to_xml(int_element, Node, Doc);
-      true ->
-         to_xml(NodeKind, Node, Doc)
-   end.
+   EP = xqldb_name_server:get(<<>>),
+   EN = xqldb_namespace_server:get(<<>>),
+   to_xml(NodeKind, Node, Doc, #{EP => EN}).
+
+to_xml(Node, Doc, NsInScope) ->
+   NodeKind = xqldb_doc:node_kind(Doc, Node),
+   to_xml(NodeKind, Node, Doc, NsInScope).
 
 %% to_xml(fragment, _, Doc) ->
 %%    Children = xqldb_doc:roots(Doc),
 %%    lists:flatmap(fun(Child) ->
 %%                        to_xml(Child, Doc)
 %%                  end, Children);
-to_xml(document, Node, Doc) ->
+to_xml(document, Node, Doc, NsInScope) ->
    Children = xqldb_doc:children(Doc, Node),
-   << <<(to_xml(Child, Doc))/binary>> ||
+   << <<(to_xml(Child, Doc, NsInScope))/binary>> ||
       Child <- Children>>;
 
-to_xml(Element, Node, Doc) when Element == element;
-                                Element == int_element ->
+to_xml(element, Node, Doc, NsInScope) ->
    {ElemNs,Prefix,ElemLn} = xqldb_doc:node_name(Doc, Node),
    %?dbg("{ElemNs,Prefix,ElemLn}",{ElemNs,Prefix,ElemLn}),
    QName = #qname{namespace = ElemNs, prefix = Prefix, local_name = ElemLn},
 
-   Namespaces = if Element == element ->
-                      xqldb_doc:namespace_nodes(Doc, Node);
-                   true ->
-                      xqldb_doc:inscope_namespace_nodes(Doc, Node)
-                end,
+   Namespaces = xqldb_doc:inscope_namespace_nodes(Doc, Node),
+   %Namespaces = xqldb_doc:namespace_nodes(Doc, Node),
    %?dbg("Element",Element),
-   %?dbg("Namespaces",Namespaces),
+%?dbg("Namespaces",Namespaces),
    Attributes = xqldb_doc:attributes(Doc, Node),
    
    Children = xqldb_doc:children(Doc, Node),
 
-   NspStrFun = fun(Ns) when Element == element ->
-                     to_xml(namespace, Ns, Doc);
-                  (Ns) ->
-                     case to_xml(namespace, Ns, Doc) of
-                        <<" xmlns=\"\"">> -> <<>>;
-                        O -> 
-                           ?dbg("O",O),
-                           O
-                     end
+   NspStrFun = fun(Ns) ->
+                     to_xml(namespace, Ns, Doc, NsInScope)
                end,
    NspStr = << 
               <<(NspStrFun(Ns))/binary>> ||
@@ -1370,14 +1359,18 @@ to_xml(Element, Node, Doc) when Element == element;
             >>,
      
    AttStr = << 
-              <<(to_xml(attribute, Att, Doc))/binary>> ||
+              <<(to_xml(attribute, Att, Doc, NsInScope))/binary>> ||
               Att <- Attributes
             >>, 
-
+   
+   NsInScope2 = lists:foldl(
+                  fun({_,L,N},M) ->
+                        M#{L => N}
+                  end, NsInScope, Namespaces),
+   
    ChldStrFun = fun(C) ->
-                      %NodeKind = xqldb_doc:node_kind(Doc, C),
-                      to_xml(C,Doc)
-                      %to_xml(NodeKind,C,Doc)
+                      NodeKind = xqldb_doc:node_kind(Doc, C),
+                      to_xml(NodeKind,C,Doc, NsInScope2)
                 end,
    
    ChldStr = <<
@@ -1402,7 +1395,7 @@ to_xml(Element, Node, Doc) when Element == element;
            (ser_qname(QName))/binary,
            ">" >>
    end;
-to_xml(attribute,Node, Doc) ->
+to_xml(attribute,Node, Doc, _) ->
    StrV = xqldb_doc:string_value(Doc, Node),
    {Ns,Px,Ln} = xqldb_doc:node_name(Doc, Node),
    QName = #qname{namespace = Ns, prefix = Px, local_name = Ln},
@@ -1411,9 +1404,10 @@ to_xml(attribute,Node, Doc) ->
      "=\"",
      (encode_att_text(StrV))/binary,
      "\"">>;
-to_xml('processing-instruction',Node, Doc) ->
+to_xml('processing-instruction',Node, Doc, _) ->
    {_,_,Local} = xqldb_doc:node_name(Doc, Node),
-   Txt = encode_text(xqldb_doc:string_value(Doc, Node)),
+   Txt = xqldb_doc:string_value(Doc, Node),
+   %Txt = encode_text(xqldb_doc:string_value(Doc, Node)),
    if Txt == <<>> ->
          <<"<?", Local/binary, " ?>">>;
       true ->
@@ -1422,7 +1416,7 @@ to_xml('processing-instruction',Node, Doc) ->
 % namespace nodes can be here as records and not binary
 to_xml(namespace,
        #xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, 
-       _Doc) ->
+       _Doc, _) ->
    if Px == <<"xml">> ->
          <<>>;
       %Px == "", Ns == []; % this is a reset
@@ -1443,18 +1437,30 @@ to_xml(namespace,
            Ns1/binary,
            "\"">>
    end;
-to_xml(namespace,Node, Doc) ->
+to_xml(namespace,{_,L,N} = Node, Doc, NsInScope) ->
    {Ns,_,Ln} = case xqldb_doc:name(Doc, Node) of
                   {Ns1,_,Ln1} ->
                      {Ns1,[],Ln1};
                   [] ->
                      {<<>>,[],<<>>}
                end,
-   to_xml(namespace,#xqNamespaceNode{name = #qname{namespace = maybe_ns_to_atom(Ns), 
-                                                   prefix = Ln}}, Doc);
-to_xml(comment, Node, Doc) ->
+   if is_map_key(L, NsInScope) ->
+         Val = maps:get(L, NsInScope),
+         if Val == N ->
+               <<>>;
+            true ->
+               to_xml(namespace,
+                #xqNamespaceNode{name = #qname{namespace = maybe_ns_to_atom(Ns),
+                                               prefix = Ln}}, Doc, NsInScope)
+         end;
+      true ->
+         to_xml(namespace,
+                #xqNamespaceNode{name = #qname{namespace = maybe_ns_to_atom(Ns),
+                                               prefix = Ln}}, Doc, NsInScope)
+   end;
+to_xml(comment, Node, Doc, _) ->
    <<"<!--", (xqldb_doc:string_value(Doc, Node))/binary, "-->">>;
-to_xml(text,Node, Doc) ->
+to_xml(text,Node, Doc, _) ->
    encode_text(xqldb_doc:string_value(Doc, Node)).
 
 combine_atomics([], Acc) ->
@@ -1476,6 +1482,8 @@ encode_text(?STR_REST(">",Tail),Acc) ->
    encode_text(Tail,<<Acc/binary, "&gt;">>);
 encode_text(?STR_REST("&", Tail),Acc) ->
    encode_text(Tail,<<Acc/binary,"&amp;">>);
+encode_text(?CP_REST(H, Tail),Acc) when H == 13 ->
+   encode_text(Tail,<<Acc/binary,"&#xD;">>);
 encode_text(?CP_REST(H, Tail),Acc) when H >= 255 ->
    encode_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
 encode_text(?CP_REST(H, Tail),Acc) ->

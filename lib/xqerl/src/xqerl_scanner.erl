@@ -1596,8 +1596,8 @@ scan_token(Str = "as" ++ T, A) ->
                {{'as',?L,'as'}, T};
             ')' ->
                {{'as',?L,'as'}, T};
-            LB ->
-               ?dbg("LB",LB),
+            _LB ->
+               %?dbg("LB",LB),
                case lookforward_is_paren(T) of
                   true ->
                      scan_name(Str);

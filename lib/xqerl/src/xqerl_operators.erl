@@ -137,7 +137,7 @@ lookup(_Ctx,{array,_} = Array,Values) when is_list(Values) ->
    V1 = xqerl_seq3:expand(Values), 
    xqerl_array:get_matched(Array, V1);
 lookup(Ctx,{array,_} = Array,#xqAtomicValue{type = T} = Value) 
-   when ?integer(T) ->
+   when ?xs_integer(T) ->
    xqerl_array:get(Ctx, Array, Value);
 lookup(Ctx,{array,_} = A,#xqNode{} = V) ->
    lookup(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
@@ -160,8 +160,8 @@ is_comparable('xs:hexBinary') -> true;
 is_comparable('xs:string') -> true;
 is_comparable('xs:time') -> true;
 is_comparable('xs:yearMonthDuration') -> true;
-is_comparable(Type) when ?numeric(Type);
-                         ?string(Type) -> true;
+is_comparable(Type) when ?xs_numeric(Type);
+                         ?xs_string(Type) -> true;
 is_comparable(_)-> false.
 
 add(_, []) -> [];
@@ -436,13 +436,13 @@ equal(#xqAtomicValue{type = T2, value = Val2},
          #xqAtomicValue{type = T1, value = Val1}, Coll);
 equal(#xqAtomicValue{type = T2, value = Val2}, 
       #xqAtomicValue{type = T1, value = Val1}, Collation) 
-   when ?string(T1),?string(T2);
-        ?string(T1), T2 == 'xs:anyURI';
-        ?string(T1), T2 == 'xs:NCName';
-        ?string(T1), T2 == 'xs:untypedAtomic';
-        ?string(T2), T1 == 'xs:anyURI';
-        ?string(T2), T1 == 'xs:NCName';
-        ?string(T2), T1 == 'xs:untypedAtomic';
+   when ?xs_string(T1),?xs_string(T2);
+        ?xs_string(T1), T2 == 'xs:anyURI';
+        ?xs_string(T1), T2 == 'xs:NCName';
+        ?xs_string(T1), T2 == 'xs:untypedAtomic';
+        ?xs_string(T2), T1 == 'xs:anyURI';
+        ?xs_string(T2), T1 == 'xs:NCName';
+        ?xs_string(T2), T1 == 'xs:untypedAtomic';
         T1 == 'xs:anyURI', T2 == 'xs:anyURI';
         T1 == 'xs:anyURI', T2 == 'xs:NCName';
         T1 == 'xs:anyURI', T2 == 'xs:untypedAtomic';
@@ -548,7 +548,7 @@ equal(#xqAtomicValue{type = 'xs:time'} = Arg1,
       #xqAtomicValue{type = 'xs:time'} = Arg2) ->
    ?sing(time_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = T1} = Arg1, 
-      #xqAtomicValue{type = T2} = Arg2) when ?string(T1),?string(T2) ->
+      #xqAtomicValue{type = T2} = Arg2) when ?xs_string(T1),?xs_string(T2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = 'xs:string'} = Arg1, 
       #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -560,7 +560,7 @@ equal(#xqAtomicValue{type = 'xs:string'} = Arg1,
       #xqAtomicValue{type = 'xs:string'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = T1} = Arg1, 
-      #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) when ?string(T1) ->
+      #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) when ?xs_string(T1) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = 'xs:gYearMonth'} = Arg1, 
       #xqAtomicValue{type = 'xs:gYearMonth'} = Arg2) ->
@@ -584,13 +584,13 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1,
       #xqAtomicValue{type = 'xs:NCName'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, 
-      #xqAtomicValue{type = T2} = Arg2) when ?string(T2) ->
+      #xqAtomicValue{type = T2} = Arg2) when ?xs_string(T2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, 
       #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
 equal(#xqAtomicValue{type = T1} = Arg1, 
-      #xqAtomicValue{type = T2} = Arg2) when ?numeric(T1),?numeric(T2) ->
+      #xqAtomicValue{type = T2} = Arg2) when ?xs_numeric(T1),?xs_numeric(T2) ->
    ?sing(numeric_equal(Arg1,Arg2));
 
 equal(#xqAtomicValue{type = 'xs:boolean'}, #xqAtomicValue{}) ->
@@ -680,7 +680,7 @@ greater_than(#xqAtomicValue{type = 'xs:string'} = Arg1,
              #xqAtomicValue{type = 'xs:string'} = Arg2) ->
    string_greater_than(Arg1, Arg2);
 greater_than(#xqAtomicValue{type = T1} = Arg1, 
-             #xqAtomicValue{type = T2} = Arg2) when ?string(T1),?string(T2) ->
+             #xqAtomicValue{type = T2} = Arg2) when ?xs_string(T1),?xs_string(T2) ->
    string_greater_than(Arg1,Arg2);
 greater_than(#xqAtomicValue{type = 'xs:string'} = Arg1, 
              #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -758,7 +758,7 @@ less_than(#xqAtomicValue{type = 'xs:string'} = Arg1,
    string_less_than(Arg1, Arg2);
 less_than(#xqAtomicValue{type = Type1} = Arg1, 
           #xqAtomicValue{type = Type2} = Arg2) 
-   when ?string(Type1), ?string(Type2) ->
+   when ?xs_string(Type1), ?xs_string(Type2) ->
    string_less_than(Arg1, Arg2);
 less_than(#xqAtomicValue{type = 'xs:string'} = Arg1, 
           #xqAtomicValue{type = 'xs:anyURI'} = Arg2) ->
@@ -918,7 +918,7 @@ unary_plus([Arg1]) ->
    unary_plus(Arg1);
 unary_plus(#xqNode{} = Arg1) ->
    unary_plus(atomize_list(Arg1));
-unary_plus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
+unary_plus(#xqAtomicValue{type = T} = Arg1) when ?xs_numeric(T) ->
    ?sing(numeric_unary_plus(Arg1));
 unary_plus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
    ?sing(numeric_unary_plus(xqerl_types:cast_as(Arg1, 'xs:double') ));
@@ -929,7 +929,7 @@ unary_minus([Arg1]) ->
    unary_minus(Arg1);
 unary_minus(#xqNode{} = Arg1) ->
    unary_minus(atomize_list(Arg1));
-unary_minus(#xqAtomicValue{type = T} = Arg1) when ?numeric(T) ->
+unary_minus(#xqAtomicValue{type = T} = Arg1) when ?xs_numeric(T) ->
    ?sing(numeric_unary_minus(Arg1));
 unary_minus(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1) ->
    ?sing(numeric_unary_minus(xqerl_types:cast_as(Arg1, 'xs:double') ));
@@ -1062,7 +1062,7 @@ general_compare(Op,#xqAtomicValue{} = V1,List2) when is_list(List2) ->
                        (#xqRange{} = V2) ->
                           xqerl_types:value(general_compare(Op,V1,V2));
                        (V2) ->
-                          ?dbg("V2",V2),
+                          %?dbg("V2",V2),
                           V3 = xqerl_types:atomize(V2),
                           xqerl_types:value(value_compare(Op,V1, V3))
                     end, List2),
@@ -1115,15 +1115,12 @@ value_compare(Op,
                xqerl_types:cast_as(Val1,'xs:dayTimeDuration');
            'xs:yearMonthDuration' ->
                xqerl_types:cast_as(Val1,'xs:yearMonthDuration');
-           Type when ?string(Type) ->
+           Type when ?xs_string(Type) ->
               xqerl_types:cast_as(Val1,'xs:string');
+           _ when ?xs_numeric(Type) ->
+              xqerl_types:cast_as(Val1,'xs:double');
            _ ->
-              case xqerl_types:is_numeric_type(Type) of 
-                 true ->
-                    xqerl_types:cast_as(Val1,'xs:double');
-                 _ ->
-                    xqerl_types:cast_as(Val1,Type)
-              end
+              xqerl_types:cast_as(Val1,Type)
         end,
    value_compare(Op,V1,Val2);
 value_compare(Op,
@@ -1138,9 +1135,9 @@ value_compare(Op,
                xqerl_types:cast_as(Val2,'xs:dayTimeDuration');
            'xs:yearMonthDuration' ->
                xqerl_types:cast_as(Val2,'xs:yearMonthDuration');
-           Type when ?string(Type) ->
+           Type when ?xs_string(Type) ->
               xqerl_types:cast_as(Val2,'xs:string');
-           Type when ?numeric(Type) ->
+           Type when ?xs_numeric(Type) ->
               xqerl_types:cast_as(Val2,'xs:double');
            _ ->
               xqerl_types:cast_as(Val2,Type)
@@ -1195,12 +1192,12 @@ numeric_add(A,#xqAtomicValue{value = neg_zero} = B) ->
    numeric_add(A,B#xqAtomicValue{value = 0.0});
 numeric_add(#xqAtomicValue{type = TypeA, value = ValA},
             #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) -> 
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) -> 
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
            end,
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA + ValB;
              ValA == infinity, ?is_numeric(ValB) ->
                 infinity;
@@ -1248,12 +1245,12 @@ numeric_subtract(A,#xqAtomicValue{value = neg_zero} = B) ->
    numeric_subtract(A,B#xqAtomicValue{value = 0.0});
 numeric_subtract(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
            end,
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA - ValB;
              ValA == infinity, ?is_numeric(ValB) ->
                 infinity;
@@ -1300,12 +1297,12 @@ numeric_multiply(A,#xqAtomicValue{value = neg_zero} = B) ->
    numeric_multiply(A,B#xqAtomicValue{value = 0.0});
 numeric_multiply(#xqAtomicValue{type = TypeA, value = ValA},
                  #xqAtomicValue{type = TypeB, value = ValB})  
-   when ?numeric(TypeA),?numeric(TypeB) -> 
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) -> 
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
            end,
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA * ValB;
              ValA == infinity andalso ?is_numeric(ValB) andalso ValB > 0 ->
                 infinity;
@@ -1346,7 +1343,7 @@ numeric_multiply(_,_) ->
 % returns: numeric; but xs:decimal if both operands are xs:integer
 numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
                #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) -> 
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) -> 
    Prec = max(?num(TypeA), ?num(TypeB)),
    TypeC = case ?numtype(Prec) of
               'xs:integer' -> 'xs:decimal';
@@ -1419,7 +1416,7 @@ numeric_divide(_,_) ->
 % returns: xs:integer
 numeric_integer_divide(#xqAtomicValue{type = TypeA, value = ValA},
                        #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
@@ -1471,7 +1468,7 @@ numeric_integer_divide(_,_) ->
 % returns: numeric
 numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
             #xqAtomicValue{type = TypeB, value = ValB} = B) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
    TypeC = if TypeA =:= TypeB -> TypeA;
               true ->
                  get_numeric_type(TypeA, TypeB)
@@ -1507,8 +1504,8 @@ numeric_mod(_,_) ->
 % returns: xs:boolean
 numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
               #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA =:= ValB;
              (ValA == nan) andalso (ValB == nan) ->
                 false;
@@ -1530,13 +1527,13 @@ numeric_equal(#xqAtomicValue{type = TypeA, value = ValA},
                 true;
              (ValA == neg_zero) orelse (ValB == neg_zero) ->
                 false;
-             ?decimal(TypeA) andalso TypeB == 'xs:float' ->
+             ?xs_decimal(TypeA) andalso TypeB == 'xs:float' ->
                 float(ValA) == ValB;
-             ?decimal(TypeA) andalso TypeB == 'xs:double' ->
+             ?xs_decimal(TypeA) andalso TypeB == 'xs:double' ->
                 double(ValA) == ValB;
-             ?decimal(TypeB) andalso TypeA == 'xs:float' ->
+             ?xs_decimal(TypeB) andalso TypeA == 'xs:float' ->
                 float(ValB) == ValA;
-             ?decimal(TypeB) andalso TypeA == 'xs:double' ->
+             ?xs_decimal(TypeB) andalso TypeA == 'xs:double' ->
                 double(ValB) == ValA;
              TypeA == 'xs:float' andalso TypeB == 'xs:double' ->
                 %?dbg("equal",{ValA,ValB}),
@@ -1553,8 +1550,8 @@ numeric_equal(_,_) ->
 % returns: xs:boolean
 numeric_less_than(#xqAtomicValue{type = TypeA, value = ValA},
                   #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA < ValB;
              ValA == nan;
              ValB == nan ->
@@ -1587,8 +1584,8 @@ numeric_less_than(_,_) ->
 % returns: xs:boolean
 numeric_greater_than(#xqAtomicValue{type = TypeA, value = ValA},
                      #xqAtomicValue{type = TypeB, value = ValB}) 
-   when ?numeric(TypeA),?numeric(TypeB) ->
-   ValC = if ?integer(TypeA) andalso ?integer(TypeB) ->
+   when ?xs_numeric(TypeA),?xs_numeric(TypeB) ->
+   ValC = if ?xs_integer(TypeA) andalso ?xs_integer(TypeB) ->
                 ValA > ValB;
              ValA == nan;
              ValB == nan ->
@@ -1815,7 +1812,7 @@ divide_yearMonthDuration(#xqAtomicValue{type = 'xs:yearMonthDuration',
                                                             year = YrA, 
                                                             month = MoA}},
                          #xqAtomicValue{type = Type, value = Dbl}) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    MonA = (YrA * 12 + MoA) * unary_sign(SnA),
    MonT = xqerl_numeric:divide(MonA , Dbl),
    MonC = if MonT < 0 -> xqerl_numeric:truncate(MonA / Dbl);
@@ -1961,7 +1958,7 @@ divide_dayTimeDuration(#xqAtomicValue{type = 'xs:dayTimeDuration',
                                                           minute = MiA, 
                                                           second = SdA}},
                        #xqAtomicValue{type = Type, value = Dbl}) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    SecA = xqerl_numeric:multiply(
             xqerl_numeric:add(SdA, (MiA * 60) + (HrA * 3600) + (DyA * 86400)), 
             unary_sign(SnA)),
@@ -2394,8 +2391,10 @@ add_dayTimeDuration_to_dateTime(#xqAtomicValue{type = 'xs:dateTime',
                                   value = #xsDateTime{}} = A,
                                   #xqAtomicValue{type = 'xs:dayTimeDuration',
                                   value = #xsDateTime{}} = B) -> 
+   ?dbg("A,B",{A,B}),
    #xqAtomicValue{type = 'xs:dateTime',value = NewDt} = 
      add_duration_to_dateTime(A, B),
+   ?dbg("NewDt",NewDt),
    Str = xqerl_datetime:to_string(NewDt, 'xs:dateTime'),
    #xqAtomicValue{type = 'xs:dateTime',
                   value = NewDt#xsDateTime{string_value = Str} }.
@@ -2537,7 +2536,7 @@ nOTATION_equal(#xqAtomicValue{type = 'xs:NOTATION',
 % returns: xs:numeric
 numeric_unary_plus([]) -> [];
 numeric_unary_plus([#xqAtomicValue{} = Arg]) -> numeric_unary_plus(Arg);
-numeric_unary_plus(#xqAtomicValue{type = Type} = Arg) when ?numeric(Type) ->
+numeric_unary_plus(#xqAtomicValue{type = Type} = Arg) when ?xs_numeric(Type) ->
    Arg;
 numeric_unary_plus(_) ->
    ?err('XPTY0004').
@@ -2550,16 +2549,16 @@ numeric_unary_minus(#xqAtomicValue{type = Type, value = 0.0} = Arg)
         Type == 'xs:double' ->
    Arg#xqAtomicValue{value = neg_zero};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = infinity} = Arg) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    Arg#xqAtomicValue{value = neg_infinity};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = neg_infinity} = Arg) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    Arg#xqAtomicValue{value = infinity};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = nan} = Arg) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    Arg#xqAtomicValue{value = nan};
 numeric_unary_minus(#xqAtomicValue{type = Type, value = Val} = Arg) 
-   when ?numeric(Type) ->
+   when ?xs_numeric(Type) ->
    Arg#xqAtomicValue{value = xqerl_numeric:unary_minus(Val)};
 numeric_unary_minus(_) ->
    ?err('XPTY0004').
@@ -2691,7 +2690,7 @@ duration_loop(Year,Month,Day) ->
    end.
 
 key_val(#xqAtomicValue{type = Type, value = V}) 
-   when ?string(Type);
+   when ?xs_string(Type);
         Type == 'xs:anyURI';
         Type == 'xs:untypedAtomic' -> V;
 key_val([Val]) ->
@@ -2769,7 +2768,7 @@ eff_bool_val(#xqAtomicValue{type = 'xs:boolean', value = false}) ->
    false;
 % 4
 eff_bool_val(#xqAtomicValue{type = Type, value = Val}) 
-   when ?string(Type);
+   when ?xs_string(Type);
         Type == 'xs:anyURI';
         Type == 'xs:untypedAtomic' -> 
    if Val == <<>> -> false;
@@ -2777,12 +2776,12 @@ eff_bool_val(#xqAtomicValue{type = Type, value = Val})
    end;
 % 5 + 6
 eff_bool_val(#xqAtomicValue{type = Type, value = Val}) 
-   when ?numeric(Type), Val == {xsDecimal,0,0};
-        ?numeric(Type), Val == 0;
-        ?numeric(Type), Val == neg_zero;
-        ?numeric(Type), Val == nan->
+   when ?xs_numeric(Type), Val == {xsDecimal,0,0};
+        ?xs_numeric(Type), Val == 0;
+        ?xs_numeric(Type), Val == neg_zero;
+        ?xs_numeric(Type), Val == nan->
    false;
-eff_bool_val(#xqAtomicValue{type = Type}) when ?numeric(Type) ->
+eff_bool_val(#xqAtomicValue{type = Type}) when ?xs_numeric(Type) ->
    true;
 eff_bool_val(#xqAtomicValue{type = _Type, value = Val}) when Val == 0 ->
    true;

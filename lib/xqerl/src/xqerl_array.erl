@@ -239,14 +239,14 @@ for_each_pair2(Ctx,[H1|T1],[H2|T2],Fun) ->
 'get'(Ctx,[Seq],Position) ->
    'get'(Ctx,Seq,Position);
 'get'(_Ctx,#array{data = List},#xqAtomicValue{type = T, value = I}) 
-   when ?integer(T) ->
+   when ?xs_integer(T) ->
    case catch lists:nth(I, List) of
       {'EXIT', _} ->
          ?err('FOAY0001');
       N ->
          N
    end;
-'get'(_Ctx,_Seq,#xqAtomicValue{type = T}) when ?numeric(T) ->
+'get'(_Ctx,_Seq,#xqAtomicValue{type = T}) when ?xs_numeric(T) ->
    ?err('XPTY0004');
 'get'(Ctx,#array{} = A,V) ->
    'get'(Ctx,A,xqerl_types:cast_as(V, 'xs:integer'));
@@ -377,11 +377,11 @@ sort1(Ctx,A,B,Coll) when is_list(A), is_list(B) ->
             true ->
                TypeA = xqerl_types:type(hd(A)),
                TypeB = xqerl_types:type(hd(B)),
-               if (?string(TypeA)
+               if (?xs_string(TypeA)
                    orelse TypeA =:= 'xs:anyURI'
                    orelse TypeA =:= 'xs:untypedAtomic') 
                   andalso
-                   (?string(TypeB) 
+                   (?xs_string(TypeB) 
                     orelse TypeB =:= 'xs:anyURI' 
                     orelse TypeB =:= 'xs:untypedAtomic') ->
                      #xqAtomicValue{value = Comp} = 

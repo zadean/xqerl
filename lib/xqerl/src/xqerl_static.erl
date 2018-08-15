@@ -64,6 +64,19 @@
                            prefix = <<"err">>, 
                            local_name = N}).
 
+-define(POSITION, {'function-call', 
+                    #qname{namespace = ?FN,
+                           local_name = <<"position">>}, 0, []}).
+-define(TAIL(A), {'function-call',
+                       #qname{namespace = ?FN,
+                              local_name = <<"tail">>}, 1, [A]}).
+-define(SUBSEQ2(A,B), {'function-call',
+                       #qname{namespace = ?FN,
+                              local_name = <<"subsequence">>}, 2, [A,B]}).
+-define(SUBSEQ3(A,B,C), {'function-call',
+                       #qname{namespace = ?FN,
+                              local_name = <<"subsequence">>}, 3, [A,B,C]}).
+
 -define(A(T),<<T>>).
 
 % state should hold the entire static context, augmented by statements that 
@@ -175,8 +188,8 @@ handle_tree(#xqModule{version = {Version,Encoding},
    AllImports = [N || {N,_} <- Imports],
    UnusedImports = AllImports -- UsedImports,
 %?dbg("edges",digraph:edges(DiGraph,main)),
-   ?dbg("UsedImports",UsedImports),
-   ?dbg("UnusedImports",UnusedImports),
+   %?dbg("UsedImports",UsedImports),
+   %?dbg("UnusedImports",UnusedImports),
    %?dbg("StaticProps",StaticProps),
    
    % check used imports for any errors
@@ -384,7 +397,7 @@ handle_node(State, #qname{namespace = NsExpr,
    FPx = fun(PxE) when is_tuple(PxE) ->
                PS1 = handle_node(State, PxExpr),
                #xqSeqType{type = PTy} = get_statement_type(PS1),
-               if ?string(PTy);
+               if ?xs_string(PTy);
                   ?node(PTy);
                   PTy == 'xs:untypedAtomic' ->
                      get_statement(PS1);
@@ -939,15 +952,21 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
    %?dbg("get_static_count(S1)",{St,Sc}),
    _ = [?err('XPTY0004') || {arguments,_} <- Filters, Sc > 1, Sc =/= undefined],
    F1 = handle_predicates(S1, Filters),
-   Ft = get_statement(F1),
    Ty = get_statement_type(F1),
+   case get_statement(F1) of
+      {wrap,Wrapped} ->
+         ?dbg("Predicate context filters",Filters),
+         ?dbg("Predicate context wrapped",Wrapped),
+         set_statement_and_type(State, Wrapped, Ty);
+      Ft ->
    %?dbg("Ft",Ft),
    %?dbg("Ty",Ty),
-   case Ty of
-      #xqSeqType{type = node} ->
-         set_statement_and_type(State, {path_expr, Id, [{postfix, Id, St, Ft}]}, Ty);
-      _ ->
-         set_statement_and_type(State, {postfix, Id, St, Ft}, Ty)
+         case Ty of
+            #xqSeqType{type = node} ->
+               set_statement_and_type(State, {path_expr, Id, [{postfix, Id, St, Ft}]}, Ty);
+            _ ->
+               set_statement_and_type(State, {postfix, Id, St, Ft}, Ty)
+         end
    end;
 
 %% 3.2.1 Filter Expressions
@@ -1108,13 +1127,20 @@ handle_node(State, #xqAxisStep{direction = Direction,
                   default_return(State, Node)
             end,
    NewPreds = get_statement(handle_predicates(State1, Preds)),
-   set_statement_and_type(State1, 
-                          Node#xqAxisStep{predicates = NewPreds, 
-                                          node_test = 
-                                             Kt#xqKindTest{name = KName1, 
-                                                           test = KTest1, 
-                                                           type = KType1}},
-                          OType);
+   case get_statement(handle_predicates(State1, Preds)) of
+      {wrap,Wrapped} ->
+         ?dbg("Predicate context wrapped",Wrapped),
+         set_statement_and_type(State1, Wrapped, OType);
+      NewPreds ->
+         %?dbg("Predicate context wrapped",NewPreds),
+         set_statement_and_type(State1, 
+                                Node#xqAxisStep{predicates = NewPreds, 
+                                                node_test = 
+                                                   Kt#xqKindTest{name = KName1, 
+                                                                 test = KTest1, 
+                                                                 type = KType1}},
+                                OType)
+   end;
 
 handle_node(State, #xqAxisStep{direction = Direction, 
                                axis = Axis, 
@@ -1133,11 +1159,17 @@ handle_node(State, #xqAxisStep{direction = Direction,
                   #xqSeqType{type = node, occur = zero_or_one}
             end,
    State1 = set_statement_type(State, Type),
-   NewPreds = get_statement(handle_predicates(State1, Preds)),
-   set_statement_and_type(State, 
+   case get_statement(handle_predicates(State1, Preds)) of
+      {wrap,Wrapped} ->
+         ?dbg("Predicate context wrapped",Wrapped),
+         set_statement_and_type(State, Wrapped, Type);
+      NewPreds ->
+          %?dbg("Predicate context wrapped",NewPreds),
+        set_statement_and_type(State, 
                           Node#xqAxisStep{predicates = NewPreds,
                                           node_test = Nt#xqNameTest{name = Q1}},
-                          Type);
+                          Type)
+   end;
 %% 3.3.3 Predicates within Steps
 %% 3.3.4 Unabbreviated Syntax
 %% 3.3.5 Abbreviated Syntax
@@ -1443,8 +1475,8 @@ handle_node(State, {'=', {range,Min1,Max1} = Range, Expr}) ->
    EState = handle_node(State, Expr),
    Stmt = get_statement(EState),
    Type = get_statement_type(EState),
-   if Type#xqSeqType.occur == one, ?integer(Type#xqSeqType.type) ;
-      Type#xqSeqType.occur == zero_or_one, ?integer(Type#xqSeqType.type) ->
+   if Type#xqSeqType.occur == one, ?xs_integer(Type#xqSeqType.type) ;
+      Type#xqSeqType.occur == zero_or_one, ?xs_integer(Type#xqSeqType.type) ->
          NewStatement =  {'and',
                           {'>=',Expr,Min1},
                           {'<=',Expr,Max1}                         
@@ -2372,7 +2404,7 @@ handle_node(State, {'function-call',#qname{namespace = ?XS,
                 Type == <<"NMTOKENS">> ->
                    {sequence,xqerl_types:cast_as(Av, TypeAtom)};
                 true ->
-                   ?dbg("{Av,TypeAtom}",{Av,TypeAtom}),
+                   %?dbg("{Av,TypeAtom}",{Av,TypeAtom}),
                    xqerl_types:cast_as(Av, TypeAtom)
              end,
    if Type == <<"NMTOKENS">> ->
@@ -2821,7 +2853,7 @@ handle_node(State, {'function-call',
    Type = get_statement_type(SimpArg),
    ArgSt = get_statement(SimpArg),
    Type1 = case Type of
-              #xqSeqType{type = T} when ?anyAtomicType(T) ->
+              #xqSeqType{type = T} when ?xs_anyAtomicType(T) ->
                  Type;
               _ ->
                  FType
@@ -2832,6 +2864,15 @@ handle_node(State, {'function-call',
                           Type1);
 
 % boolean functions
+% not(exists(Arg)) == empty(Arg)
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN, local_name = ?A("not")}, 1, 
+                    [{'function-call', 
+                      #qname{namespace = ?FN, local_name = ?A("exists")}, 1,
+                      [Arg]}]}) -> 
+handle_node(State, {'function-call', 
+                    #qname{namespace = ?FN, local_name = ?A("empty")}, 1,
+                    [Arg]});
 handle_node(State, {'function-call', 
                     #qname{namespace = ?FN, local_name = ?A("exists")} = FName, 1, 
                     [Arg]}) -> 
@@ -3038,7 +3079,37 @@ handle_node(State, Node) ->
 % TODO make this a foldr to wrap up chained calls and get correct return type
 handle_predicates(State, []) -> 
    set_statement(State,[]);
+%% handle_predicates(State, [{predicate, [{'<=',?POSITION,Whatever}]}]) ->
+%%    CtxI = get_statement(State),
+%%    Stmt = {wrap,get_statement(handle_node(State,?SUBSEQ3(CtxI,?atomic('xs:double',1.0),Whatever)))},
+%%    set_statement(State, Stmt);
+
+%% handle_predicates(State, [{predicate, [{'=',?POSITION,Whatever}]} = P]) ->
+%%    CtxI = get_statement(State),
+%%    WhateverS = handle_node(State, Whatever),
+%%    case get_static_count(WhateverS) of
+%%       undefined -> % many in list
+%%          Ps = handle_predicate(State, P),
+%%          set_statement(Ps, [get_statement(Ps)]);
+%%       _ ->
+%%          Stmt = {wrap,get_statement(handle_node(State,?SUBSEQ3(CtxI,Whatever,?atomic('xs:double',1.0))))},
+%%          set_statement(State, Stmt)
+%%    end;
+
+%% handle_predicates(State, [{predicate, [{'!=',?POSITION,?atomic(_,1)}]}]) ->
+%%    CtxI = get_statement(State),
+%%    Stmt = {wrap,get_statement(handle_node(State,?TAIL(CtxI)))},
+%%    set_statement(State, Stmt);
+
+
+
 handle_predicates(State, Predicates) ->
+   %CtxI = get_statement(State),
+   %CtxT = get_statement_type(State),
+%?dbg("Predicate context item",CtxI),
+%?dbg("Predicate context type",CtxT),
+%?dbg("Predicate context pred",Predicates),
+   
    {PredStatements,OutType} = lists:mapfoldl(fun(P,_InType) ->
                                          State1 = handle_predicate(State, P),
                                          Type = get_statement_type(State1),
@@ -3046,6 +3117,7 @@ handle_predicates(State, Predicates) ->
                                    end, [],Predicates),
    set_statement_and_type(State, PredStatements,OutType).
 
+   
 handle_predicate(State, {predicate, Expr}) ->
    PreFilterType = get_statement_type(State),
    PostFilterType = maybe_zero_type(PreFilterType), 
@@ -3277,8 +3349,8 @@ check_def_collation(#state{known_collations = _KC},
                     <<"http://www.w3.org/2013/collation/UCA",_/binary>>) ->
    ok;
 check_def_collation(#state{known_collations = KC}, URI) ->
-   ?dbg("URI",URI),
-   ?dbg("KC",KC),
+   %?dbg("URI",URI),
+   %?dbg("KC",KC),
    Ok = lists:member(URI, KC),
    if Ok ->
          ok;
@@ -3373,7 +3445,7 @@ pro_namespaces(Prolog,ModNsPx,DefElNs) ->
                         (_) ->
                            ok
                      end, Namespaces1),
-   ?dbg("Namespaces1",Namespaces1),
+   %?dbg("Namespaces1",Namespaces1),
    Namespaces1.
 
 pro_mod_imports(Prolog) ->
@@ -4190,7 +4262,7 @@ maybe_strip_whitespace(#state{boundary_space = strip}, Content0) ->
    lists:reverse(Content2).
 
 is_whitespace(Str) ->
-   string:trim(Str) == <<>>.
+   xqerl_lib:trim(Str) == <<>>.
 
 -define(IS_BOUNDARY(I), is_list(I) orelse
                         is_tuple(I) andalso
@@ -4472,6 +4544,8 @@ check_fun_arg_type(State, Arg, TargetType) ->
          end
    end.
 
+type_ensure(_,#xqSeqType{type = item, occur = zero_or_many},Statement) ->
+   Statement;
 type_ensure(ActType,TargType,Statement) ->
    if ActType#xqSeqType.occur =/= TargType#xqSeqType.occur ->
          {ensure, Statement, TargType};
@@ -4623,25 +4697,25 @@ check_type_match(#xqSeqType{type = 'xs:anyAtomicType'},
    true;
 check_type_match(#xqSeqType{type = 'xs:anyAtomicType'}, 
                  #xqSeqType{type = TargetType}) 
-   when ?anyAtomicType(TargetType) -> 
+   when ?xs_anyAtomicType(TargetType) -> 
    cast;
 % check if the types are compatable with/out cast or atomization
 check_type_match(#xqSeqType{type = #xqKindTest{kind = ParamType}}, 
                  #xqSeqType{type = TargetType}) 
-   when ?node(ParamType) andalso ?anyAtomicType(TargetType) -> 
+   when ?node(ParamType) andalso ?xs_anyAtomicType(TargetType) -> 
    atomize;
 check_type_match(#xqSeqType{type = ParamType}, 
                  #xqSeqType{type = TargetType}) 
-   when ?node(ParamType) andalso ?anyAtomicType(TargetType) -> 
+   when ?node(ParamType) andalso ?xs_anyAtomicType(TargetType) -> 
    atomize;
 check_type_match(#xqSeqType{type = function}, 
                  #xqSeqType{type = TargetType}) 
-   when ?anyAtomicType(TargetType) -> 
+   when ?xs_anyAtomicType(TargetType) -> 
    ?err('FOTY0013');
 % untyped to number
 check_type_match(#xqSeqType{type = 'xs:untypedAtomic'}, 
                  #xqSeqType{type = TargetType}) 
-   when ?numeric(TargetType) -> 
+   when ?xs_numeric(TargetType) -> 
    cast;
 % untyped to boolean
 check_type_match(#xqSeqType{type = 'xs:untypedAtomic'}, 
@@ -5107,25 +5181,25 @@ static_operator_type(Op, 'xs:untypedAtomic', T) ->
 static_operator_type(Op, T, 'xs:untypedAtomic') -> 
    static_operator_type(Op, T, 'xs:double');
 
-static_operator_type('add', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:integer';
-static_operator_type('add', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:decimal';
-static_operator_type('add', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:float';
-static_operator_type('add', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:double';
-static_operator_type('add', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:decimal';
+static_operator_type('add', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('add', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('add', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('add', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('add', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
 static_operator_type('add', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('add', 'xs:decimal', 'xs:float')   -> 'xs:float';
 static_operator_type('add', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:float';
+static_operator_type('add', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
 static_operator_type('add', 'xs:float',   'xs:decimal') -> 'xs:float';
 static_operator_type('add', 'xs:float',   'xs:float')   -> 'xs:float';
 static_operator_type('add', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('add', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:double';
+static_operator_type('add', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
 static_operator_type('add', 'xs:double',  'xs:decimal') -> 'xs:double';
 static_operator_type('add', 'xs:double',  'xs:float')   -> 'xs:double';
 static_operator_type('add', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('add', 'xs:date', D) when ?duration(D) -> 'xs:date';
-static_operator_type('add', 'xs:dateTime', D) when ?duration(D) -> 'xs:dateTime';
+static_operator_type('add', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
+static_operator_type('add', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
 static_operator_type('add', 'xs:dayTimeDuration', 'xs:date') -> 'xs:date';
 static_operator_type('add', 'xs:dayTimeDuration', 'xs:dateTime') -> 'xs:dateTime';
 static_operator_type('add', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
@@ -5133,7 +5207,7 @@ static_operator_type('add', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration
 static_operator_type('add', 'xs:dayTimeDuration', 'xs:time') -> 'xs:time';
 static_operator_type('add', 'xs:duration', 'xs:date') -> 'xs:date';
 static_operator_type('add', 'xs:duration', 'xs:dateTime') -> 'xs:dateTime';
-static_operator_type('add', 'xs:duration', D) when ?duration(D) -> 'xs:duration';
+static_operator_type('add', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
 static_operator_type('add', 'xs:duration', 'xs:time') -> 'xs:time';
 static_operator_type('add', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
 static_operator_type('add', 'xs:time', 'xs:duration') -> 'xs:time';
@@ -5143,116 +5217,116 @@ static_operator_type('add', 'xs:yearMonthDuration', 'xs:duration') -> 'xs:durati
 static_operator_type('add', 'xs:yearMonthDuration', 'xs:yearMonthDuration') -> 'xs:yearMonthDuration';
 
 
-static_operator_type('divide', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:decimal';
-static_operator_type('divide', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:decimal';
-static_operator_type('divide', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:float';
-static_operator_type('divide', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:double';
-static_operator_type('divide', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:decimal';
+static_operator_type('divide', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:decimal';
+static_operator_type('divide', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('divide', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('divide', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('divide', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
 static_operator_type('divide', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('divide', 'xs:decimal', 'xs:float')   -> 'xs:float';
 static_operator_type('divide', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:float';
+static_operator_type('divide', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
 static_operator_type('divide', 'xs:float',   'xs:decimal') -> 'xs:float';
 static_operator_type('divide', 'xs:float',   'xs:float')   -> 'xs:float';
 static_operator_type('divide', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('divide', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:double';
+static_operator_type('divide', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
 static_operator_type('divide', 'xs:double',  'xs:decimal') -> 'xs:double';
 static_operator_type('divide', 'xs:double',  'xs:float')   -> 'xs:double';
 static_operator_type('divide', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('divide', D, Int2) when ?integer(Int2), ?duration(D) -> D;
-static_operator_type('divide', D, 'xs:decimal')when ?duration(D) -> D;
-static_operator_type('divide', D, 'xs:float')  when ?duration(D) -> D;
-static_operator_type('divide', D, 'xs:double') when ?duration(D) -> D;
-static_operator_type('divide', D, D) when ?duration(D) -> 'xs:decimal';
-static_operator_type('divide', 'xs:duration', D) when ?duration(D) -> 'xs:decimal';
-static_operator_type('divide', D, 'xs:duration') when ?duration(D) -> 'xs:decimal';
+static_operator_type('divide', D, Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
+static_operator_type('divide', D, 'xs:decimal')when ?xs_duration(D) -> D;
+static_operator_type('divide', D, 'xs:float')  when ?xs_duration(D) -> D;
+static_operator_type('divide', D, 'xs:double') when ?xs_duration(D) -> D;
+static_operator_type('divide', D, D) when ?xs_duration(D) -> 'xs:decimal';
+static_operator_type('divide', 'xs:duration', D) when ?xs_duration(D) -> 'xs:decimal';
+static_operator_type('divide', D, 'xs:duration') when ?xs_duration(D) -> 'xs:decimal';
 
-static_operator_type('idivide', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:integer';
-static_operator_type('idivide', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:integer';
+static_operator_type('idivide', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('idivide', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idivide', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idivide', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:integer';
+static_operator_type('idivide', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:integer';
 static_operator_type('idivide', 'xs:decimal', 'xs:decimal') -> 'xs:integer';
 static_operator_type('idivide', 'xs:decimal', 'xs:float')   -> 'xs:integer';
 static_operator_type('idivide', 'xs:decimal', 'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:integer';
+static_operator_type('idivide', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:integer';
 static_operator_type('idivide', 'xs:float',   'xs:decimal') -> 'xs:integer';
 static_operator_type('idivide', 'xs:float',   'xs:float')   -> 'xs:integer';
 static_operator_type('idivide', 'xs:float',   'xs:double')  -> 'xs:integer';
-static_operator_type('idivide', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:integer';
+static_operator_type('idivide', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:integer';
 static_operator_type('idivide', 'xs:double',  'xs:decimal') -> 'xs:integer';
 static_operator_type('idivide', 'xs:double',  'xs:float')   -> 'xs:integer';
 static_operator_type('idivide', 'xs:double',  'xs:double')  -> 'xs:integer';
 
-static_operator_type('modulo', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:integer';
-static_operator_type('modulo', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:decimal';
-static_operator_type('modulo', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:float';
-static_operator_type('modulo', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:double';
-static_operator_type('modulo', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:decimal';
+static_operator_type('modulo', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('modulo', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('modulo', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('modulo', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('modulo', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
 static_operator_type('modulo', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('modulo', 'xs:decimal', 'xs:float')   -> 'xs:float';
 static_operator_type('modulo', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:float';
+static_operator_type('modulo', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
 static_operator_type('modulo', 'xs:float',   'xs:decimal') -> 'xs:float';
 static_operator_type('modulo', 'xs:float',   'xs:float')   -> 'xs:float';
 static_operator_type('modulo', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('modulo', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:double';
+static_operator_type('modulo', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
 static_operator_type('modulo', 'xs:double',  'xs:decimal') -> 'xs:double';
 static_operator_type('modulo', 'xs:double',  'xs:float')   -> 'xs:double';
 static_operator_type('modulo', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('multiply', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:integer';
-static_operator_type('multiply', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:decimal';
-static_operator_type('multiply', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:float';
-static_operator_type('multiply', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:double';
-static_operator_type('multiply', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:decimal';
+static_operator_type('multiply', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('multiply', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('multiply', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('multiply', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('multiply', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
 static_operator_type('multiply', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('multiply', 'xs:decimal', 'xs:float')   -> 'xs:float';
 static_operator_type('multiply', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:float';
+static_operator_type('multiply', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
 static_operator_type('multiply', 'xs:float',   'xs:decimal') -> 'xs:float';
 static_operator_type('multiply', 'xs:float',   'xs:float')   -> 'xs:float';
 static_operator_type('multiply', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('multiply', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:double';
+static_operator_type('multiply', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
 static_operator_type('multiply', 'xs:double',  'xs:decimal') -> 'xs:double';
 static_operator_type('multiply', 'xs:double',  'xs:float')   -> 'xs:double';
 static_operator_type('multiply', 'xs:double',  'xs:double')  -> 'xs:double';
 
-static_operator_type('multiply'  ,Int1, D  ) when ?integer(Int1), ?duration(D) -> D;
-static_operator_type('multiply'  ,'xs:decimal', D  ) when ?duration(D) -> D;
-static_operator_type('multiply'  ,'xs:float'  , D  ) when ?duration(D) -> D;
-static_operator_type('multiply'  ,'xs:double' , D  ) when ?duration(D) -> D;
+static_operator_type('multiply'  ,Int1, D  ) when ?xs_integer(Int1), ?xs_duration(D) -> D;
+static_operator_type('multiply'  ,'xs:decimal', D  ) when ?xs_duration(D) -> D;
+static_operator_type('multiply'  ,'xs:float'  , D  ) when ?xs_duration(D) -> D;
+static_operator_type('multiply'  ,'xs:double' , D  ) when ?xs_duration(D) -> D;
 
-static_operator_type('multiply', D,  Int2) when ?integer(Int2), ?duration(D) -> D;
-static_operator_type('multiply', D,  'xs:decimal') when ?duration(D) -> D;
-static_operator_type('multiply', D,  'xs:float')   when ?duration(D) -> D;
-static_operator_type('multiply', D,  'xs:double')  when ?duration(D) -> D;
+static_operator_type('multiply', D,  Int2) when ?xs_integer(Int2), ?xs_duration(D) -> D;
+static_operator_type('multiply', D,  'xs:decimal') when ?xs_duration(D) -> D;
+static_operator_type('multiply', D,  'xs:float')   when ?xs_duration(D) -> D;
+static_operator_type('multiply', D,  'xs:double')  when ?xs_duration(D) -> D;
 
-static_operator_type('subtract', Int1, Int2) when ?integer(Int1) andalso ?integer(Int2) -> 'xs:integer';
-static_operator_type('subtract', Int1, 'xs:decimal') when ?integer(Int1) -> 'xs:decimal';
-static_operator_type('subtract', Int1, 'xs:float')   when ?integer(Int1) -> 'xs:float';
-static_operator_type('subtract', Int1, 'xs:double')  when ?integer(Int1) -> 'xs:double';
-static_operator_type('subtract', 'xs:decimal', Int2) when ?integer(Int2) -> 'xs:decimal';
+static_operator_type('subtract', Int1, Int2) when ?xs_integer(Int1) andalso ?xs_integer(Int2) -> 'xs:integer';
+static_operator_type('subtract', Int1, 'xs:decimal') when ?xs_integer(Int1) -> 'xs:decimal';
+static_operator_type('subtract', Int1, 'xs:float')   when ?xs_integer(Int1) -> 'xs:float';
+static_operator_type('subtract', Int1, 'xs:double')  when ?xs_integer(Int1) -> 'xs:double';
+static_operator_type('subtract', 'xs:decimal', Int2) when ?xs_integer(Int2) -> 'xs:decimal';
 static_operator_type('subtract', 'xs:decimal', 'xs:decimal') -> 'xs:decimal';
 static_operator_type('subtract', 'xs:decimal', 'xs:float')   -> 'xs:float';
 static_operator_type('subtract', 'xs:decimal', 'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:float',   Int2) when ?integer(Int2) -> 'xs:float';
+static_operator_type('subtract', 'xs:float',   Int2) when ?xs_integer(Int2) -> 'xs:float';
 static_operator_type('subtract', 'xs:float',   'xs:decimal') -> 'xs:float';
 static_operator_type('subtract', 'xs:float',   'xs:float')   -> 'xs:float';
 static_operator_type('subtract', 'xs:float',   'xs:double')  -> 'xs:double';
-static_operator_type('subtract', 'xs:double',  Int2) when ?integer(Int2) -> 'xs:double';
+static_operator_type('subtract', 'xs:double',  Int2) when ?xs_integer(Int2) -> 'xs:double';
 static_operator_type('subtract', 'xs:double',  'xs:decimal') -> 'xs:double';
 static_operator_type('subtract', 'xs:double',  'xs:float')   -> 'xs:double';
 static_operator_type('subtract', 'xs:double',  'xs:double')  -> 'xs:double';
 
 static_operator_type('subtract', 'xs:date', 'xs:date') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:date', D) when ?duration(D) -> 'xs:date';
+static_operator_type('subtract', 'xs:date', D) when ?xs_duration(D) -> 'xs:date';
 static_operator_type('subtract', 'xs:dateTime', 'xs:dateTime') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:dateTime', D) when ?duration(D) -> 'xs:dateTime';
+static_operator_type('subtract', 'xs:dateTime', D) when ?xs_duration(D) -> 'xs:dateTime';
 static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:duration') -> 'xs:duration';
 static_operator_type('subtract', 'xs:dayTimeDuration', 'xs:dayTimeDuration') -> 'xs:dayTimeDuration';
-static_operator_type('subtract', 'xs:duration', D) when ?duration(D) -> 'xs:duration';
+static_operator_type('subtract', 'xs:duration', D) when ?xs_duration(D) -> 'xs:duration';
 static_operator_type('subtract', 'xs:time', 'xs:dayTimeDuration') -> 'xs:time';
 static_operator_type('subtract', 'xs:time', 'xs:duration') -> 'xs:time';
 static_operator_type('subtract', 'xs:time', 'xs:time') -> 'xs:dayTimeDuration';

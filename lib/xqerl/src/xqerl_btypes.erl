@@ -224,10 +224,13 @@ is_node(Type) ->
 is_atomic(Type) ->
    Type band ?anyAtomicType =:= ?anyAtomicType.
 
-is_numeric(Type) when Type band ?decimal =:= ?decimal;
-                      Type band ?float =:= ?float;
-                      Type band ?double =:= ?double ->
+is_numeric(Type) when Type >= 10376297939508133888,
+                      Type =< 10376311133647667200 ->
    true;
+%% is_numeric(Type) when Type band ?decimal =:= ?decimal;
+%%                       Type band ?float =:= ?float;
+%%                       Type band ?double =:= ?double ->
+%%    true;
 is_numeric(_) ->
    false.
 

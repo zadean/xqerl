@@ -93,45 +93,41 @@ assert_type(Result, TypeString) ->
 %% assert_xml             (: fn:deep-equal(result, run test query) :)
 assert_xml(Result, {file, FileLoc}) ->
    {ok,FileBin} = file:read_file(FileLoc),
-   ResXml = xqerl_node:to_xml(Result),
-   ?dbg("ResXml",ResXml),
-   try
-      ResXml2 = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>}, #xqAtomicValue{type = 'xs:string', value = ResXml}),
-      ?dbg("ResXml2",ResXml2),
-      FileBin2 = xqerl_fn:'parse-xml'(#{'base-uri' => <<>>}, #xqAtomicValue{type = 'xs:string', value = FileBin}),
-      Res1 = xqerl_node:nodes_equal(ResXml2, FileBin2, codepoint),
-      StrVal = string_value(Res1),
-      ?dbg("Res1",Res1),
-      ?dbg("StrVal",StrVal),
-      if StrVal == <<"true">> ->
-            true;
-         true ->
-            {false, {assert_xml,ResXml,FileBin}}
-      end
-   catch 
-      _:_:Stack ->
-         ?dbg("Stack",Stack),
-         {false, {assert_xml,ResXml,FileBin}}
-   end;
+   assert_xml(Result, FileBin);
 assert_xml(Result, QueryString) when is_list(QueryString) ->
    assert_xml(Result, unicode:characters_to_binary(QueryString));
-assert_xml(Result, QueryString) ->
+assert_xml(Result, QueryString0) ->
+   QueryString = xqerl_lib:trim(QueryString0),
    ResXml = xqerl_node:to_xml(Result),
-   case catch xqerl_lib:decode_string(ResXml) == 
-              xqerl_lib:decode_string(QueryString) of
-      true ->
+   if ResXml == QueryString -> % fragments sometimes only work this way
          true;
-      _ ->
+      true ->
          try
-            NewQueryString = unicode:characters_to_list(ResXml) ++ 
-                             " = " ++ 
-                             unicode:characters_to_list(QueryString),
-            Res1 = xqerl:run(NewQueryString, #{}),
+            ResXml2 = xqerl_fn:'parse-xml-fragment'(
+                        #{'base-uri' => <<>>}, 
+                        #xqAtomicValue{type = 'xs:string', 
+                                       value = <<"<x>",ResXml/binary,"</x>">>}),
+            %?dbg("ResXml2",ResXml2),
+            QueryString2 =
+              case catch xqerl_fn:'parse-xml-fragment'(
+                             #{'base-uri' => <<>>}, 
+                             #xqAtomicValue{type = 'xs:string', 
+                                            value = <<"<x>",QueryString/binary,"</x>">>})
+                 of
+                 {'EXIT',#xqError{}} ->
+                    R = xqerl:run(unicode:characters_to_list(<<"document{<x>",QueryString/binary,"</x>}">>)),
+                    ?dbg("fallback to run",R),
+                    R;
+                 Other ->
+                    Other
+              end,
+            Res1 = xqerl_node:nodes_equal(ResXml2, QueryString2, codepoint),
             StrVal = string_value(Res1),
+            %?dbg("Res1",Res1),
+            %?dbg("StrVal",StrVal),
             if StrVal == <<"true">> ->
                   true;
                true ->
-                  ?dbg("StrVal",StrVal),
                   {false, {assert_xml,ResXml,QueryString}}
             end
          catch 
@@ -140,7 +136,6 @@ assert_xml(Result, QueryString) ->
                {false, {assert_xml,ResXml,QueryString}}
          end
    end.
-%% assert_eq              (: '=' operator :)
 assert_eq(Result, TypeString) ->
    NewQueryString = "declare variable $result as item()* external; "
                     "$result = " ++ TypeString,
@@ -149,13 +144,13 @@ assert_eq(Result, TypeString) ->
          ?dbg("Res",Res),
          {false, Res};
       Res1 ->
-         ?dbg("Res1",Res1),
+         %?dbg("Res1",Res1),
          StrVal = string_value(Res1),
          if StrVal == <<"true">> ->
                true;
             true ->
-               ?dbg("Result",Result),
-               {false, {assert_eq,Res1,TypeString}}
+               %?dbg("Result",Result),
+               {false, {assert_eq,Result,TypeString}}
          end
    end.
 %% assert_deep_eq         (: fn:deep-equal(result, run test query) :)
@@ -846,10 +841,10 @@ handle_environment(List) ->
           #xqAtomicValue{type = 'xs:anyURI', value = ?LB(xqldb_lib:filename_to_uri(Base++"/dummy.xq"))}},
                              case xqerl:run(Q,Opts) of
                                 L when is_list(L) ->
-                                   ?dbg("L",L),
+                                   %?dbg("L",L),
                                    L;
                                 L ->
-                                   ?dbg("L",L),
+                                   %?dbg("L",L),
                                    [L]
                              end;
                            _ ->
@@ -878,10 +873,10 @@ handle_environment(List) ->
                       true ->
                          unicode:characters_to_binary(Uri0)
                    end,
-            ?dbg("File",File),
+            %?dbg("File",File),
             case xqldb_docstore:exists(Uri2) of
                true ->
-                  ?dbg("exists",Uri2),
+                  %?dbg("exists",Uri2),
                   _ = xqldb_docstore:select(Uri2),
                   ok;
                _ ->
@@ -899,9 +894,9 @@ handle_environment(List) ->
                   end,
                   ok
             end,
-            ?dbg("Role",Role),
+            %?dbg("Role",Role),
             if Role == "." ->
-                  ?dbg("Uri2",Uri2),
+                  %?dbg("Uri2",Uri2),
                   {ok,Doc} = case xqldb_docstore:select(Uri2) of
                                 {ok,Docz} ->
                                    {ok,Docz};
@@ -979,7 +974,7 @@ handle_environment(List) ->
                  [] ->
                     ContextItem1
               end,
-   ?dbg("BaseUri1",BaseUri1),
+   %?dbg("BaseUri1",BaseUri1),
    Namespaces2 = lists:map(
                    fun({Uri,""}) ->
                          "declare default element namespace '" ++

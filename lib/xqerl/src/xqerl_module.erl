@@ -27,7 +27,8 @@
 %-include_lib("stdlib/include/qlc.hrl").
 -include("xqerl.hrl").
 
--define(PRINT,true).
+-define(PRINT,false).
+%-define(PRINT,true).
 
 %% ====================================================================
 %% Tables
@@ -235,7 +236,7 @@ get_static_signatures() ->
    lists:foldl(Query, {[],[],[]}, Mods).
 
 compile(FileName) ->
-   ?dbg("compile",FileName),
+   %?dbg("compile",FileName),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
    compile(FileName, Str).
@@ -245,7 +246,7 @@ compile(FileName, Str) ->
    compile(FileName, Str, []).
 
 compile(FileName, [], Hints) ->
-   ?dbg("compile",FileName),
+   %?dbg("compile",FileName),
    {ok, Bin} = file:read_file(FileName),
    Str = binary_to_list(Bin),
    if Str == [] ->
@@ -267,6 +268,7 @@ compile(FileName, Str, Hints) ->
       Static = scan_tree_static(
                  Tree, 
                  xqldb_lib:filename_to_uri(unicode:characters_to_binary(FileName))),
+%io:format("~p~n",[maps:get(body, Static)]),
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
 %?dbg("Ret",Ret),
@@ -533,7 +535,7 @@ parse_tokens(Tokens) ->
 scan_tree(Tree) ->
    try 
       Ret = xqerl_abs:scan_mod(Tree),
-?dbg("here",ok),      
+%?dbg("here",ok),      
       Ret
    catch
       _:#xqError{} = E ->

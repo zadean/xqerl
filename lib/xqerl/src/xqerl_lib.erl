@@ -57,7 +57,9 @@
          is_valid_tokens/1,
          is_valid_name/1]).
 
--export([normalize_spaces/1,
+-export([contains/2,
+         trim/1,
+         normalize_spaces/1,
          normalize_string/1,
          bin_to_utf8/1,
          bin_to_utf8/2]).
@@ -230,9 +232,49 @@ reserved_namespaces(Ns) ->
 bin_to_str(Bin) ->
    [C || <<C/utf8>> <= Bin ].
 
+contains(<<>>, _) -> false;
+contains(<<C/utf8,_/binary>>, C) -> true;
+contains(<<_/utf8,Rest/binary>>, C) ->
+   contains(Rest, C).
+
+trim(<<>>) -> <<>>;
+trim(<<H/utf8,T/binary>>) 
+   when H == 32;
+        H == $\r; H == $\n; H == 9;
+        H == 10; H == 10; H == 11;
+        H == 12; H == 13; H == 133;
+        H == 8206; H == 8207; H == 8232;
+        H == 8233 -> 
+   trim(T);
+trim(String) ->
+   trim_1(String).
+
+trim_1(<<>>) -> <<>>;
+trim_1(String) ->
+   BS = byte_size(String),
+   case binary:last(String) of
+      H when H == 32;
+             H == $\r; H == $\n; H == 9;
+             H == 10; H == 10; H == 11;
+             H == 12; H == 13; H == 133 ->
+         Sz = byte_size(String) - 1,
+         <<Out:Sz/bytes,_/binary>> = String,
+         trim_1(Out);
+      _ when binary_part(String,BS,-3) == <<8206/utf8>>;
+             binary_part(String,BS,-3) == <<8207/utf8>>;
+             binary_part(String,BS,-3) == <<8232/utf8>>;
+             binary_part(String,BS,-3) == <<8233/utf8>> ->
+         Sz = byte_size(String) - 3,
+         <<Out:Sz/bytes,_/utf8>> = String,
+         trim_1(Out);
+      _ ->
+         String
+   end.
+
+
 normalize_spaces(<<>>) -> <<>>;
 normalize_spaces(Str) ->
-   normalize_spaces(string:trim(Str),<<>>).
+   normalize_spaces(trim(Str),<<>>).
 
 normalize_spaces(<<32,C/utf8,T/binary>>, Acc) when ?WS(C) ->
    normalize_spaces(<<32,T/binary>>, Acc);
@@ -412,7 +454,7 @@ resolve_against_base_uri(BaseUri, RefUri) ->
 -spec check_uri_string(binary()) ->
          binary() | {error,_}.
 check_uri_string(Uri) ->
-   Trim = string:trim(Uri),
+   Trim = trim(Uri),
    case colon_first(Trim) of
       true ->
          {error, invalid_uri};
@@ -471,7 +513,6 @@ is_valid_token(<<>>) -> false;
 is_valid_token(Token) ->
    [C ||
     <<C/utf8>> <= Token,
-    C == 32 orelse C == 13 orelse C == 10 orelse C == 9 orelse
     is_xsname_char(C) == false
     ] == [].
 
@@ -480,6 +521,7 @@ is_valid_tokens(<<>>) -> false;
 is_valid_tokens(Token) ->
    [C ||
     <<C/utf8>> <= Token,
+    C =/= 32,
     is_xsname_char(C) == false
     ] == [].
 
@@ -556,6 +598,7 @@ lget(Tab,Key) ->
    end.
 
 lput(Key,Val) ->
+   %?dbg("Putting: ",{Key,Val}),
    %ets:insert(local_data, {Key, Val}),
    _ = erlang:put(Key, Val),
    ok.
