@@ -2,6 +2,8 @@
 -module(xqerl_abs_xdm).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
+
 -include_lib("syntax_tools/include/merl.hrl").
 
 % revert everything from merl

@@ -32,7 +32,8 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([decimal/1]).
+-export([decimal/1,
+         sortable_decimal/1]).
 -export([double/1]).
 -export([float/1]).
 -export([integer/1]).
@@ -93,6 +94,42 @@ float_to_decimal(Float) when is_float(Float) ->
              end,
    #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
+-spec sortable_decimal(number() | #xsDecimal{} | binary()) -> {integer(),integer()}.
+sortable_decimal(Num) ->
+   #xsDecimal{int = Int, scf = Scf} = decimal(Num),
+   Bin = integer_to_binary(Int),
+   Bs = byte_size(Bin),
+   Bo = case binary:first(Bin) of
+           $- ->
+              Bs - Scf - 1;
+           _ ->
+              Bs - Scf
+        end,
+%?dbg("All",{Bo,Bs,Bin}),
+   case Bin of
+      <<T:Scf/bytes>> when Bo >= 0 ->
+         {1,0,binary_to_integer(<<$1,T/binary>>)};
+      <<$-,T:Scf/bytes>> when Bo >= 0 ->
+         {0,0,binary_to_integer(<<$1,T/binary>>)};
+      <<$-,H:Bo/bytes>> when Bo >= 0 ->
+         H1 = binary_to_integer(H),
+         {0,H1,1};
+      <<H:Bo/bytes,T:Scf/bytes>> when Bo >= 0 ->
+         H1 = binary_to_integer(H),
+         if H1 < 0 ->
+               {0,abs(H1),binary_to_integer(<<$1,T/binary>>)};
+            true ->
+               {1,H1,binary_to_integer(<<$1,T/binary>>)}
+         end;
+      <<$-,T/binary>> when Bo < 0 ->
+         % negative less than 1
+         Pad = binary:copy(<<$0>>,abs(Bo)),
+         {0,0,binary_to_integer(<<$1,Pad/binary,T/binary>>)};
+      _ when Bo < 0 ->
+         Pad = binary:copy(<<$0>>,abs(Bo)),
+         {1,0,binary_to_integer(<<$1,Pad/binary,Bin/binary>>)}
+   end.
+   
 -spec decimal(number() | #xsDecimal{} | binary()) -> #xsDecimal{}.
 decimal(0.0) -> ?INT_DEC(0);
 decimal(0) ->   ?INT_DEC(0);
@@ -119,7 +156,8 @@ decimal(Float) when is_float(Float) ->
    end;
 decimal(Int) when is_integer(Int) ->
    #xsDecimal{int = Int, scf = 0};
-decimal(#xsDecimal{} = D) -> D;
+decimal(#xsDecimal{scf = 0} = D) -> D;
+decimal(#xsDecimal{} = D) -> simplify(D);
 %% decimal(String) when is_list(String) -> %TODO remove
 %%    decimal(list_to_binary(String));
 decimal(String) ->
@@ -710,6 +748,7 @@ round1(#xsDecimal{int = Int, scf = Scf}) ->
            end,
    #xsDecimal{int = Int1, scf = Scf - 1}.
 
+simplify(#xsDecimal{scf = 0} = D) -> D;
 simplify(#xsDecimal{int = Int, scf = Scf}) 
   when Scf > 4, Int rem 100000 =:= 0 ->
    simplify(#xsDecimal{int = Int div 100000, scf = Scf - 5});

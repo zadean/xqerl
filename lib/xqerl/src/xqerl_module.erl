@@ -229,7 +229,8 @@ get_static_signatures() ->
                           end || V <- Vars],
                  PFuns = [begin
                              {F, A} = element(4, V),
-                             setelement(4, V, {Mod,F,A})
+                             %erlang:append_element(
+                               setelement(4, V, {Mod,F,A}) %, false)
                           end || V <- Funs],
                  {PFuns ++ PFunsAcc, PVars ++ PVarsAcc,[]}
            end,
@@ -272,6 +273,7 @@ compile(FileName, Str, Hints) ->
 %?dbg("Static",maps:get(body, Static)),
       {ModNs,ModType,ImportedMods,VarSigs,FunSigs,Ret} = scan_tree(Static),
 %?dbg("Ret",Ret),
+%io:format("~p~n",[Ret]),
       xqerl_context:destroy(Static),
 %?dbg("here",erts_debug:flat_size(Ret)),
    

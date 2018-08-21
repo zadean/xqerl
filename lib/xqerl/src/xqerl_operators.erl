@@ -28,6 +28,7 @@
 
 -import(xqerl_numeric,[double/1,
                        decimal/1,
+                       sortable_decimal/1,
                        float/1]).
 
 -define(MINFLOAT, -3.4028235e38).
@@ -1473,7 +1474,9 @@ numeric_mod(#xqAtomicValue{type = TypeA, value = ValA} = A,
               true ->
                  get_numeric_type(TypeA, TypeB)
            end,
-   if (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
+   if is_integer(ValA) andalso is_integer(ValB) andalso ValB =/= 0 ->
+         #xqAtomicValue{type = TypeC, value = ValA rem ValB};
+      (ValB == 0) andalso TypeC =/= 'xs:double' andalso TypeC =/= 'xs:float' ->
          ?err('FOAR0001');
       (ValA == nan) orelse (ValB == nan) ->
          #xqAtomicValue{type = TypeC, value = nan};
@@ -2698,9 +2701,9 @@ key_val([Val]) ->
 key_val(#xqNode{} = Val) ->
    key_val(xqerl_types:atomize(Val));
 key_val(#xqAtomicValue{type = 'xs:integer', value = V}) ->
-   {number,decimal(V)};
+   {number,sortable_decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:decimal', value = V}) ->
-   {number,V};
+   {number,sortable_decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:double', value = V}) 
    when V == neg_zero;
         V == nan;
@@ -2714,9 +2717,9 @@ key_val(#xqAtomicValue{type = 'xs:float', value = V})
         V == neg_infinity ->
    {number,V};
 key_val(#xqAtomicValue{type = 'xs:double', value = V}) ->
-   {number,decimal(V)};
+   {number,sortable_decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:float', value = V}) ->
-   {number,decimal(V)};
+   {number,sortable_decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:yearMonthDuration', value = V}) ->
    {duration,V};
 key_val(#xqAtomicValue{type = 'xs:dayTimeDuration', value = V}) ->

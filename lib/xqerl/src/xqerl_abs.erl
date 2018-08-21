@@ -36,6 +36,8 @@
 -define(XS,?A("http://www.w3.org/2001/XMLSchema")).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
+
 -include_lib("syntax_tools/include/merl.hrl").
 
 % revert everything from merl
@@ -48,7 +50,7 @@ records() ->
    ["-record(xqError,{name,description,value,location}).",
     "-record(xqAtomicValue,{type,value}).",
     "-record(qname,{namespace,prefix,local_name}).",
-    "-record(xqFunction,{id,annotations,name,arity,params,type,body}).",
+    "-record(xqFunction,{id,annotations,name,arity,params,type,body,external}).",
     "-record(xqNode,{doc,node}).",
     "-record(xqDocumentNode,{identity,desc_count,base_uri,children,
       value,string_value,path_index,expr}).",
@@ -703,15 +705,33 @@ expr_do(_Ctx, {error, ErrCode}) when is_atom(ErrCode) ->
 %%    step_expr_do(Ctx, MapExpr, SeqAbs);
 
 expr_do(Ctx, {'simple-map',SeqExpr,MapExpr}) ->
-   %?dbg("{'simple-map',SeqExpr,MapExpr}",{'simple-map',SeqExpr,MapExpr}),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   NextCtxVar = next_ctx_var_name(),
-   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
    SeqAbs = expr_do(Ctx, SeqExpr),
-   BodyAbs = expr_do(Ctx1, MapExpr),
-   Param = {var,?L,NextCtxVar},
-   FunAbs = ?P("fun(_@Param) -> _@BodyAbs end"),
-   ?P("xqerl_flwor:simple_map(_@CtxVar,_@SeqAbs,_@FunAbs)");
+
+   NextCtxVar = next_ctx_var_name(),
+   NextCtxVar1 = {var,?L,NextCtxVar},
+   
+   IntCtxVar = {var,?L,next_var_name()},
+   PosVar = {var,?L,next_var_name()},
+   SizeVar = {var,?L,next_var_name()},
+
+   AddFun = fun(N,C) ->
+                  add_variable(N, C)
+            end,
+   Ctx0 = lists:foldl(AddFun, Ctx, 
+                      [{context_variable,IntCtxVar},
+                       {position_variable,PosVar},
+                       {size_variable,SizeVar}
+                      ]),   
+   Ctx1 = set_context_variable_name(Ctx0, NextCtxVar),
+   Ctx2 = Ctx1#{context_variable => IntCtxVar,
+                position_variable => PosVar,
+                size_variable => SizeVar},
+   
+   BodyAbs = expr_do(Ctx2, MapExpr),
+
+   FunAbs = ?P("fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@BodyAbs end"),
+   ?P("xqerl_seq3:map(_@CtxVar,_@FunAbs,_@SeqAbs)");
 
 % inline anonymous functions
 expr_do(Ctx, #xqFunction{id = _Id,
@@ -842,9 +862,13 @@ expr_do(Ctx, {'string-constructor', Expr}) ->
    Fl = {bin,?L,Es},
    ?P("#xqAtomicValue{type = 'xs:string', value = _@Fl}");
 
+% context item can be a variable of set in the context map
+expr_do(#{context_variable := CtxVar}, 'context-item') ->
+   ?P("_@CtxVar");
 expr_do(Ctx, 'context-item') ->
    CtxName = {var,?L,get_context_variable_name(Ctx)},
    ?P("xqerl_context:get_context_item(_@CtxName)");
+
 expr_do(Ctx, {range,Expr1,Expr2}) ->
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
@@ -951,10 +975,10 @@ expr_do(_,{path_expr,_,['empty-sequence'|_]}) ->
 %% Complex are joins and complex predicates  
 %%  they call the document process per function 
 
-expr_do(Ctx, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
-                                                 R == {'root'} ->
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   CtxItem = ?P("xqerl_context:get_context_item(_@CurrCtxVar)"),
+expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
+                                                  R == {'root'} ->
+   CtxItem = expr_do(Ctx0, 'context-item'),
+   Ctx = clear_context_variables(Ctx0),
    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
 %   NextCtxVar = next_ctx_var_name(),
    %NextCtxVVar = {var,?L,NextCtxVar},
@@ -1008,7 +1032,8 @@ expr_do(Ctx, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
    end;
          
 
-expr_do(Ctx, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
+expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
+   Ctx = clear_context_variables(Ctx0),
 %?dbg("Steps",Steps),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxSeq = a_var(Var,CurrCtxVar),
@@ -1078,7 +1103,8 @@ expr_do(Ctx, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
 
 
 
-expr_do(Ctx, {path_expr,_Id,[ Base | Steps ]}) ->
+expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
+   Ctx = clear_context_variables(Ctx0),
 %?dbg("[ Base | Steps ]",[ Base | Steps ]),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextCtxVar = next_ctx_var_name(),
@@ -1149,11 +1175,9 @@ expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
    expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
 
 expr_do(Ctx, {root}) ->
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   ?P("xqerl_context:get_context_item(_@CurrCtxVar)");
+   expr_do(Ctx, 'context-item');
 expr_do(Ctx, {'any-root'}) ->
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   ?P("xqerl_context:get_context_item(_@CurrCtxVar)");
+   expr_do(Ctx, 'context-item');
 
 expr_do(Ctx, {atomize, Expr}) ->
    E = expr_do(Ctx, Expr),
@@ -1235,6 +1259,40 @@ expr_do(Ctx, {'ordered-expr', Expr}) ->
    V = {var,?L,NextCtx},
    S3 = expr_do(Ctx1, Expr),
    ?P("begin _@V = xqerl_context:set_ordering_mode(_@C,ordered), _@S3 end");
+
+% position replacement
+expr_do(#{position_variable := PosVar}, 
+        {'function-call', #xqFunction{body = {xqerl_fn,position,_}}}) ->
+   ?P("_@PosVar");
+expr_do(#{size_variable := SizeVar}, 
+        {'function-call', #xqFunction{body = {xqerl_fn,last,_}}}) ->
+   ?P("_@SizeVar");
+% 'lang' call on context item
+expr_do(#{context_variable := _} = Ctx, 
+        {'function-call', #xqFunction{params = [A], 
+                                      body = {xqerl_fn,lang,2}} = FC}) ->
+   expr_do(Ctx,{'function-call', 
+                FC#xqFunction{params = [A,'context-item'], 
+                              body = {xqerl_fn,lang,3}}});
+% magic functions that automatically use the context item
+expr_do(#{context_variable := _} = Ctx, 
+        {'function-call', #xqFunction{body = {xqerl_fn,Fn,1}} = FC})
+   when Fn == 'node-name';        Fn == 'nilled';
+        Fn == 'string';           Fn == 'data';
+        Fn == 'base-uri';         Fn == 'document-uri';
+        Fn == 'number';           Fn == 'normalize-space';
+        Fn == 'string-length';    Fn == 'name';
+        Fn == 'local-name';       Fn == 'namespace-uri';
+        Fn == 'root';             Fn == 'path';
+        Fn == 'has-children';     Fn == 'generate-id' -> 
+   expr_do(Ctx,{'function-call', 
+                FC#xqFunction{params = ['context-item'], 
+                              body = {xqerl_fn,Fn,2}}});
+
+%% expr_do(Ctx0, 
+%%         {'function-call', #xqFunction{body = {xqerl_fn,'function-lookup',4}} = FC}) ->
+%%    Ctx = clear_context_variables(Ctx0),
+%%    expr_do(Ctx,{'function-call', FC});
 
 expr_do(Ctx, {'function-call', #xqFunction{params = Params, 
                                            body = {M,F,_A}}}) when is_atom(M),
@@ -1426,19 +1484,19 @@ expr_do(Ctx, {LU, all})
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   MapExpr = ?P("xqerl_context:get_context_item(_@CtxVar)"),
+   MapExpr = expr_do(Ctx, 'context-item'),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,all)");
 expr_do(Ctx, {LU, wildcard})
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   MapExpr = ?P("xqerl_context:get_context_item(_@CtxVar)"),
+   MapExpr = expr_do(Ctx, 'context-item'),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,all)");
 expr_do(Ctx, {LU, Val}) 
    when LU =:= array_lookup;
         LU =:= map_lookup ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   MapExpr = ?P("xqerl_context:get_context_item(_@CtxVar)"),
+   MapExpr = expr_do(Ctx, 'context-item'),
    ValExp = expr_do(Ctx, Val),
    ?P("xqerl_operators:lookup(_@CtxVar,_@MapExpr,_@ValExp)");
 
@@ -1640,8 +1698,7 @@ expr_do(Ctx, List) when is_list(List) ->
 
 % steps
 expr_do(Ctx, #xqAxisStep{} = Step) ->
-   CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   Base = ?P("xqerl_context:get_context_item(_@CtxVar)"),
+   Base = expr_do(Ctx, 'context-item'),
    S = step_expr_do(Ctx, [Step], Base),
    ?P("begin _@S end");
 
@@ -1940,7 +1997,7 @@ flwor(Ctx, [{order_by,_Id,Exprs}|T], RetId, Return, Internal,
       Global,TupleVar,_Inline) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
    VarTup = get_variable_tuple(Ctx),
-   OFun = fun({order,Expr,{modifier,{_,Dir},{_,Empty},{_,_Collation}}},Acc) ->
+   OFun = fun({order,Expr,{modifier,Dir,{_,Empty},{_,_Collation}}},Acc) ->
                 E1 = expr_do(Ctx, Expr),
                 ?P("[{fun(_@VarTup) -> xqerl_seq3:singleton_value(_@E1) end,
                       '@Dir@','@Empty@'}|_@Acc]")
@@ -2093,7 +2150,7 @@ group_part(#{grp_variables := GrpVars,
    Hd = ?P("erlang:hd([_@OuterTups || _@OutgoingVarTup <- List])"),
    Flatten = ?P("lists:flatten(['@FunctionName@'(Ctx,T,_@CollNT) || T <- List])"),
    Rest = if OuterVars =:= [] -> {nil,?L}; true -> Hd end,
-   ?dbg("_@@CollMatch",?P("_@@CollMatch")),
+%?dbg("_@@CollMatch",?P("_@@CollMatch")),
    GrpFun1 = 
      ?P(["'@FunctionName@'(_,[]) -> [];",
          "'@FunctionName@'(Ctx,List) when erlang:is_list(List) -> ",
@@ -2579,6 +2636,12 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
    Key = Qn1,
    Vars1 = lists:keydelete(Key, 1, Vars),
    NewVars = lists:keystore(Key, 1, Vars1, Variable1),
+   maps:put(variables, NewVars, Map);
+add_variable({Name,Abs} = Variable, Map) when is_atom(Name) ->
+   Vars = maps:get(variables, Map),
+   Key = Name,
+   Vars1 = lists:keydelete(Key, 1, Vars),
+   NewVars = lists:keystore(Key, 1, Vars1, Variable),
    maps:put(variables, NewVars, Map).
 
 add_grouping_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
@@ -3030,14 +3093,10 @@ get_variable_tuple(Map) when is_map(Map) ->
    end.
 
 get_variable_tuple(_Ctx, List) when is_list(List) ->
-%%    CtxVar = {var,?L,get_context_variable_name(Ctx)},
-%%    InFun = maps:is_key(in_local_fun, Ctx),
    F = fun({_,_,_,Name}) when is_atom(Name) ->
              {true,{var,?L,Name}};
-%%           ({_,_,_,{Name,1},_}) when InFun ->
-%%              {true,a_var({Name,1}, CtxVar)};
-%%           ({_,_,_,{Name,1},_}) ->
-%%              {true,{var,?L,Name}};
+          ({Name,{var,_,_} = Var}) when is_atom(Name) ->
+             {true,Var}; % context items
           (_) ->
              false
        end,
@@ -3124,22 +3183,41 @@ handle_predicate({Ctx, {predicate, #xqAtomicValue{type = Type} = A}}, Abs)
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@A1,_@Abs)");
 
 handle_predicate({Ctx, {predicate, #xqVarRef{name = Name}}}, Abs) ->
+%%    Ctx = lists:foldl(
+%%            fun(V,M) ->
+%%                  maps:remove(V, M)
+%%            end, Ctx0, [context_variable,position_variable,size_variable]),
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    {VarAbs, #xqSeqType{type = VarType}} = get_variable_ref(Name, Ctx),
    if ?xs_numeric(VarType) ->
          ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
       true ->
          NextCtxVar = {var,?L,next_ctx_var_name()},
-         ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar) -> "
+         ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar,_,_,_) -> "
             "_@VarAbs end,_@Abs)")
    end;
 handle_predicate({Ctx, {predicate, P}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextCtxVar = next_ctx_var_name(),
    NextCtxVar1 = {var,?L,NextCtxVar},
-   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-   E1 = expr_do(Ctx1, P),
-   ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1) -> _@E1 end,_@Abs)");
+   IntCtxVar = {var,?L,next_var_name()},
+   PosVar = {var,?L,next_var_name()},
+   SizeVar = {var,?L,next_var_name()},
+
+   AddFun = fun(N,C) ->
+                  add_variable(N, C)
+            end,
+   Ctx0 = lists:foldl(AddFun, Ctx, 
+                      [{context_variable,IntCtxVar},
+                       {position_variable,PosVar},
+                       {size_variable,SizeVar}
+                      ]),   
+   Ctx1 = set_context_variable_name(Ctx0, NextCtxVar),
+   Ctx2 = Ctx1#{context_variable => IntCtxVar,
+                position_variable => PosVar,
+                size_variable => SizeVar},
+   E1 = expr_do(Ctx2, P),
+   ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
 
 handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
@@ -3467,3 +3545,9 @@ ensure_param_type(_Ctx,Var,TVar,undefined) ->
 ensure_param_type(Ctx,Var,TVar,Type) ->
    T = expr_do(Ctx,Type),
    ?P("_@Var = xqerl_types:promote(_@TVar,_@T)").
+
+clear_context_variables(Map) ->
+   M1 = maps:remove(context_variable, Map),
+   M2 = maps:remove(position_variable, M1),
+   maps:remove(size_variable, M2).
+   

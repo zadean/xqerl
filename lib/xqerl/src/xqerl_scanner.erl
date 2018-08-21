@@ -1908,7 +1908,7 @@ scan_literal([H|T], Delim, Acc) ->
 
 scan_QName("Q{" ++ T) ->
    {Uri, T1} = scan_braced_uri(T,[]),
-   ?dbg("scan_token",{?L, Uri}),
+   %?dbg("scan_token",{?L, Uri}),
    {[{'Q', ?L, 'Q'},{'{', ?L, '{'},{'StringLiteral', ?L, Uri},{'}', ?L, '}'}], T1};
 scan_QName(Str) ->
    scan_name(Str).

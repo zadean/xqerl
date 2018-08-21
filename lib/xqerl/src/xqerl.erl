@@ -4,8 +4,8 @@
 
 -module(xqerl).
 
--define(PRINT,false).
-%-define(PRINT,true).
+%-define(PRINT,false).
+-define(PRINT,true).
 
 -include("xqerl.hrl").
 
@@ -49,8 +49,11 @@ run(Str, Options) ->
 %      ?dbg("Static",maps:get(body, Static)),
       {ModNs,_ModType,_ImportedMods,_VarSigs,_FunSigs,Ret} = scan_tree(Static),
 %      ?dbg("Ret",Ret),
+
 %io:format("~p~n",[Tree]),
+%io:format("~p~n",["***************************************************"]),
 %io:format("~p~n",[maps:get(body, Static)]),
+      
       xqerl_context:destroy(Static),
       B = compile_abstract(Ret),
       print_erl(B),

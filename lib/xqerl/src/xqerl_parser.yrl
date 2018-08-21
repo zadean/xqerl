@@ -2,266 +2,71 @@ Nonterminals
 % 
 'uplus' 'uminus'
 %
-'ElementContentChars'
-'AposAttrContentChars'
-'QuotAttrContentChars'
+'ElementContentChars' 'AposAttrContentChars' 'QuotAttrContentChars'
 % QName
-'PrefixedName'
-'UnprefixedName'
-%'LocalPart'
+'PrefixedName' 'UnprefixedName' %'LocalPart' 
 'BracedURILiteral'
 % 3.1
-'AllowingEmpty'
-'AnnotatedDecl'
-'Annotation'
-'AnnotationList'
-'AnyArrayTest'
-'AnyFunctionTest'
-'AnyMapTest'
-'Argument'
-'ArgumentList'
-'ArgumentPlaceholder'
-'ArrayConstructor'
-'ArrayTest'
-'ArrowExpr'
-'ArrowFunctionSpecifier'
-'AtomicOrUnionType'
-'AttributeDeclaration'
-'CatchClause'
-'CatchClauses'
-'CatchErrorList'
-'CompNamespaceConstructor'
-'ContextItemDecl'
-'CountClause'
-'CurlyArrayConstructor'
-'CurrentItem'
-'DFPropertyName'
-'DecimalFormatDecl'
-'DFPropertyNameList'
-'EQName'
-'ElementDeclaration'
-'EnclosedContentExpr'
-'EnclosedPrefixExpr'
-'EnclosedTryTargetExpr'
-'EnclosedURIExpr'
-'ExprSingleList'
-'ExtensionExpr'
-'ForBinding'
-'ForBindingList'
-'FunctionBody'
-'FunctionItemExpr'
-'FunctionTest'
-'GroupByClause'
-'GroupingSpec'
-'GroupingSpecList'
-'GroupingVariable'
-'InitialClause'
-'InlineFunctionExpr'
-'IntermediateClause'
-'IntermediateClauseList'
-'KeySpecifier'
-'LetBinding'
-'LetBindingList'
-'Lookup'
-'MapConstructor'
-'MapConstructorEntries'
-'MapConstructorEntry'
-'MapKeyExpr'
-'MapTest'
-'MapValueExpr'
-'NamedFunctionRef'
-'NamespaceNodeTest'
-'NextItem'
-'NodeConstructor'
-'ParenthesizedItemType'
-'PostfixExpr'
-'PostFixes'
-'Pragma'
-'Pragmas'
-%'Prefix'
-'PreviousItem'
-'ReturnClause'
-'SchemaAttributeTest'
-'SchemaElementTest'
-'SequenceTypeList'
-'SequenceTypeUnion'
-'SimpleMapExpr'
-'SimpleTypeName'
-'SlidingWindowClause'
-'SquareArrayConstructor'
-'StringConcatExpr'
-'StringConstContents'
-'StringConstructor'
-'StringConstructorContent'
-'StringConstructorInterpolation'
-'SwitchCase'
-'SwitchCaseClause'
-'SwitchCaseClauses'
-'SwitchCaseOperand'
-'SwitchExpr'
-'TryCatchExpr'
-'TryClause'
-'TumblingWindowClause'
-'TypeName'
-'TypedArrayTest'
-'TypedFunctionTest'
-'TypedMapTest'
-'URIQualifiedName'
-'UnaryLookup'
-'ValidateExpr'
-'ValidationMode'
-'VarDefaultValue'
-'VarValue'
-'WindowClause'
-'WindowEndCondition'
-'WindowStartCondition'
-'WindowVars'
+'AllowingEmpty' 'AnnotatedDecl' 'Annotation' 'AnnotationList' 'AnyArrayTest'
+'AnyFunctionTest' 'AnyMapTest' 'Argument'  'ArgumentList' 'ArgumentPlaceholder'
+'ArrayConstructor' 'ArrayTest' 'ArrowExpr' 'ArrowFunctionSpecifier'
+'AtomicOrUnionType' 'AttributeDeclaration' 'CatchClause' 'CatchClauses'
+'CatchErrorList' 'CompNamespaceConstructor' 'ContextItemDecl' 'CountClause'
+'CurlyArrayConstructor' 'CurrentItem' 'DFPropertyName' 'DecimalFormatDecl'
+'DFPropertyNameList' 'EQName' 'ElementDeclaration' 'EnclosedContentExpr'
+'EnclosedPrefixExpr' 'EnclosedTryTargetExpr' 'EnclosedURIExpr' 'ExprSingleList'
+'ExtensionExpr' 'ForBinding' 'ForBindingList' 'FunctionBody' 'FunctionItemExpr'
+'FunctionTest' 'GroupByClause' 'GroupingSpec' 'GroupingSpecList'
+'GroupingVariable' 'InitialClause' 'InlineFunctionExpr' 'IntermediateClause'
+'IntermediateClauseList' 'KeySpecifier' 'LetBinding' 'LetBindingList'
+'Lookup' 'MapConstructor' 'MapConstructorEntries' 'MapConstructorEntry'
+'MapKeyExpr' 'MapTest' 'MapValueExpr' 'NamedFunctionRef' 'NamespaceNodeTest'
+'NextItem' 'NodeConstructor' 'ParenthesizedItemType' 'PostfixExpr' 'PostFixes'
+'Pragma' 'Pragmas' %'Prefix'
+'PreviousItem' 'ReturnClause' 'SchemaAttributeTest' 'SchemaElementTest'
+'SequenceTypeList' 'SequenceTypeUnion' 'SimpleMapExpr' 'SimpleTypeName'
+'SlidingWindowClause' 'SquareArrayConstructor' 'StringConcatExpr' 
+'StringConstContents' 'StringConstructor' 'StringConstructorContent'
+'StringConstructorInterpolation' 'SwitchCase' 'SwitchCaseClause'
+'SwitchCaseClauses' 'SwitchCaseOperand' 'SwitchExpr' 'TryCatchExpr' 'TryClause'
+'TumblingWindowClause' 'TypeName' 'TypedArrayTest' 'TypedFunctionTest'
+'TypedMapTest' 'URIQualifiedName' 'UnaryLookup' 'ValidateExpr' 'ValidationMode'
+'VarDefaultValue' 'VarValue' 'WindowClause' 'WindowEndCondition'
+'WindowStartCondition' 'WindowVars'
 %
-'AbbrevForwardStep'
-'AbbrevReverseStep'
-'AdditiveExpr'
-%'AdditiveExprs'
-'AndExpr'
-'AndExprs'
-'AnyKindTest'
-'AposAttrValueContent'
-'Arguments'
-'AttribNameOrWildcard'
-'AttributeName'
-'AttributeTest'
-'AxisStep'
-'BaseURIDecl'
-'BoundarySpaceDecl'
-'CDataSection'
-'CDataSectionContents'
-'CaseClause'
-'CaseClauses'
-'CastExpr'
-'CastableExpr'
-'CommentTest'
-'CommonContent'
-'CompAttrConstructor'
-'CompCommentConstructor'
-'CompDocConstructor'
-'CompElemConstructor'
-'CompPIConstructor'
-'CompTextConstructor'
-'ComparisonExpr'
-'ComputedConstructor'
-'ConstructionDecl'
-'ContextItemExpr'
-'CopyNamespacesDecl'
-'DefaultCollationDecl'
-'DefaultNamespaceDecl'
-'DirAttribute'
-'DirAttributeList'
-'DirAttributeValue'
-'DirAttributeValuesApos'
-'DirAttributeValuesQuot'
-'DirCommentConstructor'
-'DirCommentContents'
-'DirElemConstructor'
-'DirElemContent'
-'DirElemContents'
-'DirPIConstructor'
-'DirectConstructor'
-'DocumentTest'
-'ElementName'
-'ElementNameOrWildcard'
-'ElementTest'
-'EmptyOrderDecl'
-'EnclosedExpr'
-'Expr'
-'ExprSingle'
-'FLWORExpr'
-'ForClause'
-'ForwardAxis'
-'ForwardStep'
-'FunctionCall'
-'FunctionDecl'
-'GeneralComp'
-'IfExpr'
-'Import'
-'InStatement'
-'InStatements'
-'InheritMode'
-'InstanceofExpr'
-'IntersectExceptExpr'
-'IntersectExceptExprs'
-'ItemType'
-'KindTest'
-'LetClause'
-'LibraryModule'
-'Literal'
-'LiteralList'
-'MainModule'
-'Module'
-'ModuleDecl'
-'ModuleImport'
-'MultiplicativeExpr'
+'AbbrevForwardStep' 'AbbrevReverseStep' 'AdditiveExpr' %'AdditiveExprs'
+'AndExpr' 'AndExprs' 'AnyKindTest' 'AposAttrValueContent' 'Arguments'
+'AttribNameOrWildcard' 'AttributeName' 'AttributeTest' 'AxisStep'
+'BaseURIDecl' 'BoundarySpaceDecl' 'CDataSection' 'CDataSectionContents'
+'CaseClause' 'CaseClauses' 'CastExpr' 'CastableExpr' 'CommentTest' 
+'CommonContent' 'CompAttrConstructor' 'CompCommentConstructor' 
+'CompDocConstructor' 'CompElemConstructor' 'CompPIConstructor' 
+'CompTextConstructor' 'ComparisonExpr' 'ComputedConstructor' 'ConstructionDecl' 
+'ContextItemExpr' 'CopyNamespacesDecl' 'DefaultCollationDecl' 
+'DefaultNamespaceDecl' 'DirAttribute' 'DirAttributeList' 'DirAttributeValue' 
+'DirAttributeValuesApos' 'DirAttributeValuesQuot' 'DirCommentConstructor' 
+'DirCommentContents' 'DirElemConstructor' 'DirElemContent' 'DirElemContents' 
+'DirPIConstructor' 'DirectConstructor' 'DocumentTest' 'ElementName' 
+'ElementNameOrWildcard' 'ElementTest' 'EmptyOrderDecl' 'EnclosedExpr' 'Expr' 
+'ExprSingle' 'FLWORExpr' 'ForClause' 'ForwardAxis' 'ForwardStep' 'FunctionCall' 
+'FunctionDecl' 'GeneralComp' 'IfExpr' 'Import' 'InStatement' 'InStatements' 
+'InheritMode' 'InstanceofExpr' 'IntersectExceptExpr' 'IntersectExceptExprs' 
+'ItemType' 'KindTest' 'LetClause' 'LibraryModule' 'Literal' 'LiteralList'
+'MainModule' 'Module' 'ModuleDecl' 'ModuleImport' 'MultiplicativeExpr'
 %'MultiplicativeExprs'
-'NameTest'
-'NamespaceDecl'
-'NodeComp'
-'NodeTest'
-'NumericLiteral'
-'OccurrenceIndicator'
-'OptionDecl'
-'OrExpr'
-'OrExprs'
-'OrderByClause'
-'OrderModifier'
-'OrderSpec'
-'OrderSpecList'
-'OrderedExpr'
-'OrderingModeDecl'
-'PITest'
-'Param'
-'ParamList'
-'ParenthesizedExpr'
-'PathExpr'
-'PositionalVar'
-'Predicate'
-'PredicateList'
-'PreserveMode'
-'PrimaryExpr'
-'Prolog'
-'Prolog1'
-'Prolog1s'
-'QName'
-'QuantifiedExpr'
-'QueryBody'
-'QuotAttrValueContent'
-'RangeExpr'
-'RelativePathExpr'
+'NameTest' 'NamespaceDecl' 'NodeComp' 'NodeTest' 'NumericLiteral' 
+'OccurrenceIndicator' 'OptionDecl' 'OrExpr' 'OrExprs' 'OrderByClause' 
+'OrderModifier' 'OrderSpec' 'OrderSpecList' 'OrderedExpr' 'OrderingModeDecl' 
+'PITest' 'Param' 'ParamList' 'ParenthesizedExpr' 'PathExpr' 'PositionalVar' 
+'Predicate' 'PredicateList' 'PreserveMode' 'PrimaryExpr' 'Prolog' 'Prolog1' 
+'Prolog1s' 'QName' 'QuantifiedExpr' 'QueryBody' 'QuotAttrValueContent' 
+'RangeExpr' 'RelativePathExpr'
 %'RelativePathExprs'
-'ReverseAxis'
-'ReverseStep'
-'SchemaImport'
-'SchemaPrefix'
-'Separator'
-'SequenceType'
-'Setter'
-'SingleType'
-'StepExpr'
-'TextTest'
-'TreatExpr'
-'TypeDeclaration'
-'TypeswitchExpr'
-'URILiteral'
-'URILiteralList'
-'UnaryExpr'
-'UnionExpr'
-'UnionExprs'
-'UnorderedExpr'
-'ValueComp'
-'ValueExpr'
-'VarDecl'
-'VarName'
-'VarRef'
-'VersionDecl'
-'WhereClause'
-'Wildcard'
+'ReverseAxis' 'ReverseStep' 'SchemaImport' 'SchemaPrefix' 'Separator' 
+'SequenceType' 'Setter' 'SingleType' 'StepExpr' 'TextTest' 'TreatExpr' 
+'TypeDeclaration' 'TypeswitchExpr' 'URILiteral' 'URILiteralList' 'UnaryExpr' 
+'UnionExpr' 'UnionExprs' 'UnorderedExpr' 'ValueComp' 'ValueExpr' 'VarDecl' 
+'VarName' 'VarRef' 'VersionDecl' 'WhereClause' 'Wildcard'
 %
 .
 
@@ -275,118 +80,47 @@ Terminals
 '<<' '<=' '<?' '=' '>' '>=' '>>' '?' '?>' '@'
 '[' ']' ']]>' '{' '|' '}'
 % non-terminating
-'ancestor' 'ancestor-or-self' 'and' 
-'as' 'ascending' 'at' 'attribute' 
-'base-uri' 'boundary-space' 'by' 
-'case' 'cast' 'castable' 'child' 
-'collation' 'comment' 'construction' 
-'copy-namespaces' 'declare' 'default' 
-'descendant' 'descendant-or-self' 
-'descending' 'div' 'document' 
-'document-node' 'element' 'else' 
-'empty' 'empty-sequence' 'encoding' 
-'eq' 'every' 'except' 'external' 
-'following' 'following-sibling' 
-'for' 'function' 'ge' 'greatest' 
-'gt' 'idiv' 'if' 'import' 'in' 'inherit' 
-'instance' 'intersect' 'is' 'item'  
-'le' 'least' 'let' 'lt' 'mod' 'module' 
-'namespace' 'ne' 'no-inherit' 'no-preserve' 
-'node' 'of' 'option' 'or' 'order' 'ordered' 
-'ordering' 'parent' 'preceding' 'preceding-sibling' 
-'preserve' 'processing-instruction' 'return' 
-'satisfies' 
-'self' 'some' 'stable' 
-'strip' 'text' 'then' 'to' 'treat' 
-'typeswitch' 'union' 'unordered' 
-'variable' 'version' 'where' 'xquery'
+'ancestor' 'ancestor-or-self' 'and' 'as' 'ascending' 'at' 'attribute' 
+'base-uri' 'boundary-space' 'by' 'case' 'cast' 'castable' 'child' 
+'collation' 'comment' 'construction' 'copy-namespaces' 'declare' 'default' 
+'descendant' 'descendant-or-self' 'descending' 'div' 'document' 
+'document-node' 'element' 'else' 'empty' 'empty-sequence' 'encoding' 
+'eq' 'every' 'except' 'external' 'following' 'following-sibling' 
+'for' 'function' 'ge' 'greatest' 'gt' 'idiv' 'if' 'import' 'in' 'inherit' 
+'instance' 'intersect' 'is' 'item' 'le' 'least' 'let' 'lt' 'mod' 'module' 
+'namespace' 'ne' 'no-inherit' 'no-preserve' 'node' 'of' 'option' 'or' 'order' 
+'ordered' 'ordering' 'parent' 'preceding' 'preceding-sibling' 'preserve' 
+'processing-instruction' 'return' 'satisfies' 'self' 'some' 'stable' 'strip' 
+'text' 'then' 'to' 'treat' 'typeswitch' 'union' 'unordered' 'variable' 
+'version' 'where' 'xquery'
 %
-'schema' 
-'schema-attribute' 
-'schema-element' 
-
-'lax' 
-'strict' 
-'validate' 
+'schema' 'schema-attribute' 'schema-element' 
+'lax' 'strict' 'validate' 
 
 % ADDED
 'quot' 'apos'
 'cdata-contents' 'PITarget' 'DirPIContents' 'comment-text'
 'IntegerLiteral' 'NCName' 'DecimalLiteral' 'DoubleLiteral' 
 %'QName'
-'wildcard'
-'lone-slash'
-'PredefinedEntityRef' 'CharRef' '{{' '}}'
-'EscapeQuot'
-'EscapeApos'
-'QuotAttrContentChar'
-'ElementContentChar'
-'AposAttrContentChar'
+'wildcard' 'lone-slash' 'PredefinedEntityRef' 'CharRef' '{{' '}}' 'EscapeQuot'
+'EscapeApos' 'QuotAttrContentChar' 'ElementContentChar' 'AposAttrContentChar'
 %3.1
-'decimal-format'
-'decimal-separator' 
-'grouping-separator'
-'infinity'          
-'minus-sign'        
-'NaN'               
-'percent'           
-'per-mille'         
-'zero-digit'        
-'digit'             
-'pattern-separator' 
-'exponent-separator'
-'context'
-'%'
-allowing
-'tumbling' 
-'sliding'
-'window'
-'start'
-'when'
-'only'
-'end'
-'previous'
-'next'
-'count'
-'group'
-'switch'
-'catch'
-'try'
-'||'
-'=>'
-'type'
-'!'
-'#'
-'map'
-'array'
-'namespace-node'
-'``['
-']``'
-'`{'
-'}`'
-'*:'
-':*'
-'PragmaContents'
-'StringConstructorChars'
-'Q'
-.
+'decimal-format' 'decimal-separator' 'grouping-separator' 'infinity'          
+'minus-sign' 'NaN' 'percent' 'per-mille' 'zero-digit' 'digit' 
+'pattern-separator' 'exponent-separator' 'context' '%' allowing 'tumbling' 
+'sliding' 'window' 'start' 'when' 'only' 'end' 'previous' 'next' 'count' 'group'
+'switch' 'catch' 'try' '||' '=>' 'type' '!' '#' 'map' 'array' 'namespace-node'
+'``[' ']``' '`{' '}`' '*:' ':*' 'PragmaContents' 'StringConstructorChars' 'Q'.
 
 Rootsymbol 'Module'.
 
 Endsymbol '$end'.
 
 Left  100   ','.
-%Left 101 'Expr'.
-
-%Left 2103 ':'.
-%Left 2104 'Prefix' ':' 'ExprSingle'.
-%Left 104 'ExprSingle'.
-%Right 200   ':='.
 
 Left     102 'UnprefixedName'.
 Left     101 'PrefixedName'.
 Nonassoc 2200 ':' ' :' ': '.
-%Nonassoc 103 'MapKeyExpr' ':' 'MapValueExpr'.
 
 Nonassoc  200   'for' 'some' 'every' 'switch' 'typeswitch' 'try' 'if'.
 Left  300   'or'.
@@ -488,7 +222,6 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'InheritMode'            -> 'inherit' : 'inherit'.
 'InheritMode'            -> 'no-inherit' : 'no-inherit'.
 
-%% ignore this for a while TODO
 'DecimalFormatDecl'      -> 'declare' 'decimal-format' 'EQName'  'DFPropertyNameList' : {'decimal-format', qname(other,'$3'), '$4'}.
 'DecimalFormatDecl'      -> 'declare' 'default' 'decimal-format' 'DFPropertyNameList' : {'decimal-format', <<>>, '$4'}.
 
@@ -565,9 +298,7 @@ end.
 'DefaultNamespaceDecl'   -> 'declare' 'default' 'function' 'namespace' 'URILiteral' 
                            : xqerl_context:set_default_function_namespace(parser,'$5'), 
                              {'function-namespace', '$5'}.
-%% ?err('XQST0066'). % NOPE
 
-% ignoring annotations for now TODO
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'VarDecl'      : ('$3')#xqVar{annotations = '$2'}.
 'AnnotatedDecl'          -> 'declare' 'AnnotationList' 'FunctionDecl' : ('$3')#xqFunction{annotations = '$2'}.
 'AnnotatedDecl'          -> 'declare' 'VarDecl'                       : '$2'.
@@ -593,7 +324,6 @@ end.
 'VarValue'               -> 'ExprSingle' : '$1'.
 'VarDefaultValue'        -> 'ExprSingle' : '$1'.
 
-%% no externals for now TODO
 'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' ':=' 'VarValue'                   : {'context-item', {'$5', 'undefined', '$7'}}.
 'ContextItemDecl'        -> 'declare' 'context' 'item'                 ':=' 'VarValue'                   : {'context-item', {'item', 'undefined', '$5'}}.
 'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external' ':=' 'VarDefaultValue' : {'context-item', {'$5', 'external', '$8'}}.
@@ -601,23 +331,14 @@ end.
 'ContextItemDecl'        -> 'declare' 'context' 'item' 'as' 'ItemType' 'external'                        : {'context-item', {'$5', 'external', 'undefined'}}.
 'ContextItemDecl'        -> 'declare' 'context' 'item'                 'external'                        : {'context-item', {'item', 'external', 'undefined'}}.
 
-%% -record(xqFunction, {
-%%    annotations       = undefined :: [ #annotation{} ],
-%%    name              = undefined :: #'qname'{},
-%%    arity             = 0 :: integer(),
-%%    params            = undefined :: [#xqFuncParam{}],
-%%    type              = undefined :: atom(),
-%%    body              = undefined :: term(),
-%%    nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
-%% no externals for now TODO
 'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', body = '$8'}.
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7'             }.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')' 'as' 'SequenceType' 'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4', type = '$7', external = true}.
 'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'FunctionBody' : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4',              body = '$6'}.
-'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4'                          }.
+'FunctionDecl'           -> 'function' 'EQName' '(' 'ParamList' ')'                     'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'), arity = length('$4'), params = '$4',              external = true}.
 'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'FunctionBody' : #xqFunction{id = next_id(), name = qname(func, '$2'),                                      type = '$6', body = '$7'}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'),                                      type = '$6'             }.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')' 'as' 'SequenceType' 'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'),                                      type = '$6', external = true}.
 'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'FunctionBody' : #xqFunction{id = next_id(), name = qname(func, '$2'),                                                   body = '$5'}.
-'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'external'     : #xqFunction{id = next_id(), name = qname(func, '$2')                                                               }.
+'FunctionDecl'           -> 'function' 'EQName' '('             ')'                     'external'     : #xqFunction{id = next_id(), name = qname(func, '$2'),                                                   external = true}.
 
 'ParamList'              -> 'Param' ',' 'ParamList' : ['$1' | '$3'].
 'ParamList'              -> 'Param' : ['$1'].
@@ -645,16 +366,8 @@ end.
 'ExprSingle'             -> 'TryCatchExpr' : '$1'.
 'ExprSingle'             -> 'OrExpr' : '$1'.
 % [41]
-'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' :
-   case '$3' of 
-      %#xqFlwor{loop = L, return = R} -> #xqFlwor{id = next_id(),loop = '$1'++'$2'++L, return = R};
-      _ -> #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}
-   end.
-'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : 
-   case '$2' of 
-      %#xqFlwor{loop = L, return = R} -> #xqFlwor{id = next_id(),loop = '$1'++L, return = R};
-      _ -> #xqFlwor{id = next_id(),loop = '$1', return = '$2'}
-   end.
+'FLWORExpr'              -> 'InitialClause' 'IntermediateClauseList' 'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1'++'$2', return = '$3'}.
+'FLWORExpr'              -> 'InitialClause'                          'ReturnClause' : #xqFlwor{id = next_id(),loop = '$1', return = '$2'}.
 % [42]
 'InitialClause'          -> 'ForClause' : '$1'.
 'InitialClause'          -> 'LetClause' : '$1'.
@@ -683,7 +396,7 @@ end.
 'ForBinding'             -> '$' 'VarName' 'TypeDeclaration'                                 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3',                                  expr = '$5'}.
 'ForBinding'             -> '$' 'VarName'                                                   'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                                                 expr = '$4'}.
 % [46]
-'AllowingEmpty'          -> 'allowing' 'empty'.
+'AllowingEmpty'          -> 'allowing' 'empty' : true.
 % [47]
 'PositionalVar'          -> 'at' '$' 'VarName' : #xqPosVar{id = next_id(), name = '$3'} .
 % [48]
@@ -818,9 +531,7 @@ end.
 'GroupingSpecList'       ->  'GroupingSpec' ',' 'GroupingSpecList' : '$1' ++ '$3'.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
 % [63]
-%% -record(xqGroupBy, {
-%%    grp_variable :: #xqVarRef{},
-%%    collation
+%% Grouping makes a new variable to group on by injecting a let statement
 'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'} },
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$6'}] .
 'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'} },
@@ -840,43 +551,26 @@ end.
 'OrderSpecList'          -> 'OrderSpec' ',' 'OrderSpecList' : '$1' ++ '$3'.
 'OrderSpecList'          -> 'OrderSpec' : '$1'.
 % [67]
-'OrderSpec'              -> 'ExprSingle' 'OrderModifier' : [{'order', {'expr', '$1'}, '$2'}].
-'OrderSpec'              -> 'ExprSingle'                 : [{'order', {'expr', '$1'}, {'modifier', {'direction', 'ascending'}, {'empty', 'default'}, {'collation', 'default'}}}].
+'OrderSpec'              -> 'ExprSingle' 'OrderModifier' : [#xqOrderSpec{expr = '$1', modifier = '$2'}].
+'OrderSpec'              -> 'ExprSingle'                 : [#xqOrderSpec{expr = '$1', modifier = #xqOrderModifier{}}].
 % [68]
-'OrderModifier'          -> 'ascending'  'empty' 'greatest' 'collation' 'URILiteral' 
-                              : {'modifier', {'direction', 'ascending'}, {'empty', value_of('$3')}, {'collation', '$5'}}.
-'OrderModifier'          -> 'descending' 'empty' 'greatest' 'collation' 'URILiteral'
-                              : {'modifier', {'direction', 'descending'}, {'empty', value_of('$3')}, {'collation', '$5'}}.
-'OrderModifier'          ->              'empty' 'greatest' 'collation' 'URILiteral'
-                              : {'modifier', {'direction', ascending}, {'empty', value_of('$2')}, {'collation', '$4'}}.
-'OrderModifier'          -> 'ascending'  'empty' 'least'    'collation' 'URILiteral'
-                              : {'modifier', {'direction', 'ascending'}, {'empty', value_of('$3')}, {'collation', '$5'}}.
-'OrderModifier'          -> 'descending' 'empty' 'least'    'collation' 'URILiteral'
-                              : {'modifier', {'direction', 'descending'}, {'empty', value_of('$3')}, {'collation', '$5'}}.
-'OrderModifier'          ->              'empty' 'least'    'collation' 'URILiteral'
-                              : {'modifier', {'direction', ascending}, {'empty', value_of('$2')}, {'collation', '$4'}}.
-'OrderModifier'          -> 'ascending'                     'collation' 'URILiteral'
-                              : {'modifier', {'direction', 'ascending'}, {'empty', default}, {'collation', '$3'}}.
-'OrderModifier'          -> 'descending'                    'collation' 'URILiteral'
-                              : {'modifier', {'direction', 'descending'}, {'empty', default}, {'collation', '$3'}}.
-'OrderModifier'          ->                                 'collation' 'URILiteral'
-                              : {'modifier', {'direction', ascending}, {'empty', default}, {'collation', '$2'}}.
-'OrderModifier'          -> 'ascending'  'empty' 'greatest' 
-                              : {'modifier', {'direction', 'ascending'}, {'empty', value_of('$3')}, {'collation', default}}.
-'OrderModifier'          -> 'descending' 'empty' 'greatest' 
-                              : {'modifier', {'direction', 'descending'}, {'empty', value_of('$3')}, {'collation', default}}.
-'OrderModifier'          ->              'empty' 'greatest' 
-                              : {'modifier', {'direction', ascending}, {'empty', value_of('$2')}, {'collation', default}}.
-'OrderModifier'          -> 'ascending'  'empty' 'least'    
-                              : {'modifier', {'direction', 'ascending'}, {'empty', value_of('$3')}, {'collation', default}}.
-'OrderModifier'          -> 'descending' 'empty' 'least'    
-                              : {'modifier', {'direction', 'descending'}, {'empty', value_of('$3')}, {'collation', default}}.
-'OrderModifier'          ->              'empty' 'least'    
-                              : {'modifier', {'direction', ascending}, {'empty', value_of('$2')}, {'collation', default}}.
-'OrderModifier'          -> 'ascending'                     
-                              : {'modifier', {'direction', 'ascending'}, {'empty', default}, {'collation', default}}.
-'OrderModifier'          -> 'descending'                    
-                              : {'modifier', {'direction', 'descending'}, {'empty', default}, {'collation', default}}.
+'OrderModifier'          -> 'ascending'  'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{empty = greatest, collation = '$5'}.
+'OrderModifier'          -> 'descending' 'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{direction = descending, empty = greatest, collation = '$5'}.
+'OrderModifier'          ->              'empty' 'greatest' 'collation' 'URILiteral' : #xqOrderModifier{empty = greatest, collation = '$4'}.
+'OrderModifier'          -> 'ascending'  'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{empty = least, collation = '$5'}.
+'OrderModifier'          -> 'descending' 'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{direction = descending, empty = least, collation = '$5'}.
+'OrderModifier'          ->              'empty' 'least'    'collation' 'URILiteral' : #xqOrderModifier{empty = least, collation = '$4'}.
+'OrderModifier'          -> 'ascending'                     'collation' 'URILiteral' : #xqOrderModifier{collation = '$3'}.
+'OrderModifier'          -> 'descending'                    'collation' 'URILiteral' : #xqOrderModifier{direction = descending, collation = '$3'}.
+'OrderModifier'          ->                                 'collation' 'URILiteral' : #xqOrderModifier{collation = '$2'}.
+'OrderModifier'          -> 'ascending'  'empty' 'greatest'                          : #xqOrderModifier{empty = greatest}.
+'OrderModifier'          -> 'descending' 'empty' 'greatest'                          : #xqOrderModifier{direction = descending, empty = greatest}.
+'OrderModifier'          ->              'empty' 'greatest'                          : #xqOrderModifier{empty = greatest}.
+'OrderModifier'          -> 'ascending'  'empty' 'least'                             : #xqOrderModifier{empty = least}.
+'OrderModifier'          -> 'descending' 'empty' 'least'                             : #xqOrderModifier{direction = descending, empty = least}.
+'OrderModifier'          ->              'empty' 'least'                             : #xqOrderModifier{empty = least}.
+'OrderModifier'          -> 'ascending'                                              : #xqOrderModifier{}.
+'OrderModifier'          -> 'descending'                                             : #xqOrderModifier{direction = descending}.
 % [69]
 'ReturnClause'           -> 'return' 'ExprSingle' : '$2'.
 % [70]
@@ -888,10 +582,16 @@ end.
 
 'InStatements'           -> 'InStatement' ',' 'InStatements': ['$1' | '$3'].
 'InStatements'           -> 'InStatement' : ['$1'].
-% [71]
-'SwitchExpr'             ->  'switch' '(' 'Expr' ')' 'SwitchCaseClauses' 'default' 'return' 'ExprSingle' : {'switch', '$3', ['$5', {'default', '$8'}]}.
+
+% [71] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+'SwitchExpr'             ->  'switch' '(' 'Expr' ')' 'SwitchCaseClauses' 'default' 'return' 'ExprSingle' 
+                              : #xqSwitch{id      = next_id(),
+                                          operand = '$3',
+                                          clauses = '$5',
+                                          default = '$8'}.
 % [72]
-'SwitchCaseClause'       -> 'SwitchCase' 'return' 'ExprSingle' : {'$1', {return, '$3'}} .
+'SwitchCaseClause'       -> 'SwitchCase' 'return' 'ExprSingle' 
+                              : #xqSwitchClause{operands = '$1', expr = '$3'}.
 
 'SwitchCaseClauses'      -> 'SwitchCaseClause' 'SwitchCaseClauses' : ['$1'|'$2'].
 'SwitchCaseClauses'      -> 'SwitchCaseClause' : ['$1'].
@@ -899,22 +599,37 @@ end.
 'SwitchCase'             -> 'case' 'SwitchCaseOperand' 'SwitchCase' : ['$2'|'$3'] .
 % [73]
 'SwitchCaseOperand'      -> 'ExprSingle' : '$1'  .
-% [74]
-'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default' '$' 'VarName' 'return' 'ExprSingle' : {'typeswitch', '$3', '$5' ++ [{'def-var'  , #xqVar{id = next_id(), 'name' = '$8',expr = '$10'}}]}.  
-'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default'               'return' 'ExprSingle' : {'typeswitch', '$3', '$5' ++ [{'def-novar', {'return', '$8'}}]}.
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% [74] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default' '$' 'VarName' 'return' 'ExprSingle' 
+                           : #xqTypeswitch{id = next_id(),
+                                           input = '$3', 
+                                           cases = '$5', 
+                                           default = #xqTypeswitchCase{variable = #xqVar{id = next_id(), 'name' = '$8',expr = '$10'}}}.  
+'TypeswitchExpr'         -> 'typeswitch' '(' 'Expr' ')' 'CaseClauses' 'default'               'return' 'ExprSingle' 
+                           : #xqTypeswitch{id = next_id(),
+                                           input = '$3', 
+                                           cases = '$5', 
+                                           default = #xqTypeswitchCase{expr = '$8'}}.  
 % [75]
-'CaseClause'             -> 'case' '$' 'VarName' 'as' 'SequenceTypeUnion' 'return' 'ExprSingle' : {'case-var'  , {'types', '$5'},#xqVar{id = next_id(), 'name' = '$3',expr = '$7'} }.
-'CaseClause'             -> 'case'                    'SequenceTypeUnion' 'return' 'ExprSingle' : {'case-novar', {'types', '$2'},{'return', '$4'} }.  
+'CaseClause'             -> 'case' '$' 'VarName' 'as' 'SequenceTypeUnion' 'return' 'ExprSingle' 
+                           : #xqTypeswitchCase{types = '$5', variable = #xqVar{id = next_id(), 'name' = '$3',expr = '$7'}}.
+'CaseClause'             -> 'case'                    'SequenceTypeUnion' 'return' 'ExprSingle' 
+                           : #xqTypeswitchCase{types = '$2', expr = '$4'}.
 
 'CaseClauses'            -> 'CaseClause' 'CaseClauses' : ['$1'|'$2'].
 'CaseClauses'            -> 'CaseClause' : ['$1'].
 % [76]
 'SequenceTypeUnion'      -> 'SequenceType' '|' 'SequenceTypeUnion' : ['$1'|'$3']. 
 'SequenceTypeUnion'      -> 'SequenceType' : ['$1'].
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % [77]
 'IfExpr'                 -> 'if' '(' 'Expr' ')' 'then' 'ExprSingle' 'else' 'ExprSingle' : {'if-then-else', '$3', {next_id(),'$6'}, {next_id(),'$8'}}.
 % [78]
-'TryCatchExpr'           -> 'TryClause' 'CatchClauses' : {'try', next_id(), '$1', {'catch', '$2'}}.
+'TryCatchExpr'           -> 'TryClause' 'CatchClauses' 
+                           : #xqTryCatch{id = next_id(), expr = '$1', catches = '$2'}.
 % [79]
 'TryClause'              -> 'try' 'EnclosedTryTargetExpr' : '$2'.
 % [80]
@@ -926,6 +641,8 @@ end.
 % [82]
 'CatchErrorList'         -> 'NameTest' '|' 'CatchErrorList' : ['$1'|'$3'].
 'CatchErrorList'         -> 'NameTest' : ['$1'].
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % [83]  
 'OrExprs'                -> 'AndExpr' 'or' 'OrExprs' : {'or', '$1', '$3'}.
 'OrExprs'                -> 'AndExpr' : '$1'.
@@ -1682,6 +1399,7 @@ end.
 %% @doc Parser for the XQuery 3.1 Grammar.
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
 -define(L,1).
 
 -compile([{hipe,[{regalloc,linear_scan}]}]).
@@ -1699,6 +1417,17 @@ bin_value_of(Token) ->
          <<Str/utf8>>;
       true ->
          Str
+   end.
+
+
+next_id() ->
+   case erlang:get(var_id) of
+      undefined ->
+         erlang:put(var_id, 2),
+         1;
+      Id ->
+         erlang:put(var_id, Id + 1),
+         Id
    end.
 
 qname_to_atom(Q) ->
@@ -1886,16 +1615,6 @@ get_qname_local_name({qname,_,_,Nm}) ->
   Nm.
 get_qname_prefix({qname,_,Px,_}) ->
   Px.
-
-next_id() ->
-   case erlang:get(var_id) of
-      undefined ->
-         erlang:put(var_id, 2),
-         1;
-      Id ->
-         erlang:put(var_id, Id + 1),
-         Id
-   end.
 
 at_value([]) ->
    [];

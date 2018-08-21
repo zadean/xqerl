@@ -30,6 +30,7 @@
 -module(xqerl_flwor).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
 
 -define(atint(I), #xqAtomicValue{type = 'xs:integer', value = I}).
 
@@ -37,8 +38,6 @@
 -export([windowclause/5]).
 -export([orderbyclause/2]).
 -export([groupbyclause/1]).
-
--export([simple_map/3]).
 
 -export([optimize/2]).
 
@@ -450,7 +449,6 @@ reverse(List) ->
 
 % Clauses are funs that take an entire VarStream tuple
 orderbyclause(VarStream, Clauses) ->
-   %?dbg("orderbyclause 1",erlang:system_time()),
    F = fun(Tuple) ->
              Cs = lists:map(fun({C,D,E}) ->
                              V = C(Tuple),
@@ -458,14 +456,10 @@ orderbyclause(VarStream, Clauses) ->
                        end, Clauses),
              {Tuple,Cs}
        end,
-%%    Set = rpc:pmap({?MODULE,int_order_1}, [Clauses], VarStream),
    Set = lists:map(F, VarStream),
-%%    Set = pmap(F, VarStream),
-   %?dbg("orderbyclause 2",erlang:system_time()),
    Sorted = lists:sort(fun(A,B) ->
                              do_order(A,B)
                        end, Set),
-   %?dbg("orderbyclause 3",erlang:system_time()),
    [T || {T,_} <- Sorted].
 
 
@@ -544,9 +538,6 @@ val(T) -> xqerl_types:value(T).
 
 bool(T) -> xqerl_operators:eff_bool_val(T).
 
-simple_map(Ctx, Seq, MapFun) ->
-   ?seq:map(Ctx, MapFun, Seq).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%   Static optimizations of FLWOR statements   %%
@@ -560,7 +551,10 @@ simple_map(Ctx, Seq, MapFun) ->
 optimize(#xqFlwor{} = FL, Digraph) ->
    {B2, F2} = fold_changes(FL, Digraph),
    case strip_empty_flwor(F2) of
-      #xqFlwor{} ->
+      #xqFlwor{} = _F000 ->
+         %?dbg("1",FL),
+         %?dbg("2",F2),
+         %?dbg("3",F000),
          {B3,F3} = replace_trailing_for_in_return(F2, Digraph),
          {B4,F4} = fold_for_count(F3, Digraph),
          {B5,F5} = maybe_lift_simple_return(F4, Digraph),
@@ -608,7 +602,7 @@ fold_changes(#xqFlwor{} = FL, G) ->
 %% attempts to split 'for' clauses into a let and for clause 
 %% that appear after other for clauses
 %% and do not rely on each other 
-%% them, returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
+%% then, returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
 -spec maybe_split_for(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
@@ -852,7 +846,6 @@ maybe_lift_where_clause(#xqFlwor{loop = Clauses} = FL, G) ->
 %% STEP 2.7
 %% 'where' clauses directly following 'for' clauses become predicates 
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
-%% TODO: implement 
 -spec where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 where_clause_as_predicate(#xqFlwor{id = _Id, loop = Clauses, 
@@ -878,7 +871,7 @@ merge_for_where([{for,#xqVar{name = FName,
          ?dbg("removing where clause",WName),
          digraph:add_edge(G, WName, FVName),
          case catch replace_var_with_context_item(FVarRef, WExpr) of
-            {error,predicate} ->
+            {error,_} -> % caused by predicates and other axis steps
                [For,Where|merge_for_where(T, G)];
             WExpr2 ->
                ?dbg("removed where clause",{FVarRef,WExpr2}),
@@ -900,6 +893,9 @@ merge_for_where([],_) ->
 replace_var_with_context_item(_, predicate) ->
    % an internal predicate cannot use the outside context item
    throw({error,predicate});
+replace_var_with_context_item(_, #xqAxisStep{}) ->
+   % an internal predicate cannot use the outside context item
+   throw({error,axisStep});
 replace_var_with_context_item(FVarRef, [H|T]) when H == FVarRef ->
    ['context-item'|replace_var_with_context_item(FVarRef, T)];
 replace_var_with_context_item(FVarRef, [H|T]) when is_list(H) ->
@@ -919,7 +915,7 @@ replace_var_with_context_item(_, WExpr) ->
 
 %% STEP 2.8
 %% 'where' clauses using positional variables from 'for' clauses 
-%% become predicates 
+%% become positional-predicates 
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
 %% TODO: implement 
 -spec positional_where_clause_as_predicate(#xqFlwor{}, digraph:graph()) ->
@@ -939,8 +935,8 @@ strip_empty_flwor(#xqFlwor{} = FL) ->
    FL.
 
 %% STEP 4
-%% if last clause is for loop and return is simply that variable 
-%% replace return with 'for' expression
+%% if last clause is 'for' loop or 'let' and 'return' is simply that variable 
+%% replace return with 'for'/'let' expression
 %% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
 -spec replace_trailing_for_in_return(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
@@ -952,7 +948,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
       {for,#xqVar{name = N, expr = E, type = Ty}} = F ->
          if Return == #xqVarRef{name = N} ->
                VN = vertex_name(F),
-               true = digraph:del_vertex(G, VN),
+               true = remove_dependancies(G, VN),
                NewClauses = lists:droplast(Clauses),
                ?dbg("Flatten last for", N),
                {true,FL#xqFlwor{loop = NewClauses,
@@ -963,8 +959,8 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
       {'let',#xqVar{name = N, expr = E, type = Ty}} = F ->
          CanShift = shiftable_expression(F),
          if Return == #xqVarRef{name = N} andalso CanShift ->
-               %VN = vertex_name(F),
-               %true = digraph:del_vertex(G, VN),
+               VN = vertex_name(F),
+               true = remove_dependancies(G, VN),
                %ok = swap_vertex(VN, 0, G),
                NewClauses = lists:droplast(Clauses),
                ?dbg("Flatten last let", N),
@@ -1290,5 +1286,20 @@ maybe_many_type(Type = #xqSeqType{occur = one}) ->
    Type#xqSeqType{occur = one_or_many};
 maybe_many_type(Type) -> Type.
 
+
+% "slides" a variable out and removes it by connecting all of 
+% the edges it had to up/down vertices 
+remove_dependancies(G, Vertex) ->
+   Ins = digraph:in_neighbours(G, Vertex),
+   Out = digraph:out_neighbours(G, Vertex),
+   [digraph:add_edge(G, I, O) ||
+    I <- Ins,
+    O <- Out,
+    I =/= O],
+   digraph:del_vertex(G, Vertex),
+   ?dbg("Vertex",Vertex),
+   ?dbg("Ins   ",Ins),
+   ?dbg("Out   ",Out),
+   true.
 
 

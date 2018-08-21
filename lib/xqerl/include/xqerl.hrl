@@ -224,87 +224,12 @@
          prefix    = undefined :: default | undefined | binary() | #xqAtomicValue{} | #xqNode{},
          local_name :: undefined | binary() | #xqAtomicValue{} | #xqNode{}
         }).
--record(xqPosVar,
-        {
-         id = -1 :: integer(),
-         name = undefined :: #'qname'{}
-        }).
--record(annotation,
-        {
-         name     :: #'qname'{},
-         values   :: []         
-        }).
-
--record(xqQuery, {query :: list()}).
-
--record(xqVar, 
-        {
-         id = -1 :: integer(),
-         annotations = []  :: [ #annotation{} ], 
-         name :: #'qname'{},
-         type = undefined :: undefined | #xqSeqType{},
-         %type = #xqSeqType{},
-         value = undefined :: term(),
-         expr  = undefined :: term(),
-         external = false :: boolean(),
-         default = undefined :: term(),
-         position = undefined :: undefined | #xqPosVar{},
-         empty = false :: boolean()
-        }).
-
--record(xqVarRef, 
-        {
-         name :: #'qname'{}
-        }).
-
--record(xqFlwor, 
-        {
-         id = -1 :: integer(),
-         loop = undefined :: term(),
-         return = undefined :: term()
-        }).
-
-
-%% -record(xqVariableValue, 
-%%         {
-%%          name :: #'qname'{},
-%%          value
-%%         }).
 
 -record(xqNamespace, 
         {
          namespace  :: 'no-namespace' | undefined | binary() | [],
          prefix     :: undefined | binary() | []
         }).
-%% -record(xqElement, 
-%%         {
-%%          name         = undefined :: #'qname'{},
-%%          inscope_ns   = [] 
-%%         }).
-%% -record(typed_uri, {
-%%    uri  :: string(),
-%%    type :: undefined | string()
-%% }).
-%% -record(document_uri, {
-%%    uri  :: string(),
-%%    doc  % an XML
-%% }).
-
-%% -record(xqFuncParam, {
-%%    name              = undefined    :: #'qname'{},
-%%    type              = #xqSeqType{} :: #xqSeqType{}
-%% }).
--record(xqFunction, {
-   id                = -1 :: integer(),
-   annotations       = [] :: [ #annotation{} ],
-   name              = undefined :: #qname{} | undefined,
-   arity             = 0 :: integer(),
-   params            = [],
-   type              = undefined :: undefined | any | #xqSeqType{},
-   body              = undefined :: term()%,
-   %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
-}).
-
 
 -record(xqXmlFragment, {
       identity     = undefined :: term(),
@@ -383,15 +308,6 @@
       expr         = undefined :: term()
    }).
 
-
--record(xqModule, {
-   version = {"3.1", 'utf-8'},
-   type    :: library | main,
-   declaration :: term(),
-   prolog :: term(),
-   body   :: term()                 
-}).
-
 -record(dec_format, {
    decimal = ".",
    grouping = ",",
@@ -408,26 +324,6 @@
 
 -record(array, {data = []}).
 
--record(xqWindow, {
-   type         :: tumbling | sliding,
-   win_variable :: #xqVar{},
-   s            :: undefined | #xqVar{},
-   spos         :: undefined | #xqPosVar{},
-   sprev        :: undefined | #xqVar{},
-   snext        :: undefined | #xqVar{},
-   e            :: undefined | #xqVar{},
-   epos         :: undefined | #xqPosVar{},
-   eprev        :: undefined | #xqVar{},
-   enext        :: undefined | #xqVar{},
-   only         = false :: boolean(),
-   start_expr,
-   end_expr
-}).
-
--record(xqGroupBy, {
-   grp_variable :: #xqVarRef{} | {variable, atom()},
-   collation
-}).
 
 -record(xqNameTest, {
    name :: #qname{}
@@ -440,48 +336,36 @@
    test
 }).
 
+-record(xqFunction, {
+   id                = -1 :: integer(),
+   annotations       = [] :: [ tuple() ],
+   %annotations       = [] :: [ #annotation{} ],
+   name              = undefined :: #qname{} | undefined,
+   arity             = 0 :: integer(),
+   params            = [],
+   type              = undefined :: undefined | any | #xqSeqType{},
+   body              = undefined :: term(),
+   external          = false :: boolean()
+   %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
+}).
+
+
 -record(xqFunTest, {
    kind   = function :: function | map | array,
-   annotations = [] :: [ #annotation{} ],
+   annotations = [] :: [ tuple() ],
+   %annotations = [] :: [ #annotation{} ],
    name   :: undefined | #qname{},
    params = any :: [#xqSeqType{}] | any,
    type   = any :: #xqSeqType{} | #xqKindTest{} | any
 }).
-% {xqFunTest,function,[],undefined,any,any}
--record(xqAxisStep, {
-   id         :: pos_integer(),
-   direction  = forward :: forward | reverse,
-   axis       = child :: child | descendant | attribute | self | 
-                 'descendant-or-self' | 'following-sibling' | following | namespace | 
-                 parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
-   node_test  = #xqKindTest{} :: #xqNameTest{} | #xqKindTest{},
-   predicates = []
-}).
 
--record(xqPostfixStep, {
-   predicates = []
-}).
+% {xqFunTest,function,[],undefined,any,any}
 
 %% range statement 
 -record(xqRange, {min :: integer(),
                   max :: integer(),
                   cnt :: non_neg_integer()
 }).
-
-%% -record(xqCollection, {
-%%    uri  :: string(),
-%%    docs :: [term()] % an XML
-%% }).
-
-% most basic type
-%% -record(xqItem, {
-%%       data = undefined :: term()
-%%    }).
-
-% record type for all objects in XQuery 0 or more xqItems in a sequence
-%% -record(xqData, {
-%%     sequence :: [ #xqItem{} ]
-%%     }).
 
 %% Expression Context - The expression context for a given expression consists of all the information that can affect the result of the expression.
 

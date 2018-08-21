@@ -56,7 +56,7 @@
 -export([filter/3]).
 -export([map/3]).
 -export([val_map/2]).
--export([node_map/3]).
+%% -export([node_map/3]).
 -export([for_each/3]).
 -export([zip_with/4]).
 -export([foldl/4]).
@@ -82,6 +82,9 @@
 -export([ensure_zero_or_more/1]).
 
 -include("xqerl.hrl").
+
+-define(int_rec(Val), #xqAtomicValue{type = 'xs:integer', value = Val}).
+
 
 %-define(seq, gb_trees).
 %-define(seq, array).
@@ -184,8 +187,12 @@ ensure_zero_or_more(A) -> A.
 size(#xqRange{cnt = Size}) ->
    Size;
 size([]) -> 0;
-size([H|T]) ->
+size([H|T]) when is_list(H) ->
    ?MODULE:size(H) + ?MODULE:size(T);
+size([#xqRange{} = H|T]) ->
+   ?MODULE:size(H) + ?MODULE:size(T);
+size([_|T]) ->
+   1 + ?MODULE:size(T);
 size(_) ->
    1.
 
@@ -196,7 +203,7 @@ is_empty(_) -> false.
 is_sequence(L) -> is_list(L).
 
 head([]) -> [];
-head(#xqRange{min = Min}) -> int_rec(Min);
+head(#xqRange{min = Min}) -> ?int_rec(Min);
 head([H|_]) -> H;
 head(H) -> H.
 
@@ -307,7 +314,7 @@ zip_with(_Ctx, _Fun,_,[]) ->
 zip_with(Ctx, Fun,Seq1,Seq2) 
    when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
    Size = erlang:min(?MODULE:size(Seq1),?MODULE:size(Seq2)),
-   NewCtx = xqerl_context:set_context_size(Ctx, int_rec(Size)),
+   NewCtx = xqerl_context:set_context_size(Ctx, ?int_rec(Size)),
    reverse(zip_with1(NewCtx,Fun,{expand(Seq1),expand(Seq2)},1,[]));
 
 zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1) ->
@@ -351,7 +358,7 @@ for_each(_Ctx, _Fun,[]) -> empty();
 for_each(_Ctx, Map, Seq) when is_map(Map) ->
    xqerl_map:get_matched(Map, Seq);
 for_each(Ctx, Fun, Seq) when is_function(Fun) ->
-   Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(?MODULE:size(Seq))),
+   Ctx1 = xqerl_context:set_context_size(Ctx, ?int_rec(?MODULE:size(Seq))),
    for_each1(Ctx1, Fun, expand(Seq), 1);
 for_each(Ctx, Fun,Seq) ->
    Fun1 = singleton_value(Fun),
@@ -391,10 +398,15 @@ val_map(Fun,[H|T]) ->
    %?dbg("Fun",Fun),
    %?dbg("H",H),
    %?dbg("T",T),
-   Val = try Fun(H) 
-         catch _:#xqError{} = E -> throw(E);
-               _:Err ->
+   Val = try 
+            Fun(H) 
+         catch _:#xqError{} = E:Stack -> 
+                  ?dbg("H  ",H),
+                  ?dbg("Err",Stack),
+                  throw(E);
+               _:Err:Stack ->
                   ?dbg("Err",Err),
+                  ?dbg("Err",Stack),
                   ?err('XPTY0004') end,
    if T == [] ->
          Val;
@@ -410,12 +422,12 @@ rangemap(_,[]) -> [];
 rangemap(F,[#xqRange{} = R|T]) -> 
    rangemap(F,R) ++ rangemap(F,T);
 rangemap(F,#xqRange{min = Min, max = Max} = R) when Min =< Max, is_function(F, 1) ->
-   [F(int_rec(Min))|rangemap(F,R#xqRange{min = Min + 1})];
+   [F(?int_rec(Min))|rangemap(F,R#xqRange{min = Min + 1})];
 rangemap(_,#xqRange{}) -> [].
 
 formap(_,[]) -> [];
 formap(F,[#xqRange{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 1) ->
-   [F(int_rec(Min))|formap(F,[R#xqRange{min = Min + 1}|T])];
+   [F(?int_rec(Min))|formap(F,[R#xqRange{min = Min + 1}|T])];
 formap(F,[#xqRange{}|T]) -> formap(F,T);
 formap(F,[H|T]) when is_function(F, 1) ->
    [F(H)|formap(F,T)];
@@ -451,7 +463,7 @@ pformap(From,[#xqRange{min = Min, max = Max} = R|T],Fun,Limit,Left,Pids,Acc)
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(int_rec(Min))} 
+                 Self ! {self(), catch Fun(?int_rec(Min))} 
            end),
    pformap(From,[R#xqRange{min = Min + 1}|T],
            Fun,Limit,Left - 1,Pids ++ [Pid], Acc);
@@ -515,7 +527,7 @@ pmap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
 
 forposmap(_,[],_) -> [];
 forposmap(F,[#xqRange{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 2) ->
-   [F(int_rec(Min),P)|forposmap(F,[R#xqRange{min = Min + 1}|T],P + 1)];
+   [F(?int_rec(Min),P)|forposmap(F,[R#xqRange{min = Min + 1}|T],P + 1)];
 forposmap(F,[#xqRange{}|T],P) -> forposmap(F,T,P);
 forposmap(F,[H|T],P) when is_function(F, 2) ->
    [F(H,P)|forposmap(F,T,P + 1)];
@@ -525,9 +537,9 @@ forposmap(F,L,P) when not is_list(L) -> forposmap(F,[L],P).
 map(Ctx, Fun, Seq) when not is_list(Seq) ->
    map(Ctx, Fun, [Seq]);
 map(_Ctx, Fun,[]) when is_function(Fun) -> empty();
-map(Ctx, Fun, Seq) when is_function(Fun) ->
-   Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(?MODULE:size(Seq))),
-   map1(Ctx1, Fun, Seq, 1);
+map(Ctx, Fun, Seq) when is_function(Fun,4) ->
+   Size = ?int_rec(?MODULE:size(Seq)),
+   map1(Ctx, Fun, Seq, 1, Size);
 map(Ctx, Fun,Seq) ->
    Fun1 = singleton_value(Fun),
    if is_function(Fun1) ->
@@ -536,17 +548,16 @@ map(Ctx, Fun,Seq) ->
          ?err('XPTY0004')
    end.
 
-map1(_Ctx, _Fun, [], _Pos) -> [];
-map1(Ctx, Fun, [#xqRange{} = H|T], Pos) ->
-   map1(Ctx, Fun, to_list(H) ++ T, Pos);
-map1(Ctx, Fun, [H|T], Pos) ->
+map1(_Ctx, _Fun, [], _Pos, _Size) -> [];
+map1(Ctx, Fun, [#xqRange{} = H|T], Pos, Size) ->
+   map1(Ctx, Fun, to_list(H) ++ T, Pos, Size);
+map1(Ctx, Fun, [H|T], Pos, Size) ->
    try
-      Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
-      Output = Fun(Ctx1),
+      Output = Fun(Ctx,H,?int_rec(Pos),Size),
       if is_list(Output) ->
-            Output ++ map1(Ctx, Fun, T, Pos + 1);
+            Output ++ map1(Ctx, Fun, T, Pos + 1,Size);
          true ->
-            [Output | map1(Ctx, Fun, T, Pos + 1)]
+            [Output | map1(Ctx, Fun, T, Pos + 1,Size)]
       end
    catch
       _:#xqError{} = E:StackTrace ->
@@ -558,29 +569,29 @@ map1(Ctx, Fun, [H|T], Pos) ->
          ?err('XPTY0004')
    end.
 
-node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
-   node_map(Ctx, Fun, [Seq]);
-node_map(Ctx, Fun, Seq) ->
-   ?dbg("Seq",Seq),
-   case all_node(Seq) of
-      true ->
-         Nodes = map(Ctx, Fun, Seq),
-         case all_node(Nodes) of
-            true ->
-               from_list(lists:usort(Nodes));
-            _ ->
-               case all_not_node(Nodes) of
-                  true ->
-                     from_list(Nodes);
-                  _ ->
-                     % mixed
-                     ?err('XPTY0018')
-               end
-         end;
-      _ ->
-         ?dbg("NOT All node",Seq),
-         ?err('XPTY0019')
-   end.
+%% node_map(Ctx, Fun, Seq) when not is_list(Seq) ->
+%%    node_map(Ctx, Fun, [Seq]);
+%% node_map(Ctx, Fun, Seq) ->
+%%    ?dbg("Seq",Seq),
+%%    case all_node(Seq) of
+%%       true ->
+%%          Nodes = map(Ctx, Fun, Seq),
+%%          case all_node(Nodes) of
+%%             true ->
+%%                from_list(lists:usort(Nodes));
+%%             _ ->
+%%                case all_not_node(Nodes) of
+%%                   true ->
+%%                      from_list(Nodes);
+%%                   _ ->
+%%                      % mixed
+%%                      ?err('XPTY0018')
+%%                end
+%%          end;
+%%       _ ->
+%%          ?dbg("NOT All node",Seq),
+%%          ?err('XPTY0019')
+%%    end.
 
 foldl(Ctx,Fun,Acc,Seq) when is_function(Fun) ->
    foldl1(Ctx,Fun,Acc,expand(Seq));
@@ -643,7 +654,7 @@ expand(L) ->
    [L].
 
 expand1(#xqRange{min = Min, max = Max, cnt = Cnt}) when Cnt < 100 ->
-   [int_rec(A) || A <- lists:seq(Min, Max)];
+   [?int_rec(A) || A <- lists:seq(Min, Max)];
 expand1(#xqRange{min = Min, max = Max}) ->
    range_2(Min,Max);
 expand1([]) -> [];
@@ -685,12 +696,12 @@ range(_, []) -> empty();
 range([], _) -> empty();
 range(#xqAtomicValue{value = A}, #xqAtomicValue{value = A}) 
    when is_integer(A) ->
-   int_rec(A);
+   ?int_rec(A);
 range(#xqAtomicValue{value = From}, #xqAtomicValue{value = To}) 
    when is_integer(From),is_integer(To) ->
    range1(From,To);
 range(A, A) when is_integer(A) ->
-   int_rec(A);
+   ?int_rec(A);
 range(From, To) when is_integer(From),is_integer(To) ->
    range1(From,To);
 range(From, To) ->
@@ -719,7 +730,7 @@ range1(_Curr,_Max) ->
    [].
 
 range_2(Curr,Max) when Curr =< Max ->
-   [int_rec(Curr) | range_2(Curr + 1, Max)];
+   [?int_rec(Curr) | range_2(Curr + 1, Max)];
 range_2(_Curr,_Max) ->
    [].
 
@@ -810,34 +821,35 @@ filter(Ctx, [#xqAtomicValue{}|_] = Pos,Seq) ->
    position_filter(Ctx, Pos, Seq);
 filter(Ctx, Fun, Seq) when not is_list(Seq) ->
    filter(Ctx, Fun, [Seq]);
-filter(Ctx, Fun, Seq2) when is_function(Fun,1) ->
+filter(Ctx, Fun, Seq2) when is_function(Fun,4) ->
    Size = ?MODULE:size(Seq2),
-   Ctx1 = xqerl_context:set_context_size(Ctx, int_rec(Size)),
-   filter1(Ctx1, Fun, Seq2, 1).
+   filter1(Ctx, Fun, Seq2, 1, ?int_rec(Size)).
 
-filter1(_Ctx, _Fun, [], _Pos) -> [];
-filter1(Ctx, Fun, [H|T], Pos) ->
+filter1(_Ctx, _Fun, [], _Pos,_Size) -> [];
+filter1(Ctx, Fun, [H|T], Pos,Size) ->
    NextPos = Pos + 1,
-   Ctx1 = xqerl_context:set_context_item(Ctx, H, Pos),
-   try Fun(Ctx1) of
+   PosRec = ?int_rec(Pos),
+   % TODO remove
+   Ctx2 = xqerl_context:set_context_item(Ctx, H, 1, 1), % just in-case it is used 
+   try Fun(Ctx2,H,PosRec,Size) of
       [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
          if FPos == Pos ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
+               [H|filter1(Ctx, Fun, T, NextPos,Size)];
             true ->
-               filter1(Ctx, Fun, T, NextPos)
+               filter1(Ctx, Fun, T, NextPos,Size)
          end;
       #xqAtomicValue{type = NType, value = FPos} when ?xs_numeric(NType) ->
          if FPos == Pos ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
+               [H|filter1(Ctx, Fun, T, NextPos,Size)];
             true ->
-               filter1(Ctx, Fun, T, NextPos)
+               filter1(Ctx, Fun, T, NextPos,Size)
          end;
       Resp ->
          Bool = xqerl_operators:eff_bool_val(Resp),
          if Bool ->
-               [H|filter1(Ctx, Fun, T, NextPos)];
+               [H|filter1(Ctx, Fun, T, NextPos,Size)];
             true ->
-               filter1(Ctx, Fun, T, NextPos)
+               filter1(Ctx, Fun, T, NextPos,Size)
          end
    catch 
       _:#xqError{name = #xqAtomicValue{value = 
@@ -845,6 +857,7 @@ filter1(Ctx, Fun, [H|T], Pos) ->
          % context was not a node when one was expected
          ?err('XPTY0020');
       _:#xqError{} = E:StackTrace ->
+         ?dbg("H",H),
          ?dbg("H",StackTrace),
          throw(E)
   end.
@@ -947,19 +960,25 @@ get_item_type(#xqDocumentNode{}) -> 'document-node';
 get_item_type(#xqNode{} = Node) ->
    xqerl_node:get_node_type(Node).
 
-int_rec(Val) ->
-   #xqAtomicValue{type = 'xs:integer', value = Val}.
-
 
 nth(_, []) -> [];
-nth(N, [#xqRange{} = H|T]) -> 
-   nth(N, expand(H) ++ T);
+nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
+   nth(N - C, T);
+nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
+   ?int_rec(M);
+nth(N, [#xqRange{min = M}|_]) -> 
+   ?int_rec(M + N - 1);
 nth(1, [H|_]) -> H;
 nth(2, [_,H|_]) -> H;
 nth(3, [_,_,H|_]) -> H;
 nth(4, [_,_,_,H|_]) -> H;
-nth(N, [_,_,_,_|T]) when N > 4 ->
-    nth(N - 4, T);
+nth(5, [_,_,_,_,H|_]) -> H;
+nth(6, [_,_,_,_,_,H|_]) -> H;
+nth(7, [_,_,_,_,_,_,H|_]) -> H;
+nth(8, [_,_,_,_,_,_,_,H|_]) -> H;
+nth(9, [_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(N, [_,_,_,_,_,_,_,_,_|T]) when N > 9 ->
+    nth(N - 9, T);
 nth(_, _) -> [].
 
 %% nthtail(_, []) -> [];

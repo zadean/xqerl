@@ -1005,14 +1005,23 @@ get_sign(Rest) ->
 
 get_year(Bin1) ->
    {YearDigits,Bin2} = get_digits_til_minus(Bin1,[]),
-   Year = list_to_integer(YearDigits),
-   {Year, Bin2}.
+   case YearDigits of
+      [$0|R] when length(R) >= 4 ->
+         throw({error,bad_year});
+      R when length(R) < 4 ->
+         throw({error,bad_year});
+      _ ->
+         {list_to_integer(YearDigits), Bin2}
+   end.
 
 get_gyear(Bin1) ->
    {YearDigits,Bin2} = get_digits_with_minus(Bin1,[]),
-   if length(YearDigits) =/= 4 ->
-         throw({error,bad_year});
-      true ->
+   case YearDigits of
+      [$0|R] when length(R) >= 4 ->
+         throw({error,bad_gyear});
+      R when length(R) < 4 ->
+         throw({error,bad_gyear});
+      _ ->
          {list_to_integer(YearDigits), Bin2}
    end.
 

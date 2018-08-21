@@ -25,6 +25,7 @@
 -module(xqerl_static).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
 
 %% -dialyzer({[no_unused], [get_can_inline/1,
 %%                          set_can_inline/2]}).
@@ -67,6 +68,9 @@
 -define(POSITION, {'function-call', 
                     #qname{namespace = ?FN,
                            local_name = <<"position">>}, 0, []}).
+-define(HEAD(A), {'function-call',
+                       #qname{namespace = ?FN,
+                              local_name = <<"head">>}, 1, [A]}).
 -define(TAIL(A), {'function-call',
                        #qname{namespace = ?FN,
                               local_name = <<"tail">>}, 1, [A]}).
@@ -821,6 +825,32 @@ handle_node(State, {postfix, Id, #xqVarRef{name = Name} = Ref,
                            S
                        end, CheckArgs),
    set_statement_and_type(State, {postfix, Id, Ref, [{arguments,NewArgs}]}, Type);
+
+% predicate on variable
+handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
+                    [{predicate,[{'=',?POSITION,?atomic('xs:integer',1)}]}]}) ->
+   handle_node(State, ?HEAD(Ref));
+
+handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
+                    [{predicate,[{'<',?POSITION,?atomic('xs:integer',_) = A}]}]}) ->
+   Top = {'subtract',A,?atomic('xs:integer',1)},
+   Bottom = ?atomic('xs:integer',1),
+   handle_node(State, ?SUBSEQ3(Ref,Bottom,Top));
+handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
+                    [{predicate,[{'>',?atomic('xs:integer',_) = A,?POSITION}]}]}) ->
+   Top = {'subtract',A,?atomic('xs:integer',1)},
+   Bottom = ?atomic('xs:integer',1),
+   handle_node(State, ?SUBSEQ3(Ref,Bottom,Top));
+
+handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
+                    [{predicate,[{'>',?POSITION,?atomic('xs:integer',_) = A}]}]}) ->
+   Top = {'add',A,?atomic('xs:integer',1)},
+   handle_node(State, ?SUBSEQ2(Ref,Top));
+handle_node(State, {postfix, _Id, #xqVarRef{name = _Name} = Ref, 
+                    [{predicate,[{'<',?atomic('xs:integer',_) = A,?POSITION}]}]}) ->
+   Top = {'add',A,?atomic('xs:integer',1)},
+   handle_node(State, ?SUBSEQ2(Ref,Top));
+   
 
 handle_node(State, {partial_postfix, Id, #xqVarRef{name = Name} = Ref, 
                     [{arguments,Args}|RestArgs]}) ->
@@ -2033,9 +2063,12 @@ handle_node(State, {order_by, Id, OExprs}) ->
    St = get_statement(S1),
    set_statement(State, {order_by, Id, St});
    
-handle_node(State, {order, OExpr, {modifier,Dir,
-                                   {empty,Empty},
-                                   {collation,Collation}}}) -> 
+handle_node(State, #xqOrderSpec{expr = OExpr,
+                                modifier = 
+                                  #xqOrderModifier{direction = Dir,
+                                                   empty     = Empty,
+                                                   collation = Collation}}) ->
+   % TODO return xqOrderModifier
    Collations = State#state.known_collations, 
    DefColl    = State#state.default_collation, 
    BaseUri    = State#state.base_uri,
@@ -2103,30 +2136,42 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
    #xqSeqType{occur = ElOc} = ElTy = get_statement_type(ElS1),
    ThCt = get_static_count(ThS1),
    ElCt = get_static_count(ElS1),
-   %TODO here check for boolean to reduce the if statement to 1 branch
-   %TODO static type feature here
-%?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
-   BothType = if ThOc == zero;
-                 ElOc == zero ->
-                    maybe_zero_type(get_list_type([ThTy,ElTy]));
-                 true ->
-                    get_list_type([ThTy,ElTy])
-              end,
-%?dbg("BothType",BothType),
-   BothCount = if ThCt == ElCt ->
-                     ElCt;
-                  true ->
-                     undefined
-               end,
-   set_static_count(
-     set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, 
-                            BothType), BothCount);
+   % is the if statement a boolean value?
+   if IfSt == ?true ->
+         set_static_count(
+           set_statement_and_type(State, ThSt, ThTy), ThCt);
+      IfSt == ?false ->
+         set_static_count(
+           set_statement_and_type(State, ElSt, ElTy), ElCt);
+      true ->
+         %TODO static type feature here
+      %?dbg("{ThTy,ElTy}",{ThTy,ElTy}),
+         BothType = if ThOc == zero;
+                       ElOc == zero ->
+                          maybe_zero_type(get_list_type([ThTy,ElTy]));
+                       true ->
+                          get_list_type([ThTy,ElTy])
+                    end,
+      %?dbg("BothType",BothType),
+         BothCount = if ThCt == ElCt ->
+                           ElCt;
+                        true ->
+                           undefined
+                     end,
+         set_static_count(
+           set_statement_and_type(State, {'if-then-else', IfSt, ThSt, ElSt}, 
+                                  BothType), BothCount)
+   end;
 %% 3.15 Switch Expression
-handle_node(State, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) -> 
+handle_node(State, #xqSwitch{id      = _SwitchId,
+                             operand = RootExpr,
+                             clauses = Cases,
+                             default = DefaultExpr}) -> 
    RState = handle_node(State, RootExpr),
    RSt = get_statement(RState),
    StateC = set_in_constructor(State, false),
-   CStates = lists:map(fun({Matches,{return, Return}}) ->
+   CStates = lists:map(fun(#xqSwitchClause{operands = Matches,
+                                           expr     = Return}) ->
                           ReturnState = handle_node(State, Return),
                           MatchesState = handle_node(StateC, Matches),
                           MaSt = get_statement(MatchesState),
@@ -2145,6 +2190,7 @@ handle_node(State, {'switch', RootExpr, [Cases, {'default', DefaultExpr}]}) ->
    DSt = get_statement(DState),
    DSty = get_statement_type(DState),
    StatementType = get_list_type([CSty,DSty]),
+   % TODO change to xqSwitch record
    set_statement_and_type(State, 
                           {'switch', RSt, [CSt, {'default', DSt}]}, 
                           StatementType);
@@ -2166,7 +2212,9 @@ handle_node(State, {Op, Vars, Test}) when Op == some;
    set_statement_and_type(State, {Op, l(VarsSt), TestSt}, ?boolone);
 
 %% 3.17 Try/Catch Expressions
-handle_node(State, {'try', Id, Expr, {'catch', CatchClauses}}) -> 
+handle_node(State, #xqTryCatch{id = Id,
+                               expr = Expr,
+                               catches = CatchClauses}) -> 
    CodeVar = list_to_atom("CodeVar" ++ integer_to_list(Id)),
    DescVar = list_to_atom("DescVar" ++ integer_to_list(Id)),
    ValuVar = list_to_atom("ValuVar" ++ integer_to_list(Id)),
@@ -2247,37 +2295,41 @@ handle_node(State, {instance_of, Expr1, Expr2}) ->
    St = get_statement(S1),
    set_statement_and_type(State, {instance_of, St, St2}, OutType);
 %% 3.18.2 Typeswitch
-handle_node(State, {'typeswitch', RootExpr, CasesDefault}) -> 
+% TODO check static typing for matching branch
+handle_node(State, #xqTypeswitch{input = RootExpr,
+                                 cases = Cases,
+                                 default = Default}) -> 
    S1 = handle_node(State, RootExpr),
    St1 = get_statement(S1),
-   S2 = handle_node(S1, CasesDefault),
+   S2 = handle_node(S1, Cases ++ [Default]),
    St2 = get_statement(S2),
    Sty = get_statement_type(S2),
    set_statement_and_type(State, {'typeswitch', St1, St2}, Sty);
 
-handle_node(State, {'def-novar', {'return', Expr}}) ->
+handle_node(State, #xqTypeswitchCase{types = default, variable = undefined, expr = Expr}) ->
    S1 = handle_node(State, Expr),
    St1 = get_statement(S1),
    Sty = get_statement_type(S1),
    set_statement_and_type(State, {'def-novar', {'return', St1}}, Sty);
 
-handle_node(State, {'def-var', Var}) ->
+handle_node(State, #xqTypeswitchCase{types = default, variable = Var}) ->
    S1 = handle_internal_var_node(State, Var,true),
    St1 = get_statement(S1),
    Sty = get_statement_type(S1),
    set_statement_and_type(State, {'def-var', St1}, Sty);
 
-handle_node(State, {'case-novar', Types,{'return', Expr} }) ->
+handle_node(State, #xqTypeswitchCase{types = Types, variable = undefined, expr = Expr}) ->
    S1 = handle_node(State, Expr),
    St1 = get_statement(S1),
    Sty = get_statement_type(S1),
-   set_statement_and_type(State, {'case-novar', Types,{'return', St1}}, Sty);
+   set_statement_and_type(State, {'case-novar', {types,Types},{'return', St1}}, Sty);
 
-handle_node(State, {'case-var'  , Types, Var }) ->
+handle_node(State, #xqTypeswitchCase{types = Types, variable = Var}) ->
    S1 = handle_internal_var_node(State, Var,true),
    St1 = get_statement(S1),
    Sty = get_statement_type(S1),
-   set_statement_and_type(State, {'case-var', Types, St1},Sty);
+   set_statement_and_type(State, {'case-var', {types,Types}, St1},Sty);
+
 %% 3.18.3 Cast
 % wraps the expression in a call to constructor function at run-time
 handle_node(State, {cast_as, 'empty-sequence', 
@@ -3199,7 +3251,8 @@ handle_predicate(State, {lookup, Args}) ->
       true ->
          set_statement_and_type(State, {array_lookup, NewArgs},NewType)
    end.
-   
+
+% boolean allows using variable inside the expression, or not.
 handle_internal_var_node(State,#xqVar{id = Id,
                                       name = Name, 
                                       type = Type0, 
@@ -4066,7 +4119,13 @@ handle_direct_constructor(State = #state{base_uri = BU},
                      get_statement(handle_direct_constructor(State1, Att))
                end, Attributes1), 
    %?dbg(?LINE, Content),
-   SContent = get_statement(handle_element_content(State1, Content)),
+   SContent = case get_statement(handle_element_content(State1, Content)) of
+                 [{content_expr,[?atomic('xs:string',<<>>)]}] ->
+                    % one that can sneak through
+                    [];
+                 O ->
+                    O
+              end,
    %?dbg(?LINE, SContent),
    %?dbg(?LINE, QName1),
    ok = check_unique_att_names(Attributes2),

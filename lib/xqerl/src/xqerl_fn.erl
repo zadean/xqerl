@@ -2337,7 +2337,8 @@ get_static_function(#{tab := Tab} = Ctx,
                          arity = Arity1,
                          params = ParamTypes,
                          type = ReturnType,
-                         body = close_context(Ctx,M,F,A)
+                         body = close_context(Ctx,M,F,A),
+                         external = false
                         }
             || {#qname{namespace = Ns1, local_name = Ln1} = Name1,
                 ReturnType, 

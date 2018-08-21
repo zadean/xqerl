@@ -25,6 +25,7 @@
 -module(xqerl_static_analysis).
 
 -include("xqerl.hrl").
+-include("xqerl_parser.hrl").
 
 %% ====================================================================
 %% API functions
@@ -157,21 +158,21 @@ x(G, Map, Parent,
    x(G, M3, {Id,Nm}, Ee),
    M3;
 
-x(G, Map, Parent, [{'case-var',_,#xqVar{id = Id, name = Nm0, expr = D}}|T]) ->
+x(G, Map, Parent, #xqTypeswitchCase{types = default, variable = #xqVar{id = Id, name = Nm0, expr = D}}) ->
+   Nm = sim_name(Nm0),
+   add_vertex(G, {Id,Nm}),
+   add_edge(G, {Id,Nm}, Parent),
+   M1 = add_variable_to_scope(Nm, Id, Map, G),
+   x(G, M1, Parent, D),
+   Map;
+
+x(G, Map, Parent, [#xqTypeswitchCase{variable = #xqVar{id = Id, name = Nm0, expr = D}}|T]) ->
    Nm = sim_name(Nm0),
    add_vertex(G, {Id,Nm}),
    add_edge(G, {Id,Nm}, Parent),
    M1 = add_variable_to_scope(Nm, Id, Map, G),
    x(G, M1, Parent, D),
    x(G, Map, Parent, T),
-   Map;
-
-x(G, Map, Parent, [{'def-var',#xqVar{id = Id, name = Nm0, expr = D}}]) ->
-   Nm = sim_name(Nm0),
-   add_vertex(G, {Id,Nm}),
-   add_edge(G, {Id,Nm}, Parent),
-   M1 = add_variable_to_scope(Nm, Id, Map, G),
-   x(G, M1, Parent, D),
    Map;
 
 x(G, Map, [#xqFunction{id = Id, 
@@ -242,7 +243,8 @@ x(G, Map, Parent,{'if-then-else',If,{TI,Then},{EI,Else}} ) ->
    x(G, Map, {EI,'if-then-else'}, Else),
    Map;
 
-x(G, Map, Parent, {'catch',Catches}) ->
+x(G, Map, Parent, #xqTryCatch{expr = Expr, catches = Catches}) ->
+   x(G, Map, Parent, Expr),
    ErrNs = <<"http://www.w3.org/2005/xqt-errors">>,
    E1 = {ErrNs,<<"code">>},
    E2 = {ErrNs,<<"description">>},
