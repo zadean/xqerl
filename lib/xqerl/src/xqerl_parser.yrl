@@ -384,8 +384,8 @@ end.
 % [44]
 'ForClause'              -> 'for' 'ForBindingList' : '$2'.
 % [45]
-'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{for,'$1'} | '$3'] .
-'ForBindingList'         -> 'ForBinding' : [{for,'$1'}].
+'ForBindingList'         -> 'ForBinding' ',' 'ForBindingList' : [{for,'$1',undefined} | '$3'] .
+'ForBindingList'         -> 'ForBinding' : [{for,'$1',undefined}].
 
 'ForBinding'             -> '$' 'VarName' 'TypeDeclaration' 'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'empty' = true, position = '$5', expr = '$7'}.
 'ForBinding'             -> '$' 'VarName'                   'AllowingEmpty' 'PositionalVar' 'in' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'empty' = true, position = '$4', expr = '$6'}.
@@ -402,8 +402,8 @@ end.
 % [48]
 'LetClause'              -> 'let' 'LetBindingList' : '$2'. 
 % [49]
-'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1'}|'$3'].
-'LetBindingList'         -> 'LetBinding' : [{'let', '$1'}] .
+'LetBindingList'         -> 'LetBinding' ',' 'LetBindingList' : [{'let', '$1',undefined}|'$3'].
+'LetBindingList'         -> 'LetBinding' : [{'let', '$1',undefined}] .
 
 'LetBinding'             -> '$' 'VarName' 'TypeDeclaration' ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2', 'type' = '$3', 'expr' = '$5'}.
 'LetBinding'             -> '$' 'VarName'                   ':=' 'ExprSingle' : #xqVar{id = next_id(), 'name' = '$2',                'expr' = '$4'}.
@@ -532,13 +532,13 @@ end.
 'GroupingSpecList'       ->  'GroupingSpec' : '$1'.
 % [63]
 %% Grouping makes a new variable to group on by injecting a let statement
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'} },
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$6'}] .
-'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'} },
+'GroupingSpec'           ->  'GroupingVariable' 'TypeDeclaration' ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'type' = '$2', 'expr' = '$4'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'} },
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle' 'collation' 'URILiteral' : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$5'}] .
-'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'} },
+'GroupingSpec'           ->  'GroupingVariable'                   ':=' 'ExprSingle'                          : [{'let', #xqVar{id = next_id(), 'name' = '$1', 'expr' = '$3'}, undefined},
                                                                                                                 #xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}] .
 'GroupingSpec'           ->  'GroupingVariable'                                     'collation' 'URILiteral' : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = '$3'}].
 'GroupingSpec'           ->  'GroupingVariable'                                                              : [#xqGroupBy{grp_variable = #xqVarRef{name = '$1'},collation = 'default'}].
@@ -1683,7 +1683,7 @@ as_list(L) ->
    end.
 
 dir_att(QName, Value) ->
-?dbg("{QName, Value}",{QName, Value}),
+%?dbg("{QName, Value}",{QName, Value}),
    if QName#qname.prefix == <<"xmlns">>  ->
          xqerl_context:add_statically_known_namespace(parser,ns_value(Value),QName#qname.local_name),
          #xqNamespaceNode{name = #qname{namespace = ns_value(Value), 

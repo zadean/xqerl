@@ -178,6 +178,11 @@ add(#xqNode{} = Arg1, Arg2) ->
 add(Arg1, #xqNode{} = Arg2) ->
    Ns = xqerl_types:atomize(Arg2),
    add(Arg1,Ns);
+% common
+add(#xqAtomicValue{type = 'xs:integer', value = ValA},
+    #xqAtomicValue{type = 'xs:integer', value = ValB}) ->
+   #xqAtomicValue{type = 'xs:integer', value = ValA + ValB};
+
 add(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, Arg2) ->
    add(xqerl_types:cast_as(Arg1, 'xs:double'), Arg2);
 add(Arg1, #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
@@ -243,6 +248,11 @@ subtract([], _) -> [];
 
 subtract(#array{data = [Arg1]}, Arg2) -> subtract(Arg1, Arg2);
 subtract(Arg1, #array{data = [Arg2]}) -> subtract(Arg1, Arg2);
+
+% common
+subtract(#xqAtomicValue{type = 'xs:integer', value = ValA},
+         #xqAtomicValue{type = 'xs:integer', value = ValB}) ->
+   #xqAtomicValue{type = 'xs:integer', value = ValA - ValB};
 
 subtract(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_types:atomize(Arg1),
@@ -316,6 +326,11 @@ multiply([], _) -> [];
 
 multiply(#array{data = [Arg1]}, Arg2) -> multiply(Arg1, Arg2);
 multiply(Arg1, #array{data = [Arg2]}) -> multiply(Arg1, Arg2);
+
+% common
+multiply(#xqAtomicValue{type = 'xs:integer', value = ValA},
+         #xqAtomicValue{type = 'xs:integer', value = ValB}) ->
+   #xqAtomicValue{type = 'xs:integer', value = ValA * ValB};
 
 multiply(#xqNode{} = Arg1, Arg2) ->
    Ns = xqerl_types:atomize(Arg1),
@@ -2692,10 +2707,7 @@ duration_loop(Year,Month,Day) ->
          duration_loop(OutYear,OutMonth,OutDay)
    end.
 
-key_val(#xqAtomicValue{type = Type, value = V}) 
-   when ?xs_string(Type);
-        Type == 'xs:anyURI';
-        Type == 'xs:untypedAtomic' -> V;
+key_val(#xqAtomicValue{type = 'xs:string', value = V}) -> V; % at top, common
 key_val([Val]) ->
    key_val(Val);
 key_val(#xqNode{} = Val) ->
@@ -2720,6 +2732,10 @@ key_val(#xqAtomicValue{type = 'xs:double', value = V}) ->
    {number,sortable_decimal(V)};
 key_val(#xqAtomicValue{type = 'xs:float', value = V}) ->
    {number,sortable_decimal(V)};
+key_val(#xqAtomicValue{type = Type, value = V}) 
+   when ?xs_string(Type);
+        Type == 'xs:anyURI';
+        Type == 'xs:untypedAtomic' -> V;
 key_val(#xqAtomicValue{type = 'xs:yearMonthDuration', value = V}) ->
    {duration,V};
 key_val(#xqAtomicValue{type = 'xs:dayTimeDuration', value = V}) ->

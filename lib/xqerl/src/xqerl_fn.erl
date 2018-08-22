@@ -1095,21 +1095,19 @@ cp_to_bin([#xqAtomicValue{value = C}|_],_)
         C =:= 11;
         C =:= 12;
         C > 13, C < 32;
-        C > 55295, C < 57344;
-        C > 65533, C < 65536;
-        C > 1114111 ->
+        C =:= 65534;
+        C =:= 65535 -> % codepoints that will pass utf8 but are not xml
    throw({error,bad_codepoint});
+cp_to_bin([#xqAtomicValue{value = C}|T],Acc) when is_integer(C) ->
+   cp_to_bin(T,<<Acc/binary,C/utf8>>);
 cp_to_bin([#xqRange{min = C}|_],_) 
    when C < 9;
         C =:= 11;
         C =:= 12;
         C > 13, C < 32;
-        C > 55295, C < 57344;
-        C > 65533, C < 65536;
-        C > 1114111 ->
+        C =:= 65534;
+        C =:= 65535 ->
    throw({error,bad_codepoint});
-cp_to_bin([#xqAtomicValue{value = C}|T],Acc) when is_integer(C) ->
-   cp_to_bin(T,<<Acc/binary,C/utf8>>);
 cp_to_bin([#xqRange{min = Min,max = Max}|T],Acc) when Min < Max ->
    cp_to_bin([#xqRange{min = Min + 1,max = Max,cnt = 1}|T],<<Acc/binary,Min/utf8>>);
 cp_to_bin([#xqRange{min = Min}|T],Acc) ->
@@ -1321,7 +1319,7 @@ concat_1([H|T], Acc) ->
 'contains-token'(Ctx,InputList,Token,Collation) when is_function(Collation);
                                                      is_atom(Collation) ->
    Token1 = xqerl_lib:trim(xqerl_types:string_value(Token)),
-   if Token1 == [] ->
+   if Token1 == <<>> ->
          ?bool(false);
       true ->
          Token2 = ?str(Token1),
@@ -2359,6 +2357,12 @@ get_static_function(#{tab := Tab} = Ctx,
 
 close_context(_Ctx,xqerl_fn,concat,_) ->
    fun xqerl_fn:concat/2;
+close_context(_Ctx,xqerl_fn,position,_) ->
+   fun xqerl_fn:position/1;
+close_context(_Ctx,xqerl_fn,last,_) ->
+   fun xqerl_fn:last/1;
+%% close_context(_Ctx,xqerl_fn,'static-base-uri',_) ->
+%%    fun xqerl_fn:'static-base-uri'/1;
 close_context(Ctx,M,F,1) ->
    fun (_) -> M:F(Ctx) end;
 close_context(Ctx,M,F,2) ->
@@ -3424,7 +3428,7 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
    StrVal = xqerl_types:string_value(Arg1),
    if StrVal =:= <<>> -> ?str(<<>>);
       true ->
-         Trimmed = string:trim(StrVal, both, [32,13,10,9]),
+         Trimmed = xqerl_lib:trim(StrVal),
          if StrVal =:= <<>> -> ?str(<<>>);
             true ->
                Rep = shrink_spaces(Trimmed),

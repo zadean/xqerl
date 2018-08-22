@@ -4,8 +4,8 @@
 
 -module(xqerl).
 
-%-define(PRINT,false).
--define(PRINT,true).
+-define(PRINT,false).
+%-define(PRINT,true).
 
 -include("xqerl.hrl").
 

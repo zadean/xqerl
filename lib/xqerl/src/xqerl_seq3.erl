@@ -396,6 +396,7 @@ val_map(Fun,[#xqRange{} = H|T]) ->
    val_map(Fun,expand(H) ++ T);
 val_map(Fun,[H|T]) ->
    %?dbg("Fun",Fun),
+   %?dbg("Fun",erlang:fun_info(Fun)),
    %?dbg("H",H),
    %?dbg("T",T),
    Val = try 
@@ -448,7 +449,7 @@ pformap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
          throw(Ex);
       {P,X} -> 
          pformap(From,[],Fun,Limit,Left + 1,Ps, [X|Acc])
-   after 10000 -> error
+   after 60000 -> error
    end;
 pformap(From,[],_Fun,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
@@ -456,7 +457,7 @@ pformap(From,List,Fun,Limit,0,[P|Ps],Acc) ->
    receive
       {P,X} ->
          pformap(From,List,Fun,Limit,1,Ps,[X|Acc])
-   after 10000 -> error
+   after 60000 -> error
    end;
 pformap(From,[#xqRange{min = Min, max = Max} = R|T],Fun,Limit,Left,Pids,Acc)
    when Min =< Max, is_function(Fun, 1) ->
@@ -562,6 +563,7 @@ map1(Ctx, Fun, [H|T], Pos, Size) ->
    catch
       _:#xqError{} = E:StackTrace ->
          ?dbg("error",StackTrace),
+         ?dbg("FUNINFO",erlang:fun_info(Fun)),
          throw(E);
       _:E:StackTrace ->
          ?dbg("E",E),
@@ -625,13 +627,17 @@ foldr1(Ctx,Fun,Acc,[H|T]) ->
 
 empty() -> [].
 
+to_list([]) -> [];
 to_list(#xqRange{min = Min, max = Max}) ->
    range_2(Min,Max);
 to_list(#array{} = A) -> xqerl_array:flatten([], A);
-to_list([]) -> [];
-to_list([H|T]) -> 
+to_list([#xqRange{} = H|T]) -> 
    to_list(H) ++ to_list(T);
-to_list(A) -> [A].
+to_list([#array{} = H|T]) -> 
+   to_list(H) ++ to_list(T);
+to_list(S) when not is_list(S) -> [S];
+to_list([H|T]) -> 
+   [H|to_list(T)].
 
 
 expand(#xqRange{} = R) ->

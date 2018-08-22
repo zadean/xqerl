@@ -46,9 +46,11 @@ assert(Result, QueryString) ->
                     " external; " ++ QueryString,
    case catch xqerl:run(NewQueryString, #{<<"result">> => Result}) of
       {'EXIT',Res} ->
-         {false, Res};
+         ?dbg("false",{false, {Res,Result,QueryString}}),
+         {false, {Res,Result,QueryString}};
       #xqError{} = Res ->
-         {false, Res};
+         ?dbg("false",{false, {Res,Result,QueryString}}),
+         {false, {Res,Result,QueryString}};
       #xqNode{} ->
          true;
       [] ->
@@ -58,8 +60,10 @@ assert(Result, QueryString) ->
          if StrVal == <<"true">> ->
                true;
             StrVal == <<"false">> ->
+               ?dbg("false",{false, {assert,Res1,Result,QueryString}}),
                {false, {assert,Res1,QueryString}};
             StrVal == <<"">> ->
+               ?dbg("false",{false, {assert,Res1,Result,QueryString}}),
                {false, {assert,Res1,QueryString}};
             true ->
                true

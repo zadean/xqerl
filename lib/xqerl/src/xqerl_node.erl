@@ -520,7 +520,10 @@ handle_content(#{'base-uri' := BU,
                         xqerl_types:value(hd(NewBase))),
                   %?dbg("Path",Path),
                   #xqAtomicValue{type = 'xs:anyURI', value = Path}
-               catch _:_ -> BU
+               catch 
+                  _:_ -> 
+                     % invalid base uri in xml:base is empty
+                     #xqAtomicValue{type = 'xs:anyURI', value = <<>>}
                end
          end,
 %?dbg("BU1",BU1),

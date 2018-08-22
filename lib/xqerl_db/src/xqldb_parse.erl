@@ -125,7 +125,7 @@ read_bin({Cwd,BaseUri},Bin) when is_binary(Bin) ->
    end.
 
 read_bin(Cwd,Bin,State) when is_binary(Bin) ->
-   ?dbg("Bin",Bin),
+   %?dbg("Bin",Bin),
    CF = case State#st.source of
            rest -> [{continuation_fun,fun(S) -> {<<>>,S} end}];
            _ -> []

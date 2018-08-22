@@ -153,12 +153,12 @@ find1([_|T], Key) ->
          [] | xq_types:sequence(xq_types:xq_item()).
 'get'(_Ctx,Map,Key) when is_map(Map) -> 
    MKey = xqerl_operators:key_val(Key),
-   case maps:find(MKey, Map) of
-           error ->
-              [];
-           {ok, {_,V}} ->
-              V
-        end;
+   if is_map_key(MKey, Map) ->
+         #{MKey := {_,V}} = Map,
+         V;
+      true ->
+         []
+   end;
 'get'(_Ctx,Map,Key) -> 
    IMap = ?val(Map),
    if is_map(IMap) ->
@@ -172,11 +172,16 @@ find1([_|T], Key) ->
 -spec 'keys'(xq_types:context(),
              xq_types:xq_map()) -> 
          [] | xq_types:sequence(xq_types:xs_anyAtomicType()).
-'keys'(_Ctx,Map) ->
+'keys'(_Ctx,Map) when is_map(Map) ->
    % true keys are in position 1 in value
-   maps:fold(fun(_K,{V,_},L) ->
-                  [V | L]
-            end, [], ?val(Map)).
+   [K || {K,_} <- maps:values(Map)];
+'keys'(_Ctx,Map) ->
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'keys'(_Ctx,IMap);
+      true ->
+         ?err('XPTY0004')
+   end.
 
 %% Returns a map that combines the entries from a number of existing maps. 
 %% map:merge($maps as map(*)*) as map(*)
@@ -187,8 +192,14 @@ find1([_|T], Key) ->
 'merge'(_Ctx,Maps) when is_map(Maps) ->
    Maps;
 'merge'(_Ctx,Maps) ->
-   Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
-   maps:from_list(Lists).
+%%    do_merge(lists:reverse(Maps), #{}).
+   List = maps_to_list(lists:reverse(Maps)),
+   %Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
+   maps:from_list(List).
+
+maps_to_list(Maps) ->
+   [V || M <- Maps,
+         V <- maps:to_list(M)].
 
 %% map:merge($maps as map(*)*, $options as map(*)) as map(*)
 -spec 'merge'(xq_types:context(),
@@ -199,18 +210,26 @@ find1([_|T], Key) ->
 'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
   when Dup == <<"use-first">>;
        Dup == <<"use-any">> -> 
-   Lists = lists:append([maps:to_list(M) || M <- lists:reverse(Maps)]),
-   maps:from_list(Lists);
+%%    do_merge(lists:reverse(Maps), #{});
+   List = maps_to_list(lists:reverse(Maps)),
+   maps:from_list(List);
 'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}})
   when Dup == <<"use-last">> -> 
-   Lists = lists:append([maps:to_list(M) || M <- Maps]),
-   maps:from_list(Lists);
+%%    do_merge(Maps, #{});
+   List = maps_to_list(Maps),
+   maps:from_list(List);
 'merge'(_Ctx,Maps,#{<<"duplicates">> := {_,#xqAtomicValue{value = Dup}}}) -> 
    lists:foldl(fun(In,Out) ->
                      combine_maps(Out, In, Dup)
                end, #{}, lists:reverse(Maps));
 'merge'(_,_,_) -> 
    ?err('FOJS0005').
+
+%% do_merge([H|T],Acc) -> 
+%%    do_merge(T,maps:merge(Acc, H));
+%% do_merge([],Acc) -> Acc.
+
+   
 
 %% Returns a map containing all the contents of the supplied map, but with an 
 %% additional entry, which replaces any existing entry for the same key. 
@@ -223,9 +242,16 @@ find1([_|T], Key) ->
             xq_types:xs_anyAtomicType(),
             [] | xq_types:sequence(xq_types:xq_item())) -> 
          xq_types:xq_map().
-'put'(_Ctx,Map,Key,Value) -> 
+'put'(_Ctx,Map,Key,Value) when is_map(Map) -> 
    Key1 = xqerl_operators:key_val(Key),
-   (?val(Map))#{Key1 => {Key, Value}}.
+   Map#{Key1 => {Key, Value}};
+'put'(_Ctx,Map,Key,Value) ->
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'put'(_Ctx,IMap,Key,Value);
+      true ->
+         ?err('XPTY0004')
+   end.
 
 %% Returns a map containing all the entries from a supplied map, except 
 %% those having a specified key. 
@@ -234,18 +260,33 @@ find1([_|T], Key) ->
                xq_types:xq_map(),
                [] | xq_types:sequence(xq_types:xs_anyAtomicType())) -> 
          xq_types:xq_map().
-'remove'(_Ctx,Map,Keys) -> 
+'remove'(_Ctx,Map,Keys) when is_map(Map) -> 
+   UKeyList = lists:usort([xqerl_operators:key_val(K)|| K <- xqerl_seq3:to_list(Keys)]),
    lists:foldl(fun(K,M) ->
-                     maps:remove(xqerl_operators:key_val(K), M)
-               end, ?val(Map), ?seq:to_list(Keys)).
+                     maps:remove(K, M)
+               end, Map, UKeyList);
+'remove'(_Ctx,Map,Keys) -> 
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'remove'(_Ctx,IMap,Keys);
+      true ->
+         ?err('XPTY0004')
+   end.
 
 %% Returns the number of entries in the supplied map. 
 %% map:size($map as map(*)) as xs:integer
 -spec 'size'(xq_types:context(),
              xq_types:xq_map()) -> 
          xq_types:xs_integer().
+'size'(_Ctx,Map) when is_map(Map) -> 
+   #xqAtomicValue{type='xs:integer', value = maps:size(Map)};
 'size'(_Ctx,Map) -> 
-   #xqAtomicValue{type='xs:integer', value = maps:size(?val(Map))}.
+   IMap = ?val(Map),
+   if is_map(IMap) ->
+         'size'(_Ctx,Map);
+      true ->
+         ?err('XPTY0004')
+   end.
 
 combine_maps(Map1, Map2, _Any) when erlang:map_size(Map2) == 0 ->
    Map1;

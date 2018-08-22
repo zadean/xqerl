@@ -543,9 +543,9 @@ scan_tree(Tree) ->
       _:#xqError{} = E ->
          ?dbg("scan_tree",E),
          throw(E);
-      _:E ->
+      _:E:StackTrace ->
          ?dbg("scan_tree",E),
-         %?dbg("scan_tree",StackTrace),
+         ?dbg("scan_tree",StackTrace),
          xqerl_error:error('XPST0003')
    end.
 

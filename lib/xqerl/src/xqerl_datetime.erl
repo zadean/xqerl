@@ -1052,12 +1052,3 @@ get_digits_til_minus(<<C,Rest/binary>>, Acc) when ?digit(C)->
    get_digits_til_minus(Rest,[C|Acc]);
 get_digits_til_minus(_,_) ->
    throw({error,bad_digits}).
-
-get_digits_til_p(<<>>, Acc) ->
-   {lists:reverse(Acc), <<>>};
-get_digits_til_p(<<C,$P,Rest/binary>>, Acc) when ?digit(C)->
-   {lists:reverse([C|Acc]), Rest};
-get_digits_til_p(<<C,Rest/binary>>, Acc) when ?digit(C)->
-   get_digits_til_p(Rest,[C|Acc]);
-get_digits_til_p(_,_) ->
-   throw({error,bad_digits}).

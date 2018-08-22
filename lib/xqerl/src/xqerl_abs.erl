@@ -1109,7 +1109,14 @@ expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextCtxVar = next_ctx_var_name(),
    NextCtxVVar = {var,?L,NextCtxVar},
-   CtxSeq = expr_do(Ctx, {expr, Base}),
+   CtxSeq = case Base of
+               {postfix,_,_,_} -> % use old context item
+                  expr_do(Ctx0, {expr, Base});
+               #xqAxisStep{} -> % use old context item, 
+                  expr_do(Ctx0, {expr, Base});
+               _ ->
+                  expr_do(Ctx, {expr, Base})
+            end,
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
       {[],_} -> % nothing simple, only complex
          %?dbg("{P,Rest}",{[],Rest,Src}),
@@ -1803,7 +1810,7 @@ flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,_Inline) ->
    {NewCtx1,NewInt,FunAbs ++ Global};
 
 % (for|let)/return
-flwor(Ctx, [{Curr,_} = F], RetId, Return, Internal, Global,TupleVar,Inline) 
+flwor(Ctx, [{Curr,_,_} = F], RetId, Return, Internal, Global,TupleVar,Inline) 
    when Curr =:= 'let';
         Curr =:= 'for' ->
    IsList = if Internal =:= [] ->
@@ -1845,7 +1852,7 @@ flwor(Ctx, [{Curr,_} = F], RetId, Return, Internal, Global,TupleVar,Inline)
          FunAbs ++ Global,NextTupleVar,true);
 
 % for/let
-flwor(Ctx, [{Curr,_} = F,{Next,_} = N|T], RetId, Return, Internal, 
+flwor(Ctx, [{Curr,_,_} = F,{Next,_,_} = N|T], RetId, Return, Internal, 
       Global,TupleVar,Inline) 
    when Curr == 'let' andalso Next == 'let';
         Curr == 'let' andalso Next == 'for';
@@ -1890,7 +1897,7 @@ flwor(Ctx, [{Curr,_} = F,{Next,_} = N|T], RetId, Return, Internal,
          FunAbs ++ Global,NextTupleVar,true);
 
 % for/other
-flwor(Ctx, [{Curr,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline) 
+flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline) 
    when Curr =:= 'let';
         Curr =:= 'for' ->
    Vars = case get_variable_tuple(Ctx) of
@@ -2166,7 +2173,8 @@ group_part(#{grp_variables := GrpVars,
 let_part(Ctx,{'let',#xqVar{id = Id,
                            name = Name,
                            type = Type,
-                           expr = Expr}} = Part,NextFunAtom,IsList) ->
+                           expr = Expr},
+              AType} = Part,NextFunAtom,IsList) ->
    VarName = local_variable_name(Id),
    NewVar  = {Name,Type,[],VarName},
    FunctionName = glob_fun_name(Part),
@@ -2183,7 +2191,7 @@ let_part(Ctx,{'let',#xqVar{id = Id,
    
    E1 = expr_do(LocCtx,Expr),
    VarName1 = {var,?L,VarName},
-   Ens = ensure_type(Ctx,VarName1,Type),
+   Ens = ensure_type(Ctx,VarName1,Type,AType),
    LetFun = 
      if NextFunAtom == [] andalso IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
@@ -2388,8 +2396,8 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            type = Type, 
                            empty = Empty,
                            expr = Expr, 
-                           position = undefined}} = Part, 
-         NextFunAtom, IsList) ->
+                           position = undefined},
+              AType} = Part, NextFunAtom, IsList) ->
 %?dbg("list?",{Id,IsList}),
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
@@ -2410,6 +2418,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                   {unordered_parallel,E} ->
                       {pmap,E};
                    E ->
+                      %{pformap,E} % just for fun
                       {formap,E}
                 end,
    Next = if NextFunAtom == [] ->
@@ -2418,7 +2427,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                 ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
           end,
    %HasNext = NextFunAtom =/= [] ,
-   Ens = ensure_type(Ctx,VarName1,Type),
+   Ens = ensure_type(Ctx,VarName1,Type,AType),
    ForFun = 
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -2483,8 +2492,8 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                            empty = Empty,
                            expr = Expr, 
                            position = #xqPosVar{id = PId, 
-                                                name = PName}}} = Part, 
-         NextFunAtom, IsList) ->
+                                                name = PName}},
+              AType} = Part, NextFunAtom, IsList) ->
    VarName = local_variable_name(Id),
    NewVar    = {Name,Type,[],VarName},
    PosVarName = local_variable_name(PId),
@@ -2518,7 +2527,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
              true ->
                 ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
           end,
-   Ens = ensure_type(Ctx,VarName1,Type), % TODO remove this if not needed
+   Ens = ensure_type(Ctx,VarName1,Type,AType),
    ForFun = 
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
@@ -2605,9 +2614,9 @@ glob_fun_name({where,Id}) ->
    list_to_atom("where__" ++ integer_to_list(Id));
 glob_fun_name({count,#xqVar{id = Id}}) ->
    list_to_atom("count__" ++ integer_to_list(Id));
-glob_fun_name({for,#xqVar{id = Id}}) ->
+glob_fun_name({for,#xqVar{id = Id},_}) ->
    list_to_atom("for__" ++ integer_to_list(Id));
-glob_fun_name({'let',#xqVar{id = Id}}) ->
+glob_fun_name({'let',#xqVar{id = Id},_}) ->
    list_to_atom("let__" ++ integer_to_list(Id)).
 
 %% {name,type,annos,Name}
@@ -2637,7 +2646,8 @@ add_variable({#qname{} = Qn,_,_,_} = Variable, #{tab := Tab} = Map) ->
    Vars1 = lists:keydelete(Key, 1, Vars),
    NewVars = lists:keystore(Key, 1, Vars1, Variable1),
    maps:put(variables, NewVars, Map);
-add_variable({Name,Abs} = Variable, Map) when is_atom(Name) ->
+% these are the context item variables
+add_variable({Name,_} = Variable, Map) when is_atom(Name) ->
    Vars = maps:get(variables, Map),
    Key = Name,
    Vars1 = lists:keydelete(Key, 1, Vars),
@@ -3242,10 +3252,18 @@ handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    ArgAbs = lists:map(AgF, NewArgs),
    NextCtxVar2 = {var,?L,next_ctx_var_name()},
    NextVar2    = {var,?L,next_var_name()},
+   CtxAbs = if is_map_key(context_variable, Ctx) ->
+                  #{context_variable := C,
+                    position_variable := P,
+                    size_variable := S} = Ctx,
+                  ?P("xqerl_context:set_context_item(_@CtxVar,_@C,xqerl_types:value(_@P),_@S)");
+               true ->
+                  ?P("_@CtxVar")
+            end,
    Fun1 = ?P(["fun([]) ->",
               "     xqerl_error:error('XPTY0004');",
               "   (_@NextVar2) ->",
-              "     xqerl_seq3:do_call(_@CtxVar,_@NextVar2,{_@@ArgAbs})",
+              "     xqerl_seq3:do_call(_@CtxAbs,_@NextVar2,{_@@ArgAbs})",
               "end"]),
    Fun2 = ?P(["fun(_@NextCtxVar2,_@@PlaceHolders) ->",
               " _@NextVar2 = xqerl_types:value(_@Abs),",
@@ -3525,18 +3543,31 @@ qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
 p2(F,{D,N}) ->  ?P("[#xqNode{doc = _@D, node = [N]} || N1 <- xqldb_doc:'@F@'(_@D,_@N), N <- N1, N =/= []]").
 p3(F,{D,N},V) ->?P("[#xqNode{doc = _@D, node = [N]} || N1 <- xqldb_doc:'@F@'(_@D,_@N,_@V), N <- N1, N =/= []]").
 
-ensure_type(_,_,#xqSeqType{type = item, occur = zero_or_many}) ->
+ensure_type(_,_,#xqSeqType{type = item, occur = zero_or_many},_) ->
    {nil,?L};
 ensure_type(_,_,#xqSeqType{type = Type, 
-                           occur = zero_or_many}) when ?node(Type) ->
+                           occur = zero_or_many},_) when ?node(Type) ->
    {nil,?L};
-ensure_type(_,_,#xqSeqType{type = #xqFunTest{}}) ->
+ensure_type(_,_,#xqSeqType{type = #xqFunTest{}},_) ->
    {nil,?L};
-ensure_type(Ctx,Var,Type) ->
+ensure_type(_,_,Type,Type) ->
+   {nil,?L};
+ensure_type(_,_,
+            #xqSeqType{type = Type,
+                       occur = Occ1},
+            #xqSeqType{type = Type,
+                       occur = Occ2})
+   when Occ1 == zero_or_many;
+        Occ1 == zero_or_one, Occ2 == one;
+        Occ1 == one_or_many, Occ2 == one ->
+   {nil,?L};
+ensure_type(Ctx,Var,Type,AType) ->
+   ?dbg("ensure_type         ",{Var,Type,AType}),
    T = expr_do(Ctx,Type),
    ?P("_ = case xqerl_types:instance_of(_@Var,_@T) of "
       "#xqAtomicValue{value = true} -> _@Var; "
       "_ -> xqerl_error:error('XPTY0004') end").
+
 
 ensure_param_type(_Ctx,Var,TVar,#xqSeqType{type = item, occur = zero_or_many}) ->
    ?P("_@Var = _@TVar");

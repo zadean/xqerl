@@ -94,7 +94,11 @@ float_to_decimal(Float) when is_float(Float) ->
              end,
    #xsDecimal{int = IntPart, scf = max(0,TotalShift)}.
 
--spec sortable_decimal(number() | #xsDecimal{} | binary()) -> {integer(),integer()}.
+-spec sortable_decimal(number() | #xsDecimal{} | binary()) -> {0 | 1, pos_integer(),pos_integer()}.
+sortable_decimal(Num) when is_integer(Num), Num < 0 ->
+   {0,abs(Num),1};
+sortable_decimal(Num) when is_integer(Num) ->
+   {1,Num,1};
 sortable_decimal(Num) ->
    #xsDecimal{int = Int, scf = Scf} = decimal(Num),
    Bin = integer_to_binary(Int),
@@ -105,7 +109,7 @@ sortable_decimal(Num) ->
            _ ->
               Bs - Scf
         end,
-%?dbg("All",{Bo,Bs,Bin}),
+%?dbg("All",{Bo,Bs,Bin,Int,Scf}),
    case Bin of
       <<T:Scf/bytes>> when Bo >= 0 ->
          {1,0,binary_to_integer(<<$1,T/binary>>)};

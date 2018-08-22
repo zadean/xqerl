@@ -1076,7 +1076,8 @@ following_sibling_nodes(?DOC,Ids) ->
                     List = case ?node_get(I) of
                               ?NOD when __Nxt > I,
                                         <<?nxt(__Nxt)>> =/= <<255,255,255,255>> ->
-                                 [{__Nxt,?node_get(__Nxt)}|O(__Nxt)];
+                                 [{__Nxt,
+                                   binary:copy(?node_get(__Nxt))}|O(__Nxt)];
                               _ ->
                                  []
                            end,
@@ -1117,8 +1118,8 @@ named_element_following_siblings(?DOC,Ids,{Ns,Ln}) ->
       case cached(?FUNCTION_NAME,?DOC,I,{Ns,Ln}) of
          undefined ->
             Resp = begin
-                      %[S] = following_sibling_nodes(?DOC, [I]),
-                      [S] = following_siblings(?DOC, [I]),
+                      [S] = following_sibling_nodes(?DOC, [I]),
+                      %[S] = following_siblings(?DOC, [I]),
                       %f_named_element_nodes(?DOC, S, {Ns,Ln})
                       f_named_element_nodes(?DOC, S, {Ns,Ln})
                    end,
@@ -1335,8 +1336,8 @@ f_named_element_nodes(?DOC,Ids,{Ns,Ln}) when is_binary(Ns),is_binary(Ln) ->
          []
    end;
 f_named_element_nodes(_,[],_) -> [];
-f_named_element_nodes(?DOC,Ids,{any,any}) ->
-   f_element_nodes(?DOC,Ids);
+%% f_named_element_nodes(?DOC,Ids,{any,any}) ->
+%%    f_element_nodes(?DOC,Ids);
 f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) when is_integer(I) ->
    case ?node_get(I) of
       ?ELM when Ln == any orelse __Ln == Ln,
@@ -1410,8 +1411,8 @@ collect_texts(_,_,{FPos,_},{LPos,LLen},_) ->
 collect_texts(_,_,[],_,_) -> {0,0}. % no texts
 
 get_text_value(Pos,Len,Bin) ->
-   binary:part(Bin, Pos, Len).
-   %unicode:characters_to_list(binary:part(Bin, Pos, Len)).
+   % copy before sending to not send the entire bin
+   binary:copy(binary:part(Bin, Pos, Len)).
 
 
 % element 'xs:untyped', attribute and  PI 'xs:untypedAtomic' rest []
@@ -1784,9 +1785,9 @@ maps_append(Key, Value, Map) ->
 base_uri(?DOC,Ids) ->
    Base = __Filename,
    Paths = lists:zip(Ids, path_to_root(?DOC,Ids)),
-   %?dbg("Paths",Paths),
+%?dbg("Paths",Paths),
    Bases = maps:get(base_uris, __Indexes),
-   %?dbg("Bases",Bases),
+%?dbg("Bases",Bases),
    F = fun({I,[]}) -> % baseless node, get frag base uri
              A = get_base_uris([I,0], Bases),
              rollup_uri(lists:reverse(A), Base);
@@ -1823,8 +1824,9 @@ rollup_uri([<<>>|T],Acc) ->
 %%    end;
 rollup_uri([H|T],Acc) ->
    case catch xqldb_lib:join_uris(Acc, H) of
-      {'EXIT',_} ->
-         rollup_uri(T,Acc);
+      {'EXIT',_E} ->
+         % invalid base resets base to <<>>
+         rollup_uri(T,<<>>);
       B ->
          rollup_uri(T,B)
    end.

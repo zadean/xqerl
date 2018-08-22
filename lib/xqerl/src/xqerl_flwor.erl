@@ -606,8 +606,8 @@ fold_changes(#xqFlwor{} = FL, G) ->
 -spec maybe_split_for(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
-   Fors = [{for,V} || 
-           {for,V} <- Clauses],
+   Fors = [V || 
+           {for,_,_} = V <- Clauses],
    case Fors of
       [] ->
          {false,FL};
@@ -615,19 +615,24 @@ maybe_split_for(#xqFlwor{loop = Clauses} = FL, G) ->
          {false,FL};
       _ ->
          F = fun({for,#xqVar{id = Id0,
-                             empty = false} = FV} = V) when Id0 < 10000 ->
+                             expr = Ex,
+                             empty = false} = FV,AType} = V) 
+                  when Id0 < 10000, is_tuple(Ex), element(1, Ex) =/= pragma;
+                       Id0 < 10000, not is_tuple(Ex) ->
                    D = fun(O) ->
                              not relies_on(V, O, G)
                        end,
                    case lists:any(D, Fors) of
                       true -> % does not depend on some
-                         #xqVar{id = Id,name = Nm,expr = Ex,type = Ty} = FV,
+                         #xqVar{id = Id,name = Nm,type = Ty} = FV,
                          ?dbg("spliting for",Nm),
                          Let = {'let',#xqVar{id = Id,name = Nm,
                                              expr = Ex,
-                                             type = maybe_many_type(Ty)}},
+                                             type = maybe_many_type(Ty)},
+                                maybe_many_type(AType)},
                          For = {'for',FV#xqVar{id = Id + 10000,
-                                               expr = #xqVarRef{name = Nm}}},
+                                               expr = #xqVarRef{name = Nm}},
+                                AType},
                          FVx = vertex_name(For),
                          LVx = vertex_name(Let),
                          digraph:add_vertex(G, FVx),
@@ -708,7 +713,7 @@ do_lift_where({P,Where},All,G) ->
          {true,insert_at(Where, I, remove_from(P, All))}
    end. 
 
-get_first_for_window([{I,{'for',#xqVar{empty = false}}}|_]) ->
+get_first_for_window([{I,{'for',#xqVar{empty = false},_}}|_]) ->
    I;
 get_first_for_window([{I,#xqWindow{}}|_]) ->
    I;
@@ -786,9 +791,10 @@ maybe_lift_nested_for_expression(#xqFlwor{loop = Clauses} = FL) ->
                         name = N,
                         position = undefined,
                         expr = #xqFlwor{loop = Loop0,
-                                        return = Ret}} = V}, _) ->
+                                        return = Ret}} = V,
+            AType}, _) ->
              ?dbg("Flattening FLWOR",N),
-             Loop = Loop0 ++ [{for,V#xqVar{expr = Ret}}],
+             Loop = Loop0 ++ [{for,V#xqVar{expr = Ret},AType}],
              {Loop,true};
           (O,Changed0) ->
              {O,Changed0}
@@ -807,11 +813,12 @@ maybe_lift_nested_for_expression(#xqFlwor{loop = Clauses} = FL) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_lift_nested_let_clause(#xqFlwor{loop = Clauses} = FL) ->
    F = fun({Typ, #xqVar{name = N,
-                        expr = #xqFlwor{loop = [{'let',_}=L|T]} = Fl1} = V}, _) 
+                        expr = #xqFlwor{loop = [{'let',_,_}=L|T]} = Fl1} = V,
+            AType}, _) 
              when Typ == 'for';
                   Typ == 'let' ->
              ?dbg("Lifting let from sub-FLWOR",N),
-             Loop = [L, {Typ,V#xqVar{expr = Fl1#xqFlwor{loop = T}}}],
+             Loop = [L, {Typ,V#xqVar{expr = Fl1#xqFlwor{loop = T}},AType}],
              {Loop,true};
           (O,Changed0) ->
              {O,Changed0}
@@ -859,7 +866,8 @@ where_clause_as_predicate(#xqFlwor{id = _Id, loop = Clauses,
 
 merge_for_where([{for,#xqVar{name = FName,
                              empty = false,
-                             expr = Expr, position = undefined} = FVar} = For,
+                             expr = Expr, position = undefined} = FVar,
+                  AType} = For,
                  {'where',WId,WExpr} = Where|T], G) ->
    WName = vertex_name(Where),
    FVName = vertex_name(For),
@@ -875,14 +883,18 @@ merge_for_where([{for,#xqVar{name = FName,
                [For,Where|merge_for_where(T, G)];
             WExpr2 ->
                ?dbg("removed where clause",{FVarRef,WExpr2}),
-               [{for,FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr2)}]}}}
+               [{for,
+                 FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr2)}]}},
+                  maybe_zero_type(AType) }
                |merge_for_where(T, G)]
          end;
       false ->
          ?dbg("Lifting where into for as predicate",WExpr),
          ?dbg("removing where clause",WName),
          digraph:add_edge(G, WName, FVName),
-         [{for,FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr)}]}}}
+         [{for,
+           FVar#xqVar{expr = {postfix,WId,Expr,[{predicate,?BOOL_CALL(WExpr)}]}},
+           maybe_zero_type(AType)}
           |merge_for_where(T, G)]
    end;
 merge_for_where([H|T], G) ->
@@ -945,7 +957,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
                                         return = Return} = FL, G) 
    when Clauses =/= [] ->
    case lists:last(Clauses) of
-      {for,#xqVar{name = N, expr = E, type = Ty}} = F ->
+      {for,#xqVar{name = N, expr = E, type = Ty},_} = F ->
          if Return == #xqVarRef{name = N} ->
                VN = vertex_name(F),
                true = remove_dependancies(G, VN),
@@ -956,7 +968,7 @@ replace_trailing_for_in_return(#xqFlwor{id = _Id,
             true ->
                {false,FL}
          end;
-      {'let',#xqVar{name = N, expr = E, type = Ty}} = F ->
+      {'let',#xqVar{name = N, expr = E, type = Ty},_} = F ->
          CanShift = shiftable_expression(F),
          if Return == #xqVarRef{name = N} andalso CanShift ->
                VN = vertex_name(F),
@@ -1006,13 +1018,15 @@ flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
    F = fun({for, #xqVar{name = N,
                         position = PositionVar,
                         expr = #xqFlwor{loop = Loop0,
-                                        return = Ret}} = V}, _) ->
+                                        return = Ret}} = V,
+            AType}, _) ->
              ?dbg("Flattening FLWOR",N),
              Rst = if PositionVar == undefined ->
-                         [{for,V#xqVar{expr = Ret}}];
+                         [{for,V#xqVar{expr = Ret},AType}];
                       true ->
                          [{for,V#xqVar{expr = Ret,
-                                  position = undefined}},{'count',PositionVar}]
+                                  position = undefined},AType},
+                          {'count',PositionVar}]
                    end,
              Loop = Loop0 ++ Rst,
              {Loop,true};
@@ -1034,10 +1048,10 @@ flatten_leading_for_flwor(#xqFlwor{loop = Clauses} = FL) ->
 -spec maybe_lift_count_clause_to_position(#xqFlwor{}, digraph:graph()) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_lift_count_clause_to_position(
-  #xqFlwor{loop = [{for,#xqVar{name = N,position = undefined} = F},
+  #xqFlwor{loop = [{for,#xqVar{name = N,position = undefined} = F,AType},
                    {count,#xqVar{id = CI,name = CN}}|T]} = FL, _G) ->
    ?dbg("moving count to position",N),
-   Loop = [{for,F#xqVar{position = #xqPosVar{id = CI,name = CN}}}|T],
+   Loop = [{for,F#xqVar{position = #xqPosVar{id = CI,name = CN}},AType}|T],
    {true, FL#xqFlwor{loop = Loop}};
 maybe_lift_count_clause_to_position(#xqFlwor{} = FL, _) ->
    {false,FL}.
@@ -1051,7 +1065,8 @@ maybe_lift_count_clause_to_position(#xqFlwor{} = FL, _) ->
    {Changed :: boolean(),Result :: #xqFlwor{}}.
 maybe_lift_count_clause_to_let(
   #xqFlwor{loop = [{for,#xqVar{id = I,name = N,
-                               position = #xqPosVar{id = PI,name = PN}}} = F,
+                               position = #xqPosVar{id = PI,name = PN}},
+                    _} = F,
                    {count,#xqVar{id = CI, name = CN} = C}|T]} = FL, G) ->
    ?dbg("moving count to let",N),
    % add dependency
@@ -1060,7 +1075,8 @@ maybe_lift_count_clause_to_let(
    V3 = {I,sim_name(N)},
    digraph:add_edge(G, V2, V1),
    digraph:add_edge(G, V3, V1),
-   Loop = [F,{'let',C#xqVar{expr = #xqVarRef{name = PN}}}|T],
+   Loop = [F,{'let',C#xqVar{expr = #xqVarRef{name = PN}},
+              #xqSeqType{type = 'xs:integer',occur = one}}|T],
    {true, FL#xqFlwor{loop = Loop}};
 maybe_lift_count_clause_to_let(#xqFlwor{} = FL, _) ->
    {false,FL}.
@@ -1093,7 +1109,7 @@ maybe_lift_simple_return(#xqFlwor{} = FL, _) ->
    {Changed :: boolean(),Result :: #xqFlwor{} | any()}.
 maybe_lift_lets_in_return(
   #xqFlwor{loop = Clauses,
-           return = #xqFlwor{loop = [{'let',_} = L|T]} = F2} = FL, G) ->
+           return = #xqFlwor{loop = [{'let',_,_} = L|T]} = F2} = FL, G) ->
    Loop = Clauses ++ [L],
    {true, optimize(FL#xqFlwor{loop = Loop,
                               return = F2#xqFlwor{loop = T}},G) };
@@ -1139,16 +1155,17 @@ vertex_name(#xqWindow{win_variable = #xqVar{id = I, name = N}}) ->
    {I,sim_name(N)};
 vertex_name({_, #xqPosVar{id = I, name = N}}) ->
    {I,sim_name(N)};
-vertex_name({T, #xqVar{id = I, name = N}}) when T == 'for';
-                                                T == 'let';
-                                                T == 'count' ->
+vertex_name({T, #xqVar{id = I, name = N},_}) when T == 'for';
+                                                  T == 'let' ->
+   {I,sim_name(N)};
+vertex_name({T, #xqVar{id = I, name = N}}) when T == 'count' ->
    {I,sim_name(N)};
 vertex_name({Type,I,_}) when is_atom(Type) ->
    {I,Type}.
   
 %% can this clause be moved? based on it's expression 
 -spec shiftable_expression(any()) -> boolean().
-shiftable_expression({'let',#xqVar{expr = Expr}}) -> 
+shiftable_expression({'let',#xqVar{expr = Expr},_}) -> 
    shiftable_expression_1(Expr);
 shiftable_expression({where,_,Expr}) -> 
    shiftable_expression_1(Expr);
@@ -1197,7 +1214,7 @@ relies_on(This, [], G) -> % relies on nothing
 relies_on([], That, G) -> % replied upon by something
    Vn =
       case That of
-         {'for',#xqVar{position = #xqPosVar{} = P}} ->
+         {'for',#xqVar{position = #xqPosVar{} = P},_} ->
             [vertex_name(That),vertex_name({for,P})];
          #xqWindow{} = W ->
             win_vertex_names(W);
@@ -1214,7 +1231,7 @@ relies_on(This, That, G) -> % this relies on that
    Cn = vertex_name(This),
    Vn =
       case That of
-         {'for',#xqVar{position = #xqPosVar{} = P}} ->
+         {'for',#xqVar{position = #xqPosVar{} = P},_} ->
             [vertex_name(That),vertex_name({for,P})];
          #xqWindow{} = W ->
             win_vertex_names(W);
@@ -1226,15 +1243,9 @@ relies_on(This, That, G) -> % this relies on that
          lists:member(R, Vn) ],
    Rg =/= [].  
 
-relies_on_for_no_pos(This, That, G) -> % this relies on that
+relies_on_for_no_pos(This, {'for',#xqVar{},_} = That, G) -> % this relies on that
    Cn = vertex_name(This),
-   Vn =
-      case That of
-         {'for',#xqVar{}} ->
-            [vertex_name(That)];
-         _ ->
-            []
-      end,
+   Vn = [vertex_name(That)],
    Rg = [R || 
          R <- digraph_utils:reaching([Cn], G),
          lists:member(R, Vn) ],
@@ -1271,9 +1282,9 @@ pull_forw([{I,V}|T]) ->
   
 -spec is_simple_flwor(any()) -> boolean().
 is_simple_flwor(#xqFlwor{loop = C}) ->
-   Pred = fun({'for',_}) ->
+   Pred = fun({'for',_,_}) ->
                 true;
-             ({'let',_}) ->
+             ({'let',_,_}) ->
                 true;
              ({'where',_}) ->
                 true;
@@ -1285,6 +1296,12 @@ is_simple_flwor(#xqFlwor{loop = C}) ->
 maybe_many_type(Type = #xqSeqType{occur = one}) ->
    Type#xqSeqType{occur = one_or_many};
 maybe_many_type(Type) -> Type.
+
+maybe_zero_type(Type = #xqSeqType{occur = one}) ->
+   Type#xqSeqType{occur = zero_or_one};
+maybe_zero_type(Type = #xqSeqType{occur = one_or_many}) ->
+   Type#xqSeqType{occur = zero_or_many};
+maybe_zero_type(Type) -> Type.
 
 
 % "slides" a variable out and removes it by connecting all of 

@@ -99,6 +99,7 @@
 
 -record(state, 
         {% static context
+         module_type,
          known_ns,
          default_elem_ns,
          inscope_vars,
@@ -132,7 +133,7 @@ handle_tree(#xqModule{version = {Version,Encoding},
                       type = ModuleType,% main|library, 
                       body = Body} = Mod,
             BaseUri) ->
-   State = #state{base_uri = BaseUri},
+   State = #state{base_uri = BaseUri, module_type = ModuleType},
    _ = erlang:put(var_id, 1),
    _ = valid_ver(Version),
    _ = valid_enc(string:uppercase(Encoding)),      
@@ -578,7 +579,9 @@ handle_node(State, {'function-ref',
    set_statement_and_type(State, 
                           F#xqFunction{arity = Arity}, 
                           #xqSeqType{type = Type, occur = one});
-handle_node(State, {'function-ref', 
+handle_node(State, 
+            %#state{module_type = main} = State, 
+            {'function-ref', 
                     #qname{namespace = ?FN,
                            local_name = ?A("static-base-uri")}, 0}) -> 
    RType = #xqSeqType{type = 'xs:anyURI',occur = zero_or_one},
@@ -1710,7 +1713,7 @@ handle_node(State, #xqFlwor{} = FL) ->
          ReturnType = get_statement_type(ReturnState),
          ReturnType1 = ReturnType,
          %ReturnType1 = maybe_zero_type(ReturnType),
-         ReturnType2 = case [L || {for,_} = L <- Loop] ++ 
+         ReturnType2 = case [L || {for,_,_} = L <- Loop] ++ 
                               [L || #xqWindow{} = L <- Loop] of
                           [] ->
                              ReturnType1;
@@ -1733,7 +1736,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 type = Type, 
                                 empty = Empty,
                                 expr = Expr, 
-                                position = undefined}}) ->
+                                position = undefined},_}) ->
 %?dbg("Expr",Expr),
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
@@ -1741,7 +1744,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    % for loop type is one out of a sequence
    ForType = get_statement_type(ForState),
    OutType = if Type == undefined ->
-                   ForType;
+                   maybe_unmany_type(ForType);
                 true ->
                    Type
              end,
@@ -1753,7 +1756,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                     ?dbg("changing for to let",Name),
                     ForType;
                  true ->
-                    ForType#xqSeqType{occur = zero_or_one}
+                    ForType#xqSeqType{occur = one}
               end,
    OkType = check_type_match(SForType, OutType),
    if OkType == false;
@@ -1770,7 +1773,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 type = OutType, 
                                 empty = Empty,
                                 expr = ForStmt, 
-                                position = undefined}},
+                                position = undefined}, SForType},
    set_statement_and_type(State1, NewStatement,SForType);
 handle_node(State,{'for',#xqVar{id = Id,
                                 name = Name, 
@@ -1778,7 +1781,7 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 empty = Empty,
                                 expr = Expr, 
                                 position = #xqPosVar{id = Pid, 
-                                                     name = PName}}}) ->
+                                                     name = PName}},_}) ->
    _ = if PName == Name ->
              ?err('XQST0089');
           true ->
@@ -1791,7 +1794,7 @@ handle_node(State,{'for',#xqVar{id = Id,
    % for loop type is one out of a sequence   
    ForType = get_statement_type(ForState), 
    OutType = if Type == undefined ->
-                   ForType;
+                   maybe_unmany_type(ForType);
                 true ->
                    Type
              end,
@@ -1819,14 +1822,15 @@ handle_node(State,{'for',#xqVar{id = Id,
                                 type = OutType, 
                                 empty = Empty,
                                 expr = ForStmt, 
-                                position = #xqPosVar{id = Pid, name = PName}}},
+                                position = #xqPosVar{id = Pid, name = PName}},
+                   SForType},
    set_statement_and_type(State2, NewStatement, SForType);
 
 %% 3.12.3 Let Clause
 handle_node(State, {'let',#xqVar{id = Id, 
                                  name = Name, 
                                  type = Type, 
-                                 expr = Expr}}) ->
+                                 expr = Expr},_}) ->
    StateC = set_in_constructor(State, false),
    ErlVarName = local_variable_name(Id),
    LetState = handle_node(StateC, Expr),
@@ -1850,11 +1854,13 @@ handle_node(State, {'let',#xqVar{id = Id,
          ok
    end,
    
-   LetStmt1 = if OkType =/= true;
+   {LetType1,LetStmt1} = 
+              if OkType =/= true ->
+                    {OutType,{promote_to, LetStmt, OutType}};
                  Type#xqSeqType.occur =/= LetType#xqSeqType.occur ->
-                    {ensure, LetStmt, OutType};
+                    {OutType,{ensure, LetStmt, OutType}};
                  true ->
-                    LetStmt
+                    {LetType,LetStmt}
               end,
    
    NewVar  = {Name,LetType,[],ErlVarName},
@@ -1864,7 +1870,7 @@ handle_node(State, {'let',#xqVar{id = Id,
    NewStatement = {'let',#xqVar{id = Id, 
                                 name = Name, 
                                 type = OutType, 
-                                expr = LetStmt1}},
+                                expr = LetStmt1}, LetType1},
    set_statement_and_type(State1, NewStatement, LetType);
 
 %% 3.12.4 Window Clause
@@ -2851,7 +2857,9 @@ handle_node(State, {'function-call',
    Type = ?stringone,
    ArgSt = #xqAtomicValue{type = 'xs:string', value = DefCol},
    set_statement_and_type(State, ArgSt, Type);
-handle_node(State, {'function-call', 
+handle_node(State, 
+            %#state{module_type = main} = State, 
+            {'function-call', 
                     #qname{namespace = ?FN,local_name = ?A("static-base-uri")}, 
                     0, []}) -> 
    Base = xqerl_context:get_static_base_uri(State#state.tab),%State#state.base_uri,
@@ -2994,7 +3002,7 @@ handle_node(State, {'function-call', #qname{namespace = undefined} = Name,
    QName = resolve_qname(Name, State),
    handle_node(State, {'function-call', QName, Arity, Args});
 
-% catch all for all fx's
+% catch-all for all fx's
 handle_node(State, {'function-call', Name, Arity, Args}) ->
    #xqFunction{params = Params, type = Type} = 
     F = get_static_function(State, {Name, Arity}),
@@ -4126,13 +4134,23 @@ handle_direct_constructor(State = #state{base_uri = BU},
                  O ->
                     O
               end,
-   %?dbg(?LINE, SContent),
+   NewBase = [S ||
+              #xqAttributeNode{expr = [?atomic(_,S)],
+                               name = #qname{prefix = <<"xml">>,
+                                             local_name = <<"base">>}} <-
+              Attributes2],
+   BU2 = case NewBase of
+            [S] ->
+               ?atomic('xs:anyURI',S);
+            [] ->
+               ?atomic('xs:anyURI',BU)
+         end,
    %?dbg(?LINE, QName1),
    ok = check_unique_att_names(Attributes2),
    ok = check_direct_namespaces(Namespaces),
    set_statement(State, 
                  Node#xqElementNode{name = QName1, 
-                                    base_uri = ?atomic('xs:anyURI',BU),
+                                    base_uri = BU2,
                                     attributes = Namespaces ++ Attributes2, 
                                     expr = SContent, 
                                     inscope_ns = InscopeNs});
@@ -5177,6 +5195,12 @@ maybe_unzero_type(Type = #xqSeqType{occur = zero_or_one}) ->
 maybe_unzero_type(Type = #xqSeqType{occur = zero_or_many}) ->
    Type#xqSeqType{occur = one_or_many};
 maybe_unzero_type(Type) -> Type.
+
+maybe_unmany_type(Type = #xqSeqType{occur = zero_or_many}) ->
+   Type#xqSeqType{occur = zero_or_one};
+maybe_unmany_type(Type = #xqSeqType{occur = one_or_many}) ->
+   Type#xqSeqType{occur = one};
+maybe_unmany_type(Type) -> Type.
 
 update_function_type(State = #state{known_fx_sigs = Sigs}, #xqFunction{} = F) ->
    [NewSig] = scan_functions([F]),

@@ -361,6 +361,10 @@ xf(G, Map, Parent, #xqFlwor{id = Id, loop = Loop, return = Ret}) ->
                            l(E);
                          ({order_by,_,_} = E) ->
                            l(E);
+                         ({for,_,_} = E) ->
+                           l(E);
+                         ({'let',_,_} = E) ->
+                           l(E);
                          ({_,E}) ->
                            l(E)
                       end, Loop),
