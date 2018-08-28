@@ -195,12 +195,12 @@ handle_tree(#xqModule{version = {Version,Encoding},
 %?dbg("edges",digraph:edges(DiGraph,main)),
    %?dbg("UsedImports",UsedImports),
    %?dbg("UnusedImports",UnusedImports),
-   %?dbg("StaticProps",StaticProps),
+%?dbg("StaticProps",StaticProps),
    
-   % check used imports for any errors
+   % check all imports for any errors
    [throw(ImpErr) || 
     #xqError{value = ImpE} = ImpErr <- StaticProps,
-     ImpU <- UsedImports,
+     ImpU <- AllImports,
      ImpU == ImpE
      ],
    

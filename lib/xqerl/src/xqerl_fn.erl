@@ -4069,10 +4069,10 @@ remove1([H|T],Position,Current) ->
                           Reg
                     end,
                   Str = re:replace(Input1, MP, Repl1, [{return, binary},global]),
-                  ?dbg("Input1",Input1),
-                  ?dbg("Pattern1",Pattern1),
-                  ?dbg("Repl1",Repl1),
-                  ?dbg("Str",Str),
+                  %?dbg("Input1",Input1),
+                  %?dbg("Pattern1",Pattern1),
+                  %?dbg("Repl1",Repl1),
+                  %?dbg("Str",Str),
                   ?str(Str)
                catch
                   _:_:Stack ->

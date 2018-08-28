@@ -587,7 +587,8 @@ optimize(FL, _) -> FL.
 fold_changes(#xqFlwor{} = FL, G) ->
    {B0,F0} = maybe_split_for(FL, G),
    {B1,F1} = maybe_lift_let(F0, G),
-   {B2,F2} = maybe_inline_let(F1, G),
+   %{B2,F2} = maybe_inline_let(F1, G),
+   {B2,F2} = maybe_remove_redundant_let(F1, G),
    {B3,F3} = remove_unused_variables(F2, G),
    {B4,F4} = maybe_lift_nested_for_expression(F3),
    {B5,F5} = maybe_lift_nested_let_clause(F4),
@@ -750,6 +751,47 @@ maybe_inline_let(#xqFlwor{id = _Id, loop = _Clauses, return = _Return} = FL, _G)
    % replace every use of variable with expr (#xqVarRef{name = Name})   
    %   ?dbg("Lets",Lets),
    {false,FL}.
+
+%% STEP 2.2.5 
+%% attempts to replace any redundant let clauses with the first occurance
+%% returns {Changed :: boolean(), FLWOR :: #xqFlwor{}} 
+-spec maybe_remove_redundant_let(#xqFlwor{}, digraph:graph()) ->
+   {Changed :: boolean(),Result :: #xqFlwor{}}.
+maybe_remove_redundant_let(#xqFlwor{id = _Id, loop = Clauses, return = _Return} = FL, G) ->
+   % for each let clause look through the others for one with an identical
+   % expression. If found, remove the 2nd let clause expression and replace 
+   % it with the 1st let variable reference
+   % add dependancy between the variables
+
+   PosList = to_pos_list(Clauses),
+   Lets = [{P,V} || 
+           {P,V} <- PosList,
+           element(1, V) == 'let'
+           ],
+   Dups = [{{P1,L1},{P2,L2}} ||
+           {P1,{'let',#xqVar{expr = E1},_} = L1} <- Lets,
+           {P2,{'let',#xqVar{expr = E2},_} = L2} <- Lets,
+           E1 == E2,
+           P1 < P2],
+   % only remove the first
+   % this works because path and postfix statements have unique ids
+   case Dups of
+      [] ->
+         {false,FL};
+      [{{_,{'let',#xqVar{name = N1},_} = L1},
+        {P2,{'let',#xqVar{} = V,_} = L2}}|_] ->
+         ?dbg("Removing reduntant let expression:", V),
+         VN1 = vertex_name(L1),
+         VN2 = vertex_name(L2),
+         _ = digraph:add_edge(G, VN1, VN2),
+         New = {P2,setelement(2, L2, V#xqVar{expr = #xqVarRef{name = N1}})},
+         NewList = lists:map(fun({P,_}) when P == P2 ->
+                                   New;
+                                (O) ->
+                                   O
+                             end, PosList),
+         {true, FL#xqFlwor{loop = from_pos_list(NewList)}}
+   end.
 
 %% STEP 2.3 
 %% removes any unused variables created in let or count clauses
@@ -923,7 +965,6 @@ replace_var_with_context_item(FVarRef, T) when is_tuple(T) ->
    list_to_tuple(New);
 replace_var_with_context_item(_, WExpr) ->
    WExpr.
-
 
 %% STEP 2.8
 %% 'where' clauses using positional variables from 'for' clauses 
@@ -1198,8 +1239,8 @@ win_vertex_names(#xqWindow{win_variable = W1,
                            eprev = E3,
                            enext = E4}) ->
    F = fun(undefined) -> [];
-          (#xqVar{} = V) ->
-            [vertex_name({for,V})];
+          (#xqVar{type = Typ} = V) ->
+            [vertex_name({for,V,Typ})];
           (#xqPosVar{} = V) ->
             [vertex_name({for,V})]
        end,
@@ -1315,6 +1356,19 @@ remove_dependancies(G, Vertex) ->
     I =/= O],
    digraph:del_vertex(G, Vertex),
    ?dbg("Vertex",Vertex),
+   ?dbg("Ins   ",Ins),
+   ?dbg("Out   ",Out),
+   true.
+
+replace_variable_dependancies(G, OldVertex, NewVertex) ->
+   Ins = digraph:in_neighbours(G, OldVertex),
+   Out = digraph:out_neighbours(G, OldVertex),
+   [digraph:add_edge(G, I, NewVertex) ||
+    I <- Ins],
+   [digraph:add_edge(G, NewVertex, O) ||
+    O <- Out],
+   digraph:del_vertex(G, OldVertex),
+   ?dbg("Vertex",OldVertex),
    ?dbg("Ins   ",Ins),
    ?dbg("Out   ",Out),
    true.

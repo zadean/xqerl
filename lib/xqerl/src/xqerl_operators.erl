@@ -2409,10 +2409,10 @@ add_dayTimeDuration_to_dateTime(#xqAtomicValue{type = 'xs:dateTime',
                                   value = #xsDateTime{}} = A,
                                   #xqAtomicValue{type = 'xs:dayTimeDuration',
                                   value = #xsDateTime{}} = B) -> 
-   ?dbg("A,B",{A,B}),
+   %?dbg("A,B",{A,B}),
    #xqAtomicValue{type = 'xs:dateTime',value = NewDt} = 
      add_duration_to_dateTime(A, B),
-   ?dbg("NewDt",NewDt),
+   %?dbg("NewDt",NewDt),
    Str = xqerl_datetime:to_string(NewDt, 'xs:dateTime'),
    #xqAtomicValue{type = 'xs:dateTime',
                   value = NewDt#xsDateTime{string_value = Str} }.

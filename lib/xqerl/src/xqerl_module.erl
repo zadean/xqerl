@@ -173,7 +173,7 @@ get_signatures(ModNamespace) ->
                                    target_namespace = ModNamespace,
                                    _ = '_'},
               ModNameAtom0 = mnesia:select(xq_module, [{ModName, [], ['$1']}]),
-              %?dbg("ModNameAtom",ModNameAtom0),
+?dbg("ModNameAtom",ModNameAtom0),
               ModNameAtom = if ModNameAtom0 == [] ->
                                   ?dbg("Unknown ModNamespace",ModNamespace),
                                   xqerl_error:error('XQST0059', 

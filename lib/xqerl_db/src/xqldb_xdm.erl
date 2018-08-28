@@ -1348,8 +1348,8 @@ f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) when is_integer(I) ->
    end;
 f_named_element_nodes(?DOC,[I|T],{Ns,Ln}) ->
    case I of
-      {Id,?ELM} when Ln == any ; __Ln == Ln,
-                Ns == any ; __Ns == Ns ->
+      {Id,?ELM} when Ln == any orelse __Ln == Ln,
+                     Ns == any orelse __Ns == Ns ->
          [Id|f_named_element_nodes(?DOC,T,{Ns,Ln})];
       _ ->
          f_named_element_nodes(?DOC,T,{Ns,Ln})

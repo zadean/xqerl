@@ -47,10 +47,13 @@ analyze(Body, Functions, Variables) ->
    M2 = add_glob_funs(G, Functions, M1),
    % strip non-functions
    Functions1 = [F || #xqFunction{} = F  <- Functions],
+   % strip non-variables
+   Variables1 = [V || #xqVar{} = V  <- Variables] ++ 
+                  [C || {'context-item', _} = C <- Variables],
    % globals are set now recurse for dependencies
    Body1 = l(Body),
    % analyze
-   _ = x(G, M2, Body1 ++ Functions1 ++ Variables, []),
+   _ = x(G, M2, Body1 ++ Functions1 ++ Variables1, []),
    %print(G),
    G.
 
@@ -189,6 +192,7 @@ x(G, Map, [#xqFunction{id = Id,
                       end, Map, Params),
    x(G, Map1, {Id,Nm, Ar}, Body),
    x(G, Map, T, []);
+
 % global variables
 x(G, Map, [#xqVar{id = Id, name = Nm0, expr = Body}|T], _Data) ->
    Nm = sim_name(Nm0),
@@ -344,6 +348,8 @@ x(G, Map, Parent, 'context-item') ->
    add_vertex(G, context_item),
    add_edge(G, context_item, Parent),
    Map;
+x(G, Map, [_|T], D) ->
+   x(G, Map, T, D);
 x(_, Map, _, _) ->
    Map.
 
@@ -470,12 +476,26 @@ sim_name(#qname{namespace = N, local_name = L}) -> {N,L}.
 
 % returns map
 add_glob_variables(G, Variables) ->
-   Fun = fun({#qname{} = Nm,_,_,_,_}, Map) ->
-               add_vertex(G, {0,sim_name(Nm)}),
-               maps:put(sim_name(Nm), 0, Map);
+   %?dbg("Variables",Variables),
+   Fun = fun({#qname{} = Nm,_,Annos,_,_}, Map) ->
+               IsPriv = is_private(Annos),
+               if IsPriv ->
+                     Map;
+                  true ->
+                     Sim = sim_name(Nm),
+                     add_vertex(G, {0,sim_name(Nm)}),
+                     case maps:is_key(Sim, Map) of
+                        true -> ?err('XQST0049');
+                        _ -> maps:put(Sim, 0, Map)
+                     end
+               end;
             (#xqVar{id = Id, name = Nm}, Map) ->
+               Sim = sim_name(Nm),
                add_vertex(G, {Id,sim_name(Nm)}),
-               maps:put(sim_name(Nm), Id, Map);
+               case maps:is_key(Sim, Map) of
+                  true -> ?err('XQST0049');
+                  _ -> maps:put(Sim, Id, Map)
+               end;
             ({'context-item',_}, Map) ->
                add_vertex(G, context_item),
                maps:put(context_item, -1, Map)
@@ -484,6 +504,7 @@ add_glob_variables(G, Variables) ->
 
 % returns map
 add_glob_funs(G, Functions, Map0) ->
+   %?dbg("Functions",Functions),
    Fun = fun(#xqFunction{name = #qname{namespace = undefined}}, _) ->
                ?err('XQST0060');
             (#xqFunction{id = Id, name = Nm, arity = Ar}, Map) ->
@@ -493,10 +514,18 @@ add_glob_funs(G, Functions, Map0) ->
                   true -> ?err('XQST0034');
                   _ -> maps:put({S, Ar}, Id, Map)
                end;
-            ({#qname{} = Nm,_,_,_,Ar,_}, Map) ->
-               S = sim_name(Nm),
-               add_properties(G, Nm, Ar),
-               maps:put({S, Ar}, 0, Map)
+            ({#qname{} = Nm,_,Annos,_,Ar,_}, Map) ->
+               IsPriv = is_private(Annos),
+               if IsPriv ->
+                     Map;
+                  true ->
+                     S = sim_name(Nm),
+                     add_properties(G, Nm, Ar),
+                     case maps:is_key({S, Ar}, Map) of
+                        true -> ?err('XQST0034');
+                        _ -> maps:put({S, Ar}, 0, Map)
+                     end
+               end
          end,
    lists:foldl(Fun, Map0, Functions).
 
@@ -547,7 +576,13 @@ add_variable_to_scope(Nm, Id, Map, _G) ->
          %add_edge(G, {V,Nm}, K),
          maps:put(Nm, Id, Map)
    end.
-  
+
+
+is_private([]) -> false;
+is_private([{annotation, 
+             #qname{namespace = <<"http://www.w3.org/2012/xquery">>,
+                    local_name = <<"private">>}, _}|_]) -> true;
+is_private([_|T]) -> is_private(T).
 
 
 

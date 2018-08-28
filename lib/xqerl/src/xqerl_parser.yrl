@@ -244,13 +244,13 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
 'Import'                 -> 'ModuleImport' : {'module-import', '$1'}.
 
 %list of URILiteral
-'URILiteralList'         -> 'URILiteral' : '$1'.
+'URILiteralList'         -> 'URILiteral' : ['$1'].
 'URILiteralList'         -> 'URILiteral' ',' 'URILiteralList' : ['$1'|'$3'].
 
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : {schema, {'$3', '$4'}, '$6'}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : {schema, {<<>>, '$3'}, '$5'}.
-'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : {schema, {'$3', '$4'}}.
-'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : {schema, {<<>>, '$3'}}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace('$3', '$4'),{schema, {'$3', '$4'}, check_uri_hints('$6')}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral' 'at' 'URILiteralList' : check_schema_prefix_namespace(<<>>,'$3'),{schema, {<<>>, '$3'}, check_uri_hints('$5')}.
+'SchemaImport'           -> 'import' 'schema' 'SchemaPrefix' 'URILiteral'                       : check_schema_prefix_namespace('$3', '$4'),{schema, {'$3', '$4'}}.
+'SchemaImport'           -> 'import' 'schema'                'URILiteral'                       : check_schema_prefix_namespace(<<>>,'$3'),{schema, {<<>>, '$3'}}.
 
 'SchemaPrefix'           -> 'namespace' 'NCName' '=' : bin_value_of('$2').
 'SchemaPrefix'           -> 'default' 'element' 'namespace' : 'default-element-namespace'.
@@ -271,8 +271,14 @@ Right  2100 'S' 'QuotAttrContentChar' 'AposAttrContentChar' 'ElementContentChar'
                                     xqerl_context:add_statically_known_namespace(parser,Ns, bin_value_of('$4')),
                                     {Ns, bin_value_of('$4')}
                               end.
-%%% ignoring the "at" portion, everything must be pre-compiled before use TODO?
-%'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' : {'module-import', '$3', undefined, '$5'}.
+'ModuleImport'           -> 'import' 'module' 'URILiteral' 'at' 'URILiteralList' 
+                           : if '$3' == <<>> ->
+                                    ?err('XQST0088');
+                                 true ->
+                                    Ns = list_to_binary(["Q{", '$3', "}"]), 
+                                    xqerl_context:add_statically_known_namespace(parser,Ns, <<>>),
+                                    {Ns, <<>>}
+                              end.
 'ModuleImport'           -> 'import' 'module' 'namespace' 'NCName' '=' 'URILiteral' 'at' 'URILiteralList' 
                            : if '$6' == <<>> ->
                                     ?err('XQST0088');
@@ -981,6 +987,20 @@ end.
             _ ->
                {'function-call', qname(func, '$1'),length('$2'), '$2'}
          end.
+'FunctionCall'           -> 'return' 'ArgumentList' : % functions named 'return' can screw things up 
+         case lists:any(fun({'?',_}) -> true; (_) -> false end, '$2') of
+            true ->
+               {'partial-function', qname(func, {qname,default,<<>>,<<"return">>}),length('$2'),  '$2'};
+            _ ->
+               {'function-call', qname(func, {qname,default,<<>>,<<"return">>}),length('$2'), '$2'}
+         end.
+'FunctionCall'           -> 'in' 'ArgumentList' : % functions named 'in' can screw things up 
+         case lists:any(fun({'?',_}) -> true; (_) -> false end, '$2') of
+            true ->
+               {'partial-function', qname(func, {qname,default,<<>>,<<"in">>}),length('$2'),  '$2'};
+            _ ->
+               {'function-call', qname(func, {qname,default,<<>>,<<"in">>}),length('$2'), '$2'}
+         end.
 % [138]    Argument    ::=      ExprSingle | ArgumentPlaceholder 
 'Argument'               -> 'ExprSingle' : '$1'.
 'Argument'               -> 'ArgumentPlaceholder' : '$1'.
@@ -1169,6 +1189,8 @@ end.
 'MapConstructor'         -> 'map' '{' 'MapConstructorEntries' '}' : {'map', '$3'}.
 'MapConstructor'         -> 'map' '{' '}' : {'map', []}.
 % [171]    MapConstructorEntry     ::=      MapKeyExpr ":" MapValueExpr   
+%% % special case {*:*}
+%% 'MapConstructorEntry'    -> 'Wildcard' : Q = qname(wildcard,#'qname'{prefix = <<"*">>, local_name = <<"*">>}), {'map-key-val', Q, Q}.
 'MapConstructorEntry'    -> 'MapKeyExpr' ':'  'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntry'    -> 'MapKeyExpr' ' :' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
 'MapConstructorEntry'    -> 'MapKeyExpr' ': ' 'MapValueExpr' : {'map-key-val', '$1', '$3'}.
@@ -1340,7 +1362,8 @@ end.
       {error,_} when BV == <<>> ->
          ?err('FORG0001');
       {error,_} ->
-         ?err('XQST0046');
+         BV;
+%         ?err('XQST0046');
       Val ->
          Val
    end.
@@ -1747,3 +1770,24 @@ split_where_statement({'and',A,B}) ->
    split_where_statement(A) ++ split_where_statement(B);
 split_where_statement(A) ->
    [{'where', next_id(),A}].
+
+check_schema_prefix_namespace(<<"xml">>,<<"http://www.w3.org/XML/1998/namespace">>) -> ok;
+check_schema_prefix_namespace(<<"xml">>,_) -> ?err('XQST0070');
+check_schema_prefix_namespace(_,<<"http://www.w3.org/XML/1998/namespace">>) -> ?err('XQST0070');
+check_schema_prefix_namespace(<<"xmlns">>,_) -> ?err('XQST0070');
+check_schema_prefix_namespace(_,<<"http://www.w3.org/2000/xmlns/">>) -> ?err('XQST0070');
+check_schema_prefix_namespace(_,<<>>) -> ?err('XQST0057');
+check_schema_prefix_namespace(_,_) -> ok.
+
+%check_uri_hints(Hints) -> Hints;
+check_uri_hints(Hints) when not is_list(Hints) -> check_uri_hints([Hints]);
+check_uri_hints(Hints) ->
+   [ case xqerl_lib:check_uri_string(H) of
+        {error,_} ->
+           ?err('XQST0046');
+        _ ->
+           ok
+     end || H <- Hints],
+   Hints.
+
+  

@@ -770,15 +770,16 @@ expr_do(Ctx, #xqFunction{id = _Id,
    Ctx3 = set_context_variable_name(Ctx2, NextNextNextCtxVar),
    CtxP = {var,?L,NextNextCtxVar},
    CtxI = {var,?L,NextNextNextCtxVar},
-   FunBod = expr_do(Ctx3, Expr),
    case maps:find(in_pred, Ctx) of
       error ->
+         FunBod = expr_do(clear_context_variables(Ctx3), Expr),
          Body = ?P(["fun(_@CtxP,_@@ParamList) ->",
                     " _@CtxI = xqerl_context:set_empty_context_item(_@CtxP),",
                     " _@@Checks,",   
                     " _@FunBod end"]),
          abs_function(Ctx, F, Body) ;
       {ok,true} ->
+         FunBod = expr_do(Ctx3, Expr),
          Body = ?P(["fun(_@CtxI,_@@ParamList) ->",
                     " _@@Checks,",   
                     " _@FunBod end"]),
@@ -906,6 +907,7 @@ expr_do(Ctx, {castable_as,Expr1,#xqSeqType{type = 'xs:QName'}}) ->
    Namespaces = abs_ns_list(Ctx),
    E1 = expr_do(Ctx, Expr1),
    ?P("xqerl_types:castable(_@E1,'xs:QName',_@Namespaces)");
+   %?P("xqerl_types:castable(_@E1,'xs:QName',_@Namespaces)");
 expr_do(Ctx, {castable_as,Expr1,Expr2}) ->
    E1 = expr_do(Ctx, Expr1),
    E2 = expr_do(Ctx, Expr2),
@@ -1329,8 +1331,7 @@ expr_do(Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {M,F,_}}) ->
-   CtxNm = get_context_variable_name(Ctx),
-   CtxVar = {var,?L,CtxNm}, 
+   CtxVar = context_map_abs(Ctx), 
    Fun = if Ay > 0 ->
                DArgs = [{var,?L,list_to_atom("P__"++integer_to_list(I))} ||
                         I <- lists:seq(1, Ay)],
@@ -1352,8 +1353,7 @@ expr_do(Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {F,_}}) ->
-   CtxNm = get_context_variable_name(Ctx),
-   CtxVar = {var,?L,CtxNm}, 
+   CtxVar = context_map_abs(Ctx), 
    Fun = if Ay > 0 ->
                DArgs = [{var,?L,list_to_atom("P__"++integer_to_list(I))} ||
                         I <- lists:seq(1, Ay)],
@@ -3230,7 +3230,6 @@ handle_predicate({Ctx, {predicate, P}}, Abs) ->
    ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
 
 handle_predicate({Ctx, {arguments, Args}}, Abs) ->
-   CtxVar = {var,?L,get_context_variable_name(Ctx)},
    PhF = fun('?') ->
                VarName = next_var_name(),
                [{var,?L,VarName}];
@@ -3252,14 +3251,7 @@ handle_predicate({Ctx, {arguments, Args}}, Abs) ->
    ArgAbs = lists:map(AgF, NewArgs),
    NextCtxVar2 = {var,?L,next_ctx_var_name()},
    NextVar2    = {var,?L,next_var_name()},
-   CtxAbs = if is_map_key(context_variable, Ctx) ->
-                  #{context_variable := C,
-                    position_variable := P,
-                    size_variable := S} = Ctx,
-                  ?P("xqerl_context:set_context_item(_@CtxVar,_@C,xqerl_types:value(_@P),_@S)");
-               true ->
-                  ?P("_@CtxVar")
-            end,
+   CtxAbs = context_map_abs(Ctx),
    Fun1 = ?P(["fun([]) ->",
               "     xqerl_error:error('XPTY0004');",
               "   (_@NextVar2) ->",
@@ -3581,4 +3573,12 @@ clear_context_variables(Map) ->
    M1 = maps:remove(context_variable, Map),
    M2 = maps:remove(position_variable, M1),
    maps:remove(size_variable, M2).
-   
+
+context_map_abs(#{context_variable := C,
+                  position_variable := P,
+                  size_variable := S} = Ctx) ->
+   CtxVar = {var,?L,get_context_variable_name(Ctx)},
+   ?P("xqerl_context:set_context_item(_@CtxVar,_@C,xqerl_types:value(_@P),_@S)");
+context_map_abs(Ctx) ->
+   {var,?L,get_context_variable_name(Ctx)}.
+

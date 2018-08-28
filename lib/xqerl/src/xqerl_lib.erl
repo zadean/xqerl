@@ -469,9 +469,10 @@ check_uri_string(<<$%,H1,H2,T/binary>>, Acc) when ?ISHEX(H1) ->
          {error, [H1,H2]}
    end;
 check_uri_string(<<C,_/binary>>, _Acc) when C == $%;
-                                            C == $[;
                                             C == $]->
    {error, invalid_uri};
+check_uri_string(<<$[,Rest/binary>>, Acc) ->
+   ipv6(Rest,8,<<Acc/binary,$[>>);
 check_uri_string(<<32,C/utf8,T/binary>>, Acc) when ?WS(C) ->
    check_uri_string(<<32,T/binary>>, Acc);
 check_uri_string(<<"&#xD;",T/binary>>, Acc)->
@@ -485,6 +486,28 @@ check_uri_string(<<C/utf8,T/binary>>, Acc) when ?NSWS(C) ->
 check_uri_string(<<C/utf8,T/binary>>, Acc) ->
    check_uri_string(T, <<Acc/binary,C/utf8>>);
 check_uri_string(<<>>, Acc) -> Acc.
+
+ipv6(<<A,B,C,D,$],Rest/binary>>,1,Acc) ->
+   Pred = fun(V) when ?ISHEX(V) -> true;
+             (_) -> false
+          end,
+   IsHex = lists:all(Pred, [A,B,C,D]),
+   if IsHex ->
+         check_uri_string(Rest,<<Acc/binary,A,B,C,D,$]>>);
+      true ->
+         {error, invalid_uri}
+   end;
+ipv6(<<A,B,C,D,$:,Rest/binary>>,L,Acc) ->
+   Pred = fun(V) when ?ISHEX(V) -> true;
+             (_) -> false
+          end,
+   IsHex = lists:all(Pred, [A,B,C,D]),
+   if IsHex ->
+         ipv6(Rest,L - 1,<<Acc/binary,A,B,C,D,$:>>);
+      true ->
+         {error, invalid_uri}
+   end;
+ipv6(_,_,_) -> {error, invalid_uri}.
 
 colon_first(<<$:,_/binary>>) -> true;
 colon_first(_) -> false.
