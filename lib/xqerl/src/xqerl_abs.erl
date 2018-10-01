@@ -51,7 +51,6 @@ records() ->
     "-record(xqAtomicValue,{type,value}).",
     "-record(qname,{namespace,prefix,local_name}).",
     "-record(xqFunction,{id,annotations,name,arity,params,type,body,external}).",
-    "-record(xqNode,{doc,node}).",
     "-record(xqDocumentNode,{identity,desc_count,base_uri,children,
       value,string_value,path_index,expr}).",
     "-record(xqElementNode,{identity,desc_count,name,parent_node,children,
@@ -67,7 +66,7 @@ records() ->
     "-record(xqNamespace,{namespace,prefix}).",
     "-record(xqFunTest,{kind,annotations,name,params,type}).",
     "-record(xqSeqType,{type,occur}).",
-    "-record(xqKindTest,{kind,name,type,test}).",
+    "-record(xqKindTest,{kind,name,type}).",
     "-record(xqRange,{min,max,cnt})."
    ].
 
@@ -977,60 +976,48 @@ expr_do(_,{path_expr,_,['empty-sequence'|_]}) ->
 %% Complex are joins and complex predicates  
 %%  they call the document process per function 
 
+expr_do(Ctx0, {path_expr,_Id,[ 'context-item' | Steps ]}) ->
+   CtxItem = expr_do(Ctx0, 'context-item'),
+   Ctx = clear_context_variables(Ctx0),
+   CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
+   Comp = step_expr_do(Ctx, Steps, CtxSeq),
+   ?P(["begin",
+       " _@@Comp",
+       "end"
+      ]);
 expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
                                                   R == {'root'} ->
    CtxItem = expr_do(Ctx0, 'context-item'),
    Ctx = clear_context_variables(Ctx0),
    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
-%   NextCtxVar = next_ctx_var_name(),
-   %NextCtxVVar = {var,?L,NextCtxVar},
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
       {[],_Rest} -> % nothing simple, only complex
-%?dbg("{P,Rest}",{[],Rest}),
-         Comp = step_expr_do(Ctx, Steps, CtxSeq),
-         ?P(["fun() ->",
+         Comp = step_expr_do(Ctx, [R|Steps], CtxSeq),
+         ?P(["begin",
              " _@@Comp",
-             "end()"
-            ]);
-      {P,[]} -> % all simple
-         ?P(["fun() ->",
-             " xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             "                       F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "                     ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "                     end, _@CtxSeq)",
-             "end()"
-            ]);
-      {P,Rest} -> % simple and complex
-%?dbg("{P,Rest}",{P,Rest}),
-         NextVar = {var,?L,next_var_name()},
-%         PosVar = {var,?L,next_var_name()},
-%         SizVar = {var,?L,next_var_name()},
-%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-         E1 = step_expr_do(Ctx, Rest, NextVar),
-         % new context need position and size
-         ?P(["fun() ->",
-             " _@NextVar = xqerl_seq3:path_map(",
-             "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             %"            fun(#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar) ->",
-             %"              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar),",
-             "              F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "            end, _@CtxSeq),",
-             " _@@E1",
-             "end()"
-            ])
+             "end"
+            ])%;
+%%       {P,[]} -> % all simple
+%%          ?P(["begin ",
+%%              " xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
+%%              "                       _@P ",
+%%              "                     ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "                     end, _@CtxSeq)",
+%%              "end"
+%%             ]);
+%%       {P,Rest} -> % simple and complex
+%%          NextVar = {var,?L,next_var_name()},
+%%          E1 = step_expr_do(Ctx, Rest, NextVar),
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#{nk := _} = Doc,_,_) ->",
+%%              "              _@P ",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
+%%             ])
    end;
          
 
@@ -1039,67 +1026,39 @@ expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
 %?dbg("Steps",Steps),
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    CtxSeq = a_var(Var,CurrCtxVar),
-   NextCtxVar = next_ctx_var_name(),
-   NextCtxVVar = {var,?L,NextCtxVar},
    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
       {[],_} -> % nothing simple, only complex
          %?dbg("{P,Rest}",{[],Rest,Src}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
          %?dbg("Comp",Comp),
-         O = ?P(["fun() ->",
-                 " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
+         O = ?P(["begin",
                  " _@@Comp",
-                 "end()"
+                 "end"
             ]),
          %?dbg("O",O),
-         O;
-      {P,[]} ->
-         ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             "                    F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "              end, xqerl_seq3:sequence(_@CtxSeq))"
-            ]);
-      {P,Rest} ->
-         %?dbg("{P,Rest}",{P,Rest}),
-         NextVar = {var,?L,next_var_name()},
-%         PosVar = {var,?L,next_var_name()},
-%         SizVar = {var,?L,next_var_name()},
-%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-         E1 = step_expr_do(Ctx, Rest, NextVar),
-         % new context need position and size
-         ?P(["fun() ->",
-             " _@NextVar = xqerl_seq3:path_map(",
-             "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             %"            fun(#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar) ->",
-             %"              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar),",
-             "              F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "            end, _@CtxSeq),",
-             " _@@E1",
-             "end()"
-            ])
+         O%;
+%%       {P,[]} ->
+%%          ?P(["xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
+%%              "                    _@P ",
+%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
+%%             ]);
+%%       {P,Rest} ->
 %%          %?dbg("{P,Rest}",{P,Rest}),
 %%          NextVar = {var,?L,next_var_name()},
+%% %         PosVar = {var,?L,next_var_name()},
+%% %         SizVar = {var,?L,next_var_name()},
+%% %         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
 %%          E1 = step_expr_do(Ctx, Rest, NextVar),
-%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc,node = Root} = _@NextVar) -> _@E1 end,",
-%%              " xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root}) ->",
-%%              "                     F = fun(Doc) -> _@P end,",
-%%              "                     fun() -> xqldb_doc:run(Doc1,F) end()",
-%%              "                      ;(_) -> xqerl_error:error('XPTY0019')"
-%%              "               end, xqerl_seq3:sequence(_@Src))",
-%%              " )" 
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#{nk := _} = Doc,_,_) ->",
+%%              "              _@P ",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
 %%             ])
    end;
 
@@ -1108,9 +1067,6 @@ expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
 expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
    Ctx = clear_context_variables(Ctx0),
 %?dbg("[ Base | Steps ]",[ Base | Steps ]),
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   NextCtxVar = next_ctx_var_name(),
-   NextCtxVVar = {var,?L,NextCtxVar},
    CtxSeq = case Base of
                {postfix,_,_,_} -> % use old context item
                   expr_do(Ctx0, {expr, Base});
@@ -1124,59 +1080,34 @@ expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
          %?dbg("{P,Rest}",{[],Rest,Src}),
          Comp = step_expr_do(Ctx, Steps, CtxSeq),
          %?dbg("Comp",Comp),
-         O = ?P(["fun() ->",
-                 " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
+         O = ?P(["begin",
                  " _@@Comp",
-                 "end()"
+                 "end"
             ]),
          %?dbg("O",O),
-         O;
-      {P,[]} ->
-         ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             "                    F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "              end, xqerl_seq3:sequence(_@CtxSeq))"
-            ]);
-      {P,Rest} ->
-         ?dbg("{P,Rest}",{P,Rest}),
-         NextVar = {var,?L,next_var_name()},
-%         PosVar = {var,?L,next_var_name()},
-%         SizVar = {var,?L,next_var_name()},
-%         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-         E1 = step_expr_do(Ctx, Rest, NextVar),
-         % new context need position and size
-         ?P(["fun() ->",
-             " _@NextVar = xqerl_seq3:path_map(",
-             "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
-             %"            fun(#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar) ->",
-             %"              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,#xqNode{doc = Doc1,node = Root},_@PosVar,_@SizVar),",
-             "              F = fun(Doc) -> _@P end,",
-             "         fun() -> ",
-             "          case xqldb_doc:run(Doc1,F) of",
-             "           #xqError{} = E -> erlang:throw(E);",
-             "           function_clause -> [];",
-             "           O -> O end",
-             "         end()",
-             "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
-             "            end, _@CtxSeq),",
-             " _@@E1",
-             "end()"
-            ])
-%%          Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-%%          E1 = expr_do(Ctx1, Rest),
-%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc,node = Root} = _@NextCtxVVar) -> _@E1 end,",
-%%              " xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root}) ->",
-%%              "                    F = fun(Doc) -> _@P end,",
-%%              "                    fun() -> xqldb_doc:run(Doc1,F) end()",
-%%              "                      ;(_) -> xqerl_error:error('XPTY0019')"
-%%              "              end, xqerl_seq3:sequence(_@Src))",
-%%              " )"
+         O%;
+%%       {P,[]} ->
+%%          ?P(["xqerl_seq3:path_map(fun(#{nk := _} = Doc,_,_) ->",
+%%              "                     _@P ",
+%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
+%%             ]);
+%%       {P,Rest} ->
+%%          ?dbg("{P,Rest}",{P,Rest}),
+%%          NextVar = {var,?L,next_var_name()},
+%% %         PosVar = {var,?L,next_var_name()},
+%% %         SizVar = {var,?L,next_var_name()},
+%% %         Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%%          E1 = step_expr_do(Ctx, Rest, NextVar),
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#{nk := _} = Doc,_,_) ->",
+%%              "              _@P ",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
 %%             ])
    end;
 
@@ -1709,20 +1640,24 @@ expr_do(Ctx, #xqAxisStep{} = Step) ->
    S = step_expr_do(Ctx, [Step], Base),
    ?P("begin _@S end");
 
+expr_do(_Ctx, <<>>) ->
+   ?P("<<>>");
+
 % catch-all
 expr_do(_Ctx, Expr) ->
    ?dbg("TODO", Expr),
    {nil,?L}.
 
 
-%% node Source should be tuple {D,N} for the doc and node variables
-step_expr_do(_, [], SourceVar) -> 
-   DocVar = {var,?L,next_var_name()},
-   ?P([" xqerl_seq3:path_map(",
-       "      fun(_@DocVar,_,_) ->",
-       "             _@DocVar",
-       "      end, _@SourceVar)"       
-      ]);
+step_expr_do(_, [], SourceVar) ->
+   ?P("_@SourceVar");
+%%    DocVar = {var,?L,next_var_name()},
+%%    ?P([" xqerl_seq3:path_map(",
+%%        "      fun(_@DocVar,_,_) ->",
+%%        "             _@DocVar",
+%%        "      end, _@SourceVar)"       
+%%       ]);
+
 step_expr_do(_, [atomize], SourceVar) -> 
    DocVar = {var,?L,next_var_name()},
    ?P([" xqerl_seq3:path_map(",
@@ -1730,68 +1665,81 @@ step_expr_do(_, [atomize], SourceVar) ->
        "             xqerl_types:atomize(_@DocVar)",
        "      end, _@SourceVar)"       
       ]);
-step_expr_do(Ctx, [Step1|Rest], SourceVar) ->
-%   ?dbg("[Step1|Rest]",[Step1|Rest]),
+step_expr_do(Ctx, [Step1|Rest], SourceVar) when Step1 == {'root'};
+                                                Step1 == {'any-root'} ->
    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextVar = {var,?L,next_var_name()},
    PosVar = {var,?L,next_var_name()},
    SizVar = {var,?L,next_var_name()},
-   DocVar = {var,?L,next_var_name()},
+   NodeVar = {var,?L,next_var_name()},
+   R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
+   O1 = ?P([" _@NextVar = xqerl_seq3:path_map(",
+            "      fun(#{nk := document} = _@NodeVar,_@PosVar,_@SizVar) ->",
+            "              _@NodeVar",
+            "        ;(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
+            "              xqerl_error:error('XPDY0050')",
+            "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
+            "      end, xqerl_fn:root(_@CurrCtxVar, _@SourceVar))"
+           ]), 
+   [O1|R1];
+step_expr_do(Ctx, [Step1|Rest], SourceVar) ->
+   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+   NextVar = {var,?L,next_var_name()},
+   PosVar = {var,?L,next_var_name()},
+   SizVar = {var,?L,next_var_name()},
    NodeVar = {var,?L,next_var_name()},
    NextCtxVar = next_ctx_var_name(),
    NextCtxVVar = {var,?L,NextCtxVar},
    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-   E1 = step_expr_do(Ctx1, Step1, {DocVar,NodeVar}),
-%   ?dbg("E1",E1),
+   E1 = step_expr_do(Ctx1, Step1, NodeVar),
    R1 = alist(step_expr_do(Ctx, Rest, NextVar)),
-%   ?dbg("R1",R1),
    O1 = ?P([" _@NextVar = xqerl_seq3:path_map(",
-            "      fun(#xqNode{doc = _@DocVar,node = _@NodeVar},_@PosVar,_@SizVar) ->",
-            "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,#xqNode{doc = _@DocVar,node = _@NodeVar},_@PosVar,_@SizVar),",
+            "      fun(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
+            "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
             "             _@E1",
             "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
             "      end, _@SourceVar)"       
            ]), 
-%   ?dbg("O1",O1),
    [O1|R1];
-step_expr_do(Ctx, #xqAxisStep{direction = Direction,
-                              axis = Axis,
-                              predicates = Preds,
-                              node_test = NodeTest}, SourceAbs) ->
-%   ?dbg("SourceAbs",SourceAbs),
-   PathAbs = do_path(Direction,SourceAbs,Axis,NodeTest),
-   lists:foldl(fun(P,Abs) ->
-                     handle_predicate({Ctx,P}, Abs)
-               end,PathAbs, Preds);
+step_expr_do(Ctx, #xqAxisStep{} = As, SourceAbs) ->
+   do_axis_step(Ctx, SourceAbs, As);
+
+%%    
+%% %   ?dbg("SourceAbs",SourceAbs),
+%%    PathAbs = do_path(Direction,SourceAbs,Axis,NodeTest),
+%%    lists:foldl(fun(P,Abs) ->
+%%                      handle_predicate({Ctx,P}, Abs)
+%%                end,PathAbs, Preds);
    
-step_expr_do(Ctx, Other, {D,N}) ->
-   NextVar = {var,?L,next_var_name()},
-   CtxVar = {var,?L,get_context_variable_name(Ctx)},
-   NextCtxVar = next_ctx_var_name(),
-   CtxVar1 = {var,?L,NextCtxVar},
-   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-   E1 = expr_do(Ctx1, Other),
-   Base = ?P("_@CtxVar1 = xqerl_context:set_context_item(_@CtxVar,"
-             "#xqNode{doc = _@D, node = _@N}),"
-             "_@NextVar = _@E1"),
-   Base;
-step_expr_do(Ctx, Other, SourceVar) ->
-   CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
-   PosVar = {var,?L,next_var_name()},
-   SizVar = {var,?L,next_var_name()},
-   DocVar = {var,?L,next_var_name()},
-   NodeVar = {var,?L,next_var_name()},
-   NextCtxVar = next_ctx_var_name(),
-   NextCtxVVar = {var,?L,NextCtxVar},
-   Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
-   E1 = expr_do(Ctx1, Other),
-%   ?dbg("R1",R1),
-   ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = _@DocVar,node = _@NodeVar},_@PosVar,_@SizVar) ->",
-            "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,#xqNode{doc = _@DocVar,node = _@NodeVar},_@PosVar,_@SizVar),",
-            "             _@E1",
-            "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
-            "      end, _@SourceVar)"       
-           ]).
+%% step_expr_do(Ctx, Other, {D,N}) ->
+%%    NextVar = {var,?L,next_var_name()},
+%%    CtxVar = {var,?L,get_context_variable_name(Ctx)},
+%%    NextCtxVar = next_ctx_var_name(),
+%%    CtxVar1 = {var,?L,NextCtxVar},
+%%    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%%    E1 = expr_do(Ctx1, Other),
+%%    Base = ?P("_@CtxVar1 = xqerl_context:set_context_item(_@CtxVar,"
+%%              "#xqNode{doc = _@D, node = _@N}),"
+%%              "_@NextVar = _@E1"),
+%%    Base;
+step_expr_do(Ctx, Other, _) ->
+   expr_do(Ctx, Other).
+
+%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+%%    PosVar = {var,?L,next_var_name()},
+%%    SizVar = {var,?L,next_var_name()},
+%%    NodeVar = {var,?L,next_var_name()},
+%%    NextCtxVar = next_ctx_var_name(),
+%%    NextCtxVVar = {var,?L,NextCtxVar},
+%%    Ctx1 = set_context_variable_name(Ctx, NextCtxVar),
+%%    E1 = ,
+%% %   ?dbg("R1",R1),
+%%    ?P(["xqerl_seq3:path_map(fun(#{nk := _} = _@NodeVar,_@PosVar,_@SizVar) ->",
+%%             "              _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@NodeVar,_@PosVar,_@SizVar),",
+%%             "             _@E1",
+%%             "        ;(_,_,_) -> xqerl_error:error('XPTY0019')",
+%%             "      end, _@SourceVar)"       
+%%            ]).
 
 % return clause end loop and returns {NewCtx,Internal,Global}
 flwor(Ctx, [], RetId, Return, Internal, Global,TupleVar,true) ->
@@ -2728,6 +2676,173 @@ get_variable_ref(#qname{namespace = Ns, prefix = Px, local_name = Ln},
 alist(L) when is_list(L) -> lists:flatten(L);
 alist(L) -> [L].
 
+% return module function that takes a list of nodes and returns whatever
+% TODO implement
+abs_path_expr(Ctx, {path_expr, Id, _Steps}) ->
+   FunNameAtom = path_function_name(Id), 
+   CallingCtx = {var,?L,get_context_variable_name(Ctx)},
+   CallingVarTup = get_variable_tuple(Ctx),
+   _FunCall = ?P("'@FunNameAtom'(_@CallingCtx,_@CallingVarTup)"),
+   
+   ok.
+
+
+
+
+
+%% expr_do(Ctx0, {path_expr,_Id,[ R | Steps ]}) when R == {'any-root'};
+%%                                                   R == {'root'} ->
+%%    CtxItem = expr_do(Ctx0, 'context-item'),
+%%    Ctx = clear_context_variables(Ctx0),
+%%    CtxSeq = ?P("xqerl_seq3:sequence(_@CtxItem)"),
+%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',[R|Steps]) of
+%%       {[],_Rest} -> % nothing simple, only complex
+%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
+%%          ?P(["begin",
+%%              " _@@Comp",
+%%              "end"
+%%             ]);
+%%       {P,[]} -> % all simple
+%%          ?P(["begin ",
+%%              " xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "                       F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "                     ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "                     end, _@CtxSeq)",
+%%              "end"
+%%             ]);
+%%       {P,Rest} -> % simple and complex
+%%          NextVar = {var,?L,next_var_name()},
+%%          E1 = step_expr_do(Ctx, Rest, NextVar),
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "              F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
+%%             ])
+%%    end;
+%% expr_do(Ctx0, {path_expr,_Id,[ {variable,Var} | Steps ]}) ->
+%%    Ctx = clear_context_variables(Ctx0),
+%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+%%    CtxSeq = a_var(Var,CurrCtxVar),
+%%    NextCtxVar = next_ctx_var_name(),
+%%    NextCtxVVar = {var,?L,NextCtxVar},
+%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
+%%       {[],_} -> % nothing simple, only complex
+%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
+%%          O = ?P(["fun() ->",
+%%                  " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
+%%                  " _@@Comp",
+%%                  "end()"
+%%             ]),
+%%          O;
+%%       {P,[]} ->
+%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "                    F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
+%%             ]);
+%%       {P,Rest} ->
+%%          NextVar = {var,?L,next_var_name()},
+%%          E1 = step_expr_do(Ctx, Rest, NextVar),
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "              F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
+%%             ])
+%%    end;
+%% expr_do(Ctx0, {path_expr,_Id,[ Base | Steps ]}) ->
+%%    Ctx = clear_context_variables(Ctx0),
+%%    CurrCtxVar = {var,?L,get_context_variable_name(Ctx)},
+%%    NextCtxVar = next_ctx_var_name(),
+%%    NextCtxVVar = {var,?L,NextCtxVar},
+%%    CtxSeq = case Base of
+%%                {postfix,_,_,_} -> % use old context item
+%%                   expr_do(Ctx0, {expr, Base});
+%%                #xqAxisStep{} -> % use old context item, 
+%%                   expr_do(Ctx0, {expr, Base});
+%%                _ ->
+%%                   expr_do(Ctx, {expr, Base})
+%%             end,
+%%    case xqerl_abs_xdm:compile_path_statement(Ctx,'Root',Steps) of
+%%       {[],_} -> % nothing simple, only complex
+%%          Comp = step_expr_do(Ctx, Steps, CtxSeq),
+%%          O = ?P(["fun() ->",
+%%                  " _@NextCtxVVar = xqerl_context:set_context_item(_@CurrCtxVar,_@CtxSeq),",
+%%                  " _@@Comp",
+%%                  "end()"
+%%             ]),
+%%          O;
+%%       {P,[]} ->
+%%          ?P(["xqerl_seq3:path_map(fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "                    F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "                      ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "              end, xqerl_seq3:sequence(_@CtxSeq))"
+%%             ]);
+%%       {P,Rest} ->
+%%          ?dbg("{P,Rest}",{P,Rest}),
+%%          NextVar = {var,?L,next_var_name()},
+%%          E1 = step_expr_do(Ctx, Rest, NextVar),
+%%          % new context need position and size
+%%          ?P(["fun() ->",
+%%              " _@NextVar = xqerl_seq3:path_map(",
+%%              "            fun(#xqNode{doc = Doc1,node = Root},_,_) ->",
+%%              "              F = fun(Doc) -> _@P end,",
+%%              "         fun() -> ",
+%%              "          case xqldb_doc:run(Doc1,F) of",
+%%              "           #xqError{} = E -> erlang:throw(E);",
+%%              "           function_clause -> [];",
+%%              "           O -> O end",
+%%              "         end()",
+%%              "             ;(_,_,_) -> xqerl_error:error('XPTY0019')"
+%%              "            end, _@CtxSeq),",
+%%              " _@@E1",
+%%              "end()"
+%%             ])
+%%    end;
+%% 
+%% expr_do(Ctx, {atomize, {path_expr,_Id,Steps}}) ->
+%%    expr_do(Ctx, {path_expr,_Id,Steps ++ [atomize]});
+
+
 abs_document_node(Ctx, #xqDocumentNode{identity = Id, 
                                        expr = E, 
                                        base_uri = BU}) ->
@@ -2986,18 +3101,14 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
    ?P("#qname{namespace = _@E1, prefix = _@E2, local_name = _@L@}").
 
 % {xqKindTest,node,undefined,undefined,undefined}
-abs_kind_test(Ctx,#xqKindTest{kind = K, name = Q, type = T, test = Ts}) ->
+abs_kind_test(Ctx,#xqKindTest{kind = K, name = Q, type = T}) ->
    E1 = abs_qname(Ctx,Q),
    E2 = if is_atom(T) ->
               atom_or_string(T);
            true ->
               expr_do(Ctx, T)
         end,
-   E3 = case Ts of
-           undefined -> atom_or_string(undefined);
-           _ -> abs_kind_test(Ctx,Ts)
-        end,
-   ?P("#xqKindTest{kind = _@K@, name = _@E1, type = _@E2, test = _@E3}").
+   ?P("#xqKindTest{kind = _@K@, name = _@E1, type = _@E2}").
 
 abs_function(Ctx,#xqFunction{annotations = _A,
                              name = N,
@@ -3092,6 +3203,10 @@ local_variable_name(Id) ->
 
 node_function_name(Id) ->
    list_to_atom(lists:concat(["node_cons__", Id])).
+
+% TODO implement
+path_function_name(Id) ->
+   list_to_atom(lists:concat(["path_expr__", Id])).
 
 get_variable_tuple(Map) when is_map(Map) ->
    Vars = maps:get(variables, Map),
@@ -3280,260 +3395,11 @@ a_var(Name,_CtxVar) when is_atom(Name) ->
 param_prefix() -> "__Param__var_".
 
 
-do_path(Direction,Source,Axis,NodeTest) ->
-   case Direction of 
-      forward ->
-         forward_path(Source, Axis, NodeTest);
-      reverse ->
-         reverse_path(Source, Axis, NodeTest)
-   end.
 
-
-forward_path(Source, attribute, #xqNameTest{name = Q}) -> 
-   p3(named_attributes,Source,qname_tuple(Q));
-forward_path(Source, attribute, #xqKindTest{kind = attribute, 
-                                            name = #qname{} = Q}) ->
-   p3(named_attributes,Source,qname_tuple(Q));
-forward_path(Source, attribute, #xqKindTest{kind = K}) when K =:= attribute;
-                                                            K =:= node -> 
-   p2(attributes,Source);
-forward_path(_Source, attribute, #xqKindTest{}) -> 
-   {nil,?LINE};
-%% ----------------------------------------------------------------------------
-forward_path(Source, child, #xqNameTest{name = Q}) -> 
-   p3(named_element_children,Source,qname_tuple(Q));
-forward_path(Source, child, #xqKindTest{kind = element, 
-                                        name = #qname{} = Q}) ->
-   p3(named_element_children,Source,qname_tuple(Q));
-forward_path(Source, child, #xqKindTest{kind = element}) -> 
-   p2(element_children,Source);
-forward_path(Source, child, #xqKindTest{kind = node}) -> 
-   p2(children,Source);
-forward_path(Source, child, #xqKindTest{kind = namespace}) -> 
-   p2(namespaces,Source);
-forward_path(Source, child, #xqKindTest{kind = text}) -> 
-   p2(text_children,Source);
-forward_path(Source, child, #xqKindTest{kind = comment}) -> 
-   p2(comment_children,Source);
-forward_path(Source, child, #xqKindTest{kind = 'processing-instruction', 
-                                        name = #qname{local_name = Ln}}) ->
-   p3(named_pi_children,Source,atom_or_string(Ln));
-forward_path(Source, child, #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_children,Source);
-%% ----------------------------------------------------------------------------
-forward_path(Source, self, #xqNameTest{name = Q}) -> 
-   p3(named_element_selfs,Source,qname_tuple(Q));
-forward_path(Source, self, #xqKindTest{kind = 'document-node'}) -> 
-   p2(document_selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = element, 
-                                       name = #qname{} = Q}) ->
-   p3(named_element_selfs,Source,qname_tuple(Q));
-forward_path(Source, self, #xqKindTest{kind = element}) -> 
-   p2(element_selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = attribute, 
-                                       name = #qname{} = Q}) ->
-   p3(named_attribute_selfs,Source,qname_tuple(Q));
-forward_path(Source, self, #xqKindTest{kind = attribute}) -> 
-   p2(attribute_selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = node}) -> 
-   p2(selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = namespace}) -> 
-   p2(namespaces,Source);
-forward_path(Source, self, #xqKindTest{kind = text}) -> 
-   p2(text_selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = comment}) -> 
-   p2(comment_selfs,Source);
-forward_path(Source, self, #xqKindTest{kind = 'processing-instruction', 
-                                       name = #qname{local_name = Ln}}) ->
-   p3(named_pi_selfs,Source,atom_or_string(Ln));
-forward_path(Source, self, #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_selfs,Source);
-%% ----------------------------------------------------------------------------
-forward_path(Source, descendant, #xqNameTest{name = Q}) -> 
-   p3(named_element_descendants,Source,qname_tuple(Q));
-forward_path(Source, descendant, #xqKindTest{kind = element, 
-                                             name = #qname{} = Q}) ->
-   p3(named_element_descendants,Source,qname_tuple(Q));
-forward_path(Source, descendant, #xqKindTest{kind = element}) -> 
-   p2(element_descendants,Source);
-forward_path(Source, descendant, #xqKindTest{kind = node}) -> 
-   p2(descendants,Source);
-forward_path(Source, descendant, #xqKindTest{kind = text}) -> 
-   p2(text_descendants,Source);
-forward_path(Source, descendant, #xqKindTest{kind = comment}) -> 
-   p2(comment_descendants,Source);
-forward_path(Source, descendant, 
-             #xqKindTest{kind = 'processing-instruction',
-                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendants,Source,atom_or_string(Ln));
-forward_path(Source, descendant, 
-             #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_descendants,Source);
-%% ----------------------------------------------------------------------------
-forward_path(Source, 'descendant-or-self', #xqNameTest{name = Q}) -> 
-   p3(named_element_descendant_or_selfs,Source,qname_tuple(Q));
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = element, 
-                                       name = #qname{} = Q}) ->
-   p3(named_element_descendant_or_selfs,Source,qname_tuple(Q));
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = element}) -> 
-   p2(element_descendant_or_selfs,Source);
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = node}) -> 
-   p2(descendant_or_selfs,Source);
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = document}) -> 
-   p2(document_descendant_or_selfs,Source);
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = text}) -> 
-   p2(text_descendant_or_selfs,Source);
-forward_path(Source, 'descendant-or-self', #xqKindTest{kind = comment}) -> 
-   p2(comment_descendant_or_selfs,Source);
-forward_path(Source, 'descendant-or-self', 
-             #xqKindTest{kind = 'processing-instruction',
-                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_descendant_or_selfs,Source,atom_or_string(Ln));
-forward_path(Source, 'descendant-or-self', 
-             #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_descendant_or_selfs,Source);
-%% ----------------------------------------------------------------------------
-forward_path(Source, 'following-sibling', #xqNameTest{name = Q}) -> 
-   p3(named_element_following_siblings,Source,qname_tuple(Q));
-forward_path(Source, 'following-sibling', #xqKindTest{kind = element, 
-                                                       name = #qname{} = Q}) ->
-   p3(named_element_following_siblings,Source,qname_tuple(Q));
-forward_path(Source, 'following-sibling', #xqKindTest{kind = element}) -> 
-   p2(element_following_siblings,Source);
-forward_path(Source, 'following-sibling', #xqKindTest{kind = node}) -> 
-   p2(following_siblings,Source);
-forward_path(Source, 'following-sibling', #xqKindTest{kind = text}) -> 
-   p2(text_following_siblings,Source);
-forward_path(Source, 'following-sibling', #xqKindTest{kind = comment}) -> 
-   p2(comment_following_siblings,Source);
-forward_path(Source, 'following-sibling', 
-             #xqKindTest{kind = 'processing-instruction',
-                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_following_siblings,Source,atom_or_string(Ln));
-forward_path(Source, 'following-sibling', 
-             #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_following_siblings,Source);
-%% ----------------------------------------------------------------------------
-forward_path(Source, following, #xqNameTest{name = Q}) -> 
-   p3(named_element_followings,Source,qname_tuple(Q));
-forward_path(Source, following, #xqKindTest{kind = element, 
-                                            name = #qname{} = Q}) ->
-   p3(named_element_followings,Source,qname_tuple(Q));
-forward_path(Source, following, #xqKindTest{kind = element}) -> 
-   p2(element_followings,Source);
-forward_path(Source, following, #xqKindTest{kind = node}) -> 
-   p2(followings,Source);
-forward_path(Source, following, #xqKindTest{kind = text}) -> 
-   p2(text_followings,Source);
-forward_path(Source, following, #xqKindTest{kind = comment}) -> 
-   p2(comment_followings,Source);
-forward_path(Source, following, #xqKindTest{kind = 'processing-instruction', 
-                                            name = #qname{local_name = Ln}}) ->
-   p3(named_pi_followings,Source,atom_or_string(Ln));
-forward_path(Source, following, #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_followings,Source);
-%% ----------------------------------------------------------------------------
-% garbage stuff
-forward_path(_, _, #xqKindTest{kind = 'document-node'}) -> {nil,?LINE};
-forward_path(_, _, #xqKindTest{kind = attribute}) -> {nil,?LINE};
-
-forward_path(_, Axis, NodeTest) ->
-   ?dbg("Unknown axis",{Axis, NodeTest}),
-   {error,NodeTest}.
-
-reverse_path(Source, parent, #xqNameTest{name = Q}) -> 
-   p3(named_element_parents,Source,qname_tuple(Q));
-reverse_path(Source, parent, #xqKindTest{kind = element, 
-                                       name = #qname{} = Q}) ->
-   p3(named_element_parents,Source,qname_tuple(Q));
-reverse_path(Source, parent, #xqKindTest{kind = element}) -> 
-   p2(element_parents,Source);
-reverse_path(Source, parent, #xqKindTest{kind = node}) -> 
-   p2(parents,Source);
-reverse_path(Source, parent, #xqKindTest{kind = document}) -> 
-   p2(document_parents,Source);
-reverse_path(Source, parent, _) -> 
-   p2(other_parents,Source);
-%% ----------------------------------------------------------------------------
-reverse_path(Source, ancestor, #xqNameTest{name = Q}) -> 
-   p3(named_element_ancestors,Source,qname_tuple(Q));
-reverse_path(Source, ancestor, #xqKindTest{kind = element, 
-                                           name = #qname{} = Q}) ->
-   p3(named_element_ancestors,Source,qname_tuple(Q));
-reverse_path(Source, ancestor, #xqKindTest{kind = element}) -> 
-   p2(element_ancestors,Source);
-reverse_path(Source, ancestor, #xqKindTest{kind = node}) -> 
-   p2(ancestors,Source);
-reverse_path(Source, ancestor, #xqKindTest{kind = document}) -> 
-   p2(document_ancestors,Source);
-reverse_path(Source, ancestor, _) -> 
-   p2(other_ancestors,Source);
-%% ----------------------------------------------------------------------------
-reverse_path(Source, 'ancestor-or-self', #xqNameTest{name = Q}) -> 
-   p3(named_element_ancestor_or_selfs,Source,qname_tuple(Q));
-reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = element, 
-                                                     name = #qname{} = Q}) ->
-   p3(named_element_ancestor_or_selfs,Source,qname_tuple(Q));
-reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = element}) -> 
-   p2(element_ancestor_or_selfs,Source);
-reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = node}) -> 
-   p2(ancestor_or_selfs,Source);
-reverse_path(Source, 'ancestor-or-self', #xqKindTest{kind = document}) -> 
-   p2(document_ancestor_or_selfs,Source);
-reverse_path(Source, 'ancestor-or-self', _) -> 
-   p2(other_ancestor_or_selfs,Source);
-%% ----------------------------------------------------------------------------
-reverse_path(Source, 'preceding-sibling', #xqNameTest{name = Q}) -> 
-   p3(named_element_preceding_siblings,Source,qname_tuple(Q));
-reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = element, 
-                                                      name = #qname{} = Q}) ->
-   p3(named_element_preceding_siblings,Source,qname_tuple(Q));
-reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = element}) -> 
-   p2(element_preceding_siblings,Source);
-reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = node}) -> 
-   p2(preceding_siblings,Source);
-reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = text}) -> 
-   p2(text_preceding_siblings,Source);
-reverse_path(Source, 'preceding-sibling', #xqKindTest{kind = comment}) -> 
-   p2(comment_preceding_siblings,Source);
-reverse_path(Source, 'preceding-sibling', 
-             #xqKindTest{kind = 'processing-instruction',
-                         name = #qname{local_name = Ln}}) ->
-   p3(named_pi_preceding_siblings,Source,atom_or_string(Ln));
-reverse_path(Source, 'preceding-sibling', 
-             #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_preceding_siblings,Source);
-%% ----------------------------------------------------------------------------
-reverse_path(Source, preceding, #xqNameTest{name = Q}) -> 
-   p3(named_element_precedings,Source,qname_tuple(Q));
-reverse_path(Source, preceding, #xqKindTest{kind = element,
-                                            name = #qname{} = Q}) ->
-   p3(named_element_precedings,Source,qname_tuple(Q));
-reverse_path(Source, preceding, #xqKindTest{kind = element}) -> 
-   p2(element_precedings,Source);
-reverse_path(Source, preceding, #xqKindTest{kind = node}) -> 
-   p2(precedings,Source);
-reverse_path(Source, preceding, #xqKindTest{kind = text}) -> 
-   p2(text_precedings,Source);
-reverse_path(Source, preceding, #xqKindTest{kind = comment}) -> 
-   p2(comment_precedings,Source);
-reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction', 
-                                            name = #qname{local_name = Ln}}) ->
-   p3(named_pi_precedings,Source,atom_or_string(Ln));
-reverse_path(Source, preceding, #xqKindTest{kind = 'processing-instruction'}) ->  
-   p2(pi_precedings,Source);
-%% ----------------------------------------------------------------------------
-reverse_path(_, Axis, NodeTest) ->
-   ?dbg("Unknown axis",{Axis, NodeTest}),
-   {error,NodeTest}.
-
-qname_tuple(#qname{namespace = 'no-namespace', local_name = Ln}) ->
-   ?P("{<<>>,_@Ln@}");
-qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
-   ?P("{_@Ns@,_@Ln@}").
-
-p2(F,{D,N}) ->  ?P("[#xqNode{doc = _@D, node = [N]} || N1 <- xqldb_doc:'@F@'(_@D,_@N), N <- N1, N =/= []]").
-p3(F,{D,N},V) ->?P("[#xqNode{doc = _@D, node = [N]} || N1 <- xqldb_doc:'@F@'(_@D,_@N,_@V), N <- N1, N =/= []]").
+%% qname_tuple(#qname{namespace = 'no-namespace', local_name = Ln}) ->
+%%    ?P("{<<>>,_@Ln@}");
+%% qname_tuple(#qname{namespace = Ns, local_name = Ln}) ->
+%%    ?P("{_@Ns@,_@Ln@}").
 
 ensure_type(_,_,#xqSeqType{type = item, occur = zero_or_many},_) ->
    {nil,?L};
@@ -3582,3 +3448,183 @@ context_map_abs(#{context_variable := C,
 context_map_abs(Ctx) ->
    {var,?L,get_context_variable_name(Ctx)}.
 
+do_axis_step(Ctx, SourceVariable, #xqAxisStep{id = _Id, axis = Axis,
+                                              node_test = NodeTest, 
+                                              predicates = Preds}) ->
+   AbsPreds = abs_list([handle_axis_step_pred(Ctx, P) || P <- Preds]),
+   case xpath_function(Axis, NodeTest) of
+      {none, Fun} -> 
+         ?P("xqldb_xpath:'@Fun@'(_@SourceVariable,{_@AbsPreds})");
+      {name, Fun} -> 
+         N = local_name_filter(NodeTest),
+         ?P("xqldb_xpath:'@Fun@'(_@SourceVariable,{_@N, _@AbsPreds})");
+      {name_type, Fun} -> 
+         N = name_type_filter(NodeTest),
+         ?P("xqldb_xpath:'@Fun@'(_@SourceVariable,{_@N, _@AbsPreds})");
+      {error, _} ->
+         {nil,?L}
+         %?err('XPST0005')
+   end.
+
+local_name_filter(#xqKindTest{name = #qname{local_name = Ln}}) ->
+   ?P("{_@Ln@}");
+local_name_filter(#xqKindTest{name = undefined}) ->
+   ?P("{any}").
+
+
+name_type_filter(#xqKindTest{type = #xqSeqType{type = 'xs:anyType'}} = K) ->
+   name_type_filter(K#xqKindTest{type = undefined});
+name_type_filter(#xqKindTest{name = #qname{namespace = 'no-namespace'} = N} = K) ->
+   name_type_filter(K#xqKindTest{name = N#qname{namespace = <<>>}});
+
+name_type_filter(#xqKindTest{name = undefined, type = undefined}) -> ?P("{any,any,any}");
+name_type_filter(#xqKindTest{name = undefined, type = #xqSeqType{type = Type}}) -> ?P("{any,any,_@Type@}");
+
+name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
+                                           local_name = <<"*">>}, 
+                             type = undefined}) -> 
+   ?P("{any,any,any}");
+name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
+                                           local_name = Ln}, 
+                             type = undefined}) -> 
+   ?P("{any,_@Ln@,any}");
+name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
+                                           local_name = <<"*">>}, 
+                             type = undefined}) -> 
+   ?P("{_@Ns@,any,any}");
+name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
+                                           local_name = Ln}, 
+                             type = undefined}) -> 
+   ?P("{_@Ns@,_@Ln@,any}");
+
+name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
+                                           local_name = <<"*">>}, 
+                             type = #xqSeqType{type = Type}}) -> 
+   ?P("{any,any,_@Type@}");
+name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
+                                           local_name = Ln}, 
+                             type = #xqSeqType{type = Type}}) -> 
+   ?P("{any,_@Ln@,_@Type@}");
+name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
+                                           local_name = <<"*">>}, 
+                             type = #xqSeqType{type = Type}}) -> 
+   ?P("{_@Ns@,any,_@Type@}");
+name_type_filter(#xqKindTest{name = #qname{namespace = Ns,
+                                           local_name = Ln}, 
+                             type = #xqSeqType{type = Type}}) -> 
+   ?P("{_@Ns@,_@Ln@,_@Type@}").
+
+
+handle_axis_step_pred(Ctx, {predicate, Pred}) ->
+   IntCtxVar = {var,?L,next_var_name()},
+   PosVar = {var,?L,next_var_name()},
+   SizeVar = {var,?L,next_var_name()},
+
+   AddFun = fun(N,C) ->
+                  add_variable(N, C)
+            end,
+   Ctx1 = lists:foldl(AddFun, Ctx, 
+                      [{context_variable,IntCtxVar},
+                       {position_variable,PosVar},
+                       {size_variable,SizeVar}
+                      ]),   
+   Ctx2 = Ctx1#{context_variable => IntCtxVar,
+                %position_variable => PosVar,
+                position_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@PosVar}"),
+                size_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@SizeVar}")},
+   E1 = expr_do(Ctx2, Pred),
+   ?P("fun(_@IntCtxVar,_@PosVar,_@SizeVar) -> "
+      "xqerl_operators:eff_bool_val(_@E1) end");
+handle_axis_step_pred(Ctx, {positional_predicate, Pred}) ->
+   IntCtxVar = {var,?L,next_var_name()},
+   PosVar = {var,?L,next_var_name()},
+   SizeVar = {var,?L,next_var_name()},
+
+   AddFun = fun(N,C) ->
+                  add_variable(N, C)
+            end,
+   Ctx1 = lists:foldl(AddFun, Ctx, 
+                      [{context_variable,IntCtxVar},
+                       {position_variable,PosVar},
+                       {size_variable,SizeVar}
+                      ]),   
+   Ctx2 = Ctx1#{context_variable => IntCtxVar,
+                %position_variable => PosVar,
+                position_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@PosVar}"),
+                size_variable => ?P("#xqAtomicValue{type = 'xs:integer', value = _@SizeVar}")},
+   E1 = expr_do(Ctx2, Pred),
+   ?P("fun(_@IntCtxVar,_@PosVar,_@SizeVar) -> "
+      "xqerl_operators:eff_bool_val("
+      "  xqerl_types:value(xqerl_operators:equal(_@E1, #xqAtomicValue{type = 'xs:integer', value = _@PosVar})))"
+      "   end");
+handle_axis_step_pred(Ctx, Other) ->
+   ?dbg("!!!SKIPPING!!!", Other),
+   expr_do(Ctx, Other).
+
+
+%% handle_predicate({Ctx, {predicate, P}}, Abs) ->
+%%    ?P("xqerl_seq3:filter(_@CtxVar,fun(_@NextCtxVar1,_@IntCtxVar,_@PosVar,_@SizeVar) -> _@E1 end,_@Abs)");
+
+
+% {name | name_type | none, fun_name}
+xpath_function('ancestor', #xqKindTest{kind = 'document-node'}) -> {name_type,ancestor_document_node};
+xpath_function('ancestor', #xqKindTest{kind = 'element'}) -> {name_type,ancestor_element};
+xpath_function('ancestor', #xqKindTest{kind = 'node'}) -> {none,ancestor_node};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'attribute'}) -> {name_type,ancestor_or_self_attribute};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'comment'}) -> {none,ancestor_or_self_comment};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'document-node'}) -> {name_type,ancestor_or_self_document_node};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'element'}) -> {name_type,ancestor_or_self_element};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'node'}) -> {none,ancestor_or_self_node};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'processing-instruction'}) -> {name,ancestor_or_self_processing_instruction};
+xpath_function('ancestor-or-self', #xqKindTest{kind = 'text'}) -> {none,ancestor_or_self_text};
+xpath_function('attribute', #xqKindTest{kind = 'attribute'}) -> {name_type,attribute_attribute};
+xpath_function('attribute', #xqKindTest{kind = 'node'}) -> {none,attribute_node};
+xpath_function('child', #xqKindTest{kind = 'comment'}) -> {none,child_comment};
+xpath_function('child', #xqKindTest{kind = 'element'}) -> {name_type,child_element};
+xpath_function('child', #xqKindTest{kind = 'node'}) -> {none,child_node};
+xpath_function('child', #xqKindTest{kind = 'processing-instruction'}) -> {name,child_processing_instruction};
+xpath_function('child', #xqKindTest{kind = 'text'}) -> {none,child_text};
+xpath_function('descendant', #xqKindTest{kind = 'comment'}) -> {none,descendant_comment};
+xpath_function('descendant', #xqKindTest{kind = 'element'}) -> {name_type,descendant_element};
+xpath_function('descendant', #xqKindTest{kind = 'node'}) -> {none,descendant_node};
+xpath_function('descendant', #xqKindTest{kind = 'processing-instruction'}) -> {name,descendant_processing_instruction};
+xpath_function('descendant', #xqKindTest{kind = 'text'}) -> {none,descendant_text};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'attribute'}) -> {name_type,descendant_or_self_attribute};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'comment'}) -> {none,descendant_or_self_comment};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'document-node'}) -> {name_type,descendant_or_self_document_node};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'element'}) -> {name_type,descendant_or_self_element};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'node'}) -> {none,descendant_or_self_node};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'processing-instruction'}) -> {name,descendant_or_self_processing_instruction};
+xpath_function('descendant-or-self', #xqKindTest{kind = 'text'}) -> {none,descendant_or_self_text};
+xpath_function('following', #xqKindTest{kind = 'comment'}) -> {none,following_comment};
+xpath_function('following', #xqKindTest{kind = 'element'}) -> {name_type,following_element};
+xpath_function('following', #xqKindTest{kind = 'node'}) -> {none,following_node};
+xpath_function('following', #xqKindTest{kind = 'processing-instruction'}) -> {name,following_processing_instruction};
+xpath_function('following', #xqKindTest{kind = 'text'}) -> {none,following_text};
+xpath_function('following-sibling', #xqKindTest{kind = 'comment'}) -> {none,following_sibling_comment};
+xpath_function('following-sibling', #xqKindTest{kind = 'element'}) -> {name_type,following_sibling_element};
+xpath_function('following-sibling', #xqKindTest{kind = 'node'}) -> {none,following_sibling_node};
+xpath_function('following-sibling', #xqKindTest{kind = 'processing-instruction'}) -> {name,following_sibling_processing_instruction};
+xpath_function('following-sibling', #xqKindTest{kind = 'text'}) -> {none,following_sibling_text};
+xpath_function('parent', #xqKindTest{kind = 'document-node'}) -> {name_type,parent_document_node};
+xpath_function('parent', #xqKindTest{kind = 'element'}) -> {name_type,parent_element};
+xpath_function('parent', #xqKindTest{kind = 'node'}) -> {none,parent_node};
+xpath_function('preceding', #xqKindTest{kind = 'comment'}) -> {none,preceding_comment};
+xpath_function('preceding', #xqKindTest{kind = 'element'}) -> {name_type,preceding_element};
+xpath_function('preceding', #xqKindTest{kind = 'node'}) -> {none,preceding_node};
+xpath_function('preceding', #xqKindTest{kind = 'processing-instruction'}) -> {name,preceding_processing_instruction};
+xpath_function('preceding', #xqKindTest{kind = 'text'}) -> {none,preceding_text};
+xpath_function('preceding-sibling', #xqKindTest{kind = 'comment'}) -> {none,preceding_sibling_comment};
+xpath_function('preceding-sibling', #xqKindTest{kind = 'element'}) -> {name_type,preceding_sibling_element};
+xpath_function('preceding-sibling', #xqKindTest{kind = 'node'}) -> {none,preceding_sibling_node};
+xpath_function('preceding-sibling', #xqKindTest{kind = 'processing-instruction'}) -> {name,preceding_sibling_processing_instruction};
+xpath_function('preceding-sibling', #xqKindTest{kind = 'text'}) -> {none,preceding_sibling_text};
+xpath_function('self', #xqKindTest{kind = 'attribute'}) -> {name_type,self_attribute};
+xpath_function('self', #xqKindTest{kind = namespace}) -> {none,self_namespace};
+xpath_function('self', #xqKindTest{kind = 'comment'}) -> {none,self_comment};
+xpath_function('self', #xqKindTest{kind = 'document-node'}) -> {name_type,self_document_node};
+xpath_function('self', #xqKindTest{kind = 'element'}) -> {name_type,self_element};
+xpath_function('self', #xqKindTest{kind = 'node'}) -> {none,self_node};
+xpath_function('self', #xqKindTest{kind = 'processing-instruction'}) -> {name,self_processing_instruction};
+xpath_function('self', #xqKindTest{kind = 'text'}) -> {none,self_text};
+xpath_function(_, _) -> {error, empty_axis}.

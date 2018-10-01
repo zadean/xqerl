@@ -66,17 +66,17 @@ new_context(Ctx) ->
         frag_id => next_frag_id(),
         nodes => #{}}.
 
-new_fragment(#xqNode{} = Node) -> 
+new_fragment(#{nk := _} = Node) -> 
    Node.
 
 % return document 
-new_fragment(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
+new_fragment(#{'base-uri' := B} = Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
 %?dbg("Content",Content),
    DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns 
                <- maps:get(namespaces, Ctx0,
                            [#xqNamespace{namespace = 'no-namespace', 
                                          prefix = <<>>}]), 
-                      Px =:= []],
+                      Px =:= <<>>],
    Ctx = new_context(Ctx0),
    {Id,Ctx1} = next_id(Ctx),
    Doc = #xqXmlFragment{identity = Id},
@@ -90,21 +90,23 @@ new_fragment(Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
          _FragId = get_frag_id(Ctx5),
          %?dbg("FragId",FragId),
          %?dbg("get_nodes(Ctx5)",get_nodes(Ctx5)),
-         {B,L} = build_sax(Ctx0, get_nodes(Ctx5)),
+         {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
          %?dbg("L",L),
          %?dbg("B",B),
-         NewDoc = xqldb_parse:read_list(B,L),
-         {ok,DocPid} = xqldb_doc:start_link(NewDoc),
-         [Roots] = xqldb_doc:roots(DocPid),
-         #xqNode{doc = DocPid, node = Roots}
+         NewDoc = xqldb_mem_nodes:parse_list(xqerl_types:value(B),L),
+         %?dbg("NewDoc", NewDoc),
+         NewDoc
+         %{ok,DocPid} = xqldb_doc:start_link(NewDoc),
+         %[Roots] = xqldb_doc:roots(DocPid),
+         %#xqNode{doc = DocPid, node = Roots}
    end;
 new_fragment(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
    new_fragment(Ctx0, [Content]);
 new_fragment(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
-   new_fragment(new_context(#{'base-uri' => <<>>,
+   new_fragment(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
                               'copy-namespaces' => {preserve, 'no-inherit'}}), Content);
 new_fragment(Ctx0, Content) when not is_map(Ctx0), not is_list(Content) ->
-   new_fragment(new_context(#{'base-uri' => <<>>,
+   new_fragment(new_context(#{'base-uri' => #xqAtomicValue{value = <<>>},
                               'copy-namespaces' => {preserve, 'no-inherit'}}), [Content]).
 
 can_follow([],_Curr) -> true;
@@ -117,8 +119,7 @@ can_follow(namespace,attribute) -> true;
 can_follow(attribute,namespace) -> true;
 can_follow(_,_) -> true.
 
-get_node_type(#xqNode{doc = Doc, node = [Node]}) -> 
-   xqldb_doc:node_kind(Doc, Node);
+get_node_type(#{nk := Nk}) -> Nk;
 get_node_type(#xqDocumentNode{}) -> document;
 get_node_type(#xqElementNode{}) -> element;
 get_node_type(#xqNamespaceNode{}) -> namespace;
@@ -131,6 +132,13 @@ string_if_tuple(Val) when is_tuple(Val) ->
    xqerl_types:string_value(Val);
 string_if_tuple(Val) ->
    Val.
+
+ensure_qname(#qname{namespace = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{namespace = Nx}, InScopeNamespaces);
+ensure_qname(#qname{prefix = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{prefix = Nx}, InScopeNamespaces);
+ensure_qname(#qname{local_name = [Nx]} = QName, InScopeNamespaces) ->
+   ensure_qname(QName#qname{local_name = Nx}, InScopeNamespaces);
 
 ensure_qname(#xqAtomicValue{type = 'xs:QName', value = QName}, 
              _InScopeNamespaces) -> QName;
@@ -159,10 +167,10 @@ ensure_qname(#qname{local_name = #xqAtomicValue{} = Nx} = QName,
       _:_ ->
          ?err('XQDY0074')
    end;
-ensure_qname(#qname{namespace = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#qname{namespace = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
    NewNx = xqerl_types:string_value(Nx),
    ensure_qname(QName#qname{namespace = NewNx}, InScopeNamespaces);
-ensure_qname(#qname{prefix = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#qname{prefix = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
    try
       NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
       ensure_qname(QName#qname{prefix = NewNx}, InScopeNamespaces)
@@ -170,7 +178,7 @@ ensure_qname(#qname{prefix = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
       _:_ ->
          ?err('XQDY0074')
    end;
-ensure_qname(#qname{local_name = #xqNode{} = Nx} = QName, InScopeNamespaces) ->
+ensure_qname(#qname{local_name = #{nk := _} = Nx} = QName, InScopeNamespaces) ->
    try
       NewNx = xqerl_types:string_value(xqerl_types:cast_as(Nx, 'xs:NCName')),
       ensure_qname(QName#qname{local_name = NewNx}, InScopeNamespaces)
@@ -192,7 +200,7 @@ ensure_qname(#qname{namespace = Ns, prefix = Px, local_name = Ln} = QName,
       true ->
          QName
    end;
-ensure_qname(#xqNode{} = Node, InScopeNamespaces) -> 
+ensure_qname(#{nk := _} = Node, InScopeNamespaces) -> 
    try
       Q = xqerl_types:cast_as(Node,'xs:QName',InScopeNamespaces),
       xqerl_types:value(Q)
@@ -320,34 +328,6 @@ augment_inscope_namespaces(#xqNamespaceNode{name = #qname{namespace = Ns, prefix
    [#xqNamespace{namespace = Ns, prefix = Px}|Fil];
 augment_inscope_namespaces(_, InscopeNamespaces) -> InscopeNamespaces.
 
-% returns {Children, Sz, Ctx3}
-handle_contents(Ctx, _Parent, [], _Ns, Sz) -> {[], Sz, Ctx};
-handle_contents(Ctx, _Parent, [undefined], _Ns, Sz) -> {[], Sz, Ctx};
-handle_contents(Ctx, Parent, Content, Ns, Sz) ->
-   Content1 = case Content of
-                  _ when is_list(Content) ->
-                     ?seq:flatten(Content);
-                  C ->
-                     [C]
-               end,
-%?dbg("Content1",Content1),
-   Fun = fun(Node, {Children, Sz1, Ctx1, LastType, _UsedAttNames}) ->
-               Type = get_node_type(Node),
-               case can_follow(LastType,Type) of
-                  false ->
-                     ?err('XQTY0024');
-                  _ ->
-                     {Id, Sz2,Ctx2} = handle_content(Ctx1,Parent,Node,Ns,Sz1),
-                     if is_list(Id) ->
-                           {Id ++ Children, Sz2,Ctx2,Type,[]};
-                        true ->
-                           {[Id|Children], Sz2,Ctx2,Type,[]}
-                     end
-               end
-         end,
-   {Ids, Sz3,Ctx3,_Type,_UsedAtts} = 
-     lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
-   {Ids, Sz3,Ctx3}.
 
 check_element_name(#qname{prefix = <<"xmlns">>}) -> 
    ?err('XQDY0096');
@@ -388,6 +368,35 @@ merge_inscope_namespaces(StaticInScopeNs,InScopeNs) ->
              not lists:any(B, InScopeNs)
        end,
    InScopeNs ++ lists:filter(A, StaticInScopeNs).
+
+% returns {Children, Sz, Ctx3}
+handle_contents(Ctx, _Parent, [], _Ns, Sz) -> {[], Sz, Ctx};
+handle_contents(Ctx, _Parent, [undefined], _Ns, Sz) -> {[], Sz, Ctx};
+handle_contents(Ctx, Parent, Content, Ns, Sz) ->
+   Content1 = case Content of
+                  _ when is_list(Content) ->
+                     ?seq:flatten(Content);
+                  C ->
+                     [C]
+               end,
+%?dbg("Content1",Content1),
+   Fun = fun(Node, {Children, Sz1, Ctx1, LastType, _UsedAttNames}) ->
+               Type = get_node_type(Node),
+               case can_follow(LastType,Type) of
+                  false ->
+                     ?err('XQTY0024');
+                  _ ->
+                     {Id, Sz2,Ctx2} = handle_content(Ctx1,Parent,Node,Ns,Sz1),
+                     if is_list(Id) ->
+                           {Id ++ Children, Sz2,Ctx2,Type,[]};
+                        true ->
+                           {[Id|Children], Sz2,Ctx2,Type,[]}
+                     end
+               end
+         end,
+   {Ids, Sz3,Ctx3,_Type,_UsedAtts} = 
+     lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
+   {Ids, Sz3,Ctx3}.
 
 % returns {Id, Sz,Ctx2}
 handle_content(#{'base-uri' := BU,
@@ -721,7 +730,7 @@ handle_content(Ctx, Parent, #xqTextNode{expr = Content,
    end;
 
 % internal fragment to merge
-handle_content(Ctx, Parent, #xqNode{} = Node, INs, Sz) ->
+handle_content(Ctx, Parent, #{nk := _} = Node, INs, Sz) ->
 %?dbg("Line",?LINE),
    Contents = node_to_content(Node),
 %?dbg("Line",?LINE),
@@ -837,11 +846,11 @@ strip_unused_namespaces([H|T]) ->
 strip_unused_namespaces([]) ->
    [].
 
-expand_nodes([[#xqNode{} = Node]|T],Preserve,Namespaces) ->
-   expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces);
-expand_nodes([[#xqNode{} = Node|T]],Preserve,Namespaces) ->
-   expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces);
-expand_nodes([#xqNode{} = Node|T],Preserve,Namespaces) ->
+expand_nodes([[#{nk := _} = Node]|T],Preserve,Namespaces) ->
+   expand_nodes([Node|T],Preserve,Namespaces);
+expand_nodes([[#{nk := _} = Node|T]],Preserve,Namespaces) ->
+   expand_nodes([Node|T],Preserve,Namespaces);
+expand_nodes([#{nk := _} = Node|T],Preserve,Namespaces) ->
 %   ?dbg("Node",Node),
    Content = node_to_content(Node),
 %?dbg("Preserve",Preserve),
@@ -867,7 +876,7 @@ merge_content([H|T], Acc) when is_list(H) ->
    NewH = maybe_merge_seq(H,[]),
    merge_content(NewH ++ T, Acc);
 % pre-merge nodes
-merge_content([H1,#xqNode{} = Node|T], Acc) ->
+merge_content([H1,#{nk := _} = Node|T], Acc) ->
    Content = node_to_content(Node),
    merge_content([H1|Content] ++ T, Acc);
 % empty strings ignored
@@ -910,7 +919,7 @@ merge_content([#xqTextNode{expr = S1} = H|T], Acc) ->
       true ->
          merge_content(T, [H|Acc])
    end;
-merge_content([#xqNode{} = Node|T], Acc) ->
+merge_content([#{nk := _} = Node|T], Acc) ->
    Content = node_to_content(Node),
    merge_content(Content ++ T, Acc);
 merge_content([#xqDocumentNode{expr = E}|T], Acc) when length(Acc) > 0 ->
@@ -1036,7 +1045,7 @@ merge_text_content([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc,attribut
    merge_text_content(
      [#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc,attribute);
 
-merge_text_content([#xqAtomicValue{} = H1, #xqNode{} = Node|T], Acc,Type) ->
+merge_text_content([#xqAtomicValue{} = H1, #{nk := _} = Node|T], Acc,Type) ->
    Atomized = [atomize_node(Node)],
    merge_text_content([H1|Atomized] ++ T, Acc,Type);
 
@@ -1114,7 +1123,7 @@ merge_text_content([#xqTextNode{expr = S1},#xqTextNode{expr = S2}|T], Acc,Type) 
    Node = ?str(Str3),
    merge_text_content([Node|T], Acc,Type);
 
-merge_text_content([#xqNode{} = Node|T], Acc,Type) ->
+merge_text_content([#{nk := _} = Node|T], Acc,Type) ->
    Atomized = [atomize_node(Node)],
    merge_text_content(Atomized ++ T, Acc,Type);
 
@@ -1142,7 +1151,7 @@ merge_text_content([H|T], Acc,Type) ->
    end.
 
 % a unique hash value for this node
-get_node_hash(#xqNode{} = Node) ->
+get_node_hash(#{nk := _} = Node) ->
    erlang:phash(Node, 4294967296);
 get_node_hash(_NonNode) ->
    ?err('XPTY0004').
@@ -1158,9 +1167,9 @@ atomize_nodes(List) ->
 atomize_node([]) -> ?str(<<>>);
 atomize_node(#xqAtomicValue{} = Av) ->
    Av;
-atomize_node(#xqNode{doc = Doc, node = Node}) ->
+atomize_node(#{nk := Type} = Node) ->
    String = 
-     case xqldb_doc:string_value(Doc, Node) of
+     case xqldb_mem_nodes:string_value(Node) of
         [] ->
            <<>>;
         [S] ->
@@ -1168,7 +1177,6 @@ atomize_node(#xqNode{doc = Doc, node = Node}) ->
         S ->
            S
      end,
-   Type = xqldb_doc:node_kind(Doc, Node),
    if Type == namespace;
       Type == comment ->
          ?str(String);
@@ -1189,107 +1197,98 @@ atomize_node(#xqTextNode{expr = S}) -> ?untyp(xqerl_types:string_value(S)).
 names_equal({N1,_,L1},{N1,_,L1}) -> true;
 names_equal(_,_) -> false.
 
+nodes_equal(Node1, Node2, Collation) ->
+   ?bool(nodes_equal_1(Node1, Node2, Collation)).
+
 %% Tests if 2 nodes are logically deep-equal 
-nodes_equal(Doc1, [Node1],Doc2, [Node2],Collation) ->
-   nodes_equal(Doc1, Node1,Doc2, Node2,Collation);
-nodes_equal(Doc1, Node1,Doc2, Node2,Collation) ->
-   Type1 = xqldb_doc:node_kind(Doc1, Node1),
-   Type2 = xqldb_doc:node_kind(Doc2, Node2),
+nodes_equal_1(#{nk := _} = N1,#{nk := _} = N1,_) -> true;
+nodes_equal_1(#{nk := Type1} = Node1, 
+              #{nk := Type2} = Node2, Collation) ->
 %?dbg("{Type1,Type2}",{Type1,Type2}),
    if Type1 == document andalso Type2 == document ->
-         Nodes1 = get_comparable_child_nodes(Doc1, Node1),
-         Nodes2 = get_comparable_child_nodes(Doc2, Node2),
+         Nodes1 = get_comparable_child_nodes(Node1),
+         Nodes2 = get_comparable_child_nodes(Node2),
          length(Nodes1) == length(Nodes2)
             andalso
          lists:all(fun({Ci1,Ci2}) ->
-                         nodes_equal(Doc1,Ci1,Doc2,Ci2,Collation)
+                         nodes_equal_1(Ci1, Ci2, Collation)
                    end, lists:zip(Nodes1, Nodes2));
       Type1 == fragment andalso Type2 == fragment ->
-         attributes_equal(Doc1, xqldb_doc:attributes(Doc1, Node1),
-                          Doc2, xqldb_doc:attributes(Doc2, Node2), Collation)
+         attributes_equal(xqldb_mem_nodes:attributes(Node1),
+                          xqldb_mem_nodes:attributes(Node2), Collation)
             andalso
          begin
-            Nodes1 = get_comparable_child_nodes(Doc1, Node1),
-            Nodes2 = get_comparable_child_nodes(Doc2, Node2),
+            Nodes1 = get_comparable_child_nodes(Node1),
+            Nodes2 = get_comparable_child_nodes(Node2),
 %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
             length(Nodes1) == length(Nodes2)
                andalso
             lists:all(fun({Ci1,Ci2}) ->
-                            nodes_equal(Doc1,Ci1,Doc2,Ci2,Collation)
+                            nodes_equal_1(Ci1, Ci2, Collation)
                       end, lists:zip(Nodes1, Nodes2))
          end;
       Type1 == element andalso Type2 == element ->
-         Name1 = xqldb_doc:node_name(Doc1, Node1),
-         Name2 = xqldb_doc:node_name(Doc2, Node2),
+         Name1 = xqldb_mem_nodes:node_name(Node1),
+         Name2 = xqldb_mem_nodes:node_name(Node2),
 %?dbg("{Name1,Name2}",{Name1,Name2}),
          names_equal(Name1,Name2)
             andalso
-         attributes_equal(Doc1, xqldb_doc:attributes(Doc1, Node1),
-                          Doc2, xqldb_doc:attributes(Doc2, Node2), Collation)
+         attributes_equal(xqldb_mem_nodes:attributes(Node1),
+                          xqldb_mem_nodes:attributes(Node2), Collation)
             andalso
          begin
-            Nodes1 = get_comparable_child_nodes(Doc1, Node1),
-            Nodes2 = get_comparable_child_nodes(Doc2, Node2),
+            Nodes1 = get_comparable_child_nodes(Node1),
+            Nodes2 = get_comparable_child_nodes(Node2),
 %?dbg("{Nodes1,Nodes2}",{Nodes1,Nodes2}),
             length(Nodes1) == length(Nodes2)
                andalso
             lists:all(fun({Ci1,Ci2}) ->
-                            nodes_equal(Doc1,Ci1,Doc2,Ci2,Collation)
+                            nodes_equal_1(Ci1, Ci2, Collation)
                       end, lists:zip(Nodes1, Nodes2))
          end;
       Type1 == attribute andalso Type2 == attribute ->
-         Name1 = xqldb_doc:node_name(Doc1, Node1),
-         Name2 = xqldb_doc:node_name(Doc2, Node2),
+         Name1 = xqldb_mem_nodes:node_name(Node1),
+         Name2 = xqldb_mem_nodes:node_name(Node2),
 %?dbg("{Name1,Name2}",{Name1,Name2}),
          names_equal(Name1,Name2)
             andalso
          begin
             Val1 = xqerl_lib:decode_string(
-                     xqldb_doc:string_value(Doc1, Node1)),
+                     xqldb_mem_nodes:string_value(Node1)),
             Val2 = xqerl_lib:decode_string(
-                     xqldb_doc:string_value(Doc2, Node2)),
+                     xqldb_mem_nodes:string_value(Node2)),
 %?dbg("{Val1,Val2}",{Val1,Val2}),
             xqerl_operators:equal(?str(Val1),
-                                  ?str(Val2),Collation) == ?bool(true)
+                                  ?str(Val2), Collation) == ?bool(true)
          end;
       Type1 == text andalso Type2 == text ->
-         Val1 = xqerl_lib:decode_string(xqldb_doc:string_value(Doc1, Node1)),
-         Val2 = xqerl_lib:decode_string(xqldb_doc:string_value(Doc2, Node2)),
+         Val1 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node1)),
+         Val2 = xqerl_lib:decode_string(xqldb_mem_nodes:string_value(Node2)),
          xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
       Type1 == comment andalso Type2 == comment ->
-         Val1 = xqldb_doc:string_value(Doc1, Node1),
-         Val2 = xqldb_doc:string_value(Doc2, Node2),
-         xqerl_operators:equal(?str(Val1),?str(Val2),Collation) == ?bool(true);
+         Val1 = xqldb_mem_nodes:string_value(Node1),
+         Val2 = xqldb_mem_nodes:string_value(Node2),
+         xqerl_operators:equal(?str(Val1), ?str(Val2), Collation) == ?bool(true);
       Type1 == 'processing-instruction' andalso 
         Type2 == 'processing-instruction' ->
-         Name1 = xqldb_doc:node_name(Doc1, Node1),
-         Name2 = xqldb_doc:node_name(Doc2, Node2),
+         Name1 = xqldb_mem_nodes:node_name(Node1),
+         Name2 = xqldb_mem_nodes:node_name(Node2),
          names_equal(Name1,Name2)
             andalso
          begin
-            Val1 = xqldb_doc:string_value(Doc1, Node1),
-            Val2 = xqldb_doc:string_value(Doc2, Node2),
-            xqerl_operators:equal(?str(Val1),?str(Val2)) == ?bool(true)
+            Val1 = xqldb_mem_nodes:string_value(Node1),
+            Val2 = xqldb_mem_nodes:string_value(Node2),
+            xqerl_operators:equal(?str(Val1), ?str(Val2)) == ?bool(true)
          end;
-      Type1 == namespace andalso Type2 == namespace ->
-         Name1 = xqldb_doc:node_name(Doc1, Node1),
-         Name2 = xqldb_doc:node_name(Doc2, Node2),
-         Name1 == Name2;
       true ->
          false
    end.
 
-nodes_equal(#xqNode{} = N1,#xqNode{} = N1,_) ->
-   ?bool(true);
-nodes_equal(#xqNode{doc = Doc1,node = Node1},
-            #xqNode{doc = Doc2,node = Node2},Collation) ->
-   Eq = nodes_equal(Doc1,Node1,Doc2,Node2,Collation),
-   ?bool(Eq).
 
 % takes actual nodes, not ids
-attributes_equal(_,[],_,[], _) -> 
+attributes_equal([], [], _) -> 
    true;
-attributes_equal(Doc1,Atts1,Doc2,Atts2, Collation) ->
+attributes_equal(Atts1,Atts2, Collation) ->
 %?dbg("{Atts1,Atts2}",{Atts1,Atts2}),
    length(Atts1) == length(Atts2) 
    andalso
@@ -1297,256 +1296,41 @@ attributes_equal(Doc1,Atts1,Doc2,Atts2, Collation) ->
        fun(A1) ->
             lists:any(
                  fun(A2) ->
-                       nodes_equal(Doc1, A1,Doc2, A2,Collation)
+                       nodes_equal_1(A1, A2, Collation)
                  end, Atts2)
        end, Atts1).
 
-get_comparable_child_nodes(Doc,Node) ->
-   Children = xqldb_doc:children(Doc, Node),
+get_comparable_child_nodes(#{ch := Children}) ->
    [C ||
-    C <- Children,
-    T <- [xqldb_doc:node_kind(Doc,C)],
-    T =/= comment,
-    T =/= 'processing-instruction'].
+    #{nk := Nk} = C <- Children,
+    Nk =/= comment,
+    Nk =/= 'processing-instruction'];
+get_comparable_child_nodes(_) -> [].
+
 
 to_xml(#xqError{} = E) ->
    E;
+to_xml({array,L}) ->
+   to_xml(L);
 to_xml(N) when is_list(N) ->
    M = combine_atomics(N,[]),
    << <<(to_xml(M1))/binary>> ||
       M1 <- M >>;
-to_xml(#xqNode{doc = Doc, node = Node}) ->
-   to_xml(Node, Doc);
+to_xml(#{nk := _} = Node) ->
+   xqldb_mem_nodes:serialize(Node);
 to_xml(#xqAtomicValue{} = A) -> xqerl_types:string_value(A).
 
-to_xml([Node], Doc) -> to_xml(Node, Doc);
-to_xml(Node, Doc) ->
-   NodeKind = xqldb_doc:node_kind(Doc, Node),
-   EP = xqldb_name_server:get(<<>>),
-   EN = xqldb_namespace_server:get(<<>>),
-   to_xml(NodeKind, Node, Doc, #{EP => EN}).
-
-to_xml(Node, Doc, NsInScope) ->
-   NodeKind = xqldb_doc:node_kind(Doc, Node),
-   to_xml(NodeKind, Node, Doc, NsInScope).
-
-%% to_xml(fragment, _, Doc) ->
-%%    Children = xqldb_doc:roots(Doc),
-%%    lists:flatmap(fun(Child) ->
-%%                        to_xml(Child, Doc)
-%%                  end, Children);
-to_xml(document, Node, Doc, NsInScope) ->
-   Children = xqldb_doc:children(Doc, Node),
-   << <<(to_xml(Child, Doc, NsInScope))/binary>> ||
-      Child <- Children>>;
-
-to_xml(element, Node, Doc, NsInScope) ->
-   {ElemNs,Prefix,ElemLn} = xqldb_doc:node_name(Doc, Node),
-   %?dbg("{ElemNs,Prefix,ElemLn}",{ElemNs,Prefix,ElemLn}),
-   QName = #qname{namespace = ElemNs, prefix = Prefix, local_name = ElemLn},
-
-   Namespaces = xqldb_doc:inscope_namespace_nodes(Doc, Node),
-   %Namespaces = xqldb_doc:namespace_nodes(Doc, Node),
-   %?dbg("Element",Element),
-%?dbg("Namespaces",Namespaces),
-   Attributes = xqldb_doc:attributes(Doc, Node),
-   
-   Children = xqldb_doc:children(Doc, Node),
-
-   NspStrFun = fun(Ns) ->
-                     to_xml(namespace, Ns, Doc, NsInScope)
-               end,
-   NspStr = << 
-              <<(NspStrFun(Ns))/binary>> ||
-              Ns <- Namespaces
-            >>,
-     
-   AttStr = << 
-              <<(to_xml(attribute, Att, Doc, NsInScope))/binary>> ||
-              Att <- Attributes
-            >>, 
-   
-   NsInScope2 = lists:foldl(
-                  fun({_,L,N},M) ->
-                        M#{L => N}
-                  end, NsInScope, Namespaces),
-   
-   ChldStrFun = fun(C) ->
-                      NodeKind = xqldb_doc:node_kind(Doc, C),
-                      to_xml(NodeKind,C,Doc, NsInScope2)
-                end,
-   
-   ChldStr = <<
-               <<(ChldStrFun(C))/binary>> ||
-               C <- Children
-             >>,
-
-   if ChldStr == <<>> ->
-         <<$<, 
-           (ser_qname(QName))/binary,
-           (NspStr)/binary,
-           (AttStr)/binary,
-           "/>" >>;
-      true ->
-         <<$<, 
-           (ser_qname(QName))/binary,
-           (NspStr)/binary,
-           (AttStr)/binary,
-           ">",
-           (ChldStr)/binary,
-           "</",
-           (ser_qname(QName))/binary,
-           ">" >>
-   end;
-to_xml(attribute,Node, Doc, _) ->
-   StrV = xqldb_doc:string_value(Doc, Node),
-   {Ns,Px,Ln} = xqldb_doc:node_name(Doc, Node),
-   QName = #qname{namespace = Ns, prefix = Px, local_name = Ln},
-   <<" ",
-     (ser_qname(QName))/binary,
-     "=\"",
-     (encode_att_text(StrV))/binary,
-     "\"">>;
-to_xml('processing-instruction',Node, Doc, _) ->
-   {_,_,Local} = xqldb_doc:node_name(Doc, Node),
-   Txt = xqldb_doc:string_value(Doc, Node),
-   %Txt = encode_text(xqldb_doc:string_value(Doc, Node)),
-   if Txt == <<>> ->
-         <<"<?", Local/binary, " ?>">>;
-      true ->
-         <<"<?", Local/binary, " ", Txt/binary, "?>">>
-   end;
-% namespace nodes can be here as records and not binary
-to_xml(namespace,
-       #xqNamespaceNode{name = #qname{namespace = Ns, prefix = Px}}, 
-       _Doc, _) ->
-   if Px == <<"xml">> ->
-         <<>>;
-      %Px == "", Ns == []; % this is a reset
-      %Px == <<>>, Ns == 'no-namespace' -> <<>>;
-      true ->
-         Ns1 = if Ns == <<>>;
-                  Ns == 'undefined';
-                  Ns == 'no-namespace' ->
-                     <<>>;
-                  true ->
-                     encode_ns_text(Ns)
-               end,
-         <<" ",
-           (if is_atom(Ns) orelse Px == <<>> -> <<"xmlns">>;
-               true -> <<"xmlns:", Px/binary>>
-            end)/binary,
-           "=\"",
-           Ns1/binary,
-           "\"">>
-   end;
-to_xml(namespace,{_,L,N} = Node, Doc, NsInScope) ->
-   {Ns,_,Ln} = case xqldb_doc:name(Doc, Node) of
-                  {Ns1,_,Ln1} ->
-                     {Ns1,[],Ln1};
-                  [] ->
-                     {<<>>,[],<<>>}
-               end,
-   if is_map_key(L, NsInScope) ->
-         Val = maps:get(L, NsInScope),
-         if Val == N ->
-               <<>>;
-            true ->
-               to_xml(namespace,
-                #xqNamespaceNode{name = #qname{namespace = maybe_ns_to_atom(Ns),
-                                               prefix = Ln}}, Doc, NsInScope)
-         end;
-      true ->
-         to_xml(namespace,
-                #xqNamespaceNode{name = #qname{namespace = maybe_ns_to_atom(Ns),
-                                               prefix = Ln}}, Doc, NsInScope)
-   end;
-to_xml(comment, Node, Doc, _) ->
-   <<"<!--", (xqldb_doc:string_value(Doc, Node))/binary, "-->">>;
-to_xml(text,Node, Doc, _) ->
-   encode_text(xqldb_doc:string_value(Doc, Node)).
 
 combine_atomics([], Acc) ->
    lists:reverse(Acc);
 combine_atomics([#xqAtomicValue{} = H1,#xqAtomicValue{} = H2|T], Acc) ->
    St1 = xqerl_types:string_value(H1),
    St2 = xqerl_types:string_value(xqerl_types:cast_as(H2, 'xs:string')),
-   Str3 = lists:concat([St1," ",St2]),
+   Str3 = <<St1/binary," ",St2/binary>>,
    combine_atomics([#xqAtomicValue{type = 'xs:string', value = Str3}|T], Acc);
 combine_atomics([H|T], Acc) ->
    combine_atomics(T, [H|Acc]).
 
-encode_text(Bin) -> encode_text(Bin,<<>>).
-
-encode_text(<<>>,Acc) -> Acc;
-encode_text(?STR_REST("<",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&lt;">>);
-encode_text(?STR_REST(">",Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary, "&gt;">>);
-encode_text(?STR_REST("&", Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,"&amp;">>);
-encode_text(?CP_REST(H, Tail),Acc) when H == 13 ->
-   encode_text(Tail,<<Acc/binary,"&#xD;">>);
-encode_text(?CP_REST(H, Tail),Acc) when H >= 255 ->
-   encode_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_text(?CP_REST(H, Tail),Acc) ->
-   encode_text(Tail,<<Acc/binary,H/utf8>>).
-
-encode_att_text({_,T}) -> encode_att_text(T);
-encode_att_text(Bin) -> encode_att_text(Bin,<<>>).
-
-encode_att_text(<<>>,Acc) -> Acc;
-encode_att_text(?CP_REST(H, Tail),Acc) 
-  when H >= 255;
-       H == 9;
-       H == 10;
-       H == 13 ->
-   encode_att_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_att_text(?STR_REST("\"", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&quot;">>);
-encode_att_text(?STR_REST("<", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&lt;">>);
-encode_att_text(?STR_REST(">", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&gt;">>);
-encode_att_text(?STR_REST("&", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"&amp;">>);
-encode_att_text(?STR_REST("{{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("{", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"{{">>);
-encode_att_text(?STR_REST("}}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?STR_REST("}", Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,"}}">>);
-encode_att_text(?CP_REST(H, Tail),Acc) ->
-   encode_att_text(Tail,<<Acc/binary,H/utf8>>).
-
-encode_ns_text(Bin) -> encode_ns_text(Bin,<<>>).
-
-encode_ns_text(<<>>,Acc) -> Acc;
-encode_ns_text(?CP_REST(H, Tail),Acc) 
-  when H >= 255;
-       H == 9;
-       H == 10;
-       H == 13 ->
-   encode_ns_text(Tail,<<Acc/binary,"&#",(integer_to_binary(H))/binary,";">>);
-encode_ns_text(?STR_REST("\"", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&quot;">>);
-encode_ns_text(?STR_REST("<", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&lt;">>);
-encode_ns_text(?STR_REST(">", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&gt;">>);
-encode_ns_text(?STR_REST("&", Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,"&amp;">>);
-encode_ns_text(?CP_REST(H, Tail),Acc) ->
-   encode_ns_text(Tail,<<Acc/binary,H/utf8>>).
-
-
-ser_qname(#qname{prefix = Px, local_name = Ln}) when is_atom(Px);
-                                                     Px == <<>> ->
-   Ln;
-ser_qname(#qname{prefix = Px, local_name = Ln}) ->
-   <<Px/binary, ":", Ln/binary>>.
 
 check_computed_namespaces(NameSpaceNodes) ->
    Namespaces = [{P,xqerl_types:value(N)} || 
@@ -1617,56 +1401,72 @@ check_computed_default_override(#qname{namespace = 'no-namespace'},
    end;
 check_computed_default_override(_, _) -> ok.
 
-node_to_content(#xqNode{doc = DocPid, node = N}) when is_pid(DocPid) ->
-   F = fun(Doc) ->
-             fun O([]) -> [];
-                 O(Node) when not is_list(Node) -> O([Node]);
-                 O(Node) ->
-      case xqldb_xdm:node_kind(Doc, Node) of
-        [fragment] ->
-           Namespaces = lists:map(O, xqldb_xdm:namespaces(Doc, hd(Node))),
-           Attributes = lists:map(O, xqldb_xdm:attributes(Doc, hd(Node))),
-           Children   = lists:map(O, xqldb_xdm:children(Doc, hd(Node))),
-           Namespaces ++ Attributes ++ Children;
-        [document] ->
-           lists:map(O, xqldb_xdm:children(Doc, hd(Node)));
-        [element] ->
-           Namespaces = lists:map(O, xqldb_xdm:namespaces(Doc, hd(Node))),
-           Attributes = lists:map(O, xqldb_xdm:attributes(Doc, hd(Node))),
-           Children   = lists:map(O, xqldb_xdm:children(Doc, hd(Node))),
-           [{Namespace,Prefix,LocalName}] = xqldb_xdm:node_name(Doc, Node),
-           #xqElementNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
-                                        prefix = Prefix, 
-                                        local_name = LocalName},
-                          attributes = Namespaces, 
+node_to_content(#{nk := _} = Orig) ->
+   F = fun O([]) -> [];
+           O(#{nk := document,
+               ch := Ch}) ->
+              [O(C) || C <- Ch];
+           O(#{nk := document}) ->
+              [];
+           O(#{nk := element,
+               nn := {Ns,Px,Ln},
+               ns := Nss,
+               at := At,
+               ch := Ch}) ->
+              Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
+                                                    prefix = Prefix}} ||
+                     {Prefix, Uri} <- maps:to_list(Nss)],
+              At1 = [O(C) || C <- At],
+              Ch1 = [O(C) || C <- Ch],
+              #xqElementNode{name = 
+                               #qname{namespace = maybe_ns_to_atom(Ns), 
+                                        prefix = Px, 
+                                        local_name = Ln},
+                          attributes = Ns1, 
                           children = [], 
-                          expr = Attributes ++ Children};
-        [namespace] ->
-           [{Uri,_,Prefix}] = xqldb_xdm:name(Doc, Node),
-           #xqNamespaceNode{name = #qname{namespace = Uri, prefix = Prefix}};
-        [attribute] ->
-           [{Namespace,Prefix,LocalName}] = xqldb_xdm:node_name(Doc, Node),
-           [Value] = xqldb_xdm:string_value(Doc, Node),
-           #xqAttributeNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
-                                          prefix = Prefix, 
-                                          local_name = LocalName},
-                            expr = ?untyp(Value)};
-        [comment] ->
-           [Value] = xqldb_xdm:string_value(Doc, Node),
-           #xqCommentNode{expr = ?str(Value)};
-        [text] ->
-           [Value] = xqldb_xdm:string_value(Doc, Node),
-           #xqTextNode{expr = ?untyp(Value)};
-        ['processing-instruction'] ->
-           [{Namespace,_,LocalName}] = xqldb_xdm:node_name(Doc, Node),
-           [Value] = xqldb_xdm:string_value(Doc, Node),
-           #xqProcessingInstructionNode{name = #qname{namespace = maybe_ns_to_atom(Namespace), 
-                                                      local_name = LocalName},
-                                        expr = ?str(Value)}
-     end
-             end(N)
+                          expr = At1 ++ Ch1};
+           O(#{nk := element,
+               nn := {Ns,Px,Ln},
+               ns := Nss,
+               ch := Ch}) ->
+              Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
+                                                    prefix = Prefix}} ||
+                     {Prefix, Uri} <- maps:to_list(Nss)],
+              Ch1 = [O(C) || C <- Ch],
+              #xqElementNode{name = 
+                               #qname{namespace = maybe_ns_to_atom(Ns), 
+                                        prefix = Px, 
+                                        local_name = Ln},
+                          attributes = Ns1, 
+                          children = [], 
+                          expr = Ch1};
+           O(#{nk := namespace,
+               nn := {Ns,Px,_}}) ->
+              #xqNamespaceNode{name = #qname{namespace = Ns,
+                                             prefix    = Px}};
+           O(#{nk := attribute,
+               nn := {Ns,Px,Ln}} = Node) ->
+              Value = xqldb_mem_nodes:string_value(Node),
+              #xqAttributeNode{name = 
+                                 #qname{namespace = maybe_ns_to_atom(Ns),
+                                        prefix = Px, 
+                                        local_name = Ln},
+                               expr = ?untyp(Value)};
+           O(#{nk := comment} = Node) ->
+              Value = xqldb_mem_nodes:string_value(Node),
+              #xqCommentNode{expr = ?str(Value)};
+           O(#{nk := text} = Node) ->
+              Value = xqldb_mem_nodes:string_value(Node),
+              #xqTextNode{expr = ?untyp(Value)};
+           O(#{nk := 'processing-instruction',
+               nn := {Ns,_,Ln}} = Node) ->
+              Value = xqldb_mem_nodes:string_value(Node),
+              #xqProcessingInstructionNode{name = 
+                                             #qname{namespace = maybe_ns_to_atom(Ns), 
+                                                      local_name = Ln},
+                                           expr = ?str(Value)}
        end,
-   Content = xqldb_doc:run(DocPid, F),
+   Content = F(Orig),
    if is_list(Content) ->
          Content;
       true ->
@@ -2000,11 +1800,12 @@ build_sax(Num, NodeMap,NsInUse) ->
          {characters, Value};
       #xqElementNode{name = #qname{namespace = ENs,
                                    prefix = Px,
-                                   local_name = ELn},
+                                   local_name = ELn} = En,
                      %inscope_ns = Is,
                      children = AllCh} ->
          {Ns,At,Ch} = split_1(AllCh,NodeMap),
-         {NsStart,NsEnd} = namespace_mappings(Ns),
+         % this element name can add to namespaces
+         {NsStart,NsEnd} = namespace_mappings([#xqNamespaceNode{name = En}|Ns]),
          AttList = attribute_list(At),
          % check for new namespace by declaration, any unused in-scope if to be copied
          CF = fun(C) -> build_sax(C, NodeMap,NsInUse) end,
@@ -2049,8 +1850,7 @@ attribute_list(List) ->
 base_uri_att(#xqAtomicValue{value = <<>>}) ->
    [];
 base_uri_att(#xqAtomicValue{value = Uri}) ->
-   {attribute,{?SSTR("http://www.w3.org/XML/1998/namespace"),
-               ?SSTR("xml"), ?SSTR("base"), Uri}}.
+   {baseUri, Uri}.
 
 fix_ns('no-namespace') -> <<>>;
 fix_ns(Other) -> Other.

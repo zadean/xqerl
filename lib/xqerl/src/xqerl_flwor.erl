@@ -68,7 +68,7 @@ add_position(H, Cnt, Acc) ->
 
 do_atomize([],_) -> {<<>>, []};
 do_atomize([V],C) -> do_atomize(V,C);
-do_atomize(#xqNode{} = N,Coll) ->
+do_atomize(#{nk := _} = N,Coll) ->
    A = ?seq:singleton_value(xqerl_types:atomize(N)),
    #xqAtomicValue{value = Val} = A,
    {xqerl_coll:sort_key(Val, Coll), A};
@@ -587,15 +587,15 @@ optimize(FL, _) -> FL.
 fold_changes(#xqFlwor{} = FL, G) ->
    {B0,F0} = maybe_split_for(FL, G),
    {B1,F1} = maybe_lift_let(F0, G),
-   %{B2,F2} = maybe_inline_let(F1, G),
-   {B2,F2} = maybe_remove_redundant_let(F1, G),
-   {B3,F3} = remove_unused_variables(F2, G),
+   {B2,F2} = maybe_inline_let(F1, G),
+   {B2a,F2a} = maybe_remove_redundant_let(F2, G),
+   {B3,F3} = remove_unused_variables(F2a, G),
    {B4,F4} = maybe_lift_nested_for_expression(F3),
    {B5,F5} = maybe_lift_nested_let_clause(F4),
    {B6,F6} = maybe_lift_where_clause(F5, G),
    {B7,F7} = where_clause_as_predicate(F6, G),
    {B8,F8} = positional_where_clause_as_predicate(F7, G),
-   B = B0 orelse B1 orelse B2 orelse B3 orelse 
+   B = B0 orelse B1 orelse B2 orelse B2a orelse B3 orelse 
        B4 orelse B5 orelse B6 orelse B7 orelse B8, 
    {B,F8}.
 
@@ -1360,17 +1360,17 @@ remove_dependancies(G, Vertex) ->
    ?dbg("Out   ",Out),
    true.
 
-replace_variable_dependancies(G, OldVertex, NewVertex) ->
-   Ins = digraph:in_neighbours(G, OldVertex),
-   Out = digraph:out_neighbours(G, OldVertex),
-   [digraph:add_edge(G, I, NewVertex) ||
-    I <- Ins],
-   [digraph:add_edge(G, NewVertex, O) ||
-    O <- Out],
-   digraph:del_vertex(G, OldVertex),
-   ?dbg("Vertex",OldVertex),
-   ?dbg("Ins   ",Ins),
-   ?dbg("Out   ",Out),
-   true.
+%% replace_variable_dependancies(G, OldVertex, NewVertex) ->
+%%    Ins = digraph:in_neighbours(G, OldVertex),
+%%    Out = digraph:out_neighbours(G, OldVertex),
+%%    [digraph:add_edge(G, I, NewVertex) ||
+%%     I <- Ins],
+%%    [digraph:add_edge(G, NewVertex, O) ||
+%%     O <- Out],
+%%    digraph:del_vertex(G, OldVertex),
+%%    ?dbg("Vertex",OldVertex),
+%%    ?dbg("Ins   ",Ins),
+%%    ?dbg("Out   ",Out),
+%%    true.
 
 

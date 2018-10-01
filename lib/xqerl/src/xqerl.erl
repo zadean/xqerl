@@ -170,8 +170,8 @@ compile_abstract(Abstract) ->
          ?dbg("compile_abstract",E),
          throw(E);
       _:E:StackTrace ->
-         ?dbg("compile_abstract",E),
-         ?dbg("compile_abstract",StackTrace),
+         ?info("compile_abstract",E),
+         ?info("compile_abstract",StackTrace),
          xqerl_error:error('XPST0008')
    end.
 
@@ -203,13 +203,13 @@ trun(Str, Opt) ->
    catch code:purge(xqerl_main),
    catch code:delete(xqerl_main),
       Str2 = strip_comments(Str),
-%      ?dbg("Str2",Str2),
+      ?dbg("Str2",Str2),
       Tokens = xqerl_scanner:tokens(Str2), 
       ?dbg("Tokens",Tokens),
       _ = erlang:put(xquery_id, xqerl_context:init(parser)),
       Tree = parse_tokens(Tokens),
       ?dbg("Tree",Tree),
-      Static = xqerl_static:handle_tree(Tree,<<"xqerl_main">>),
+      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
      ?dbg("Static",maps:get(body,Static)),
       Abstract = xqerl_abs:scan_mod(Static),
 %      ?dbg("Abstract",Abstract),

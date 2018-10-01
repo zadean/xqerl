@@ -106,7 +106,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([test_compile/2]).
+-export([test_compile/2, push/1]).
 
 -export([get_signatures/1]).
 -export([get_module_name/1]).
@@ -611,3 +611,14 @@ check_cycle(Mod,ImportedMods) ->
 -elif(true).
    print_erl(_,_) -> ok.
 -endif.
+
+
+push(Node) -> 
+   application:ensure_all_started(xqerl),
+   {ok,X} = application:get_key(xqerl,modules),
+   {ok,D} = application:get_key(xqerl_db,modules),
+   Fun = fun(Mod) ->
+               {_Module, Binary, Filename} = code:get_object_code(Mod),
+               rpc:call(Node, code, load_binary, [Mod, Filename, Binary])
+         end,
+   [Fun(M) || M <- X ++ D].

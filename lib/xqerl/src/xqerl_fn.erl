@@ -40,7 +40,7 @@
 -define(ERROR_MATCH(Err), 
         _:#xqError{name = #xqAtomicValue{value= #qname{local_name = Err}}}).
 
--define(noderecs(N), is_record(N, xqNode);
+-define(noderecs(N), (is_map(N) andalso is_map_key(nk, N));
                      is_record(N, xqElementNode);
                      is_record(N, xqDocumentNode);
                      is_record(N, xqAttributeNode);
@@ -68,9 +68,9 @@
  {'adjust-time-to-timezone', 2},1, [{xqSeqType, 'xs:time', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("adjust-time-to-timezone")},{xqSeqType, 'xs:time', zero_or_one}, [], 
  {'adjust-time-to-timezone', 3},2,[{xqSeqType, 'xs:time', zero_or_one},{xqSeqType, 'xs:dayTimeDuration', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}, [], 
  {'analyze-string', 3},2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, ?PX,?A("analyze-string")},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}, [], 
  {'analyze-string', 4},3,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
 {{qname, ?NS, ?PX,?A("apply")},{xqSeqType, item, zero_or_many}, [], 
  {'apply_', 3}, 2,[{xqSeqType,{xqFunTest,function,[],undefined,any,any}, one},{xqSeqType, {xqFunTest,array,[],undefined,any,any}, one}]},
@@ -81,7 +81,7 @@
 {{qname, ?NS, ?PX,?A("base-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'base-uri', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("base-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'base-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'base-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("boolean")},{xqSeqType, 'xs:boolean', one}, [], 
  {'boolean', 2}, 1,[{xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("ceiling")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
@@ -144,18 +144,18 @@
  {'distinct-values', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_many}]},
 {{qname, ?NS, ?PX,?A("distinct-values")},{xqSeqType, 'xs:anyAtomicType', zero_or_many}, [],
  {'distinct-values', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("doc")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("doc")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, zero_or_one}, [],
  {'doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("doc-available")},{xqSeqType, 'xs:boolean', one}, [], 
  {'doc-available', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("document-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'document-uri', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("document-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'document-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
-{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+ {'document-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
  {'element-with-id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
- {'element-with-id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("element-with-id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'element-with-id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("empty")},{xqSeqType, 'xs:boolean', one}, [], 
  {'empty', 2}, 1,[{xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("encode-for-uri")},{xqSeqType, 'xs:string', one}, [], 
@@ -223,11 +223,11 @@
 {{qname, ?NS, ?PX,?A("generate-id")},{xqSeqType, 'xs:string', one}, [], 
  {'generate-id', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("generate-id")},{xqSeqType, 'xs:string', one}, [], 
- {'generate-id', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'generate-id', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("has-children")},{xqSeqType, 'xs:boolean', one}, [], 
  {'has-children', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("has-children")},{xqSeqType, 'xs:boolean', one}, [], 
- {'has-children', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'has-children', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("head")},{xqSeqType, item, zero_or_one}, [], 
  {'head', 2}, 1,[{xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("hours-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
@@ -236,24 +236,24 @@
  {'hours-from-duration', 2}, 1,[{xqSeqType, 'xs:duration', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("hours-from-time")},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'hours-from-time', 2}, 1,[{xqSeqType, 'xs:time', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
  {'id', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, zero_or_many}, [],
- {'id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
-{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
+{{qname, ?NS, ?PX,?A("id")},{xqSeqType, {xqKindTest,element,undefined,undefined}, zero_or_many}, [],
+ {'id', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
  {'idref', 2}, 1,[{xqSeqType, 'xs:string', zero_or_many}]},
-{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
- {'idref', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
+{{qname, ?NS, ?PX,?A("idref")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'idref', 3}, 2,[{xqSeqType, 'xs:string', zero_or_many},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("implicit-timezone")},{xqSeqType, 'xs:dayTimeDuration', one}, [],
  {'implicit-timezone', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("index-of")},{xqSeqType, 'xs:integer', zero_or_many}, [],
  {'index-of', 3}, 2,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one}]},
 {{qname, ?NS, ?PX,?A("index-of")},{xqSeqType, 'xs:integer', zero_or_many}, [],
  {'index-of', 4}, 3,[{xqSeqType, 'xs:anyAtomicType', zero_or_many},{xqSeqType, 'xs:anyAtomicType', one},{xqSeqType, 'xs:string', one}]},
-{{qname, ?NS, ?PX,?A("innermost")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
- {'innermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("innermost")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'innermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("in-scope-prefixes")},{xqSeqType, 'xs:string', zero_or_many}, [],
- {'in-scope-prefixes', 2}, 1,[{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
+ {'in-scope-prefixes', 2}, 1,[{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("insert-before")},{xqSeqType, item, zero_or_many}, [], 
  {'insert-before', 4}, 3,[{xqSeqType, item, zero_or_many},{xqSeqType, 'xs:integer', one},{xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("iri-to-uri")},{xqSeqType, 'xs:string', one}, [], 
@@ -262,14 +262,14 @@
  {'json-doc', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("json-doc")},{xqSeqType, item, zero_or_one}, [], 
  {'json-doc', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
+{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
  {'json-to-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, one}, [],
+{{qname, ?NS, ?PX,?A("json-to-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
  {'json-to-xml', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, ?NS, ?PX,?A("lang")},{xqSeqType, 'xs:boolean', one}, [], 
  {'lang', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("lang")},{xqSeqType, 'xs:boolean', one}, [], 
- {'lang', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}]},
+ {'lang', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("last")},{xqSeqType, 'xs:integer', one}, [], 
  {'last', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("load-xquery-module")},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}, [], 
@@ -279,7 +279,7 @@
 {{qname, ?NS, ?PX,?A("local-name")},{xqSeqType, 'xs:string', one}, [], 
  {'local-name', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("local-name")},{xqSeqType, 'xs:string', one}, [], 
- {'local-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'local-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("local-name-from-QName")},{xqSeqType, 'xs:NCName', zero_or_one}, [],
  {'local-name-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("lower-case")},{xqSeqType, 'xs:string', one}, [], 
@@ -311,23 +311,23 @@
 {{qname, ?NS, ?PX,?A("name")},{xqSeqType, 'xs:string', one}, [], 
  {'name', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("name")},{xqSeqType, 'xs:string', one}, [], 
- {'name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("namespace-uri")},{xqSeqType, 'xs:anyURI', one}, [], 
  {'namespace-uri', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("namespace-uri")},{xqSeqType, 'xs:anyURI', one}, [], 
- {'namespace-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'namespace-uri', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("namespace-uri-for-prefix")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
- {'namespace-uri-for-prefix', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
+ {'namespace-uri-for-prefix', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("namespace-uri-from-QName")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'namespace-uri-from-QName', 2}, 1,[{xqSeqType, 'xs:QName', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("nilled")},{xqSeqType, 'xs:boolean', zero_or_one}, [],
  {'nilled', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("nilled")},{xqSeqType, 'xs:boolean', zero_or_one}, [],
- {'nilled', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'nilled', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("node-name")},{xqSeqType, 'xs:QName', zero_or_one}, [],
  {'node-name', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("node-name")},{xqSeqType, 'xs:QName', zero_or_one}, [],
- {'node-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'node-name', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("normalize-space")},{xqSeqType, 'xs:string', one}, [], 
  {'normalize-space', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("normalize-space")},{xqSeqType, 'xs:string', one}, [], 
@@ -344,22 +344,22 @@
  {'number', 2}, 1,[{xqSeqType, 'xs:anyAtomicType', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("one-or-more")},{xqSeqType, item, one_or_many}, [], 
  {'one-or-more', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("outermost")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}, [],
- {'outermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_many}]},
+{{qname, ?NS, ?PX,?A("outermost")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}, [],
+ {'outermost', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("parse-ietf-date")},{xqSeqType, 'xs:dateTime', zero_or_one}, [],
  {'parse-ietf-date', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("parse-json")},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("parse-json")},{xqSeqType, item, zero_or_one}, [], 
  {'parse-json', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
-{{qname, ?NS, ?PX,?A("parse-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,{xqKindTest,'element',undefined,undefined,undefined},undefined}, one}, [],
+{{qname, ?NS, ?PX,?A("parse-xml")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, one}, [],
  {'parse-xml', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
-{{qname, ?NS, ?PX,?A("parse-xml-fragment")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined,undefined}, zero_or_one}, [],
+{{qname, ?NS, ?PX,?A("parse-xml-fragment")},{xqSeqType, {xqKindTest,'document-node',undefined,undefined}, zero_or_one}, [],
  {'parse-xml-fragment', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("path")},{xqSeqType, 'xs:string', zero_or_one}, [],
  {'path', 1}, 0, []},
 {{qname, ?NS, ?PX,?A("path")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'path', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'path', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("position")},{xqSeqType, 'xs:integer', one}, [], 
  {'position', 1}, 0,[]},
 {{qname, ?NS, ?PX,?A("prefix-from-QName")},{xqSeqType, 'xs:NCName', zero_or_one}, [],
@@ -377,17 +377,17 @@
 {{qname, ?NS, ?PX,?A("replace")},{xqSeqType, 'xs:string', one}, [], 
  {'replace', 5}, 4,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one},{xqSeqType, 'xs:string', one}]},
 {{qname, ?NS, ?PX,?A("resolve-QName")},{xqSeqType, 'xs:QName', zero_or_one}, [],
- {'resolve-QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined,undefined}, one}]},
+ {'resolve-QName', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, {xqKindTest,element,undefined,undefined}, one}]},
 {{qname, ?NS, ?PX,?A("resolve-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'resolve-uri', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("resolve-uri")},{xqSeqType, 'xs:anyURI', zero_or_one}, [],
  {'resolve-uri', 3}, 2,[{xqSeqType, 'xs:string', zero_or_one},{xqSeqType, 'xs:string', one}]},
 {{qname, ?NS, ?PX,?A("reverse")},{xqSeqType, item, zero_or_many}, [], 
  {'reverse', 2}, 1,[{xqSeqType, item, zero_or_many}]},
-{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one}, [], 
+{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined}, one}, [], 
  {'root', 1}, 0,[]},
-{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}, [],
- {'root', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+{{qname, ?NS, ?PX,?A("root")},{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}, [],
+ {'root', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("round")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
  {'round', 2}, 1,[{xqSeqType, 'xs:numeric', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("round")},{xqSeqType, 'xs:numeric', zero_or_one}, [],
@@ -497,9 +497,9 @@
 {{qname, ?NS, ?PX,?A("uri-collection")},{xqSeqType, 'xs:anyURI', zero_or_many}, [],
  {'uri-collection', 2}, 1,[{xqSeqType, 'xs:string', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("xml-to-json")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'xml-to-json', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one}]},
+ {'xml-to-json', 2}, 1,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one}]},
 {{qname, ?NS, ?PX,?A("xml-to-json")},{xqSeqType, 'xs:string', zero_or_one}, [],
- {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
+ {'xml-to-json', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined}, zero_or_one},{xqSeqType, {xqFunTest,map,[],undefined,any,any}, one}]},
 {{qname, ?NS, ?PX,?A("year-from-date")},{xqSeqType, 'xs:integer', zero_or_one}, [],
  {'year-from-date', 2}, 1,[{xqSeqType, 'xs:date', zero_or_one}]},
 {{qname, ?NS, ?PX,?A("year-from-dateTime")},{xqSeqType, 'xs:integer', zero_or_one}, [],
@@ -509,7 +509,7 @@
 {{qname, ?NS, ?PX,?A("zero-or-one")},{xqSeqType, item, zero_or_one}, [], 
  {'zero-or-one', 2}, 1,[{xqSeqType, item, zero_or_many}]},
 {{qname, ?NS, ?PX,?A("put")},{xqSeqType, 'empty-sequence', one},[{annotation,{{qname, ?A("http://www.w3.org/2012/xquery"), [],?A("updating")},[]}}],
- {'put', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined,undefined}, one},{xqSeqType, 'xs:string', one}]}]).
+ {'put', 3}, 2,[{xqSeqType, {xqKindTest,node,undefined,undefined}, one},{xqSeqType, 'xs:string', one}]}]).
 
 %% ====================================================================
 %% API functions
@@ -809,7 +809,8 @@
                                              prefix = ?PX,
                                              local_name = ?A("analyze-string-result")},
                                expr = Expr},
-         xqerl_node:new_fragment(Ctx, Frag)
+         #{ch := [E]} = xqerl_node:new_fragment(Ctx, Frag),
+         E
    end.
 
 analyze_string1([],String) -> % no matches
@@ -1012,12 +1013,11 @@ avg1([H|T], Sum, Count) ->
                  [] | xq_types:xml_node()) -> [] | xq_types:xs_anyURI().
 'base-uri'(_Ctx,[]) -> [];
 'base-uri'(Ctx,[N]) -> 'base-uri'(Ctx,N);
-'base-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) ->
-   case xqldb_doc:base_uri(Doc, Node) of
+'base-uri'(_Ctx,#{nk := _} = Node) ->
+   case xqldb_mem_nodes:base_uri(Node) of
       [] -> [];
-      [[]] -> [];
-      [<<>>] -> [];
-      [BaseUri] ->
+      <<>> -> [];
+      BaseUri ->
          try xqerl_xs:xs_anyURI([], ?str(BaseUri))
          catch _:E ->
                   ?dbg("E",{BaseUri,E}),
@@ -1149,17 +1149,9 @@ cp_to_bin([],Acc) -> Acc.
 %% fn:collection() as item()*
 -spec 'collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xq_item()).
-'collection'(_Ctx) -> 
-   case xqldb_docstore:select_collection(<<>>) of
-      {ok,Vals} ->
-         lists:map(fun(P) when is_pid(P) ->
-                         #xqNode{doc = P,node = [0]};
-                      (O) ->
-                         O
-                   end, Vals);
-      _ ->
-         ?err('FODC0002')
-   end.
+'collection'(#{default_collection := DC} = Ctx) ->
+   'collection'(Ctx, DC);
+'collection'(_Ctx) -> ?err('FODC0002').
 
 %% fn:collection($arg as xs:string?) as item()*
 -spec 'collection'(xq_types:context(),
@@ -1170,19 +1162,14 @@ cp_to_bin([],Acc) -> Acc.
 'collection'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-   %?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
-   try 
+   % TODO decide if all documents should be built or a collection type returned
+   try
       CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case xqldb_docstore:select_collection(CUri) of
-         {ok,Vals} ->
-            lists:map(fun(P) when is_pid(P) ->
-                            #xqNode{doc = P,node = [0]};
-                         (O) ->
-                            O
-                      end, Vals);
-         Other ->
-            ?dbg("Other",Other),
-            ?err('FODC0002')
+      Vals = xqldb_dml:select_collection(CUri),
+      if Vals == [] -> % empty/non-existing collection
+            throw(error);
+         true ->
+            Vals
       end
    catch
       _:_ ->
@@ -1342,7 +1329,7 @@ concat_1([H|T], Acc) ->
 -spec 'count'(xq_types:context(),
               [] | xq_types:sequence(xq_types:xq_item())) -> 
          xq_types:xs_integer().
-'count'(_Ctx,#xqNode{}) -> ?atint(1);
+'count'(_Ctx,#{nk := _}) -> ?atint(1);
 'count'(_Ctx,#array{}) -> ?atint(1);
 'count'(_Ctx,Arg1) ->
    Size = xqerl_seq3:size(Arg1),
@@ -1393,7 +1380,7 @@ data1([#array{} = H|T]) ->
    data1(Flat ++ T);
 data1([#xqAtomicValue{} = H|T]) ->
    [H|data1(T)];
-data1([#xqNode{doc = P} = H|T]) when is_pid(P) ->
+data1([#{nk := _} = H|T]) ->
    [xqerl_types:atomize(H)|data1(T)];
 data1([H|T]) when ?noderecs(H) ->
    xqerl_node:atomize_nodes(H) ++ data1(T);
@@ -1511,7 +1498,7 @@ data1(_) ->
          EqFun = 
              fun({X,Y}) when is_list(X),is_list(Y) ->
                    'deep-equal'(Ctx,X,Y,CollFun) == ?bool(true);
-                ({#xqNode{} = N1,#xqNode{} = N2}) ->
+                ({#{nk := _} = N1,#{nk := _} = N2}) ->
                    A1 = xqerl_node:nodes_equal(N1,N2,CollFun),
                    A1 == {xqAtomicValue,'xs:boolean',true};
                 ({#xqAtomicValue{value = nan},#xqAtomicValue{value = nan}}) ->
@@ -1606,7 +1593,7 @@ data1(_) ->
                    {Key, A};
                 (#xqAtomicValue{} = A) ->
                    {A, A};
-                (#xqNode{} = N) ->
+                (#{nk := _} = N) ->
                    A = xqerl_types:atomize(N),
                    Key = xqerl_coll:sort_key(xqerl_types:value(A), Collation),
                    {Key, A}
@@ -1668,24 +1655,19 @@ distinct_vals(Vals,Fun) ->
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-%?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       {error,E} when E =/= relative -> % relative is a kludge to get correct error
          ?dbg("E",E),
          ?err('FODC0005');
       ResVal ->
-         {ok,Doc1} = case xqldb_docstore:select(ResVal) of
-                       {error,not_exists} -> % not in db
-                          ?dbg("FODC0002",ResVal),
-                          ?err('FODC0002');
-                        {error,failed} -> % was invalid xml
-                          ?dbg("FODC0002",ResVal),
-                          ?err('FODC0002');
-                       X ->
-                          X
-                    end,
-         [Roots] = xqldb_doc:roots(Doc1),
-         #xqNode{doc = Doc1, node = Roots}
+?dbg("ResVal",ResVal),
+         case xqldb_dml:select_doc(ResVal) of
+            {error,not_exists} -> % not in db
+               ?err('FODC0002');
+            D ->
+               D
+         end
    catch 
       _:_:StackTrace ->
          ?dbg("FODC0005",{BaseUri, Uri}),
@@ -1705,14 +1687,11 @@ distinct_vals(Vals,Fun) ->
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       %{error,unsafe} ->
       %   ?err('FODC0005');
+      {error,invalid_uri} ->
+         ?bool(false);
       ResVal ->
          ?dbg("ResVal",ResVal),
-         case xqldb_docstore:select(ResVal) of
-            {error,not_exists} ->
-               ?bool(false);
-            {ok,_} ->
-               ?bool(true)
-         end
+         ?bool(xqldb_dml:exists_doc(ResVal))
    catch
       %?ERROR_MATCH(?A("FORG0002")) -> ?bool(false);
       _:_:Stack ->
@@ -1736,8 +1715,8 @@ distinct_vals(Vals,Fun) ->
 'document-uri'(_,[]) -> [];
 'document-uri'(Ctx,[Node]) ->
    'document-uri'(Ctx,Node);
-'document-uri'(_Ctx,#xqNode{doc = Doc, node = Node}) -> 
-   [DUri] = xqldb_doc:document_uri(Doc, Node),
+'document-uri'(_Ctx, #{nk := _} = Node) -> 
+   DUri = xqldb_mem_nodes:document_uri(Node),
    if DUri == [];
       DUri == <<>> ->
          [];
@@ -1974,7 +1953,7 @@ pct_encode3([H|T]) ->
                         false;
                      {'EXIT',#xqError{} = E} ->
                         throw(E);
-                     #xqNode{} = N ->
+                     #{nk := _} = N ->
                         case catch xqerl_types:cast_as(N, 'xs:boolean') of
                            #xqAtomicValue{type = 'xs:boolean', value = V} ->
                               V;
@@ -2471,8 +2450,8 @@ unmask_static_mod_ns(T) -> T.
 'has-children'(_Ctx,[]) -> ?bool(false);
 'has-children'(Ctx,[Arg1]) ->
    'has-children'(Ctx,Arg1);
-'has-children'(_Ctx,#xqNode{doc = Doc, node = [Node]}) ->
-   case xqldb_doc:children(Doc, Node) of
+'has-children'(_Ctx, #{nk := _} = Node) ->
+   case xqldb_mem_nodes:children(Node) of
       [] ->
          ?bool(false);
       _ ->
@@ -2535,23 +2514,19 @@ unmask_static_mod_ns(T) -> T.
    'id'(Ctx,[Refs],Node);
 'id'(Ctx,Refs,[Node]) ->
    'id'(Ctx,Refs,Node);
-'id'(Ctx,Refs,#xqNode{doc = Doc,node = No}) ->
-   case xqldb_doc:document_ancestor_or_selfs(Doc, No) of
-      [[]] ->
+'id'(Ctx,Refs, #{nk := _} = Node) ->
+   case xqldb_xpath:ancestor_or_self_document_node(Node, {{any,any,any},[]}) of
+      [] ->
          ?err('FODC0001');
-      _ ->
-         %?dbg("O",O),
+      [D] ->
          TokF = fun(Val) ->
                       Norm = 'normalize-space'(Ctx, Val),
                       L = 'tokenize'(Ctx, Norm),
                       [xqerl_types:string_value(V) || V <- L]
                 end,
-         RefToks = lists:map(TokF, Refs),
+         RefToks = lists:flatmap(TokF, Refs),
          try
-            L = [#xqNode{doc = Doc,node = [N]} 
-                || TokList <- RefToks,
-                   N <- xqldb_doc:id(Doc, TokList)],
-            lists:usort(L)
+            xqldb_mem_nodes:id(D, RefToks)
          catch 
             ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
             ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
@@ -2580,23 +2555,19 @@ unmask_static_mod_ns(T) -> T.
    'idref'(Ctx,[Refs],Node);
 'idref'(Ctx,Refs,[Node]) ->
    'idref'(Ctx,Refs,Node);
-'idref'(Ctx,Refs,#xqNode{doc = Doc,node = No}) -> % dtd-infoset dependency 
-   case xqldb_doc:document_ancestor_or_selfs(Doc, No) of
-      [[]] ->
+'idref'(Ctx,Refs, #{nk := _} = Node) -> % dtd-infoset dependency 
+   case xqldb_xpath:ancestor_or_self_document_node(Node, {{any,any,any},[]}) of
+      [] ->
          ?err('FODC0001');
-      _ ->
+      [D] ->
          RefF = fun(Val) ->
                       Norm = 'normalize-space'(Ctx, Val),
                       L = 'tokenize'(Ctx, Norm),
                       [xqerl_types:string_value(V) || V <- L]
                 end,
-         RefToks = lists:map(RefF, Refs),
+         RefToks = lists:flatmap(RefF, Refs),
          try
-            L = [#xqNode{doc = Doc,node = [N]} 
-                || TokList <- RefToks,
-                   N <- xqldb_doc:idref(Doc, TokList)],
-            ?dbg("L",L),
-            lists:usort(L)
+            xqldb_mem_nodes:idref(D, RefToks)
          catch 
             ?ERROR_MATCH(?A("XPDY0050")) -> ?err('FODC0001');
             ?ERROR_MATCH(?A("XPTY0020")) -> ?err('XPTY0004');
@@ -2670,14 +2641,9 @@ unmask_static_mod_ns(T) -> T.
 'innermost'(_Ctx,Arg1) -> 
    %%    $nodes except $nodes/ancestor::node()
    try
-      Grp = xqerl_seq3:group_node_seq(Arg1),
-      ?dbg("Grp",Grp),
-      [#xqNode{doc = P, node = [N]}
-      ||
-       {P,I} <- Grp,
-       N <- xqldb_doc:innermost(P, I)
-      ]
+      xqldb_mem_nodes:innermost(Arg1)
    catch 
+      {error, non_node} -> ?err('XPTY0004');
       ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
       _:E -> throw(E)
    end.
@@ -2689,9 +2655,9 @@ unmask_static_mod_ns(T) -> T.
          [] | xq_types:sequence(xq_types:xs_string()).
 'in-scope-prefixes'(Ctx, [Arg1]) ->
    'in-scope-prefixes'(Ctx, Arg1);
-'in-scope-prefixes'(_Ctx, #xqNode{doc = Doc, node = Node}) -> 
-   [InScopeNs] = xqldb_doc:inscope_namespaces(Doc, Node),
-   Filt = fun({_,'no-namespace'}) ->
+'in-scope-prefixes'(_Ctx, #{nk := _} = Node) -> 
+   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
+   Filt = fun({_,<<>>}) ->
                 false;
              ({<<>>,<<>>}) ->
                 false;
@@ -2701,7 +2667,9 @@ unmask_static_mod_ns(T) -> T.
                 {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
           end,
    ?dbg("in-scope-prefixes",InScopeNs),
-   lists:usort(lists:filtermap(Filt, InScopeNs)).
+   % xml is always in scope.
+   lists:usort([#xqAtomicValue{type = 'xs:NCName', value = <<"xml">>}|
+                  lists:filtermap(Filt, InScopeNs)]).
 
 %% Returns a sequence constructed by inserting an item or a sequence of items 
 %% at a given position within an existing sequence. 
@@ -2747,10 +2715,34 @@ unmask_static_mod_ns(T) -> T.
 % ignore validate option
 'json-doc'(Ctx,Arg1,#{?A("validate") := _} = Arg2) ->
    'json-doc'(Ctx,Arg1,maps:remove(?A("validate"),Arg2));
-'json-doc'(Ctx,Arg1,Arg2) -> 
-   ok = check_json_doc_opts(Arg2),
-   Txt = 'unparsed-text'(Ctx,Arg1),
-   'parse-json'(Ctx,Txt,Arg2).
+'json-doc'(#{'base-uri' := _BaseUri0} = Ctx,Href,Opts) -> 
+   try
+      Txt = 'unparsed-text'(Ctx,Href),
+      ok = check_json_doc_opts(Opts),
+      'parse-json'(Ctx,Txt,Opts)
+%%       %db_json_to_item
+%%       Uri = xqerl_types:value(Href),
+%%       BaseUri = xqerl_types:value(BaseUri0),
+%%       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
+%%       Options = map_options_to_list(Ctx, Opts),
+%%       case xqerl_json:db_json_to_item(ResVal, Options) of
+%%          {error, not_exists} ->
+%%             ?err('FOUT1170');
+%%          {error, _} ->
+%%             ?err('FOJS0001');
+%%          JDoc ->
+%%             JDoc
+%%       end            
+   catch 
+      ?ERROR_MATCH(?A("FORG0002")) -> ?err('FOUT1170');
+      ?ERROR_MATCH(?A("XQST0046")) -> ?err('FOUT1170');
+      _:#xqError{} = E -> throw(E);
+      _:_:Stack -> 
+         ?dbg("Stack",Stack),
+         ?err('FOUT1170')
+   end.
+%%    Txt = 'unparsed-text'(Ctx,Arg1),
+%%    'parse-json'(Ctx,Txt,Arg2).
 
 % no escape and fallback
 check_json_doc_opts(#{?A("escape") := {_,?bool(true)},
@@ -2824,13 +2816,13 @@ check_json_to_xml_opts(_) ->
 'lang'(_,[],_) -> ?bool(false);
 'lang'(Ctx,Testlang0,[Node]) ->
    'lang'(Ctx,Testlang0,Node);
-'lang'(_Ctx,Testlang0,#xqNode{doc = Doc, node = [Node]}) -> 
+'lang'(_Ctx,Testlang0,#{nk := _} = Node) -> 
    try
       ?dbg("Testlang0",Testlang0),
-      case xqldb_doc:lang(Doc, Node) of
+      case xqldb_mem_nodes:lang(Node) of
          [] ->
             ?bool(false);
-         [NStr] ->
+         NStr ->
             ?dbg("NStr",NStr),
             Str = string:lowercase(NStr),
             ?dbg("Str",Str),
@@ -2915,7 +2907,7 @@ check_json_to_xml_opts(_) ->
          xq_types:xs_string().
 'lower-case'(_,[]) -> ?str(<<>>);
 'lower-case'(Ctx,[Arg1]) -> 'lower-case'(Ctx,Arg1);
-'lower-case'(_,#xqNode{} = Arg1) ->
+'lower-case'(_,#{nk := _} = Arg1) ->
    Str = string_value(Arg1),
    Upp = string:lowercase(Str),
    ?str(Upp);
@@ -3056,7 +3048,7 @@ compare_convert_seq([], Acc, SeqType) ->
    {Acc,SeqType};
 compare_convert_seq([#array{data = L}|T], Acc, SeqType) ->
    compare_convert_seq(L ++ T, Acc, SeqType);
-compare_convert_seq([#xqNode{} = H|T], Acc, SeqType) ->
+compare_convert_seq([#{nk := _} = H|T], Acc, SeqType) ->
    H1 = xqerl_seq3:singleton_value(xqerl_types:atomize(H)),
    compare_convert_seq([H1|T], Acc, SeqType);
 compare_convert_seq([#xqAtomicValue{type = 'xs:untypedAtomic'} = H|T], 
@@ -3306,8 +3298,12 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 'namespace-uri'(_Ctx,[]) -> ?atm('xs:anyURI',<<>>);
 'namespace-uri'(_Ctx,[Arg1]) ->
    'namespace-uri'(_Ctx,Arg1);
-'namespace-uri'(_Ctx,#xqNode{doc = Doc, node = [Node]}) ->
-   case xqldb_doc:node_name(Doc, Node) of
+'namespace-uri'(_Ctx, #{nk := Nk} = Node) ->
+   case xqldb_mem_nodes:node_name(Node) of
+      [] ->
+         ?atm('xs:anyURI',<<>>);
+      _ when Nk == namespace ->
+         ?atm('xs:anyURI',<<>>);
       {<<>>,_,_} ->
          ?atm('xs:anyURI',<<>>);
       {Uri,_,_} ->
@@ -3325,11 +3321,13 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
          xq_types:xs_anyURI().
 'namespace-uri-for-prefix'(Ctx,Prefix,[Element]) ->
    'namespace-uri-for-prefix'(Ctx,Prefix,Element);
-'namespace-uri-for-prefix'(_Ctx,Prefix,#xqNode{doc = Doc, node = Node}) -> 
+'namespace-uri-for-prefix'(_Ctx, Prefix, #{nk := _} = Node) -> 
    P1 = xqerl_types:string_value(Prefix),
-   [InScopeNs] = xqldb_doc:inscope_namespaces(Doc, Node),
-   %?dbg("InScopeNs",InScopeNs),
+   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
+?dbg("InScopeNs",InScopeNs),
    case lists:keyfind(P1, 1, InScopeNs) of
+      false when P1 == <<"xml">> ->
+         ?atm('xs:anyURI', <<"http://www.w3.org/XML/1998/namespace">>);
       false ->
          [];
       {_,<<>>} ->
@@ -3371,9 +3369,9 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
          [] | xq_types:xs_boolean().
 'nilled'(_,[]) -> [];
 'nilled'(C,[Node]) -> 'nilled'(C,Node);
-'nilled'(_,#xqNode{doc = Doc, node = Node}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      [element] ->
+'nilled'(_, #{nk := Nk}) ->
+   case Nk of
+      element ->
          ?bool(false);
       _ ->
          []
@@ -3393,20 +3391,23 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 'node-name'(Ctx, [Arg]) ->
    'node-name'(Ctx, Arg);
 'node-name'(_Ctx, #xqAtomicValue{}) -> ?err('XPTY0004');
-'node-name'(_Ctx, #xqNode{doc = Doc, node = Node}) ->
+'node-name'(_Ctx, #{nk := Nk,
+                    nn := NodeName}) ->
    %?dbg("Node",Node),
-   case xqldb_doc:node_name(Doc, Node) of
-      [[]] ->
+   case NodeName of
+      {<<>>,<<>>,<<>>} ->
          [];
-      [{<<>>,<<>>,<<>>}] ->
-         [];
-      [{<<>>,Px,Ln}] ->
+      {_,Px,_} when Nk == namespace ->
+         Q = #qname{namespace = 'no-namespace', prefix = <<>>, local_name = Px},
+         ?atm('xs:QName',Q);
+      {<<>>,Px,Ln} ->
          Q = #qname{namespace = 'no-namespace', prefix = Px, local_name = Ln},
          ?atm('xs:QName',Q);
-      [{Ns,Px,Ln}] ->
+      {Ns,Px,Ln} ->
          Q = #qname{namespace = Ns, prefix = Px, local_name = Ln},
          ?atm('xs:QName',Q)
    end;
+'node-name'(_Ctx, #{nk := _}) -> [];
 'node-name'(_Ctx, []) ->
    [].
 
@@ -3551,14 +3552,9 @@ shrink_spaces(<<H,T/binary>>) ->
 'outermost'(_Ctx,Arg1) -> 
    %%    $nodes[not(ancestor::node() intersect $nodes)]/.
    try
-      Grp = xqerl_seq3:group_node_seq(Arg1),
-      ?dbg("Grp",Grp),
-      [#xqNode{doc = P, node = [N]}
-      ||
-       {P,I} <- Grp,
-       N <- xqldb_doc:outermost(P, I)
-      ]
+      xqldb_mem_nodes:outermost(Arg1)
    catch 
+      {error, non_node} -> ?err('XPTY0004');
       ?ERROR_MATCH(?A("XPTY0019")) -> ?err('XPTY0004');
       _:E -> throw(E)
    end.
@@ -3616,8 +3612,9 @@ get_bool(_) ->
 
 get_str(#xqAtomicValue{type = 'xs:string', value = B}) ->
    B;
-get_str(#xqNode{} = N) ->
+get_str(#{nk := _} = N) ->
    xqerl_types:string_value(N);
+get_str([O]) -> get_str(O);
 get_str(_) ->
    ?err('XPTY0004').
 
@@ -3742,11 +3739,7 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
                      C ->
                         C
                   end,
-            {ok,NewDoc} = xqldb_parse:read_bin({Cwd,BaseUri1},Bin),
-            %?dbg("NewDoc",NewDoc),
-            {ok,DocPid} = xqldb_doc:start_link(NewDoc),
-            [Roots] = xqldb_doc:roots(DocPid),
-            #xqNode{doc = DocPid, node = Roots}
+            xqldb_mem_nodes:parse_binary(Bin, {Cwd, BaseUri1})
          catch 
             _:E ->
                ?dbg("E",E),
@@ -3763,7 +3756,22 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
          [] | xq_types:xml_document().
 'parse-xml-fragment'(_,[]) -> [];
 'parse-xml-fragment'(Ctx,Arg1) -> 
-   'parse-xml'(Ctx,Arg1).
+   String = trim_declaration(xqerl_types:string_value(Arg1)),
+   String1 = <<"<x>",String/binary,"</x>">>,
+   Doc = 'parse-xml'(Ctx, ?str(String1)),
+   #{ch := [#{ch := Ch}]} = Doc,
+   Doc#{ch => Ch}.
+
+trim_declaration(<<"<?xml",Rest/binary>>) ->
+   trim_declaration_1(Rest, false);
+trim_declaration(Rest) -> Rest.
+
+trim_declaration_1(<<"?>",Rest/binary>>, true) -> Rest;
+trim_declaration_1(<<"?>",_/binary>>, false) -> ?err('FODC0006');
+trim_declaration_1(<<"standalone",_/binary>>, _) -> ?err('FODC0006');
+trim_declaration_1(<<"encoding=",Rest/binary>>, _) -> trim_declaration_1(Rest, true);
+trim_declaration_1(<<_/utf8,Rest/binary>>, V) -> trim_declaration_1(Rest, V);
+trim_declaration_1(<<>>, _) -> <<>>.
 
 %% Returns a path expression that can be used to select the supplied node 
 %% relative to the root of its containing document. 
@@ -3780,44 +3788,45 @@ map_options_to_list(#{'base-uri' := BaseUri} = Ctx, Map) ->
          [] | xq_types:xs_string().
 'path'(_,[]) -> [];
 'path'(Ctx,[Arg1]) -> 'path'(Ctx,Arg1);
-'path'(_Ctx,#xqNode{doc = Doc, node = [Node]}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
+'path'(_Ctx, #{nk := _} = Node) ->
+   case xqldb_mem_nodes:node_kind(Node) of
       document ->
          ?str(?A("/"));
       _ ->
-         Path = lists:reverse([Node|xqldb_doc:path_to_root(Doc, Node)]),
-         ?dbg("Path",Path),
-         path_1(Doc,Path,[])
+         Path = xqldb_xpath:document_order(xqldb_xpath:ancestor_or_self_node(Node, {[]})),
+         ?dbg("Path",length(Path)),
+         path_1(Path,[],xqldb_mem_nodes:parent(Node))
    end;
 'path'(_,_) -> 
    ?err('XPTY0004').
 
-path_1(_,[],String) -> ?str(String);
-path_1(Doc,[Root|Rest],[]) ->
-   case xqldb_doc:node_kind(Doc, Root) of
+path_1([], String, _) -> ?str(String);
+path_1([Root|Rest], [], _) ->
+   case xqldb_mem_nodes:node_kind(Root) of
       document ->
-         path_1(Doc,Rest,?A("/"));
+         path_1(Rest,?A("/"), Root);
       _ ->
-         path_1(Doc,Rest,?A("Q{http://www.w3.org/2005/xpath-functions}root()"))
+         path_1(Rest,?A("Q{http://www.w3.org/2005/xpath-functions}root()"), Root)
    end;
-path_1(Doc,[Node|Rest],Acc) ->
-   Kind = xqldb_doc:node_kind(Doc, Node),
-   path_2(Kind, Doc,[Node|Rest],Acc).
+path_1([Node|Rest],Acc, Parent) ->
+   Kind = xqldb_mem_nodes:node_kind(Node),
+   path_2(Kind, [Node|Rest],Acc, Parent).
 
-path_2(element,Doc,[Node|Rest],Acc) ->
-   {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-   [Pre] = xqldb_doc:named_element_preceding_siblings(Doc, [Node], {Ns,Ln}),
+path_2(element,[#{id := NId} = Node|Rest],Acc, Parent) ->
+   {Ns,_,Ln} = xqldb_mem_nodes:node_name(Node),
+   Pre = [N || 
+          #{id := Id} = N <- xqldb_xpath:child_element(Parent, {{Ns,Ln,any},[]}),
+          Id < NId],
    Pos = length(Pre) + 1,
-   Ns1 = if Ns == 'no-namespace' -> <<>>; true -> Ns end,
-   Str = <<"Q{", Ns1/binary, "}", Ln/binary, "[", (integer_to_binary(Pos))/binary, "]">>,
+   Str = <<"Q{", Ns/binary, "}", Ln/binary, "[", (integer_to_binary(Pos))/binary, "]">>,
    NewAcc = if Acc == ?A("/") ->
                   <<Acc/binary, Str/binary>>;
                true ->
                   <<Acc/binary, "/", Str/binary>>
             end,
-   path_1(Doc,Rest,NewAcc);
-path_2(attribute,Doc,[Node|Rest],Acc) ->
-   {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
+   path_1(Rest,NewAcc, Node);
+path_2(attribute,[Node|Rest],Acc, _) ->
+   {Ns,_,Ln} = xqldb_mem_nodes:node_name(Node),
    Str = if Ns == <<>> -> 
                <<"@", Ln/binary>>;
             true -> 
@@ -3828,9 +3837,11 @@ path_2(attribute,Doc,[Node|Rest],Acc) ->
                true ->
                   <<Acc/binary, "/", Str/binary>>
             end,
-   path_1(Doc,Rest,NewAcc);
-path_2(text,Doc,[Node|Rest],Acc) ->
-   [Pre] = xqldb_doc:text_preceding_siblings(Doc, [Node]),
+   path_1(Rest,NewAcc, []);
+path_2(text,[#{id := NId}|Rest],Acc, Parent) ->
+   Pre = [N || 
+          #{id := Id} = N <- xqldb_xpath:child_text(Parent, {[]}),
+          Id < NId],
    Pos = length(Pre) + 1,
    Str = <<"text()[", (integer_to_binary(Pos))/binary, "]">> ,
    NewAcc = if Acc == ?A("/") ->
@@ -3838,9 +3849,11 @@ path_2(text,Doc,[Node|Rest],Acc) ->
                true ->
                   <<Acc/binary, "/", Str/binary>>
             end,
-   path_1(Doc,Rest,NewAcc);
-path_2(comment,Doc,[Node|Rest],Acc) ->
-   [Pre] = xqldb_doc:comment_preceding_siblings(Doc, [Node]),
+   path_1(Rest,NewAcc, []);
+path_2(comment,[#{id := NId}|Rest],Acc, Parent) ->
+   Pre = [N || 
+          #{id := Id} = N <- xqldb_xpath:child_comment(Parent, {[]}),
+          Id < NId],
    Pos = length(Pre) + 1,
    Str = <<"comment()[", (integer_to_binary(Pos))/binary, "]">> ,
    NewAcc = if Acc == ?A("/") ->
@@ -3848,10 +3861,12 @@ path_2(comment,Doc,[Node|Rest],Acc) ->
                true ->
                   <<Acc/binary, "/", Str/binary>>
             end,
-   path_1(Doc,Rest,NewAcc);
-path_2('processing-instruction',Doc,[Node|Rest],Acc) ->
-   {_,_,Ln} = xqldb_doc:node_name(Doc, Node),
-   [Pre] = xqldb_doc:named_pi_preceding_siblings(Doc, [Node], Ln),
+   path_1(Rest,NewAcc, []);
+path_2('processing-instruction',[#{id := NId} = Node|Rest],Acc, Parent) ->
+   {_,_,Ln} = xqldb_mem_nodes:node_name(Node),
+   Pre = [N || 
+          #{id := Id} = N <- xqldb_xpath:child_processing_instruction(Parent, {{Ln},[]}),
+          Id < NId],
    Pos = length(Pre) + 1,
    Str = <<"processing-instruction(", Ln/binary,")[",(integer_to_binary(Pos))/binary,"]">>,
    NewAcc = if Acc == ?A("/") ->
@@ -3859,20 +3874,21 @@ path_2('processing-instruction',Doc,[Node|Rest],Acc) ->
                true ->
                   <<Acc/binary,"/",Str/binary>>
             end,
-   path_1(Doc,Rest,NewAcc);
-path_2(namespace,Doc,[Node|Rest],Acc) ->
-   Str = case xqldb_doc:node_name(Doc, Node) of
-            {_,_,<<>>} ->
-               ?A("namespace::*[Q{http://www.w3.org/2005/xpath-functions}local-name()=\"\"]");
-            {_,_,Px} ->
-               <<"namespace::",Px/binary>>
-         end,
-   NewAcc = if Acc == ?A("/") ->
-                  <<Acc/binary,Str/binary>>;
-               true ->
-                  <<Acc/binary,"/",Str/binary>>
-            end,
-   path_1(Doc,Rest,NewAcc).
+   path_1(Rest,NewAcc, []).
+%% ;
+%% path_2(namespace,[Node|Rest],Acc) ->
+%%    Str = case xqldb_mem_nodes:node_name(Node) of
+%%             {_,_,<<>>} ->
+%%                ?A("namespace::*[Q{http://www.w3.org/2005/xpath-functions}local-name()=\"\"]");
+%%             {_,_,Px} ->
+%%                <<"namespace::",Px/binary>>
+%%          end,
+%%    NewAcc = if Acc == ?A("/") ->
+%%                   <<Acc/binary,Str/binary>>;
+%%                true ->
+%%                   <<Acc/binary,"/",Str/binary>>
+%%             end,
+%%    path_1(Doc,Rest,NewAcc).
 
 %% Returns the context position from the dynamic context. 
 %% fn:position() as xs:integer
@@ -4101,13 +4117,11 @@ string_value(At) -> xqerl_types:string_value(At).
 'resolve-QName'(Ctx,String,[Element]) ->
    'resolve-QName'(Ctx,String,Element);
 
-'resolve-QName'(Ctx,String,#xqNode{doc = Doc, node = Node}) -> 
-   [InScopeNs] = xqldb_doc:inscope_namespaces(Doc, Node),
+'resolve-QName'(Ctx, String, #{nk := _} = Node) -> 
+   InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
    IsNs = lists:map(fun({P,U}) ->
                         #xqNamespace{namespace = U, prefix = P}
                     end, InScopeNs) ++ maps:get(namespaces, Ctx,[]),
-   %?dbg("InScopeNs",InScopeNs),
-   %?dbg("IsNs",IsNs),
    try
       xqerl_types:cast_as(String, 'xs:QName', IsNs)
    catch 
@@ -4187,14 +4201,12 @@ string_value(At) -> xqerl_types:string_value(At).
              [] | xq_types:xml_node()) -> 
          [] | xq_types:xml_node().
 'root'(_Ctx,[]) -> [];
-'root'(_Ctx,#xqNode{doc = Doc}) ->
-   case [#xqNode{doc = Doc, node = [A2]} ||
-         A1 <- xqldb_doc:roots(Doc),
-         A2 <- A1] of
-      [] ->
-         [];
-      [H] ->
-         H
+'root'(_Ctx, #{nk := _} = Node) ->
+   case xqldb_xpath:ancestor_or_self_node(Node,{[]}) of
+      [H|_] ->
+         H;
+      _ ->
+         []
    end;
 'root'(Ctx,[Arg1]) ->
    'root'(Ctx,Arg1);
@@ -4479,15 +4491,15 @@ sort1(Ctx,A,B,Coll) ->
          xq_types:xs_string().
 'string'(Ctx,[V]) -> 'string'(Ctx,V); 
 'string'(_Ctx,[]) -> ?str(<<>>); 
+'string'(_Ctx,Node) when ?noderecs(Node) ->
+   Atomized = xqerl_types:atomize(Node),
+   xqerl_types:cast_as(Atomized, 'xs:string');
 'string'(_Ctx,#xqFunction{}) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_function(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,Fx) when is_map(Fx) -> ?err('FOTY0014');
 'string'(_Ctx,#array{}) -> ?err('FOTY0014');
 'string'(_Ctx,#xqAtomicValue{} = Av) ->
    xqerl_types:cast_as(Av, 'xs:string');
-'string'(_Ctx,Node) when ?noderecs(Node) ->
-   Atomized = xqerl_types:atomize(Node),
-   xqerl_types:cast_as(Atomized, 'xs:string');
 'string'(_Ctx,Arg1) -> 
    xqerl_types:cast_as(Arg1, 'xs:string').
 
@@ -5016,23 +5028,15 @@ zip_map_trans(<<H/utf8,T/binary>>,<<TH/utf8,TT/binary>>) ->
       BaseUri = xqerl_types:value(BaseUri0),
       ResVal = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Enc = xqerl_types:string_value(Encoding),
-      {ok,P} = 
-        case xqldb_resstore:select(ResVal) of
-           {error,_} ->
-              % give it a try if not there yet... 
-              _ = xqldb_resstore:insert(ResVal),
-              xqldb_resstore:select(ResVal);
-              %?dbg("FEE",FEE), 
-              %FEE;
-           {ok,P1} ->
-              {ok,P1}
-        end,
-      Binary = xqldb_res:get_binary(P),
-      %{ok,Binary} = xqerl_ds:lookup_res(ResVal),
-      if Enc =:= <<>> ->
-            ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary)));
-         true ->
-            ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary, Enc)))
+      case xqldb_dml:select_resource(ResVal) of
+         {error, _} ->
+            ?err('FOUT1170');
+         Binary ->
+            if Enc =:= <<>> ->
+                  ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary)));
+               true ->
+                  ?str( valid_cps(xqerl_lib:bin_to_utf8(Binary, Enc)))
+            end
       end
    catch 
       ?ERROR_MATCH(?A("FORG0002")) -> ?err('FOUT1170');
@@ -5120,7 +5124,7 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
          xq_types:xs_string().
 'upper-case'(_Ctx,[]) -> ?str(<<>>);
 'upper-case'(Ctx,[Arg1]) -> 'upper-case'(Ctx,Arg1);
-'upper-case'(_,#xqNode{} = Arg1) ->
+'upper-case'(_,#{nk := _} = Arg1) ->
    Str = string_value(Arg1),
    Upp = string:uppercase(Str),
    #xqAtomicValue{type = 'xs:string', value = Upp};
@@ -5137,15 +5141,10 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
 %% fn:uri-collection() as xs:anyURI*
 -spec 'uri-collection'(xq_types:context()) -> 
          [] | xq_types:sequence(xq_types:xs_anyURI()).
-'uri-collection'(_Ctx) -> 
-   case xqldb_docstore:select_collection_uris(<<>>) of
-      {ok,Vals} ->
-         lists:map(fun(V) ->
-                         ?atm('xs:anyURI',V)
-                   end, Vals);
-      _ ->
-         ?err('FODC0002')
-   end.
+'uri-collection'(#{default_collection := DC} = Ctx) ->
+   'uri-collection'(Ctx, DC);
+'uri-collection'(_Ctx) ->
+   ?err('FODC0002').
 
 %% fn:uri-collection($arg as xs:string?) as xs:anyURI*
 -spec 'uri-collection'(xq_types:context(),
@@ -5158,14 +5157,11 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
    BaseUri = xqerl_types:value(BaseUri0),
    try 
       CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
-      case xqldb_docstore:select_collection_uris(CUri) of
-         {ok,Vals} ->
-            lists:map(fun(V) ->
-                            ?atm('xs:anyURI',V)
-                      end, Vals);
-         Other ->
-            ?dbg("Other",Other),
-            ?err('FODC0002')
+      Vals = xqldb_dml:select_paths(CUri),
+      if Vals == [] -> % empty/non-existing collection
+            throw(error);
+         true ->
+            [?atm('xs:anyURI',V) || V <- Vals]
       end
    catch
       _:_ ->
@@ -5189,7 +5185,7 @@ to_lines(<<C/utf8,Rest/binary>>,Sub,Acc) ->
          [] | xq_types:xs_string().
 'xml-to-json'(_Ctx,[],_Arg2) -> [];
 'xml-to-json'(Ctx,[V],Arg2) -> 'xml-to-json'(Ctx,V,Arg2);
-'xml-to-json'(Ctx,#xqNode{} = XML,Arg2) -> 
+'xml-to-json'(Ctx,#{nk := _} = XML,Arg2) -> 
    Options = map_options_to_list(Ctx, Arg2),
    xqerl_json:xml_to_string(XML, Options);
 'xml-to-json'(_Ctx,_Arg1,_Arg2) -> 

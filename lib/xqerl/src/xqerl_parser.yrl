@@ -828,15 +828,14 @@ end.
 %% -record(xqKindTest, {
 %%    kind = node :: node | text | comment | 'namespace-node' | element | attribute | 'document-node' | 'processing-instruction',
 %%    name = #qname{prefix = "*", local_name = "*"} :: #qname{},
-%%    type,
-%%    test
+%%    type
 %% }).
 %% -record(xqAxisStep, {
 %%    direction  = forward :: forward | reverse,
 %%    axis       = child :: child | descendant | attribute | self | 
 %%                  'descendant-or-self' | 'following-sibling' | following | namespace | 
 %%                  parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
-%%    node_test  = #xqKindTest{} :: #xqNameTest{} | #xqKindTest{},
+%%    node_test  = #xqKindTest{} :: #xqKindTest{},
 %%    predicates :: [],
 %%    next       :: #xqAxisStep{}
 %% }).
@@ -854,8 +853,8 @@ end.
 %%                                                                   '$1'
 %%                                                             end.
 % [112]    ForwardStep    ::=      (ForwardAxis NodeTest) | AbbrevForwardStep   
-'ForwardStep'            -> 'ForwardAxis' 'NodeTest' : {'$1', '$2'}.
-'ForwardStep'            -> 'AbbrevForwardStep'      : '$1'.
+'ForwardStep'            -> 'ForwardAxis' 'NodeTest' : name_to_kind_test({'$1', '$2'}).
+'ForwardStep'            -> 'AbbrevForwardStep'      : name_to_kind_test('$1').
 % [113]    ForwardAxis    ::=      ("child" "::")| ("descendant" "::")| ("attribute" "::")| ("self" "::")| 
 %                                  ("descendant-or-self" "::")| ("following-sibling" "::")| ("following" "::") 
 'ForwardAxis'            -> 'child' '::'              : 'child'.
@@ -876,7 +875,7 @@ end.
                                                   {'child', '$1'}
                                              end.
 % [115]    ReverseStep    ::=      (ReverseAxis NodeTest) | AbbrevReverseStep   
-'ReverseStep'            -> 'ReverseAxis' 'NodeTest' : {'$1', '$2'}.
+'ReverseStep'            -> 'ReverseAxis' 'NodeTest' : name_to_kind_test({'$1', '$2'}).
 'ReverseStep'            -> 'AbbrevReverseStep'      : {'$1', #xqKindTest{kind = 'node'}}.
 % [116]    ReverseAxis    ::=      ("parent" "::") | ("ancestor" "::")| ("preceding-sibling" "::")| ("preceding" "::")| ("ancestor-or-self" "::")   
 'ReverseAxis'            -> 'parent' '::'            : 'parent'.
@@ -1275,8 +1274,9 @@ end.
 % [189]    AnyKindTest    ::=      "node" "(" ")" 
 'AnyKindTest'            -> 'node' '(' ')' : #xqKindTest{kind = 'node'}.
 % [190]    DocumentTest      ::=      "document-node" "(" (ElementTest | SchemaElementTest)? ")"
-'DocumentTest'           -> 'document-node' '(' 'ElementTest' ')'       : #xqKindTest{kind = 'document-node', test = '$3'}.
-'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : #xqKindTest{kind = 'document-node', test = '$3'}.
+'DocumentTest'           -> 'document-node' '(' 'ElementTest' ')'       : ('$3')#xqKindTest{kind = 'document-node'}.
+'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : ?err('XPST0008').
+%'DocumentTest'           -> 'document-node' '(' 'SchemaElementTest' ')' : ('$3')#xqKindTest{kind = 'document-node'}.
 'DocumentTest'           -> 'document-node' '(' ')'                     : #xqKindTest{kind = 'document-node'}.
 % [191]    TextTest    ::=      "text" "(" ")" 
 'TextTest'               -> 'text' '(' ')' : #xqKindTest{kind = 'text'}.
@@ -1790,4 +1790,10 @@ check_uri_hints(Hints) ->
      end || H <- Hints],
    Hints.
 
+name_to_kind_test({attribute, #xqNameTest{name = Nm}}) ->
+   {attribute, #xqKindTest{kind = attribute, name = Nm}};
+name_to_kind_test({Axis, #xqNameTest{name = Nm}}) ->
+   {Axis, #xqKindTest{kind = element, name = Nm}};
+name_to_kind_test({Axis, Test}) ->
+   {Axis, Test}.
   

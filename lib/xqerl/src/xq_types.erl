@@ -83,17 +83,17 @@
 
 -type xq_item() :: xs_anyAtomicType() | xml_node() | xq_function().
 
--type xml_node() :: #xqNode{} |
+-type xml_node() :: #{nk := _, _ := _} |
         xml_attribute() | xml_comment() | xml_document() | 
         xml_element() | xml_namespace() | xml_pi() | xml_text().
 
--type xml_attribute() :: #xqAttributeNode{} | #xqNode{}.
--type xml_comment() :: #xqCommentNode{} | #xqNode{}.
--type xml_document() :: #xqDocumentNode{} | #xqNode{}.
--type xml_element() :: #xqElementNode{} | #xqNode{}.
--type xml_namespace() :: #xqNamespaceNode{} | #xqNode{}.
--type xml_pi() :: #xqProcessingInstructionNode{} | #xqNode{}.
--type xml_text() :: #xqTextNode{} | #xqNode{}.
+-type xml_attribute() :: #xqAttributeNode{} | #{nk := attribute, _ := _}.
+-type xml_comment() :: #xqCommentNode{} | #{nk := comment, _ := _}.
+-type xml_document() :: #xqDocumentNode{} | #{nk := document, _ := _}.
+-type xml_element() :: #xqElementNode{} | #{nk := element, _ := _}.
+-type xml_namespace() :: #xqNamespaceNode{} .
+-type xml_pi() :: #xqProcessingInstructionNode{} | #{nk := 'processing-instruction', _ := _}.
+-type xml_text() :: #xqTextNode{} | #{nk := test, _ := _}.
 
 
 

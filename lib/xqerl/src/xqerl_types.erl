@@ -81,14 +81,14 @@ is_date_type(_Type) -> false.
 atomize([]) -> [];
 atomize(#xqAtomicValue{} = A) -> A;
 atomize(#array{} = A) -> xqerl_array:flatten(#{}, A);
-atomize(#xqNode{doc = D, node = N}) when is_pid(D) ->
-   case xqerl_lib:lget({atomize,D,N}) of
-      [] ->
-         F = fun(Doc) -> xqldb_xdm:atomize(Doc, N) end,
-         [Val] = xqldb_doc:run(D, F),
-         xqerl_lib:lput({atomize,D,N}, Val),
-         Val;
-      V -> V
+atomize(#{nk := Nk} = Node) ->
+   Str = xqldb_mem_nodes:string_value(Node),
+   if Nk =:= comment;
+      Nk =:= namespace;
+      Nk =:= 'processing-instruction' ->
+         ?xav('xs:string', Str);
+      true ->
+         ?xav('xs:untypedAtomic', Str)
    end;
 atomize(L) when is_list(L) -> 
    lists:map(fun atomize/1, L);
@@ -98,17 +98,15 @@ atomize(O) ->
 
 
 return_value([]) -> ?seq:empty();
-% blocked for now
-%% return_value(#xqNode{doc = Doc, node = Node}) when is_pid(Doc) ->
-%%    {ok,Bin} = xqldb_doc:export(Doc),
-%%    {Bin,Node};
-%return_value(#xqElementNode{} = N) -> xqerl_node:new_fragment([], N);
 return_value(#xqAtomicValue{} = A) -> A;
 return_value(#array{} = A) -> A;
 return_value(#xqRange{} = R) -> xqerl_seq3:to_list(R);
 return_value(#xqFunction{} = F) -> F;
 %return_value(#xqFunction{}) -> ?err('XPTY0004');
 return_value(Fun) when is_function(Fun) -> Fun;
+return_value(#{nk := _,
+               pt := _} = Map) -> % remove parent node
+   maps:remove(pt,Map);
 return_value(Map) when is_map(Map) -> Map;
 return_value([Other]) ->
    return_value(Other);
@@ -151,9 +149,8 @@ string_value(N) when is_record(N, xqElementNode);
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode) ->
    string_value(cast_as(xqerl_node:atomize_nodes(N), 'xs:string'));
-string_value(#xqNode{} = Nd) ->
+string_value(#{nk := _} = Nd) ->
    string_value(cast_as(Nd, 'xs:string'));
-
 string_value(#xqFunction{}) ->
    ?err('FOTY0013');
 string_value(Map) when is_map(Map) ->
@@ -164,7 +161,7 @@ string_value([H|T]) ->
    T2 = << <<" ", (string_value(Av))/binary>> || Av <- T  >>, 
    << (string_value(H))/binary, T2/binary >>.
 
-value(#xqNode{} = N) ->
+value(#{nk := _} = N) ->
    value(atomize(N));
 value(#xqFunction{body = V}) -> V;
 value([#xqFunction{body = V}]) -> V;
@@ -232,7 +229,7 @@ cast_as_seq(#xqAtomicValue{type = AType} = Av,
       true ->
          ?err('FORG0001')
    end;
-cast_as_seq(#xqNode{} = Av, SeqType) ->
+cast_as_seq(#{nk := _} = Av, SeqType) ->
    cast_as(Av, SeqType);
 cast_as_seq(Vals, []) ->
    Vals;
@@ -296,7 +293,7 @@ cast_as_seq(Seq, #xqSeqType{type = Type} = TargetSeqType) ->
       true ->
          case is_ns_sensitive(Type) of
             true ->
-               NF = fun(#xqNode{}) -> ?err('XPTY0117');
+               NF = fun(#{nk := _}) -> ?err('XPTY0117');
                        ('xs:untypedAtomic') -> ?err('XPTY0117');
                        (Val) ->
                           try
@@ -511,8 +508,13 @@ promote(List,#xqSeqType{occur = Occ})
         is_list(List) andalso Occ =:= one;
         is_list(List) andalso Occ =:= zero_or_one ->
    ?err('XPTY0004');
+promote(List,#xqSeqType{occur = Occ} = T) 
+   when is_list(List) andalso Occ =:= one_or_many;
+        is_list(List) andalso Occ =:= zero_or_many ->
+   [promote(L, T)|| L <- List];
 promote(At,#xqSeqType{type = item}) ->
    At;
+promote(#xqRange{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) -> At;
 promote(#xqRange{} = R, #xqSeqType{} = T) ->
    case instance_of(R, T) of
       ?true ->
@@ -522,15 +524,23 @@ promote(#xqRange{} = R, #xqSeqType{} = T) ->
    end;
 promote(#xqAtomicValue{} = At,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    At;
-promote(#xqNode{} = N,#xqSeqType{type = T}) when T == 'xs:anyAtomicType';
-                                                 ?xs_string(T) ->
-   atomize(N);
-promote(#xqNode{} = N,#xqSeqType{} = T) ->
+promote(#{nk := _} = N,#xqSeqType{type = T} = St) 
+   when T == 'xs:anyAtomicType';
+        ?xs_string(T) ->
+   promote(atomize(N), St);
+promote(#{nk := _} = N,#xqSeqType{type = Kind} = T) ->
    case instance_of(N, T) of
       ?true ->
          N;
+      ?false when is_record(Kind, xqKindTest) ->
+         ?err('XPTY0004');
       _ ->
-         ?err('XPTY0004')
+         try cast_as_seq(N,T) 
+         catch
+            _:#xqError{} = E ->
+               throw(E);
+            _:_ -> ?err('XPTY0004') 
+         end
    end;
 promote(#array{} = N,#xqSeqType{type = 'xs:anyAtomicType'}) ->
    atomize(N);
@@ -539,7 +549,7 @@ promote(List0,#xqSeqType{type = 'xs:anyAtomicType'}) when is_list(List0) ->
    List = xqerl_seq3:expand(List0),
    Fun = fun(#xqAtomicValue{} = A) ->
                A;
-            (#xqNode{} = N) ->
+            (#{nk := _} = N) ->
                atomize(N);
             (_) ->
                ?err('XPTY0004')
@@ -799,7 +809,7 @@ subtype_of('xs:positiveInteger'   , 'xs:numeric') -> true;
 subtype_of( _AT, _ET ) -> 
    false.
 
-castable(#xqNode{} = Seq, TargetSeqType) ->
+castable(#{nk := _} = Seq, TargetSeqType) ->
    castable(atomize(Seq), TargetSeqType);
 castable(#xqAtomicValue{} = Seq, TargetSeqType) ->
    castable([Seq], TargetSeqType);
@@ -935,7 +945,7 @@ instance_of(Seq, #xqSeqType{type = TType,
         is_map(Seq), TOccur == zero_or_one;
         is_map(Seq), TOccur == zero_or_many -> 
    ?xav('xs:boolean',instance_of1(Seq, TType));
-instance_of(#xqNode{} = Seq, #xqSeqType{type = TType,
+instance_of(#{nk := _} = Seq, #xqSeqType{type = TType,
                                         occur = TOccur}) 
    when TOccur == one;
         TOccur == one_or_many;
@@ -1037,142 +1047,70 @@ check_return_type(#xqSeqType{type = Type}, #xqSeqType{type = ReturnType}) ->
    ?dbg("{Type, ReturnType}",{Type, ReturnType}),
    subtype_of(Type,ReturnType).
 
-fix_ns(<<>>) -> 'no-namespace';
-fix_ns(X) -> X.
-
 instance_of1(#xqAtomicValue{}, 'xs:anyAtomicType') -> true;
 instance_of1(#xqRange{}, 'xs:anyAtomicType') -> true;
 instance_of1(#xqRange{}, T) when ?xs_integer(T) -> true;
-instance_of1(#xqNode{}, #xqKindTest{kind = node}) ->
+instance_of1(#{nk := _}, #xqKindTest{kind = node}) ->
    true;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
+instance_of1(#{nk := document} = Node, 
              #xqKindTest{kind = 'document-node', 
-                         test = #xqKindTest{kind = element, 
-                                            name = #qname{} = Q1}}) ->
-   case catch xqldb_doc:node_kind(Doc, Node) of
-      'document' ->
-         case xqldb_doc:children(Doc, Node) of
-            [Element] ->
-               Q2 = node_qname(Element, Doc),
-               %?dbg("Q1",Q1),
-               %?dbg("Q2",Q2),
-               has_name(Q2, Q1);
-            _ ->
-               false
-         end;
+                         name = Qn,
+                         type = Ty}) ->
+   Norm = norm_name_type(Qn, Ty),
+   case xqldb_xpath:self_document_node(Node, {Norm, []}) of
+      [] ->
+         false;
       _ ->
-         false
+         true
    end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = 'document-node'}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      document ->
-         true;
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = 'namespace'}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      namespace ->
-         true;
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
+instance_of1(#{nk := element} = Node, 
              #xqKindTest{kind = element, 
-                         name = #qname{} = Q1, 
-                         type = #xqSeqType{type = Type}}) ->
-   case catch xqldb_doc:node_kind(Doc, Node) of
-      element ->
-         Q2 = node_qname(Node, Doc),
-         case has_name(Q2, Q1) of
-            true ->
-               EType = xqldb_doc:type_name(Doc, Node),
-               EType == Type orelse (Type == 'xs:anyType');
-            _ ->
-               false
-         end;
+                         name = Qn,
+                         type = Ty}) ->
+   Norm = norm_name_type(Qn, Ty),
+   case xqldb_xpath:self_element(Node, {Norm, []}) of
+      [] ->
+         false;
       _ ->
-         false
+         true
    end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = element, name = #qname{} = Q1}) ->
-   case catch xqldb_doc:node_kind(Doc, Node) of
-      element ->
-         has_name(node_qname(Node, Doc), Q1);
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = element}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      element ->
-         true;
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
+instance_of1(#{nk := attribute} = Node, 
              #xqKindTest{kind = attribute, 
-                         name = #qname{} = Q1, 
-                         type = #xqSeqType{type = Type}}) ->
-   case catch xqldb_doc:node_kind(Doc, Node) of
-      attribute ->
-         Q2 = node_qname(Node, Doc),
-         case has_name(Q2, Q1) of
-            true ->
-               EType = xqldb_doc:type_name(Doc, Node),
-               EType == Type orelse 
-                 subtype_of(EType, Type);
-            _ ->
-               false
-         end;
+                         name = Qn,
+                         type = Ty}) ->
+   Norm = norm_name_type(Qn, Ty),
+   case xqldb_xpath:self_attribute(Node, {Norm, []}) of
+      [] ->
+         false;
       _ ->
-         false
+         true
    end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = attribute, 
-                         name = #qname{} = Q1}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      attribute ->
-         has_name(node_qname(Node, Doc), Q1);
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
-             #xqKindTest{kind = attribute}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      attribute ->
-         true;
-      _ ->
-         false
-   end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
+instance_of1(#{nk := 'processing-instruction'} = Node, 
              #xqKindTest{kind = 'processing-instruction', 
-                         name = #qname{} = Q1}) ->
-   case catch xqldb_doc:node_kind(Doc, Node) of
-      'processing-instruction' ->
-         {_,_,Ln} = xqldb_doc:node_name(Doc, Node),
-         Q2 = #qname{namespace = <<>>, local_name = Ln},
-         has_name(Q2, Q1);
+                         name = #qname{local_name = Ln}}) ->
+   case xqldb_xpath:self_processing_instruction(Node, {{Ln}, []}) of
+      [] ->
+         false;
       _ ->
-         false
+         true
    end;
-instance_of1(#xqNode{node = [Node], doc = Doc}, 
+instance_of1(#{nk := 'processing-instruction'}, 
              #xqKindTest{kind = 'processing-instruction'}) ->
-   case xqldb_doc:node_kind(Doc, Node) of
-      'processing-instruction' ->
-         true;
-      _ ->
-         false
-   end;
+   true;
+instance_of1(_, #xqKindTest{kind = 'processing-instruction'}) ->
+   false;
+
+instance_of1(#{nk := namespace}, #xqKindTest{kind = namespace}) -> true;
+instance_of1(_, #xqKindTest{kind = namespace}) -> false;
+
+instance_of1(#{nk := comment}, #xqKindTest{kind = comment}) -> true;
+instance_of1(_, #xqKindTest{kind = comment}) -> false;
+
+instance_of1(#{nk := text}, #xqKindTest{kind = text}) -> true;
+instance_of1(_, #xqKindTest{kind = text}) -> false;
 
 %% #xqKindTest{kind = 'schema-element',   name = WQName}.
 %% #xqKindTest{kind = 'schema-attribute', name = WQName}.
-%% #xqKindTest{kind = 'comment'}.
-%% #xqKindTest{kind = 'text'}.
-%% #xqKindTest{kind = 'namespace'}.
-%% #xqKindTest{kind = 'node'}.
 
 %% #xqFunTest{kind = function, annotations = AnnoList, params = any | ListOfSeqTypes, type = any | SeqType} .
 %% #xqFunTest{kind = map, params = any | #xqSeqType{type = BType, occur = one}, type = any | SeqType} .
@@ -1262,10 +1200,6 @@ instance_of1(Seq, Type) ->
          end
    end.
 
-node_qname(Node, Doc) ->
-    {Ns,_,Ln} = xqldb_doc:node_name(Doc, Node),
-    #qname{namespace = fix_ns(Ns), local_name = Ln}.
-
 get_type(#xqSeqType{type = Type}) ->
    get_type(Type);
 get_type(Type) when is_atom(Type) ->
@@ -1277,7 +1211,7 @@ get_type(#xqFunTest{kind = Type}) ->
 
 get_item_type(#xqAtomicValue{type = Type}) ->
    Type;
-get_item_type(#xqNode{} = Node) ->
+get_item_type(#{nk := _} = Node) ->
    case xqerl_node:get_node_type(Node) of
       [T] ->
          T;
@@ -1391,9 +1325,9 @@ cast_as(Seq,#xqSeqType{type = T, occur = one}) ->
 cast_as( At, [] ) -> At;
 cast_as( At, #xqSeqType{type = item}) -> At;
 cast_as( At, 'item' ) -> At;
-cast_as( #xqNode{} = N, #xqSeqType{type = 'xs:anyAtomicType'} ) -> 
+cast_as( #{nk := _} = N, #xqSeqType{type = 'xs:anyAtomicType'} ) -> 
    atomize(N);
-cast_as( #xqNode{} = N, 'xs:anyAtomicType' ) -> 
+cast_as( #{nk := _} = N, 'xs:anyAtomicType' ) -> 
    atomize(N);
 cast_as( [], 'empty-sequence' ) -> [];
 cast_as( _, 'empty-sequence' ) -> ?err('XPTY0004');
@@ -1414,9 +1348,9 @@ cast_as( #xqFunction{}, _ ) -> ?err('FOTY0013');
 cast_as( Fx, _ ) when is_function(Fx) -> ?err('FOTY0013');
 cast_as( #xqAtomicValue{} = At, #xqSeqType{type = Type} ) -> 
    cast_as(At,Type);
-cast_as( #xqNode{} = At, #xqKindTest{kind = node} ) -> 
+cast_as( #{nk := _} = At, #xqKindTest{kind = node} ) -> 
    At;
-cast_as( #xqNode{} = At, TT ) ->
+cast_as( #{nk := _} = At, TT ) ->
    Atomized = atomize(At),
    cast_as(Atomized, TT);
 cast_as( [], 'xs:anyURI') -> [];
@@ -2222,6 +2156,7 @@ cast_as( #xqAtomicValue{type = Intype}, T )
       true ->
          ?err('XPTY0004');
       _ ->
+         %?dbg("T",{Intype,T}),
          ?err('XQST0052')
    end;
 cast_as(_,_) ->
@@ -2237,7 +2172,7 @@ cast_as([Seq],T,N) ->
    cast_as(Seq,T,N);
 cast_as(Seq,#xqSeqType{type = T},N) -> 
    cast_as(Seq,T,N);
-cast_as( #xqNode{} = N, TT, Namespaces ) ->
+cast_as( #{nk := _} = N, TT, Namespaces ) ->
    String = atomize(N),
    cast_as(String, TT, Namespaces);
 cast_as( #xqAtomicValue{type = 'xs:QName'} = Q,'xs:QName', _) ->
@@ -2428,6 +2363,37 @@ is_known_type('xs:anyAtomicType')          -> true;
 is_known_type('xs:numeric')                -> true;
 is_known_type('empty-sequence')            -> true;
 is_known_type(_)                           -> false.
+
+
+norm_name_type(undefined,undefined) -> {any, any, any};
+norm_name_type(#qname{namespace = 'no-namespace'} = N, T) ->
+   norm_name_type(N#qname{namespace = <<>>}, T);
+norm_name_type(Name,#xqSeqType{type = 'xs:anyType'}) -> 
+   norm_name_type(Name,undefined);
+norm_name_type(Name,#xqSeqType{type = 'xs:anyAtomicType'}) -> 
+   norm_name_type(Name,undefined);
+norm_name_type(undefined,#xqSeqType{type = Atom}) -> {any, any, Atom};
+norm_name_type(#qname{namespace = <<"*">>,
+                      local_name = <<"*">>},undefined) -> {any, any, any};
+norm_name_type(#qname{namespace = <<"*">>,
+                      local_name = <<"*">>},#xqSeqType{type = Atom}) -> 
+   {any, any, Atom};
+norm_name_type(#qname{namespace = Ns,
+                      local_name = <<"*">>},undefined) -> {Ns, any, any};
+norm_name_type(#qname{namespace = Ns,
+                      local_name = <<"*">>},#xqSeqType{type = Atom}) -> 
+   {Ns, any, Atom};
+norm_name_type(#qname{namespace = <<"*">>,
+                      local_name = Ln},undefined) -> {any, Ln, any};
+norm_name_type(#qname{namespace = <<"*">>,
+                      local_name = Ln},#xqSeqType{type = Atom}) -> 
+   {any, Ln, Atom};
+norm_name_type(#qname{namespace = Ns,
+                      local_name = Ln},undefined) -> {Ns, Ln, any};
+norm_name_type(#qname{namespace = Ns,
+                      local_name = Ln},#xqSeqType{type = Atom}) -> 
+   {Ns, Ln, Atom}.
+   
 
 has_name(undefined, _) ->
    true;

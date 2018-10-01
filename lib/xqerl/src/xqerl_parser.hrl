@@ -12,7 +12,7 @@
    axis       = child :: child | descendant | attribute | self | 
                  'descendant-or-self' | 'following-sibling' | following | namespace | 
                  parent | ancestor | 'preceding-sibling' | preceding | 'ancestor-or-self',
-   node_test  = #xqKindTest{} :: #xqNameTest{} | #xqKindTest{},
+   node_test  = #xqKindTest{},
    predicates = []
 }).
 

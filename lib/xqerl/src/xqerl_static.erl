@@ -94,7 +94,8 @@
                                       prefix = <<"xml">>}] ,
          static_count,
          can_inline   = false,  
-         in_constructor = false % currently in an XML constructor 
+         in_constructor = false, % currently in an XML constructor 
+         in_predicate = false % currently in an XML constructor 
         }).
 
 -record(state, 
@@ -699,6 +700,7 @@ handle_node(State, #xqFunction{name = FName, type = FType0,
                      ?err('XPTY0004')
                end; % namespace PI and comment are strings, rest untypedAtomic
             true ->
+               ?dbg("XPTY0004", {NoCast, ST, FType1}),
                ?err('XPTY0004') 
          end,
 %%    if element(2, Sty) == item ->
@@ -1026,6 +1028,7 @@ handle_node(State, {path_expr, Id, Steps}) ->
                {Val, Typ}
           end,
    {Statements, Type} = lists:mapfoldl(Fold, get_statement_type(State), Steps),
+   %?dbg("{Id, Statements}",{Id, Statements}),
    set_statement_and_type(State, {path_expr, Id, Statements}, Type);
 handle_node(State, {'any-root', Step}) ->
    State1 = handle_node(State, Step),
@@ -1047,20 +1050,13 @@ handle_node(State, 'any-root') ->
                           #xqSeqType{type = 'node', occur = zero_or_one});
 
 %% 3.3.2.1 Axes
-handle_node(State, #xqKindTest{kind = 'document-node', 
-                               test = #xqKindTest{} = Element} = Node) ->
-   S1 = handle_node(State, Element),
-   St = get_statement(S1),
-   set_statement(State, Node#xqKindTest{test = St});
+%% handle_node(State, #xqKindTest{kind = 'document-node'} = Node) ->
+%%    S1 = handle_node(State, Element),
+%%    St = get_statement(S1),
+%%    set_statement(State, Node#xqKindTest{test = St});
 
 handle_node(State, #xqKindTest{kind = Kind, name = Name, type = Type} = Node) ->
    QName = resolve_qname(Name, State),
-%%    QName = if QName0#qname.prefix == <<>> ->
-%%                  QName0#qname{namespace = 'no-namespace'};
-%%               true ->
-%%                  QName0
-%%            end,
-%%    ?dbg("QName0",QName0),
    ?dbg("QName",QName),
    if Kind == 'schema-element';
       Kind == 'schema-attribute' -> % not supported, so all names are unknown
@@ -1071,8 +1067,7 @@ handle_node(State, #xqKindTest{kind = Kind, name = Name, type = Type} = Node) ->
    Type1 = if Type == undefined ->
                  undefined;
               true ->
-                 (try get_statement(handle_node(State,Type)) 
-                  catch _:_ -> ?err('XPST0008') end)
+                 resolve_kind_type(State, Type)
            end,
    set_statement(State, Node#xqKindTest{name = QName, type = Type1});
 
@@ -1100,7 +1095,6 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                axis = Axis, 
                                node_test = #xqKindTest{kind = Kind, 
                                                        name = KName,
-                                                       test = KTest, 
                                                        type = KType} = Kt, 
                                predicates = Preds} = Node) ->
    KName1 = if Kind == 'processing-instruction' ->
@@ -1118,35 +1112,8 @@ handle_node(State, #xqAxisStep{direction = Direction,
       true ->
          ok
    end,
-   KTest1 = case KTest of
-               #xqKindTest{} = KTt ->
-                  get_statement(handle_node(State, KTt));
-               T ->
-                  T
-            end,
-   KType1 = case KType of
-               #xqSeqType{} = KTypeST ->
-                  try 
-                     KTypeST1 = get_statement(handle_node(State, KTypeST)),
-                     case 
-                        catch xqerl_btypes:get_type(KTypeST1#xqSeqType.type) 
-                     of
-                        {'EXIT',_} -> ?err('XPST0008');
-                        _ ->
-                           _ = check_type_match(
-                                 KTypeST1, 
-                                 #xqSeqType{type = 'xs:anyAtomicType', 
-                                            occur = zero_or_many}),
-                           KTypeST1
-                     end
-                  catch 
-                     ?ERROR_MATCH(?A("XPST0051")) -> ?err('XPST0008');
-                     _:#xqError{} = E -> throw(E);
-                     _:_ -> ?err('XPST0008')
-                  end;
-               T1 ->
-                  T1
-            end,
+   KType1 = resolve_kind_type(State, KType),
+   %?dbg("KType1",KType1),
    OType = #xqSeqType{type = Kind, occur = zero_or_one},
    State1 = if Direction == forward andalso Axis == attribute ->
                   set_statement_and_type(State, Node, 
@@ -1170,7 +1137,6 @@ handle_node(State, #xqAxisStep{direction = Direction,
                                 Node#xqAxisStep{predicates = NewPreds, 
                                                 node_test = 
                                                    Kt#xqKindTest{name = KName1, 
-                                                                 test = KTest1, 
                                                                  type = KType1}},
                                 OType)
    end;
@@ -1285,7 +1251,24 @@ handle_node(State, {Op, Expr1, Expr2}) when Op == union;
    State2 = handle_node(State, Expr2),
    Val1 = get_statement(State1),
    Val2 = get_statement(State2),
-   Typ = #xqSeqType{type = 'node', occur = zero_or_many},
+   Typ1 = get_statement_type(State1),
+   Typ2 = get_statement_type(State2),
+   Typ = if Op == except ->
+               maybe_zero_type(Typ1);
+            true ->
+               maybe_zero_type(get_list_type([Typ1,Typ2]))
+         end,
+   NdTyp = #xqSeqType{type = node, occur = zero_or_many},
+   Check = fun(T) ->
+                 case check_type_match(T, NdTyp) of
+                    false ->
+                       ?err('XPTY0004');
+                    _ ->
+                       ok
+                 end
+           end,
+   ok = Check(Typ1),
+   ok = Check(Typ2),
    set_statement_and_type(State, {Op, Val1, Val2}, Typ);
 
 %% 3.5 Arithmetic Expressions
@@ -2124,24 +2107,37 @@ handle_node(State, {'if-then-else', If, {B1, Then0}, {B2, Else0}}) ->
              undefined -> Else0;
              E1 -> {error,E1}
           end,
-   %?dbg("Then",Then),
-   %?dbg("Else",Else),
-   %?dbg("IfSt",State#state.context_item_type),
    IfS1 = handle_node(State, If),
    ThS1 = (catch handle_node(State, Then)),
    ElS1 = (catch handle_node(State, Else)),
    IfSt = get_statement(IfS1),
-   %?dbg("IfSt",IfSt),
-   ThSt = get_statement(ThS1),
-%?dbg("ThSt",ThSt),
-   ElSt = get_statement(ElS1),
-%?dbg("ElSt",ElSt),
-%?dbg("ElSt",get_statement_type(ElS1)),
+   ThSt0 = get_statement(ThS1),
+   ElSt0 = get_statement(ElS1),
    %IfTy = get_statement_type(IfS1), % is boolean
-   #xqSeqType{occur = ThOc} = ThTy = get_statement_type(ThS1),
-   #xqSeqType{occur = ElOc} = ElTy = get_statement_type(ElS1),
+   #xqSeqType{occur = ThOc} = ThTy0 = get_statement_type(ThS1),
+   #xqSeqType{occur = ElOc} = ElTy0 = get_statement_type(ElS1),
    ThCt = get_static_count(ThS1),
    ElCt = get_static_count(ElS1),
+   
+   % see if a positional predicate is hiding here
+   InPred = get_in_predicate(State),
+   ThIsInt = (catch check_type_match(ThTy0, #xqSeqType{type = 'xs:integer', occur = one_or_many})),
+   ElIsInt = (catch check_type_match(ElTy0, #xqSeqType{type = 'xs:integer', occur = one_or_many})),
+   Pos = get_statement(handle_node(State, ?POSITION)),
+   {ThSt, ThTy} = 
+      if InPred andalso ThIsInt ->
+            {{'=', Pos, ThSt0}, #xqSeqType{type = 'xs:boolean', occur = one}};
+         true ->
+            {ThSt0, ThTy0}
+      end,
+   {ElSt, ElTy} = 
+      if InPred andalso ElIsInt ->
+            {{'=', Pos, ElSt0}, #xqSeqType{type = 'xs:boolean', occur = one}};
+         true ->
+            {ElSt0, ElTy0}
+      end,
+   %check_type_match
+   
    % is the if statement a boolean value?
    if IfSt == ?true ->
          set_static_count(
@@ -3169,9 +3165,9 @@ handle_predicates(State, Predicates) ->
 %?dbg("Predicate context item",CtxI),
 %?dbg("Predicate context type",CtxT),
 %?dbg("Predicate context pred",Predicates),
-   
+   State0 = set_in_predicate(State, true),
    {PredStatements,OutType} = lists:mapfoldl(fun(P,_InType) ->
-                                         State1 = handle_predicate(State, P),
+                                         State1 = handle_predicate(State0, P),
                                          Type = get_statement_type(State1),
                                          {get_statement(State1),Type}
                                    end, [],Predicates),
@@ -3179,10 +3175,11 @@ handle_predicates(State, Predicates) ->
 
    
 handle_predicate(State, {predicate, Expr}) ->
+   State0 = set_in_predicate(State, true),
    PreFilterType = get_statement_type(State),
    PostFilterType = maybe_zero_type(PreFilterType), 
    ContextType = (get_statement_type(State))#xqSeqType{occur = one},
-   State1 = State#state{context_item_type = ContextType},
+   State1 = State0#state{context_item_type = ContextType},
    %?dbg("ContextType",ContextType),
    %?dbg("Expr",Expr),
    SimExpr = handle_node(State1, Expr),
@@ -3221,7 +3218,8 @@ handle_predicate(State, {predicate, Expr}) ->
    end;
    
 handle_predicate(State, {arguments, Args}) ->
-   SimpArgs = handle_list(State, Args),
+   State0 = set_in_predicate(State, true),
+   SimpArgs = handle_list(State0, Args),
    NewArgs = lists:map(fun(Arg) ->
                              get_statement(Arg)
                        end, SimpArgs),
@@ -3242,8 +3240,9 @@ handle_predicate(State, {lookup, wildcard}) ->
          set_statement_and_type(State, {array_lookup, wildcard},NewType)
    end;
 handle_predicate(State, {lookup, Args}) ->
+   State0 = set_in_predicate(State, true),
    NewType = #xqSeqType{type = item, occur = zero_or_many}, 
-   SimpArgs = handle_node(State, Args),
+   SimpArgs = handle_node(State0, Args),
    NewArgs = get_statement(SimpArgs),
    %Type = get_statement_type(SimpArgs),
    LUType = case get_statement_type(State) of
@@ -4717,7 +4716,7 @@ get_array_type(#xqFunTest{kind = array, type = #xqSeqType{type = AType}}) ->
 get_array_type(#xqFunTest{kind = map}) ->
    map;
 get_array_type(O) ->
-   ?dbg("O",O),
+   %?dbg("O",O),
    O.
 
 % for now until other stuff fixed
@@ -4737,6 +4736,10 @@ check_type_match(#xqSeqType{type = item}, #xqSeqType{type = TargetType})
    when ?node(TargetType) -> 
    true;
 check_type_match(#xqSeqType{type = item}, 
+                 #xqSeqType{type = #xqKindTest{kind = TargetType}}) 
+   when ?node(TargetType) -> 
+   true;
+check_type_match(#xqSeqType{type = node}, 
                  #xqSeqType{type = #xqKindTest{kind = TargetType}}) 
    when ?node(TargetType) -> 
    true;
@@ -5089,9 +5092,17 @@ set_in_constructor(#state{context = #context{} = Ctx} = State, InConstructor) ->
    NewCtx = Ctx#context{in_constructor = InConstructor},
    State#state{context = NewCtx}.
 
+set_in_predicate(#state{context = #context{} = Ctx} = State, InPred) ->
+   NewCtx = Ctx#context{in_predicate = InPred},
+   State#state{context = NewCtx}.
+
+   
 get_in_constructor(#state{context = 
                             #context{in_constructor = InConstructor}}) -> 
    InConstructor.
+
+get_in_predicate(#state{context = #context{in_predicate = InPred}}) -> 
+   InPred.
 
 set_inscope_ns(#state{context = #context{} = Ctx} = State, InscopeNs) ->
    NewCtx = Ctx#context{inscope_ns = InscopeNs},
@@ -5469,5 +5480,24 @@ flatten_concat({'concat', Expr1, {'concat', _, _} = C}) ->
 flatten_concat({'concat', Expr1, Expr2}) ->
   [Expr1, Expr2].
 
-      
-   
+resolve_kind_type(State, KType) ->
+   case KType of
+      #xqSeqType{} = KTypeST ->
+         try
+            KTypeST1 = get_statement(handle_node(State, KTypeST)),
+            case catch xqerl_btypes:get_type(KTypeST1#xqSeqType.type) of
+               {'EXIT',_} -> ?err('XPST0008');
+               _ ->
+                  _ = check_type_match(KTypeST1,
+                                       #xqSeqType{type = 'xs:anyAtomicType',
+                                                  occur = zero_or_many}),
+                  KTypeST1
+            end
+         catch
+            ?ERROR_MATCH(?A("XPST0051")) -> ?err('XPST0008');
+            _:#xqError{} = E -> throw(E);
+            _:_ -> ?err('XPST0008')
+         end;
+      T1 ->
+         T1
+   end.   

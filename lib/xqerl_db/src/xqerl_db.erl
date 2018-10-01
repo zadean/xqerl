@@ -26,55 +26,15 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([install/1]).
 -export([load/0]).
-
-install(Nodes) ->
-   _ = application:stop(mnesia),
-   ok = mnesia:delete_schema(Nodes),
-   ok = mnesia:create_schema(Nodes),
-   application:start(mnesia),
-   _ = xqldb_namespace_server:clear(),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_namespace,
-                   [{attributes, record_info(fields, xqldb_namespace)},
-                    {disc_copies, Nodes},
-                    {index, [#xqldb_namespace.id]}
-                   ]),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_name,
-                   [{attributes, record_info(fields, xqldb_name)},
-                    {disc_copies, Nodes},
-                    {index, [#xqldb_name.id]}
-                   ]),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_counter,
-                   [{attributes, record_info(fields, xqldb_counter)},
-                    {disc_copies, Nodes}
-                   ]),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_doc,
-                   [{attributes, record_info(fields, xqldb_doc)},
-                    {disc_copies, Nodes}
-                   ]),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_res,
-                   [{attributes, record_info(fields, xqldb_res)},
-                    {disc_copies, Nodes}
-                   ]),
-   {atomic,ok} = mnesia:create_table(
-                   xqldb_collection,
-                   [{attributes, record_info(fields, xqldb_collection)},
-                    {disc_copies, Nodes}
-                   ]),
-   ok.
-
-
+-export([install/1]).
 
 
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+install(_) ->
+   ok.
 
 
 load() ->

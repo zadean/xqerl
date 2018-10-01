@@ -37,8 +37,8 @@
 -define(lf,    10).
 -define(tab,   9).
 %% whitespace consists of 'space', 'carriage return', 'line feed' or 'tab'
--define(whitespace(H), H==?space ; H==?cr ; H==?lf ; H==?tab).
--define(notws(H), H=/=?space , H=/=?cr , H=/=?lf , H=/=?tab).
+-define(whitespace(H), (H==?space orelse H==?cr orelse H==?lf orelse H==?tab)).
+-define(notws(H), (H=/=?space andalso H=/=?cr andalso H=/=?lf andalso H=/=?tab)).
 
 -include("xqerl.hrl").
 
@@ -883,7 +883,8 @@ scan_token(Str = "namespace" ++ T, A) ->
             true ->
                {{'namespace', ?L, 'namespace'}, T};
             _ ->
-               scan_name(Str)
+               qname_if_path("namespace", T, lookback(A))
+               %scan_name(Str)
          end;
       'declare' ->
          {{'namespace', ?L, 'namespace'}, T};
@@ -1336,7 +1337,13 @@ scan_token(Str = "empty" ++ T, A) -> % done
                scan_name(Str)
          end
    end;
-scan_token("then" ++ T, A) -> qname_if_path("then", T, lookback(A));
+scan_token("then" ++ T = Str, A) -> 
+   case lookback(A) of
+      ')' ->
+         {{'then',?L,'then'}, T};
+      _ ->
+         scan_name(Str)
+   end;
 scan_token(Str = "text" ++ T, _A) -> 
    case lookforward_is_paren_or_curly(T) of
       true ->
@@ -1389,88 +1396,48 @@ scan_token(Str = "item" ++ T, A) ->  % done
          end
    end;
 
-scan_token(Str = [32,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+scan_token(Str = [S,$i,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
+                                               (?whitespace(S)) -> 
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));
       _ ->
          {{'idiv',1,'idiv'}, T}
    end;
-scan_token(Str = [13,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+scan_token("idiv" ++ T = Str, A) -> 
    case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'idiv',1,'idiv'}, T}
+      ')' ->
+         {{'idiv',1,'idiv'}, T};
+      '*' ->
+         {{'idiv',1,'idiv'}, T};
+      [] ->
+         {{'idiv',1,'idiv'}, T};
+      _ -> 
+         scan_name(Str)
    end;
-scan_token(Str = [10,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'idiv',1,'idiv'}, T}
-   end;
-scan_token(Str = [9 ,$i,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'idiv',1,'idiv'}, T}
-   end;
-scan_token(Str = "idiv" ++ T, A) -> qname_if_path("idiv", T, lookback(A));
 
-scan_token(Str = [32,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+scan_token(Str = [S,$m,$o,$d,H|T], A)  when (?whitespace(H)) andalso
+                                            (?whitespace(S)) -> 
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));
       _ ->
          {{'mod',1,'mod'}, T}
    end;
-scan_token(Str = [13,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
+scan_token("mod" ++ T = Str, A) -> 
    case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'mod',1,'mod'}, T}
+      ')' ->
+         {{'mod',1,'mod'}, T};
+      '*' ->
+         {{'mod',1,'mod'}, T};
+      [] ->
+         {{'mod',1,'mod'}, T};
+      _ -> 
+         scan_name(Str)
    end;
-scan_token(Str = [10,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'mod',1,'mod'}, T}
-   end;
-scan_token(Str = [9 ,$m,$o,$d,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'mod',1,'mod'}, T}
-   end;
-scan_token(Str = "mod" ++ T, A) -> qname_if_path("mod", T, lookback(A));
 
-scan_token(Str = [32,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'div',1,'div'}, T}
-   end;
-scan_token(Str = [13,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'div',1,'div'}, T}
-   end;
-scan_token(Str = [10,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
-   case lookback(A) of
-      'function' ->
-         scan_name(tl(Str));
-      _ ->
-         {{'div',1,'div'}, T}
-   end;
-scan_token(Str = [9 ,$d,$i,$v,H|T], A)  when ?whitespace(H) -> 
+scan_token(Str = [S,$d,$i,$v,H|T], A)  when (?whitespace(H)) andalso
+                                            (?whitespace(S)) -> 
    case lookback(A) of
       'function' ->
          scan_name(tl(Str));

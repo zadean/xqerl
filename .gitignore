@@ -3,15 +3,5 @@ deps
 *.o
 *.beam
 *.plt
-erl_crash.dump
-ebin/*.beam
-rel/example_project
-.concrete/DEV_MODE
-.settings
-.project
 .rebar
-/ebin/
-/data/
 /_build/
-/log/
-/Mnesia.*/

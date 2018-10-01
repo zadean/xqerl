@@ -694,7 +694,7 @@ do_yield(Key, Timeout) ->
 
 async_single_call(Fun, Arg) when is_function(Fun,1) ->
     ReplyTo = self(),
-    spawn(fun() -> 
+    spawn_link(fun() -> 
                 R = (catch Fun(Arg)),
                 ReplyTo ! {self(), {reply, R}}
           end).

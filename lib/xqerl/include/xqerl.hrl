@@ -19,7 +19,8 @@
 -define(get(Tab,Key),xqerl_lib:lget(Tab,Key)).
 
 
--define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B])).
+-define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
+-define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
 -define(seq, xqerl_seq3).
 -define(err(Code),xqerl_error:error(Code)).
 
@@ -213,16 +214,16 @@
          type  = undefined :: atom(),
          value = undefined :: term() | []
         }).
--record(xqNode, {
-      doc   :: pid(),
-      node  :: [integer()] | integer()
-   }).
+%% -record(xqNode, {
+%%       doc   :: pid(),
+%%       node  :: [integer()] | integer()
+%%    }).
 
 -record(qname, 
         {
-         namespace  :: 'no-namespace' | default | undefined | binary() | #xqAtomicValue{} | #xqNode{},
-         prefix    = undefined :: default | undefined | binary() | #xqAtomicValue{} | #xqNode{},
-         local_name :: undefined | binary() | #xqAtomicValue{} | #xqNode{}
+         namespace  :: 'no-namespace' | default | undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()],
+         prefix    = undefined :: default | undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()],
+         local_name :: undefined | binary() | #xqAtomicValue{} | #{_ := _} | [term()]
         }).
 
 -record(xqNamespace, 
@@ -332,8 +333,7 @@
 -record(xqKindTest, {
    kind = node :: node | text | comment | 'namespace-node' | namespace | 'schema-element' | element | 'schema-attribute' | attribute | 'document-node' | document | 'processing-instruction',
    name = undefined :: #qname{} | undefined | term(),
-   type,
-   test
+   type
 }).
 
 -record(xqFunction, {

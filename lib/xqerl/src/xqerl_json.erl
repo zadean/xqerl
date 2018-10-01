@@ -64,14 +64,24 @@
 %% ====================================================================
 -export([xml_no_escape/2, xml_escape/2, xml_to_json/2]).
 
--export([string/2,
+-export([db_json_to_item/2,
+         string/2,
          string_to_xml/2,
          xml_to_string/2]).
 
+db_json_to_item(Uri, Options) ->
+   State = parse_options(#state{},Options),
+   case xqldb_dml:select_json_doc(Uri) of
+      {error,_} = Err ->
+         Err;
+      Obj ->
+         json_to_map(State, Obj)
+   end.
+   
 string(String, Options) ->
    State = parse_options(#state{},Options),
    try 
-      xqldb_res:string_to_json(String) 
+      xqldb_json_objs:string_to_json(String) 
    of
       {error,invalid_json} ->
          ?err('FOJS0001');
@@ -93,7 +103,7 @@ string_to_xml(String, Options) ->
    State = parse_options(#state{duplicates = retain,
                                 escape = false},Options),
    try 
-      xqldb_res:string_to_json(String) 
+      xqldb_json_objs:string_to_json(String) 
    of
       {error,invalid_json} ->
          ?err('FOJS0001');
@@ -122,7 +132,7 @@ if_empty(<<>>,Default) -> Default;
 if_empty([],Default) -> Default;
 if_empty(Value,_Default) -> Value.
 
-xml_to_json(State, #xqNode{} = Doc) ->
+xml_to_json(State, #{nk := _} = Doc) ->
    Tree = xqerl_node:node_to_content(Doc),
    % Attributes are in 'expr', not in 'attributes'
    case xml_to_json(State, Tree) of
@@ -368,15 +378,16 @@ json_to_xml(State, Key, null) ->
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
                   attributes = att_key(Key, State#state.escape)};
-json_to_xml(State, Key, Val) when is_float(Val);
-                                  Val =:= neg_zero;
-                                  Val =:= infinity;
-                                  Val =:= neg_infinity ->
+json_to_xml(State, Key, {Val, Lex}) 
+   when is_float(Val);
+        Val =:= neg_zero;
+        Val =:= infinity;
+        Val =:= neg_infinity ->
    #xqElementNode{name = ?qn("number"),
                   attributes = att_key(Key, State#state.escape),
                   inscope_ns = [#xqNamespace{prefix = <<>>,namespace = ?ns}],
                   type = 'xs:untyped',
-                  expr = #xqAtomicValue{type = 'xs:double', value = Val}};
+                  expr = #xqAtomicValue{type = 'xs:string', value = Lex}};
 json_to_xml(State, Key, Val) ->
    Norm = normalize_string(State, Val),
    Esc = att_esc(Norm, State#state.escape),
@@ -426,10 +437,11 @@ json_to_map(_State, true) ->
 json_to_map(_State, false) -> 
    #xqAtomicValue{type = 'xs:boolean', value = false};
 json_to_map(_State, null) -> [];
-json_to_map(_State, Val) when is_float(Val);
-                              Val =:= neg_zero;
-                              Val =:= infinity;
-                              Val =:= neg_infinity ->
+json_to_map(_State, {Val, _Lex}) 
+   when is_float(Val);
+        Val =:= neg_zero;
+        Val =:= infinity;
+        Val =:= neg_infinity ->
    #xqAtomicValue{type = 'xs:double', value = Val};
 json_to_map(State, Val) ->
    ?dbg("State#state.escape",State#state.escape),

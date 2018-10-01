@@ -4,8 +4,6 @@
    {applications, [
       kernel,
       stdlib,
-      sasl,
-      merge_index,
       mnesia,
       xqerl_db
    ]},

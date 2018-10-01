@@ -19,8 +19,10 @@
 %% under the License.
 %%
 %% -------------------------------------------------------------------
-% node kinds
+
 -include_lib("kernel/include/logger.hrl").
+
+% node kinds
 -define(fragment, 7). % non-conformant xml
 -define(document, 0).
 -define(element,  1).
@@ -29,6 +31,11 @@
 -define(proc_inst,4).
 -define(comment,  5).
 -define(text,     6).
+
+-define(att_str,  0).
+-define(att_id,   1).
+-define(att_idref,2).
+
 
 -record(xqldb_doc,
         {uri,
@@ -55,49 +62,12 @@
         {key,
          value}).
 
--define(BSZ,22).
+-define(BSZ,13).
+-define(BUSZ,104).
 
--define(tp(A),A:4/integer).
--define(dpt(A),A:12/integer).
--define(dptm(A),A:12).
--define(nxt(A),A:32/integer).
-%
--define(ln(A),A:24/integer).
--define(px(A),A:24/integer).
--define(ns(A),A:16/integer).
--define(att(A),A:32/integer).
--define(nms(A),A:32/integer).
-%
--define(off(A),A:64/integer).
--define(tlen(A),A:64/integer).
--define(plen(A),A:40/integer).
--define(drest(A),A:128/integer).
-
--define(NOD,<<?tp(_),?dpt(__Dpt),?nxt(__Nxt),?drest(_)>>).
--define(DMT,<<?tp(?document),?dpt(__Dpt),?nxt(__Nxt),?drest(0)>>).
--define(FRG,<<?tp(?fragment),?dpt(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms)>>).
--define(ELM,<<?tp(?element),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms)>>).
--define(TXT,<<?tp(?text),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
--define(CMT,<<?tp(?comment),?dpt(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len)>>).
--define(PIN,<<?tp(?proc_inst),?dpt(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len)>>).
-
--define(NODM,<<?tp(_),?dptm(__Dpt),?nxt(__Nxt),?drest(_),Rest/binary>>).
--define(DMTM,<<?tp(?document),?dptm(__Dpt),?nxt(__Nxt),?drest(0),Rest/binary>>).
--define(FRGM,<<?tp(?fragment),?dptm(__Dpt),?nxt(__Nxt),?ln(0),?px(0),?ns(0),?att(__Att),?nms(__Nms),Rest/binary>>).
--define(ELMM,<<?tp(?element),?dptm(__Dpt),?nxt(__Nxt),?ln(__Ln),?px(__Px),?ns(__Ns),?att(__Att),?nms(__Nms),Rest/binary>>).
--define(TXTM,<<?tp(?text),?dptm(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
--define(CMTM,<<?tp(?comment),?dptm(__Dpt),?nxt(__Nxt),?off(__Pos),?tlen(__Len),Rest/binary>>).
--define(PINM,<<?tp(?proc_inst),?dptm(__Dpt),?nxt(__Nxt),?ln(__Ln),?off(__Pos),?plen(__Len),Rest/binary>>).
-
--define(DOC,{__Filename,__Names,__Namesp,__Nodes,__Attributes,
-             __Nss,__Text,__Comment,__Data,__Indexes}).
--define(NSP,{__Par,__Ln,__Ns}).
--define(ATT,{__APar,__ALn,__APx,__ANs,__ATyp,__AVal}).
-
--define(node_get(Ix), (catch binary_part(__Nodes, Ix * ?BSZ, ?BSZ))).
-
--define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B])).
-
+-define(dbg(A,B),?LOG_DEBUG("~p: ~p",[A,B], #{domain=>[xqerl]})).
+-define(info(A,B),?LOG_INFO("~p: ~p",[A,B], #{domain=>[xqerl]})).
+-define(trace(A,B),io:format("~p: ~p~n",[A,B])).
 
 
 
@@ -111,3 +81,135 @@
       doc   :: pid() | term(),
       node  :: [integer()] | binary()
    }).
+
+-define(IS_LOCAL(Ref), erlang:node(Ref) == erlang:node()).
+
+-define(ATTS, "attr").
+-define(ATT_TABLE(Database), {Database, ?ATTS}).
+-define(ATT_TABLE_P(Database), maps:get(attrs, Database)).
+
+-define(TEXT, "text").
+-define(TEXT_TABLE(Database), {Database, ?TEXT}).
+-define(TEXT_TABLE_P(Database), maps:get(texts, Database)).
+
+-define(NAME, "name").
+-define(NAME_TABLE(Database), {Database, ?NAME}).
+-define(NAME_TABLE_P(Database), maps:get(names, Database)).
+
+-define(NMSP, "nmsp").
+-define(NMSP_TABLE(Database), {Database, ?NMSP}).
+-define(NMSP_TABLE_P(Database), maps:get(namespaces, Database)).
+
+-define(NS_NODE, "nss").
+-define(NS_NODE_TABLE(Database), {Database, ?NS_NODE}).
+-define(NS_NODE_TABLE_P(Database), maps:get(ns_nodes, Database)).
+
+-define(STRUCT, "struct").
+-define(STRUCT_INDEX(Database), {Database, ?STRUCT}).
+-define(STRUCT_INDEX_P(Database), maps:get(structure, Database)).
+
+-define(PATH, "path").
+-define(PATH_TABLE(Database), {Database, ?PATH}).
+-define(PATH_TABLE_P(Database), maps:get(paths, Database)).
+
+-define(JSON, json).
+-define(JSON_TABLE(Database), {Database, ?JSON}).
+-define(JSON_TABLE_P(Database), maps:get(json, Database)).
+
+-define(NODES, nodes).
+-define(NODE_TABLE(Database), {Database, ?NODES}).
+-define(NODE_TABLE_P(Database), maps:get(nodes, Database)).
+
+-define(RESOURCES, res).
+-define(RESOURCES_TABLE(Database), {Database, ?RESOURCES}).
+-define(RESOURCES_TABLE_P(Database), maps:get(resources, Database)).
+
+-define(DBURI(Database), maps:get(db_uri, Database)).
+-define(DBNAME(Database), maps:get(db_name, Database)).
+-define(DBLOCK(Database), maps:get(db_lock, Database)).
+
+-type res_type() :: xml | json | res | item | link.
+
+-type(name_rec() ::
+   {
+    Id::non_neg_integer(),
+    {Local::binary(), Prefix::binary()}
+   } |
+   {
+    {Local::binary(), Prefix::binary()},
+    Count::non_neg_integer(),
+    Id::non_neg_integer()
+   }).
+
+-type(string_rec() ::
+   {
+    % phash and pigeon-hole int
+    Id::non_neg_integer(), 
+    % binary value of prefix and loc in heap file for large values
+    Value::binary() | 
+      {Prefix::binary(),Pos::non_neg_integer(),Len::non_neg_integer()},
+    TypedVal::string | {int, integer()} | {dbl, float()}
+   }).
+
+-type(namespace_idx() ::
+   {
+    Pos::non_neg_integer(),                           % pre of element
+    Ns::[{N::non_neg_integer(),P::non_neg_integer()}],% list of ns and px ids
+    [namespace_idx()]                                 % sub-elements
+   } |
+   {
+    Pos::non_neg_integer(),
+    Ns::[{N::non_neg_integer(),P::non_neg_integer()}]
+   }).
+
+
+-type(temp_state() ::
+   #{name    => binary(),  % name of the DB, also absolute path
+     table   => binary(),  % positional binary with nodes
+     strings => pid(), % lookup table for unique string values
+     names   => pid(), % table for element names
+     atts    => pid(), % table for attribute names
+     paths   => [path()],  % aggregated paths for all documents
+     docs    => ets:tid(), % doc uri -> position in table
+     res     => ets:tid(), % store for resources
+     info    => map(),     % any statistic infos
+     open    => [pid()], % list of processes reading
+     waiting => [any()]    % list of commands waiting to respond
+    }).
+
+-type(path() :: 
+   #{kind   => atom(),
+     name   => non_neg_integer(),                 % name id
+     nmsp   => non_neg_integer(),                 % namespace id
+     count  => non_neg_integer(),                 % occurances in DB
+     type   => string | integer | double | empty, % type every value can cast to
+     leaf   => boolean(),                         % every occurence is leaf
+     vals   => [{binary(),non_neg_integer()}],    % [{string, count}]
+     child  => [path()]                           % list of child paths
+    }
+).
+
+
+%% String Table State Object
+%% ========================== 
+%% #{heap_file => HeapFile,
+%%   indx_file => IndxFile,
+%%   leaf_file => LeafFile,
+%%   indx_log  => IndxLogF,
+%%   leaf_log  => LeafLogF,
+%%   head_log  => HeadLogF,
+%%   header    => Header,
+%%   level_1   => Level1,
+%%   level_2   => #{},
+%%   leaves    => #{},
+%%   cache     => xqldb_kv_cache:new(),
+%%   next_heap => NextHeap,
+%%   next_indx => NextIndx,
+%%   next_leaf => NextLeaf
+%%  }.
+
+
+
+
+
+

@@ -44,9 +44,9 @@
 -export([is_empty/1]).
 -export([is_sequence/1]).
 
--export([union/2]).
--export([intersect/2]).
--export([except/2]).
+-export([union/2,
+         intersect/2,
+         except/2]).
 
 -export([head/1]).
 -export([tail/1]).
@@ -70,8 +70,8 @@
 
 -export([to_list/1]).
 -export([from_list/1]).
--export([flatten/1,
-         group_node_seq/1]).
+
+-export([flatten/1]).
 
 -export([all_node/1]).
 -export([all_not_node/1]).
@@ -88,9 +88,9 @@
 
 %-define(seq, gb_trees).
 %-define(seq, array).
--define(set, ordsets).
+%-define(set, ordsets).
 %-define(set, gb_sets).
--define(noderecs(N), is_record(N, xqNode);
+-define(noderecs(N), is_map(N) andalso is_map_key(nk,N);
                      is_record(N, xqElementNode);
                      is_record(N, xqDocumentNode);
                      is_record(N, xqAttributeNode);
@@ -99,44 +99,20 @@
                      is_record(N, xqProcessingInstructionNode);
                      is_record(N, xqNamespaceNode)).
 
-sequence([#xqNode{}|_] = L) ->
-   O = lists:foldl(fun(#xqNode{doc = D,node = N},A) ->
-                         orddict:append(D, N, A);
-                      (Other, A) ->
-                         orddict:append(other, Other, A)
-                   end, orddict:new(), L),
-   Ol = orddict:to_list(O),
-   [case Li of
-       {other,Os} ->
-          Os;
-       {D,N} ->
-          #xqNode{doc = D, node = ?MODULE:flatten(N)}
-    end
-  || Li <- Ol]
-   ;
 sequence(L) when is_list(L) ->
    L;
 sequence(L) ->
    [L].
 
-group_node_seq([#xqNode{}|_] = L) ->
-   O = lists:foldl(fun(#xqNode{doc = D,node = [N]},A) ->
-                         orddict:append(D, N, A);
-                      (_,_) ->
-                         ?err('XPTY0004')
-                   end, orddict:new(), L),
-   orddict:to_list(O);
-group_node_seq([_|_]) -> ?err('XPTY0004');
-group_node_seq([]) -> [].
-
+check({error, non_node},node) -> ?err('XPTY0018');
 check(List,node) ->
-   Fun = fun(#xqNode{}) -> ok;
+   Fun = fun(#{nk := _}) -> ok;
             (_) -> ?err('XPTY0018')
          end,
    lists:foreach(Fun, List),
    List;
 check(List,nonnode) ->
-   Fun = fun(#xqNode{}) -> ?err('XPTY0018');
+   Fun = fun(#{nk := _}) -> ?err('XPTY0018');
             (_) -> ok
          end,
    lists:foreach(Fun, List),
@@ -146,12 +122,10 @@ check(List,nonnode) ->
 path_map(Fun,[]) when is_function(Fun,3) -> [];
 path_map(Fun,List) when is_function(Fun,3), is_list(List) ->
    Size = length(List),
-   %?dbg("List",Size),
    Mapped = lists:flatten(do_path_map(Fun, List,1,Size)),
-%?dbg("Mapped",Mapped),
    case Mapped of
-      [#xqNode{}|_] ->
-         U = lists:usort(Mapped),
+      [#{nk := _}|_] ->
+         U = xqldb_xpath:document_order(Mapped),
          check(U,node);
       _ ->
          check(Mapped,nonnode)
@@ -217,47 +191,72 @@ reverse(Seq) ->
    lists:reverse(Seq).
 
 union(Seq1, []) when is_list(Seq1) ->
-   lists:usort(Seq1);
+   xqldb_xpath:document_order(Seq1);
 union([], Seq2) when is_list(Seq2) ->
-   lists:usort(Seq2);
+   xqldb_xpath:document_order(Seq2);
 union(Seq1, Seq2) when is_list(Seq1), is_list(Seq2)  ->
-   set_fun1(Seq1, Seq2, union);
+   union_1(xqldb_xpath:document_order(Seq1),
+           xqldb_xpath:document_order(Seq2));
 union(Seq1, Seq2) when is_list(Seq1) ->
-   union(Seq1, [Seq2]);
+   union_1(xqldb_xpath:document_order(Seq1), [Seq2]);
 union(Seq1, Seq2) when is_list(Seq2) ->
-   union([Seq1], Seq2);
+   union_1([Seq1], xqldb_xpath:document_order(Seq2));
 union(Seq1, Seq2) ->
-   union([Seq1], [Seq2]).
+   union_1([Seq1], [Seq2]).
 
+intersect(_, []) -> [];
+intersect([], _) -> [];
 intersect(Seq1, Seq2) when is_list(Seq1), is_list(Seq2)  ->
-   set_fun1(Seq1, Seq2, intersection);
+   intersect_1(xqldb_xpath:document_order(Seq1),
+               xqldb_xpath:document_order(Seq2));
 intersect(Seq1, Seq2) when is_list(Seq1) ->
-   intersect(Seq1, [Seq2]);
+   intersect_1(xqldb_xpath:document_order(Seq1), [Seq2]);
 intersect(Seq1, Seq2) when is_list(Seq2) ->
-   intersect([Seq1], Seq2);
+   intersect_1([Seq1], xqldb_xpath:document_order(Seq2));
 intersect(Seq1, Seq2) ->
-   intersect([Seq1], [Seq2]).
+   intersect_1([Seq1], [Seq2]).
    
+except([], _) -> [];
+except(Seq1, []) -> Seq1;
 except(Seq1, Seq2) when is_list(Seq1), is_list(Seq2)  ->
-   set_fun1(Seq1, Seq2, subtract);
+   except_1(xqldb_xpath:document_order(Seq1),
+            xqldb_xpath:document_order(Seq2));
 except(Seq1, Seq2) when is_list(Seq1) ->
-   except(Seq1, [Seq2]);
+   except_1(xqldb_xpath:document_order(Seq1), [Seq2]);
 except(Seq1, Seq2) when is_list(Seq2) ->
-   except([Seq1], Seq2);
+   except_1([Seq1], xqldb_xpath:document_order(Seq2));
 except(Seq1, Seq2) ->
    except([Seq1], [Seq2]).
 
-set_fun1(List1, List2, Fun) ->
-   case all_node(List1) andalso all_node(List2) of 
-      true ->
-         U1 = ?set:from_list(List1),
-         U2 = ?set:from_list(List2),
-         U3 = ?set:Fun(U1, U2),
-         %?dbg("{U1,U2,U3}",{U1,U2,U3}),
-         ?set:to_list(U3);
-      _ ->
-         ?err('XPTY0004')
-   end.
+union_1([#{id := Id1} = N1|Ns1], [#{id := Id2}|_] = S2) when Id1 < Id2 ->
+   [N1|union_1(Ns1, S2)];
+union_1([#{id := Id1}|_] = S1, [#{id := Id2} = N2|Ns2]) when Id1 > Id2 ->
+   % switch arguments to maybe catch 1st next 
+   [N2|union_1(Ns2, S1)];       
+union_1([N1|Ns1], [_N2|Ns2]) ->  % equal Ids
+   [N1|union_1(Ns1, Ns2)];
+union_1([], Ns2) -> Ns2;
+union_1(Ns1, []) -> Ns1.
+
+intersect_1([#{id := Id1}|Ns1], [#{id := Id2}|_] = S2) when Id1 < Id2 ->
+   intersect_1(Ns1, S2);
+intersect_1([#{id := Id1}|_] = S1, [#{id := Id2}|Ns2]) when Id1 > Id2 ->
+   % switch arguments to maybe catch 1st next 
+   intersect_1(Ns2, S1);
+intersect_1([N1|Ns1], [_N2|Ns2]) ->  % equal Ids
+   [N1|intersect_1(Ns1, Ns2)];
+intersect_1([], _) -> [];
+intersect_1(_, []) -> [].
+
+except_1([#{id := Id1} = N1|Ns1], [#{id := Id2}|_] = S2) when Id1 < Id2 ->
+   [N1|except_1(Ns1, S2)];
+except_1([#{id := Id1}|_] = S1, [#{id := Id2}|Ns2]) when Id1 > Id2 ->
+   except_1(S1, Ns2);
+except_1([_|Ns1], [_|Ns2]) -> % equal ids
+   except_1(Ns1, Ns2);
+except_1([], _) -> [];
+except_1(Ns1, []) -> Ns1.
+
 
 singleton_value([]) -> [];
 singleton_value([V]) -> V;
@@ -436,7 +435,7 @@ formap(F,L) when not is_list(L) -> formap(F,[L]).
 
 
 pformap(Fun,List) -> 
-   pformap(self(),List,Fun,400,400,[],[]),
+   pformap(self(),List,Fun,16,16,[],[]),
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
@@ -835,9 +834,7 @@ filter1(_Ctx, _Fun, [], _Pos,_Size) -> [];
 filter1(Ctx, Fun, [H|T], Pos,Size) ->
    NextPos = Pos + 1,
    PosRec = ?int_rec(Pos),
-   % TODO remove
-   Ctx2 = xqerl_context:set_context_item(Ctx, H, 1, 1), % just in-case it is used 
-   try Fun(Ctx2,H,PosRec,Size) of
+   try Fun(Ctx,H,PosRec,Size) of
       [#xqAtomicValue{type = NType, value = FPos}] when ?xs_numeric(NType) ->
          if FPos == Pos ->
                [H|filter1(Ctx, Fun, T, NextPos,Size)];
@@ -963,7 +960,7 @@ get_item_type(#xqCommentNode{}) -> 'comment';
 get_item_type(#xqNamespaceNode{}) -> 'namespace';
 get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
 get_item_type(#xqDocumentNode{}) -> 'document-node';
-get_item_type(#xqNode{} = Node) ->
+get_item_type(#{nk := _} = Node) ->
    xqerl_node:get_node_type(Node).
 
 

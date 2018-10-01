@@ -51,12 +51,12 @@
 %% join_uris(_, "HTTP:" ++ _ = Uri) -> simple_parse(Uri);
 %% join_uris(_, "HTTPS:" ++ _ = Uri) -> simple_parse(Uri);
 join_uris(BaseUri,RefUri) ->
-   %?dbg("{BaseUri,RefUri}",{BaseUri,RefUri}),
+%?dbg("{BaseUri,RefUri}",{BaseUri,RefUri}),
    B = parse(BaseUri),
    R = parse(RefUri),
-   %?dbg("{B,R}",{B,R}),
+%?dbg("{B,R}",{B,R}),
    J = join(B,R),
-   %?dbg("J",J),
+%?dbg("J",J),
    case J of
       {error,_} = E ->
          E;
@@ -71,21 +71,23 @@ join_uris(BaseUri,RefUri) ->
 %%    end.
 
 filename_to_uri(Filename) ->
-   case http_uri:parse(Filename) of
-      {error,_} ->
-         case filename:absname(Filename) of
-            <<"/", Rest/binary>> ->
-               uri_string:normalize(<<"file:///", Rest/binary>>);
-            "/" ++ Rest ->
-               uri_string:normalize("file:///" ++ Rest);
-            Other when is_list(Filename) ->
-               uri_string:normalize("file:///" ++ Other);
-            Other ->
-               uri_string:normalize(<<"file:///", Other/binary>>)
-         end;
-      _ ->
-         Filename
-   end.
+   xqldb_uri:filename_to_uri(Filename).
+
+%%    case http_uri:parse(Filename) of
+%%       {error,_} ->
+%%          case filename:absname(Filename) of
+%%             <<"/", Rest/binary>> ->
+%%                uri_string:normalize(<<"file:///", Rest/binary>>);
+%%             "/" ++ Rest ->
+%%                uri_string:normalize("file:///" ++ Rest);
+%%             Other when is_list(Filename) ->
+%%                uri_string:normalize("file:///" ++ Other);
+%%             Other ->
+%%                uri_string:normalize(<<"file:///", Other/binary>>)
+%%          end;
+%%       _ ->
+%%          Filename
+%%    end.
 
 uri_to_filename(<<"file:///",Rest/binary>>) ->
    case Rest of
@@ -136,7 +138,7 @@ normalize_uri(Uri) ->
 %% uri_string:parse doesn`t like high codepoints or the space character
 %% check for existence . of course this lets crap come through...
 has_for_high_codepoint_or_space(Bin) ->
-   [C || <<C/utf8>> <= Bin, C == $ orelse C > 128] =/= [].
+   [C || <<C/utf8>> <= Bin, C == $  orelse C > 128] =/= [].
 
 
 %recompose({Scheme, UserInfo, Host, Port, "/", Query, Fragment}) ->

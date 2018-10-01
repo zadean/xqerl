@@ -35,6 +35,8 @@
 assert(Result, QueryString) ->
    Type = if is_list(Result) ->
                 " as item()*";
+             is_map(Result) andalso is_map_key(nk, Result) ->
+                " as node()";
              is_map(Result) ->
                 " as map(*)";
              element(1,Result) == array ->
@@ -51,7 +53,7 @@ assert(Result, QueryString) ->
       #xqError{} = Res ->
          ?dbg("false",{false, {Res,Result,QueryString}}),
          {false, {Res,Result,QueryString}};
-      #xqNode{} ->
+      #{nk := _} ->
          true;
       [] ->
          {false,[]};
@@ -211,7 +213,7 @@ assert_permutation(Result, PermuteString) ->
                            [H|_] ->
                               Acc -- [H]
                         end
-                  end, Res1, Result),
+                  end, Res1, ensure_list(Result)),
          if Rest == [] ->
                true;
             true ->
@@ -293,22 +295,14 @@ run_suite(Suite) ->
    LibDir = code:lib_dir(xqerl),
    TestDir = filename:absname_join(LibDir, "../../test"),
    LogDir = filename:join(TestDir, "logs"),
-   _ = delete_all_docs(),
+   %_ = delete_all_docs(),
    ct:run_test([{suite, Suite},
                 {dir, TestDir},
                 {logdir, LogDir},
                 {logopts,[no_src]}]).
 
-delete_all_docs() ->
-   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore1)],
-   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore2)],
-   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore3)],
-   [xqldb_docstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_docstore4)],
-   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore1)],
-   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore2)],
-   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore3)],
-   [xqldb_resstore:delete(U) || {U,_,_} <- ets:tab2list(xqldb_resstore4)].
-   
+ensure_list(L) when is_list(L) -> L;
+ensure_list(L) -> [L].   
 
 run(all) ->
    xqerl_module:one_time_init(),
@@ -805,115 +799,125 @@ compile(Name, Env, Qry) ->
          {Name,E}
    end.
 
+get_value(Key, List) ->
+   proplists:get_value(Key, List).
+get_value(Key, List, Default) ->
+   proplists:get_value(Key, List, Default).
+
+
 handle_environment([]) -> {"",#{}};
 handle_environment(List) ->
    _ = file:set_cwd([filename:join(code:lib_dir(xqerl),"test")]),
-   Sources = proplists:get_value(sources, List) ,
-   _Schemas = proplists:get_value(schemas, List) ,
-   Collections = proplists:get_value(collections, List) ,
-   BaseUri = proplists:get_value('static-base-uri', List) ,
-   Params = proplists:get_value(params, List) ,
-   Vars = proplists:get_value(vars, List,[]) ,
-   ContextItem = proplists:get_value('context-item', List,[]) ,
-   Namespaces = proplists:get_value(namespaces, List) ,
-   Resources = proplists:get_value(resources, List) ,
-   Modules = proplists:get_value(modules, List) ,
-   DecFormats = proplists:get_value('decimal-formats', List, []) ,
-   DefCollation = proplists:get_value('default-collation', List, undefined) ,
-
-   Map1 = if DefCollation == undefined ->
-                #{};
+   Sources     = get_value(sources, List) ,
+   _Schemas    = get_value(schemas, List) ,
+   Collections = get_value(collections, List) ,
+   BaseUri     = get_value('static-base-uri', List) ,
+   Params      = get_value(params, List) ,
+   Vars        = get_value(vars, List,[]) ,
+   ContextItem = get_value('context-item', List,[]) ,
+   Namespaces  = get_value(namespaces, List) ,
+   Resources   = get_value(resources, List) ,
+   Modules     = get_value(modules, List) ,
+   DecFormats  = get_value('decimal-formats', List, []) ,
+   DeCollation = get_value('default-collation', List, undefined) ,
+   
+   Uniq = integer_to_binary(erlang:system_time(microsecond)),
+   DefaultCollection = <<"http://example.org/default/",Uniq/binary>>,
+   
+   Map00 = #{default_collection => 
+                    #xqAtomicValue{type = 'xs:string',
+                                   value = DefaultCollection}},
+   Map1 = if DeCollation == undefined ->
+                Map00;
              true ->
-                #{'default-collation' => ?LB(DefCollation)}
+                Map00#{'default-collation' => ?LB(DeCollation)}
           end,
    _ = lists:foreach(
-                  fun({File,Uri}) ->
-                        _ = xqldb_resstore:insert({?LB(Uri),?LB(File)})
+                  fun({MediaType,File,Uri}) ->
+                        ?dbg("MediaType",{MediaType,Uri}),
+                        case xqldb_dml:exists_resource(Uri) of
+                           true ->
+                              ok;
+                           false ->
+                              {ok,Bin} = file:read_file(File),
+                              xqldb_dml:insert_resource(Uri, Bin)
+                        end;
+                     ({File,Uri}) -> 
+                        case xqldb_dml:exists_resource(Uri) of
+                           true ->
+                              ok;
+                           false ->
+                              {ok,Bin} = file:read_file(File),
+                              xqldb_dml:insert_resource(Uri, Bin)
+                        end
                   end, Resources),
    _ = lists:foreach(
          fun({Uri0,CList}) ->
-               Uri = ?LB(Uri0),
-               case xqldb_docstore:collection_exists(Uri) of
-                  true ->
-                     xqldb_docstore:delete_collection(Uri);
+               CollectionUri = case ?LB(Uri0) of
+                                  <<>> ->
+                                     DefaultCollection;
+                                  Other ->
+                                     Other
+                               end,
+               _ = xqldb_dml:delete_collection(CollectionUri),
+               case CList of
+                  [{query,Base,Q}] ->
+                     Opts = 
+                       #{'base-uri' => 
+                           #xqAtomicValue{type = 'xs:anyURI',
+                                          value = ?LB(xqldb_lib:filename_to_uri(Base++"/dummy.xq"))}},
+                     QVals = case xqerl:run(Q,Opts) of
+                                L when is_list(L) -> L;
+                                L -> [L]
+                             end,
+                     BaseNames = [integer_to_binary(I + 1000) || 
+                                    I <- lists:seq(1, length(QVals))],
+                     Zipped = lists:zip(BaseNames, QVals),
+                     [begin
+                         ItemUri = xqldb_uri:join(CollectionUri, BaseName),
+                         xqldb_dml:insert_item(ItemUri, Item)
+                      end
+                      || {BaseName, Item} <- Zipped],
+                     ok;
                   _ ->
+                     _ = [
+                          begin
+                              F = xqldb_lib:filename_to_uri(?LB(FileName0)),
+                              {_,BaseName} = xqldb_uri:split_uri(F),
+                              DocUri = xqldb_uri:join(CollectionUri, BaseName),
+                              case xqldb_dml:exists_doc(DocUri) of
+                                 true ->
+                                    ok;
+                                 false ->
+                                    xqldb_dml:insert_doc(DocUri, FileName0)
+                              end
+                           end || {src,FileName0} <- CList],
                      ok
-               end,
-               NCList = case CList of
-                           [{query,Base,Q}] ->
-                              Opts = #{'base-uri' =>
-          #xqAtomicValue{type = 'xs:anyURI', value = ?LB(xqldb_lib:filename_to_uri(Base++"/dummy.xq"))}},
-                             case xqerl:run(Q,Opts) of
-                                L when is_list(L) ->
-                                   %?dbg("L",L),
-                                   L;
-                                L ->
-                                   %?dbg("L",L),
-                                   [L]
-                             end;
-                           _ ->
-                              [begin
-                                  F = xqldb_lib:filename_to_uri(?LB(FileName0)),
-                                  _ = xqldb_docstore:insert({F,F}),
-                                  fun() ->
-                                        {ok,Doc} = xqldb_docstore:select(F),
-                                        [Nd] = xqldb_doc:roots(Doc),
-                                        #xqNode{doc = Doc,node = Nd}
-                                  end
-                               end ||
-                                 {src,FileName0} <- CList]
-                        end,
-               %?dbg("Uri",{Uri,NCList}),
-               xqldb_docstore:insert_collection(Uri, NCList)
+               end
          end, Collections),
    {Sources1,EMap} = 
      lists:mapfoldl(
        fun({File0,Role,Uri0},Map) ->
-            File = unicode:characters_to_binary(xqldb_lib:filename_to_uri(File0)),
+            FileUri = unicode:characters_to_binary(xqldb_uri:filename_to_uri(File0)),
             Uri2 = if Uri0 == [] ->
-                         File;
+                         FileUri;
                       Uri0 == File0 ->
-                         File;
+                         FileUri;
                       true ->
                          unicode:characters_to_binary(Uri0)
                    end,
-            %?dbg("File",File),
-            case xqldb_docstore:exists(Uri2) of
-               true ->
-                  %?dbg("exists",Uri2),
-                  _ = xqldb_docstore:select(Uri2),
-                  ok;
-               _ ->
-                  try
-                     if Uri2 == File ->
-                           _ = xqldb_docstore:delete(File),
-                           _ = xqldb_docstore:insert({Uri2,File});
-                        true ->
-                           _ = xqldb_docstore:delete(Uri2),
-                           _ = xqldb_docstore:insert({Uri2,File})
-                     end
-                  catch _:E ->
-                           ?dbg("E",E),
-                           ok
-                  end,
-                  ok
+            case xqldb_dml:exists_doc(Uri2) of
+               true -> ok;
+               false ->
+                  catch xqldb_dml:insert_doc(Uri2, File0)
             end,
+            ?dbg("File0",File0),
+            ?dbg("Uri2 ",Uri2),
             %?dbg("Role",Role),
             if Role == "." ->
-                  %?dbg("Uri2",Uri2),
-                  {ok,Doc} = case xqldb_docstore:select(Uri2) of
-                                {ok,Docz} ->
-                                   {ok,Docz};
-                                Other ->
-                                   ?dbg("got:",Other)
-                             end,
-                  %?dbg("Doc",Doc),
-                  %?dbg("Doc",xqldb_doc:export(Doc)),
-                  [Nd] = xqldb_doc:roots(Doc),
-                  %?dbg("Nd",Nd),
-                  {"",Map#{'context-item' => 
-                             #xqNode{doc = Doc,
-                                     node = Nd}}};
+                  
+                  Doc = xqldb_dml:select_doc(Uri2),
+                  {"",Map#{'context-item' => Doc}};
                Role == "" ->
                   {"",Map};
                true ->
@@ -996,6 +1000,5 @@ handle_environment(List) ->
                              "declare variable $"++Name++" as "++As++" := "++Value++";\n"
                        end, Vars),
    {Sources1++Schemas1++DecFormats1++Namespaces2++Vars1, BaseUri1}.
-
 
 

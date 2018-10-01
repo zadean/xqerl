@@ -4,13 +4,13 @@
   {vsn, "0.1.0"},
   {applications, [
                   kernel,
-                  stdlib,
-                  mnesia
+                  stdlib
                  ]},
   {mod, { xqldb_app, []}},
   {env, [
       {max_index_text_length,    255},
       {max_index_distinct_value, 255},
+      {data_dir,        "data"},
       {data_import_dir, "data/import"},
       {data_export_dir, "data/export"}
    ]}

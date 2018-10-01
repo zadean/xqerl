@@ -95,7 +95,7 @@ str_val(Val) ->
 
 
 list_to_number(List) ->
-  xqerl_numeric:double(List).
+  {xqerl_numeric:double(List), List}.
 
 norm_str(<<>>,Acc) -> Acc;
 norm_str(<<$\\,$",T/binary>>,Acc) -> norm_str(T,<<Acc/binary,$" >>);
