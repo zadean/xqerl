@@ -637,7 +637,7 @@ environment('all',__BaseDir) ->
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
 {"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "Walmsley/product.json"),"http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"}]}, 
 {modules, []}
 ].
 'd1e11215'(Config) ->

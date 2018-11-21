@@ -5,6 +5,7 @@
 -pa /git/zadean/xqerl/lib/xqerl_xdm/ebin
 -pa /git/zadean/merge_index/ebin
 -pa /git/zadean/xs_regex/ebin
++A 16
 +K true
 +SDio30
 +pc unicode

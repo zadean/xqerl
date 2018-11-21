@@ -1,6 +1,8 @@
 declare namespace _ = "http://xqerl.org/xquery/test_cases";
 declare namespace x = "http://xqerl.org/xquery";
 
+declare option db:chop 'false';
+
 declare variable $catalog := doc("./QT3-test-suite/catalog.xml");
 
 declare variable $_:n := '&#10;';
@@ -358,8 +360,8 @@ declare function _:get-query($test-case) as xs:string
     if ($test/@file) then
       resolve-uri($test/@file, base-uri($test-case)) =>
       (: BaseX fallback true for invalid XML characters :)
-      (: file:read-text("utf-8",true())  => :)
-      file:read-text("utf-8")                        =>
+      file:read-text("utf-8",true())  =>
+      (: file:read-text("utf-8")   => :)
       _:mask-string()
     else
       _:mask-string($test/text())
@@ -369,7 +371,7 @@ declare function _:get-query($test-case) as xs:string
 declare function _:print-testcase2($test-case, $name, $env)
 {
   _:get-query($test-case) ||$_:cn||
-  (: clear the default collection for fn:collection tests :)
+  (: clear the default collection for fn:collection tests 
   (
     if ($test-case/../@name = ("fn-uri-collection",
                                "fn-collection",
@@ -377,7 +379,7 @@ declare function _:print-testcase2($test-case, $name, $env)
       "   _ = xqldb_docstore:delete_collection([]),"||$_:n
     else
       ""
-  ) ||
+  ) ||:)
   (: compile any imported modules, local imports will unload these :)
   (
     if ($test-case/*:module) then
@@ -448,7 +450,7 @@ declare function _:print-environment($env,$is-local) as xs:string
   "{vars, ["|| _:do-name-as-select($vars) ||"]}"|| $_:cn ||
   "{namespaces, ["|| _:do-uri-prefix($namespaces) ||"]},"|| $_:n ||
   "{schemas, ["|| _:do-file-uri($schemas, $is-local) || "]}" || $_:cn ||
-  "{resources, ["|| _:do-file-uri($resources, $is-local) || "]}" || $_:cn ||
+  "{resources, ["|| _:do-file-uri-type($resources, $is-local) || "]}" || $_:cn ||
   "{modules, ["|| _:do-file-uri($modules, $is-local) || "]}" || $_:n ||
   "]"
 };
@@ -480,7 +482,7 @@ declare function _:print-local-environment($env as item()*) as item()*
   "{params, ["|| _:do-name-as-select($params) ||"]}"|| $_:cn ||
   "{namespaces, ["|| _:do-uri-prefix($namespaces) ||"]}"|| $_:cn ||
   "{schemas, ["   || _:do-file-uri($schemas,true()) || "]}" || $_:cn ||
-  "{resources, [" || _:do-file-uri($resources,true()) || "]}" || $_:cn ||
+  "{resources, [" || _:do-file-uri-type($resources,true()) || "]}" || $_:cn ||
   "{modules, ["   || _:do-file-uri($modules,true()) || "]}" || $_:n ||
   "]")
 };
@@ -610,6 +612,25 @@ declare function _:do-file-uri($modules, $is-local) as xs:string?
   ( reverse($modules) ! $f(.) ) => _:join-cnl()  
 };
 
+declare function _:do-file-uri-type($modules, $is-local) as xs:string?
+{
+  let $f := function($a)
+          {
+            "{""" || string($a/@media-type) || """, " ||
+            (
+              if ($is-local) then
+                "filename:join(__BaseDir, """
+              else
+                "filename:join(__BaseDir, ""../" 
+            ) ||
+            string($a/@file) ||
+            """),""" ||
+            $a/@uri||"""}"
+          }
+  return
+  ( reverse($modules) ! $f(.) ) => _:join-cnl()  
+};
+
 (:~ Mask a string for Erlang :)
 declare function _:mask-string($text as xs:string*) as xs:string
 {
@@ -657,8 +678,7 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
 (: Each test case set from catalog :)
 for $catalogTestSet     in 
     (# x:parallel unordered #)
-    {$catalog/*:catalog/*:test-set
-      (: [@name = ("prod-AxisStep.static-typing")] :)
+    {$catalog/*:catalog/*:test-set[@name = ("app-UseCaseR31")]
     }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()

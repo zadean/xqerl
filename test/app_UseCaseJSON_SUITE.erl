@@ -217,7 +217,7 @@ environment('mildred.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/mildred.json"),"http://xqerl.org/mildred.json"}]}, 
 {modules, []}
 ]; 
 environment('employees.json',__BaseDir) ->
@@ -229,7 +229,7 @@ environment('employees.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/employees.json"),"http://xqerl.org/employees.json"}]}, 
 {modules, []}
 ]; 
 environment('bookinfo.json',__BaseDir) ->
@@ -241,7 +241,7 @@ environment('bookinfo.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/bookinfo.json"),"http://xqerl.org/bookinfo.json"}]}, 
 {modules, []}
 ]; 
 environment('users.json',__BaseDir) ->
@@ -253,7 +253,7 @@ environment('users.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/users.json"),"http://xqerl.org/users.json"}]}, 
 {modules, []}
 ]; 
 environment('sales.json',__BaseDir) ->
@@ -265,9 +265,9 @@ environment('sales.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}, 
-{filename:join(__BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"}, 
-{filename:join(__BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/stores.json"),"http://xqerl.org/stores.json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/products.json"),"http://xqerl.org/products.json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseJSON/sales.json"),"http://xqerl.org/sales.json"}]}, 
 {modules, []}
 ]; 
 environment('satellites.json',__BaseDir) ->
@@ -279,7 +279,7 @@ environment('satellites.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/satellites.json"),"http://xqerl.org/satellites.json"}]}, 
 {modules, []}
 ]; 
 environment('colors.json',__BaseDir) ->
@@ -291,7 +291,7 @@ environment('colors.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/colors.json"),"http://xqerl.org/colors.json"}]}, 
 {modules, []}
 ]; 
 environment('incoming.json',__BaseDir) ->
@@ -303,7 +303,7 @@ environment('incoming.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/incoming.json"),"http://xqerl.org/incoming.json"}]}, 
 {modules, []}
 ]; 
 environment('table.json',__BaseDir) ->
@@ -315,7 +315,7 @@ environment('table.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseJSON/table.json"),"http://xqerl.org/table.json"}]}, 
 {modules, []}
 ]; 
 environment('Wikipedia-Origami.xml',__BaseDir) ->

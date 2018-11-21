@@ -379,9 +379,9 @@ environment('json-files',__BaseDir) ->
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions","j"}]},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}, 
-{filename:join(__BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"}, 
-{filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-to-xml/data005.json"),"http://www.w3.org/qt3/json/data005-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-to-xml/escapeText.json"),"http://www.w3.org/qt3/json/escapeText-json"}, 
+{"text/plain", filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}]}, 
 {modules, []}
 ]; 
 environment('json-ns',__BaseDir) ->

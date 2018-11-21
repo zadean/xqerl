@@ -215,7 +215,7 @@ environment('json-files',__BaseDir) ->
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "../fn/parse-json/data004.json"),"http://www.w3.org/qt3/json/data004-json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "../fn/parse-json/data004.json"),"http://www.w3.org/qt3/json/data004-json"}]}, 
 {modules, []}
 ].
 'map-find-001'(Config) ->

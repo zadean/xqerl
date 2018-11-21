@@ -7,7 +7,8 @@
     
     <environment name="json-files">
         <resource file="../fn/parse-json/data004.json"
-            media-type="text/plain"
+            media-type="application/json"
+            old-media-type="text/plain"
             encoding="utf-8"
             uri="http://www.w3.org/qt3/json/data004-json">
             <description>UTF-8 encoded plain text.</description>

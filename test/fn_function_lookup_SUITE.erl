@@ -1540,8 +1540,8 @@ environment('function-lookup',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}, 
-{filename:join(__BaseDir, "unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "json-to-xml/data001.json"),"http://www.w3.org/qt3/json/data001-json"}, 
+{"text/plain", filename:join(__BaseDir, "unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]}, 
 {modules, []}
 ].
 'fn-function-lookup-001'(Config) ->

@@ -341,7 +341,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"argument1\",\"argument2\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-1.xq"), Qry1),
@@ -357,7 +356,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"thisfileshouldnotexists\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-2.xq"), Qry1),
@@ -373,7 +371,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-3'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection(\"invalidURI%gg\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "fn-collection-3.xq"), Qry1),
@@ -397,7 +394,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-4'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -414,7 +410,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-4d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -431,7 +426,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-5'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection($collection-uri))", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -448,7 +442,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-5d'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "count(fn:collection())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -465,7 +458,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-6'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $x in fn:collection($collection-uri)//title order by string($x) return $x", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -482,7 +474,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-7'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "distinct-values(fn:collection($collection-uri)//*[text()[contains(.,\"TCP/IP\")]]/normalize-space())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -507,7 +498,6 @@ environment('default-string-collection',__BaseDir) ->
 'fn-collection-8'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) return ($d//title)[1]", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -533,7 +523,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "for $d in fn:collection($collection-uri) order by count($d//title) return
          count($d//title)", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -551,7 +540,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection($collection-uri) let $c2 := fn:collection($collection-uri) for
          $c at $p in $c1 return $c is exactly-one($c2[$p])", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -569,7 +557,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = " let $c1 := fn:collection() let $c2 := fn:collection() for $c at $p in $c1 return $c is
          exactly-one($c2[$p])", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -586,7 +573,6 @@ environment('default-string-collection',__BaseDir) ->
 'K2-SeqCollectionFunc-1'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http:\\\\invalidURI\\someURI%gg\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqCollectionFunc-1.xq"), Qry1),
@@ -610,7 +596,6 @@ environment('default-string-collection',__BaseDir) ->
 'K2-SeqCollectionFunc-2'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\":/\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "K2-SeqCollectionFunc-2.xq"), Qry1),
@@ -634,7 +619,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection()", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -667,7 +651,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -700,7 +683,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection() | collection(())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-2',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -733,7 +715,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection() | collection(())", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -774,7 +755,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-005'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\")", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -807,7 +787,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-006'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"collection1\")", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -841,7 +820,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
          collection(\"collection1\")", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -875,7 +853,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") |
          collection(\"collection1\")", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -917,7 +894,6 @@ environment('default-string-collection',__BaseDir) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "let $c := collection(\"http://www.w3.org/2010/09/qt-fots-catalog/collection1\") return $c
          | (for $doc in $c return doc(document-uri($doc)))", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('simple-collection-1',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -953,7 +929,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-900'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"nonexistent\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-900.xq"), Qry1),
@@ -969,7 +944,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-901'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection()", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-901.xq"), Qry1),
@@ -985,7 +959,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-902'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(\"##invalid\")", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-902.xq"), Qry1),
@@ -1009,7 +982,6 @@ environment('default-string-collection',__BaseDir) ->
 'collection-903'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "collection(())", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "collection-903.xq"), Qry1),
@@ -1025,7 +997,6 @@ environment('default-string-collection',__BaseDir) ->
 'cbcl-collection-001'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('%gg')", 
-   _ = xqldb_docstore:delete_collection([]),
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "cbcl-collection-001.xq"), Qry1),
@@ -1049,7 +1020,6 @@ environment('default-string-collection',__BaseDir) ->
 'cbcl-collection-002'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('integer-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1074,7 +1044,6 @@ environment('default-string-collection',__BaseDir) ->
 'cbcl-collection-003'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('atomic-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),
@@ -1099,7 +1068,6 @@ environment('default-string-collection',__BaseDir) ->
 'cbcl-collection-004'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "fn:collection()", 
-   _ = xqldb_docstore:delete_collection([]),
    {Env,Opts} = xqerl_test:handle_environment(environment('default-string-collection',__BaseDir)),
    Qry1 = lists:flatten(Env ++ Qry),
    io:format("Qry1: ~p~n",[Qry1]),

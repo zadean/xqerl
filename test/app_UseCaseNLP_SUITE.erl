@@ -205,7 +205,7 @@ environment('speech-representation.json',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),"http://xqerl.org/speech-representation.json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseNLP/speech-representation.json"),"http://xqerl.org/speech-representation.json"}]}, 
 {modules, []}
 ].
 'UseCaseNLP-001'(Config) ->

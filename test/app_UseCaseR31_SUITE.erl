@@ -265,38 +265,38 @@ environment('json-docs',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"}, 
-{filename:join(__BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"}]}, 
+{resources, [{"application/json", filename:join(__BaseDir, "UseCaseR31/incoming.json"),"http://www.w3.org/qt3/app/UseCaseR31/incoming-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/users2.json"),"http://www.w3.org/qt3/app/UseCaseR31/users2-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/colors.json"),"http://www.w3.org/qt3/app/UseCaseR31/colors-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/table.json"),"http://www.w3.org/qt3/app/UseCaseR31/table-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/satellites.json"),"http://www.w3.org/qt3/app/UseCaseR31/satellites-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/bookinfo.json"),"http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/employees.json"),"http://www.w3.org/qt3/app/UseCaseR31/employees-json"}, 
+{"application/json", filename:join(__BaseDir, "UseCaseR31/mildred.json"),"http://www.w3.org/qt3/app/UseCaseR31/mildred-json"}]}, 
 {modules, []}
 ]; 
 environment('users-json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,__BaseDir,"unparsed-text-lines(\"UseCaseR31/users.json\") ! parse-json(.)"}]}]}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/users-json",[{query,__BaseDir,"unparsed-text-lines(\"http://xqerl.org/UseCaseR31/users.json\") ! parse-json(.)"}]}]}, 
 {'static-base-uri', []}, 
 {params, []}, 
 {vars, [{"users-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/users-json'"}]}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, []}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "UseCaseR31/users.json"),"http://xqerl.org/UseCaseR31/users.json"}]}, 
 {modules, []}
 ]; 
 environment('sales-json',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
-{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,__BaseDir,"unparsed-text-lines(\"UseCaseR31/sales.json\") ! parse-json(.)"}]}]}, 
+{collections, [{"http://www.w3.org/2010/09/qt-fots-catalog/sales-json",[{query,__BaseDir,"unparsed-text-lines(\"http://xqerl.org/UseCaseR31/sales.json\") ! parse-json(.)"}]}]}, 
 {'static-base-uri', []}, 
 {params, []}, 
 {vars, [{"sales-collection-uri","xs:string","'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'"}]}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, []}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "UseCaseR31/sales.json"),"http://xqerl.org/UseCaseR31/sales.json"}]}, 
 {modules, []}
 ].
 'UseCaseR31-001'(Config) ->
@@ -891,9 +891,17 @@ return
    io:format("Qry1: ~p~n",[Qry1]),
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "UseCaseR31-023.xq"), Qry1),
              xqerl:run(Mod,Opts) of D -> D catch _:E -> E end,
-   Out =    case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
+   Out =    case lists:any(fun({comment,_}) -> true; (_) -> false end, [
+   case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
+   end,
+   case xqerl_test:assert_xml(Res,"<department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>") of 
+      true -> {comment, "XML Deep equal"};
+      {false, F} -> F 
+   end]) of 
+      true -> {comment, "any-of"};
+      _ -> false 
    end, 
    case Out of
       {comment, C} -> {comment, C};

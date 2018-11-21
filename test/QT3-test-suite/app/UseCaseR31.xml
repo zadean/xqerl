@@ -34,21 +34,24 @@
 
 
       <resource file="UseCaseR31/mildred.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/mildred-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/employees.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/employees-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/bookinfo.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -57,7 +60,8 @@
 
 
       <resource file="UseCaseR31/satellites.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/satellites-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -65,7 +69,8 @@
       </resource>
 
       <resource file="UseCaseR31/table.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/table-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -73,14 +78,16 @@
       </resource>
 
       <resource file="UseCaseR31/colors.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/colors-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
 
       </resource>
       <resource file="UseCaseR31/users2.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/users2-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -88,7 +95,8 @@
       </resource>
 
       <resource file="UseCaseR31/incoming.json"
-                media-type="text/plain"
+                media-type="application/json"
+                old-media-type="text/plain"
               encoding="utf-8"
               uri="http://www.w3.org/qt3/app/UseCaseR31/incoming-json">
           <created by="O'Neil Delpratt" on="2015-09-18" />
@@ -97,15 +105,17 @@
    </environment>
 
     <environment name="users-json">
+      <resource file="UseCaseR31/users.json" media-type="text/plain" encoding="utf-8" uri="http://xqerl.org/UseCaseR31/users.json"/>
         <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json">
-            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
+            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("http://xqerl.org/UseCaseR31/users.json") ! parse-json(.)</query>
         </collection>
       <param name="users-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/users-json'" declared="false"/>
     </environment>
 
     <environment name="sales-json">
+      <resource file="UseCaseR31/sales.json" media-type="text/plain" encoding="utf-8" uri="http://xqerl.org/UseCaseR31/sales.json"/>
         <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/sales-json">
-            <query>unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.)</query>
+            <query>unparsed-text-lines("http://xqerl.org/UseCaseR31/sales.json") ! parse-json(.)</query>
         </collection>
       <param name="sales-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'" declared="false"/>
     </environment>

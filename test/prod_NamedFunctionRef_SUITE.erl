@@ -1304,7 +1304,7 @@ environment('function-lookup',__BaseDir) ->
 {vars, []}, 
 {namespaces, []},
 {schemas, []}, 
-{resources, [{filename:join(__BaseDir, "../fn/unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]}, 
+{resources, [{"text/plain", filename:join(__BaseDir, "../fn/unparsed-text/text-plain-utf-8.txt"),"http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt"}]}, 
 {modules, []}
 ].
 'function-literal-001'(Config) ->

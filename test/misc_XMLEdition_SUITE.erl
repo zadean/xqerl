@@ -267,7 +267,7 @@ environment('array-and-map',__BaseDir) ->
 
 xquery version \"1.0\" encoding \"utf-8\";
 
-< node/>
+<��node/>
 ", 
    Qry1 = Qry,
    io:format("Qry1: ~p~n",[Qry1]),
