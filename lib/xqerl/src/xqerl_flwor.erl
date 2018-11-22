@@ -53,23 +53,22 @@
 % internal use
 %% -export([int_order_1/2]).
    
+add_position(List) when is_list(List) ->
+   List1 = xqerl_seq3:to_list(List),
+   add_position(List1, 1, []);
 add_position(List) ->
-   List1 = ?seq:to_list(List),
-   add_position(List1, 1, []).
+   add_position([List]).
 
-add_position([], _Cnt, Acc) ->
-   lists:reverse(Acc);
 add_position([H|T], Cnt, Acc) ->
    New = {H, ?atint(Cnt)},
    add_position(T, Cnt + 1, [New|Acc]);
-add_position(H, Cnt, Acc) ->
-   New = {H, ?atint(Cnt)},
-   add_position([], Cnt + 1, [New|Acc]).
+add_position([], _Cnt, Acc) ->
+   lists:reverse(Acc).
 
 do_atomize([],_) -> {<<>>, []};
 do_atomize([V],C) -> do_atomize(V,C);
 do_atomize(#{nk := _} = N,Coll) ->
-   A = ?seq:singleton_value(xqerl_types:atomize(N)),
+   A = xqerl_seq3:singleton_value(xqerl_types:atomize(N)),
    #xqAtomicValue{value = Val} = A,
    {xqerl_coll:sort_key(Val, Coll), A};
 do_atomize(#xqAtomicValue{value = Val, type = T} = A,_)
@@ -92,18 +91,15 @@ do_atomize(_,_) ->
 %% takes {{{K1,C1},{KN,CN}}, {V1,V2,VN}} and returns {K1,KN,V1,V2,VN} grouped
 groupbyclause(KeyVals) ->
    % atomize where needed
-   KeyVals1 = 
-     lists:map(fun({K1,V}) ->
-                     KC = tuple_to_list(K1),
-                     {
-                      lists:map(fun({K,C}) ->
-                                     do_atomize(K,C)
-                               end, KC), 
-                      list_to_tuple(lists:map(fun({Va,_}) -> Va;
-                                   (Va) -> Va
-                                end, tuple_to_list(V)))
-                     }
-               end, KeyVals),
+   KVFun = fun({K1,V}) ->
+                 KC = tuple_to_list(K1),
+                 Atoms = [do_atomize(K,C) || {K,C} <- KC],
+                 Vals = lists:map(fun({Va,_}) -> Va;
+                                     (Va) -> Va
+                                  end, tuple_to_list(V)),
+                 {Atoms, list_to_tuple(Vals)}
+               end,
+   KeyVals1 = lists:map(KVFun, KeyVals),
     
    Keys = [K || {K,_V} <- KeyVals1],
    UKeys = unique(Keys),
@@ -115,7 +111,7 @@ groupbyclause(KeyVals) ->
                            Vs = [V || {_K,V} <- Ks],
                   V = reverse(maps:get(K, Mapped)),
                   V1 = lists:map(fun(ListVal) ->
-                                       ?seq:from_list(ListVal)
+                                       xqerl_seq3:from_list(ListVal)
                                  end, V),
                   New = list_to_tuple(Vs ++ V1) ,
                   [New|Acc]
@@ -125,126 +121,113 @@ groupbyclause(KeyVals) ->
 %% takes single list from expression and the start function and returns 
 %% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% can only be tumbling with no end function
+windowclause([], _, _) -> [];
 windowclause(L, StartFun, WType) ->
-   case add_position(L) of
-      [] -> [];
-      L1 ->
-         Bw = winstart([[]|L1], StartFun, []),
-         %?dbg("BW",Bw),
-         Bw2 = lists:map(fun(B) ->
-                               L2 = element(9, B),
-                               S = ?seq:from_list(L2),
-                               case xqerl_types:instance_of(S, WType) of
-                                  #xqAtomicValue{value = true} ->
-                                     setelement(9, B, S);
-                                  _ ->
-                                     ?err('XPTY0004')
-                               end
-                         end, Bw),
-         lists:reverse(Bw2)
-   end.
+   L1 = add_position(L),
+   Bw = winstart([[]|L1], StartFun, []),
+   flatten_window_return(Bw, WType).
 
 %% takes single list from expression and the start/end functions and returns 
 %% {SPrev,S, SPos,SNext,EPrev,E, EPos,ENext, W} 
 %% Type is tumbling or sliding
+windowclause([], _, _, _, _) -> [];
 windowclause(L, StartFun, EndFun, {Type, Only}, WType) ->
-   case add_position(L) of
-      [] -> [];
-      L1 ->
-         Bw = winstart([[]|L1], StartFun, EndFun, Type, Only),
-         %?dbg("BW",Bw),
-         Bw2 = lists:map(fun(B) ->
-                               L2 = element(9, B),
-                               S = ?seq:from_list(L2),
-                               case xqerl_types:instance_of(S, WType) of
-                                  #xqAtomicValue{value = true} ->
-                                     setelement(9, B, S);
-                                  _ ->
-                                     ?err('XPTY0004')
-                               end
-                         end, Bw),
-         lists:reverse(Bw2)
-   end;
+   L1 = add_position(L),
+   Bw = winstart([[]|L1], StartFun, EndFun, Type, Only),
+   flatten_window_return(Bw, WType);
 windowclause(L, StartFun, EndFun, Type, WType) ->
    windowclause(L, StartFun, EndFun, {Type, false}, WType).
 
+flatten_window_return(Bw, WType) ->
+   [begin
+       L2 = element(9, B),
+       S = xqerl_seq3:from_list(L2),
+       case xqerl_types:instance_of(S, WType) of
+          #xqAtomicValue{value = true} ->
+             setelement(9, B, S);
+          _ -> 
+             ?err('XPTY0004')
+       end
+    end || B <- Bw, B =/= []].
 
-% tumbling window with no end function, means window as of each 'true'
+
+% tumbling window with no end function, means window as if each 'true'
+winstart([], _, _) -> [];
+winstart([{S, SPos}], StartFun, _) -> 
+   case bool(StartFun({S,SPos,[],[]})) of
+      true ->
+         [{S,SPos,[],[],S,SPos,[],[],[S]}];
+      _ ->
+         []
+   end;
+winstart([[],{S, SPos}], StartFun, []) ->
+   case bool(StartFun({S,SPos,[],[]})) of
+      true ->
+         winstart([{S, SPos}], StartFun, {S,SPos,[],[],S,SPos,[],[],[S]});
+      _ ->
+         winstart([{S, SPos}], StartFun, [])
+   end;
 winstart([[],{S, SPos}] = L, StartFun, Acc) ->
    case bool(StartFun({S,SPos,[],[]})) of
       true ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, {S,SPos,[],[],S,SPos,[],[],[S]});
-            A ->
-               R = lists:reverse(element(9, A)),
-               winstart(L, StartFun, []) ++ [setelement(9, A, R)]
-         end;
+         R = lists:reverse(element(9, Acc)),
+         [setelement(9, Acc, R) | winstart(L, StartFun, [])];
       _ ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, []);
-            {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} ->
-               NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,[],[],[S|W]},
-               winstart(tl(L), StartFun, NewAcc)
-         end
+         {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} = Acc,
+         NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,[],[],[S|W]},
+         winstart([{S, SPos}], StartFun, NewAcc)
+   end;
+winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, []) ->
+   case bool(StartFun({S,SPos,[],SNext})) of
+      true ->
+         winstart(tl(L), StartFun, {S,SPos,[],SNext,S,SPos,[],SNext,[S]});
+      _ ->
+         winstart(tl(L), StartFun, [])
    end;
 winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, Acc) ->
    case bool(StartFun({S,SPos,[],SNext})) of
       true ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, {S,SPos,[],SNext,S,SPos,[],SNext,[S]});
-            A ->
-               R = lists:reverse(element(9, A)),
-               winstart(L, StartFun, []) ++ [setelement(9, A, R)]
-         end;
+         R = lists:reverse(element(9, Acc)),
+         [setelement(9, Acc, R) | winstart(L, StartFun, [])];
       _ ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, []);
-            {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} ->
-               NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,[],SNext,[S|W]},
-               winstart(tl(L), StartFun, NewAcc)
-         end
+         {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} = Acc,
+         NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,[],SNext,[S|W]},
+         winstart(tl(L), StartFun, NewAcc)
    end;
+% last call , returns
+winstart([{SPrev,_},{S, SPos}], StartFun, []) ->
+   case bool(StartFun({S,SPos,SPrev,[]})) of
+      true ->
+         [{S,SPos,SPrev,[],S,SPos,SPrev,[],[S]}];
+      _ ->
+         []
+   end;
+% last call , returns
 winstart([{SPrev,_},{S, SPos}], StartFun, Acc) ->
    case bool(StartFun({S,SPos,SPrev,[]})) of
       true ->
-         case Acc of
-            [] ->
-               [{S,SPos,SPrev,[],S,SPos,SPrev,[],[S]}];
-            A ->
-               R = lists:reverse(element(9, A)),
-               [{S,SPos,SPrev,[],S,SPos,SPrev,[],S} , setelement(9, A, R)]
-         end;
+         R = lists:reverse(element(9, Acc)),
+         [setelement(9, Acc, R),{S,SPos,SPrev,[],S,SPos,SPrev,[],S}];
       _ ->
-         case Acc of
-            [] ->
-               [];
-            {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} ->
-               [{S1,SPos1,SPrev1,SNext1,S,SPos,SPrev,[],lists:reverse([S|W])}]
-         end
+         {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} = Acc,
+         [{S1,SPos1,SPrev1,SNext1,S,SPos,SPrev,[],lists:reverse([S|W])}]
+   end;
+winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, []) ->
+   case bool(StartFun({S,SPos,SPrev,SNext})) of
+      true ->
+         winstart(tl(L), StartFun, {S,SPos,SPrev,SNext,S,SPos,SPrev,SNext,[S]});
+      _ ->
+         winstart(tl(L), StartFun, [])
    end;
 winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L, StartFun, Acc) ->
    case bool(StartFun({S,SPos,SPrev,SNext})) of
       true ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, 
-                        {S,SPos,SPrev,SNext,S,SPos,SPrev,SNext,[S]});
-            A ->
-               R = lists:reverse(element(9, A)),
-               winstart(L, StartFun, []) ++ [setelement(9, A, R)]
-         end;
+         R = lists:reverse(element(9, Acc)),
+         [setelement(9, Acc, R) | winstart(L, StartFun, [])];
       _ ->
-         case Acc of
-            [] ->
-               winstart(tl(L), StartFun, []);
-            {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} ->
-               NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,SPrev,SNext,[S|W]},
-               winstart(tl(L), StartFun, NewAcc)
-         end
+         {S1,SPos1,SPrev1,SNext1,_,_, _,_,W} = Acc,
+         NewAcc = {S1,SPos1,SPrev1,SNext1,S,SPos,SPrev,SNext,[S|W]},
+         winstart(tl(L), StartFun, NewAcc)
    end.
 
 
@@ -254,8 +237,7 @@ winstart([{SPrev,_}] = L, StartFun, EndFun, _Type, Only) ->
    case bool(StartFun({[],[],SPrev,[]})) of
       true ->
          {Win, _Rest} = winend(SPrev, [], [], [], L, EndFun, [], Only),
-         % could send Win someplace now
-         Win;
+         [Win];
       _ ->
          []
    end;
@@ -263,11 +245,10 @@ winstart([[],{S, SPos},{SNext, _}|_] = L, StartFun, EndFun, Type, Only) ->
    case bool(StartFun({S,SPos,[],SNext})) of
       true ->
          {Win, Rest} = winend([], S, SPos, SNext, L, EndFun, [], Only),
-         % could send Win someplace now
          if Type == tumbling ->
-               winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
+               [Win | winstart(Rest, StartFun, EndFun, Type, Only)];
             true ->
-               winstart(tl(L), StartFun, EndFun, Type, Only) ++ Win
+               [Win | winstart(tl(L), StartFun, EndFun, Type, Only)]
          end;
       _ ->
          winstart(tl(L), StartFun, EndFun, Type, Only)
@@ -277,14 +258,8 @@ winstart([[],{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
       true ->
          {Win, _Rest} = winend([], S, SPos, [], L, EndFun, [], Only),
          % could send Win someplace now
-         Win;
-%%          if Type == tumbling ->
-%%                winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
-%%             true ->
-%%                winstart(tl(L), StartFun, EndFun, Type, Only) ++ Win
-%%          end;
+         [Win];
       _ ->
-%%          []
          winstart(tl(L), StartFun, EndFun, Type, Only)
    end;
 winstart([{SPrev,_},{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
@@ -292,9 +267,8 @@ winstart([{SPrev,_},{S, SPos}] = L, StartFun, EndFun, Type, Only) ->
       true ->
          {Win, _Rest} = winend(SPrev, S, SPos, [], L, EndFun, [], Only),
          % could send Win someplace now
-         Win;
+         [Win];
       _ ->
-%%          []
          winstart(tl(L), StartFun, EndFun, Type, Only)
    end;
 winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L,StartFun,EndFun,Type,Only) ->
@@ -303,9 +277,9 @@ winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L,StartFun,EndFun,Type,Only) ->
          {Win, Rest} = winend(SPrev, S, SPos, SNext, L, EndFun, [], Only),
          % could send Win someplace now
          if Type == tumbling ->
-               winstart(Rest, StartFun, EndFun, Type, Only) ++ Win;
+               [Win | winstart(Rest, StartFun, EndFun, Type, Only)];
             true ->
-               winstart(tl(L), StartFun, EndFun, Type, Only) ++ Win
+               [Win | winstart(tl(L), StartFun, EndFun, Type, Only)]
          end;
       _ ->
          winstart(tl(L), StartFun, EndFun, Type, Only)
@@ -313,49 +287,52 @@ winstart([{SPrev,_},{S, SPos},{SNext, _}|_] = L,StartFun,EndFun,Type,Only) ->
 
 
 winend(SPrev,S,SPos,SNext,[[],{E, EPos},{ENext, _}|_] = L, EndFun, Acc, Only) ->
+   NewAcc = [E|Acc],
    case bool(EndFun({S,SPos,SPrev,SNext,E,EPos,[],ENext})) of
       true ->
-         {[{S,SPos,SPrev,SNext,E,EPos,[],ENext, ?seq:append(E, Acc)}], tl(L)};
+         {{S,SPos,SPrev,SNext,E,EPos,[],ENext, lists:reverse(NewAcc)}, tl(L)};
       _ ->
-         winend(SPrev,S,SPos,SNext,tl(L), EndFun, ?seq:append(E, Acc), Only)
+         winend(SPrev,S,SPos,SNext,tl(L), EndFun, NewAcc, Only)
    end;
 winend(SPrev,S,SPos,SNext,[[],{E, EPos}] = L, EndFun, Acc, Only) ->
+   NewAcc = [E|Acc],
    case bool(EndFun({S,SPos,SPrev,SNext,E,EPos,[],[]})) of
       true ->
-         {[{S,SPos,SPrev,SNext,E,EPos,[],[], ?seq:append(E, Acc)}], tl(L)};
+         {{S,SPos,SPrev,SNext,E,EPos,[],[], lists:reverse(NewAcc)}, tl(L)};
       _ ->
-         winend(SPrev,S,SPos,SNext,tl(L), EndFun, ?seq:append(E, Acc), Only)
+         winend(SPrev,S,SPos,SNext,tl(L), EndFun, NewAcc, Only)
    end;
 winend(SPrev,S,SPos,SNext,[{EPrev,_},{E, EPos}], EndFun, Acc, Only) ->
+   NewAcc = [E|Acc],
    case bool(EndFun({S,SPos,SPrev,SNext,E,EPos,EPrev,[]})) of
       true ->
-         {[{S,SPos,SPrev,SNext,E,EPos,EPrev,[], ?seq:append(E, Acc)}], []};
+         {{S,SPos,SPrev,SNext,E,EPos,EPrev,[], lists:reverse(NewAcc)}, []};
       _ ->
          if Only == true ->
                {[], []};
             true ->
-               {[{S,SPos,SPrev,SNext,E,EPos,EPrev,[], ?seq:append(E, Acc)}], []}
+               {{S,SPos,SPrev,SNext,E,EPos,EPrev,[], lists:reverse(NewAcc)}, []}
          end
    end;
 winend(SPrev,S,SPos,SNext,[{EPrev,_}], EndFun, Acc, Only) ->
    case bool(EndFun({S,SPos,SPrev,SNext,[],[],EPrev,[]})) of
       true ->
-         {[{S,SPos,SPrev,SNext,[],[],EPrev,[], Acc}], []};
+         {{S,SPos,SPrev,SNext,[],[],EPrev,[], lists:reverse(Acc)}, []};
       _ ->
          if Only == true ->
                {[], []};
             true ->
-               {[{S,SPos,SPrev,SNext,[],[],EPrev,[], Acc}], []}
+               {{S,SPos,SPrev,SNext,[],[],EPrev,[], lists:reverse(Acc)}, []}
          end
    end;
 winend(SPrev,S,SPos,SNext,[{EPrev,_},{E, EPos},{ENext, _}|_] = L, 
        EndFun, Acc, Only) ->
+   NewAcc = [E|Acc],
    case bool(EndFun({S,SPos,SPrev,SNext,E,EPos,EPrev,ENext})) of
       true ->
-         {[{S,SPos,SPrev,SNext,E,EPos,EPrev,ENext, ?seq:append(E, Acc)}], 
-          tl(L)};
+         {{S,SPos,SPrev,SNext,E,EPos,EPrev,ENext, lists:reverse(NewAcc)}, tl(L)};
       _ ->
-         winend(SPrev,S,SPos,SNext,tl(L), EndFun, ?seq:append(E, Acc), Only)
+         winend(SPrev,S,SPos,SNext,tl(L), EndFun, NewAcc, Only)
    end.
 
 %% functions for group by
@@ -399,53 +376,6 @@ reverse(List) ->
    lists:map(fun(I) ->
                   lists:flatten(lists:reverse(lists:nth(I, List)))
              end, lists:seq(1, Sz)).
-
-%% int_order_1(Tuple,Clauses) ->
-%%    Cs = lists:map(fun({C,D,E}) ->
-%%                    V = C(Tuple),
-%%                    {V,D,E}
-%%              end, Clauses),
-%%    {Tuple,Cs}.
-%% 
-%% pmap(F, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
-%%          L11,L12,L13,L14,L15,L16,L17,L18,L19,L20|T]) ->
-%%    S = self(),
-%%    Ref = make_ref(),
-%%    Pids = lists:map(fun(I) ->
-%%                           spawn(fun() ->
-%%                                       do_f(S,Ref,F,I) 
-%%                                 end)
-%%                     end, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,
-%%          L11,L12,L13,L14,L15,L16,L17,L18,L19,L20]),
-%%    H = gather(Pids,Ref),
-%%    H ++ pmap(F,T);
-%% pmap(F, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10|T]) ->
-%%    S = self(),
-%%    Ref = make_ref(),
-%%    Pids = lists:map(fun(I) ->
-%%                           spawn(fun() ->
-%%                                       do_f(S,Ref,F,I) 
-%%                                 end)
-%%                     end, [L1,L2,L3,L4,L5,L6,L7,L8,L9,L10]),
-%%    H = gather(Pids,Ref),
-%%    H ++ pmap(F,T);
-%% pmap(F, L) ->
-%%    lists:map(fun(I) ->
-%%                    F(I)
-%%              end,L).
-%% 
-%% do_f(Parent,Ref,F,I) ->
-%%    Parent ! {self(),Ref,F(I)}.
-%% 
-%% gather([Pid|T],Ref) ->
-%%    receive
-%%       {Pid,Ref,Ret} ->
-%%          %?dbg("Ret",Ret),
-%%          [Ret|gather(T,Ref)]
-%%    end;
-%% gather([],_) ->
-%%    [].
-
 
 % Clauses are funs that take an entire VarStream tuple
 orderbyclause(VarStream, Clauses) ->
