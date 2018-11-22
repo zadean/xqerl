@@ -20,7 +20,7 @@
          insert/2,
          lookup/2]).
 
--type state() :: #{tab => ets:tid(),
+-type state() :: #{tab => gb_sets:set(_),
                    file => file:io_device()}.
 -type server() :: Pid::pid().
 -type namespace() :: {MinPos::non_neg_integer(),
