@@ -47,29 +47,29 @@
 
 
 records() ->
-   ["-record(xqError,{name,description,value,location}).",
-    "-record(xqAtomicValue,{type,value}).",
-    "-record(qname,{namespace,prefix,local_name}).",
-    "-record(xqFunction,{id,annotations,name,arity,params,type,body,external}).",
-    "-record(xqDocumentNode,{identity,desc_count,base_uri,children,
-      value,string_value,path_index,expr}).",
-    "-record(xqElementNode,{identity,desc_count,name,parent_node,children,
-      attributes,inscope_ns,nilled,type,base_uri,path_index,expr}).",
-    "-record(xqAttributeNode,{identity,name,parent_node,value,string_value,
-      path_index,expr}).",
-    "-record(xqTextNode,{identity,parent_node,cdata,path_index,expr}).",
-    "-record(xqCommentNode,{identity,parent_node,string_value,path_index,
-      expr}).",
-    "-record(xqProcessingInstructionNode,{identity,name,parent_node,
-      base_uri,path_index,expr}).",
-    "-record(xqNamespaceNode,{identity,name,parent_node,path_index,expr}).",
-    "-record(xqNamespace,{namespace,prefix}).",
-    "-record(xqFunTest,{kind,annotations,name,params,type}).",
-    "-record(xqSeqType,{type,occur}).",
-    "-record(xqKindTest,{kind,name,type}).",
-    "-record(xqRange,{min,max,cnt})."
-   ].
-
+   Recs = 
+   [{xqError,                     "-record(xqError,{name,description,value,location})."},
+    {xqAtomicValue,               "-record(xqAtomicValue,{type,value})."},
+    {qname,                       "-record(qname,{namespace,prefix,local_name})."},
+    {xqFunction,                  "-record(xqFunction,{id,annotations,name,arity,params,type,body,external})."},
+    {xqDocumentNode,              "-record(xqDocumentNode,{identity,desc_count,base_uri,children,value,string_value,path_index,expr})."},
+    {xqElementNode,               "-record(xqElementNode,{identity,desc_count,name,parent_node,children,attributes,inscope_ns,nilled,type,base_uri,path_index,expr})."},
+    {xqAttributeNode,             "-record(xqAttributeNode,{identity,name,parent_node,value,string_value,path_index,expr})."},
+    {xqTextNode,                  "-record(xqTextNode,{identity,parent_node,cdata,path_index,expr})."},
+    {xqCommentNode,               "-record(xqCommentNode,{identity,parent_node,string_value,path_index,expr})."},
+    {xqProcessingInstructionNode, "-record(xqProcessingInstructionNode,{identity,name,parent_node,base_uri,path_index,expr})."},
+    {xqNamespaceNode,             "-record(xqNamespaceNode,{identity,name,parent_node,path_index,expr})."},
+    {xqNamespace,                 "-record(xqNamespace,{namespace,prefix})."},
+    {xqFunTest,                   "-record(xqFunTest,{kind,annotations,name,params,type})."},
+    {xqSeqType,                   "-record(xqSeqType,{type,occur})."},
+    {xqKindTest,                  "-record(xqKindTest,{kind,name,type})."},
+    {xqRange,                     "-record(xqRange,{min,max,cnt})."}
+   ],
+   Used = get_used_record_types(),
+   lists:map(fun(A) ->
+                   proplists:get_value(A, Recs)
+             end, Used).
+   
 revert(L) when is_list(L) ->
    [erl_syntax:revert(I) || I <- L];
 revert(I) ->
@@ -200,6 +200,7 @@ scan_mod(#xqModule{prolog = Prolog,
                    body = _}, Map) ->
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
+   _ = add_used_record_type(xqAtomicValue),
    DefElNs     = xqerl_static:pro_def_elem_ns(Prolog),
    %ContextItem = xqerl_static:pro_context_item(Prolog,main),
    Namespaces  = xqerl_static:pro_namespaces(Prolog,[],DefElNs),
@@ -225,19 +226,19 @@ scan_mod(#xqModule{prolog = Prolog,
             "-export([static_props/0]).",
             "-export([init/1])."
             ]),
-   P4 = lists:flatten([
-         ?P(export_variables(Variables, EmptyMap)),
-         ?P(export_functions(Functions)),
-         ?P(records())
-        ]),
    P5 = ?P(["-compile(inline_list_funcs).",
-            "-compile(native).",
+            %"-compile(native).",
             "static_props() -> _@StatProps@."]),
     % this will also setup the global variable match
    P6 = init_function(scan_variables(EmptyMap,Variables),Prolog),
    P7 = variable_functions(EmptyMap, Variables),
    P8 = function_functions(EmptyMap, Functions),
    P9 = get_global_funs(),
+   P4 = lists:flatten([
+         ?P(export_variables(Variables, EmptyMap)),
+         ?P(export_functions(Functions)),
+         ?P(records())
+        ]),
    P10 = P3 ++ P4 ++ P5 ++ P6 ++ P7 ++ P8 ++ P9,
    {ModNs,
     library,
@@ -254,6 +255,7 @@ scan_mod(#xqModule{prolog = Prolog,
    xqerl_context:set_statically_known_functions(Tab,[]), %%% get rid of this!!
    _ = init_mod_scan(),
    ok = set_globals(Prolog, Map),
+   _ = add_used_record_type(xqAtomicValue),
    % the prolog is sorted in reverse order
    Imports     = xqerl_static:pro_mod_imports(Prolog),
    
@@ -296,31 +298,30 @@ scan_mod(#xqModule{prolog = Prolog,
    MapItems = init_fun_abs(
                 EmptyMap#{module => ModName},
                 maps:get(stat_props, EmptyMap) ++ StaticProps),
+    % abstract after this point
+   P1 = ?P(["-module('@ModName@').",
+            "-export([main/1])."
+           ]),
+   P3 = ?P(["-compile(inline_list_funcs).",
+            %"-compile(native).",
+            "init() ->",
+            "  _ = xqerl_lib:lnew(),",
+            "  Tab = xqerl_context:init(),",
+            "  Map = maps:put(tab,Tab,_@MapItems),",
+            "  xqerl_context:set_named_functions(Tab,maps:get(named_functions,Map,[])),",
+            "  maps:remove(named_functions,Map)."]),
+   P4 = body_function(EmptyMap, Body, Prolog), % this will also setup the global variable match
+   P5 = variable_functions(EmptyMap, Variables), 
+   P6 = function_functions(EmptyMap, Functions),
+   P7 = get_global_funs(),
+   P2 = lists:flatten([?P(export_functions(Functions)),
+                       ?P(records())]),
    {FileName,
     main,
     ImportedMods,
     scan_variables(EmptyMap,Variables, public),
     scan_functions(EmptyMap,Functions,ModName, public),
-    % abstract after this point
-    ?P(["-module('@ModName@').",
-        "-export([main/1])."
-       ]) ++
-      lists:flatten([
-         ?P(export_functions(Functions)),
-         ?P(records())
-        ]) ++
-    ?P(["-compile(inline_list_funcs).",
-        "-compile(native).",
-        "init() ->",
-         "  _ = xqerl_lib:lnew(),",
-         "  Tab = xqerl_context:init(),",
-         "  Map = maps:put(tab,Tab,_@MapItems),",
-         "  xqerl_context:set_named_functions(Tab,maps:get(named_functions,Map,[])),",
-         "  maps:remove(named_functions,Map)."]) ++
-    body_function(EmptyMap, Body, Prolog) ++ % this will also setup the global variable match
-    variable_functions(EmptyMap, Variables) ++ 
-    function_functions(EmptyMap, Functions) ++
-    get_global_funs()
+    P1 ++ P2 ++ P3 ++ P4 ++ P5 ++ P6 ++ P7
    }.
 
 %% used in library modules instead of main init 
@@ -1861,9 +1862,9 @@ flwor(Ctx, [{Curr,_,_} = F|T], RetId, Return, Internal, Global,TupleVar,Inline)
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name(F),
    {NewCtx,FunAbs} = if Curr =:= 'let' ->
-                           let_part(Ctx, F, [], Internal =/= []);
+                           let_part(Ctx, F, [], not Inline andalso Internal =/= []);
                         true ->
-                           for_loop(Ctx, F, [], Internal =/= [])
+                           for_loop(Ctx, F, [], not Inline andalso Internal =/= [])
                      end,
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -1892,7 +1893,7 @@ flwor(Ctx, [#xqWindow{win_variable = #xqVar{id = Id}} = F|T], RetId,
                   end,
    CurrContext = {var,?L,get_context_variable_name(Ctx)},
    ThisFun = glob_fun_name({window,Id}),
-   {NewCtx,FunAbs} = window_loop(Ctx, F, []),
+   {NewCtx,FunAbs} = window_loop(Ctx, F, [], Internal == []),
    
    Call1 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,_@@Vars)")],
    Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
@@ -1948,27 +1949,22 @@ flwor(Ctx, [{group_by,Id,_} = F|T], RetId, Return, Internal,
          FunAbs ++ Global,NextTupleVar,false);
 
 % order
-flwor(Ctx, [{order_by,_Id,Exprs}|T], RetId, Return, Internal, 
+flwor(Ctx, [{order_by,Id,_} = F|T], RetId, Return, Internal, 
       Global,TupleVar,_Inline) ->
    NextTupleVar = {var,?L,next_var_tuple_name()},
-   VarTup = get_variable_tuple(Ctx),
-   OFun = fun({order,Expr,{modifier,Dir,{_,Empty},{_,_Collation}}},Acc) ->
-                E1 = expr_do(Ctx, Expr),
-                ?P("[{fun(_@VarTup) -> xqerl_seq3:singleton_value(_@E1) end,
-                      '@Dir@','@Empty@'}|_@Acc]")
-          end,
-   Funs = lists:foldr(OFun, {nil,?L}, alist(Exprs)),
-   Flat = ?P("xqerl_seq3:flatten(_@TupleVar)"),
-   Clause = ?P("xqerl_flwor:orderbyclause(_@Flat,_@Funs)"),
-   Match = ?P("_@NextTupleVar = _@Clause"),
-   NewInternal = Internal ++ [Match],
-   NewCtx = set_variable_tuple_name(Ctx, NextTupleVar),
-   flwor(NewCtx, T, RetId, Return, NewInternal, Global, NextTupleVar, false).
+   CurrContext = {var,?L,get_context_variable_name(Ctx)},
+   ThisFun = glob_fun_name({order_by,Id}),
+   {NewCtx,FunAbs} = order_part(Ctx, F),
+   Call2 = [?P("_@NextTupleVar = '@ThisFun@'(_@CurrContext,xqerl_seq3:flatten(_@TupleVar))")],
+   NewInternal = Internal ++ Call2,
+   NewCtx1 = set_variable_tuple_name(NewCtx, NextTupleVar),
+   flwor(NewCtx1, T, RetId, Return, NewInternal, 
+         FunAbs ++ Global,NextTupleVar,false).
 
 return_part(Ctx,{Id, Expr},IsList) ->
    FunctionName = glob_fun_name({return,Id}),
    OldVariableTupleMatch = get_variable_tuple(Ctx),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    %InLine = attribute(compile, {inline,{FunctionName,2}}),
    E1 = expr_do(LocCtx,Expr),
    %?dbg("Expr",Expr),
@@ -1976,11 +1972,11 @@ return_part(Ctx,{Id, Expr},IsList) ->
               ?P(["'@FunctionName@'(_,[]) -> [];",
                   "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
                   "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-                  "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+                  "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                   "   _@E1."
                   ]);
           true ->
-              ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+              ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                   "   _@E1."
                   ])
               end,
@@ -1995,13 +1991,30 @@ where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
 
    E1 = expr_do(LocCtx,Expr),
    R =?P(["'@FunctionName@'(_,[]) -> [];",
-          "'@FunctionName@'(Ctx,NonList) when not erlang:is_list(NonList) ->",
-          "   '@FunctionName@'(Ctx,[NonList]);",
           "'@FunctionName@'(Ctx,[_@OldVariableTupleMatch|T]) ->",
           "   case xqerl_operators:eff_bool_val(_@E1) of",
           "      true -> [_@OldVariableTupleMatch|'@FunctionName@'(Ctx,T)];",
           "      _ -> '@FunctionName@'(Ctx,T)",
           "   end."
+         ]),
+   
+   %{Ctx,[InLine,WhereFun]}.
+   {Ctx,[R]}.
+
+order_part(Ctx,{'order_by',Id, Exprs}) ->
+   FunctionName = glob_fun_name({order_by, Id}),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
+   VarTup = get_variable_tuple(Ctx),
+   OFun = fun({order,Expr,{modifier,Dir,{_,Empty},{_,_Collation}}},Acc) ->
+                E1 = expr_do(LocCtx, Expr),
+                ?P("[{fun(_@VarTup) -> xqerl_seq3:singleton_value(_@E1) end,
+                      '@Dir@','@Empty@'}|_@Acc]")
+          end,
+   Funs = lists:foldr(OFun, {nil,?L}, alist(Exprs)),
+   
+   R =?P(["'@FunctionName@'(_,[]) -> [];",
+          "'@FunctionName@'(__Ctx, Stream) ->",
+          "   xqerl_flwor:orderbyclause(Stream,_@Funs)."
          ]),
    
    %{Ctx,[InLine,WhereFun]}.
@@ -2112,8 +2125,8 @@ group_part(#{grp_variables := GrpVars,
          "   _@@CollMatch, Split = _@Flatten, Rest = _@Rest,",
          "   '@FunctionName@'(Ctx,Split,Rest)."]),
    GrpFun2 =
-     ?P(["'@FunctionName@'(Ctx,_@OutgoingVarTup,_@CollNT) -> _@ToGroupTuple;",
-         "'@FunctionName@'(Ctx,Split,_@OuterTups) -> ",
+     ?P(["'@FunctionName@'(_Ctx,_@OutgoingVarTup,_@CollNT) -> _@ToGroupTuple;",
+         "'@FunctionName@'(_Ctx,Split,_@OuterTups) -> ",
          "   Grouped = xqerl_flwor:groupbyclause(Split), ",
          "   [_@OutgoingVarTup || _@OutputTuple <- Grouped]."]),
    {Ctx,[GrpFun1,GrpFun2]}.
@@ -2126,7 +2139,7 @@ let_part(Ctx,{'let',#xqVar{id = Id,
    VarName = local_variable_name(Id),
    NewVar  = {Name,Type,[],VarName},
    FunctionName = glob_fun_name(Part),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    NewCtx  = add_grouping_variable(NewVar, Ctx),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
                               {nil,_} ->
@@ -2144,13 +2157,13 @@ let_part(Ctx,{'let',#xqVar{id = Id,
      if NextFunAtom == [] andalso IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
             "   _@NewVariableTupleMatch."
            ]);
         NextFunAtom == [] ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
             "   _@NewVariableTupleMatch."
@@ -2158,16 +2171,16 @@ let_part(Ctx,{'let',#xqVar{id = Id,
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
-            "   '@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)."
+            "   '@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
            ]);
         true ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) ->",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
-            "   '@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)."
+            "   '@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)."
            ])
         end,
    %?dbg("LetFun",LetFun),
@@ -2189,7 +2202,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                            enext = ENext,
                            only  = Only,
                            start_expr = StartExpr,
-                           end_expr = EndExpr}, NextFunAtom) ->
+                           end_expr = EndExpr}, NextFunAtom, IsInitial) ->
    OldCtxname = get_context_variable_name(Ctx),
    LocCtx = set_context_variable_name(Ctx, 'Ctx'),
    {SVar,Ctx0} =  case S of
@@ -2324,17 +2337,19 @@ window_loop(Ctx, #xqWindow{type = Type,
           end,
    
    WinFun =
-     ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-         "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-         "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
-         "   List = _@E3,",
-         "   _@TempStreamVar = _@WinCall,",
-         "   if erlang:is_list(_@TempStreamVar) -> ",
-         "         lists:map(fun(_@OutTup) -> _@Next end, _@TempStreamVar);",
-         "      true -> ",
-         "         _@OutTup = _@TempStreamVar,",
-         "         _@Next",
-         "   end."]),
+     if IsInitial ->
+        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "   List = _@E3,",
+            "   _@TempStreamVar = _@WinCall,",
+            "   lists:map(fun(_@OutTup) -> _@Next end, _@TempStreamVar)."]);
+        true ->
+           ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
+               "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
+               "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+               "   List = _@E3,",
+               "   _@TempStreamVar = _@WinCall,",
+               "   lists:map(fun(_@OutTup) -> _@Next end, _@TempStreamVar)."])
+     end,
    OutCtx = set_context_variable_name(Ctx20, OldCtxname),
    {OutCtx,[WinFun]}.
 
@@ -2353,7 +2368,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
                   Type#xqSeqType.occur == one_or_many), 
    NewCtx  = add_grouping_variable(NewVar, Ctx),
    FunctionName = glob_fun_name(Part),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
                               {nil,_} -> {var,?L, '_'};
                               O -> O
@@ -2372,7 +2387,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
    Next = if NextFunAtom == [] ->
                 ?P("_@NewVariableTupleMatch");
              true ->
-                ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
+                ?P("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
           end,
    %HasNext = NextFunAtom =/= [] ,
    Ens = ensure_type(Ctx,VarName1,Type,AType),
@@ -2380,7 +2395,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   if List =:= [] -> ",
@@ -2391,7 +2406,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   if List =:= [] -> ",
@@ -2400,7 +2415,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "         xqerl_seq3:'@FName@'(Fun, List)",
             "   end."]);
         Empty andalso NoEmptyType ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   if List =:= [] -> ",
@@ -2409,7 +2424,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "         xqerl_seq3:'@FName@'(Fun, List)",
             "   end."]);
         Empty ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   if List =:= [] -> ",
@@ -2420,13 +2435,13 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   xqerl_seq3:'@FName@'(Fun, List)."
            ]);
         true ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1) -> _@Ens,_@Next end,",
             "   xqerl_seq3:'@FName@'(Fun, List)."
@@ -2453,7 +2468,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
    NewCtx      = add_grouping_variable(NewPosVar, 
                                        add_grouping_variable(NewVar, Ctx)),
    FunctionName = glob_fun_name(Part),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    OldVariableTupleMatch = case get_variable_tuple(Ctx) of
                               {nil,_} -> {var,?L, '_'};
                               O -> O
@@ -2473,14 +2488,14 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
    Next = if NextFunAtom == [] ->
                 ?P("_@NewVariableTupleMatch");
              true ->
-                ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
+                ?P("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
           end,
    Ens = ensure_type(Ctx,VarName1,Type,AType),
    ForFun = 
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
@@ -2494,7 +2509,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
@@ -2518,7 +2533,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "         xqerl_seq3:'@FName@'(Fun, List, 1)",
             "   end."]);
         Empty ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
@@ -2532,7 +2547,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+            "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
@@ -2541,7 +2556,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "   xqerl_seq3:'@FName@'(Fun, List, 1)."
            ]);
         true ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
@@ -2556,6 +2571,8 @@ glob_fun_name({window,Id}) ->
    list_to_atom("window__" ++ integer_to_list(Id));
 glob_fun_name({group_by,Id}) ->
    list_to_atom("group__" ++ integer_to_list(Id));
+glob_fun_name({order_by,Id}) ->
+   list_to_atom("order__" ++ integer_to_list(Id));
 glob_fun_name({return,Id}) ->
    list_to_atom("return__" ++ integer_to_list(Id));
 glob_fun_name({where,Id}) ->
@@ -2846,6 +2863,7 @@ abs_path_expr(Ctx, {path_expr, Id, _Steps}) ->
 abs_document_node(Ctx, #xqDocumentNode{identity = Id, 
                                        expr = E, 
                                        base_uri = BU}) ->
+   _ = add_used_record_type(xqDocumentNode),
    VarTup = get_variable_tuple(Ctx),
    FN = node_function_name(Id),
    CV1 = {var,?L,'Ctx1'},
@@ -2887,6 +2905,7 @@ abs_element_node(Ctx, #xqElementNode{name = N,
                                      type = Type, 
                                      base_uri = BU, 
                                      inscope_ns = IsNs}) ->
+   _ = add_used_record_type(xqElementNode),
    E1 = case N of
            #qname{} ->
               abs_qname(Ctx,N);
@@ -2906,23 +2925,12 @@ abs_element_node(Ctx, #xqElementNode{name = N,
    E5 = if E0 == [undefined] -> {nil,?L};
            true ->
               expr_do(Ctx,E0)
-              %NC = next_ctx_var_name(),
-              %Ctx1 = set_context_variable_name(Ctx, NC),
-              %Ex = expr_do(Ctx1,E0),
-              %NV = {var,?L,NC},
-              %?P("fun(_@NV) -> _@Ex end")
         end,
    ?P(["#xqElementNode{name = _@E1, children = [], attributes = _@E2,",
        " inscope_ns = _@IsNs@, type = _@E3, base_uri = _@E4, expr = _@E5}"]).
 
-
-%% attribute_nodes(AttsNs) ->
-%%    [Att || #xqAttributeNode{} = Att <- AttsNs].
-
-%% namespace_nodes(AttsNs) ->
-%%    [Ns || #xqNamespaceNode{} = Ns <- AttsNs].
-
 abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
+   _ = add_used_record_type(xqAttributeNode),
    E1 = case N of
            #qname{namespace = _Ns, prefix = Px} ->
               if Px == <<>> ->
@@ -2953,6 +2961,7 @@ abs_attribute_node(Ctx, #xqAttributeNode{name = N, expr = E}) ->
    ?P("#xqAttributeNode{name = _@E1, expr = _@E2}").
 
 abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
+   _ = add_used_record_type(xqTextNode),
    E1 = case is_list(E) of
            true ->
               lists:foldr(fun(X, Abs) ->
@@ -2969,6 +2978,7 @@ abs_text_node(Ctx, #xqTextNode{expr = E, cdata = C}) ->
    ?P("#xqTextNode{cdata = _@C@, expr = _@E1}").
 
 abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
+   _ = add_used_record_type(xqCommentNode),
    E1 = case is_list(E) of
            true ->
               lists:foldr(fun(X, Abs) ->
@@ -2985,6 +2995,7 @@ abs_comment_node(Ctx, #xqCommentNode{string_value = S, expr = E}) ->
 abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N, 
                                               expr = E, 
                                               base_uri = BU}) ->
+   _ = add_used_record_type(xqProcessingInstructionNode),
    BU1 = case maps:get('base-uri', Ctx) of
             undefined when BU =/= <<>> ->
                BU;
@@ -3014,12 +3025,14 @@ abs_pi_node(Ctx, #xqProcessingInstructionNode{name = N,
    ?P("#xqProcessingInstructionNode{name = _@E1,base_uri = _@E2,expr = _@E3}").
 
 abs_namespace_node(_Ctx, #xqNamespace{namespace = N, prefix = P}) ->
+   _ = add_used_record_type(xqNamespace),
    if is_atom(N) ->
          ?P("#xqNamespace{namespace = '@N@', prefix = _@P}");
       true ->
          ?P("#xqNamespace{namespace = _@N@, prefix = _@P}")
    end;
 abs_namespace_node(Ctx, #xqNamespaceNode{name = Name}) ->
+   _ = add_used_record_type(xqNamespaceNode),
    E1 = abs_ns_qname(Ctx,Name),
    ?P("#xqNamespaceNode{name = _@E1}").
 
@@ -3028,6 +3041,7 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind,
                             name = Name, 
                             params = Params, 
                             type = Type}) ->
+   _ = add_used_record_type(xqFunTest),
    AnnoF = fun(#annotation{name = #qname{namespace = ?A("http://www.w3.org/2012/xquery"),
                                    local_name = L} = Q}, Abs) 
                  when L == ?A("public");
@@ -3061,19 +3075,24 @@ abs_fun_test(Ctx,#xqFunTest{kind = Kind,
          params = _@E3, type = _@E4}").
 
 abs_seq_type(_Ctx,Type) when is_atom(Type) ->
+   _ = add_used_record_type(xqSeqType),
    ?P("#xqSeqType{type = '@Type@', occur = one}");
 abs_seq_type(Ctx,#xqSeqType{type = #xqFunTest{} = Ft, occur = O}) ->
+   _ = add_used_record_type(xqSeqType),
    E1 = abs_fun_test(Ctx,Ft),
    ?P("#xqSeqType{type = _@E1, occur = _@O@}");
 abs_seq_type(Ctx,#xqSeqType{type = #xqKindTest{} = Kt, occur = O}) ->
+   _ = add_used_record_type(xqSeqType),
    E1 = abs_kind_test(Ctx,Kt),
    ?P("#xqSeqType{type = _@E1, occur = _@O@}");
 abs_seq_type(_Ctx,#xqSeqType{type = T, occur = O}) ->
+   _ = add_used_record_type(xqSeqType),
    ?P("#xqSeqType{type = _@T@, occur = _@O@}").   
 
 abs_qname(_Ctx, undefined) ->
    atom_or_string(undefined);
 abs_qname(_Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
+   _ = add_used_record_type(qname),
    if is_atom(N) ->
          ?P("#qname{namespace = '@N@', prefix = _@P@, local_name = _@L@}");
       true ->
@@ -3083,6 +3102,7 @@ abs_qname(_Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
 abs_ns_qname(_Ctx, undefined) ->
    atom_or_string(undefined);
 abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
+   _ = add_used_record_type(qname),
    E1 = if is_tuple(N) ->
               expr_do(Ctx, N);
            true ->
@@ -3102,6 +3122,7 @@ abs_ns_qname(Ctx, #qname{namespace = N, prefix = P, local_name = L}) ->
 
 % {xqKindTest,node,undefined,undefined,undefined}
 abs_kind_test(Ctx,#xqKindTest{kind = K, name = Q, type = T}) ->
+   _ = add_used_record_type(xqKindTest),
    E1 = abs_qname(Ctx,Q),
    E2 = if is_atom(T) ->
               atom_or_string(T);
@@ -3115,7 +3136,7 @@ abs_function(Ctx,#xqFunction{annotations = _A,
                              arity = Ar,
                              params = Params,
                              type = Type}, BodyAbs) ->
-   
+   _ = add_used_record_type(xqFunction),
    AbsName = abs_qname(Ctx, N),
    AbsArity = {integer,?L,Ar},
    AbsParams = abs_param_list(Ctx, Params),
@@ -3142,9 +3163,11 @@ abs_param_list(Ctx, List) ->
                end, {nil,?L}, List).
    
 abs_boolean(Bool) ->
+   _ = add_used_record_type(xqAtomicValue),
    ?P("#xqAtomicValue{type = 'xs:boolean', value = _@Bool@}").
 
 abs_simp_atomic_value(#xqAtomicValue{type = T, value = V}) ->
+   _ = add_used_record_type(xqAtomicValue),
    ?P("#xqAtomicValue{type = _@T@, value = _@V@}").
 
 atom_or_string(<<>>) ->
@@ -3170,6 +3193,7 @@ set_variable_tuple_name(Ctx, Name) ->
    Ctx#{var_tuple => Name}.
 
 abs_ns_list(Ctx) ->
+   _ = add_used_record_type(xqNamespace),
    lists:foldr(fun(#xqNamespace{prefix = P,namespace = N}, Abs) ->
                      ?P("[#xqNamespace{prefix = _@P@,namespace = _@N@}|_@Abs]")
                end, {nil,?L}, maps:get(namespaces,Ctx)).   
@@ -3420,6 +3444,7 @@ ensure_type(_,_,
         Occ1 == one_or_many, Occ2 == one ->
    {nil,?L};
 ensure_type(Ctx,Var,Type,AType) ->
+   _ = add_used_record_type(xqAtomicValue),
    ?dbg("ensure_type         ",{Var,Type,AType}),
    T = expr_do(Ctx,Type),
    ?P("_ = case xqerl_types:instance_of(_@Var,_@T) of "
@@ -3628,3 +3653,22 @@ xpath_function('self', #xqKindTest{kind = 'node'}) -> {none,self_node};
 xpath_function('self', #xqKindTest{kind = 'processing-instruction'}) -> {name,self_processing_instruction};
 xpath_function('self', #xqKindTest{kind = 'text'}) -> {none,self_text};
 xpath_function(_, _) -> {error, empty_axis}.
+
+get_used_record_types() ->
+   case erlang:get('$_used_records') of
+      undefined ->
+         [];
+      L ->
+         lists:usort(L)
+   end.
+
+add_used_record_type(Atom) ->
+   case erlang:get('$_used_records') of
+      undefined ->
+         erlang:put('$_used_records', [Atom]),
+         ok;
+      L ->
+         erlang:put('$_used_records', [Atom|L]),
+         ok         
+   end.
+   
