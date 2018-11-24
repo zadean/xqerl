@@ -626,7 +626,8 @@ handle_node(State,#xqVar{id = Id,
    case check_type_match(VarType, Type) of
       false ->
          ?err('XPTY0004');
-      cast ->
+      cast when VarType#xqSeqType.type =/= item ->
+         ?dbg("cast",{Name, VarType, Type}),
          ?err('XPTY0004');
       _ ->
          ok
@@ -2217,12 +2218,12 @@ handle_node(State, {Op, Vars, Test}) when Op == some;
 handle_node(State, #xqTryCatch{id = Id,
                                expr = Expr,
                                catches = CatchClauses}) -> 
-   CodeVar = list_to_atom("CodeVar" ++ integer_to_list(Id)),
-   DescVar = list_to_atom("DescVar" ++ integer_to_list(Id)),
-   ValuVar = list_to_atom("ValuVar" ++ integer_to_list(Id)),
-   ModuVar = list_to_atom("ModuVar" ++ integer_to_list(Id)),
-   LineVar = list_to_atom("LineVar" ++ integer_to_list(Id)),
-   ColnVar = list_to_atom("ColnVar" ++ integer_to_list(Id)),
+   CodeVar = list_to_atom("__CodeVar" ++ integer_to_list(Id)),
+   DescVar = list_to_atom("__DescVar" ++ integer_to_list(Id)),
+   ValuVar = list_to_atom("__ValuVar" ++ integer_to_list(Id)),
+   ModuVar = list_to_atom("__ModuVar" ++ integer_to_list(Id)),
+   LineVar = list_to_atom("__LineVar" ++ integer_to_list(Id)),
+   ColnVar = list_to_atom("__ColnVar" ++ integer_to_list(Id)),
 
    TryState = (catch handle_node(State, Expr)),
    TrySt = get_statement(TryState),
@@ -2632,7 +2633,7 @@ handle_node(State, {'function-call',
                       ?dbg("Type0",Type0),
                       ?err('FORG0006')
                 end;
-             _ when LocalName == ?A("avg") ->
+             _ when LocalName == ?A("avg"), Type0#xqSeqType.type =/= item ->
                 try
                    NT = static_operator_type(divide,
                                              Type0#xqSeqType.type,'xs:integer'),

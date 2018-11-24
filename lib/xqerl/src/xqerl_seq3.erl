@@ -644,7 +644,12 @@ expand(#xqRange{} = R) ->
 expand([#xqRange{} = R]) ->
    expand1(R);
 expand(L) when is_list(L) ->
-   expand1(L);
+   Range = [ok || #xqRange{} <- L] =/= [],
+   if Range ->
+         expand1(L);
+      true ->
+         L
+   end;
 %%    Any = lists:any(fun(#xqRange{}) ->
 %%                          true;
 %%                       (_) ->
@@ -769,8 +774,19 @@ get_unique_values1([#xqAtomicValue{value = H}|T]) ->
    [H|get_unique_values1(T)].
    
 position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
-                                                           is_integer(I) ->
-   nth(I, Seq);
+                                                           is_integer(I)%,
+                                                           %length(Seq) < 50
+   ->
+   nth(I, expand(Seq));
+%% position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
+%%                                                            is_integer(I) ->
+%%    Arr = array:from_list(Seq),
+%%    case array:get(I - 1, Arr) of
+%%       undefined ->
+%%          [];
+%%       V ->
+%%          V
+%%    end;
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    Size = ?MODULE:size(Seq0),
    %?dbg("Size",Size),
@@ -965,33 +981,39 @@ get_item_type(#{nk := _} = Node) ->
 
 
 nth(_, []) -> [];
-nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
-   nth(N - C, T);
-nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
-   ?int_rec(M);
-nth(N, [#xqRange{min = M}|_]) -> 
-   ?int_rec(M + N - 1);
-nth(1, [H|_]) -> H;
-nth(2, [_,H|_]) -> H;
-nth(3, [_,_,H|_]) -> H;
-nth(4, [_,_,_,H|_]) -> H;
-nth(5, [_,_,_,_,H|_]) -> H;
-nth(6, [_,_,_,_,_,H|_]) -> H;
-nth(7, [_,_,_,_,_,_,H|_]) -> H;
-nth(8, [_,_,_,_,_,_,_,H|_]) -> H;
-nth(9, [_,_,_,_,_,_,_,_,H|_]) -> H;
-nth(N, [_,_,_,_,_,_,_,_,_|T]) when N > 9 ->
-    nth(N - 9, T);
+%% nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
+%%    nth(N - C, T);
+%% nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
+%%    ?int_rec(M);
+%% nth(N, [#xqRange{min = M}|_]) -> 
+%%    ?int_rec(M + N - 1);
+nth(1,  [H|_]) -> H;
+nth(2,  [_,H|_]) -> H;
+nth(3,  [_,_,H|_]) -> H;
+nth(4,  [_,_,_,H|_]) -> H;
+nth(5,  [_,_,_,_,H|_]) -> H;
+nth(6,  [_,_,_,_,_,H|_]) -> H;
+nth(7,  [_,_,_,_,_,_,H|_]) -> H;
+nth(8,  [_,_,_,_,_,_,_,H|_]) -> H;
+nth(9,  [_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(10, [_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(11, [_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(12, [_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(13, [_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(14, [_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(15, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(16, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(17, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(18, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(19, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(20, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(21, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(22, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(23, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(24, [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,H|_]) -> H;
+nth(N,  [_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_|T]) when N > 24 ->
+   nth(N - 24, T);
 nth(_, _) -> [].
-
-%% nthtail(_, []) -> [];
-%% nthtail(1, [_|T]) -> T;
-%% nthtail(2, [_,_|T]) -> T;
-%% nthtail(3, [_,_,_|T]) -> T;
-%% nthtail(4, [_,_,_,_|T]) -> T;
-%% nthtail(N, [_|T]) when N > 4 ->
-%%     nthtail(N - 4, T);
-%% nthtail(0, L) when is_list(L) -> L.
 
 do_call(Ctx,MapArrayOrFun,Args) when is_function(MapArrayOrFun) ->
    build_call(Ctx,MapArrayOrFun,Args);
@@ -1007,7 +1029,8 @@ do_call(_,#xqFunction{},_) ->
    ?err('XPTY0004');
 do_call(Ctx,MapArray,{Arg}) ->
    xqerl_operators:lookup(Ctx, MapArray, Arg);
-do_call(_,_,_) ->
+do_call(_,M,A) ->
+   ?dbg("do_call",{M,A}),
    ?err('XPTY0004').
 
 

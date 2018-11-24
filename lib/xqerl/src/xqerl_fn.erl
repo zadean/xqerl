@@ -697,14 +697,7 @@
         xq_types:xs_dateTime() | []) -> xq_types:xs_dateTime() | [].
 'adjust-dateTime-to-timezone'(_Ctx,[]) -> [];
 'adjust-dateTime-to-timezone'(#{tab := Tab} = Ctx,Arg1) ->
-   Itz = xqerl_context:get_implicit_timezone(Tab),
-   Str = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration'),
-   Dt = #xqAtomicValue{type = 'xs:dayTimeDuration',
-                       value = #xsDateTime{month = 0,
-                                           day = 0,
-                                           offset = Itz,
-                                           string_value = Str}},
-   'adjust-dateTime-to-timezone'(Ctx, Arg1, Dt).
+   'adjust-dateTime-to-timezone'(Ctx, Arg1, dummy_timezone(Tab)).
 
 %% fn:adjust-dateTime-to-timezone(
 %%    $arg        as xs:dateTime?,
@@ -724,8 +717,9 @@
 -spec 'adjust-date-to-timezone'(
         xq_types:context(), 
         xq_types:xs_date() | []) -> xq_types:xs_date() | [].
-'adjust-date-to-timezone'(Ctx,Arg1) -> 
-   'adjust-dateTime-to-timezone'(Ctx,Arg1).
+'adjust-date-to-timezone'(_Ctx,[]) -> [];
+'adjust-date-to-timezone'(#{tab := Tab} = Ctx, Arg1) -> 
+   'adjust-date-to-timezone'(Ctx, Arg1, dummy_timezone(Tab)).
 
 %% fn:adjust-date-to-timezone(
 %%    $arg        as xs:date?,
@@ -734,16 +728,18 @@
         xq_types:context(), 
         xq_types:xs_date() | [],
         xq_types:xs_dayTimeDuration() | []) -> xq_types:xs_date() | [].
-'adjust-date-to-timezone'(Ctx,Arg1,Arg2) -> 
-   'adjust-dateTime-to-timezone'(Ctx,Arg1,Arg2).
+'adjust-date-to-timezone'(_Ctx,[],_Arg2) -> [];
+'adjust-date-to-timezone'(_,Arg1,Arg2) -> 
+   xqerl_datetime:align_to_timezone(Arg1,Arg2).
 
 %% Adjusts an xs:time value to a specific timezone, or to no timezone at all. 
 %% fn:adjust-time-to-timezone($arg as xs:time?) as xs:time?
 -spec 'adjust-time-to-timezone'(
         xq_types:context(), 
         xq_types:xs_time() | []) -> xq_types:xs_time() | [].
-'adjust-time-to-timezone'(Ctx,Arg1) -> 
-   'adjust-dateTime-to-timezone'(Ctx,Arg1).
+'adjust-time-to-timezone'(_Ctx,[]) -> [];
+'adjust-time-to-timezone'(#{tab := Tab} = Ctx, Arg1) -> 
+   'adjust-time-to-timezone'(Ctx, Arg1, dummy_timezone(Tab)).
 
 %% fn:adjust-time-to-timezone(
 %%    $arg        as xs:time?,
@@ -754,8 +750,18 @@
         xq_types:xs_dayTimeDuration() | []) -> xq_types:xs_time() | 
                                                  [] | 
                                                  xq_types:xs_error().
-'adjust-time-to-timezone'(Ctx,Arg1,Arg2) -> 
-   'adjust-dateTime-to-timezone'(Ctx,Arg1,Arg2).
+'adjust-time-to-timezone'(_Ctx,[],_Arg2) -> [];
+'adjust-time-to-timezone'(_,Arg1,Arg2) -> 
+   xqerl_datetime:align_to_timezone(Arg1,Arg2).
+
+dummy_timezone(Tab) ->
+   Itz = xqerl_context:get_implicit_timezone(Tab),
+   Str = xqerl_datetime:to_string(Itz,'xs:dayTimeDuration'),
+   #xqAtomicValue{type = 'xs:dayTimeDuration',
+                  value = #xsDateTime{month = 0,
+                                      day = 0,
+                                      offset = Itz,
+                                      string_value = Str}}.
 
 %% Analyzes a string using a regular expression, returning an XML structure 
 %% that identifies which parts of the input string matched or failed to match 
@@ -809,8 +815,7 @@
                                              prefix = ?PX,
                                              local_name = ?A("analyze-string-result")},
                                expr = Expr},
-         #{ch := [E]} = xqerl_node:new_fragment(Ctx, Frag),
-         E
+         xqerl_node:new_fragment(Ctx, Frag)
    end.
 
 analyze_string1([],String) -> % no matches
@@ -1167,11 +1172,15 @@ cp_to_bin([],Acc) -> Acc.
       CUri = xqerl_lib:resolve_against_base_uri(BaseUri, Uri),
       Vals = xqldb_dml:select_collection(CUri),
       if Vals == [] -> % empty/non-existing collection
-            throw(error);
+            throw({error, no_collection});
          true ->
             Vals
       end
    catch
+      _:{error, relative} ->
+         ?err('FODC0004');
+      _:{error, fragment} ->
+         ?err('FODC0004');
       _:_ ->
          ?err('FODC0002')
    end.
@@ -2464,7 +2473,12 @@ unmask_static_mod_ns(T) -> T.
 -spec 'head'(xq_types:context(),
              [] | xq_types:sequence(xq_types:xq_item())) -> 
          [] | xq_types:xq_item().
-'head'(_,Seq) -> xqerl_seq3:head(Seq).
+'head'(_,Seq) -> head_1(Seq).
+
+head_1([]) -> [];
+head_1(#xqRange{min = Min}) -> ?atint(Min);
+head_1([H|_]) -> H;
+head_1(H) -> H.
 
 %% Returns the hours component of an xs:dateTime. 
 %% fn:hours-from-dateTime($arg as xs:dateTime?) as xs:integer?

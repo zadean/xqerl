@@ -89,6 +89,10 @@ uri_to_path(Uri) when is_binary(Uri) ->
    case uri_string:parse(Uri) of
       {error,_,_} = Err ->
          throw(Err);
+      {error,_} = Err ->
+         throw(Err);
+      #{fragment := _} ->
+         throw({error, fragment});
       #{scheme := S, host := <<>>, path := <<>>} ->
          [string:lowercase(S)];
       #{scheme := S, host := H, path := <<>>} ->

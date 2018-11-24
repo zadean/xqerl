@@ -466,7 +466,7 @@ body_function(ContextMap, Body,Prolog) ->
    [M].
    
 variable_functions(ContextMap, Variables) ->
-   CtxName = {var,?L,get_context_variable_name(ContextMap)},
+   LocCtx = set_context_variable_name(ContextMap, '__Ctx'),
    F = fun(#xqVar{id = _, name = QName, expr = Expr, external = Ext, type = Type0}) ->
              Type = if Type0 == undefined ->
                           #xqSeqType{type = item, occur = zero_or_many};
@@ -483,17 +483,17 @@ variable_functions(ContextMap, Variables) ->
                         end,
              erlang:put(ctx, 1),
              Name = xqerl_static:variable_hash_name(QName),
-             Expr1 = expr_do(ContextMap, Expr),
+             Expr1 = expr_do(LocCtx, Expr),
              % when external, check for set value first, then default, 
              % or then XPDY0002 when not set.
              if Ext == true ->
-                  ?P(["'@Name@'(_@CtxName) ->",
+                  ?P(["'@Name@'(__Ctx) ->",
                       "   Tmp = begin _@Expr1 end,",
-                      "   case maps:get(_@QNameStr@,_@CtxName,Tmp) of",
+                      "   case maps:get(_@QNameStr@,__Ctx,Tmp) of",
                       "      undefined -> xqerl_error:error('XPDY0002');",
                       "      X -> xqerl_types:promote(X, _@Type@) end."]);
                 true ->
-                  ?P(["'@Name@'(_@CtxName) ->",
+                  ?P(["'@Name@'(__Ctx) ->",
                       "   _@Expr1."])
              end
      end,
@@ -599,12 +599,14 @@ expr_do(_Ctx, undefined) ->
    {atom,?L,undefined};
 % try/catch
 expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
-   CodeVar = list_to_atom("CodeVar" ++ integer_to_list(Id)),
-   DescVar = list_to_atom("DescVar" ++ integer_to_list(Id)),
-   ValuVar = list_to_atom("ValuVar" ++ integer_to_list(Id)),
-   ModuVar = list_to_atom("ModuVar" ++ integer_to_list(Id)),
-   LineVar = list_to_atom("LineVar" ++ integer_to_list(Id)),
-   ColnVar = list_to_atom("ColnVar" ++ integer_to_list(Id)),
+   _ = add_used_record_type(xqError),
+   _ = add_used_record_type(xqAtomicValue),
+   CodeVar = list_to_atom("__CodeVar" ++ integer_to_list(Id)),
+   DescVar = list_to_atom("__DescVar" ++ integer_to_list(Id)),
+   ValuVar = list_to_atom("__ValuVar" ++ integer_to_list(Id)),
+   ModuVar = list_to_atom("__ModuVar" ++ integer_to_list(Id)),
+   LineVar = list_to_atom("__LineVar" ++ integer_to_list(Id)),
+   ColnVar = list_to_atom("__ColnVar" ++ integer_to_list(Id)),
    
    ErrNs = ?A("http://www.w3.org/2005/xqt-errors"),
    
@@ -659,6 +661,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = ?A("*"),local_name = Ln}}) ->
+                   _ = add_used_record_type(qname),
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
@@ -666,6 +669,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = ?A("*")}}) ->
+                   _ = add_used_record_type(qname),
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@}} = _@CodeVar1,
                                  description = _@DescVar1,
                                  value = _@ValuVar1,
@@ -673,6 +677,7 @@ expr_do(Ctx, {'try',Id,Expr,{'catch',CatchClauses}}) ->
                    D = revert(?Q("_@DoExprAbs")),
                    {clause,?L,[revert(C)],[],[D]};
                 (#xqNameTest{name = #qname{namespace = Ns,local_name = Ln}}) ->
+                   _ = add_used_record_type(qname),
                    C = ?Q("{_,#xqError{name = #xqAtomicValue{value = #qname{namespace = _@Ns@,
                                                      local_name = _@Ln@}} = _@CodeVar1,
                                  description = _@DescVar1,
@@ -740,6 +745,7 @@ expr_do(Ctx, #xqFunction{id = _Id,
                          arity = _,
                          params = Params,
                          body = Expr} = F) ->
+   _ = add_used_record_type(xqFunction),
    NextCtxVar = next_ctx_var_name(),
    NextNextCtxVar = next_ctx_var_name(),
    NextNextNextCtxVar = next_ctx_var_name(),
@@ -1250,6 +1256,7 @@ expr_do(_Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {xqerl_fn,concat,_}}) ->
+   _ = add_used_record_type(xqFunction),
    ?P(["#xqFunction{id = 0,"
        "            annotations = _@Annos@," 
        "            name = _@Name@," 
@@ -1263,6 +1270,7 @@ expr_do(Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {M,F,_}}) ->
+   _ = add_used_record_type(xqFunction),
    CtxVar = context_map_abs(Ctx), 
    Fun = if Ay > 0 ->
                DArgs = [{var,?L,list_to_atom("P__"++integer_to_list(I))} ||
@@ -1285,6 +1293,7 @@ expr_do(Ctx, #xqFunction{annotations = Annos,
                           params = Params,
                           type = Type,
                           body = {F,_}}) ->
+   _ = add_used_record_type(xqFunction),
    CtxVar = context_map_abs(Ctx), 
    Fun = if Ay > 0 ->
                DArgs = [{var,?L,list_to_atom("P__"++integer_to_list(I))} ||
@@ -1971,7 +1980,7 @@ return_part(Ctx,{Id, Expr},IsList) ->
    R = if IsList ->
               ?P(["'@FunctionName@'(_,[]) -> [];",
                   "'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
-                  "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
+                  "   ['@FunctionName@'(Ctx,X) || X <- L];",
                   "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
                   "   _@E1."
                   ]);
@@ -1987,15 +1996,13 @@ where_part(Ctx,{'where',Id, Expr},_NextFunAtom) ->
    FunctionName = glob_fun_name({where, Id}),
    OldVariableTupleMatch = get_variable_tuple(Ctx),
    %InLine = attribute(compile, {inline,{FunctionName,2}}),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
 
    E1 = expr_do(LocCtx,Expr),
    R =?P(["'@FunctionName@'(_,[]) -> [];",
-          "'@FunctionName@'(Ctx,[_@OldVariableTupleMatch|T]) ->",
-          "   case xqerl_operators:eff_bool_val(_@E1) of",
-          "      true -> [_@OldVariableTupleMatch|'@FunctionName@'(Ctx,T)];",
-          "      _ -> '@FunctionName@'(Ctx,T)",
-          "   end."
+          "'@FunctionName@'(__Ctx,List) ->",
+          "[I || _@OldVariableTupleMatch = I <- List,",
+          " xqerl_operators:eff_bool_val(_@E1)]."
          ]),
    
    %{Ctx,[InLine,WhereFun]}.
@@ -2156,7 +2163,7 @@ let_part(Ctx,{'let',#xqVar{id = Id,
    LetFun = 
      if NextFunAtom == [] andalso IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
-            "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
+            "   ['@FunctionName@'(Ctx,X) || X <- L];",
             "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
@@ -2170,7 +2177,7 @@ let_part(Ctx,{'let',#xqVar{id = Id,
            ]);
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) ->",
-            "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
+            "   ['@FunctionName@'(Ctx,X) || X <- L];",
             "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) ->",
             "   _@VarName1 = _@E1,",
             "   _@Ens,",
@@ -2204,7 +2211,7 @@ window_loop(Ctx, #xqWindow{type = Type,
                            start_expr = StartExpr,
                            end_expr = EndExpr}, NextFunAtom, IsInitial) ->
    OldCtxname = get_context_variable_name(Ctx),
-   LocCtx = set_context_variable_name(Ctx, 'Ctx'),
+   LocCtx = set_context_variable_name(Ctx, '__Ctx'),
    {SVar,Ctx0} =  case S of
                      #xqVar{id = Id1,name = Name1} ->
                         Vn1 = local_variable_name(Id1),
@@ -2333,22 +2340,22 @@ window_loop(Ctx, #xqWindow{type = Type,
    Next = if NextFunAtom == [] ->
                 ?P("_@NewVariableTupleMatch");
              true ->
-                ?P("'@NextFunAtom@'(Ctx,_@NewVariableTupleMatch)")
+                ?P("'@NextFunAtom@'(__Ctx,_@NewVariableTupleMatch)")
           end,
    
    WinFun =
      if IsInitial ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E3,",
             "   _@TempStreamVar = _@WinCall,",
-            "   lists:map(fun(_@OutTup) -> _@Next end, _@TempStreamVar)."]);
+            "   [_@Next || _@OutTup <- _@TempStreamVar]."]);
         true ->
            ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
                "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-               "'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+               "'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
                "   List = _@E3,",
                "   _@TempStreamVar = _@WinCall,",
-               "   lists:map(fun(_@OutTup) -> _@Next end, _@TempStreamVar)."])
+               "   [_@Next || _@OutTup <- _@TempStreamVar]."])
      end,
    OutCtx = set_context_variable_name(Ctx20, OldCtxname),
    {OutCtx,[WinFun]}.
@@ -2521,7 +2528,7 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
             "         xqerl_seq3:'@FName@'(Fun, List, 1)",
             "   end."]);
         Empty andalso NoEmptyType ->
-        ?P(["'@FunctionName@'(Ctx,_@OldVariableTupleMatch) -> ",
+        ?P(["'@FunctionName@'(__Ctx,_@OldVariableTupleMatch) -> ",
             "   List = _@E1,",
             "   Fun = fun(_@VarName1,Pos) ->",
             "    _@PosVarName1 = #xqAtomicValue{type = 'xs:integer', ",
