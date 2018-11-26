@@ -1,7 +1,7 @@
 declare namespace _ = "http://xqerl.org/xquery/test_cases";
 declare namespace x = "http://xqerl.org/xquery";
 
-declare option db:chop 'false';
+(: declare option db:chop 'false'; :)
 
 declare variable $catalog := doc("./QT3-test-suite/catalog.xml");
 
@@ -360,12 +360,18 @@ declare function _:get-query($test-case) as xs:string
     if ($test/@file) then
       resolve-uri($test/@file, base-uri($test-case)) =>
       (: BaseX fallback true for invalid XML characters :)
-      file:read-text("utf-8",true())  =>
-      (: file:read-text("utf-8")   => :)
+      (: file:read-text("utf-8",true())  => :)
+      file:read-text("utf-8")   =>
       _:mask-string()
     else
       _:mask-string($test/text())
   )
+};
+
+declare function _:get-used-environments($test-cases) as xs:string*
+{
+  ($test-cases/*:environment/string(@name),
+   $test-cases/*:environment/string(@ref)) => distinct-values()
 };
 
 declare function _:print-testcase2($test-case, $name, $env)
@@ -662,12 +668,13 @@ declare function _:mod_all($testCases)
     "]."
 };
 
-declare function _:mod_environments($globals, $locals)
+declare function _:mod_environments($globals, $locals, $usedEnvironments)
 {
-  let $g := ($globals ! _:print-environment(.,false()))
-  let $l := ($locals ! _:print-environment(.,true()))
+  let $g := ($globals[@name = $usedEnvironments] ! _:print-environment(.,false()))
+  let $l := ($locals[@name = $usedEnvironments] ! _:print-environment(.,true()))
+  let $a := ($g,$l)
   return
-  _:join-scnl(($g,$l)) || "."
+  if (empty($a)) then "" else _:join-scnl(($g,$l)) || "."
 };
 
 (: Erlang SUITE :)
@@ -677,9 +684,10 @@ let $globalEnvs         := $catalog/*:catalog/*:environment
   , $globalBaseUri      := base-uri($catalog)
 (: Each test case set from catalog :)
 for $catalogTestSet     in 
-    (# x:parallel unordered #)
-    {$catalog/*:catalog/*:test-set[@name = ("app-UseCaseR31")]
-    }
+    (: (# x:parallel unordered #){ :)
+      $catalog/*:catalog/*:test-set
+      (: [@name = ("app-Demos")] :)
+    (: } :)
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
   , $testSetFile        := resolve-uri($catalogTestSetFile, $globalBaseUri) 
@@ -692,7 +700,7 @@ let $catalogTestSetFile := $catalogTestSet/@file
 let $header             :=
   "-module('"||$SUITE||"')."                           ||$_:n||
   "-include_lib(""common_test/include/ct.hrl"")."      ||$_:n||
-  "-compile({nowarn_unused_function,[environment/2]})."||$_:n||
+  (: "-compile({nowarn_unused_function,[environment/2]})."||$_:n|| :)
   "-export([all/0,"                                    ||$_:n||
   "         suite/0])."                                ||$_:n||
   "-export([init_per_suite/1,"                         ||$_:n||
@@ -720,7 +728,8 @@ let $standardFuns       :=
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
   _:mod_all($testCases)
-let $environments       := _:mod_environments($globalEnvs, $localEnvs)
+let $usedEnvironments := _:get-used-environments($testCases)
+let $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
 let $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."
 let $mod                := 
   $header       ||$_:n||

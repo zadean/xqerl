@@ -1,6 +1,5 @@
 -module('fn_string_SUITE').
 -include_lib("common_test/include/ct.hrl").
--compile({nowarn_unused_function,[environment/2]}).
 -export([all/0,
          suite/0]).
 -export([init_per_suite/1,
@@ -173,79 +172,6 @@ environment('empty',__BaseDir) ->
 {resources, []}, 
 {modules, []}
 ]; 
-environment('atomic',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('atomic-xq',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works-mod',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works-and-staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
-{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
 environment('auction',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
@@ -275,30 +201,6 @@ environment('qname',__BaseDir) ->
 {resources, []}, 
 {modules, []}
 ]; 
-environment('math',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
 environment('map',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, []}, 
@@ -307,19 +209,6 @@ environment('map',__BaseDir) ->
 {params, []}, 
 {vars, []}, 
 {namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array-and-map',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
 {resources, []}, 
 {modules, []}

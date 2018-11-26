@@ -441,7 +441,7 @@ body_function(ContextMap, Body,Prolog) ->
             E1 = expr_do(NewC, #xqSeqType{type = CType, occur = Occ}),
             E2 = expr_do(NewC, Expr),
             P = ?P(["_@NV = begin ",
-                    " CI = maps:get('context-item', Options, _@E2),"
+                    " {CI,_} = maps:get('context-item', Options, {_@E2, 1}),"
                     " _@NextVar = xqerl_types:promote(CI,_@E1),",
                     " xqerl_context:set_context_item(_@CtxVar1,_@NextVar,1,",
                     "   #xqAtomicValue{type = 'xs:integer', value = ",
@@ -3321,6 +3321,10 @@ handle_predicate({Ctx, {positional_predicate, #xqVarRef{name = Name}}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    {VarAbs, _} = get_variable_ref(Name, Ctx),
    ?P("xqerl_seq3:position_filter(_@CtxVar,_@VarAbs,_@Abs)");
+handle_predicate({_Ctx, {positional_predicate, % Seq[last()] 
+                        {'function-call', 
+                         #xqFunction{body = {xqerl_fn,last,_}}}}}, Abs) ->
+   ?P("xqerl_seq3:last(_@Abs)");
 handle_predicate({Ctx, {positional_predicate, P}}, Abs) ->
    CtxVar = {var,?L,get_context_variable_name(Ctx)},
    NextCtxVar = next_ctx_var_name(),

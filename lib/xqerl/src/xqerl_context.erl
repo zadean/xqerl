@@ -156,7 +156,7 @@
 -export([set_context_item/3]).
 -export([set_context_item/4]).
 -export([get_context_position/1]).
--export([set_context_position/2]).
+%-export([set_context_position/2]).
 -export([get_context_size/1]).
 -export([set_context_size/2]).
 %% -export([get_variable_values/1]).
@@ -576,7 +576,7 @@ get_inscope_namespace(#{namespaces := List},Prefix) ->
    proplists:get_value(Prefix, List, undefined).
 
 % returns context item
-get_context_item(#{'context-item' := Ci}) ->
+get_context_item(#{'context-item' := {Ci, _}}) ->
    Ci;
 get_context_item(Ctx) when is_map(Ctx) ->
    ?err('XPDY0002');
@@ -595,9 +595,7 @@ count_context_items(Items) ->
 % returns new Ctx map
 set_empty_context_item(#{'context-item' := _} = Ctx) ->
    Ctx1 = maps:remove('context-item', Ctx),
-   Ctx2 = maps:remove('context-position', Ctx1),
-   Ctx3 = maps:remove('context-item-count', Ctx2),
-   Ctx3;
+   maps:remove('context-item-count', Ctx1);
 set_empty_context_item(Ctx) ->
   Ctx.
    
@@ -606,51 +604,36 @@ set_context_item(Ctx, [], _Pos, _Size) ->
    set_empty_context_item(Ctx);
 set_context_item(#{'context-item' := _} = Ctx, CI, Pos, Size) 
    when is_integer(Size) ->
-   Ctx#{'context-item' := CI,
-        'context-position' := Pos,
+   Ctx#{'context-item' := {CI, Pos},
         'context-item-count' := #xqAtomicValue{type = 'xs:integer',
                                                value = Size}};
 set_context_item(Ctx, CI, Pos, Size) 
    when is_integer(Size) ->
-   Ctx#{'context-item' => CI,
-        'context-position' => Pos,
+   Ctx#{'context-item' => {CI, Pos},
         'context-item-count' => #xqAtomicValue{type = 'xs:integer',
                                                value = Size}};
 set_context_item(#{'context-item' := _,
-                   'context-position' := _,
-                   'context-item-count' := Size} = Ctx, CI, Pos, Size) ->
-   Ctx#{'context-item' := CI,
-        'context-position' := Pos};
-set_context_item(#{'context-item' := _,
-                   'context-position' := _,
                    'context-item-count' := _} = Ctx, CI, Pos, Size) ->
-   Ctx#{'context-item' := CI,
-        'context-position' := Pos,
+   Ctx#{'context-item' := {CI, Pos},
         'context-item-count' := Size};
 set_context_item(Ctx, CI, Pos, Size) ->
-   Ctx#{'context-item' => CI,
-        'context-position' => Pos,
+   Ctx#{'context-item' => {CI, Pos},
         'context-item-count' => Size}.
 
 set_context_item(#{'context-item' := _} = Ctx, CI, Pos) ->
-   Ctx#{'context-item' := CI,
-        'context-position' := Pos};
+   Ctx#{'context-item' := {CI, Pos}};
 set_context_item(Ctx, CI, Pos) ->
-   Ctx#{'context-item' => CI,
-        'context-position' => Pos}.
+   Ctx#{'context-item' => {CI, Pos}}.
 
 set_context_item(Ctx, []) ->
    maps:remove('context-item',Ctx);
 set_context_item(Ctx, CI) ->
-   maps:put('context-item', CI, Ctx).
+   maps:put('context-item', {CI, 1}, Ctx).
 
-get_context_position(#{'context-position' := P}) ->
+get_context_position(#{'context-item' := {_,P}}) ->
    P;
 get_context_position(_) ->
    ?err('XPDY0002').
-
-set_context_position(Ctx, Value) ->
-   maps:put('context-position', Value, Ctx).
 
 get_context_size(#{'context-item-count' := P}) ->
    P;

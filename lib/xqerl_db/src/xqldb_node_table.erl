@@ -110,7 +110,7 @@ lookup(_, []) -> [].
 get_base_uri(State, Pos, XmlBase) ->
    [Node] = lookup(State, [Pos]),
    Path = path_to_root(Node, Pos, State),
-   ?dbg("Path",Path),
+   %?dbg("Path",Path),
    lists:reverse(do_get_base_uri(State, XmlBase, [Pos|Path])).
 
 do_get_base_uri(State, XmlBase, [Pos|Poss]) ->

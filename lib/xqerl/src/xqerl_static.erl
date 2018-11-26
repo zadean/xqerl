@@ -364,7 +364,7 @@ strip_unused_imports([{'module-import', {N,_}} = H|T],UnusedImports) ->
          ?dbg("stripping",N),
          strip_unused_imports(T,UnusedImports);
       false ->
-         ?dbg("not stripping",H),
+        %?dbg("not stripping",H),
          [H|strip_unused_imports(T,UnusedImports)]
    end;
 strip_unused_imports([H|T],UnusedImports) ->
@@ -821,8 +821,8 @@ handle_node(State, {postfix, Id, #xqVarRef{name = Name} = Ref,
            end;
         #xqSeqType{} ->
            {[],FType};
-        Other ->
-           ?dbg("Other",{Other,Name}),
+        _Other ->
+          %?dbg("Other",{Other,Name}),
             {[],#xqSeqType{}}
      end,
    SimpArgs = handle_list(State, Args),
@@ -978,7 +978,7 @@ handle_node(State, {postfix, Id, Sequence, Filters }) when length(Filters) > 1 -
    L = lists:foldl(fun(Fltr,Acc) ->
                          {postfix, Id, Acc, [Fltr]}
                    end, Sequence, Filters),
-   ?dbg("L",L),
+  %?dbg("L",L),
    handle_node(State, L);
 
 handle_node(State, {postfix, Id, Sequence, Filters }) -> 
@@ -991,8 +991,8 @@ handle_node(State, {postfix, Id, Sequence, Filters }) ->
    Ty = get_statement_type(F1),
    case get_statement(F1) of
       {wrap,Wrapped} ->
-         ?dbg("Predicate context filters",Filters),
-         ?dbg("Predicate context wrapped",Wrapped),
+        %?dbg("Predicate context filters",Filters),
+        %?dbg("Predicate context wrapped",Wrapped),
          set_statement_and_type(State, Wrapped, Ty);
       Ft ->
    %?dbg("Ft",Ft),
@@ -1058,7 +1058,7 @@ handle_node(State, 'any-root') ->
 
 handle_node(State, #xqKindTest{kind = Kind, name = Name, type = Type} = Node) ->
    QName = resolve_qname(Name, State),
-   ?dbg("QName",QName),
+  %?dbg("QName",QName),
    if Kind == 'schema-element';
       Kind == 'schema-attribute' -> % not supported, so all names are unknown
          ?err('XPST0008');
@@ -1130,7 +1130,7 @@ handle_node(State, #xqAxisStep{direction = Direction,
    NewPreds = get_statement(handle_predicates(State1, Preds)),
    case get_statement(handle_predicates(State1, Preds)) of
       {wrap,Wrapped} ->
-         ?dbg("Predicate context wrapped",Wrapped),
+        %?dbg("Predicate context wrapped",Wrapped),
          set_statement_and_type(State1, Wrapped, OType);
       NewPreds ->
          %?dbg("Predicate context wrapped",NewPreds),
@@ -1161,7 +1161,7 @@ handle_node(State, #xqAxisStep{direction = Direction,
    State1 = set_statement_type(State, Type),
    case get_statement(handle_predicates(State1, Preds)) of
       {wrap,Wrapped} ->
-         ?dbg("Predicate context wrapped",Wrapped),
+        %?dbg("Predicate context wrapped",Wrapped),
          set_statement_and_type(State, Wrapped, Type);
       NewPreds ->
           %?dbg("Predicate context wrapped",NewPreds),
@@ -1782,8 +1782,8 @@ handle_node(State,{'for',#xqVar{id = Id,
                 true ->
                    Type
              end,
-   ?dbg("ForType",ForType),
-   ?dbg("Type",Type),
+  %?dbg("ForType",ForType),
+  %?dbg("Type",Type),
    ForStmt = get_statement(ForState),
    SForType = ForType#xqSeqType{occur = one},
    %SForType = ForType#xqSeqType{occur = zero_or_one},
@@ -1891,10 +1891,10 @@ handle_node(State, #xqWindow{type = WindowType,
    if OkType == false ->
          ?err('XPTY0004');
       OkType == cast ->
-         ?dbg("promote",OkType),
+        %?dbg("promote",OkType),
          ok;
       true ->
-         ?dbg("OkType",OkType),
+        %?dbg("OkType",OkType),
          ok
    end,
    PosType = ?intone,
@@ -2001,7 +2001,7 @@ handle_node(State, #xqWindow{type = WindowType,
 %% 3.12.4.3 Effects of Window Clauses on the Tuple Stream
 %% 3.12.5 Where Clause
 handle_node(State, {where, Id, Expr}) -> 
-   ?dbg("where",{Id,Expr}),
+  %?dbg("where",{Id,Expr}),
    S1 = handle_node(State, Expr),
    St = get_statement(S1),
    set_statement_and_type(State, {where, Id, St}, ?boolone);
@@ -2753,8 +2753,8 @@ handle_node(State, {'function-call',
    Type1 = case hd(CheckArgs) of
               {_,0} ->
                  Type;
-              {Other,C} ->
-                 ?dbg("Other",{Other,C}),
+              {_Other,_C} ->
+                 %?dbg("Other",{Other,C}),
                  maybe_unzero_type(Type)
            end,
    NewArgs = lists:map(fun({S,_C}) ->
@@ -3038,8 +3038,8 @@ handle_node(State, {do_ensure,Expr,Type}) ->
       OkType == cast ->
          ?err('XPTY0004');
       true ->
-         ?dbg("OkType",OkType),
-         ?dbg("Sty",{Sty,Type}),
+        %?dbg("OkType",OkType),
+        %?dbg("Sty",{Sty,Type}),
          ok
    end,
    if Type == undefined ->
@@ -3676,8 +3676,8 @@ set_or_error(Name,List,Default,Error) ->
          case xqerl_lib:is_absolute_uri(H) of
             false ->
                try
-                  ?dbg("Default",Default),
-                  ?dbg("H",H),
+                 %?dbg("Default",Default),
+                 %?dbg("H",H),
                   xqerl_lib:resolve_against_base_uri(Default,H)
                of
                   {error,_} ->
@@ -4056,7 +4056,7 @@ resolve_pi_name(State, ['empty-sequence'|T]) ->
 resolve_pi_name(State, [QName|T]) ->
    [QName|resolve_pi_name(State, T)];
 resolve_pi_name(_State, QName) ->
-   ?dbg("QName",QName),
+  %?dbg("QName",QName),
    QName.
 
 
@@ -4234,7 +4234,7 @@ handle_comp_constructor(State = #state{base_uri = BU},
 handle_comp_constructor(State, #xqTextNode{expr = Content} = Node) -> 
    S1 = handle_node(State, Content),
    St = get_statement(S1),
-   ?dbg("St",St),
+  %?dbg("St",St),
    if St == {content_expr,'empty-sequence'};
       St == {content_expr,[]} ->
          set_statement(State, 'empty-sequence');

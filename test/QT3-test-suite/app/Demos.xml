@@ -90,7 +90,8 @@
          </source>
       </environment> 
       <dependency type="spec" value="XQ10+"/>
-      <test file="Demos/currencysvg.xq"/>
+      <test file="Demos/currencysvg-xq31.xq"/>
+      <!-- <test file="Demos/currencysvg.xq"/> -->
       <result>
          <assert-xml file="Demos/currencysvg-result.xml"/>
       </result>   

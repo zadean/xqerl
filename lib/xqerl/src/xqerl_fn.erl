@@ -1024,8 +1024,8 @@ avg1([H|T], Sum, Count) ->
       <<>> -> [];
       BaseUri ->
          try xqerl_xs:xs_anyURI([], ?str(BaseUri))
-         catch _:E ->
-                  ?dbg("E",{BaseUri,E}),
+         catch _:_E ->
+                 %?dbg("E",{BaseUri,E}),
                   []
          end      
          %?atm('xs:anyURI',BaseUri)
@@ -1664,13 +1664,13 @@ distinct_vals(Vals,Fun) ->
 'doc'(#{'base-uri' := BaseUri0},Uri0) -> 
    Uri = xqerl_types:value(Uri0),
    BaseUri = xqerl_types:value(BaseUri0),
-?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
+%?dbg("{BaseUri, Uri}",{BaseUri, Uri}),
    try xqerl_lib:resolve_against_base_uri(BaseUri, Uri) of
       {error,E} when E =/= relative -> % relative is a kludge to get correct error
          ?dbg("E",E),
          ?err('FODC0005');
       ResVal ->
-?dbg("ResVal",ResVal),
+%?dbg("ResVal",ResVal),
          case xqldb_dml:select_doc(ResVal) of
             {error,not_exists} -> % not in db
                ?err('FODC0002');
@@ -1699,12 +1699,12 @@ distinct_vals(Vals,Fun) ->
       {error,invalid_uri} ->
          ?bool(false);
       ResVal ->
-         ?dbg("ResVal",ResVal),
+        %?dbg("ResVal",ResVal),
          ?bool(xqldb_dml:exists_doc(ResVal))
    catch
       %?ERROR_MATCH(?A("FORG0002")) -> ?bool(false);
-      _:_:Stack ->
-         ?dbg("Stack",Stack),
+      _:_:_Stack ->
+        %?dbg("Stack",Stack),
          ?bool(false)
       %_:_ -> ?err('FODC0005') % not in 3.1
    end.
@@ -2386,7 +2386,7 @@ unmask_static_mod_ns(T) -> T.
                       xq_types:xq_function()) -> 
          [] | xq_types:xs_QName().
 'function-name'(#{tab := Tab} = Ctx,Arg1) when is_function(Arg1) ->
-   ?dbg("Arg1",Arg1),
+  %?dbg("Arg1",Arg1),
    {_,N} = erlang:fun_info(Arg1,name),
    {_,M} = erlang:fun_info(Arg1,module),
    {_,T} = erlang:fun_info(Arg1,type),
@@ -2680,7 +2680,7 @@ head_1(H) -> H.
              ({P,_}) ->
                 {true,#xqAtomicValue{type = 'xs:NCName', value = P}}
           end,
-   ?dbg("in-scope-prefixes",InScopeNs),
+  %?dbg("in-scope-prefixes",InScopeNs),
    % xml is always in scope.
    lists:usort([#xqAtomicValue{type = 'xs:NCName', value = <<"xml">>}|
                   lists:filtermap(Filt, InScopeNs)]).
@@ -2832,16 +2832,16 @@ check_json_to_xml_opts(_) ->
    'lang'(Ctx,Testlang0,Node);
 'lang'(_Ctx,Testlang0,#{nk := _} = Node) -> 
    try
-      ?dbg("Testlang0",Testlang0),
+     %?dbg("Testlang0",Testlang0),
       case xqldb_mem_nodes:lang(Node) of
          [] ->
             ?bool(false);
          NStr ->
-            ?dbg("NStr",NStr),
+           %?dbg("NStr",NStr),
             Str = string:lowercase(NStr),
-            ?dbg("Str",Str),
+           %?dbg("Str",Str),
             Testlang = string:lowercase(xqerl_types:string_value(Testlang0)),
-            ?dbg("Testlang",Testlang),
+           %?dbg("Testlang",Testlang),
             Match = Str == Testlang orelse 
                       string:prefix(Str, <<Testlang/binary,"-">>) =/= nomatch,
             ?bool(Match)
@@ -3338,7 +3338,7 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 'namespace-uri-for-prefix'(_Ctx, Prefix, #{nk := _} = Node) -> 
    P1 = xqerl_types:string_value(Prefix),
    InScopeNs = xqldb_mem_nodes:namespace_nodes(Node),
-?dbg("InScopeNs",InScopeNs),
+  %?dbg("InScopeNs",InScopeNs),
    case lists:keyfind(P1, 1, InScopeNs) of
       false when P1 == <<"xml">> ->
          ?atm('xs:anyURI', <<"http://www.w3.org/XML/1998/namespace">>);
@@ -3372,10 +3372,8 @@ compare_convert_seq([#xqAtomicValue{type = Type} = H|T], Acc, SeqType) ->
 %% fn:nilled() as xs:boolean?
 -spec 'nilled'(xq_types:context()) -> 
          [] | xq_types:xs_boolean().
-'nilled'(#{'context-item' := Ci}) ->
-   'nilled'(#{},Ci);
-'nilled'(_) ->
-   ?err('XPDY0002').
+'nilled'(Ctx) ->
+   'nilled'(Ctx,xqerl_context:get_context_item(Ctx)).
 
 %% fn:nilled($arg as node()?) as xs:boolean?
 -spec 'nilled'(xq_types:context(),
@@ -3585,9 +3583,9 @@ shrink_spaces(<<H,T/binary>>) ->
    Strip = unicode:characters_to_list(xqerl_lib:trim(Str)),
    try 
       {ok,L,_} = ietf_date:string(Strip),
-      ?dbg("L",L),
+     %?dbg("L",L),
       {ok,Dt} = ietf_date_parse:parse(L),
-      ?dbg("Dt",Dt),
+     %?dbg("Dt",Dt),
       true = xqerl_datetime:ymd_is_valid(Dt#xsDateTime.year, 
                                          Dt#xsDateTime.month, 
                                          Dt#xsDateTime.day),
@@ -3808,7 +3806,7 @@ trim_declaration_1(<<>>, _) -> <<>>.
          ?str(?A("/"));
       _ ->
          Path = xqldb_xpath:document_order(xqldb_xpath:ancestor_or_self_node(Node, {[]})),
-         ?dbg("Path",length(Path)),
+        %?dbg("Path",length(Path)),
          path_1(Path,[],xqldb_mem_nodes:parent(Node))
    end;
 'path'(_,_) -> 
@@ -4095,7 +4093,7 @@ remove1([H|T],Position,Current) ->
                        _ ->
                           {ok, Depth} = xs_regex:get_depth(Pattern1),
                           {ok, Reg} = xs_regex:transform_replace(Repl,Depth),
-                          ?dbg("Depth",Depth),
+                         %?dbg("Depth",Depth),
                           Reg
                     end,
                   Str = re:replace(Input1, MP, Repl1, [{return, binary},global]),

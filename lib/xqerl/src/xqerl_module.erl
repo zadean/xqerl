@@ -600,7 +600,7 @@ check_cycle(Mod,ImportedMods) ->
                                            {encoding, utf8}])),
       Flat = lists:flatten(io_lib:fwrite("~ts~n", [PP])),
       %?dbg("",Flat),
-      Filename = filename:absname(atom_to_list(M)) ++ ".erl",
+      Filename = filename:join("/git/zadean/xqerl/lib/xqerl_tests/src",atom_to_list(M) ++ ".erl"),
       ?dbg("Filename",Filename),
       {ok,FP} = file:open(Filename, [write,{encoding, utf8}]),
       %?dbg("PP",PP),

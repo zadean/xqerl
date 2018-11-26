@@ -1,6 +1,5 @@
 -module('prod_NodeTest_SUITE').
 -include_lib("common_test/include/ct.hrl").
--compile({nowarn_unused_function,[environment/2]}).
 -export([all/0,
          suite/0]).
 -export([init_per_suite/1,
@@ -155,42 +154,6 @@ all() -> [
 'K2-NodeTest-42', 
 'K2-NodeTest-43'
 ].
-environment('empty',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('atomic',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('atomic-xq',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
 environment('works-mod',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
@@ -199,121 +162,6 @@ environment('works-mod',__BaseDir) ->
 {params, []}, 
 {vars, []}, 
 {namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works-and-staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
-{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('auction',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
-{"http://www.w3.org/1999/xlink","xlink"}, 
-{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
-{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('qname',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('math',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('map',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array-and-map',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
 {schemas, []}, 
 {resources, []}, 
 {modules, []}
@@ -354,18 +202,6 @@ environment('Tree1Child',__BaseDir) ->
 {resources, []}, 
 {modules, []}
 ]; 
-environment('Tree1Text',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "AxisStep/Tree1Child.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
 environment('TreeCompass',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "AxisStep/TreeCompass.xml"), ".",[]}]}, 
@@ -381,42 +217,6 @@ environment('TreeCompass',__BaseDir) ->
 environment('TreeEmpty',__BaseDir) ->
 [{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "AxisStep/TreeEmpty.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('TreeRepeat',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "AxisStep/TreeRepeat.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('TreeStack',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "AxisStep/TreeStack.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('TreeTrunc',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "AxisStep/TreeTrunc.xml"), ".",[]}]}, 
 {collections, []}, 
 {'static-base-uri', []}, 
 {params, []}, 

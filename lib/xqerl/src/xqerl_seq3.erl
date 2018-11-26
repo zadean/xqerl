@@ -48,9 +48,10 @@
          intersect/2,
          except/2]).
 
--export([head/1]).
--export([tail/1]).
--export([reverse/1]).
+-export([head/1, 
+         tail/1, 
+         last/1, 
+         reverse/1]).
 
 -export([position_filter/3]).
 -export([filter/3]).
@@ -161,14 +162,30 @@ ensure_zero_or_more(A) -> A.
 size(#xqRange{cnt = Size}) ->
    Size;
 size([]) -> 0;
-size([H|T]) when is_list(H) ->
-   ?MODULE:size(H) + ?MODULE:size(T);
-size([#xqRange{} = H|T]) ->
-   ?MODULE:size(H) + ?MODULE:size(T);
-size([_|T]) ->
-   1 + ?MODULE:size(T);
+size(List) when is_list(List) ->
+   HasRange = lists:any(fun(R) ->
+                              is_record(R, xqRange) orelse is_list(R)
+                        end, List),
+   if HasRange ->
+         Cs = [case I of
+                  #xqRange{cnt = C} -> C;
+                  L when is_list(L) -> ?MODULE:size(L);
+                  _ -> 1
+               end || I <- List],
+         lists:sum(Cs);
+      true ->
+         length(List)
+   end;
 size(_) ->
    1.
+%% size([H|T]) when is_list(H) ->
+%%    ?MODULE:size(H) + ?MODULE:size(T);
+%% size([#xqRange{} = H|T]) ->
+%%    ?MODULE:size(H) + ?MODULE:size(T);
+%% size([_|T]) ->
+%%    1 + ?MODULE:size(T);
+%% size(_) ->
+%%    1.
 
 is_empty([]) -> true;
 is_empty(_) -> false.
@@ -186,6 +203,21 @@ tail(#xqRange{min = Min,max = Max}) ->
    range(Min + 1, Max);
 tail([_|T]) -> T;
 tail(_) -> [].
+
+last([]) -> [];
+last([#xqRange{max = Max}]) -> ?int_rec(Max);
+last(#xqRange{max = Max}) -> ?int_rec(Max);
+last(List) when is_list(List) -> 
+   case lists:last(List) of
+      #xqRange{max = Max} -> ?int_rec(Max);
+      L ->
+         L
+   end;
+last(S) ->
+  S.
+
+
+   
 
 reverse(Seq) ->
    lists:reverse(Seq).
@@ -435,7 +467,7 @@ formap(F,L) when not is_list(L) -> formap(F,[L]).
 
 
 pformap(Fun,List) -> 
-   pformap(self(),List,Fun,16,16,[],[]),
+   pformap(self(),List,Fun,8,8,[],[]),
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
@@ -482,7 +514,7 @@ pformap(From,NL,Fun,Limit,Left,Pids,Acc) when not is_list(NL) ->
 
 
 pmap(Fun,List) ->
-   pmap(Fun,List,400).
+   pmap(Fun,List,16).
 
 pmap(Fun,List,Limit) -> 
    pmap(self(),List,Fun,Limit,Limit,[],[]),
@@ -644,8 +676,10 @@ expand(#xqRange{} = R) ->
 expand([#xqRange{} = R]) ->
    expand1(R);
 expand(L) when is_list(L) ->
-   Range = [ok || #xqRange{} <- L] =/= [],
-   if Range ->
+   HasRange = lists:any(fun(R) ->
+                              is_record(R, xqRange) orelse is_list(R)
+                        end, L),
+   if HasRange ->
          expand1(L);
       true ->
          L
@@ -778,28 +812,25 @@ position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
                                                            %length(Seq) < 50
    ->
    nth(I, expand(Seq));
-%% position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
-%%                                                            is_integer(I) ->
-%%    Arr = array:from_list(Seq),
-%%    case array:get(I - 1, Arr) of
-%%       undefined ->
-%%          [];
-%%       V ->
-%%          V
-%%    end;
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
-   Size = ?MODULE:size(Seq0),
-   %?dbg("Size",Size),
-   %?dbg("Seq0",Seq0),
    Seq = expand(Seq0),
-   {Positions,_} =
-     lists:mapfoldl(fun(Item,Pos) ->
-                        Ctx1 = xqerl_context:set_context_item(Ctx, Item, 
-                                                              Pos, Size),
-                        Resp = Fun(Ctx1),
-                        {Resp, Pos + 1}
-                  end, 1, Seq),
-   position_filter(Ctx, Positions, Seq);
+   try
+      Pos = Fun(Ctx), % fails when context item is needed
+      UniquePos = get_unique_values(lists:usort(Pos)),
+      position_filter1(UniquePos, 1, Seq)
+   catch
+      _:_ ->
+         Size = ?MODULE:size(Seq0),
+         Ctx0 = xqerl_context:set_context_size(Ctx, Size),
+         {Positions,_} =
+           lists:mapfoldl(fun(Item,Pos) ->
+                              Ctx1 = xqerl_context:set_context_item(Ctx0, Item, Pos),
+                              Resp = Fun(Ctx1),
+                              {Resp, Pos + 1}
+                        end, 1, Seq),
+         UniquePosC = get_unique_values(lists:usort(Positions)),
+         position_filter1(UniquePosC, 1, Seq)
+   end;
 
 position_filter(_Ctx, Positions, Seq0) when is_list(Seq0), is_list(Positions) ->
    %?dbg("Size",0),
@@ -963,6 +994,8 @@ get_item_type(Item) when is_function(Item) ->
    function;
 get_item_type(#xqFunction{}) ->
    function;
+get_item_type(#{nk := _} = Node) ->
+   xqerl_node:get_node_type(Node);
 get_item_type(Item) when is_map(Item) ->
    map;
 get_item_type(#array{}) ->
@@ -975,9 +1008,7 @@ get_item_type(#xqTextNode{}) -> 'text';
 get_item_type(#xqCommentNode{}) -> 'comment';
 get_item_type(#xqNamespaceNode{}) -> 'namespace';
 get_item_type(#xqProcessingInstructionNode{}) -> 'processing-instruction';
-get_item_type(#xqDocumentNode{}) -> 'document-node';
-get_item_type(#{nk := _} = Node) ->
-   xqerl_node:get_node_type(Node).
+get_item_type(#xqDocumentNode{}) -> 'document-node'.
 
 
 nth(_, []) -> [];

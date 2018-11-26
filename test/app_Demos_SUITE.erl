@@ -1,6 +1,5 @@
 -module('app_Demos_SUITE').
 -include_lib("common_test/include/ct.hrl").
--compile({nowarn_unused_function,[environment/2]}).
 -export([all/0,
          suite/0]).
 -export([init_per_suite/1,
@@ -27,169 +26,7 @@ all() -> [
 'itunes', 
 'raytracer'
 ].
-environment('empty',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('atomic',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/XQueryTest","atomic"}]},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('atomic-xq',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/atomic.xml"), ".","http://www.w3.org/fots/docs/atomic.xml"}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, [{filename:join(__BaseDir, "../docs/atomic.xsd"),"http://www.w3.org/XQueryTest"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works-mod',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works-mod.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/staff.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('works-and-staff',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/works.xml"), "$works",[]}, 
-{filename:join(__BaseDir, "../docs/staff.xml"), "$staff",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, []},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('auction',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/auction.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.example.com/AuctionWatch","ma"}, 
-{"http://www.w3.org/1999/xlink","xlink"}, 
-{"http://www.example.com/auctioneers#anyzone","anyzone"}, 
-{"http://www.example.com/auctioneers#eachbay","eachbay"}, 
-{"http://www.example.com/auctioneers#yabadoo","yabadoo"}, 
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('qname',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, [{filename:join(__BaseDir, "../docs/QName-source.xml"), ".",[]}]}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.example.com/QNameXSD",""}]},
-{schemas, [{filename:join(__BaseDir, "../docs/QName-schema.xsd"),"http://www.example.com/QNameXSD"}]}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('math',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/math","math"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('map',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-]; 
-environment('array-and-map',__BaseDir) ->
-[{'decimal-formats', []}, 
-{sources, []}, 
-{collections, []}, 
-{'static-base-uri', []}, 
-{params, []}, 
-{vars, []}, 
-{namespaces, [{"http://www.w3.org/2005/xpath-functions/array","array"}, 
-{"http://www.w3.org/2005/xpath-functions/map","map"}]},
-{schemas, []}, 
-{resources, []}, 
-{modules, []}
-].
+
 'sudoku'(Config) ->
    __BaseDir = ?config(base_dir, Config),
    Qry = "
@@ -284,63 +121,75 @@ declare namespace frbny=\"http://www.newyorkfed.org/xml/schemas/FX/utility\";
 
 (: Currency to lookup :)
 declare variable $input-context := .;
+(: declare variable $input-context := doc('GBPNoon.xml'); :)
 
 (: A list of observations :)
-declare variable $obs := $input-context/msg:UtilityData/frbny:DataSet/frbny:Series/frbny:Obs;
+declare variable $obs := local:obs-seq($input-context);
 
 (: Minimum/maximum/average exchange rates :)
-declare variable $values := $obs/frbny:OBS_VALUE/xs:decimal(.);
+declare variable $values   as xs:decimal* := $obs ! .('OBS_VALUE');
 declare variable $minValue := min($values);
 declare variable $maxValue := max($values);
 declare variable $avgValue := avg($values);
 
 
 (: First/last dates :)
-declare variable $dates := $obs/frbny:TIME_PERIOD/xs:date(.);
+declare variable $dates     as xs:date* := $obs ! .('TIME_PERIOD');
 declare variable $firstDate := min($dates);
-declare variable $lastDate := max($dates);
+declare variable $lastDate  := max($dates);
 
-(: Returns the change in exchange rate over a specified number of days :)
-declare function local:period-change($ob as element(frbny:Obs,xs:untyped),
-                                     $days as xs:positiveInteger) as xs:decimal {
-    let $previous := xs:decimal($ob/following-sibling::frbny:Obs[$days]/frbny:OBS_VALUE)
-    return xs:decimal($ob/frbny:OBS_VALUE - $previous)
-};
-
-
-(: Converts an observation to an x,y coordinate pair :)
-declare function local:coordinate($ob as element(frbny:Obs,xs:untyped)) as xs:decimal+ {
-  (
-    xs:decimal((xs:date($ob/frbny:TIME_PERIOD) - $firstDate) div ($lastDate - $firstDate) * 1000)
-    ,
-    xs:decimal(1000 - ($ob/frbny:OBS_VALUE - $minValue) div ($maxValue - $minValue) * 1000)
-  )
+declare function local:obs-seq($doc as document-node()) as map(*)*
+{
+  for $o in $input-context/msg:UtilityData/frbny:DataSet/frbny:Series/frbny:Obs
+  return
+  map{'OBS_VALUE'   : xs:decimal($o/frbny:OBS_VALUE),
+      'TIME_PERIOD' : xs:date($o/frbny:TIME_PERIOD)
+     }
 };
 
 (: Labels the largest falls and rises over a specified number of days :)
-declare function local:label-changes($days as xs:positiveInteger) as element(text,xs:anyType)+ {
-      let $sortedByChange:= 
-          for $ob in $obs[position() <= last() - $days]
-          order by local:period-change($ob,$days) descending
-          return $ob
-      return
-        (
-          local:label-observation($sortedByChange[last()]/following-sibling::frbny:Obs[$days],concat('Largest ',$days,'-day rise'))
-          ,
-          local:label-observation($sortedByChange[1]/following-sibling::frbny:Obs[$days],concat('Largest ',$days,'-day fall'))
-        )
+declare function local:label-changes($days as xs:positiveInteger) as element(text,xs:anyType)+ 
+{
+  let $offs := 
+    for sliding window $window in $obs
+      start $s at $spos when true()
+      end $e at $epos when $epos eq $spos + $days 
+    where count($window) eq ($days + 1)
+    let $ret := $window[last()]
+    let $a := $window[1]('OBS_VALUE')
+    let $b := $ret('OBS_VALUE')
+    order by $b - $a
+    return
+    $ret
+  let $lowest := fn:head($offs)
+  let $highest := $offs[last()]
+  return
+  (
+    local:label-observation($highest, concat('Largest ',$days,'-day rise')),
+    local:label-observation($lowest, concat('Largest ',$days,'-day fall'))
+  )
+};
+
+(: Converts an observation to an x,y coordinate pair :)
+declare function local:coordinate($ob as map(*)) as xs:decimal+ {
+  (
+    xs:decimal(($ob('TIME_PERIOD') - $firstDate) div ($lastDate - $firstDate) * 1000)
+    ,
+    xs:decimal(1000 - ($ob('OBS_VALUE') - $minValue) div ($maxValue - $minValue) * 1000)
+  )
 };
 
 (: Labels an observation :)
-declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$label as xs:string) as element(text,xs:anyType) {
-      let $coord := local:coordinate($ob)
-      return
-        <text x=\"{round-half-to-even($coord[1], 4)}\"
-                  y=\"{round-half-to-even($coord[2], 4)}\"
-                  text-anchor=\"end\"
-                  title=\"{concat($ob/frbny:TIME_PERIOD,' - ',$ob/frbny:OBS_VALUE)}\">
-          {$label}
-        </text>
+declare function local:label-observation($ob as map(*), $label as xs:string) as element(text,xs:anyType) 
+{
+  let $coord := local:coordinate($ob)
+  return
+  <text x=\"{round-half-to-even($coord[1], 4)}\"
+        y=\"{round-half-to-even($coord[2], 4)}\"
+        text-anchor=\"end\"
+        title=\"{concat($ob('TIME_PERIOD'), ' - ', $ob('OBS_VALUE'))}\">
+        {$label}
+  </text>
 };
 
 <svg viewBox=\"-50,-50,1100,1100\">
@@ -383,6 +232,8 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
     return local:label-changes(xs:positiveInteger($days))
   }
 </svg>
+
+(: => deep-equal(doc('currencysvg-result.xml')/*) :) 
 ", 
    {Env,Opts} = xqerl_test:handle_environment([{'decimal-formats', []}, 
 {sources, [{filename:join(__BaseDir, "Demos/GBPNoon.xml"), ".",[]}]}, 

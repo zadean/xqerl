@@ -128,15 +128,15 @@ build_db_node(DB, Pos) ->
              end,
    io:format("Base URI ~p~n", [{BaseUri,byte_size(Node),BU}]),
    Buf = fun(Id) -> 
-               ?dbg("Id",Id),
+               %?dbg("Id",Id),
                case xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Id, XmlBase) of
                   [] -> BaseUri;
                   [_] -> BaseUri;
-                  [_|List] = OUT ->
-                     ?dbg("OUT",OUT),
+                  [_|List] ->
+                     %?dbg("OUT",OUT),
                      Tab = ?ATT_TABLE_P(DB),
                      Vals = [xqldb_string_table:lookup(Tab, L) || L <- List],
-                     ?dbg("Vals",Vals),
+                     %?dbg("Vals",Vals),
                      lists:foldl(fun(Ref,Base) ->
                                        xqldb_lib:join_uris(Base, Ref)
                                  end, BaseUri, Vals)
@@ -703,6 +703,12 @@ att_events([],Acc,State) ->
 pop_uri(On,Prefix) ->
    lists:keydelete(Prefix, 2, On).
 
+
+
+%% TODO 
+%%  
+
+
 %% 13 Bytes 
 %% d - Kind:3|Text:32|____:32|Size:32|____:19|__:10|___:1|____:7 = 67
 %% e - Kind:3|____:32|Dist:32|Size:32|Name:19|Ns:10|NsF:1|Atts:7 = 104
@@ -929,18 +935,18 @@ add_self_to_children(#{id := {Ref,_},
                        ch := Children,
                        ns := Namespaces,
                        bu := BU} = Obj) when is_reference(Ref) ->
-   Self = term_to_binary(Obj),
-   Obj#{ch := [augment_base_uri(merge_ns(C#{pt => Self},Namespaces),BU) || 
+   %Self = term_to_binary(Obj),
+   Obj#{ch := [augment_base_uri(merge_ns(C#{pt => Obj},Namespaces),BU) || 
                  C <- Children]};
 add_self_to_children(#{id := {Ref,_},
                        ch := Children,
                        bu := BU} = Obj) when is_reference(Ref) ->
-   Self = term_to_binary(Obj),
-   Obj#{ch := [augment_base_uri(C#{pt => Self},BU) || C <- Children]};
+   %Self = term_to_binary(Obj),
+   Obj#{ch := [augment_base_uri(C#{pt => Obj},BU) || C <- Children]};
 add_self_to_children(#{id := {Ref,_},
                        ch := Children} = Obj) when is_reference(Ref) ->
-   Self = term_to_binary(Obj),
-   Obj#{ch := [C#{pt => Self} || C <- Children]};
+   %Self = term_to_binary(Obj),
+   Obj#{ch := [C#{pt => Obj} || C <- Children]};
 add_self_to_children(Obj) -> Obj.
 
 

@@ -27,8 +27,9 @@ run(Mod, Options) when is_atom(Mod) ->
       _:#xqError{} = E ->
          ?dbg("run",E),
          E;
-      _:E ->
+      _:E:S ->
          ?dbg("run",E),
+         ?dbg("run",S),
          {'EXIT',E1} = (catch xqerl_error:error('XPST0003')),
          E1
    end;

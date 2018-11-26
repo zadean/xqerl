@@ -1472,44 +1472,50 @@ current_dir(_) ->
 
 
 err_not_found(Path) ->
-   E = #xqError{description = Path ++ " does not exist.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " does not exist.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"not-found">>}
                 },
    exit(E).
 err_invalid_path(Path) ->
-   E = #xqError{description = Path ++ " is invalid.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " is invalid.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"invalid-path">>}
                 },
    exit(E).
 err_exists(Path) ->
-   E = #xqError{description = Path ++ " already exists.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " already exists.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"exists">>}
                 },
    exit(E).
 err_no_dir(Path) ->
-   E = #xqError{description = Path ++ " does not point to a directory.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " does not point to a directory.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"no-dir">>}
                 },
    exit(E).
 err_is_dir(Path) ->
-   E = #xqError{description = Path ++ " points to a directory.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " points to a directory.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"is-dir">>}
                 },
    exit(E).
 err_unknown_encoding(Path) ->
-   E = #xqError{description = Path ++ " encoding is not supported.",
+   E = #xqError{description = unicode:characters_to_list(Path) ++ 
+                                " encoding is not supported.",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"unknown-encoding">>}
                 },
    exit(E).
 err_out_of_range(Path) ->
    E = #xqError{description = "The specified offset or length ("
-                              ++ Path ++
+                              ++ unicode:characters_to_list(Path) ++
                               ") is negative, or the chosen values"
                               " would exceed the file bounds",
                 name = #qname{namespace = ?NS,prefix = ?PX,
@@ -1518,7 +1524,7 @@ err_out_of_range(Path) ->
    exit(E).
 err_io_error(File) ->
    E = #xqError{description = "A generic file system error occurred. ("
-               ++ File ++ ")",
+               ++ unicode:characters_to_list(File) ++ ")",
                 name = #qname{namespace = ?NS,prefix = ?PX,
                               local_name = <<"io-error">>}
                 },
@@ -1711,10 +1717,7 @@ get_path_sep() ->
    end.
 
 strip_scheme(<<"file:///", Path/binary>>) -> 
-   case os:type() of
-      {win32,_} -> Path;
-      {_,_} -> <<$/,Path/binary>>
-   end;
+   <<$/,Path/binary>>;
 strip_scheme(<<"file://", Path/binary>>) -> Path;
 strip_scheme(<<"file:/", Path/binary>>) -> Path;
 strip_scheme(Path) -> Path.
