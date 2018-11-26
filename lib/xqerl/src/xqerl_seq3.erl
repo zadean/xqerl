@@ -458,11 +458,11 @@ rangemap(F,#xqRange{min = Min, max = Max} = R) when Min =< Max, is_function(F, 1
 rangemap(_,#xqRange{}) -> [].
 
 formap(_,[]) -> [];
-formap(F,[#xqRange{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 1) ->
-   [F(?int_rec(Min))|formap(F,[R#xqRange{min = Min + 1}|T])];
+formap({F, Ctx, Tuple} = FCT,[#xqRange{min = Min, max = Max} = R|T]) when Min =< Max, is_function(F, 3) ->
+   [F(Ctx, Tuple, ?int_rec(Min))|formap(FCT,[R#xqRange{min = Min + 1}|T])];
 formap(F,[#xqRange{}|T]) -> formap(F,T);
-formap(F,[H|T]) when is_function(F, 1) ->
-   [F(H)|formap(F,T)];
+formap({F, Ctx, Tuple} = FCT,[H|T]) when is_function(F, 3) ->
+   [F(Ctx, Tuple, H)|formap(FCT,T)];
 formap(F,L) when not is_list(L) -> formap(F,[L]).
 
 
@@ -474,95 +474,95 @@ pformap(Fun,List) ->
    after 60000 -> error
    end.
 
-pformap(From,[],Fun,Limit,Left,[P|Ps],Acc) when Left < Limit ->
+pformap(From,[],FCT,Limit,Left,[P|Ps],Acc) when Left < Limit ->
    receive
       {P,{'EXIT',Ex}} ->
          throw(Ex);
       {P,X} -> 
-         pformap(From,[],Fun,Limit,Left + 1,Ps, [X|Acc])
+         pformap(From,[],FCT,Limit,Left + 1,Ps, [X|Acc])
    after 60000 -> error
    end;
-pformap(From,[],_Fun,_Limit,_Left,[],Acc) ->
+pformap(From,[],_FCT,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
-pformap(From,List,Fun,Limit,0,[P|Ps],Acc) ->
+pformap(From,List,FCT,Limit,0,[P|Ps],Acc) ->
    receive
       {P,X} ->
-         pformap(From,List,Fun,Limit,1,Ps,[X|Acc])
+         pformap(From,List,FCT,Limit,1,Ps,[X|Acc])
    after 60000 -> error
    end;
-pformap(From,[#xqRange{min = Min, max = Max} = R|T],Fun,Limit,Left,Pids,Acc)
-   when Min =< Max, is_function(Fun, 1) ->
+pformap(From,[#xqRange{min = Min, max = Max} = R|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc)
+   when Min =< Max, is_function(Fun, 3) ->
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(?int_rec(Min))} 
+                 Self ! {self(), catch Fun(Ctx, Tuple, ?int_rec(Min))} 
            end),
    pformap(From,[R#xqRange{min = Min + 1}|T],
-           Fun,Limit,Left - 1,Pids ++ [Pid], Acc);
-pformap(From,[#xqRange{}|T],Fun,Limit,Left,Pids,Acc) ->
-   pformap(From,T,Fun,Limit,Left,Pids,Acc);
-pformap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
+           FCT,Limit,Left - 1,Pids ++ [Pid], Acc);
+pformap(From,[#xqRange{}|T],FCT,Limit,Left,Pids,Acc) ->
+   pformap(From,T,FCT,Limit,Left,Pids,Acc);
+pformap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),
    Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(H)} 
+                 Self ! {self(), catch Fun(Ctx, Tuple, H)} 
            end),
-   pformap(From,T,Fun,Limit,Left - 1,Pids ++ [Pid], Acc);
-pformap(From,NL,Fun,Limit,Left,Pids,Acc) when not is_list(NL) ->
-   pformap(From,[NL],Fun,Limit,Left,Pids,Acc).
+   pformap(From,T,FCT,Limit,Left - 1,Pids ++ [Pid], Acc);
+pformap(From,NL,FCT,Limit,Left,Pids,Acc) when not is_list(NL) ->
+   pformap(From,[NL],FCT,Limit,Left,Pids,Acc).
 
 
 
-pmap(Fun,List) ->
-   pmap(Fun,List,16).
+pmap(FCT,List) ->
+   pmap(FCT,List,4).
 
-pmap(Fun,List,Limit) -> 
-   pmap(self(),List,Fun,Limit,Limit,[],[]),
+pmap(FCT,List,Limit) -> 
+   pmap(self(),List,FCT,Limit,Limit,[],[]),
    receive
       {done,Acc2} ->
          lists:reverse(Acc2)
    after 20000 -> error
    end.
 
-pmap(From,[],Fun,Limit,Left,Ps,Acc) when Left < Limit ->
+pmap(From,[],FCT,Limit,Left,Ps,Acc) when Left < Limit ->
    receive
       {_,{'EXIT',Ex}} ->
          throw(Ex);
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
-         pmap(From,[],Fun,Limit,Left + 1,NewPs, [X|Acc])
+         pmap(From,[],FCT,Limit,Left + 1,NewPs, [X|Acc])
    after 10000 -> error
    end;
-pmap(From,[],_Fun,_Limit,_Left,[],Acc) ->
+pmap(From,[],_FCT,_Limit,_Left,[],Acc) ->
    From ! {done,Acc};
-pmap(From,List,Fun,Limit,0,Ps,Acc) ->
+pmap(From,List,FCT,Limit,0,Ps,Acc) ->
    receive
       {Py,X} ->
          NewPs = lists:delete(Py, Ps),
-         pmap(From,List,Fun,Limit,1,NewPs,[X|Acc])
+         pmap(From,List,FCT,Limit,1,NewPs,[X|Acc])
    after 10000 -> error
    end;
-pmap(From,[H|T],Fun,Limit,Left,Pids,Acc) ->
+pmap(From,[H|T],{Fun, Ctx, Tuple} = FCT,Limit,Left,Pids,Acc) ->
    Self = self(),
-   Pid = erlang:spawn(
-   %Pid = erlang:spawn_link(
+   %Pid = erlang:spawn(
+   Pid = erlang:spawn_link(
            fun() -> 
-                 Self ! {self(), catch Fun(H)} 
+                 Self ! {self(), catch Fun(Ctx, Tuple, H)} 
            end),
-   pmap(From,T,Fun,Limit,Left - 1,[Pid|Pids], Acc).
+   pmap(From,T,FCT,Limit,Left - 1,[Pid|Pids], Acc).
 
 
 
 
 
-
+% {F, Ctx, Tuple} = FCT
 
 forposmap(_,[],_) -> [];
-forposmap(F,[#xqRange{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 2) ->
-   [F(?int_rec(Min),P)|forposmap(F,[R#xqRange{min = Min + 1}|T],P + 1)];
+forposmap({F, Ctx, Tuple} = FCT,[#xqRange{min = Min, max = Max} = R|T],P) when Min =< Max, is_function(F, 4) ->
+   [F(Ctx, Tuple, ?int_rec(Min),P)|forposmap(FCT,[R#xqRange{min = Min + 1}|T],P + 1)];
 forposmap(F,[#xqRange{}|T],P) -> forposmap(F,T,P);
-forposmap(F,[H|T],P) when is_function(F, 2) ->
-   [F(H,P)|forposmap(F,T,P + 1)];
+forposmap({F, Ctx, Tuple} = FCT,[H|T],P) when is_function(F, 4) ->
+   [F(Ctx, Tuple, H,P)|forposmap(FCT,T,P + 1)];
 forposmap(F,L,P) when not is_list(L) -> forposmap(F,[L],P).
 
 
