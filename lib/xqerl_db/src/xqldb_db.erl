@@ -46,7 +46,7 @@ close(Uri) ->
 %% Returns the DB for a given URI, or not_exists, or closed
 %% closed or nonexistant can be opened with open/1
 database(Uri) when is_list(Uri) -> database(unicode:characters_to_binary(Uri));
-database(Uri) ->
+database(Uri) when is_binary(Uri) ->
    case get_pid(Uri) of
       Pid when is_pid(Pid) ->
          db_ref(Pid, Uri);

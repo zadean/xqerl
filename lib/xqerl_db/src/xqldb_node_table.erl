@@ -17,7 +17,7 @@
          clear/1,
          delete/3,
          insert/2,
-         base_uri/3,
+         base_uri/2, base_uri/3,
          nodes/3,
          node/2,
          nodes_sync/2]).
@@ -66,8 +66,12 @@ nodes_sync(Pid, PosList) ->
 insert(Pid, Bin) ->
    gen_server:call(Pid, {insert, Bin}).
 
+base_uri(Pid, Pos) ->
+   gen_server:call(Pid, {base_uri, Pos}).
+
 base_uri(Pid, Pos, XmlBase) ->
    gen_server:call(Pid, {base_uri, Pos, XmlBase}).
+
 
 -spec delete(Server::server(), 
              Pos::non_neg_integer(), Len::non_neg_integer()) -> ok.
@@ -107,11 +111,26 @@ lookup(#{file := File} = State, [Pos|T]) ->
 lookup(_, []) -> [].
 
 
+get_base_uri(State, Pos) ->
+   [Node] = lookup(State, [Pos]),
+   Path = nodes_to_root(Node, Pos, State),
+   lists:reverse(do_get_base_uri(State, [Node|Path])).
+
 get_base_uri(State, Pos, XmlBase) ->
    [Node] = lookup(State, [Pos]),
    Path = path_to_root(Node, Pos, State),
    %?dbg("Path",Path),
    lists:reverse(do_get_base_uri(State, XmlBase, [Pos|Path])).
+
+do_get_base_uri(State, [Node|Poss]) ->
+   case Node of
+      <<?document:3,ValId:32/integer,_:69>> ->
+         [ValId];
+      _ ->
+         do_get_base_uri(State, Poss)
+   end;
+do_get_base_uri(_, []) ->
+  [].
 
 do_get_base_uri(State, XmlBase, [Pos|Poss]) ->
    [Node] = lookup(State, [Pos]),
@@ -177,6 +196,16 @@ path_to_root(Node, Pos, State) ->
          Par = Pos - Off,
          [ParNode] = lookup(State, [Par]),
          [Par|path_to_root(ParNode, Par, State)]
+   end.
+
+nodes_to_root(Node, Pos, State) ->
+   case xqldb_nodes:node_kind(Node) of
+      document -> [];
+      _ ->
+         Off = xqldb_nodes:node_offset(Node),
+         Par = Pos - Off,
+         [ParNode] = lookup(State, [Par]),
+         [ParNode|nodes_to_root(ParNode, Par, State)]
    end.
 
 %% parent_pos(Pos, State) ->
@@ -273,9 +302,9 @@ handle_cast(clear, State) ->
    {noreply,State1};
 handle_cast(_Request, State) -> {noreply,State}.
 
-%% handle_call({parent, Pos}, _From, State) ->
-%%    Reply = parent_pos(Pos, State),
-%%    {reply,Reply,State};
+handle_call({base_uri, Pos}, _From, State) ->
+   Reply = get_base_uri(State, Pos),
+   {reply,Reply,State};
 handle_call({base_uri, Pos, XmlBase}, _From, State) ->
    Reply = get_base_uri(State, Pos, XmlBase),
    {reply,Reply,State};

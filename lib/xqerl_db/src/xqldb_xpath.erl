@@ -177,9 +177,9 @@ attribute_attribute(#{nk := element, at := []}, _) -> [];
 attribute_attribute(#{nk := element,
                       at := At} = P, {NameAndType, Preds}) ->
    Cn = [N#{pt => P} || #{nk := attribute,
-                          nn := NodeName,
-                          tn := TypeName} = N <- At,
-                        name_type_match(NameAndType, NodeName, TypeName)],
+                nn := NodeName,
+                tn := TypeName} = N <- At,
+              name_type_match(NameAndType, NodeName, TypeName)],
    do_predicates(Cn, Preds);
 attribute_attribute(_, _) -> [].
 
@@ -195,10 +195,10 @@ attribute_node(_, _) -> [].
 %% ================================
 -spec child_comment(document() | element(), step()) -> [comment()].
 child_comment(#{nk := Nk,
-                ch := Ch} = P, {Preds})
+                ch := _} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N#{pt => P} || #{nk := comment} = N <- Ch],
+   Cn = [N || #{nk := comment} = N <- xqldb_mem_nodes:children(P)],
    do_predicates(Cn, Preds);
 child_comment(_, _) -> [].
 
@@ -207,7 +207,7 @@ child_element(#{nk := Nk,
                 ch := _} = P, {NameAndType, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N#{pt => P}
+   Cn = [N
         || #{nk := element,
              nn := NodeName,
              tn := TypeName} = N <- xqldb_mem_nodes:children(P),
@@ -217,29 +217,29 @@ child_element(_, _) -> [].
 
 -spec child_node(document() | element(), step()) -> [anychild()].
 child_node(#{nk := element} = P, {Preds}) -> 
-   do_predicates([N#{pt => P} || N <- xqldb_mem_nodes:children(P)], Preds);
+   do_predicates([N || N <- xqldb_mem_nodes:children(P)], Preds);
 child_node(#{nk := document} = P, {Preds}) -> 
-   do_predicates([N#{pt => P} || N <- xqldb_mem_nodes:children(P)], Preds);
+   do_predicates([N || N <- xqldb_mem_nodes:children(P)], Preds);
 child_node(_, _) -> [].
 
 -spec child_processing_instruction(document() | element(), step()) -> [proc_inst()].
 child_processing_instruction(#{nk := Nk,
-                               ch := Ch} = P, {Name, Preds})
+                               ch := _} = P, {Name, Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N#{pt => P}
+   Cn = [N
         || #{nk := 'processing-instruction',
-             nn := NodeName} = N <- Ch,
+             nn := NodeName} = N <- xqldb_mem_nodes:children(P),
            name_match(Name, NodeName)],
    do_predicates(Cn, Preds);
 child_processing_instruction(_, _) -> [].
 
 -spec child_text(document() | element(), step()) -> [text()].
 child_text(#{nk := Nk,
-             ch := Ch} = P, {Preds})
+             ch := _} = P, {Preds})
    when Nk =:= element;
         Nk =:= document -> 
-   Cn = [N#{pt => P} || #{nk := text} = N <- Ch],
+   Cn = [N || #{nk := text} = N <- xqldb_mem_nodes:children(P)],
    do_predicates(Cn, Preds);
 child_text(_, _) -> [].
 
@@ -735,32 +735,33 @@ doc_rev_ord_fun(#{id := A}, #{id := B}) -> A > B.
 ancestors(Node) ->
    ancestors_1(xqldb_mem_nodes:parent(Node), []).
 
-ancestors_1([], Acc) -> lists:reverse(Acc);
+ancestors_1([], Acc) -> 
+   lists:reverse(Acc);
 ancestors_1(Node, Acc) ->
    ancestors_1(xqldb_mem_nodes:parent(Node), [Node|Acc]).
    
 
-descendants(#{ch := Ch,
+descendants(#{ch := _,
               nk := document} = S) ->
    % block text children of document
-   [D || #{nk := Nk} = C <- Ch,
+   [D || #{nk := Nk} = C <- xqldb_mem_nodes:children(S),
          Nk =/= text,
-         D <- descendants_1(C#{pt => S})];
+         D <- descendants_1(C)];
 descendants(#{nk := element} = S) ->
    [D || C <- xqldb_mem_nodes:children(S),
-         D <- descendants_1(C#{pt => S})];
+         D <- descendants_1(C)];
 descendants(_) -> [].
 
 descendants_1(#{nk := element} = Self) ->
    Ds = [D || C <- xqldb_mem_nodes:children(Self),
-              D <- descendants_1(C#{pt => Self})],
+              D <- descendants_1(C)],
    [Self|Ds];
 descendants_1(Self) -> [Self].
    
 siblings(Node) ->
    case xqldb_mem_nodes:parent(Node) of
-      #{ch := Ch} ->
-         Ch;
+      #{ch := _} = P ->
+         xqldb_mem_nodes:children(P);
       _ ->
          []
    end.

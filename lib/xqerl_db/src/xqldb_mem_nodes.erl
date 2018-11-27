@@ -71,8 +71,8 @@
                  parent   => [non_neg_integer()],
                  uri      => binary(),
                  db       => string(),
-                 node_stk => list(#{}),
-                 chld_stk => list(#{}),
+                 node_stk => list(#{_ := _}),
+                 chld_stk => list(#{_ := _}),
                  nsp_on   => list({_,_}),
                  nsp_off  => list({_,_,_})}.
 
@@ -114,47 +114,13 @@ event(A,B) ->
 
 % construct from DB node
 build_db_node(DB, Pos) ->
-   {Node,_P2R} = xqldb_node_table:node(?NODE_TABLE_P(DB), Pos),
-   XmlBase = xqldb_name_table:insert(?NAME_TABLE_P(DB), {<<"base">>,<<"xml">>}),
-   % here get namespaces and base uri if needed 
-   %% First ID is from the string table, rest (if any) from attribute string table
-   BU = xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Pos, XmlBase),
-   BaseUri = case BU of
-                [X] ->
-                   B1 = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), X),
-                   xqldb_lib:join_uris(?DBURI(DB), B1);
-                [] ->
-                   ?DBURI(DB)
-             end,
-   io:format("Base URI ~p~n", [{BaseUri,byte_size(Node),BU}]),
-   Buf = fun(Id) -> 
-               %?dbg("Id",Id),
-               case xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Id, XmlBase) of
-                  [] -> BaseUri;
-                  [_] -> BaseUri;
-                  [_|List] ->
-                     %?dbg("OUT",OUT),
-                     Tab = ?ATT_TABLE_P(DB),
-                     Vals = [xqldb_string_table:lookup(Tab, L) || L <- List],
-                     %?dbg("Vals",Vals),
-                     lists:foldl(fun(Ref,Base) ->
-                                       xqldb_lib:join_uris(Base, Ref)
-                                 end, BaseUri, Vals)
-               end
-         end,
-   Tree = build_node_1(Node,#{db => DB,
-                              pos => Pos,
-                              att => #{},
-                              str => #{},
-                              nms => #{},
-                              uri => #{},
-                              ns  => {},
-                              nsf => true,
-                              xb  => XmlBase,
-                              bu  => BU,
-                              buf => Buf                                           
-                             }),
-   Tree.
+   {NodeBin,P2R} = xqldb_node_table:node(?NODE_TABLE_P(DB), Pos),
+   ParentPos = case P2R of
+                  [] -> [];
+                  [H|_] ->
+                     H
+               end,
+   build_db_node_1(NodeBin, ParentPos, Pos, DB).
 
 %% at = attributes
 %% bu = base-uri (list of all xml:base atts to document)
@@ -255,10 +221,8 @@ namespace(NodeName) ->
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 add_children(#{nk := element} = Parent,Children) ->
    Parent#{ch => Children};
-   %add_self_to_children(Parent#{ch => Children});
 add_children(#{nk := document} = Parent,Children) ->
    Parent#{ch => Children}.
-   %add_self_to_children(Parent#{ch => Children}).
 
 add_attribute(#{nk := element,
                 at := Ats} = E,
@@ -278,6 +242,9 @@ add_namespace(#{nk := element} = E, {Ns,Px}) ->
 set_namespaces(#{nk := element} = E, Nss) ->
    E#{ns => Nss}.
 
+set_parent(#{nk := _} = E, Par) ->
+   E#{pt => Par}.
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 %%           Accessors               %%
@@ -288,17 +255,22 @@ attributes(#{nk := element,
    At;
 attributes(_) -> [].
 
-%% base_uri(#{id := {DBName,Pos}}) when is_list(DBName) -> 
-%%    DB = xqldb_db:database(DBName),
-%%    XmlBase = xqldb_name_table:lookup(?NAME_TABLE_P(DB), {<<"base">>,<<"xml">>}),
-%%    [U|Us] = xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Pos, XmlBase),
-%%    Root = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), U),
-%%    Fold = fun(I, Base) ->
-%%                 L = xqldb_string_table:lookup(?ATT_TABLE_P(DB), I),
-%%                 xqerl_lib:resolve_against_base_uri(Base, L)
-%%           end,
-%%    lists:foldl(Fold, Root, Us);
-base_uri(#{bu := B}) when is_function(B) -> B();
+base_uri(#{id := {DbUri,Pos}}) when is_binary(DbUri) ->
+   DB = get_db_from_uri(DbUri),
+   case xqldb_name_table:lookup(?NAME_TABLE_P(DB), {<<"base">>,<<"xml">>}) of
+      error ->
+         [U] = xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Pos),
+         Rel = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), U),
+         xqldb_uri:join(DbUri, Rel);
+      XmlBase ->
+         [U|Us] = xqldb_node_table:base_uri(?NODE_TABLE_P(DB), Pos, XmlBase),
+         Rel = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), U),
+         Fold = fun(I, Base) ->
+                      L = xqldb_string_table:lookup(?ATT_TABLE_P(DB), I),
+                      xqldb_lib:join_uris(Base, L)
+                end,
+         lists:foldl(Fold, xqldb_uri:join(DbUri, Rel), Us)
+   end;
 base_uri(#{bu := B}) -> B;
 base_uri(#{nk := Nk} = N) when Nk == text;
                                Nk == attribute;
@@ -318,7 +290,7 @@ children_p(#{nk := element} = E) ->
    Ch;
 children_p(#{nk := document} = D) ->
    #{ch := Ch} = add_self_to_children(D),
-   Ch;
+   [C || C <- Ch];
 children_p(_) -> [].
 
 document_uri(#{nk := document,
@@ -339,7 +311,7 @@ is_idrefs(_) -> [].
 
 namespace_nodes(#{nk := element,
                   ns := Ns}) -> 
-   [Nn || Nn <- maps:to_list(Ns)];
+   maps:to_list(Ns);
 namespace_nodes(_) -> [].
 
 nilled(#{nk := element}) -> false;
@@ -355,22 +327,16 @@ node_name(#{nk := Nk,
         Nk =:= 'processing-instruction' -> Nn;
 node_name(_) -> [].
 
-parent(#{pt := Pt}) when is_function(Pt,0) -> 
-   Pt();
-parent(#{pt := #{nk := _} = Pt}) -> Pt;
-parent(#{pt := Pt}) -> 
-   case binary_to_term(Pt) of
-      F when is_function(F,0) ->
-         P = F(),
-         add_self_to_children(P);
-      O ->
-         add_self_to_children(O)
-   end;
+parent(#{pt := #{nk := _} = Pt}) -> 
+   Pt;
+parent(#{pt := {DbUri,Pos}}) ->
+   DB = get_db_from_uri(DbUri),
+   build_db_node(DB, Pos);
 parent(_) -> [].
 
 string_value(#{sv := Sv}) -> Sv;
-string_value(#{ch := Ch}) -> 
-   Tx = [T || #{nk := Nk} = T <- Ch,
+string_value(#{ch := _} = N) -> 
+   Tx = [T || #{nk := Nk} = T <- children(N),
               Nk == text orelse Nk == element],
    build_string_value(Tx);
 string_value(#{nk := namespace,
@@ -717,204 +683,309 @@ pop_uri(On,Prefix) ->
 %% c - Kind:3|Text:32|Dist:32|____:32|____:19|__:10|___:1|____:7 = 67
 %% p - Kind:3|Text:32|Dist:32|____:32|Name:19|__:10|___:1|____:7 = 86
 
-build_node_1(Bin, #{pos := Pos,
-                    db := DB} = State) ->
-   {[Node],_} = build_node_1(Bin, [], State),
-   <<Part:?BSZ/binary,_/binary>> = Bin,
-   case xqldb_nodes:node_kind(Part) of
-      document -> Node;
-      _ ->
-         ParPos = Pos - xqldb_nodes:node_offset(Part),
-         F = fun() -> 
-                   build_db_node(DB, ParPos)
-             end,                  
-         Node#{pt => term_to_binary(F)}
-   end.
-   
-build_node_1(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>, 
-             Acc, #{db := DB, pos := Pos} = State) ->
-   NdId = {?DBNAME(DB), Pos},
-   Uri = xqldb_lib:join_uris(?DBURI(DB), 
-                             xqldb_string_table:lookup(?TEXT_TABLE_P(DB), UriRef)),
-   Doc = document(NdId,Uri,Uri),
-   {Children, State1} = build_node_1(Rest, Acc, State#{pos := Pos + 1}),
-   % documents do not have text node children in infoset 
-   Children1 = [C || #{nk := Nk} = C <- Children, Nk =/= text], 
-   {[add_children(Doc, Children1)], State1};
-build_node_1(<<?element:3,_:32/integer,Size:32/integer,NameRef:19/integer,
-               NsRef:10/integer,NsF:1,AttCnt:7/integer,Rest/binary>>,
-             Acc,
-             #{db := DB,
-               buf := Buf,
-               pos := Pos,
-               ns  := Nss,
-               uri := Uris,
-               nms := Names} = State) ->
-   State000 = if is_map_key(nsf, State) -> maps:remove(nsf,State); true -> State end,   
-   {{Local, Prefix}, Names1} = get_name(NameRef, Names, DB), 
-   {Ns, Uris1} = get_uri(NsRef, Uris, DB),
-   NodeName = {Ns,Prefix,Local},
-   State00 = State000#{uri := Uris1, nms := Names1},
-   NdId = {?DBNAME(DB), Pos},
-   BaseUri = fun() -> Buf(Pos) end,                   
-   Elem0 = element(NdId, NodeName, BaseUri, 'xs:untyped'),
-   {Elem, State0} =  if NsF == 1 orelse is_map_key(ns, State) ->
-                            NssL = xqldb_ns_node_table:lookup(?NS_NODE_TABLE_P(DB), Pos),
-                            NssN = normalize_namespaces(DB, NssL),
-                            {set_namespaces(Elem0, NssN), State00#{ns := NssN}};
-                         true ->
-                            {set_namespaces(Elem0, Nss), State00}
-                      end,
-   AttSz = AttCnt * ?BSZ,
-   {Atts, State2, Rest1} = if AttCnt == 0 ->
-                                 {[], State0#{pos := Pos + 1}, Rest};
-                              true ->
-                                 <<AttBin:AttSz/binary,Rest2/binary>> = Rest, 
-                                 {Atts0, State1} = build_node_1(AttBin, [], State0#{pos := Pos + 1}),
-                                 {Atts0, State1, Rest2}
-                           end,
-   AttFun = fun(At, E) -> add_attribute(E, At) end,
-   Elem1 = lists:foldl(AttFun, Elem, Atts),
-   BodySz = (Size - AttCnt) * ?BSZ,
-   case Rest1 of
-      <<>> -> % Last sibling, add self to Acc then return
-         Elem2 = add_children(Elem1, []),
-         {lists:reverse([Elem2|Acc]), State2};
-      <<Body:BodySz/binary>> -> % Last sibling, add self to Acc then return
-         {Children, State3} = build_node_1(Body, [], State2),
-         Elem2 = add_children(Elem1, Children),
-         {lists:reverse([Elem2|Acc]), State3};
-      <<Rest3/binary>> when BodySz == 0 -> % not last sibling, so add self to Acc then continue
-         Elem2 = add_children(Elem1, []),
-         build_node_1(Rest3, [Elem2|Acc], State2);
-      <<Body:BodySz/binary,Rest3/binary>> -> % not last sibling, so add self to Acc then continue
-         {Children, State3} = build_node_1(Body, [], State2),
-         Elem2 = add_children(Elem1, Children),
-         build_node_1(Rest3, [Elem2|Acc], State3);
-      _ ->
-         throw({exit, Size, AttCnt, BodySz, byte_size(Rest1)})
-   end;
-build_node_1(<<?text:3,TextRef:32/integer,_Offset:32/integer,0:37,Rest/binary>>, Acc,
-             #{db := DB,
-               str := Str,
-               pos := Pos} = State) ->
-   NdId = {?DBNAME(DB), Pos},
-   {Value, Str1} = get_text(TextRef, Str, DB),
-   State1 = State#{pos := Pos + 1, str := Str1},
-   Node = text(NdId, Value),
-   case Rest of
-      <<>> ->
-         {lists:reverse([Node|Acc]), State1};
-      _ ->
-         build_node_1(Rest, [Node|Acc], State1)
-   end;
-build_node_1(<<?proc_inst:3,TextRef:32/integer,_Offset:32/integer,NameRef:19/integer,0:10,0:1,0:7,Rest/binary>>, Acc,
-             #{db := DB,
-               str := Str,
-               nms := Names,
-               pos := Pos} = State) ->
-   {{Local, _}, Names1} = get_name(NameRef, Names, DB), 
-   NodeName = {<<>>,<<>>,Local},
-   NdId = {?DBNAME(DB), Pos},
-   {Value, Str1} = get_text(TextRef, Str, DB),
-   State1 = State#{pos := Pos + 1, str := Str1, nms := Names1},
-   Node = processing_instruction(NdId, NodeName, Value),
-   case Rest of
-      <<>> ->
-         {lists:reverse([Node|Acc]), State1};
-      _ ->
-         build_node_1(Rest, [Node|Acc], State1)
-   end;
-build_node_1(<<?comment:3,TextRef:32/integer,_Offset:32/integer,0:37,Rest/binary>>, Acc,
-             #{db := DB,
-               str := Str,
-               pos := Pos} = State) ->
-   NdId = {?DBNAME(DB), Pos},
-   {Value, Str1} = get_text(TextRef, Str, DB),
-   State1 = State#{pos := Pos + 1, str := Str1},
-   Node = comment(NdId, Value),
-   case Rest of
-      <<>> ->
-         {lists:reverse([Node|Acc]), State1};
-      _ ->
-         build_node_1(Rest, [Node|Acc], State1)
-   end;
-%% a - Kind:3|Text:32|____:32|____:32|Name:19|Ns:10|___:1|Dist:7 = 71
-build_node_1(<<?attribute:3,TextRef:32/integer,Type:3/integer,0:29/integer,
-               NameRef:19/integer,NsRef:10,0:1,_Offset:7,Rest/binary>>, Acc,
-             #{db := DB,
-               att := Str,
-               uri := Uris,
-               nms := Names,
-               pos := Pos} = State) ->
-   {{Local, Prefix}, Names1} = get_name(NameRef, Names, DB), 
-   {Ns, Uris1} = get_uri(NsRef, Uris, DB), 
-   NodeName = {Ns,Prefix,Local},
-   State0 = State#{uri := Uris1, nms := Names1},
-   NdId = {?DBNAME(DB), Pos},
-   {Value, Str1} = get_att_text(TextRef, Str, DB),
-   State1 = State0#{pos := Pos + 1, att := Str1},
-   Node = case Type of
-             ?att_str ->
-                attribute(NdId, NodeName, Value, false, false, 'xs:untypedAtomic');
-             ?att_id ->
-                attribute(NdId, NodeName, Value, true, false, 'xs:ID');
-             ?att_idref ->
-                attribute(NdId, NodeName, Value, false, true, 'xs:IDREF')
-          end,
-   case Rest of
-      <<>> ->
-         {[Node|Acc], State1};
-      _ ->
-         build_node_1(Rest, [Node|Acc], State1)
-   end;
-build_node_1(<<>>, Acc, State) -> 
-   ?dbg("empty",{Acc,State}),
-   [].
+%% build_node_1(Bin, #{pos := Pos,
+%%                     db := DB} = State) ->
+%%    {[Node],_} = build_node_1(Bin, [], State),
+%%    <<Part:?BSZ/binary,_/binary>> = Bin,
+%%    case xqldb_nodes:node_kind(Part) of
+%%       document -> Node;
+%%       _ ->
+%%          ParPos = Pos - xqldb_nodes:node_offset(Part),
+%%          F = fun() -> 
+%%                    build_db_node(DB, ParPos)
+%%              end,                  
+%%          Node#{pt => term_to_binary(F)}
+%%    end.
+%%    
+%% build_node_1(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>, 
+%%              Acc, #{db := DB, pos := Pos} = State) ->
+%%    NdId = {?DBNAME(DB), Pos},
+%%    Uri = xqldb_lib:join_uris(?DBURI(DB), 
+%%                              xqldb_string_table:lookup(?TEXT_TABLE_P(DB), UriRef)),
+%%    Doc = document(NdId,Uri,Uri),
+%%    {Children, State1} = build_node_1(Rest, Acc, State#{pos := Pos + 1}),
+%%    % documents do not have text node children in infoset 
+%%    Children1 = [C || #{nk := Nk} = C <- Children, Nk =/= text], 
+%%    {[add_children(Doc, Children1)], State1};
+%% build_node_1(<<?element:3,_:32/integer,Size:32/integer,NameRef:19/integer,
+%%                NsRef:10/integer,NsF:1,AttCnt:7/integer,Rest/binary>>,
+%%              Acc,
+%%              #{db := DB,
+%%                buf := Buf,
+%%                pos := Pos,
+%%                ns  := Nss,
+%%                uri := Uris,
+%%                nms := Names} = State) ->
+%%    State000 = if is_map_key(nsf, State) -> maps:remove(nsf,State); true -> State end,   
+%%    {{Local, Prefix}, Names1} = get_name(NameRef, Names, DB), 
+%%    {Ns, Uris1} = get_uri(NsRef, Uris, DB),
+%%    NodeName = {Ns,Prefix,Local},
+%%    State00 = State000#{uri := Uris1, nms := Names1},
+%%    NdId = {?DBNAME(DB), Pos},
+%%    BaseUri = fun() -> Buf(Pos) end,                   
+%%    Elem0 = element(NdId, NodeName, BaseUri, 'xs:untyped'),
+%%    {Elem, State0} =  if NsF == 1 orelse is_map_key(ns, State) ->
+%%                             NssL = xqldb_ns_node_table:lookup(?NS_NODE_TABLE_P(DB), Pos),
+%%                             NssN = normalize_namespaces(DB, NssL),
+%%                             {set_namespaces(Elem0, NssN), State00#{ns := NssN}};
+%%                          true ->
+%%                             {set_namespaces(Elem0, Nss), State00}
+%%                       end,
+%%    AttSz = AttCnt * ?BSZ,
+%%    {Atts, State2, Rest1} = if AttCnt == 0 ->
+%%                                  {[], State0#{pos := Pos + 1}, Rest};
+%%                               true ->
+%%                                  <<AttBin:AttSz/binary,Rest2/binary>> = Rest, 
+%%                                  {Atts0, State1} = build_node_1(AttBin, [], State0#{pos := Pos + 1}),
+%%                                  {Atts0, State1, Rest2}
+%%                            end,
+%%    AttFun = fun(At, E) -> add_attribute(E, At) end,
+%%    Elem1 = lists:foldl(AttFun, Elem, Atts),
+%%    BodySz = (Size - AttCnt) * ?BSZ,
+%%    case Rest1 of
+%%       <<>> -> % Last sibling, add self to Acc then return
+%%          Elem2 = add_children(Elem1, []),
+%%          {lists:reverse([Elem2|Acc]), State2};
+%%       <<Body:BodySz/binary>> -> % Last sibling, add self to Acc then return
+%%          {Children, State3} = build_node_1(Body, [], State2),
+%%          Elem2 = add_children(Elem1, Children),
+%%          {lists:reverse([Elem2|Acc]), State3};
+%%       <<Rest3/binary>> when BodySz == 0 -> % not last sibling, so add self to Acc then continue
+%%          Elem2 = add_children(Elem1, []),
+%%          build_node_1(Rest3, [Elem2|Acc], State2);
+%%       <<Body:BodySz/binary,Rest3/binary>> -> % not last sibling, so add self to Acc then continue
+%%          {Children, State3} = build_node_1(Body, [], State2),
+%%          Elem2 = add_children(Elem1, Children),
+%%          build_node_1(Rest3, [Elem2|Acc], State3);
+%%       _ ->
+%%          throw({exit, Size, AttCnt, BodySz, byte_size(Rest1)})
+%%    end;
+%% build_node_1(<<?text:3,TextRef:32/integer,_Offset:32/integer,0:37,Rest/binary>>, Acc,
+%%              #{db := DB,
+%%                str := Str,
+%%                pos := Pos} = State) ->
+%%    NdId = {?DBNAME(DB), Pos},
+%%    {Value, Str1} = get_text(TextRef, Str, DB),
+%%    State1 = State#{pos := Pos + 1, str := Str1},
+%%    Node = text(NdId, Value),
+%%    case Rest of
+%%       <<>> ->
+%%          {lists:reverse([Node|Acc]), State1};
+%%       _ ->
+%%          build_node_1(Rest, [Node|Acc], State1)
+%%    end;
+%% build_node_1(<<?proc_inst:3,TextRef:32/integer,_Offset:32/integer,NameRef:19/integer,0:10,0:1,0:7,Rest/binary>>, Acc,
+%%              #{db := DB,
+%%                str := Str,
+%%                nms := Names,
+%%                pos := Pos} = State) ->
+%%    {{Local, _}, Names1} = get_name(NameRef, Names, DB), 
+%%    NodeName = {<<>>,<<>>,Local},
+%%    NdId = {?DBNAME(DB), Pos},
+%%    {Value, Str1} = get_text(TextRef, Str, DB),
+%%    State1 = State#{pos := Pos + 1, str := Str1, nms := Names1},
+%%    Node = processing_instruction(NdId, NodeName, Value),
+%%    case Rest of
+%%       <<>> ->
+%%          {lists:reverse([Node|Acc]), State1};
+%%       _ ->
+%%          build_node_1(Rest, [Node|Acc], State1)
+%%    end;
+%% build_node_1(<<?comment:3,TextRef:32/integer,_Offset:32/integer,0:37,Rest/binary>>, Acc,
+%%              #{db := DB,
+%%                str := Str,
+%%                pos := Pos} = State) ->
+%%    NdId = {?DBNAME(DB), Pos},
+%%    {Value, Str1} = get_text(TextRef, Str, DB),
+%%    State1 = State#{pos := Pos + 1, str := Str1},
+%%    Node = comment(NdId, Value),
+%%    case Rest of
+%%       <<>> ->
+%%          {lists:reverse([Node|Acc]), State1};
+%%       _ ->
+%%          build_node_1(Rest, [Node|Acc], State1)
+%%    end;
+%% %% a - Kind:3|Text:32|____:32|____:32|Name:19|Ns:10|___:1|Dist:7 = 71
+%% build_node_1(<<?attribute:3,TextRef:32/integer,Type:3/integer,0:29/integer,
+%%                NameRef:19/integer,NsRef:10,0:1,_Offset:7,Rest/binary>>, Acc,
+%%              #{db := DB,
+%%                att := Str,
+%%                uri := Uris,
+%%                nms := Names,
+%%                pos := Pos} = State) ->
+%%    {{Local, Prefix}, Names1} = get_name(NameRef, Names, DB), 
+%%    {Ns, Uris1} = get_uri(NsRef, Uris, DB), 
+%%    NodeName = {Ns,Prefix,Local},
+%%    State0 = State#{uri := Uris1, nms := Names1},
+%%    NdId = {?DBNAME(DB), Pos},
+%%    {Value, Str1} = get_att_text(TextRef, Str, DB),
+%%    State1 = State0#{pos := Pos + 1, att := Str1},
+%%    Node = case Type of
+%%              ?att_str ->
+%%                 attribute(NdId, NodeName, Value, false, false, 'xs:untypedAtomic');
+%%              ?att_id ->
+%%                 attribute(NdId, NodeName, Value, true, false, 'xs:ID');
+%%              ?att_idref ->
+%%                 attribute(NdId, NodeName, Value, false, true, 'xs:IDREF')
+%%           end,
+%%    case Rest of
+%%       <<>> ->
+%%          {[Node|Acc], State1};
+%%       _ ->
+%%          build_node_1(Rest, [Node|Acc], State1)
+%%    end;
+%% build_node_1(<<>>, Acc, State) -> 
+%%    ?dbg("empty",{Acc,State}),
+%%    [].
 
+split_child_bin(<<>>, _) -> [];
+split_child_bin(Bin, Pos) ->
+   Size = (xqldb_nodes:node_size(Bin) + 1),
+   ByteSize = Size * ?BSZ,
+   <<Child:ByteSize/binary,Rest/binary>> = Bin,
+   [{Pos, Child}|split_child_bin(Rest, Pos + Size)].
 
-%% <<?element:3,Offset:32/integer,Size:32/integer,NameRef:19/integer,NsRef:10/integer,NsF:1,AttCnt:7/integer>>,
 %% <<?document:3,UriRef:32/integer,Size:32/integer,0:19/integer,0:10/integer,0:1,0:7/integer>>,
+%% <<?element:3,Offset:32/integer,Size:32/integer,NameRef:19/integer,NsRef:10/integer,NsF:1,AttCnt:7/integer>>,
 %% <<?text:3,TextRef:32/integer,Offset:32/integer,0:19/integer,0:10,0:1,0:7>>,
 %% <<?attribute:3,TextRef:32/integer,0:32/integer,NameRef:19/integer,NsRef:10,0:1,Offset:7>>,
 %% <<?comment:3,TextRef:32/integer,Offset:32/integer,0:19/integer,0:10,0:1,0:7>>,
 %% <<?proc_inst:3,TextRef:32/integer,Offset:32/integer,NameRef:19/integer,0:10,0:1,0:7>>,
+build_db_node_1(<<?document:3,UriRef:32/integer,_:69,Rest/binary>>, [], Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   NdId = {DbUri, Pos},
+   Uri = xqldb_lib:join_uris(
+           DbUri,
+           xqldb_string_table:lookup(?TEXT_TABLE_P(DB), UriRef)),
+   Doc = document(NdId,Uri,Uri),
+   Children = split_child_bin(Rest, Pos + 1),
+   add_children(Doc, Children);
+build_db_node_1(<<?element:3,_:32/integer,_Size:32/integer,NameRef:19/integer,
+                  NsRef:10/integer,NsF:1,AttCnt:7/integer,Rest/binary>>, 
+                ParentPos, Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   {Local, Prefix} = get_name(NameRef, DbUri), 
+   Ns = get_uri(NsRef, DbUri),
+   NodeName = {Ns,Prefix,Local},
+   NdId = {DbUri, Pos},
+   ParId = {DbUri, ParentPos},
+   Elem = element(NdId, NodeName, 'xs:untyped'),
+   Elem1 = if NsF == 1 ->
+                 NssL = xqldb_ns_node_table:lookup(?NS_NODE_TABLE_P(DB), Pos),
+                 NssN = normalize_namespaces(DB, NssL),
+                 set_namespaces(Elem, NssN);
+              true ->
+                 Elem
+           end,
+   AttSz = AttCnt * ?BSZ,
+   {Atts, Rest1} = if AttCnt == 0 ->
+                         {[], Rest};
+                      true ->
+                         <<AttBin:AttSz/binary,Rest2/binary>> = Rest,
+                         Atts0 = build_attributes(AttBin, NdId, DB, Pos + 1),
+                         {Atts0, Rest2}
+                   end,
+   AttFun = fun(At, E) -> add_attribute(E, At) end,
+   Elem2 = lists:foldl(AttFun, Elem1, Atts),
+   Elem3 = set_parent(Elem2, ParId),
+   Children = split_child_bin(Rest1, Pos + 1 + AttCnt),
+   add_children(Elem3, Children);
+build_db_node_1(<<?text:3,TextRef:32/integer,_Offset:32/integer,0:37>>, 
+                ParentPos, Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   NdId = {DbUri, Pos},
+   ParId = {DbUri, ParentPos},
+   Value = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), TextRef),
+   set_parent(text(NdId, Value), ParId);
+build_db_node_1(<<?proc_inst:3,TextRef:32/integer,_Offset:32/integer,NameRef:19/integer,0:10,0:1,0:7>>, 
+                ParentPos, Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   NdId = {DbUri, Pos},
+   ParId = {DbUri, ParentPos},
+   {Local, _} = get_name(NameRef, DbUri), 
+   NodeName = {<<>>,<<>>,Local},
+   Value = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), TextRef),
+   set_parent(processing_instruction(NdId, NodeName, Value), ParId);
+build_db_node_1(<<?comment:3,TextRef:32/integer,_Offset:32/integer,0:37>>, 
+                ParentPos, Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   NdId = {DbUri, Pos},
+   ParId = {DbUri, ParentPos},
+   Value = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), TextRef),
+   set_parent(comment(NdId, Value), ParId);
+build_db_node_1(<<?attribute:3,TextRef:32/integer,Type:3/integer,0:29/integer,
+                  NameRef:19/integer,NsRef:10,0:1,_Offset:7>>, 
+                ParentPos, Pos, DB) ->
+   DbUri = ?DBURI(DB),
+   NdId = {DbUri, Pos},
+   ParId = {DbUri, ParentPos},
+   {Local, Prefix} = get_name(NameRef, DbUri), 
+   Ns = get_uri(NsRef, DbUri),
+   NodeName = {Ns,Prefix,Local},
+   Value = xqldb_string_table:lookup(?ATT_TABLE_P(DB), TextRef),
+   Att = case Type of
+            ?att_str ->
+               attribute(NdId, NodeName, Value, false, false, 'xs:untypedAtomic');
+            ?att_id ->
+               attribute(NdId, NodeName, Value, true, false, 'xs:ID');
+            ?att_idref ->
+               attribute(NdId, NodeName, Value, false, true, 'xs:IDREF')
+         end,
+   set_parent(Att, ParId).
 
-get_name(NameRef, NamesMap, DB) ->
-   case NamesMap of
-      #{NameRef := Name} ->
-         {Name, NamesMap};
-      _ ->
+build_attributes(<<>> ,_,_,_) -> [];
+build_attributes(<<Att:?BSZ/binary,Rest/binary>>, {_, Par} = ParId, DB, Pos) ->
+   [build_db_node_1(Att, Par, Pos, DB)|build_attributes(Rest, ParId, DB, Pos + 1)].
+   
+get_db_from_uri(DbUri) ->
+   case erlang:get({'$_db_uri', DbUri}) of
+      undefined ->
+         DB = xqldb_db:database(DbUri),
+         erlang:put({'$_db_uri', DbUri}, DB),
+         DB;
+      DB1 ->
+         DB1
+   end.
+
+get_name(NameRef, DbUri) ->
+   case erlang:get({'$_db_name', DbUri, NameRef}) of
+      undefined ->
+         DB = get_db_from_uri(DbUri),
          Val = xqldb_name_table:lookup(?NAME_TABLE_P(DB), NameRef),
-         {Val, NamesMap#{NameRef => Val}}
+         erlang:put({'$_db_name', DbUri, NameRef}, Val),
+         Val;
+      Name ->
+         Name
    end.
 
-get_uri(UriRef, UrisMap, DB) ->
-   case UrisMap of
-      #{UriRef := Uri} ->
-         {Uri, UrisMap};
-      _ ->
+get_uri(UriRef, DbUri) ->
+   case erlang:get({'$_db_uri_lu', DbUri, UriRef}) of
+      undefined ->
+         DB = get_db_from_uri(DbUri),
          Val = xqldb_namespace_table:lookup(?NMSP_TABLE_P(DB), UriRef),
-         {Val, UrisMap#{UriRef => Val}}
+         erlang:put({'$_db_uri_lu', DbUri, UriRef}, Val),
+         Val;
+      Name ->
+         Name
    end.
-
-get_text(TextRef, TextsMap, DB) ->
-   case TextsMap of
-      #{TextRef := Text} ->
-         {Text, TextsMap};
-      _ ->
-         Val = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), TextRef),
-         {Val, TextsMap#{TextRef => Val}}
-   end.
-
-get_att_text(AttTextRef, AttTextsMap, DB) ->
-   case AttTextsMap of
-      #{AttTextRef := AttText} ->
-         {AttText, AttTextsMap};
-      _ ->
-         Val = xqldb_string_table:lookup(?ATT_TABLE_P(DB), AttTextRef),
-         {Val, AttTextsMap#{AttTextRef => Val}}
-   end.
+%% 
+%% get_text(TextRef, TextsMap, DB) ->
+%%    case TextsMap of
+%%       #{TextRef := Text} ->
+%%          {Text, TextsMap};
+%%       _ ->
+%%          Val = xqldb_string_table:lookup(?TEXT_TABLE_P(DB), TextRef),
+%%          {Val, TextsMap#{TextRef => Val}}
+%%    end.
+%% 
+%% get_att_text(AttTextRef, AttTextsMap, DB) ->
+%%    case AttTextsMap of
+%%       #{AttTextRef := AttText} ->
+%%          {AttText, AttTextsMap};
+%%       _ ->
+%%          Val = xqldb_string_table:lookup(?ATT_TABLE_P(DB), AttTextRef),
+%%          {Val, AttTextsMap#{AttTextRef => Val}}
+%%    end.
 
 % used once children added to node
 build_string_value(Ch) ->
@@ -935,26 +1006,57 @@ add_self_to_children(#{id := {Ref,_},
                        ch := Children,
                        ns := Namespaces,
                        bu := BU} = Obj) when is_reference(Ref) ->
-   %Self = term_to_binary(Obj),
    Obj#{ch := [augment_base_uri(merge_ns(C#{pt => Obj},Namespaces),BU) || 
                  C <- Children]};
 add_self_to_children(#{id := {Ref,_},
                        ch := Children,
                        bu := BU} = Obj) when is_reference(Ref) ->
-   %Self = term_to_binary(Obj),
    Obj#{ch := [augment_base_uri(C#{pt => Obj},BU) || C <- Children]};
 add_self_to_children(#{id := {Ref,_},
                        ch := Children} = Obj) when is_reference(Ref) ->
-   %Self = term_to_binary(Obj),
    Obj#{ch := [C#{pt => Obj} || C <- Children]};
+% DB nodes
+add_self_to_children(#{id := {Ref,ParPos},
+                       ns := Namespaces,
+                       ch := Children} = Obj) when is_binary(Ref) ->
+   case erlang:get({'$_db_node_children', Ref, ParPos}) of
+      undefined ->
+         %?dbg("Building", {Ref,ParPos}),
+         DB = get_db_from_uri(Ref),
+         Vals = [merge_ns(build_db_node_1(Bin, ParPos, Id, DB),Namespaces) 
+                || {Id, Bin} <- Children],
+         erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
+         Obj#{ch := Vals};
+      Vals ->
+         Obj#{ch := Vals}
+   end;
+add_self_to_children(#{id := {Ref,ParPos},
+                       nk := Nk,
+                       ch := Children} = Obj) when is_binary(Ref) ->
+   case erlang:get({'$_db_node_children', Ref, ParPos}) of
+      undefined ->
+         %?dbg("Building", {Ref,ParPos}),
+         DB = get_db_from_uri(Ref),
+         Vals0 = [build_db_node_1(Bin, ParPos, Id, DB)
+                 || {Id, Bin} <- Children],
+         Vals = if Nk == document ->
+                      [V || #{nk := Nk1} = V <- Vals0, Nk1 =/= text];
+                   true ->
+                      Vals0
+                end,
+         erlang:put({'$_db_node_children', Ref, ParPos}, Vals),
+         Obj#{ch := Vals};
+      Vals ->
+         Obj#{ch := Vals}
+   end;
+
 add_self_to_children(Obj) -> Obj.
 
 
 
 add_self_to_attributes(#{at := Children,
                          bu := BU} = Obj) ->
-   Self = term_to_binary(Obj),
-   Obj#{at := [C#{pt => Self,
+   Obj#{at := [C#{pt => Obj,
                   bu => BU} || C <- Children]};
 add_self_to_attributes(Obj) -> Obj.
 
@@ -978,10 +1080,9 @@ lookup_node([#{id := NodeId, ch := Children}],Id)
 lookup_node([_|T],Id) ->
    lookup_node(T,Id).
 
-
 merge_ns(#{ns := Nss} = E, Namespaces) ->
    E#{ns := maps:merge(Namespaces, Nss)};
-merge_ns(E, _) -> E.
+merge_ns(E, Namespaces) -> E#{ns => Namespaces}.
 
 % Base is the parent base-uri
 augment_base_uri(#{bu := BU} = N, Base) ->
@@ -991,9 +1092,9 @@ augment_base_uri(N, Base) ->
    N#{bu => Base}.
  
 normalize_namespaces(DB,Nss) ->
-   Srv = ?NMSP_TABLE_P(DB),
-   maps:from_list([{Px,xqldb_namespace_table:lookup(Srv, NsId)} || 
-                   {Px,NsId} <- Nss]).
+   DbUri = ?DBURI(DB),
+   maps:from_list([{Px, get_uri(UriRef, DbUri)} || 
+                   {Px, UriRef} <- Nss]).
 
 
 -define(STR_REST(Str,Rest), <<Str,Rest/binary>>).
@@ -1049,10 +1150,10 @@ serialize_to_bin(#{nk := element,
               {P,N} <- NewNs>>,
    <<$<, QNm/binary, NsStr/binary, "/>">>;
 serialize_to_bin(#{nk := element,
-                   ch := Ch,
+                   ch := _,
                    at := At,
                    ns := Ns,
-                   nn := NodeName}, InScopeNamespaces) ->
+                   nn := NodeName} = Node, InScopeNamespaces) ->
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    NsStr = << <<(encode_namespace(P, N))/binary>> ||
@@ -1060,19 +1161,19 @@ serialize_to_bin(#{nk := element,
    Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
              A <- At>>,
    Chld = << <<(serialize_to_bin(C, Ns))/binary>> ||
-             C <- Ch>>,
+             C <- children(Node)>>,
    <<"<", QNm/binary, NsStr/binary, Atts/binary, ">", 
      Chld/binary, "</", QNm/binary, ">">>;
 serialize_to_bin(#{nk := element,
-                   ch := Ch,
+                   ch := _,
                    ns := Ns,
-                   nn := NodeName}, InScopeNamespaces) ->
+                   nn := NodeName} = Node, InScopeNamespaces) ->
    QNm = encode_qname(NodeName),
    NewNs = get_new_namespaces(Ns, InScopeNamespaces),
    NsStr = << <<(encode_namespace(P, N))/binary>> ||
               {P,N} <- NewNs>>,
    Chld = << <<(serialize_to_bin(C, Ns))/binary>> ||
-             C <- Ch>>,
+             C <- children(Node)>>,
    <<$<, QNm/binary, NsStr/binary, ">", Chld/binary, "</", QNm/binary, ">">>;
 
 serialize_to_bin(#{nk := element,
@@ -1089,22 +1190,22 @@ serialize_to_bin(#{nk := element,
    QNm = encode_qname(NodeName),
    <<$<, QNm/binary, "/>">>;
 serialize_to_bin(#{nk := element,
-                   ch := Ch,
+                   ch := _,
                    at := At,
-                   nn := NodeName}, InScopeNamespaces) ->
+                   nn := NodeName} = Node, InScopeNamespaces) ->
    QNm = encode_qname(NodeName),
    Atts = << <<(serialize_to_bin(A, InScopeNamespaces))/binary>> ||
              A <- At>>,
    Chld = << <<(serialize_to_bin(C, InScopeNamespaces))/binary>> ||
-             C <- Ch>>,
+             C <- children(Node) >>,
    <<$<, QNm/binary, Atts/binary, ">", 
      Chld/binary, "</", QNm/binary, ">">>;
 serialize_to_bin(#{nk := element,
-                   ch := Ch,
-                   nn := NodeName}, InScopeNamespaces) ->
+                   ch := _,
+                   nn := NodeName} = Node, InScopeNamespaces) ->
    QNm = encode_qname(NodeName),
    Chld = << <<(serialize_to_bin(C, InScopeNamespaces))/binary>> ||
-             C <- Ch>>,
+             C <- children(Node) >>,
    <<$<, QNm/binary, ">", Chld/binary, "</", QNm/binary, ">">>.
 
 encode_namespace(<<"xml">>, _) -> <<>>;

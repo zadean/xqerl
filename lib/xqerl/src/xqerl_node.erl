@@ -1404,20 +1404,20 @@ check_computed_default_override(_, _) -> ok.
 node_to_content(#{nk := _} = Orig) ->
    F = fun O([]) -> [];
            O(#{nk := document,
-               ch := Ch}) ->
-              [O(C) || C <- Ch];
+               ch := _} = Node) ->
+              [O(C) || C <- xqldb_mem_nodes:children(Node)];
            O(#{nk := document}) ->
               [];
            O(#{nk := element,
                nn := {Ns,Px,Ln},
                ns := Nss,
                at := At,
-               ch := Ch}) ->
+               ch := _} = Node) ->
               Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
                                                     prefix = Prefix}} ||
                      {Prefix, Uri} <- maps:to_list(Nss)],
               At1 = [O(C) || C <- At],
-              Ch1 = [O(C) || C <- Ch],
+              Ch1 = [O(C) || C <- xqldb_mem_nodes:children(Node)],
               #xqElementNode{name = 
                                #qname{namespace = maybe_ns_to_atom(Ns), 
                                         prefix = Px, 
@@ -1428,11 +1428,11 @@ node_to_content(#{nk := _} = Orig) ->
            O(#{nk := element,
                nn := {Ns,Px,Ln},
                ns := Nss,
-               ch := Ch}) ->
+               ch := _} = Node) ->
               Ns1 = [#xqNamespaceNode{name = #qname{namespace = Uri, 
                                                     prefix = Prefix}} ||
                      {Prefix, Uri} <- maps:to_list(Nss)],
-              Ch1 = [O(C) || C <- Ch],
+              Ch1 = [O(C) || C <- xqldb_mem_nodes:children(Node)],
               #xqElementNode{name = 
                                #qname{namespace = maybe_ns_to_atom(Ns), 
                                         prefix = Px, 

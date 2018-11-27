@@ -2413,39 +2413,39 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx, _@OldVariableTupleMatch = Tuple) -> ",
+            "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, [List]);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
         Empty andalso NoEmptyType ->
-        ?P(["'@FunctionName@'(Ctx, _@OldVariableTupleMatch = Tuple) -> ",
+        ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
             "   if List =:= [] -> ",
             "         xqerl_error:error('XPTY0004');",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
         Empty ->
-        ?P(["'@FunctionName@'(Ctx, _@OldVariableTupleMatch = Tuple) -> ",
+        ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, [List]);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List]);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)",
             "   end."]);
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx, _@OldVariableTupleMatch = Tuple) -> ",
+            "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/3, ",
-            "   xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List)."]);
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List)."]);
         true ->
         ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
@@ -2501,56 +2501,56 @@ for_loop(Ctx,{'for',#xqVar{id = Id,
      if IsList andalso Empty andalso NoEmptyType ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx, Tuple) -> ",
+            "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
             "         xqerl_error:error('XPTY0004');",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
         IsList andalso Empty ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx, Tuple) -> ",
+            "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, [List], 0);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
         Empty andalso NoEmptyType ->
-        ?P(["'@FunctionName@'(Ctx, Tuple) -> ",
+        ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
             "         xqerl_error:error('XPTY0004');",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
         Empty ->
-        ?P(["'@FunctionName@'(Ctx, Tuple) -> ",
+        ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
             "   if List =:= [] -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, [List], 0);",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, [List], 0);",
             "      true -> ",
-            "         xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)",
+            "         xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)",
             "   end."]);
         IsList ->
         ?P(["'@FunctionName@'(Ctx,L) when erlang:is_list(L) -> ",
             "   lists:map(fun(X) -> '@FunctionName@'(Ctx,X) end,L);",
-            "'@FunctionName@'(Ctx, Tuple) -> ",
+            "'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
-            "   xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)."
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)."
            ]);
         true ->
-        ?P(["'@FunctionName@'(Ctx, Tuple) -> ",
+        ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch = Tuple) -> ",
             "   List = _@E1,",
             "   Fun = fun '@FunctionName@'/4,",
-            "   xqerl_seq3:'@FName@'({Fun, Ctx, Tuple}, List, 1)."
+            "   xqerl_seq3:'@FName@'({Fun, __Ctx, Tuple}, List, 1)."
            ])
         end,
    ForFun2 = ?P(["'@FunctionName@'(__Ctx, _@OldVariableTupleMatch, _@VarName1,",
