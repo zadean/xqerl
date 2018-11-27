@@ -47,12 +47,11 @@
 -export(['fn-sort-collation-6'/1]).
 -export(['fn-sort-collation-7'/1]).
 -export(['fn-sort-collation-8'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -412,15 +411,15 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"every $x in 1 to 4 satisfies deep-equal($result[$x]?1, xs:float(\"NaN\"))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[1]?2 eq 1 and $result[2]?2 eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[3]?2 eq 2 and $result[4]?2 eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

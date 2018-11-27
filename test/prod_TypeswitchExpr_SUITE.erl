@@ -76,12 +76,11 @@
 -export(['cbcl-typeswitch-004'/1]).
 -export(['cbcl-typeswitch-005'/1]).
 -export(['cbcl-typeswitch-006'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -1102,11 +1101,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1130,11 +1129,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1157,11 +1156,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1185,11 +1184,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1212,11 +1211,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1240,11 +1239,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1336,11 +1335,11 @@ environment('ListUnionTypes',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

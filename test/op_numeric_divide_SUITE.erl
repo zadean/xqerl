@@ -144,12 +144,11 @@
 -export(['cbcl-numeric-divide-014'/1]).
 -export(['cbcl-numeric-divide-015'/1]).
 -export(['op-numeric-divide-big-01'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -400,11 +399,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"-0.830993497117024305") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"-0.830993497117") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -438,11 +437,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"-1.203378851301859738") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"-1.203378851301") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -506,11 +505,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"-0.61737519160851484") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"-0.6173751916085") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -544,11 +543,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"-1.619760582531006901") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"-1.619760582531") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -717,11 +716,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.51147847028770199") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0.511478470287") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -755,11 +754,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"1.95511650654133906") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"1.955116506541") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -838,11 +837,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.297014075999096793") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0.297014075999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -861,15 +860,15 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.000000000000000001") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0.000000000000000001000000000000000001") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -888,11 +887,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"3.366843799022646172") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"3.366843799022") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -971,11 +970,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.00000000000000002") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -994,15 +993,15 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.000000000000000001") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0.000000000000000001000000000000000001") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1066,11 +1065,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0.47568843727187049") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"0.475688437271") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1104,11 +1103,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"2.102216328265447024") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"2.102216328265") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1187,11 +1186,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"-0.999969482421875") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"-0.999969482421") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1240,11 +1239,11 @@ all() -> [
    case xqerl_test:assert_empty(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1953,11 +1952,11 @@ all() -> [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1976,11 +1975,11 @@ all() -> [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1999,11 +1998,11 @@ all() -> [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2022,11 +2021,11 @@ all() -> [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2045,11 +2044,11 @@ all() -> [
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2599,11 +2598,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2622,11 +2621,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"FOAR0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "100000000000000000000000000000") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

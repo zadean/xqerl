@@ -43,12 +43,11 @@
 -export(['Serialization-035'/1]).
 -export(['Serialization-036'/1]).
 -export(['Serialization-037'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -178,11 +177,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0119") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -223,11 +222,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -249,11 +248,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -275,11 +274,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -301,11 +300,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -327,15 +326,15 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SESU0007") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -357,11 +356,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -383,11 +382,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -409,11 +408,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -436,11 +435,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -463,11 +462,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -489,11 +488,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SESU0011") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -515,11 +514,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -541,11 +540,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -567,11 +566,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -593,11 +592,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0016") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -638,11 +637,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SESU0013") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -665,11 +664,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<result>ok</result>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"SEPM0014") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -759,16 +758,16 @@ all() -> [
    Res = try Mod = xqerl_module:compile(filename:join(__BaseDir, "Serialization-035.xq"), Qry1),
              xqerl:run(Mod) of D -> D catch _:E -> E end,
    Out =    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
-   case (catch ct:fail(["CDATA\\[ta\\]", Res])) of _ -> false end,
-   case (catch ct:fail(["CDATA\\[tb\\]", Res])) of _ -> false end,
-   case (catch ct:fail(["CDATA\\[tc\\]", Res])) of _ -> false end,
-   case (catch ct:fail(["CDATA\\[td\\]", Res])) of _ -> false end,
+   case (catch ct:fail(["CDATA\\[ta\\]", Res])) of _ -> false end, 
+   case (catch ct:fail(["CDATA\\[tb\\]", Res])) of _ -> false end, 
+   case (catch ct:fail(["CDATA\\[tc\\]", Res])) of _ -> false end, 
+   case (catch ct:fail(["CDATA\\[td\\]", Res])) of _ -> false end, 
    case (   case (catch ct:fail(["CDATA\\[te\\]", Res])) of _ -> false end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end,
+   end, 
    case (   case (catch ct:fail(["CDATA\\[tt\\]", Res])) of _ -> false end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

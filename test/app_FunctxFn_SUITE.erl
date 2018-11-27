@@ -506,12 +506,11 @@
 -export(['functx-fn-zero-or-one-1'/1]).
 -export(['functx-fn-zero-or-one-2'/1]).
 -export(['functx-fn-zero-or-one-all'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -5745,31 +5744,31 @@ Traverse City, MI 49684'
    case xqerl_test:assert(Res,"$result[1] eq 29.99") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[2] ne $result[2] (:NaN:)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[3] eq 29.99") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[4] ne $result[4] (:NaN:)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[5] ne $result[5] (:NaN:)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[6][self::price][@currency='USD'][.='69.99']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[7][self::price][@currency='USD'][.='39.99']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -6549,11 +6548,11 @@ Traverse City, MI 49684'
    case xqerl_test:assert_string_value(Res, "http://datypic.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FORG0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -6572,11 +6571,11 @@ Traverse City, MI 49684'
    case xqerl_test:assert_string_value(Res, "http://datypic.com") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "http://datypic.com/") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -6595,23 +6594,23 @@ Traverse City, MI 49684'
    case xqerl_test:assert(Res,"$result[1] eq \"http://datypic.com/prod\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[2] eq \"http://datypic.com/prod2\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[3] eq \"http://example.org\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[4] eq \"http://datypic.com\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[5] = (\"http://datypic.com\", \"http://datypic.com/\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

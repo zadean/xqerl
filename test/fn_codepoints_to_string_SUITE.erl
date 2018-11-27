@@ -83,12 +83,11 @@
 -export(['cbcl-codepoints-to-string-025'/1]).
 -export(['cbcl-codepoints-to-string-026'/1]).
 -export(['cbcl-codepoints-to-string-027'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -593,7 +592,7 @@ all() -> [
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -697,11 +696,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"14") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -720,11 +719,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"31") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1268,11 +1267,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"FOCH0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPDY0130") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

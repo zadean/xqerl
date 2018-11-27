@@ -92,12 +92,11 @@
 -export(['fn-floor-float-9'/1]).
 -export(['fn-floor-float-10'/1]).
 -export(['fn-floor-float-11'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -1202,11 +1201,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1225,11 +1224,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1248,11 +1247,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1271,11 +1270,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1294,11 +1293,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1317,11 +1316,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-12345679") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1340,11 +1339,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1234567891234568.0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1363,11 +1362,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1386,11 +1385,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1409,11 +1408,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1432,11 +1431,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1455,11 +1454,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1478,11 +1477,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-12345679e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1501,11 +1500,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1234567891234568.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1524,11 +1523,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1547,11 +1546,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1570,11 +1569,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1593,11 +1592,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1616,11 +1615,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1639,11 +1638,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"12.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1662,11 +1661,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1685,11 +1684,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1708,11 +1707,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1731,11 +1730,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-12345679e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1754,11 +1753,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"-1234568e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1777,11 +1776,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1800,11 +1799,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1823,11 +1822,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "-INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1846,11 +1845,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "-0") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

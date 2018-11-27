@@ -187,12 +187,11 @@
 -export(['K2-ABSFunc-50'/1]).
 -export(['fn-abs-1'/1]).
 -export(['cbcl-abs-001'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -444,11 +443,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"2147483648") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -468,11 +467,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"1873914410") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -492,11 +491,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"2147483647") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -516,11 +515,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -540,11 +539,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"830993497117024304") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -564,11 +563,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -588,11 +587,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -612,11 +611,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"617375191608514839") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -636,11 +635,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -660,11 +659,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -684,11 +683,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -708,11 +707,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"1.7976931348623157E308") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -732,11 +731,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"xs:float(3.4028235E38)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -756,11 +755,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0.0e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -780,11 +779,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"xs:float(3.4028235E38)") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -804,11 +803,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -828,11 +827,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"47175562203048468") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -852,11 +851,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"92233720368547758") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -876,11 +875,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -900,11 +899,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"44633") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -924,11 +923,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"65535") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -948,11 +947,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -972,11 +971,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"297014075999096793") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -996,11 +995,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1020,11 +1019,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"1") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1044,11 +1043,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"52704602390610033") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1068,11 +1067,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1092,11 +1091,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1116,11 +1115,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"130747108607674654") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1140,11 +1139,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"184467440737095516") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1164,11 +1163,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1188,11 +1187,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"475688437271870490") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1212,11 +1211,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1236,11 +1235,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1260,11 +1259,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"303884545991464527") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1284,11 +1283,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"999999999999999999") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1308,11 +1307,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"32768") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1332,11 +1331,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"5324") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1356,11 +1355,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"32767") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1380,11 +1379,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1404,11 +1403,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1428,11 +1427,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1452,11 +1451,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1476,11 +1475,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1500,11 +1499,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1524,11 +1523,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:decimal") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1548,11 +1547,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1572,11 +1571,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1596,11 +1595,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "INF") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1620,11 +1619,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1644,11 +1643,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "NaN") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:float") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1668,11 +1667,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1692,11 +1691,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1716,11 +1715,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1740,11 +1739,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1764,11 +1763,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1788,11 +1787,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1812,11 +1811,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1836,11 +1835,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1860,11 +1859,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1884,11 +1883,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1908,11 +1907,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1932,11 +1931,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -3588,11 +3587,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3612,11 +3611,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3636,11 +3635,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3660,11 +3659,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3684,11 +3683,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3709,11 +3708,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3734,11 +3733,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3758,11 +3757,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3782,11 +3781,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3806,11 +3805,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3830,11 +3829,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -3854,11 +3853,11 @@ environment('e-1',__BaseDir) ->
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

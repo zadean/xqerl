@@ -226,12 +226,11 @@
 -export(['d1e78807i'/1]).
 -export(['d1e78807j'/1]).
 -export(['d1e78807k'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -3856,11 +3855,11 @@ map {
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result >= 0 and $result <=1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -3881,11 +3880,11 @@ map {
    case xqerl_test:assert_type(Res,"xs:integer+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) = 100") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -3906,15 +3905,15 @@ map {
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) = 100") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count(distinct-values($result)) = 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -3935,11 +3934,11 @@ map {
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) = 100") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -3966,15 +3965,15 @@ local:random-sequence(5, random-number-generator())",
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) = 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count(distinct-values($result)) = 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

@@ -41,12 +41,11 @@
 -export(['inline-fn-034'/1]).
 -export(['inline-fn-035'/1]).
 -export(['inline-fn-036'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -322,11 +321,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"7") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -649,31 +648,31 @@ all() -> [
    case xqerl_test:assert_type(Res,"item()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(item()*, item()*) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(xs:integer, xs:integer) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case (   case xqerl_test:assert_type(Res,"function(item()*, item()*) as xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end,
+   end, 
    case (   case xqerl_test:assert_type(Res,"function(item()*, item()*, item()*) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -694,31 +693,31 @@ all() -> [
    case xqerl_test:assert_type(Res,"item()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(xs:integer, xs:integer) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(xs:long, xs:long) as xs:integer+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case (   case xqerl_test:assert_type(Res,"function(item()*, item()*) as xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end,
+   end, 
    case (   case xqerl_test:assert_type(Res,"function(xs:integer, xs:decimal) as xs:integer") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
    end) of 
       {comment,C6} -> C6; _ -> {comment,ok}
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

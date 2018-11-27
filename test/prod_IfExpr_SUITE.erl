@@ -46,12 +46,11 @@
 -export(['K2-CondExpr-7'/1]).
 -export(['cbcl-condexpr-001'/1]).
 -export(['cbcl-condexpr-002'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -396,19 +395,19 @@ environment('xq311A',__BaseDir) ->
    case xqerl_test:assert_count(Res, "31") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[1][. instance of element(FileName)][. = 'File00000000000']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"every $r in subsequence($result,2) satisfies $r instance of xs:untypedAtomic") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"string-join(subsequence($result,2), ' ') eq \"File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -686,11 +685,11 @@ environment('xq311A',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

@@ -37,12 +37,11 @@
 -export(['cbcl-collection-002'/1]).
 -export(['cbcl-collection-003'/1]).
 -export(['cbcl-collection-004'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -215,11 +214,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -319,11 +318,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_permutation(Res,"\"TCP/IP Illustrated\", \"One of the best books on TCP/IP.\"") of 
       true -> {comment, "Correct permutation"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -343,11 +342,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<title>TCP/IP Illustrated</title><title>Data on the Web</title>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<title>Data on the Web</title><title>TCP/IP Illustrated</title>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -417,11 +416,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -440,11 +439,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -465,18 +464,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -497,18 +496,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -529,18 +528,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -561,26 +560,26 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -601,18 +600,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -633,18 +632,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -666,18 +665,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -699,26 +698,26 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case lists:all(fun({comment,_}) -> true; (_) -> false end, [
    case xqerl_test:assert(Res,"count($result) = 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -740,18 +739,18 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert(Res,"count($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -803,11 +802,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -841,11 +840,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FODC0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FODC0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -865,11 +864,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_deep_eq(Res,"(1 to 10)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:integer+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -889,11 +888,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_type(Res,"xs:anyAtomicType+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"(1, 'hello', 1e0)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -913,11 +912,11 @@ environment('default-string-collection',__BaseDir) ->
    case xqerl_test:assert_type(Res,"xs:string+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"('goodbye', 'cruel', 'world')") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

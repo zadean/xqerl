@@ -58,12 +58,11 @@
 -export(['K2-DocumentURIFunc-10'/1]).
 -export(['K2-DocumentURIFunc-11'/1]).
 -export(['fn-document-uri-0-ok'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -339,11 +338,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -395,11 +394,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -419,11 +418,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "TRUE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "FALSE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -443,11 +442,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -467,11 +466,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -491,11 +490,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -637,11 +636,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_false(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -693,11 +692,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"4") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"5") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -717,11 +716,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "TRUE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "FALSE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -741,11 +740,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -765,11 +764,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -789,11 +788,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "true A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "false A String") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1043,11 +1042,11 @@ environment('works-mod-uri',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

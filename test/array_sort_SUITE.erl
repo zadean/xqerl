@@ -39,12 +39,11 @@
 -export(['array-sort-collation-6'/1]).
 -export(['array-sort-collation-7'/1]).
 -export(['array-sort-collation-8'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -137,15 +136,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[1, 3, 4, 5, 6]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -165,15 +164,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[1, -2, 5, 8, 10, -10, 10]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -193,15 +192,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[(0,0), (0,1), (1,0), (1,1)]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -221,15 +220,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[(), (0,0), (0,0,1), (0,1), (1), (1,0), (1,1)]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -249,15 +248,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[(), (1), (1,0), (1,1), (0,1), (0,0), (0,0,1)]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -277,15 +276,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 6") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[\"five\", \"four\", \"fourteen\", \"one\", \"three\", \"two\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -321,15 +320,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 6") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[\"one\", \"two\", \"five\", \"four\", \"three\", \"fourteen\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -349,15 +348,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[],[3],[2,3],[6,7],[4,5,6,7]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -377,15 +376,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[],[2,3],[3],[4,5,6,7],[6,7]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -405,15 +404,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[], [0,0], [0,0,1], [0,1], [1], [1,0], [1,1]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -433,15 +432,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[\"sat\", \"the cat\", \"on the mat\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -461,15 +460,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[\"sat\", \"the cat\", \"on the mat\"]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -489,15 +488,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[\"Fred\",\"Brown\"], [\"Fred\",\"Smith\"], [\"John\",\"Smith\"], [\"John\",\"Brown\"]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -517,15 +516,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[\"Fred\",\"Brown\"], [\"John\",\"Brown\"], [\"Fred\",\"Smith\"], [\"John\",\"Smith\"]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -545,15 +544,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 4") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[\"Fred\",\"Brown\"], [\"John\",\"Brown\"], [\"Fred\",\"Smith\"], [\"John\",\"Smith\"]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -573,15 +572,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[0,0], [], [1,0], [0,1], [1], [0,0,1], [1,1]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -601,15 +600,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 7") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"[[], [1], [0,0], [1,0], [0,1], [1,1], [0,0,1]]") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -687,15 +686,15 @@ environment('array-with-collation',__BaseDir) ->
    case xqerl_test:assert(Res,"every $x in 1 to 4 satisfies deep-equal($result?($x)?(1), xs:float(\"NaN\"))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1?2 eq 1 and $result?2?2 eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3?2 eq 2 and $result?4?2 eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

@@ -92,12 +92,11 @@
 -export(['millisecs-903'/1]).
 -export(['millisecs-904'/1]).
 -export(['millisecs-905'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -899,11 +898,11 @@ all() -> [
    case xqerl_test:assert_string_value(Res, "am/Am/AM") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "a.m./A.M./A.M.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -922,11 +921,11 @@ all() -> [
    case xqerl_test:assert_string_value(Res, "pm/Pm/PM") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "p.m./P.M./P.M.") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1323,11 +1322,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1346,11 +1345,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1369,11 +1368,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1392,11 +1391,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1415,11 +1414,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1438,11 +1437,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1461,11 +1460,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1484,11 +1483,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1507,11 +1506,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1605,11 +1604,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

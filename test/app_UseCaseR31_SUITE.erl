@@ -29,12 +29,11 @@
 -export(['UseCaseR31-032'/1]).
 -export(['UseCaseR31-033'/1]).
 -export(['UseCaseR31-034-err'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -158,15 +157,15 @@ return
    case xqerl_test:assert(Res,"$result/@name='Management'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) = 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result//name = 'Charles Madigen'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -195,11 +194,11 @@ return
    case xqerl_test:assert(Res,"$result?(\"highest paid employee\") = \"Charles Madigen\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?department = \"Management\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -235,27 +234,27 @@ return
    case xqerl_test:assert(Res,"$result/department/@name='Management'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/department) = 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result//name = 'Charles Madigen'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/total-by-job-type[@type='full time'] = 13") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/total-by-job-type[@type='contract'] = 9") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/total-by-job-type[@type='part time'] = 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -297,23 +296,23 @@ return map {
    case xqerl_test:assert(Res,"$result?first?(\"highest earners\") = \"Charles Madigen\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?first?department = \"Management\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?(\"job type count\")?contract = 9") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?(\"job type count\")?(\"part time\") = 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?(\"job type count\")?(\"full time\") = 13") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -356,11 +355,11 @@ declare variable $author := (<author>
    case xqerl_test:assert(Res,"$result//td[1]='Michael H. Kay'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result//td[2]=\"XSLT 2.0 and XPath 2.0 Programmer's Reference\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -731,11 +730,11 @@ return
    case xqerl_test:assert_xml(Res,"<department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<department name=\"accounting\"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department><department name=\"sales\"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -924,11 +923,11 @@ return map {
    case xqerl_test:assert_deep_eq(Res,"map { \"visible\" : [\"AKARI (ASTRO-F)\",\"AJISAI (EGS)\"], \"invisible\" : [\"AAU CUBESAT\"]}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"map { \"visible\" : [\"AJISAI (EGS)\", \"AKARI (ASTRO-F)\"], \"invisible\" : [\"AAU CUBESAT\"]}") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -959,15 +958,15 @@ return map {
    case xqerl_test:assert(Res,"array:get($result,1)?authors = \"Myasuda\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:get($result,1)?title = \"Kawasaki's theorem\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:get($result,1)?id = \"14511776\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1011,23 +1010,23 @@ return map {
    case xqerl_test:assert(Res,"count($result//td[text()='spinnen'])=2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result//td[text()='spinne'])=1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result//td[text()='spinnst'])=1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result//td[text()='spinnt'])=2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result//th[text()='1p 2p 3p'])=1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

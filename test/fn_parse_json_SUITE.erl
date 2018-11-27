@@ -154,12 +154,11 @@
 -export(['fn-parse-json-953'/1]).
 -export(['fn-parse-json-954'/1]).
 -export(['fn-parse-json-955'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -493,15 +492,15 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -520,19 +519,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq 12345") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -551,19 +550,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq \"abcd\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -582,19 +581,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq true()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -613,19 +612,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq false()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -644,19 +643,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?1)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -675,47 +674,47 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 8") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?2 eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3 eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?4 eq \"abc\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?5 eq \"def\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?6 eq true()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?7 eq false()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?8 => empty()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -738,47 +737,47 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 8") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?2 eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3 eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?4 eq \"abc\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?5 eq \"def\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?6 eq true()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?7 eq false()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?8 => empty()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -797,23 +796,23 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(array(array(*)))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result?1) eq 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result?1?2) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -832,19 +831,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"array(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"array:size($result) = 6") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?6?3 = 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -863,11 +862,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"array:size($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?2?y = 6") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -886,11 +885,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"map:size($result) = 2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?y?2 = 9") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -909,11 +908,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = 0.123e0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:double") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -932,11 +931,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = -0.123e0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:double") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -955,11 +954,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = -0.123e2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:double") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -978,11 +977,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = -0.123e+2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:double") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1001,11 +1000,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = -0.123e-2") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:double") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1024,11 +1023,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = \"\\\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1047,11 +1046,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = '\"'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1070,11 +1069,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = codepoints-to-string(13)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1093,11 +1092,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = codepoints-to-string(10)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1116,11 +1115,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = '/'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1139,11 +1138,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = 'aa0aa'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1162,11 +1161,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert(Res,"$result?1 = codepoints-to-string(119070)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?1 instance of xs:string") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1275,11 +1274,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"93.7e0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1298,11 +1297,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"'abcd\\n'") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1489,11 +1488,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"\"\\b\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"\\u0008\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1545,11 +1544,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_eq(Res,"\"\\b\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"\\u0008\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1773,11 +1772,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1796,11 +1795,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1819,11 +1818,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1842,11 +1841,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1865,11 +1864,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1888,11 +1887,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1911,11 +1910,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1934,11 +1933,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1957,11 +1956,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1980,11 +1979,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2003,11 +2002,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2026,11 +2025,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2049,11 +2048,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2072,11 +2071,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2095,11 +2094,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2118,11 +2117,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2141,11 +2140,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2164,11 +2163,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2187,11 +2186,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2210,11 +2209,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2233,11 +2232,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2256,11 +2255,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2279,11 +2278,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2302,11 +2301,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2325,11 +2324,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"item()?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2618,11 +2617,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_deep_eq(Res,"['�']") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOJS0001") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

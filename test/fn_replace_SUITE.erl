@@ -92,12 +92,11 @@
 -export(['cbcl-fn-replace-003'/1]).
 -export(['cbcl-fn-replace-004'/1]).
 -export(['cbcl-fn-replace-005'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -1445,19 +1444,19 @@ abracadabra\", \"\\n\",\"with\")",
    case xqerl_test:assert(Res,"$result[1]/para[1] = \"ThiQ Qbcd.\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[1]/para[2] = \"ThiQ iQ a abQQ.\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[2] = \"ThiQ abcdQ.\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result[3] = \"ThiQ iQ a abQQ.\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

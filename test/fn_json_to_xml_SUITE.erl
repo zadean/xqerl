@@ -98,12 +98,11 @@
 -export(['json-to-xml-error-041'/1]).
 -export(['json-to-xml-error-042'/1]).
 -export(['json-to-xml-error-043'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -244,15 +243,15 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<map xmlns=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -272,15 +271,15 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -300,27 +299,27 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(Q{http://www.w3.org/2005/xpath-functions}array))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}number,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"xs:double($result/*[1]) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><number>1</number></array>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -340,27 +339,27 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(*))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}string,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"xs:string($result/*/*[1]) eq \"a\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><string>a</string></array>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -380,27 +379,27 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(*))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"xs:boolean($result/*[1]) eq true()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><boolean>true</boolean></array>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -420,27 +419,27 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(*))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}boolean,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"xs:boolean($result/*[1]) eq false()") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><boolean>false</boolean></array>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -460,27 +459,27 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(*))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/*/*[1] instance of element(Q{http://www.w3.org/2005/xpath-functions}null,xs:untyped)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result/*[1]/*[1]/(*|text()))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<array xmlns=\"http://www.w3.org/2005/xpath-functions\"><null/></array>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -500,23 +499,23 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result/*) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}string[@key='title']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='glossary']/Q{http://www.w3.org/2005/xpath-functions}map[@key='GlossDiv']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -536,11 +535,11 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}string[@key='header'][.='SVG Viewer']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/Q{http://www.w3.org/2005/xpath-functions}map/Q{http://www.w3.org/2005/xpath-functions}map[@key='menu']/Q{http://www.w3.org/2005/xpath-functions}array[@key='items']/Q{http://www.w3.org/2005/xpath-functions}map[not(@*)]/Q{http://www.w3.org/2005/xpath-functions}string[@key='id'][.='Open']") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -594,19 +593,19 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/self::*:string eq 'Data with \" within it'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result/self::*:string/@key eq 'key'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"namespace-uri($result/self::*:string) eq 'http://www.w3.org/2005/xpath-functions'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -628,11 +627,11 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<string xmlns=\"http://www.w3.org/2005/xpath-functions\">Data with \" within it</string>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -654,12 +653,12 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_type(Res,"element(Q{http://www.w3.org/2005/xpath-functions}string)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<string
                  xmlns=\"http://www.w3.org/2005/xpath-functions\" key=\"Key &#34; with quote\">Data with \" within it</string>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -1530,11 +1529,11 @@ environment('json-ns',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FOJS0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

@@ -33,12 +33,11 @@
 -export(['K2-NamespaceURIForPrefixFunc-2'/1]).
 -export(['K2-NamespaceURIForPrefixFunc-3'/1]).
 -export(['cbcl-namespace-uri-for-prefix-001'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),

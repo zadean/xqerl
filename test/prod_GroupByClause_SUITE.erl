@@ -35,12 +35,11 @@
 -export(['use-case-groupby-Q6'/1]).
 -export(['use-case-groupby-Q7'/1]).
 -export(['use-case-groupby-Q8'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -310,11 +309,11 @@ environment('GroupByUseCases',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<out><group status=\"\" count=\"12\"/><group status=\"active\" count=\"1\"/></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<out><group status=\"active\" count=\"1\"/><group status=\"\" count=\"12\"/></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -434,11 +433,11 @@ environment('GroupByUseCases',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<out><group key=\"NaN\" count=\"6\"/><group key=\"42\" count=\"7\"/></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<out><group key=\"42\" count=\"7\"/><group key=\"NaN\" count=\"6\"/></out>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -507,11 +506,11 @@ environment('GroupByUseCases',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp><grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<grp even=\"0\" y=\"1\">2 2 2 2 4 4 4 4 6 6 6 6 8 8 8 8 10 10 10 10</grp><grp even=\"1\" y=\"1\">1 1 1 1 3 3 3 3 5 5 5 5 7 7 7 7 9 9 9 9</grp>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

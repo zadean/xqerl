@@ -5,6 +5,8 @@ declare namespace x = "http://xqerl.org/xquery";
 
 declare variable $catalog := doc("./QT3-test-suite/catalog.xml");
 
+(: String helpers :)
+
 declare variable $_:n := '&#10;';
 declare variable $_:cn := ', &#10;';
 declare variable $_:dn := '. &#10;';
@@ -22,51 +24,64 @@ declare function _:join-dnl($strs as xs:string*) as xs:string?
 declare function _:join-scnl($strs as xs:string*) as xs:string?
 { fn:string-join($strs, $_:scn) };
 
+(: All tests must pass :)
 declare function _:all-of($result) as xs:string
 {
   "   case lists:all(fun({comment,_}) -> true; (_) -> false end, ["||$_:n|| 
-  (for $t in $result/*
-   return _:print-result($t)) => string-join(',&#10;')||"]) of "||$_:n|| 
+  (for $t in $result/* return _:print-result($t)) => _:join-cnl() ||
+  "   ]) of "||$_:n|| 
   "      true -> {comment, ""all-of""};" ||$_:n|| 
   "      _ -> false " ||$_:n|| 
   "   end"
 };
+
+(: Any test must pass :)
 declare function _:any-of($result) as xs:string
 {
   "   case lists:any(fun({comment,_}) -> true; (_) -> false end, ["||$_:n|| 
-  (for $t in $result/*
-   return _:print-result($t)) => string-join(',&#10;')||"]) of "||$_:n|| 
+  (for $t in $result/* return _:print-result($t)) => _:join-cnl() ||
+  "   ]) of "||$_:n|| 
   "      true -> {comment, ""any-of""};" ||$_:n|| 
   "      _ -> false " ||$_:n|| 
   "   end"
 };
+
+(: Negate test results by returning the comment text :)
 declare function _:not($result) as xs:string
 {
   "   case ("||_:print-result($result/*[1])||") of "||$_:n|| 
   "      {comment,C6} -> C6; _ -> {comment,ok}"||$_:n|| 
   "   end"
 };
-declare function _:assert-empty($result) as xs:string
+
+(: Empty sequence returned, parameter is unused :)
+declare function _:assert-empty($null) as xs:string
 {
   "   case xqerl_test:assert_empty(Res) of " ||$_:n|| 
   "      true -> {comment, ""Empty""};" ||$_:n|| 
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
-declare function _:assert-true($result) as xs:string
+
+(: True returned, parameter is unused :)
+declare function _:assert-true($null) as xs:string
 {
   "   case xqerl_test:assert_true(Res) of " ||$_:n|| 
   "      true -> {comment, ""Empty""};" ||$_:n|| 
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
-declare function _:assert-false($result) as xs:string
+
+(: False returned, parameter is unused :)
+declare function _:assert-false($null) as xs:string
 {
   "   case xqerl_test:assert_false(Res) of " ||$_:n|| 
   "      true -> {comment, ""Empty""};" ||$_:n|| 
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Result count check :)
 declare function _:assert-count($result) as xs:string
 {
   let $ec := """"||$result||""""
@@ -76,23 +91,23 @@ declare function _:assert-count($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Check the atomized value. Space can be normalized :)
 declare function _:assert-string-value($result) as xs:string
 {
-  if ($result/@normalize-space="true") then
-    let $ec := _:mask-string(normalize-space($result/text()))
-    return
-    "   case xqerl_test:assert_norm_string_value(Res, "||$ec||") of " ||$_:n|| 
-    "      true -> {comment, ""String correct""};" ||$_:n|| 
-    "      {false, F} -> F " ||$_:n|| 
-    "   end"
-  else
-    let $ec := _:mask-string($result/text())
-    return
-    "   case xqerl_test:assert_string_value(Res, "||$ec||") of " ||$_:n|| 
+  let $text := $result/text()
+    , $norm := if ($result/@normalize-space = "true") then true() else false()
+    , $normText := if ($norm) then normalize-space($text) else $text
+    , $mask := _:mask-string($normText)
+    , $fun  := if ($norm) then "assert_norm_string_value" else "assert_string_value"
+  return
+    "   case xqerl_test:"||$fun||"(Res, "||$mask||") of " ||$_:n|| 
     "      true -> {comment, ""String correct""};" ||$_:n|| 
     "      {false, F} -> F " ||$_:n|| 
     "   end"
 };
+
+(: Error expected :)
 declare function _:error($result) as xs:string
 {
   let $ec := """"||$result/@code||""""
@@ -102,6 +117,8 @@ declare function _:error($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Values equal :)
 declare function _:assert-eq($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
@@ -111,6 +128,8 @@ declare function _:assert-eq($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Correct type :)
 declare function _:assert-type($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
@@ -120,6 +139,8 @@ declare function _:assert-type($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Value exists or is true :)
 declare function _:assert($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
@@ -129,6 +150,8 @@ declare function _:assert($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Some combination of values in any order :)
 declare function _:assert-permutation($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
@@ -138,6 +161,8 @@ declare function _:assert-permutation($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Values are deep-equal :)
 declare function _:assert-deep-eq($result) as xs:string
 {
   let $ec := _:mask-string($result/data())
@@ -147,6 +172,8 @@ declare function _:assert-deep-eq($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: XML is deep-equal :)
 declare function _:assert-xml($result) as xs:string
 {
   let $ec := if ($result/@file) then
@@ -159,6 +186,8 @@ declare function _:assert-xml($result) as xs:string
   "      {false, F} -> F " ||$_:n|| 
   "   end"
 };
+
+(: Catch-all :)
 declare function _:assert-unknown($result) as xs:string
 {
   "   case (catch ct:fail([" ||
@@ -166,6 +195,7 @@ declare function _:assert-unknown($result) as xs:string
   ", Res])) of _ -> false end"
 };
 
+(: Call correct string function based on node name of result :)
 declare function _:print-result($result) as xs:string
 {
   let $name := local-name($result)
@@ -190,7 +220,10 @@ declare function _:print-result($result) as xs:string
   $f($result)
 };
 
-declare function _:print-testcase($test-case)
+(: Returns a test-case text as either being skipped due to some feature 
+   restriction, or the actual test-case text. 
+   Has all the skipping logic which could be moved out. :)
+declare function _:print-testcase($test-case) as xs:string
 {
   let $inscope-schema-envs := 
     ($test-case/../*:environment[*:source[@validation]]/@name union 
@@ -229,7 +262,7 @@ declare function _:print-testcase($test-case)
                    @value = ("&#x4e00;","&#x03b1;","&#x0391;")]) then 
       "   {skip,""format-integer-sequence""}" 
 
-    (: XSD 1.1 stuff :) 
+    (: XSD 1.1 stuff, Regex uses 1.1, the rest does not :) 
     else if ($deps[@type = "xsd-version" and @value = "1.1"] and 
                    not($test-case/../@name = ("fn-matches", "fn-matches.re")) ) then
       "   {skip,""XSD 1.1""}"
@@ -242,11 +275,6 @@ declare function _:print-testcase($test-case)
                    and not(exists(@satisfied)) ]) then
       "   {skip,""unicode-normalization-form FULLY-NORMALIZED""}"
 
-    (: added znd :)
-    else if ($deps[@type = "problem"]) then
-    "   {skip,"" "||$deps[@type = "problem"]/@value||" ""}"
-    
-    
     (: spec examples with dependencies :)
     else if ($test-case/../@name = "app-spec-examples" and 
                 $test-case/@name = ('fo-test-fn-serialize-002','fo-test-fn-serialize-001')
@@ -318,7 +346,7 @@ declare function _:print-testcase($test-case)
       else
         $f()
     )
-    (: features :)
+    (: features Duplicated due to if nesting :)
     else if (exists($deps[@type = "feature"])) then 
       let $d := $deps[@type = "feature"]
       let $v := $d/@value
@@ -351,6 +379,8 @@ declare function _:print-testcase($test-case)
   )
 };
 
+(: XQuery to run can be in a file, so read and input into text case module
+   if need be.  :)
 declare function _:get-query($test-case) as xs:string
 {
   let $test := $test-case/*:test
@@ -368,24 +398,17 @@ declare function _:get-query($test-case) as xs:string
   )
 };
 
+(: Distinct list of used environments before skipping :)
 declare function _:get-used-environments($test-cases) as xs:string*
 {
   ($test-cases/*:environment/string(@name),
    $test-cases/*:environment/string(@ref)) => distinct-values()
 };
 
+(: The actual test-case text if being run :)
 declare function _:print-testcase2($test-case, $name, $env)
 {
   _:get-query($test-case) ||$_:cn||
-  (: clear the default collection for fn:collection tests 
-  (
-    if ($test-case/../@name = ("fn-uri-collection",
-                               "fn-collection",
-                               "misc-CombinedErrorCodes")) then
-      "   _ = xqldb_docstore:delete_collection([]),"||$_:n
-    else
-      ""
-  ) ||:)
   (: compile any imported modules, local imports will unload these :)
   (
     if ($test-case/*:module) then
@@ -430,6 +453,8 @@ declare function _:print-testcase2($test-case, $name, $env)
   "   end"
 };
 
+(: Global module environment that can be used in any test.
+   $is-local is to flag the file location of resources :)
 declare function _:print-environment($env,$is-local) as xs:string
 {
   let $name            := $env/@name
@@ -461,6 +486,7 @@ declare function _:print-environment($env,$is-local) as xs:string
   "]"
 };
 
+(: Local environments are only used in a single test, so inline :)
 declare function _:print-local-environment($env as item()*) as item()*
 {
   let $sources         := $env/*:environment/*:source
@@ -600,7 +626,7 @@ declare function _:do-uri-prefix($namespaces) as xs:string?
   ( $namespaces ! $f(.) ) => _:join-cnl()
 };
 
-declare function _:do-file-uri($modules, $is-local) as xs:string?
+declare function _:do-file-uri($files, $is-local) as xs:string?
 {
   let $f := function($a)
           {
@@ -615,10 +641,10 @@ declare function _:do-file-uri($modules, $is-local) as xs:string?
             $a/@uri||"""}"
           }
   return
-  ( reverse($modules) ! $f(.) ) => _:join-cnl()  
+  ( reverse($files) ! $f(.) ) => _:join-cnl()  
 };
 
-declare function _:do-file-uri-type($modules, $is-local) as xs:string?
+declare function _:do-file-uri-type($files, $is-local) as xs:string?
 {
   let $f := function($a)
           {
@@ -634,7 +660,7 @@ declare function _:do-file-uri-type($modules, $is-local) as xs:string?
             $a/@uri||"""}"
           }
   return
-  ( reverse($modules) ! $f(.) ) => _:join-cnl()  
+  ( reverse($files) ! $f(.) ) => _:join-cnl()  
 };
 
 (:~ Mask a string for Erlang :)
@@ -668,6 +694,7 @@ declare function _:mod_all($testCases)
     "]."
 };
 
+(: Return all used environments if any :)
 declare function _:mod_environments($globals, $locals, $usedEnvironments)
 {
   let $g := ($globals[@name = $usedEnvironments] ! _:print-environment(.,false()))
@@ -683,11 +710,12 @@ declare function _:mod_environments($globals, $locals, $usedEnvironments)
 let $globalEnvs         := $catalog/*:catalog/*:environment
   , $globalBaseUri      := base-uri($catalog)
 (: Each test case set from catalog :)
+(: The parallel pragma causes the list to spawn a process for each value :)
+(: 'unordered' allows the processes to return in any order :)
 for $catalogTestSet     in 
-    (: (# x:parallel unordered #){ :)
+    (# x:parallel unordered #){
       $catalog/*:catalog/*:test-set
-      (: [@name = ("app-Demos")] :)
-    (: } :)
+    }
 let $catalogTestSetFile := $catalogTestSet/@file
   , $catalogTestSetName := _:mask-name($catalogTestSet/@name) => trace()
   , $testSetFile        := resolve-uri($catalogTestSetFile, $globalBaseUri) 
@@ -700,7 +728,6 @@ let $catalogTestSetFile := $catalogTestSet/@file
 let $header             :=
   "-module('"||$SUITE||"')."                           ||$_:n||
   "-include_lib(""common_test/include/ct.hrl"")."      ||$_:n||
-  (: "-compile({nowarn_unused_function,[environment/2]})."||$_:n|| :)
   "-export([all/0,"                                    ||$_:n||
   "         suite/0])."                                ||$_:n||
   "-export([init_per_suite/1,"                         ||$_:n||
@@ -710,32 +737,33 @@ let $header             :=
 let $standardFuns       :=
   (if ($catalogTestSetName = ("app_XMark",
                               "app_Demos")) then 
-     (: time consuming tests :)
-     "suite() -> [{timetrap,{seconds,30}}]."
+     (: Possibly time consuming tests so give them time to finish :)
+     "suite() -> [{timetrap,{seconds, 60}}]."
    else 
-     "suite() -> [{timetrap,{seconds,5}}]."
+     "suite() -> [{timetrap,{seconds, 5}}]."
   )||$_:n||
   "end_per_suite(_Config) -> "                   ||$_:n||
+  (: Timetrap set to 60 seconds to allow modules to be purged :)
   "   ct:timetrap({seconds,60}), "               ||$_:n||
   "   xqerl_module:unload(all)."                 ||$_:n||
   "init_per_suite(Config) -> "                   ||$_:n||
-  "   xqerl_db:install([node()]),"               ||$_:n||
+  (: Clears all compiled modules in the DB :)
   "   xqerl_module:one_time_init(), "            ||$_:n||
   "   {ok,_} = application:ensure_all_started(xqerl)," ||$_:n||
   "   DD = filename:dirname(filename:dirname(?config(data_dir, Config))),"||$_:n||
   "   TD = filename:join(DD, ""QT3-test-suite""),"||$_:n||
   "   __BaseDir = filename:join(TD, """||$testSetDir||"""),"||$_:n||
+  (: Add a base directory for tests to use :)
   "   [{base_dir, __BaseDir}|Config]."||$_:n||
   (: the all() function :)
   _:mod_all($testCases)
 let $usedEnvironments := _:get-used-environments($testCases)
-let $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
-let $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."
-let $mod                := 
-  $header       ||$_:n||
-  $standardFuns ||$_:n||
-  $environments ||$_:n||
-  $testCasesStr
+  , $environments       := _:mod_environments($globalEnvs, $localEnvs, $usedEnvironments)
+  , $testCasesStr       := _:join-dnl(($testCases ! _:print-testcase(.))) || "."
+  , $mod                := $header       ||$_:n||
+                           $standardFuns ||$_:n||
+                           $environments ||$_:n||
+                           $testCasesStr
 return
   file:write-text($suiteFile, $mod, "utf-8")
 

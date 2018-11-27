@@ -137,12 +137,11 @@
 -export(['Constr-inscope-21'/1]).
 -export(['Constr-inscope-22'/1]).
 -export(['K2-ConInScopeNamespace-1'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -499,11 +498,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<foo:elem xmlns:foo=\"http://www.example.com/parent\"><child/></foo:elem>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0085") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -522,11 +521,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0085") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -545,11 +544,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0085") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -568,11 +567,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<grand-child/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0085") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -834,11 +833,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPDY0002") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1157,11 +1156,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_true(Res) of 
       true -> {comment, "Empty"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1453,11 +1452,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1551,11 +1550,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<b xmlns:B=\"http://www.example.com/C\" xmlns:A=\"http://www.example.com/C\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_xml(Res,"<b xmlns:A=\"http://www.example.com/C\" xmlns:B=\"http://www.example.com/C\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1694,11 +1693,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "http://example.com/{{{}}}asd") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1717,11 +1716,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1755,11 +1754,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1793,11 +1792,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "http://example.com/{}{{}}") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1816,11 +1815,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1854,11 +1853,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0022") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1952,11 +1951,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "http://example.com/{1}") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1975,11 +1974,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<e xmlns:p=\"http://example.com/{1}\"/>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2043,11 +2042,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "http://ns.example.com/ns?val=\"\"\"asd") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2066,11 +2065,11 @@ environment('inscope',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "http://ns.example.com/ns?val=\"asd") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

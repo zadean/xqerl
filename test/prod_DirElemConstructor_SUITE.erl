@@ -75,12 +75,11 @@
 -export(['K2-DirectConElem-54'/1]).
 -export(['cbcl-directconelem-001'/1]).
 -export(['cbcl-directconelem-002'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -217,11 +216,11 @@ all() -> [
    case xqerl_test:assert_eq(Res,"0") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0005") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -513,11 +512,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XPST0003") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPST0081") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1076,11 +1075,11 @@ all() -> [
    case xqerl_test:assert_xml(Res,"<r><e ns=\"http://example.com/&lt;&gt;&quot;'&quot;\"/><e ns=\"http://example.com/&lt;&gt;&quot;''\"/><e ns=\"http://example.com/&lt;&gt;&quot;'&quot;\"/><e ns=\"http://example.com/&lt;&gt;&quot;''\"/></r>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XQST0046") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1177,11 +1176,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"namespace-node()") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "abc") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

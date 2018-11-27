@@ -48,12 +48,11 @@
 -export(['fn-random-number-generator-42'/1]).
 -export(['fn-random-number-generator-43'/1]).
 -export(['fn-random-number-generator-44'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -129,11 +128,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -212,11 +211,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -280,11 +279,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -348,11 +347,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -431,11 +430,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"xs:string*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -454,11 +453,11 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_type(Res,"xs:string*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -487,11 +486,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"xs:double*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result) eq 200") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -635,15 +634,15 @@ r:random-sequence(200)",
    case xqerl_test:assert(Res,"$result = 'next'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result = 'number'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result = 'permute'") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -697,11 +696,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -751,11 +750,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function() as map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -774,11 +773,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function() as map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -797,11 +796,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function() as map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -820,11 +819,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, item())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -859,11 +858,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(item()*) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -882,11 +881,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(item()*) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -905,11 +904,11 @@ r:random-sequence(200)",
    case xqerl_test:assert_type(Res,"function(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(item()*) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -946,19 +945,19 @@ r:random-sequence(200)",
    case xqerl_test:assert(Res,"count($result) = 10") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count(distinct-values($result)) ge 9") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"xs:double+") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"every $x in $result satisfies ($x ge 0 and $x lt 1)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

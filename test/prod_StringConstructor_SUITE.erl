@@ -48,12 +48,11 @@
 -export(['string-constructor-916'/1]).
 -export(['string-constructor-917'/1]).
 -export(['string-constructor-918'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -121,11 +120,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -147,11 +146,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -174,11 +173,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles hanging on the wall\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -200,11 +199,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "There were &lt; 10 green bottles") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -226,11 +225,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "\"{}\"'[`]'\\\\<> 10") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -252,11 +251,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, "101112") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -278,11 +277,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_string_value(Res, " 10 11 12 ") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -304,11 +303,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -330,11 +329,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were at least 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -392,11 +391,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -418,11 +417,11 @@ all() -> [
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -446,13 +445,13 @@ bottles]``
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There
 were 10 green
 bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -474,11 +473,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -500,11 +499,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -526,11 +525,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -552,11 +551,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were 10 green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -578,11 +577,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"There were `10` green bottles\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -604,11 +603,11 @@ bottles\"") of
    case xqerl_test:assert_type(Res,"xs:string") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_eq(Res,"\"``[There were `{10}` green bottles]``\"") of 
       true -> {comment, "Equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

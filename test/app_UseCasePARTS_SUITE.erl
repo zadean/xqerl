@@ -5,12 +5,11 @@
 -export([init_per_suite/1,
          end_per_suite/1]).
 -export(['parts-queries-results-q1'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -53,11 +52,11 @@ environment('partlist',__BaseDir) ->
    case xqerl_test:assert_xml(Res,"<parttree><part partid=\"0\" name=\"car\"><part partid=\"1\" name=\"engine\"><part partid=\"3\" name=\"piston\"/></part><part partid=\"2\" name=\"door\"><part partid=\"4\" name=\"window\"/><part partid=\"5\" name=\"lock\"/></part></part><part partid=\"10\" name=\"skateboard\"><part partid=\"11\" name=\"board\"/><part partid=\"12\" name=\"wheel\"/></part><part partid=\"20\" name=\"canoe\"/></parttree>") of 
       true -> {comment, "XML Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"XPTY0004") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 

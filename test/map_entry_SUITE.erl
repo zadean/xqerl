@@ -13,12 +13,11 @@
 -export(['map-entry-006'/1]).
 -export(['map-entry-007-hof'/1]).
 -export(['map-entry-007'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -60,35 +59,35 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(xs:anyAtomicType) as xs:integer?") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result(3) eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -108,31 +107,31 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3 eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -152,31 +151,31 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:integer, empty-sequence())") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?3)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -196,43 +195,43 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:string, xs:string*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?bar)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result?foo) eq 3") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:get($result, \"foo\") = \"z\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:get($result, xs:untypedAtomic(\"foo\")) = \"z\"") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, \"foo\")) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, \"bar\")) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -252,31 +251,31 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:untypedAtomic, map(*))") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?bar)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"count($result?foo) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?foo?bar)") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"empty($result?(xs:untypedAtomic(\"foo\"))?(\"bar\"))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -296,19 +295,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"exists($result?(number('NaN')))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -328,19 +327,19 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"exists($result?(number('NaN')))") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -360,35 +359,35 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"function(xs:anyAtomicType) as item()*") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3 eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 
@@ -408,31 +407,31 @@ environment('map',__BaseDir) ->
    case xqerl_test:assert_count(Res, "1") of 
       true -> {comment, "Count correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(*)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_type(Res,"map(xs:integer, xs:integer)") of 
       true -> {comment, "Correct type"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"$result?3 eq 5") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size($result) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 3)) eq 0") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"map:size(map:remove($result, 1)) eq 1") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

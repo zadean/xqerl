@@ -124,12 +124,11 @@
 -export(['format-date-inpt-er3'/1]).
 -export(['format-date-inpt-er4'/1]).
 -export(['format-date-1340err'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -1821,11 +1820,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1844,11 +1843,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1867,11 +1866,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1890,11 +1889,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1913,11 +1912,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1936,11 +1935,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1959,11 +1958,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1350") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1982,11 +1981,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2544,11 +2543,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY TWENTY ONE TWENTY TWO TWENTY THREE TWENTY FOUR TWENTY FIVE TWENTY SIX TWENTY SEVEN TWENTY EIGHT TWENTY NINE THIRTY THIRTY ONE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY TWENTY-ONE TWENTY-TWO TWENTY-THREE TWENTY-FOUR TWENTY-FIVE TWENTY-SIX TWENTY-SEVEN TWENTY-EIGHT TWENTY-NINE THIRTY THIRTY-ONE") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2580,11 +2579,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty one twenty two twenty three twenty four twenty five twenty six twenty seven twenty eight twenty nine thirty thirty one") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty-one twenty-two twenty-three twenty-four twenty-five twenty-six twenty-seven twenty-eight twenty-nine thirty thirty-one") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2616,11 +2615,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven; Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty; Twenty One; Twenty Two; Twenty Three; Twenty Four; Twenty Five; Twenty Six; Twenty Seven; Twenty Eight; Twenty Nine; Thirty; Thirty One") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "One; Two; Three; Four; Five; Six; Seven; Eight; Nine; Ten; Eleven; Twelve; Thirteen; Fourteen; Fifteen; Sixteen; Seventeen; Eighteen; Nineteen; Twenty; Twenty-One; Twenty-Two; Twenty-Three; Twenty-Four; Twenty-Five; Twenty-Six; Twenty-Seven; Twenty-Eight; Twenty-Nine; Thirty; Thirty-One") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2655,11 +2654,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND TWENTY") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED NINETY-ONE; ONE THOUSAND NINE HUNDRED NINETY-TWO; ONE THOUSAND NINE HUNDRED NINETY-THREE; ONE THOUSAND NINE HUNDRED NINETY-FOUR; ONE THOUSAND NINE HUNDRED NINETY-FIVE; ONE THOUSAND NINE HUNDRED NINETY-SIX; ONE THOUSAND NINE HUNDRED NINETY-SEVEN; ONE THOUSAND NINE HUNDRED NINETY-EIGHT; ONE THOUSAND NINE HUNDRED NINETY-NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND TWENTY") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2691,11 +2690,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "one thousand nine hundred ninety; one thousand nine hundred ninety one; one thousand nine hundred ninety two; one thousand nine hundred ninety three; one thousand nine hundred ninety four; one thousand nine hundred ninety five; one thousand nine hundred ninety six; one thousand nine hundred ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred ninety nine; two thousand; two thousand one; two thousand two; two thousand three; two thousand four; two thousand five; two thousand six; two thousand seven; two thousand eight; two thousand nine; two thousand ten; two thousand eleven; two thousand twelve; two thousand thirteen; two thousand fourteen; two thousand fifteen; two thousand sixteen; two thousand seventeen; two thousand eighteen; two thousand nineteen; two thousand twenty") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "one thousand nine hundred ninety; one thousand nine hundred ninety-one; one thousand nine hundred ninety-two; one thousand nine hundred ninety-three; one thousand nine hundred ninety-four; one thousand nine hundred ninety-five; one thousand nine hundred ninety-six; one thousand nine hundred ninety-seven; one thousand nine hundred ninety-eight; one thousand nine hundred ninety-nine; two thousand; two thousand one; two thousand two; two thousand three; two thousand four; two thousand five; two thousand six; two thousand seven; two thousand eight; two thousand nine; two thousand ten; two thousand eleven; two thousand twelve; two thousand thirteen; two thousand fourteen; two thousand fifteen; two thousand sixteen; two thousand seventeen; two thousand eighteen; two thousand nineteen; two thousand twenty") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2727,11 +2726,11 @@ all() -> [
    case xqerl_test:assert_norm_string_value(Res, "One Thousand Nine Hundred Ninety; One Thousand Nine Hundred Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand Twenty") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_norm_string_value(Res, "One Thousand Nine Hundred Ninety; One Thousand Nine Hundred Ninety-One; One Thousand Nine Hundred Ninety-Two; One Thousand Nine Hundred Ninety-Three; One Thousand Nine Hundred Ninety-Four; One Thousand Nine Hundred Ninety-Five; One Thousand Nine Hundred Ninety-Six; One Thousand Nine Hundred Ninety-Seven; One Thousand Nine Hundred Ninety-Eight; One Thousand Nine Hundred Ninety-Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand Twenty") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2931,19 +2930,19 @@ all() -> [
    case xqerl_test:assert_deep_eq(Res,"\"1990AD\", \"55BC\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990CE\", \"55BCE\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990A.D.\", \"55B.C.\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990C.E.\", \"55B.C.E.\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2977,11 +2976,11 @@ all() -> [
    case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"matches($result, \"03\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

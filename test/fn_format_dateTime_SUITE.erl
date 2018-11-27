@@ -91,12 +91,11 @@
 -export(['format-dateTime-inpt-er3'/1]).
 -export(['format-dateTime-inpt-er4'/1]).
 -export(['format-dateTime-1340err'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -2095,11 +2094,11 @@ all() -> [
    case xqerl_test:assert_error(Res,"XTDE1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOFD1340") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2134,19 +2133,19 @@ all() -> [
    case xqerl_test:assert_deep_eq(Res,"\"1990AD\", \"55BC\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990CE\", \"55BCE\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990A.D.\", \"55B.C.\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_deep_eq(Res,"\"1990C.E.\", \"55B.C.E.\"") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -2242,11 +2241,11 @@ all() -> [
    case xqerl_test:assert(Res,"matches($result, \"AD\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert(Res,"matches($result, \"03\")") of 
       true -> {comment, "Correct results"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "all-of"};
       _ -> false 
    end, 

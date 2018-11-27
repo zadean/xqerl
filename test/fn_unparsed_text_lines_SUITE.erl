@@ -59,12 +59,11 @@
 -export(['fn-unparsed-text-lines-053'/1]).
 -export(['fn-unparsed-text-lines-054'/1]).
 -export(['fn-unparsed-text-lines-055'/1]).
-suite() -> [{timetrap,{seconds,5}}].
+suite() -> [{timetrap,{seconds, 5}}].
 end_per_suite(_Config) -> 
    ct:timetrap({seconds,60}), 
    xqerl_module:unload(all).
 init_per_suite(Config) -> 
-   xqerl_db:install([node()]),
    xqerl_module:one_time_init(), 
    {ok,_} = application:ensure_all_started(xqerl),
    DD = filename:dirname(filename:dirname(?config(data_dir, Config))),
@@ -770,11 +769,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "1") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1170") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -810,11 +809,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -866,11 +865,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_deep_eq(Res,"'<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world'") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -954,11 +953,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "hello world") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -994,11 +993,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"utf-16\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1018,11 +1017,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_string_value(Res, "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><text>hello world</text>") of 
       true -> {comment, "String correct"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1190") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1074,11 +1073,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
@@ -1098,11 +1097,11 @@ environment('unparsed-text-lines-with-base-uri-2',__BaseDir) ->
    case xqerl_test:assert_deep_eq(Res,"(53, 54, 179, 77, 32)") of 
       true -> {comment, "Deep equal"};
       {false, F} -> F 
-   end,
+   end, 
    case xqerl_test:assert_error(Res,"FOUT1200") of 
       true -> {comment, "Correct error"};
       {false, F} -> F 
-   end]) of 
+   end   ]) of 
       true -> {comment, "any-of"};
       _ -> false 
    end, 
