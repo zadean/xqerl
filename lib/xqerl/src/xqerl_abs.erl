@@ -47,6 +47,7 @@
 
 
 records() ->
+   %% TODO add default values
    Recs = 
    [{xqError,                     "-record(xqError,{name,description,value,location})."},
     {xqAtomicValue,               "-record(xqAtomicValue,{type,value})."},
@@ -354,12 +355,8 @@ init_function(Variables,Prolog) ->
    %VarList = [{var,?L,V} || {_,_,_A,V,_} <- lists:sort(Variables)%,
    %                         %not_private(A)
    %            ],
-   VarTup = ?P("_@LastCtx"),
-   
    Imps = ?P("_@@ImportedVars"),
-   
-   %?dbg("Imps",ImportedMods),
-   Body = lists:flatten([Imps, VarSetAbs, [VarTup]]),
+   Body = lists:flatten([Imps, VarSetAbs, [LastCtx]]),
    [{function,?L,init,1,[{clause,?L,[{var,?L,'Ctx'}],[],Body}]}].
 
 get_imported_variables(Module) ->
@@ -1374,8 +1371,7 @@ expr_do(Ctx, {variable, {Name,1}}) when is_atom(Name) ->
 expr_do(Ctx, {variable, {Mod,Name}}) when is_atom(Mod),is_atom(Name) ->
    a_var({Mod,Name},{var,?L,get_context_variable_name(Ctx)});
 expr_do(_Ctx, {variable, Name}) when is_atom(Name) ->
-   N = {var,?L,Name},
-   ?P("_@N");
+   {var,?L,Name};
 
 expr_do(Ctx, {postfix,_Id, {'function-ref',Q,V}, [{arguments,Args}]}) ->
    PhF = fun('?') ->
@@ -1651,7 +1647,7 @@ expr_do(Ctx, #xqAxisStep{} = Step) ->
    ?P("begin _@S end");
 
 expr_do(_Ctx, <<>>) ->
-   ?P("<<>>");
+   ?Q("<<>>");
 
 % catch-all
 expr_do(_Ctx, Expr) ->
@@ -2085,7 +2081,8 @@ group_part(#{grp_variables := GrpVars,
    CollMatch = maps:fold(CollMFun, [], CollsMap),
    CollNFun = fun(_K,{_V,Id1},L) ->
                     VA = {var,?L,list_to_atom("C"++integer_to_list(Id1))},
-                    [?P("_@VA")|L]
+                    [VA|L]
+                    %[?Q("_@VA")|L]
               end,
    CollNT = {tuple,?L,maps:fold(CollNFun, [], CollsMap)},
    
@@ -3490,7 +3487,7 @@ do_axis_step(Ctx, SourceVariable, #xqAxisStep{id = _Id, axis = Axis,
 local_name_filter(#xqKindTest{name = #qname{local_name = Ln}}) ->
    ?P("{_@Ln@}");
 local_name_filter(#xqKindTest{name = undefined}) ->
-   ?P("{any}").
+   ?Q("{any}").
 
 
 name_type_filter(#xqKindTest{type = #xqSeqType{type = 'xs:anyType'}} = K) ->
@@ -3498,13 +3495,13 @@ name_type_filter(#xqKindTest{type = #xqSeqType{type = 'xs:anyType'}} = K) ->
 name_type_filter(#xqKindTest{name = #qname{namespace = 'no-namespace'} = N} = K) ->
    name_type_filter(K#xqKindTest{name = N#qname{namespace = <<>>}});
 
-name_type_filter(#xqKindTest{name = undefined, type = undefined}) -> ?P("{any,any,any}");
+name_type_filter(#xqKindTest{name = undefined, type = undefined}) -> ?Q("{any,any,any}");
 name_type_filter(#xqKindTest{name = undefined, type = #xqSeqType{type = Type}}) -> ?P("{any,any,_@Type@}");
 
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = <<"*">>}, 
                              type = undefined}) -> 
-   ?P("{any,any,any}");
+   ?Q("{any,any,any}");
 name_type_filter(#xqKindTest{name = #qname{namespace = <<"*">>,
                                            local_name = Ln}, 
                              type = undefined}) -> 

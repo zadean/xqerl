@@ -67,14 +67,14 @@
          string_value/1]).
 
 
--type state()::#{pos      => non_neg_integer(),
-                 parent   => [non_neg_integer()],
-                 uri      => binary(),
-                 db       => string(),
-                 node_stk => list(#{_ := _}),
-                 chld_stk => list(#{_ := _}),
-                 nsp_on   => list({_,_}),
-                 nsp_off  => list({_,_,_})}.
+%% -type state()::#{pos      => non_neg_integer(),
+%%                  parent   => [non_neg_integer()],
+%%                  uri      => binary(),
+%%                  db       => string(),
+%%                  node_stk => list(#{_ := _}),
+%%                  chld_stk => list(#{_ := _}),
+%%                  nsp_on   => list({_,_}),
+%%                  nsp_off  => list({_,_,_})}.
 
 -define(u2b(S), unicode:characters_to_binary(S)).
 
@@ -104,13 +104,14 @@ parse_binary(Bin, {Cwd, BaseUri}) ->
          Tree
    end.
 
-parse_list(BaseUri, List) ->
-   State = default_state(BaseUri),
-   lists:foldl(fun event/2, State, List).
+-spec parse_list(_,_) -> xq_types:xml_node() | [xq_types:xml_node()].
+parse_list(BaseUri, List) when is_list(List) ->
+   eventfold(List, default_state(BaseUri)).
 
-event(A,B) ->
-   event(A,1,B).
-
+-spec eventfold(_,_) -> xq_types:xml_node() | [xq_types:xml_node()].
+eventfold([Hd|Tail], State) ->
+   eventfold(Tail, event(Hd, 0, State));
+eventfold([], Node) -> Node.
 
 % construct from DB node
 build_db_node(DB, Pos) ->
@@ -483,9 +484,11 @@ default_state(Uri) ->
 
 
 %% SAX Events - File => in-memory document node
--spec event(Event::any(),Location::any(),State::state()) -> 
-         xq_types:xml_document() | state().
-         
+%% -spec event(Event::any(),Location::any(),State::state()) -> 
+%%          xq_types:xml_document() | state().
+-spec event(_,_,_) -> #{'ch':=_, 'nk':='document' | 'element', _=>_} |
+                      [#{'ch':=_, 'nk':='document' | 'element', _=>_}].
+        
 %% startDocument
 event(startDocument, _L, #{uri := _Uri, % came from a constructor
                            base_uri := BaseUri,

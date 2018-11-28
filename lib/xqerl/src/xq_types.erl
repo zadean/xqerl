@@ -81,7 +81,7 @@
 
 -type sequence(L) :: list(L) | L.
 
--type xq_item() :: xs_anyAtomicType() | xml_node() | xq_function().
+-type xq_item() :: xs_anyAtomicType() | xml_node() | xq_function() | #xqRange{}.
 
 -type xml_node() :: #{nk := _, _ := _} |
         xml_attribute() | xml_comment() | xml_document() | 
@@ -336,7 +336,7 @@
                        value :: binary()}.  
 
 
--type xq_function() :: function() | #xqFunction{} | xq_array() | xq_map().
+-type xq_function() :: fun() | #xqFunction{} | xq_array() | xq_map().
 -type xq_array() :: {array, [xq_item()]}.
 -type xq_map() :: #{ map_key() => {xs_anyAtomicType(), xq_item()} }.
 -type xq_map(K,V) :: #{ map_key() => {K, V} }.

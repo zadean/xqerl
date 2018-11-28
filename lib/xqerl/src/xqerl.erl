@@ -12,9 +12,6 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([trun/1]). 
--export([trun/2]). 
-
 -export([run/1]). 
 -export([run/2]). 
 
@@ -73,20 +70,6 @@ run(Str, Options) ->
          {'EXIT',E1} = (catch xqerl_error:error('XPST0000')),
          E1
          %E
-   end.
-
-% returns Stripped
-strip_comments(Str) ->
-   try xqerl_scanner:remove_all_comments(Str) of
-      Stripped ->
-         Stripped
-   catch 
-      _:#xqError{} = E ->
-         ?dbg("strip_comments",E),
-         throw(E);
-      _:_:StackTrace ->
-         ?dbg("strip_comments",StackTrace),
-         xqerl_error:error('XPST0003')
    end.
 
 % returns Tokens
@@ -153,12 +136,8 @@ scan_tree_static(Tree,FileName) ->
 
 % ok | error
 compile_abstract(Abstract) ->
-   %{ok, Mod1, _} = erl_scan:string("-module('xqerl_main')."),
-   %{ok, Mod2, _} = erl_scan:string("-export([main/1])."),
-   %{ok, PMod1} = erl_parse:parse_form(Mod1),
-   %{ok, PMod2} = erl_parse:parse_form(Mod2),
-   try merl:compile(Abstract, 
-   %try compile:forms(Abstract, 
+   %try merl:compile(Abstract, 
+   try compile:forms(Abstract, 
                       [debug_info,verbose,return_errors,no_auto_import,nowarn_unused_vars]) of
       {ok,M,B} ->
          code:load_binary(M, M, B),
@@ -175,52 +154,6 @@ compile_abstract(Abstract) ->
          ?info("compile_abstract",StackTrace),
          xqerl_error:error('XPST0008')
    end.
-
-
-
-
-
-
-%% compile_main(Str) ->
-%%    % saving the docs between runs to not have to reparse
-%%    %erlang:erase(),
-%%    
-%%    catch code:purge(xqerl_main),
-%%    catch code:delete(xqerl_main),
-%%    Str2 = strip_comments(Str),
-%%    Tokens = scan_tokens(Str2),
-%%    _ = erlang:put(xquery_id, xqerl_context:init(self())),
-%%    Tree = parse_tokens(Tokens),
-%%    Abstract = scan_tree(Tree),
-%%    B = compile_abstract(Abstract),
-%%    print_erl(B),
-%%    %erlang:erase(),
-%%    ok.   
-
-trun(Str) -> trun(Str, #{}).
-trun(Str, Opt) ->
-   % saving the docs between runs to not have to reparse
-   erlang:erase(),
-   catch code:purge(xqerl_main),
-   catch code:delete(xqerl_main),
-      Str2 = strip_comments(Str),
-      ?dbg("Str2",Str2),
-      Tokens = xqerl_scanner:tokens(Str2), 
-      ?dbg("Tokens",Tokens),
-      _ = erlang:put(xquery_id, xqerl_context:init(parser)),
-      Tree = parse_tokens(Tokens),
-      ?dbg("Tree",Tree),
-      Static = scan_tree_static(Tree, xqldb_lib:filename_to_uri(filename:absname(<<"xqerl_main.xq">>))),
-     ?dbg("Static",maps:get(body,Static)),
-      Abstract = xqerl_abs:scan_mod(Static),
-%      ?dbg("Abstract",Abstract),
-      _B = compile_abstract(Abstract),
-      %print_erl(B),
-      erlang:erase(),
-      xqerl_main:main(Opt).
-%ok.
-
-
 
 -if(?PRINT).
    % see what comes out

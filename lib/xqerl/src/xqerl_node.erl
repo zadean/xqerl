@@ -54,15 +54,8 @@
 -export([merge_content/2]).
 
 
-%%% identity + desc_count == last desc
-
-% ContextMap - 
-% last_id
-% nodes -> array of record tuples for each known node
-
 new_context(Ctx) ->
-   Ctx#{%'base-uri' => [],
-        next_node_id => 0,
+   Ctx#{next_node_id => 0,
         frag_id => next_frag_id(),
         nodes => #{}}.
 
@@ -70,8 +63,11 @@ new_fragment(#{nk := _} = Node) ->
    Node.
 
 % return document 
+-spec new_fragment(any(), any()) -> 
+         xq_types:xml_node() | [xq_types:xml_node()].
+new_fragment(_, []) -> [];
+new_fragment(_, [undefined]) -> [];
 new_fragment(#{'base-uri' := B} = Ctx0, Content) when is_list(Content), is_map(Ctx0) ->
-%?dbg("Content",Content),
    DefaultNs = [Ns || #xqNamespace{prefix = Px} = Ns 
                <- maps:get(namespaces, Ctx0,
                            [#xqNamespace{namespace = 'no-namespace', 
@@ -84,22 +80,10 @@ new_fragment(#{'base-uri' := B} = Ctx0, Content) when is_list(Content), is_map(C
    DynNs = [#xqNamespace{namespace = ?SSTR("http://www.w3.org/XML/1998/namespace"), 
                          prefix = ?SSTR("xml")}|DefaultNs],
    {Children, Sz, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
-   if Children == [] -> [];
-      true ->
-         Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
-         _FragId = get_frag_id(Ctx5),
-         %?dbg("FragId",FragId),
-         %?dbg("get_nodes(Ctx5)",get_nodes(Ctx5)),
-         {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
-         %?dbg("L",L),
-         %?dbg("B",B),
-         NewDoc = xqldb_mem_nodes:parse_list(xqerl_types:value(B),L),
-         %?dbg("NewDoc", NewDoc),
-         NewDoc
-         %{ok,DocPid} = xqldb_doc:start_link(NewDoc),
-         %[Roots] = xqldb_doc:roots(DocPid),
-         %#xqNode{doc = DocPid, node = Roots}
-   end;
+   Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
+   _FragId = get_frag_id(Ctx5),
+   {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
+   xqldb_mem_nodes:parse_list(xqerl_types:value(B),L);
 new_fragment(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
    new_fragment(Ctx0, [Content]);
 new_fragment(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
@@ -370,16 +354,11 @@ merge_inscope_namespaces(StaticInScopeNs,InScopeNs) ->
    InScopeNs ++ lists:filter(A, StaticInScopeNs).
 
 % returns {Children, Sz, Ctx3}
+-spec handle_contents(map(),_,_,_,_) -> {[integer()], integer(), map()}.
 handle_contents(Ctx, _Parent, [], _Ns, Sz) -> {[], Sz, Ctx};
 handle_contents(Ctx, _Parent, [undefined], _Ns, Sz) -> {[], Sz, Ctx};
-handle_contents(Ctx, Parent, Content, Ns, Sz) ->
-   Content1 = case Content of
-                  _ when is_list(Content) ->
-                     ?seq:flatten(Content);
-                  C ->
-                     [C]
-               end,
-%?dbg("Content1",Content1),
+handle_contents(Ctx, Parent, Content, Ns, Sz) when is_list(Content) ->
+   Content1 = xqerl_seq3:flatten(Content),
    Fun = fun(Node, {Children, Sz1, Ctx1, LastType, _UsedAttNames}) ->
                Type = get_node_type(Node),
                case can_follow(LastType,Type) of
@@ -396,7 +375,9 @@ handle_contents(Ctx, Parent, Content, Ns, Sz) ->
          end,
    {Ids, Sz3,Ctx3,_Type,_UsedAtts} = 
      lists:foldl(Fun, {[], Sz, Ctx, [], []}, Content1),
-   {Ids, Sz3,Ctx3}.
+   {Ids, Sz3,Ctx3};
+handle_contents(Ctx, Parent, Content, Ns, Sz) ->
+   handle_contents(Ctx, Parent, [Content], Ns, Sz).
 
 % returns {Id, Sz,Ctx2}
 handle_content(#{'base-uri' := BU,
@@ -1744,6 +1725,8 @@ split_1([H|T],NodeMap,{Ns,At,Ch}) ->
 
 
 % return #xqNode{}
+-spec build_sax(_,_) -> {[], nonempty_list(tuple())}.
+        
 build_sax(#{'base-uri' := BaseUri}, % add base-uri as xml:base on document
           #{0 := #xqXmlFragment{children = Roots}} = Nodes) ->
 %?dbg("BaseUri",BaseUri),

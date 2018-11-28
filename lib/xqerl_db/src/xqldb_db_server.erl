@@ -89,8 +89,6 @@ uri_to_path(Uri) when is_binary(Uri) ->
    case uri_string:parse(Uri) of
       {error,_,_} = Err ->
          throw(Err);
-      {error,_} = Err ->
-         throw(Err);
       #{fragment := _} ->
          throw({error, fragment});
       #{scheme := S, host := <<>>, path := <<>>} ->
@@ -246,6 +244,7 @@ get_next_id(Name) ->
 init([]) ->
    DataDir = application:get_env(xqerl_db, data_dir, "data"),
    AbsDir = filename:absname(DataDir),
+   ok = filelib:ensure_dir(DataDir),
    TabFile = filename:join(AbsDir, "xqerl_db.meta"),
    {ok, TabName} = dets:open_file(TabFile, []),
    Next = get_next_id(TabName),

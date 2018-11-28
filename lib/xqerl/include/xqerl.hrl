@@ -342,9 +342,9 @@
    %annotations       = [] :: [ #annotation{} ],
    name              = undefined :: #qname{} | undefined,
    arity             = 0 :: integer(),
-   params            = [],
+   params            = [] :: [#xqSeqType{}] | [term()] | {any(), any()},
    type              = undefined :: undefined | any | #xqSeqType{},
-   body              = undefined :: term(),
+   body              = undefined :: undefined | tuple() | fun(),
    external          = false :: boolean()
    %nonlocal_bindings = undefined %:: [{ #'qname'{}, [#xqItem{}] }]
 }).
