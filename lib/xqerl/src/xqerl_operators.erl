@@ -23,6 +23,9 @@
 %% @doc XQuery operator functions. the "op" functions in the spec.
 
 -module(xqerl_operators).
+
+-compile(inline).
+-compile({inline_size,100}).
 -compile(inline_list_funcs).
 -compile({no_auto_import,[float/1]}).
 
@@ -34,45 +37,6 @@
 -define(MINFLOAT, -3.4028235e38).
 -define(MAXFLOAT,  3.4028235e38).
 
--define( num(Type),
-         if Type =:= 'xs:double' -> 16;
-            Type =:= 'xs:float' -> 15;
-            Type =:= 'xs:decimal' -> 14;
-            Type =:= 'xs:integer' -> 13;
-            Type =:= 'xs:nonNegativeInteger' -> 12;
-            Type =:= 'xs:positiveInteger' -> 11;
-            Type =:= 'xs:nonPositiveInteger' -> 10;
-            Type =:= 'xs:negativeInteger' -> 9;
-            Type =:= 'xs:int' -> 8;
-            Type =:= 'xs:unsignedInt' -> 7;
-            Type =:= 'xs:long' -> 6;
-            Type =:= 'xs:unsignedLong' -> 5;
-            Type =:= 'xs:short' -> 4;
-            Type =:= 'xs:unsignedShort' -> 3;
-            Type =:= 'xs:byte' -> 2;
-            Type =:= 'xs:unsignedByte' -> 1;
-            Type =:= 'xs:integer' -> 0;
-            true -> 99
-         end).
--define( numtype(Num),
-         if Num =:= 16    -> 'xs:double'            ;
-            Num =:= 15    -> 'xs:float'             ;
-            Num =:= 14    -> 'xs:decimal'           ;
-            Num =:= 13    -> 'xs:integer'           ;
-            Num =:= 12    -> 'xs:nonNegativeInteger';
-            Num =:= 11    -> 'xs:positiveInteger'   ;
-            Num =:= 10    -> 'xs:nonPositiveInteger';
-            Num =:= 9     -> 'xs:negativeInteger'   ;
-            Num =:= 8     -> 'xs:int'               ;
-            Num =:= 7     -> 'xs:unsignedInt'       ;
-            Num =:= 6     -> 'xs:long'              ;
-            Num =:= 5     -> 'xs:unsignedLong'      ;
-            Num =:= 4     -> 'xs:short'             ;
-            Num =:= 3     -> 'xs:unsignedShort'     ;
-            Num =:= 2     -> 'xs:byte'              ;
-            Num =:= 1     -> 'xs:unsignedByte'      ;
-            true -> undefined
-         end).
 -define(is_numeric(Num), (is_integer(Num) or is_float(Num))).
 
 -define(bool(Val), #xqAtomicValue{type = 'xs:boolean', value = Val}).
@@ -479,6 +443,9 @@ equal(undefined, undefined) -> [];
 equal([], []) -> [];
 equal([], _) -> [];
 equal(_, []) -> [];
+equal(#xqAtomicValue{type = T1} = Arg1, 
+      #xqAtomicValue{type = T2} = Arg2) when ?xs_numeric(T1),?xs_numeric(T2) ->
+   ?sing(numeric_equal(Arg1,Arg2));
 equal(#{nk := _} = Arg1, Arg2) ->
    At = xqerl_types:atomize(Arg1),
    equal(At, Arg2);
@@ -606,9 +573,6 @@ equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1,
 equal(#xqAtomicValue{type = 'xs:untypedAtomic'} = Arg1, 
       #xqAtomicValue{type = 'xs:untypedAtomic'} = Arg2) ->
    ?sing(string_equal(Arg2,Arg1));
-equal(#xqAtomicValue{type = T1} = Arg1, 
-      #xqAtomicValue{type = T2} = Arg2) when ?xs_numeric(T1),?xs_numeric(T2) ->
-   ?sing(numeric_equal(Arg1,Arg2));
 
 equal(#xqAtomicValue{type = 'xs:boolean'}, #xqAtomicValue{}) ->
    ?err('XPTY0004');
@@ -1063,6 +1027,9 @@ general_compare(Op,L1,{array,L2}) ->
    general_compare(Op,L1,L2);
 general_compare(Op,#xqAtomicValue{} = List1,#xqAtomicValue{} = List2) ->
    value_compare(Op,List1,List2);
+general_compare(Op,#xqRange{} = List1,#xqAtomicValue{} = V2) ->
+   Bool = range_val_comp_any(Op, List1, V2),
+   ?bool(Bool);
 general_compare(Op,#xqAtomicValue{} = V1,#xqRange{} = List2) ->
    Bool = range_val_comp_any(Op, V1, List2),
    ?bool(Bool);
@@ -1072,32 +1039,28 @@ general_compare(Op,#xqRange{} = List1,#xqRange{} = List2) ->
    
 general_compare(Op,#xqAtomicValue{} = V1,List2) when is_list(List2) ->
    Bool = lists:any(fun(#xqAtomicValue{} = V2) ->
-                          xqerl_types:value(value_compare(Op,V1,V2));
+                          (value_compare(Op,V1,V2))#xqAtomicValue.value;
                        (#xqRange{} = V2) ->
-                          xqerl_types:value(general_compare(Op,V1,V2));
+                          range_val_comp_any(Op, V1, V2);
                        (V2) ->
-                          %?dbg("V2",V2),
                           V3 = xqerl_types:atomize(V2),
-                          xqerl_types:value(value_compare(Op,V1, V3))
+                          (value_compare(Op,V1, V3))#xqAtomicValue.value
                     end, List2),
    ?bool(Bool);
-general_compare(Op,#xqAtomicValue{} = V1,List2) ->
-   general_compare(Op,V1,[List2]);
-general_compare(Op,#xqRange{} = List1,#xqAtomicValue{} = V2) ->
-   Bool = range_val_comp_any(Op, List1, V2),
-   ?bool(Bool);
+general_compare(Op,#xqAtomicValue{} = V1, V2) ->
+   general_compare(Op,V1,xqerl_types:atomize(V2));
 general_compare(Op,List1,#xqAtomicValue{} = V2) when is_list(List1) ->
    Bool = lists:any(fun(#xqAtomicValue{} = V1) ->
-                          xqerl_types:value(value_compare(Op,V1,V2));
+                          (value_compare(Op,V1,V2))#xqAtomicValue.value;
                        (#xqRange{} = V1) ->
-                          xqerl_types:value(general_compare(Op,V1,V2));
+                          range_val_comp_any(Op, V1, V2);
                        (V1) ->
                           V3 = xqerl_types:atomize(V1),
-                          xqerl_types:value(value_compare(Op,V3, V2))
+                          (value_compare(Op,V3, V2))#xqAtomicValue.value
                     end, List1),
    ?bool(Bool);
-general_compare(Op,List1,#xqAtomicValue{} = V2) ->
-   general_compare(Op,[List1],V2);
+general_compare(Op,V1,#xqAtomicValue{} = V2) ->
+   general_compare(Op,xqerl_types:atomize(V1),V2);
 general_compare(Op,List1,List2) when Op =:= '>';
                                      Op =:= '>=';
                                      Op =:= '!=' ->
@@ -1119,8 +1082,7 @@ cartesian_compare(Op,List1,List2) ->
             fun(V1) ->
                   lists:any(
                     fun(V2) ->
-                          #xqAtomicValue{value = V} = value_compare(Op,V1,V2),
-                          V
+                          (value_compare(Op,V1,V2))#xqAtomicValue.value
                     end, List2)
             end, List1),
    ?bool(Bool).
@@ -1375,8 +1337,8 @@ numeric_multiply(_,_) ->
 numeric_divide(#xqAtomicValue{type = TypeA, value = ValA},
                #xqAtomicValue{type = TypeB, value = ValB}) 
    when ?xs_numeric(TypeA),?xs_numeric(TypeB) -> 
-   Prec = max(?num(TypeA), ?num(TypeB)),
-   TypeC = case ?numtype(Prec) of
+   Prec = max(num(TypeA), num(TypeB)),
+   TypeC = case numtype(Prec) of
               'xs:integer' -> 'xs:decimal';
               P ->
                  case xqerl_types:subtype_of(P, 'xs:integer') of
@@ -1539,7 +1501,15 @@ numeric_equal(#xqAtomicValue{type = _, value = ValA},
               #xqAtomicValue{type = _, value = ValB})
    when is_integer(ValA), 
         is_integer(ValB) ->
-   ?bool(ValA == ValB);
+   ?bool(ValA =:= ValB);
+numeric_equal(#xqAtomicValue{type = _, value = #xsDecimal{int = ValA, scf = 0}},
+              #xqAtomicValue{type = _, value = ValB})
+   when is_integer(ValB) ->
+   ?bool(ValA =:= ValB);
+numeric_equal(#xqAtomicValue{type = _, value = ValA},
+              #xqAtomicValue{type = _, value = #xsDecimal{int = ValB, scf = 0}})
+   when is_integer(ValA) ->
+   ?bool(ValA =:= ValB);
 numeric_equal(#xqAtomicValue{type = _, value = ValA},
               #xqAtomicValue{type = _, value = ValB})
    when is_float(ValA), 
@@ -2811,6 +2781,9 @@ key_val(_) -> ?err('XPTY0004').
 
 
 %% Computes the effective boolean value of the sequence $arg. 
+% 3
+eff_bool_val(#xqAtomicValue{value = Bool}) when is_boolean(Bool) ->
+   Bool;
 % 1
 eff_bool_val([]) ->
    false;
@@ -2823,9 +2796,6 @@ eff_bool_val([#{nk := _}|_]) ->
    true;
 eff_bool_val([#xqAtomicValue{} = A]) -> 
    eff_bool_val(A);
-% 3
-eff_bool_val(#xqAtomicValue{value = Bool}) when is_boolean(Bool) ->
-   Bool;
 % 4
 eff_bool_val(#xqAtomicValue{type = Type, value = Val}) 
    when ?xs_string(Type);
@@ -2857,10 +2827,46 @@ get_numeric_type(TypeA, TypeA) -> TypeA;
 get_numeric_type('xs:double', _) -> 'xs:double';
 get_numeric_type(_,'xs:double') -> 'xs:double';
 get_numeric_type(TypeA, TypeB) -> 
-   N1 = ?num(TypeA),
-   N2 = ?num(TypeB),
+   N1 = num(TypeA),
+   N2 = num(TypeB),
    if N1 > N2 ->
-         ?numtype(N1);
+         numtype(N1);
       true ->
-         ?numtype(N2)
+         numtype(N2)
    end.
+
+num('xs:double') -> 16;
+num('xs:float') -> 15;
+num('xs:decimal') -> 14;
+num('xs:integer') -> 13;
+num('xs:nonNegativeInteger') -> 12;
+num('xs:positiveInteger') -> 11;
+num('xs:nonPositiveInteger') -> 10;
+num('xs:negativeInteger') -> 9;
+num('xs:int') -> 8;
+num('xs:unsignedInt') -> 7;
+num('xs:long') -> 6;
+num('xs:unsignedLong') -> 5;
+num('xs:short') -> 4;
+num('xs:unsignedShort') -> 3;
+num('xs:byte') -> 2;
+num('xs:unsignedByte') -> 1;
+num(_) -> 99.
+
+numtype(16) -> 'xs:double'            ;
+numtype(15) -> 'xs:float'             ;
+numtype(14) -> 'xs:decimal'           ;
+numtype(13) -> 'xs:integer'           ;
+numtype(12) -> 'xs:nonNegativeInteger';
+numtype(11) -> 'xs:positiveInteger'   ;
+numtype(10) -> 'xs:nonPositiveInteger';
+numtype(9 ) -> 'xs:negativeInteger'   ;
+numtype(8 ) -> 'xs:int'               ;
+numtype(7 ) -> 'xs:unsignedInt'       ;
+numtype(6 ) -> 'xs:long'              ;
+numtype(5 ) -> 'xs:unsignedLong'      ;
+numtype(4 ) -> 'xs:short'             ;
+numtype(3 ) -> 'xs:unsignedShort'     ;
+numtype(2 ) -> 'xs:byte'              ;
+numtype(1 ) -> 'xs:unsignedByte'      ;
+numtype(_ ) -> undefined.

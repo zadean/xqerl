@@ -23,6 +23,8 @@
 %% @doc Functions that handle XQuery sequences.
 
 -module(xqerl_seq3).
+
+-compile({inline_size,100}).
 -compile(inline_list_funcs).
 
 -export([sequence/1]).
@@ -363,8 +365,8 @@ zip_with(Ctx, Fun,Seq1,Seq2) ->
          ?err('XPTY0004')
    end.
 
-zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> Acc;
-zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> Acc;
+zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> lists:flatten(Acc);
+zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> lists:flatten(Acc);
 zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H1, Pos),
@@ -684,16 +686,6 @@ expand(L) when is_list(L) ->
       true ->
          L
    end;
-%%    Any = lists:any(fun(#xqRange{}) ->
-%%                          true;
-%%                       (_) ->
-%%                          false
-%%                    end, L),
-%%    if Any ->
-%%          expand1(L);
-%%       true ->
-%%          L
-%%    end;
 expand(L) ->
    [L].
 
@@ -811,7 +803,8 @@ position_filter(_Ctx, #xqAtomicValue{value = I}, Seq) when is_list(Seq),
                                                            is_integer(I)%,
                                                            %length(Seq) < 50
    ->
-   nth(I, expand(Seq));
+   nth(I, Seq);
+   %nth(I, expand(Seq));
 position_filter(Ctx, Fun, Seq0) when is_list(Seq0), is_function(Fun) ->
    Seq = expand(Seq0),
    try
@@ -1012,12 +1005,12 @@ get_item_type(#xqDocumentNode{}) -> 'document-node'.
 
 
 nth(_, []) -> [];
-%% nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
-%%    nth(N - C, T);
-%% nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
-%%    ?int_rec(M);
-%% nth(N, [#xqRange{min = M}|_]) -> 
-%%    ?int_rec(M + N - 1);
+nth(N, [#xqRange{cnt = C}|T]) when N > C -> 
+   nth(N - C, T);
+nth(N, [#xqRange{max = M,cnt = C}|_]) when N == C -> 
+   ?int_rec(M);
+nth(N, [#xqRange{min = M}|_]) -> 
+   ?int_rec(M + N - 1);
 nth(1,  [H|_]) -> H;
 nth(2,  [_,H|_]) -> H;
 nth(3,  [_,_,H|_]) -> H;

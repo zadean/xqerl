@@ -321,8 +321,8 @@ sec_str(Secs) ->
    end.
 
 
-year_fmt(Year) when abs(Year) > 9999 -> {b,Year};
-year_fmt(Year) -> {b4,Year}.
+year_fmt(Year) when Year =< 9999, Year >= -9999 -> {b4,Year};
+year_fmt(Year) -> {b,Year}.
 
 sign_fmt('+') -> i;
 sign_fmt('-') -> {c,$-};

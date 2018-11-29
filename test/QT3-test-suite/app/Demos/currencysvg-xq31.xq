@@ -8,8 +8,8 @@ declare namespace msg="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message
 declare namespace frbny="http://www.newyorkfed.org/xml/schemas/FX/utility";
 
 (: Currency to lookup :)
-declare variable $input-context := .;
-(: declare variable $input-context := doc('GBPNoon.xml'); :)
+(: declare variable $input-context := .; :)
+declare variable $input-context := doc('GBPNoon.xml');
 
 (: A list of observations :)
 declare variable $obs := local:obs-seq($input-context);

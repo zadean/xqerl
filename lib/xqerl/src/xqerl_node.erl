@@ -80,10 +80,14 @@ new_fragment(#{'base-uri' := B} = Ctx0, Content) when is_list(Content), is_map(C
    DynNs = [#xqNamespace{namespace = ?SSTR("http://www.w3.org/XML/1998/namespace"), 
                          prefix = ?SSTR("xml")}|DefaultNs],
    {Children, Sz, Ctx4} = handle_contents(Ctx2, Id, Content, DynNs, 0),
-   Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
-   _FragId = get_frag_id(Ctx5),
-   {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
-   xqldb_mem_nodes:parse_list(xqerl_types:value(B),L);
+   if Children == [] ->
+         [];
+      true ->
+         Ctx5 = set_node_children(Ctx4, Id, Children, Sz),
+         _FragId = get_frag_id(Ctx5),
+         {_,L} = build_sax(Ctx0, get_nodes(Ctx5)),
+         xqldb_mem_nodes:parse_list(xqerl_types:value(B),L)
+   end;
 new_fragment(Ctx0, Content) when is_map(Ctx0), not is_list(Content) ->
    new_fragment(Ctx0, [Content]);
 new_fragment(Ctx0, Content) when is_list(Content), not is_map(Ctx0) ->
@@ -1725,15 +1729,13 @@ split_1([H|T],NodeMap,{Ns,At,Ch}) ->
 
 
 % return #xqNode{}
--spec build_sax(_,_) -> {[], nonempty_list(tuple())}.
+-spec build_sax(_,_) -> {[], list(tuple())}.
         
 build_sax(#{'base-uri' := BaseUri}, % add base-uri as xml:base on document
           #{0 := #xqXmlFragment{children = Roots}} = Nodes) ->
-%?dbg("BaseUri",BaseUri),
    DeepList = lists:map(fun(C) ->
                               build_sax(C,Nodes,[])
                         end, Roots),
-   %?dbg("Roots",maps:get(hd(Roots),Nodes)),
    FlatList = case maps:get(hd(Roots),Nodes) of
                  #xqDocumentNode{} ->
                     lists:flatten([base_uri_att(BaseUri)|DeepList]);
@@ -1753,9 +1755,7 @@ build_sax(#{'base-uri' := BaseUri}, % add base-uri as xml:base on document
                     lists:flatten([startFragment,base_uri_att(BaseUri),
                                    DeepList,endFragment])
               end,
-   %?dbg("FlatList",FlatList),
    {[],FlatList}.
-   %{xqerl_types:string_value(BaseUri),FlatList}.
 
 build_sax(Num, NodeMap,NsInUse) ->
    case maps:get(Num, NodeMap) of
