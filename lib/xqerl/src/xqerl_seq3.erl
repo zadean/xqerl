@@ -348,7 +348,7 @@ zip_with(Ctx, Fun,Seq1,Seq2)
    when is_function(Fun), is_list(Seq1), is_list(Seq2) ->
    Size = erlang:min(?MODULE:size(Seq1),?MODULE:size(Seq2)),
    NewCtx = xqerl_context:set_context_size(Ctx, ?int_rec(Size)),
-   reverse(zip_with1(NewCtx,Fun,{expand(Seq1),expand(Seq2)},1,[]));
+   zip_with1(NewCtx,Fun,{expand(Seq1),expand(Seq2)},1,[]);
 
 zip_with(Ctx, Fun,Seq1,Seq2) when is_function(Fun), is_list(Seq1) ->
    zip_with(Ctx, Fun,Seq1,[Seq2]);
@@ -365,8 +365,8 @@ zip_with(Ctx, Fun,Seq1,Seq2) ->
          ?err('XPTY0004')
    end.
 
-zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> lists:flatten(Acc);
-zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> lists:flatten(Acc);
+zip_with1(_Ctx, _Fun, {[],_List2}, _Pos, Acc ) -> lists:flatten(reverse(Acc));
+zip_with1(_Ctx, _Fun, {_List1,[]}, _Pos, Acc ) -> lists:flatten(reverse(Acc));
 zip_with1(Ctx, Fun, {[H1|List1],[H2|List2]}, Pos,  Acc ) ->
    try
       Ctx1 = xqerl_context:set_context_item(Ctx, H1, Pos),
